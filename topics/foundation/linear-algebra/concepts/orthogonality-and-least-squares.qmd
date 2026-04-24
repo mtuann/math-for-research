@@ -60,6 +60,18 @@ This topic matters because it is one of the first places where the same mathemat
 - a modeling problem: fit parameters to data
 - a research bridge: understand sketching, inverse problems, and overparameterized regression
 
+## Companion Pages
+
+Use this page as the `entry point`. Then branch into the companion pages only when you want more depth:
+
+1. [Projection Theorem and Normal Equations](../proofs/projection-theorem-and-normal-equations.qmd)
+2. [Exercises: Orthogonality and Least Squares](../exercises/orthogonality-and-least-squares.qmd)
+3. [Linear Regression Through Projection](../applications/linear-regression-through-projection.qmd)
+4. [Computation Lab: Projection Geometry and Regression Residuals](../labs/orthogonality-and-least-squares-geometry.qmd)
+5. [Paper Lab: Randomized Sketching for Least Squares](../paper-lab/randomized-sketching-for-least-squares.qmd)
+6. [Research Direction: Least Squares, Sketching, and Overparameterized Regression](../research/least-squares-sketching-and-overparameterized-regression.qmd)
+7. [Source Guide: Orthogonality and Least Squares](../sources/orthogonality-and-least-squares.qmd)
+
 ## Prerequisite Recall
 
 - the `column space` of a matrix `A` is the set of vectors of the form `Ax`

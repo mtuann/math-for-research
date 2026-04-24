@@ -56,7 +56,16 @@ Least squares, SVD, covariance, kernels, spectral arguments
 5. Eigenvalues and diagonalization
 6. [SVD and Low-Rank Approximation](concepts/svd-and-low-rank-approximation.qmd)
 
-## Gold-Standard Topic Package
+## Navigation Rule
+
+The global sidebar shows only the linear algebra `spine`:
+
+- the module overview
+- the core concept pages in the main study order
+
+The proof, exercise, application, lab, paper-lab, research, and source-guide pages are `deep-dive companions`. They stay linked from this module page and the topic concept pages, rather than all appearing in the main sidebar at once.
+
+## Deep-Dive Topic Packages
 
 The first two full topic packages in this module are:
 

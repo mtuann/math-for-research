@@ -81,7 +81,7 @@ points = [
   {t: 2, y: 2}
 ]
 
-betaHat = {beta0: 7 / 6, beta1: 1 / 2}
+betaHat = ({beta0: 7 / 6, beta1: 1 / 2})
 ```
 
 ```{ojs}
@@ -113,11 +113,11 @@ residualRows = points.map((p) => {
   }
 })
 
-summary = {
+summary = ({
   sse: residualRows.reduce((acc, row) => acc + row.sqResidual, 0),
   interceptCheck: residualRows.reduce((acc, row) => acc + row.residual, 0),
   slopeCheck: residualRows.reduce((acc, row) => acc + row.t * row.residual, 0)
-}
+})
 
 lineGrid = Array.from({length: 61}, (_, i) => {
   const t = -0.5 + i * 0.05

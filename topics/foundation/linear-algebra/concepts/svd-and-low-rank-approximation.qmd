@@ -61,6 +61,18 @@ This topic matters because one matrix factorization supports several different j
 - a computational viewpoint: `SVD` is a stable way to analyze ill-conditioned or rank-deficient problems
 - a research bridge: randomized low-rank methods, streaming approximation, and model adaptation all reuse this language
 
+## Companion Pages
+
+Use this page as the `entry point`. Then branch into the companion pages only when you want more depth:
+
+1. [Eckart-Young and Truncated SVD](../proofs/eckart-young-and-truncated-svd.qmd)
+2. [Exercises: SVD and Low-Rank Approximation](../exercises/svd-and-low-rank-approximation.qmd)
+3. [PCA Through SVD](../applications/pca-through-svd.qmd)
+4. [Computation Lab: Rank-1 Approximation and PCA Geometry](../labs/rank-one-approximation-and-pca-geometry.qmd)
+5. [Paper Lab: Finding Structure with Randomness](../paper-lab/finding-structure-with-randomness.qmd)
+6. [Research Direction: Low-Rank Structure from Randomized Algorithms to Model Adaptation](../research/low-rank-structure-from-randomized-algorithms-to-model-adaptation.qmd)
+7. [Source Guide: SVD and Low-Rank Approximation](../sources/svd-and-low-rank-approximation.qmd)
+
 ## Prerequisite Recall
 
 - an orthogonal matrix preserves dot products and Euclidean norms

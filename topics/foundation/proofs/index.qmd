@@ -31,6 +31,15 @@ Theorem reading, assumption tracking, proof debugging
 4. Induction
 5. Counterexamples and proof debugging
 
+## Navigation Rule
+
+The global sidebar shows only the proof `spine`:
+
+- the module overview
+- the core concept pages you should study in order
+
+When this module grows, worked examples, exercises, and paper-bridge pages should live inside the relevant topic package or on the module page, not all at once in the global sidebar.
+
 ## What You Should Be Able To Do After This Module
 
 - read a theorem statement carefully
@@ -42,4 +51,3 @@ Theorem reading, assumption tracking, proof debugging
 ## Paper Bridge
 
 The first thing proofs teach you for research is how to read assumptions without skipping them. That single habit affects optimization, probability, learning theory, and statistics almost immediately.
-

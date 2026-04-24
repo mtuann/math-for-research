@@ -56,31 +56,23 @@ website:
         contents:
           - topics/index.qmd
           - topics/foundation/index.qmd
-          - topics/foundation/proofs/index.qmd
-          - topics/foundation/proofs/concepts/statements-and-quantifiers.qmd
-          - topics/foundation/proofs/concepts/direct-proof.qmd
-          - topics/foundation/linear-algebra/index.qmd
-          - topics/foundation/linear-algebra/concepts/vectors-and-linear-combinations.qmd
-          - topics/foundation/linear-algebra/concepts/orthogonality-and-least-squares.qmd
-          - topics/foundation/linear-algebra/proofs/projection-theorem-and-normal-equations.qmd
-          - topics/foundation/linear-algebra/exercises/orthogonality-and-least-squares.qmd
-          - topics/foundation/linear-algebra/applications/linear-regression-through-projection.qmd
-          - topics/foundation/linear-algebra/labs/orthogonality-and-least-squares-geometry.qmd
-          - topics/foundation/linear-algebra/paper-lab/randomized-sketching-for-least-squares.qmd
-          - topics/foundation/linear-algebra/research/least-squares-sketching-and-overparameterized-regression.qmd
-          - topics/foundation/linear-algebra/sources/orthogonality-and-least-squares.qmd
-          - topics/foundation/linear-algebra/concepts/svd-and-low-rank-approximation.qmd
-          - topics/foundation/linear-algebra/proofs/eckart-young-and-truncated-svd.qmd
-          - topics/foundation/linear-algebra/exercises/svd-and-low-rank-approximation.qmd
-          - topics/foundation/linear-algebra/applications/pca-through-svd.qmd
-          - topics/foundation/linear-algebra/labs/rank-one-approximation-and-pca-geometry.qmd
-          - topics/foundation/linear-algebra/paper-lab/finding-structure-with-randomness.qmd
-          - topics/foundation/linear-algebra/research/low-rank-structure-from-randomized-algorithms-to-model-adaptation.qmd
-          - topics/foundation/linear-algebra/sources/svd-and-low-rank-approximation.qmd
-          - topics/foundation/probability/index.qmd
-          - topics/foundation/probability/concepts/random-variables-and-distributions.qmd
-          - topics/foundation/probability/concepts/expectation-variance-covariance.qmd
-          - topics/foundation/probability/concepts/concentration-and-common-inequalities.qmd
+          - section: "Proofs"
+            contents:
+              - topics/foundation/proofs/index.qmd
+              - topics/foundation/proofs/concepts/statements-and-quantifiers.qmd
+              - topics/foundation/proofs/concepts/direct-proof.qmd
+          - section: "Linear Algebra"
+            contents:
+              - topics/foundation/linear-algebra/index.qmd
+              - topics/foundation/linear-algebra/concepts/vectors-and-linear-combinations.qmd
+              - topics/foundation/linear-algebra/concepts/orthogonality-and-least-squares.qmd
+              - topics/foundation/linear-algebra/concepts/svd-and-low-rank-approximation.qmd
+          - section: "Probability"
+            contents:
+              - topics/foundation/probability/index.qmd
+              - topics/foundation/probability/concepts/random-variables-and-distributions.qmd
+              - topics/foundation/probability/concepts/expectation-variance-covariance.qmd
+              - topics/foundation/probability/concepts/concentration-and-common-inequalities.qmd
           - topics/advanced/index.qmd
       - section: "Research Workflow"
         contents:
