@@ -33,6 +33,7 @@ A public math site for building foundations, understanding advanced theory, read
 - advanced expansion: [advanced_syllabus_tree.md](advanced_syllabus_tree.md)
 - reference roadmap: [math_foundation_reference_roadmap.md](math_foundation_reference_roadmap.md)
 - production map: [content_production_map.md](content_production_map.md)
+- project tracker: [TODO.md](TODO.md)
 
 ## Local Preview
 

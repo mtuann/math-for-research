@@ -7,7 +7,7 @@ update-status: current
 level: foundation
 topic: linear-algebra
 prerequisites:
-  - /topics/foundation/linear-algebra/concepts/vectors-and-linear-combinations.qmd
+  - /topics/foundation/linear-algebra/concepts/eigenvalues-and-diagonalization.qmd
   - /topics/foundation/linear-algebra/concepts/orthogonality-and-least-squares.qmd
 learning-goals:
   - "Interpret SVD as orthogonal coordinates plus ordered scaling."

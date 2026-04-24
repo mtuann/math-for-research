@@ -1,0 +1,429 @@
+---
+title: "Eigenvalues and Diagonalization"
+description: "How eigenvalues reveal invariant directions of a linear map and why diagonalization turns repeated matrix actions into simple scalar dynamics."
+page-type: concept
+status: published
+update-status: current
+level: foundation
+topic: linear-algebra
+prerequisites:
+  - /topics/foundation/linear-algebra/concepts/matrices-and-linear-maps.qmd
+  - /topics/foundation/linear-algebra/concepts/subspaces-basis-dimension.qmd
+  - /topics/foundation/linear-algebra/concepts/orthogonality-and-least-squares.qmd
+learning-goals:
+  - "Define eigenvalues and eigenvectors precisely."
+  - "Explain what diagonalization means and when it is possible."
+  - "Use diagonalization to understand repeated powers of a matrix."
+  - "Connect spectral structure to dynamics, graphs, and later SVD."
+applications:
+  - dynamical-systems
+  - graph-learning
+  - numerical-linear-algebra
+keywords:
+  - eigenvalues
+  - eigenvectors
+  - diagonalization
+  - spectral methods
+  - matrix powers
+  - symmetric matrices
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: annual
+date-modified: last-modified
+draft: false
+next:
+  - /topics/foundation/linear-algebra/concepts/svd-and-low-rank-approximation.qmd
+related-pages:
+  - /topics/foundation/linear-algebra/index.qmd
+  - /topics/foundation/linear-algebra/concepts/orthogonality-and-least-squares.qmd
+  - /topics/foundation/linear-algebra/concepts/svd-and-low-rank-approximation.qmd
+stable-sources:
+  - "MIT 18.06 Lecture 21: Eigenvalues and Eigenvectors"
+  - "MIT 18.06SC Lecture 22: Diagonalization and Powers of A"
+  - "Hefferon, Linear Algebra"
+current-sources:
+  - "A Comprehensive Survey on Spectral Clustering with Graph Structure Learning (2025)"
+  - "Piecewise Constant Spectral Graph Neural Network (TMLR 2025)"
+---
+
+## Role
+
+This page is the first real entry point into spectral thinking.
+
+It explains how some directions are special for a linear map, why those directions are encoded by eigenvectors, and how diagonalization turns a hard matrix action into independent scalar actions.
+
+## First-Pass Promise
+
+Read this page after `Orthogonality and Least Squares`.
+
+If you stop here, you should still understand:
+
+- what an eigenvector and eigenvalue mean geometrically
+- what diagonalization is saying
+- why diagonalization helps with powers of a matrix
+- why spectral structure matters for dynamics, graphs, and later SVD
+
+## Why It Matters
+
+This topic matters because eigenvalues and eigenvectors tell you what a linear map is really doing along its special directions:
+
+- in repeated dynamics, they tell you which modes grow, decay, or stay fixed
+- in graph methods, they describe frequency-like structure and connectivity patterns
+- in numerical methods, they control conditioning, convergence, and stability behavior
+- in SVD, they reappear through the eigenstructure of $A^\top A$
+
+So this page is where matrix algebra starts turning into `modes`, `spectra`, and `long-term behavior`.
+
+## Prerequisite Recall
+
+- a matrix represents a linear map once bases are chosen
+- if $A = S\Lambda S^{-1}$, then $A$ and $\Lambda$ represent the same map in different coordinates
+- orthogonal changes of coordinates preserve Euclidean geometry
+
+## Intuition
+
+Most vectors change direction when a matrix acts on them.
+
+But some directions are special: the matrix only stretches, shrinks, or flips them. Those are eigenvectors.
+
+So if
+
+$$
+Av = \lambda v,
+$$
+
+then the vector $v$ does not get turned into a new direction. It only gets scaled by $\lambda$.
+
+That matters because if you can find enough such directions, the whole matrix becomes simpler. In the right coordinates, the matrix stops mixing directions and becomes diagonal.
+
+Diagonalization is exactly that change of viewpoint:
+
+`find the coordinates in which the map acts independently on each special direction`.
+
+Once that happens, powers of the matrix become easy, because diagonal matrices are easy to power.
+
+## Formal Core
+
+::: {#def-eigenpair}
+## Definition
+
+Let $A \in \mathbb{R}^{n \times n}$.
+
+A nonzero vector $v \in \mathbb{R}^n$ is an eigenvector of $A$ with eigenvalue $\lambda \in \mathbb{R}$ if
+
+$$
+Av = \lambda v.
+$$
+
+The condition $v \neq 0$ is essential.
+:::
+
+::: {#prp-diagonalization}
+## Key Statement
+
+If a matrix $A \in \mathbb{R}^{n \times n}$ has $n$ linearly independent eigenvectors $v_1,\dots,v_n$ with eigenvalues $\lambda_1,\dots,\lambda_n$, then with
+
+$$
+S =
+\begin{bmatrix}
+\vert &        & \vert \\
+v_1   & \cdots & v_n \\
+\vert &        & \vert
+\end{bmatrix},
+\qquad
+\Lambda = \operatorname{diag}(\lambda_1,\dots,\lambda_n),
+$$
+
+we have
+
+$$
+A = S\Lambda S^{-1}.
+$$
+
+Equivalently,
+
+$$
+S^{-1}AS = \Lambda.
+$$
+
+This is called diagonalization.
+:::
+
+::: {#prp-powers}
+## Powers Become Easy
+
+If $A = S\Lambda S^{-1}$, then for every positive integer $k$,
+
+$$
+A^k = S\Lambda^k S^{-1}.
+$$
+
+So repeated application of $A$ is controlled by repeated powers of its eigenvalues.
+:::
+
+::: {#prp-symmetric-preview}
+## Symmetric Preview
+
+If $A$ is symmetric, then its eigenvectors can be chosen orthonormal, so the diagonalization takes the especially clean form
+
+$$
+A = Q\Lambda Q^\top.
+$$
+
+This is the first glimpse of the spectral theorem and is one reason symmetric matrices are so important.
+:::
+
+## Worked Example
+
+Consider the matrix
+
+$$
+P =
+\begin{bmatrix}
+0.8 & 0.2 \\
+0.2 & 0.8
+\end{bmatrix}.
+$$
+
+You can think of this as a two-state mixing matrix: each step keeps most of the current value and exchanges a smaller part with the other coordinate.
+
+First find eigenvectors by inspection.
+
+The vector
+
+$$
+v_1 =
+\begin{bmatrix}
+1 \\
+1
+\end{bmatrix}
+$$
+
+satisfies
+
+$$
+Pv_1 =
+\begin{bmatrix}
+1 \\
+1
+\end{bmatrix}
+= 1 \cdot v_1,
+$$
+
+so $v_1$ is an eigenvector with eigenvalue $1$.
+
+The vector
+
+$$
+v_2 =
+\begin{bmatrix}
+1 \\
+-1
+\end{bmatrix}
+$$
+
+satisfies
+
+$$
+Pv_2 =
+\begin{bmatrix}
+0.6 \\
+-0.6
+\end{bmatrix}
+= 0.6 \, v_2,
+$$
+
+so $v_2$ is an eigenvector with eigenvalue $0.6$.
+
+These vectors are independent, so $P$ is diagonalizable. If we normalize them, we get the orthonormal matrix
+
+$$
+Q =
+\frac{1}{\sqrt{2}}
+\begin{bmatrix}
+1 & 1 \\
+1 & -1
+\end{bmatrix},
+\qquad
+\Lambda =
+\begin{bmatrix}
+1 & 0 \\
+0 & 0.6
+\end{bmatrix}.
+$$
+
+Then
+
+$$
+P = Q\Lambda Q^\top.
+$$
+
+Now powers become easy:
+
+$$
+P^k = Q
+\begin{bmatrix}
+1^k & 0 \\
+0 & 0.6^k
+\end{bmatrix}
+Q^\top.
+$$
+
+If we start from
+
+$$
+x_0 =
+\begin{bmatrix}
+1 \\
+0
+\end{bmatrix},
+$$
+
+then
+
+$$
+x_k = P^k x_0
+=
+\frac{1}{2}
+\begin{bmatrix}
+1 \\
+1
+\end{bmatrix}
++
+\frac{0.6^k}{2}
+\begin{bmatrix}
+1 \\
+-1
+\end{bmatrix}.
+$$
+
+So as $k$ grows, the second mode fades away and the state approaches
+
+$$
+\frac{1}{2}
+\begin{bmatrix}
+1 \\
+1
+\end{bmatrix}.
+$$
+
+This example shows the main picture:
+
+1. eigenvectors reveal invariant directions
+2. eigenvalues tell how strongly each mode persists
+3. diagonalization separates the dynamics into independent pieces
+
+## Computation Lens
+
+In practice, eigenvalue problems usually appear in one of these forms:
+
+- `Find special directions`
+  Solve $(A-\lambda I)v=0$ for nonzero $v$.
+- `Understand repeated action`
+  Use diagonalization to study $A^k$, matrix exponentials, or iterative updates.
+- `Measure dominant behavior`
+  The eigenvalues with largest magnitude often control long-term growth or decay.
+
+For symmetric matrices, computation is especially well behaved because orthogonal diagonalization keeps geometry stable and interpretable.
+
+That is why symmetric or positive semidefinite matrices appear constantly in optimization, covariance analysis, graph Laplacians, and later SVD.
+
+## Application Lens
+
+In many engineering and ML settings, we repeatedly apply a linear update:
+
+$$
+x_{t+1} = Ax_t.
+$$
+
+Diagonalization turns this into mode-by-mode evolution. Each eigenvector gives a mode, and each eigenvalue tells whether that mode grows, decays, oscillates, or stays fixed.
+
+This viewpoint appears in:
+
+- consensus and diffusion on graphs
+- Markov-style mixing processes
+- stability analysis of linear dynamical systems
+- spectral graph methods, where Laplacian eigenvectors define meaningful graph modes
+
+So eigenvalues are not just a textbook computation. They are the language of persistent structure under repeated transformation.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- what an eigenvector and eigenvalue mean
+- when a matrix is diagonalizable
+- why diagonalization helps with powers of a matrix
+- why dominant eigenvalues control long-term behavior
+
+then this page has done its main job.
+
+## Go Deeper
+
+The best next move is to continue the linear algebra spine with [SVD and Low-Rank Approximation](svd-and-low-rank-approximation.qmd), where eigenvalue ideas reappear through symmetric matrices like $A^\top A$ and become useful for compression, PCA, and stable approximation.
+
+## Optional Paper Bridge
+
+- [A Comprehensive Survey on Spectral Clustering with Graph Structure Learning](https://arxiv.org/abs/2501.13597) - `Second pass` - a current survey showing how eigenvalues and eigenvectors of graph-based operators drive clustering and large-scale graph analysis. Checked `2026-04-24`.
+- [Piecewise Constant Spectral Graph Neural Network](https://openreview.net/pdf?id=sTdVnDW0HX) - `Paper bridge` - a 2025 TMLR paper where the eigenvalue spectrum of graph operators directly shapes learned filters. Checked `2026-04-24`.
+
+## Optional After First Pass
+
+If you want more practice before moving on:
+
+- diagonalize a simple $2 \times 2$ matrix with distinct eigenvalues
+- compare a diagonalizable matrix with one that has too few independent eigenvectors
+- study how powers of a matrix depend on whether $|\lambda|<1$, $|\lambda|=1$, or $|\lambda|>1$
+
+## Common Mistakes
+
+- forgetting that the zero vector is never an eigenvector
+- thinking every square matrix is diagonalizable
+- confusing eigenvalues with diagonal entries of the original matrix
+- forgetting that repeated eigenvalues do not automatically prevent diagonalization
+- assuming orthogonal diagonalization works for every matrix instead of just special classes such as symmetric matrices
+
+## Exercises
+
+1. Show that
+
+   $$
+   A =
+   \begin{bmatrix}
+   2 & 1 \\
+   0 & 3
+   \end{bmatrix}
+   $$
+
+   has eigenvalues $2$ and $3$, and find one eigenvector for each.
+
+2. Let
+
+   $$
+   B =
+   \begin{bmatrix}
+   2 & 0 \\
+   0 & 0.5
+   \end{bmatrix}.
+   $$
+
+   Describe what happens to $B^k x$ as $k \to \infty$ for a general vector $x$.
+
+3. Explain in words why having a basis of eigenvectors is exactly what makes diagonalization possible.
+
+## Sources and Further Reading
+
+- [MIT 18.06: Lecture 21, Eigenvalues and Eigenvectors](https://live.ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/resources/lecture-21-eigenvalues-and-eigenvectors/) - `First pass` - a clean official introduction to what eigenvectors mean and how to compute them. Checked `2026-04-24`.
+- [MIT 18.06SC: Lecture 22, Diagonalization and Powers of A](https://live.ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/resources/lecture-22-diagonalization-and-powers-of-a-1/) - `First pass` - official source for the diagonalization viewpoint and why it simplifies matrix powers. Checked `2026-04-24`.
+- [Hefferon, Linear Algebra](https://hefferon.net/linearalgebra/) - `Second pass` - strong self-study text with more exercises and a gradual treatment of eigenvalues and diagonalization. Checked `2026-04-24`.
+- [A Comprehensive Survey on Spectral Clustering with Graph Structure Learning](https://arxiv.org/abs/2501.13597) - `Second pass` - current survey showing how spectral ideas scale into graph-based ML. Checked `2026-04-24`.
+- [Piecewise Constant Spectral Graph Neural Network](https://openreview.net/pdf?id=sTdVnDW0HX) - `Paper bridge` - a current example of eigenvalue-aware filtering inside graph learning. Checked `2026-04-24`.
+
+Sources checked online on `2026-04-24`:
+
+- MIT 18.06 Lecture 21: Eigenvalues and Eigenvectors
+- MIT 18.06SC Lecture 22: Diagonalization and Powers of A
+- Hefferon, Linear Algebra
+- arXiv survey on spectral clustering with graph structure learning
+- TMLR 2025 paper on Piecewise Constant Spectral Graph Neural Network

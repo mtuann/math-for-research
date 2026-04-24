@@ -65,7 +65,10 @@ website:
             contents:
               - topics/foundation/linear-algebra/index.qmd
               - topics/foundation/linear-algebra/concepts/vectors-and-linear-combinations.qmd
+              - topics/foundation/linear-algebra/concepts/matrices-and-linear-maps.qmd
+              - topics/foundation/linear-algebra/concepts/subspaces-basis-dimension.qmd
               - topics/foundation/linear-algebra/concepts/orthogonality-and-least-squares.qmd
+              - topics/foundation/linear-algebra/concepts/eigenvalues-and-diagonalization.qmd
               - topics/foundation/linear-algebra/concepts/svd-and-low-rank-approximation.qmd
           - section: "Probability"
             contents:

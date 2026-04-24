@@ -1,0 +1,398 @@
+---
+title: "Matrices and Linear Maps"
+description: "Why a matrix is best understood as the coordinate form of a linear map, and why matrix multiplication means composition of transformations."
+page-type: concept
+status: published
+update-status: current
+level: foundation
+topic: linear-algebra
+prerequisites:
+  - /topics/foundation/linear-algebra/concepts/vectors-and-linear-combinations.qmd
+learning-goals:
+  - "State the definition of a linear map precisely."
+  - "Explain why every matrix defines a linear map."
+  - "Recognize the columns of a matrix as the images of basis vectors."
+  - "Interpret matrix multiplication as composition of linear maps."
+applications:
+  - machine-learning
+  - computer-graphics
+  - control
+keywords:
+  - matrices
+  - linear maps
+  - linear transformations
+  - matrix multiplication
+  - composition
+  - standard basis
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: annual
+date-modified: last-modified
+draft: false
+next:
+  - /topics/foundation/linear-algebra/concepts/subspaces-basis-dimension.qmd
+related-pages:
+  - /topics/foundation/linear-algebra/index.qmd
+  - /topics/foundation/linear-algebra/concepts/vectors-and-linear-combinations.qmd
+  - /topics/foundation/linear-algebra/concepts/subspaces-basis-dimension.qmd
+  - /topics/foundation/linear-algebra/concepts/orthogonality-and-least-squares.qmd
+stable-sources:
+  - "MIT 18.06SC Linear Transformations and their Matrices"
+  - "Stanford Math 51"
+  - "Hefferon, Linear Algebra"
+current-sources:
+  - "Deep learning, transformers and graph neural networks: a linear algebra perspective (2025)"
+---
+
+## Role
+
+This page is where linear algebra shifts from `what vectors can be built` to `what rules transform vectors`.
+
+It explains why matrices are not just rectangular arrays of numbers. A matrix is the coordinate description of a linear map, and matrix multiplication is the algebra of composing those maps.
+
+## First-Pass Promise
+
+Read this page after `Vectors and Linear Combinations`.
+
+If you stop here, you should still understand:
+
+- what a linear map is
+- why every matrix gives a linear map
+- how the columns of a matrix record what happens to basis vectors
+- why multiplying matrices means composing linear transformations
+
+## Why It Matters
+
+This topic matters because many later ideas are really statements about operators, not just arrays:
+
+- least squares studies the map $x \mapsto Ax$ and asks which outputs are reachable or closest
+- eigenvalues describe directions that a linear map stretches without turning
+- SVD analyzes a linear map into orthogonal input and output directions
+- numerical methods care about how a map amplifies error
+- machine learning layers repeatedly apply learned matrix maps to features and embeddings
+
+So this page gives the first real `operator viewpoint` of the module.
+
+## Prerequisite Recall
+
+- a vector can be written in coordinates relative to a basis
+- if $A$ has columns $a_1,\dots,a_n$, then $Ax = x_1 a_1 + \cdots + x_n a_n$
+- linear combinations preserve scaling and addition
+
+## Intuition
+
+The easiest way to misuse matrices is to treat them as static data tables.
+
+The better viewpoint is dynamic: a matrix tells you how an input vector is transformed into an output vector.
+
+Some maps stretch space. Some shear it. Some rotate it. Some project onto a line or plane. Some send features into a new representation space. The matrix is how we compute that action once coordinates have been chosen.
+
+This is why the columns matter so much. If you know what a linear map does to the basis vectors, then linearity tells you what it does to every vector built from them.
+
+That is the main idea of the page:
+
+`a matrix is determined by where it sends the basis vectors`
+
+and
+
+`matrix multiplication is what happens when you do one linear map after another`.
+
+## Formal Core
+
+::: {#def-linear-map}
+## Definition
+
+Let $T : \mathbb{R}^n \to \mathbb{R}^m$.
+
+We say $T$ is a linear map if for all vectors $u,v \in \mathbb{R}^n$ and all scalars $c \in \mathbb{R}$,
+
+$$
+T(u+v) = T(u) + T(v)
+\qquad \text{and} \qquad
+T(cu) = cT(u).
+$$
+
+So a linear map preserves vector addition and scalar multiplication.
+:::
+
+::: {#prp-matrix-defines-map}
+## Key Statement
+
+If $A$ is an $m \times n$ matrix, then the rule
+
+$$
+T(x) = Ax
+$$
+
+defines a linear map from $\mathbb{R}^n$ to $\mathbb{R}^m$.
+
+Conversely, once bases are chosen for both the domain and codomain, every linear map $T : \mathbb{R}^n \to \mathbb{R}^m$ can be represented by a matrix $A$ such that
+
+$$
+T(x) = Ax.
+$$
+:::
+
+::: {#prp-columns-are-images}
+## Columns Record Basis Images
+
+Let $e_1,\dots,e_n$ be the standard basis vectors in $\mathbb{R}^n$.
+
+If $T(x) = Ax$, then the $j$th column of $A$ is exactly $T(e_j)$.
+
+So
+
+$$
+A =
+\begin{bmatrix}
+\vert &        & \vert \\
+T(e_1) & \cdots & T(e_n) \\
+\vert &        & \vert
+\end{bmatrix}.
+$$
+
+This is why knowing the image of the basis vectors determines the whole map.
+:::
+
+::: {#prp-composition}
+## Composition Becomes Matrix Multiplication
+
+If $S(x) = Bx$ and $T(y) = Ay$, then applying $S$ first and then $T$ gives
+
+$$
+(T \circ S)(x) = A(Bx) = (AB)x.
+$$
+
+So matrix multiplication is the coordinate form of composition of linear maps.
+:::
+
+## Worked Example
+
+Define a map $T : \mathbb{R}^2 \to \mathbb{R}^2$ by
+
+$$
+T(x,y) = (x + 2y,\; y).
+$$
+
+This is a shear: it keeps the second coordinate fixed and tilts the first coordinate by adding twice the second.
+
+First check linearity:
+
+$$
+T\big((x_1,y_1) + (x_2,y_2)\big)
+= T(x_1+x_2,\; y_1+y_2)
+= (x_1+x_2 + 2(y_1+y_2),\; y_1+y_2),
+$$
+
+which is the same as
+
+$$
+T(x_1,y_1) + T(x_2,y_2).
+$$
+
+Scaling works the same way, so $T$ is linear.
+
+Now look at the standard basis vectors:
+
+$$
+e_1 =
+\begin{bmatrix}
+1 \\
+0
+\end{bmatrix},
+\qquad
+e_2 =
+\begin{bmatrix}
+0 \\
+1
+\end{bmatrix}.
+$$
+
+Then
+
+$$
+T(e_1) =
+\begin{bmatrix}
+1 \\
+0
+\end{bmatrix},
+\qquad
+T(e_2) =
+\begin{bmatrix}
+2 \\
+1
+\end{bmatrix}.
+$$
+
+So the matrix of $T$ in the standard basis is
+
+$$
+A =
+\begin{bmatrix}
+1 & 2 \\
+0 & 1
+\end{bmatrix}.
+$$
+
+Now take the vector
+
+$$
+x =
+\begin{bmatrix}
+3 \\
+-1
+\end{bmatrix}.
+$$
+
+Because $x = 3e_1 - e_2$, linearity says
+
+$$
+T(x) = 3T(e_1) - T(e_2)
+= 3
+\begin{bmatrix}
+1 \\
+0
+\end{bmatrix}
+-
+\begin{bmatrix}
+2 \\
+1
+\end{bmatrix}
+=
+\begin{bmatrix}
+1 \\
+-1
+\end{bmatrix}.
+$$
+
+And matrix multiplication gives the same answer:
+
+$$
+Ax =
+\begin{bmatrix}
+1 & 2 \\
+0 & 1
+\end{bmatrix}
+\begin{bmatrix}
+3 \\
+-1
+\end{bmatrix}
+=
+\begin{bmatrix}
+1 \\
+-1
+\end{bmatrix}.
+$$
+
+This example teaches the main story in one place:
+
+1. the map is defined geometrically
+2. the columns come from what happens to basis vectors
+3. the matrix computes the same transformation in coordinates
+
+## Computation Lens
+
+Once a basis is fixed, computation with linear maps becomes matrix computation.
+
+That is why so many later tasks reduce to matrix algebra:
+
+- applying a linear operator means multiplying by a matrix
+- composing operators means multiplying matrices
+- solving for an input means solving a system involving the matrix
+- asking whether a map is invertible becomes a question about the matrix
+
+This is also why the order in matrix multiplication matters.
+
+If you apply $S$ and then $T$, the combined map is $T \circ S$, which becomes $AB$, not $BA$. The order of matrices follows the order of function composition from right to left.
+
+## Application Lens
+
+A learned dense layer in machine learning applies a matrix map to a feature vector.
+
+If the layer uses weights $W$, then the linear core is
+
+$$
+x \mapsto Wx.
+$$
+
+In practice many models add a bias term and then a nonlinearity, but the matrix part is still the operator that mixes coordinates, projects to a new feature space, or changes representation dimension.
+
+So when you study matrices as linear maps, you are learning the mathematical core behind feature mixing, embeddings, and many layers used throughout ML systems.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- what makes a map linear
+- why the columns of a matrix are the images of basis vectors
+- why $T(x)=Ax$ is more than notation
+- why matrix multiplication means composition
+
+then this page has done its main job.
+
+## Go Deeper
+
+The best next move is to continue the linear algebra spine:
+
+1. [Linear Algebra](../index.qmd) for the module path
+2. [Orthogonality and Least Squares](orthogonality-and-least-squares.qmd) once you want to study one especially important linear map in data fitting and approximation
+
+## Optional Paper Bridge
+
+- [Deep learning, transformers and graph neural networks: a linear algebra perspective](https://link.springer.com/article/10.1007/s11075-025-02218-2) - `Second pass` - a current survey showing how matrices and linear operators sit inside embeddings, dense layers, attention, and graph-based models. Checked `2026-04-24`.
+- [Attention is All You Need](https://proceedings.neurips.cc/paper/7181-attention-is-all-you-need) - `Paper bridge` - useful later, once you want to recognize the learned linear projections that produce queries, keys, and values. Checked `2026-04-24`.
+
+## Optional After First Pass
+
+If you want more practice before moving on:
+
+- compute the matrix of a map by sending each basis vector through it
+- check whether a given rule really preserves addition and scaling
+- compose two simple transformations and compare the result with matrix multiplication
+
+## Common Mistakes
+
+- treating a matrix as only a table of numbers rather than a rule acting on vectors
+- forgetting that linear maps must preserve both addition and scalar multiplication
+- thinking the matrix columns are arbitrary instead of images of basis vectors
+- reading $AB$ left to right as “do $A$ first, then $B$”
+- confusing linear maps with affine maps that include translations or bias terms
+
+## Exercises
+
+1. Decide whether the map $T(x,y) = (x+y,\; 2y)$ is linear. Check both defining properties.
+2. Find the matrix of the map $T(x,y) = (2x-y,\; x+y)$ by computing $T(e_1)$ and $T(e_2)$.
+3. Let
+
+   $$
+   A =
+   \begin{bmatrix}
+   1 & 1 \\
+   0 & 2
+   \end{bmatrix},
+   \qquad
+   B =
+   \begin{bmatrix}
+   0 & 1 \\
+   1 & 0
+   \end{bmatrix}.
+   $$
+
+   Compute $AB$ and $BA$, and explain in words why they represent different compositions.
+
+## Sources and Further Reading
+
+- [MIT 18.06SC: Linear Transformations and their Matrices](https://ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/pages/positive-definite-matrices-and-applications/linear-transformations-and-their-matrices/) - `First pass` - official explanation of the operator viewpoint that motivated this page. Checked `2026-04-24`.
+- [Stanford Math 51 schedule](https://web.stanford.edu/class/math51/schedule.html) - `First pass` - current course sequence showing linear transformations and matrix multiplication as part of the core linear algebra spine. Checked `2026-04-24`.
+- [Hefferon, Linear Algebra](https://hefferon.net/linearalgebra/) - `Second pass` - strong self-study text with explicit treatment of linear maps and matrices plus many exercises. Checked `2026-04-24`.
+- [Deep learning, transformers and graph neural networks: a linear algebra perspective](https://link.springer.com/article/10.1007/s11075-025-02218-2) - `Second pass` - modern bridge from basic operator language to current AI systems. Checked `2026-04-24`.
+- [Attention is All You Need](https://proceedings.neurips.cc/paper/7181-attention-is-all-you-need) - `Paper bridge` - later reference for spotting learned linear maps inside a major architecture. Checked `2026-04-24`.
+
+Sources checked online on `2026-04-24`:
+
+- MIT 18.06SC Linear Transformations and their Matrices
+- Stanford Math 51 schedule
+- Hefferon, Linear Algebra
+- Springer Numerical Algorithms survey on linear algebra perspectives in deep learning
+- NeurIPS proceedings page for Attention is All You Need

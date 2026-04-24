@@ -29,9 +29,10 @@ review-cadence: annual
 date-modified: last-modified
 draft: false
 next:
-  - /topics/foundation/linear-algebra/index.qmd
+  - /topics/foundation/linear-algebra/concepts/matrices-and-linear-maps.qmd
 related-pages:
   - /topics/foundation/linear-algebra/index.qmd
+  - /topics/foundation/linear-algebra/concepts/matrices-and-linear-maps.qmd
   - /topics/foundation/linear-algebra/concepts/orthogonality-and-least-squares.qmd
 stable-sources:
   - "MIT 18.06SC Basis and Dimension"

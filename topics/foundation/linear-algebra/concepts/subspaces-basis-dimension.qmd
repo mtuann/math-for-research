@@ -1,0 +1,396 @@
+---
+title: "Subspaces, Basis, and Dimension"
+description: "How linear algebra turns a collection of reachable vectors into a subspace, a minimal generating set into a basis, and the number of independent directions into dimension."
+page-type: concept
+status: published
+update-status: current
+level: foundation
+topic: linear-algebra
+prerequisites:
+  - /topics/foundation/linear-algebra/concepts/vectors-and-linear-combinations.qmd
+  - /topics/foundation/linear-algebra/concepts/matrices-and-linear-maps.qmd
+learning-goals:
+  - "Recognize when a set is a subspace."
+  - "Produce a basis for a simple subspace."
+  - "Explain dimension as the number of independent directions in a space."
+  - "Connect column space to subspaces used in data fitting and approximation."
+applications:
+  - machine-learning
+  - regression
+  - signal-processing
+keywords:
+  - subspace
+  - basis
+  - dimension
+  - column space
+  - linear independence
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: annual
+date-modified: last-modified
+draft: false
+next:
+  - /topics/foundation/linear-algebra/concepts/orthogonality-and-least-squares.qmd
+related-pages:
+  - /topics/foundation/linear-algebra/index.qmd
+  - /topics/foundation/linear-algebra/concepts/matrices-and-linear-maps.qmd
+  - /topics/foundation/linear-algebra/concepts/orthogonality-and-least-squares.qmd
+stable-sources:
+  - "MIT 18.06SC Basis and Dimension"
+  - "Stanford Math 51 schedule"
+  - "Hefferon, Linear Algebra"
+current-sources:
+  - "Deep learning, transformers and graph neural networks: a linear algebra perspective (2025)"
+---
+
+## Role
+
+This page turns linear combinations into actual spaces you can reason about.
+
+It explains the three ideas that keep traveling together in linear algebra:
+
+- a `subspace` is a linear world closed under the operations we care about
+- a `basis` is a minimal set of directions that builds that world
+- the `dimension` counts how many independent directions that world really has
+
+## First-Pass Promise
+
+Read this page after `Matrices and Linear Maps`.
+
+If you stop here, you should still understand:
+
+- what makes a subset a subspace
+- what a basis does
+- what dimension is counting
+- why column space is one of the most important subspaces in applications
+
+## Why It Matters
+
+These ideas matter because many later problems are really questions about the right subspace:
+
+- in least squares, the fitted vector must lie in the column space of the feature matrix
+- in signal processing, a signal model may live in a low-dimensional subspace
+- in dimensionality reduction, we search for a smaller subspace that still captures useful variation
+- in numerical methods, the useful part of a computation is often restricted to a smaller space of directions
+
+So this page gives you the language for `where the action lives`.
+
+## Prerequisite Recall
+
+- the span of vectors is the set of all their linear combinations
+- a matrix-vector product $Ax$ lies in the span of the columns of $A$
+- a linear map sends linear combinations to linear combinations
+
+## Intuition
+
+A subspace is a place where linear algebra can happen without leaving the room.
+
+If you add two vectors in the room, you stay in the room. If you scale a vector in the room, you stay in the room. That closure is what makes the set useful.
+
+But once you know a subspace exists, you do not want to carry every vector in it around. You want a short generating list with no redundancy. That is what a basis gives you.
+
+Dimension then answers the natural next question:
+
+`How many genuinely different directions does this space have?`
+
+So the flow is:
+
+`subspace -> basis -> dimension`
+
+A basis tells you how to build every vector in the subspace, and dimension tells you how many independent knobs you actually need.
+
+## Formal Core
+
+::: {#def-subspace}
+## Definition
+
+A subset $W \subseteq \mathbb{R}^n$ is a subspace if:
+
+1. $0 \in W$
+2. whenever $u,v \in W$, then $u+v \in W$
+3. whenever $u \in W$ and $c \in \mathbb{R}$, then $cu \in W$
+
+So a subspace is closed under vector addition and scalar multiplication.
+:::
+
+::: {#def-basis}
+## Basis
+
+A list of vectors $v_1,\dots,v_k$ is a basis for a subspace $W$ if:
+
+1. the vectors span $W$
+2. the vectors are linearly independent
+
+A basis is therefore a spanning set with no redundancy.
+:::
+
+::: {#thm-dimension}
+## Key Statement
+
+Every finite-dimensional subspace has a basis, and any two bases of the same finite-dimensional subspace have the same number of vectors.
+
+That common number is called the dimension of the subspace:
+
+$$
+\dim(W) = \text{number of vectors in any basis of } W.
+$$
+:::
+
+## Worked Example
+
+Consider the set
+
+$$
+W = \left\{
+\begin{bmatrix}
+x \\
+y \\
+z
+\end{bmatrix}
+ \in \mathbb{R}^3 : z = x + y
+\right\}.
+$$
+
+This is the plane through the origin given by the equation $z=x+y$.
+
+First rewrite a general vector in $W$:
+
+$$
+\begin{bmatrix}
+x \\
+y \\
+z
+\end{bmatrix}
+=
+\begin{bmatrix}
+x \\
+y \\
+x+y
+\end{bmatrix}
+=
+x
+\begin{bmatrix}
+1 \\
+0 \\
+1
+\end{bmatrix}
++
+y
+\begin{bmatrix}
+0 \\
+1 \\
+1
+\end{bmatrix}.
+$$
+
+So every vector in $W$ lies in the span of
+
+$$
+v_1 =
+\begin{bmatrix}
+1 \\
+0 \\
+1
+\end{bmatrix},
+\qquad
+v_2 =
+\begin{bmatrix}
+0 \\
+1 \\
+1
+\end{bmatrix}.
+$$
+
+That already shows
+
+$$
+W = \operatorname{span}\{v_1,v_2\}.
+$$
+
+Now check independence. If
+
+$$
+a v_1 + b v_2 = 0,
+$$
+
+then
+
+$$
+a
+\begin{bmatrix}
+1 \\
+0 \\
+1
+\end{bmatrix}
++
+b
+\begin{bmatrix}
+0 \\
+1 \\
+1
+\end{bmatrix}
+=
+\begin{bmatrix}
+a \\
+b \\
+a+b
+\end{bmatrix}
+=
+\begin{bmatrix}
+0 \\
+0 \\
+0
+\end{bmatrix},
+$$
+
+which forces $a=0$ and $b=0$.
+
+So $v_1$ and $v_2$ are linearly independent, which means they form a basis for $W$.
+
+Therefore
+
+$$
+\dim(W)=2.
+$$
+
+This example shows the whole story at once:
+
+1. the plane is a subspace because it is built from linear combinations through the origin
+2. a basis gives a minimal generating set
+3. dimension counts the number of independent directions, not the number of coordinates in the ambient space
+
+## Computation Lens
+
+In practice, these questions usually look like one of the following:
+
+- `Is this set a subspace?`
+  Check whether it contains $0$ and is closed under addition and scaling.
+- `What is a basis?`
+  Find a spanning set, then remove redundant directions.
+- `What is the dimension?`
+  Count the vectors in a basis.
+
+For matrices, this viewpoint becomes especially concrete.
+
+If $A$ is an $m \times n$ matrix, then the column space
+
+$$
+\operatorname{col}(A) = \{Ax : x \in \mathbb{R}^n\}
+$$
+
+is a subspace of $\mathbb{R}^m$.
+
+Its basis is an independent set of columns that still spans all outputs of the map $x \mapsto Ax$, and its dimension is the number of independent column directions.
+
+## Application Lens
+
+In linear regression, the prediction vector $X\beta$ must lie in the column space of the design matrix $X$.
+
+That means the fitted outputs are constrained to a specific subspace determined by the feature columns.
+
+So when we later solve least squares, we are not just “finding a best fit” in vague terms. We are finding the best approximation to the target vector inside a concrete subspace.
+
+That is why subspace language matters so much: it tells you exactly where the model is allowed to live.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- what makes a set a subspace
+- why a basis must both span and be independent
+- why dimension counts independent directions rather than ambient coordinates
+- why column space is the subspace behind regression outputs
+
+then this page has done its main job.
+
+## Go Deeper
+
+The best next move is to continue the linear algebra spine with [Orthogonality and Least Squares](orthogonality-and-least-squares.qmd), where subspaces become approximation targets and column space becomes a geometric object you project onto.
+
+## Optional Paper Bridge
+
+- [Deep learning, transformers and graph neural networks: a linear algebra perspective](https://link.springer.com/article/10.1007/s11075-025-02218-2) - `Second pass` - a modern survey that keeps returning to low-dimensional structure, embeddings, and matrix-based representations in current AI systems. Checked `2026-04-24`.
+- [A Survey: Potential Dimensionality Reduction Methods](https://arxiv.org/abs/2502.11036) - `Paper bridge` - useful once subspace ideas feel natural and you want to see how reduced representations appear across common ML pipelines. Checked `2026-04-24`.
+
+## Optional After First Pass
+
+If you want more practice before moving on:
+
+- test whether translated planes or lines are subspaces
+- describe a subspace both by equations and by a spanning set
+- compare a large spanning set with a smaller basis for the same space
+
+## Common Mistakes
+
+- forgetting that a subspace must contain the zero vector
+- thinking every line or plane in space is a subspace, even if it does not pass through the origin
+- confusing a spanning set with a basis
+- thinking dimension means the number of coordinates written down
+- forgetting that different bases can describe the same subspace
+
+## Exercises
+
+1. Decide whether the set
+
+   $$
+   \left\{
+   \begin{bmatrix}
+   x \\
+   y \\
+   z
+   \end{bmatrix}
+   : x+y+z=0
+   \right\}
+   $$
+
+   is a subspace of $\mathbb{R}^3$.
+
+2. Find a basis and the dimension of
+
+   $$
+   \operatorname{span}
+   \left\{
+   \begin{bmatrix}
+   1 \\
+   0 \\
+   1
+   \end{bmatrix},
+   \begin{bmatrix}
+   0 \\
+   1 \\
+   1
+   \end{bmatrix}
+   \right\}.
+   $$
+
+3. Explain why the set
+
+   $$
+   \left\{
+   \begin{bmatrix}
+   x \\
+   y
+   \end{bmatrix}
+   : x+y=1
+   \right\}
+   $$
+
+   is not a subspace, even though it looks like a line.
+
+## Sources and Further Reading
+
+- [MIT 18.06SC: Basis and Dimension](https://live.ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/resources/basis-and-dimension-1/) - `First pass` - official source that keeps span, basis, and dimension tightly connected. Checked `2026-04-24`.
+- [Stanford Math 51 schedule](https://web.stanford.edu/class/math51/schedule.html) - `First pass` - current course sequence showing `span -> subspace -> dimension -> basis -> projection -> regression` as a coherent spine. Checked `2026-04-24`.
+- [Hefferon, Linear Algebra](https://hefferon.net/linearalgebra/) - `Second pass` - strong self-study text for more exercises and proof-level depth on subspaces and basis. Checked `2026-04-24`.
+- [Deep learning, transformers and graph neural networks: a linear algebra perspective](https://link.springer.com/article/10.1007/s11075-025-02218-2) - `Second pass` - current survey showing why low-dimensional structure and matrix viewpoints matter in AI. Checked `2026-04-24`.
+- [A Survey: Potential Dimensionality Reduction Methods](https://arxiv.org/abs/2502.11036) - `Paper bridge` - bridge toward how low-dimensional subspaces motivate practical reduction methods. Checked `2026-04-24`.
+
+Sources checked online on `2026-04-24`:
+
+- MIT 18.06SC Basis and Dimension
+- Stanford Math 51 schedule
+- Stanford Math 51H topic summary
+- Hefferon, Linear Algebra
+- Springer Numerical Algorithms survey on linear algebra perspectives in deep learning
+- arXiv survey on dimensionality reduction methods

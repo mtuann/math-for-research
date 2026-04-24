@@ -7,7 +7,7 @@ update-status: current
 level: foundation
 topic: linear-algebra
 prerequisites:
-  - /topics/foundation/linear-algebra/concepts/vectors-and-linear-combinations.qmd
+  - /topics/foundation/linear-algebra/concepts/subspaces-basis-dimension.qmd
 learning-goals:
   - "Explain why least squares is a projection problem."
   - "Derive and interpret the normal equations."

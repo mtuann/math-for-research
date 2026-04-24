@@ -50,10 +50,10 @@ Least squares, SVD, covariance, kernels, spectral arguments
 ## First Pass Through This Module
 
 1. [Vectors and Linear Combinations](concepts/vectors-and-linear-combinations.qmd)
-2. Matrices and linear maps
-3. Subspaces, basis, dimension
+2. [Matrices and Linear Maps](concepts/matrices-and-linear-maps.qmd)
+3. [Subspaces, Basis, and Dimension](concepts/subspaces-basis-dimension.qmd)
 4. [Orthogonality and Least Squares](concepts/orthogonality-and-least-squares.qmd)
-5. Eigenvalues and diagonalization
+5. [Eigenvalues and Diagonalization](concepts/eigenvalues-and-diagonalization.qmd)
 6. [SVD and Low-Rank Approximation](concepts/svd-and-low-rank-approximation.qmd)
 
 On a first pass, stay on the concept pages. You should not need proof, application, lab, paper-lab, research, or source-guide pages just to understand the main story of the module.
