@@ -1,40 +1,150 @@
 ---
 title: "Probability"
+description: "Core probability for research-facing work in CS, AI, and engineering."
+page-type: module-overview
+status: published
+update-status: current
+level: foundation
+topic: probability
+prerequisites:
+  - /start-here/index.qmd
+learning-goals:
+  - "Build probabilistic modeling intuition from sample spaces to concentration."
+  - "Recognize the internal study order of a first probability pass."
+  - "Connect foundational probability to statistics, learning theory, and stochastic algorithms."
+applications:
+  - statistics
+  - machine-learning
+  - stochastic-optimization
+keywords:
+  - probability
+  - conditioning
+  - random variables
+  - central limit theorem
+  - concentration
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: annual
+date-modified: last-modified
+draft: false
 ---
 
 ## Why This Module Matters
 
-Probability is the main language of uncertainty, randomness, averages, and concentration. Without it, a large part of modern statistics, ML, control, and learning theory feels like memorized formulas.
+Probability is the language of uncertainty, repeated sampling, noisy data, and random systems.
+
+Without it, a large part of statistics, ML, control, simulation, and learning theory turns into memorized formulas instead of understandable structure.
+
+This module is the first pass through that structure. It starts from sample spaces and events, turns them into random variables and distributions, summarizes them by expectation and variance, then climbs toward asymptotic laws and finite-sample concentration.
 
 ::: {.meta-strip}
 ::: {.meta-box}
 **Prerequisites**
-Calculus, algebra, and proof comfort
+Calculus, algebra, and basic proof comfort
 :::
 ::: {.meta-box}
 **Unlocks**
-Statistics, learning theory, stochastic optimization
+Statistics, learning theory, stochastic optimization, high-dimensional probability
 :::
 ::: {.meta-box}
 **Research Use**
-Generalization, uncertainty, random matrices, stochastic models
+Generalization, uncertainty quantification, randomized algorithms, stochastic models
 :::
 :::
 
-## Starter Sequence
+## First Pass Through This Module
 
-1. [Random Variables and Distributions](concepts/random-variables-and-distributions.qmd)
-2. [Expectation, Variance, Covariance](concepts/expectation-variance-covariance.qmd)
-3. Conditional probability and Bayes
-4. Limit laws
-5. [Concentration and Common Inequalities](concepts/concentration-and-common-inequalities.qmd)
+1. [Sample Spaces, Events, and Conditioning](concepts/sample-spaces-events-conditioning.qmd)
+2. [Random Variables and Distributions](concepts/random-variables-and-distributions.qmd)
+3. [Expectation, Variance, Covariance](concepts/expectation-variance-covariance.qmd)
+4. [Joint, Conditional, and Bayes](concepts/joint-conditional-and-bayes.qmd)
+5. [Law of Large Numbers and CLT](concepts/law-of-large-numbers-and-clt.qmd)
+6. [Concentration and Common Inequalities](concepts/concentration-and-common-inequalities.qmd)
 
-## Big Picture
+On a first pass, stay on the concept pages. You should not need future proof, lab, or research pages just to understand the core story of the module.
 
-You do not just want to compute probabilities. You want to think clearly about:
+## Navigation Rule
 
-- what is random
-- what is conditioned on
-- what is being averaged
-- how much fluctuation is left
+The global sidebar shows only the probability `spine`:
 
+- the module overview
+- the core concept pages in study order
+
+Each concept page should be strong enough to stand on its own for first-pass learning. Companion pages, when they exist, should feel optional rather than required.
+
+## Core Concepts
+
+- [Sample Spaces, Events, and Conditioning](concepts/sample-spaces-events-conditioning.qmd): builds the event-level language of probability and the idea of restricting the world after new information arrives.
+- [Random Variables and Distributions](concepts/random-variables-and-distributions.qmd): turns outcomes into numerical quantities and introduces PMFs, PDFs, and CDFs.
+- [Expectation, Variance, Covariance](concepts/expectation-variance-covariance.qmd): summarizes center, spread, and dependence.
+- [Joint, Conditional, and Bayes](concepts/joint-conditional-and-bayes.qmd): explains how two random quantities interact and how evidence updates beliefs.
+- [Law of Large Numbers and CLT](concepts/law-of-large-numbers-and-clt.qmd): separates stabilization of averages from the shape of their fluctuations.
+- [Concentration and Common Inequalities](concepts/concentration-and-common-inequalities.qmd): gives explicit finite-sample tail control.
+
+## Proof Patterns In This Module
+
+- `Condition on the right event`: many problems simplify once the correct information structure is made explicit.
+- `Use linearity before expanding`: expectation and covariance calculations are often cleaner through identities than raw enumeration.
+- `Separate asymptotic from finite-sample reasoning`: LLN and CLT are not the same kind of statement as Chebyshev or Hoeffding.
+
+## Applications
+
+### Statistical Inference
+
+Probability explains what data variability means, how posteriors update after evidence, and why sample averages, standard errors, and uncertainty statements behave the way they do.
+
+### Learning and Randomized Computation
+
+Empirical risk, stochastic gradients, randomized sketches, and generalization guarantees all lean on the same core ideas: conditioning, random variables, averages, and concentration.
+
+## Go Deeper By Topic
+
+### Joint, Conditional, and Bayes
+
+Start with [Joint, Conditional, and Bayes](concepts/joint-conditional-and-bayes.qmd).
+
+If you want one strong reinforcement path after the main page:
+
+- revisit [Sample Spaces, Events, and Conditioning](concepts/sample-spaces-events-conditioning.qmd)
+- then compute marginals, conditionals, and a Bayes update from one concrete table
+
+### Law of Large Numbers and CLT
+
+Start with [Law of Large Numbers and CLT](concepts/law-of-large-numbers-and-clt.qmd).
+
+If you want one strong next step after the main page:
+
+- continue to [Concentration and Common Inequalities](concepts/concentration-and-common-inequalities.qmd)
+
+## Optional Deep Dives After First Pass
+
+Until dedicated companion pages land, the best deeper pass is through official course materials:
+
+- [MIT RES.6-012 lecture notes](https://ocw.mit.edu/courses/res-6-012-introduction-to-probability-spring-2018/resources/lecture-notes/) - watch for the progression from conditioning to random variables to inequalities. Checked `2026-04-24`.
+- [Penn State STAT 414](https://online.stat.psu.edu/stat414/) - watch how the course separates foundational event language, distributions, bivariate structure, and limit laws. Checked `2026-04-24`.
+
+## Study Order
+
+The intended first pass is strictly the six concept pages above.
+
+You are ready to move on when you can:
+
+- model a problem with the right sample space or random variables
+- compute basic summaries like expectation and variance
+- interpret conditionals and Bayes updates
+- explain the difference between LLN, CLT, and concentration
+
+If one of those is still shaky, revisit the corresponding concept page before moving into statistics or learning-theory material.
+
+## Sources and Further Reading
+
+- [Harvard Stat 110](https://stat110.hsites.harvard.edu/) - `First pass` - strong official course hub with clear examples and excellent intuition. Checked `2026-04-24`.
+- [Penn State STAT 414](https://online.stat.psu.edu/stat414/) - `First pass` - official open notes with a clean full-sequence treatment from foundations through CLT. Checked `2026-04-24`.
+- [MIT RES.6-012 lecture notes](https://ocw.mit.edu/courses/res-6-012-introduction-to-probability-spring-2018/resources/lecture-notes/) - `Second pass` - official MIT notes with a theory-first bridge to inference and limit theorems. Checked `2026-04-24`.
+
+Sources checked online on `2026-04-24`:
+
+- Harvard Stat 110 course homepage
+- Penn State STAT 414 overview
+- MIT RES.6-012 lecture notes page

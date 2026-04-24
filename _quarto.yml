@@ -73,8 +73,11 @@ website:
           - section: "Probability"
             contents:
               - topics/foundation/probability/index.qmd
+              - topics/foundation/probability/concepts/sample-spaces-events-conditioning.qmd
               - topics/foundation/probability/concepts/random-variables-and-distributions.qmd
               - topics/foundation/probability/concepts/expectation-variance-covariance.qmd
+              - topics/foundation/probability/concepts/joint-conditional-and-bayes.qmd
+              - topics/foundation/probability/concepts/law-of-large-numbers-and-clt.qmd
               - topics/foundation/probability/concepts/concentration-and-common-inequalities.qmd
           - topics/advanced/index.qmd
       - section: "Research Workflow"

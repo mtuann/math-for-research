@@ -1,0 +1,308 @@
+---
+title: "Sample Spaces, Events, and Conditioning"
+description: "How probability starts by choosing a sample space, turning questions into events, and then updating the model by restricting attention to observed information."
+page-type: concept
+status: published
+update-status: current
+level: foundation
+topic: probability
+prerequisites:
+  - /start-here/notation-and-symbols.qmd
+learning-goals:
+  - "Define sample space and event precisely."
+  - "Interpret probability as a rule on events."
+  - "Explain conditional probability as restricting the sample space."
+  - "Use conditioning to recompute probabilities after new information arrives."
+applications:
+  - statistics
+  - machine-learning
+  - reliability
+keywords:
+  - sample space
+  - event
+  - conditional probability
+  - multiplication rule
+  - independence
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: annual
+date-modified: last-modified
+draft: false
+next:
+  - /topics/foundation/probability/concepts/random-variables-and-distributions.qmd
+related-pages:
+  - /topics/foundation/probability/index.qmd
+  - /topics/foundation/probability/concepts/random-variables-and-distributions.qmd
+  - /topics/foundation/probability/concepts/expectation-variance-covariance.qmd
+stable-sources:
+  - "Harvard Stat 110"
+  - "Penn State STAT 414"
+  - "CMU OLI Probability and Statistics"
+current-sources:
+  - "MIT RES.6-012 conditional probability lecture materials"
+---
+
+## Role
+
+This page is the real starting point of probability.
+
+It explains how probability models are built, what an event actually is, and why conditioning is the basic way we update probabilities when some information becomes known.
+
+## First-Pass Promise
+
+Read this page first.
+
+If you stop here, you should still understand:
+
+- what a sample space is
+- what an event is
+- what a probability assignment is trying to describe
+- why conditioning means `shrink the world and renormalize`
+
+## Why It Matters
+
+Probability does not begin with formulas for means or Gaussians. It begins with model design:
+
+- what outcomes are possible?
+- what subsets of outcomes matter?
+- what information is known?
+- how should the probabilities change after that information arrives?
+
+Those questions keep returning in statistics, ML, control, and reliability:
+
+- probability of failure given a sensor state
+- probability of a label given observed features
+- probability of an event given partial evidence
+- probability of a future outcome given current state
+
+If the sample space or conditioning event is unclear, later formulas become meaningless.
+
+## Prerequisite Recall
+
+- a set is a collection of objects
+- a subset chooses some elements from a larger set
+- intersections mean `both happen`, unions mean `at least one happens`, and complements mean `does not happen`
+
+## Intuition
+
+A probability model starts by deciding what the world of possible outcomes is.
+
+That world is the sample space.
+
+An event is then a question you ask about that world. Since an event may be true for many outcomes, it is naturally represented as a subset of the sample space.
+
+Conditioning is the first major change of viewpoint in probability. Once you learn that some event has happened, you no longer care about the full original world. You restrict attention to the smaller world where that event is true, and then recompute probabilities inside it.
+
+So the right mental model is:
+
+`sample space -> events -> conditioning as restricted sample space`
+
+## Formal Core
+
+::: {#def-sample-space}
+## Definition
+
+A sample space, usually denoted $\Omega$, is the set of all possible outcomes of an experiment or random study.
+
+An event is a subset $A \subseteq \Omega$.
+:::
+
+::: {#def-probability-rule}
+## Probability Rule
+
+A probability assignment gives each event $A$ a number $P(A)$ between $0$ and $1$ such that:
+
+1. $P(\Omega)=1$
+2. $P(A) \ge 0$ for every event $A$
+3. disjoint events add:
+
+$$
+P(A \cup B) = P(A) + P(B)
+\qquad \text{when } A \cap B = \varnothing
+$$
+
+In finite equally likely settings, probability is often computed as
+
+$$
+P(A) = \frac{|A|}{|\Omega|}.
+$$
+:::
+
+::: {#def-conditional-probability}
+## Conditional Probability
+
+If $P(B) > 0$, the conditional probability of $A$ given $B$ is
+
+$$
+P(A \mid B) = \frac{P(A \cap B)}{P(B)}.
+$$
+
+This means: restrict attention to the event $B$, then ask how much of that restricted world also lies in $A$.
+:::
+
+::: {#prp-multiplication-rule}
+## Key Statement
+
+If $P(B)>0$, then
+
+$$
+P(A \cap B) = P(B)\,P(A \mid B).
+$$
+
+This is the multiplication rule. It is one of the main bridges from event language to later probabilistic calculations.
+:::
+
+## Worked Example
+
+Roll two fair dice and record the ordered outcome $(d_1,d_2)$.
+
+The sample space is
+
+$$
+\Omega = \{(d_1,d_2): d_1,d_2 \in \{1,2,3,4,5,6\}\},
+$$
+
+so $|\Omega|=36$.
+
+Define the events
+
+$$
+A = \{(d_1,d_2): d_1 + d_2 \ge 10\}
+$$
+
+and
+
+$$
+B = \{(d_1,d_2): d_1 = 6\}.
+$$
+
+First compute $P(A)$.
+
+The outcomes with sum at least $10$ are
+
+$$
+(4,6), (5,5), (6,4), (5,6), (6,5), (6,6),
+$$
+
+so
+
+$$
+P(A)=\frac{6}{36}=\frac{1}{6}.
+$$
+
+Now condition on $B$.
+
+If the first die is known to be $6$, the relevant world shrinks to
+
+$$
+B = \{(6,1),(6,2),(6,3),(6,4),(6,5),(6,6)\},
+$$
+
+which has $6$ equally likely outcomes.
+
+Inside that restricted world, the event $A$ becomes
+
+$$
+A \cap B = \{(6,4),(6,5),(6,6)\},
+$$
+
+so
+
+$$
+P(A \mid B)=\frac{3}{6}=\frac{1}{2}.
+$$
+
+This example shows the point clearly:
+
+1. the original probability was $1/6$
+2. the conditional probability became $1/2$
+3. new information changed the relevant sample space
+
+Conditioning does not just “plug into a formula.” It changes which world you are measuring inside.
+
+## Computation Lens
+
+Many probability calculations become much easier once you translate words into sets.
+
+Typical moves are:
+
+- define the sample space explicitly
+- write the event as a subset of that space
+- use intersections for `both`, unions for `either`, complements for `not`
+- if information is revealed, condition on that event and work inside the restricted space
+
+In finite settings, this often reduces to careful counting.
+
+In more advanced settings, the same structure remains, but counting gets replaced by densities, integrals, or conditional distributions.
+
+## Application Lens
+
+Conditioning is the language of information.
+
+In statistics and ML, we almost never ask about an outcome in total isolation. We ask about it given data, features, labels, state, or evidence:
+
+- failure probability given an alarm
+- class probability given an input
+- state estimate given observations
+- risk given a subgroup or condition
+
+So even this beginner topic is already the first bridge to inference and prediction. Once you are comfortable with conditioning as “restrict the world, then renormalize,” later topics like Bayes, conditional expectation, and graphical models become much easier.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- what the sample space is supposed to capture
+- why events are subsets
+- why conditional probability restricts attention to a smaller world
+- why new information can change a probability dramatically
+
+then this page has done its main job.
+
+## Go Deeper
+
+The best next move is to continue the probability spine with [Random Variables and Distributions](random-variables-and-distributions.qmd), where outcomes stop being tracked directly and are mapped into numerical quantities.
+
+## Optional Paper Bridge
+
+- [MIT RES.6-012 conditional probability lecture materials](https://ocw.mit.edu/courses/res-6-012-introduction-to-probability-spring-2018/59334d9e29139c22b30e9c2a89265e78_B5y6fy5iUtg.pdf) - `Second pass` - an official MIT bridge into conditioning as probability revision after evidence. Checked `2026-04-24`.
+- [Translating Between Probability and Sets](https://stat110.hsites.harvard.edu/sites/g/files/omnuum10111/files/stat110/files/probability_and_sets.pdf) - `Paper bridge` - a short Harvard note that helps decode event notation quickly when reading theory-heavy material. Checked `2026-04-24`.
+
+## Optional After First Pass
+
+If you want more practice before moving on:
+
+- redraw a sample space after conditioning
+- compute probabilities using complements instead of direct counting
+- compare conditional probability with unconditional probability on the same event
+
+## Common Mistakes
+
+- choosing a sample space that is too vague or inconsistent
+- forgetting that an event is a subset, not a single outcome
+- conditioning on an event with probability zero
+- treating $P(A \mid B)$ as the same thing as $P(B \mid A)$
+- using a formula for conditioning without updating the underlying world
+
+## Exercises
+
+1. Toss three fair coins. Define the sample space and the event `exactly two heads`.
+2. Roll a fair die once. Let $A$ be `even` and $B$ be `greater than 3`. Compute $P(A)$, $P(B)$, $P(A \cap B)$, and $P(A \mid B)$.
+3. Explain in words why conditioning on an event can change a probability even when the original experiment has not changed.
+
+## Sources and Further Reading
+
+- [Statistics 110: Probability](https://stat110.hsites.harvard.edu/) - `First pass` - a strong official course hub for introductory probability. Checked `2026-04-24`.
+- [Penn State STAT 414](https://online.stat.psu.edu/stat414/) - `First pass` - current official notes with clear pages on sample spaces, events, and conditional probability. Checked `2026-04-24`.
+- [CMU OLI Probability and Statistics](https://oli.cmu.edu/courses/probability-and-statistics/) - `Second pass` - useful for structured practice and alternative explanations of events and probability rules. Checked `2026-04-24`.
+- [MIT RES.6-012 conditional probability lecture materials](https://ocw.mit.edu/courses/res-6-012-introduction-to-probability-spring-2018/59334d9e29139c22b30e9c2a89265e78_B5y6fy5iUtg.pdf) - `Second pass` - official MIT reinforcement for conditioning and evidence. Checked `2026-04-24`.
+- [Translating Between Probability and Sets](https://stat110.hsites.harvard.edu/sites/g/files/omnuum10111/files/stat110/files/probability_and_sets.pdf) - `Paper bridge` - a compact note that helps with notation fluency for later theorem reading. Checked `2026-04-24`.
+
+Sources checked online on `2026-04-24`:
+
+- Harvard Stat 110
+- Penn State STAT 414 overview
+- Penn State sample spaces and conditional probability notes
+- CMU OLI Probability and Statistics
+- MIT RES.6-012 conditional probability lecture materials

@@ -1,39 +1,302 @@
 ---
 title: "Concentration and Common Inequalities"
+description: "How probability turns averages and random quantities into finite-sample guarantees using Markov, Chebyshev, union bounds, and bounded-difference concentration."
+page-type: concept
+status: published
+update-status: current
+level: foundation
+topic: probability
+prerequisites:
+  - /topics/foundation/probability/concepts/expectation-variance-covariance.qmd
+  - /topics/foundation/probability/concepts/law-of-large-numbers-and-clt.qmd
+learning-goals:
+  - "State the main purpose of concentration inequalities."
+  - "Use Markov and Chebyshev correctly with their assumptions."
+  - "Interpret a bounded-average concentration bound like Hoeffding's inequality."
+  - "Explain the difference between asymptotic limit laws and finite-sample guarantees."
+applications:
+  - machine-learning
+  - statistics
+  - randomized-algorithms
+keywords:
+  - concentration
+  - Markov inequality
+  - Chebyshev inequality
+  - union bound
+  - Hoeffding inequality
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/foundation/probability/index.qmd
+  - /topics/foundation/probability/concepts/expectation-variance-covariance.qmd
+  - /topics/foundation/probability/concepts/law-of-large-numbers-and-clt.qmd
+stable-sources:
+  - "Harvard Stat 110"
+  - "MIT RES.6-012 Introduction to Probability"
+  - "Penn State STAT 414"
+current-sources:
+  - "MIT RES.6-012 lecture on inequalities, convergence, and weak law"
 ---
 
 ## Role
 
-This page is the first bridge from elementary probability into modern theory.
+This page is the first real bridge from introductory probability to research-style guarantees.
+
+It explains how probability turns moment information and boundedness assumptions into explicit bounds on rare events.
+
+## First-Pass Promise
+
+Read this page after `Law of Large Numbers and CLT`.
+
+If you stop here, you should still understand:
+
+- what concentration is trying to control
+- what Markov and Chebyshev inequalities say
+- why the union bound shows up everywhere
+- why Hoeffding-style bounds are stronger than asymptotic statements for finite samples
 
 ## Why It Matters
 
-Concentration tells you when a random quantity stays close to its mean or another central value. That idea powers learning theory, randomized algorithms, high-dimensional probability, and statistics.
+The law of large numbers and central limit theorem tell us what happens as sample size grows.
 
-## Core Inequalities To Know
+Concentration inequalities answer a different question:
 
-- Markov inequality
-- Chebyshev inequality
-- Hoeffding-style bounds
-- union bound
+`At a fixed sample size, how unlikely is a large deviation?`
+
+That question appears constantly in:
+
+- learning theory, where we want empirical averages close to population quantities
+- randomized algorithms, where we want random constructions to work reliably
+- statistics, where we want finite-sample confidence or error control
+- high-dimensional probability, where many events must hold simultaneously
+
+So concentration is where probability starts sounding like theorem statements in modern CS, AI, and engineering papers.
+
+## Prerequisite Recall
+
+- expectation gives a center
+- variance measures average squared fluctuation
+- the LLN is asymptotic, while concentration bounds are finite-sample
 
 ## Intuition
 
-Expectation tells you the center. Concentration asks how sharply the random object stays near that center.
+Expectation alone tells you where a random quantity is centered, but not how tightly it clusters around that center.
 
-## Example
+Concentration inequalities progressively add stronger information:
 
-If you average many bounded independent random variables, the result typically fluctuates less than a single observation. Concentration inequalities quantify that stability.
+- Markov uses only nonnegativity and expectation
+- Chebyshev uses variance
+- Hoeffding uses independence and boundedness
+
+So the pattern is:
+
+`more structure -> sharper tail control`
+
+The union bound then lets us combine many events at once, which is why it appears in proofs about families of hypotheses, coordinates, or bad outcomes.
+
+## Formal Core
+
+::: {#thm-markov}
+## Markov Inequality
+
+If $X \ge 0$ almost surely and $t>0$, then
+
+$$
+P(X \ge t) \le \frac{E[X]}{t}.
+$$
+
+This is the most basic tail bound. It only needs nonnegativity and a finite expectation.
+:::
+
+::: {#thm-chebyshev}
+## Chebyshev Inequality
+
+If $X$ has finite variance, then for every $t>0$,
+
+$$
+P(|X-E[X]| \ge t) \le \frac{\operatorname{Var}(X)}{t^2}.
+$$
+
+This converts second-moment information into a deviation bound around the mean.
+:::
+
+::: {#thm-union}
+## Union Bound
+
+For events $A_1,\dots,A_m$,
+
+$$
+P\left(\bigcup_{i=1}^m A_i\right) \le \sum_{i=1}^m P(A_i).
+$$
+
+It is simple, loose, and indispensable.
+:::
+
+::: {#thm-hoeffding}
+## Hoeffding Bound for Bounded Averages
+
+Let $X_1,\dots,X_n$ be independent random variables with $0 \le X_i \le 1$, and let
+
+$$
+\bar{X}_n = \frac{1}{n}\sum_{i=1}^n X_i.
+$$
+
+Then for every $\varepsilon > 0$,
+
+$$
+P\big(|\bar{X}_n - E[\bar{X}_n]| \ge \varepsilon\big)
+\le 2\exp(-2n\varepsilon^2).
+$$
+
+This is a finite-sample, non-asymptotic concentration bound.
+:::
+
+## Worked Example
+
+Let $X_1,\dots,X_{400}$ be i.i.d. fair-coin indicators, so each $X_i \in \{0,1\}$ and
+
+$$
+E[X_i]=\frac12.
+$$
+
+Then
+
+$$
+\bar{X}_{400}
+$$
+
+is the observed fraction of heads.
+
+We want to bound
+
+$$
+P\left(\left|\bar{X}_{400} - \frac12\right| \ge 0.1\right).
+$$
+
+Using Hoeffding,
+
+$$
+P\left(\left|\bar{X}_{400} - \frac12\right| \ge 0.1\right)
+\le 2\exp(-2\cdot 400 \cdot 0.1^2)
+= 2e^{-8}
+\approx 0.00067.
+$$
+
+Now compare with Chebyshev.
+
+For a Bernoulli$(1/2)$ variable,
+
+$$
+\operatorname{Var}(X_i)=\frac14,
+$$
+
+so
+
+$$
+\operatorname{Var}(\bar{X}_{400}) = \frac{1}{4\cdot 400} = \frac{1}{1600}.
+$$
+
+Therefore
+
+$$
+P\left(\left|\bar{X}_{400} - \frac12\right| \ge 0.1\right)
+\le \frac{1/1600}{0.1^2}
+= \frac{1}{16}
+= 0.0625.
+$$
+
+Both are valid, but Hoeffding is dramatically sharper here because it uses stronger structural information: independence plus boundedness.
+
+This is the main lesson of concentration work:
+
+1. identify the deviation event
+2. match it with the strongest justified assumptions
+3. apply the inequality that actually uses that structure
+
+## Computation Lens
+
+A useful practical routine is:
+
+1. define the random quantity whose deviation you care about
+2. center it at its mean or target value
+3. list the assumptions you really have:
+   - nonnegative?
+   - finite variance?
+   - bounded?
+   - independent?
+4. choose the weakest inequality that still gives a useful bound
+
+This is how concentration enters proofs in learning theory, numerical linear algebra, and randomized algorithms.
 
 ## Application Lens
 
-Concentration is often the hidden engine behind claims like:
+Concentration powers claims like:
 
-- empirical averages are reliable
-- random projections preserve structure
-- generalization error is small with high probability
+- empirical risk is close to true risk
+- random features or sketches preserve structure with high probability
+- a randomized algorithm succeeds except on a tiny tail event
+- all coordinates in a large family behave well simultaneously after a union bound
 
-## Paper Bridge
+So when a paper says `with high probability`, there is almost always a concentration mechanism hiding underneath.
 
-Once a paper starts saying “with high probability,” you are usually looking at some concentration mechanism, even if it is buried behind a longer theorem.
+## Stop Here For First Pass
 
+If you can now explain:
+
+- why concentration is different from LLN and CLT
+- what assumptions Markov, Chebyshev, and Hoeffding need
+- why stronger assumptions can give much sharper deviation bounds
+- why the union bound is so common in research proofs
+
+then this page has done its main job.
+
+## Go Deeper
+
+This is a natural finish line for the first pass through foundation probability.
+
+The next places these ideas become central are statistics, learning theory, randomized algorithms, and later high-dimensional probability.
+
+## Optional Paper Bridge
+
+- [MIT RES.6-012 lecture notes](https://ocw.mit.edu/courses/res-6-012-introduction-to-probability-spring-2018/resources/lecture-notes/) - `Second pass` - official MIT notes with a direct lecture on inequalities, convergence, and the weak law. Checked `2026-04-24`.
+- [MIT 15.097 Prediction, Machine Learning, and Statistics lecture on statistical learning theory](https://ocw.mit.edu/courses/15-097-prediction-machine-learning-and-statistics-spring-2012/3f3332b76e8248226fb2285b91cfc6db_MIT15_097S12_lec14.pdf) - `Paper bridge` - an official MIT bridge showing how Hoeffding-style concentration enters learning-theory guarantees. Checked `2026-04-24`.
+
+## Optional After First Pass
+
+If you want more practice before moving on:
+
+- compare a Chebyshev bound and a Hoeffding bound for the same sample-average problem
+- use the union bound to control the chance that any one of ten bad events occurs
+- look for the phrase `with high probability` in a theorem and ask which inequality is doing the work
+
+## Common Mistakes
+
+- using Markov on a random variable that may be negative
+- reading Chebyshev as a sharp estimate rather than a general-purpose bound
+- forgetting that Hoeffding needs bounded independent variables
+- confusing asymptotic convergence with a concrete finite-sample tail guarantee
+- using the union bound backward as if it were an equality
+
+## Exercises
+
+1. Let $X \ge 0$ with $E[X]=5$. What does Markov inequality say about $P(X \ge 20)$?
+2. If $\operatorname{Var}(X)=9$, what does Chebyshev give for $P(|X-E[X]| \ge 6)$?
+3. Let $X_1,\dots,X_n$ be independent and take values in $[0,1]$. Write the Hoeffding bound for $P(|\bar{X}_n - E[\bar{X}_n]| \ge \varepsilon)$.
+
+## Sources and Further Reading
+
+- [Harvard Stat 110](https://stat110.hsites.harvard.edu/) - `First pass` - strong official course hub that connects inequalities to broad probability intuition. Checked `2026-04-24`.
+- [MIT RES.6-012 lecture notes](https://ocw.mit.edu/courses/res-6-012-introduction-to-probability-spring-2018/resources/lecture-notes/) - `First pass` - official MIT notes with direct coverage of inequalities, convergence, and weak laws. Checked `2026-04-24`.
+- [Penn State STAT 414](https://online.stat.psu.edu/stat414/) - `Second pass` - official probability notes that help connect concentration ideas back to the rest of the introductory sequence. Checked `2026-04-24`.
+- [MIT 15.097 statistical learning theory lecture](https://ocw.mit.edu/courses/15-097-prediction-machine-learning-and-statistics-spring-2012/3f3332b76e8248226fb2285b91cfc6db_MIT15_097S12_lec14.pdf) - `Paper bridge` - official MIT bridge from concentration to learning-theory statements. Checked `2026-04-24`.
+
+Sources checked online on `2026-04-24`:
+
+- Harvard Stat 110 course homepage
+- MIT RES.6-012 lecture notes page
+- Penn State STAT 414 overview
+- MIT 15.097 lecture on statistical learning theory

@@ -1,55 +1,345 @@
 ---
 title: "Expectation, Variance, Covariance"
+description: "How probability summarizes random quantities by center, spread, and linear dependence, and why those summaries drive estimation, concentration, regression, and Gaussian modeling."
+page-type: concept
+status: published
+update-status: current
+level: foundation
+topic: probability
+prerequisites:
+  - /topics/foundation/probability/concepts/random-variables-and-distributions.qmd
+learning-goals:
+  - "Define expectation, variance, and covariance precisely."
+  - "Use linearity of expectation and the variance identity in a concrete example."
+  - "Explain what covariance does and does not tell you."
+  - "Connect these summaries to later topics like CLT, concentration, PCA, and regression."
+applications:
+  - statistics
+  - machine-learning
+  - signal-processing
+keywords:
+  - expectation
+  - variance
+  - covariance
+  - linearity of expectation
+  - second moment
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: annual
+date-modified: last-modified
+draft: false
+next:
+  - /topics/foundation/probability/concepts/joint-conditional-and-bayes.qmd
+related-pages:
+  - /topics/foundation/probability/index.qmd
+  - /topics/foundation/probability/concepts/random-variables-and-distributions.qmd
+  - /topics/foundation/probability/concepts/joint-conditional-and-bayes.qmd
+  - /topics/foundation/probability/concepts/law-of-large-numbers-and-clt.qmd
+stable-sources:
+  - "Harvard Stat 110"
+  - "Penn State STAT 414"
+  - "MIT RES.6-012 Introduction to Probability"
+current-sources:
+  - "Penn State STAT 414 expectation and covariance lessons"
 ---
 
 ## Role
 
-This page explains the core summary statistics that almost every probabilistic argument uses.
+This page explains the three summary quantities that appear everywhere in probability.
 
-## Intuition
+Expectation tells you the center, variance tells you the spread, and covariance tells you how two random quantities move together.
 
-- `expectation` is the average or center of mass
-- `variance` measures spread around that center
-- `covariance` measures how two random variables move together
+## First-Pass Promise
 
-## Formal Core
+Read this page after `Random Variables and Distributions`.
 
-For a random variable $X$,
+If you stop here, you should still understand:
 
-$$
-\mathbb{E}[X]
-$$
-
-is its expectation, and
-
-$$
-\mathrm{Var}(X) = \mathbb{E}\big[(X-\mathbb{E}[X])^2\big]
-$$
-
-is its variance.
-
-For two random variables $X$ and $Y$,
-
-$$
-\mathrm{Cov}(X,Y)=\mathbb{E}\big[(X-\mathbb{E}[X])(Y-\mathbb{E}[Y])\big].
-$$
+- what expectation is averaging
+- why variance measures fluctuation around a center
+- what covariance means geometrically and statistically
+- why these quantities keep reappearing in later theory
 
 ## Why It Matters
 
-These quantities power:
+Once a random variable has a distribution, the next question is usually not “what are all its probabilities?” but rather:
 
-- risk calculations
-- estimation error analysis
-- concentration bounds
+- where is it centered?
+- how much does it fluctuate?
+- how is it related to another random variable?
+
+Those are expectation, variance, and covariance questions.
+
+They sit underneath:
+
+- estimator accuracy
+- standard error calculations
+- concentration inequalities
 - Gaussian models
-- covariance matrix methods
+- regression geometry
+- covariance matrices and PCA
+
+So this page is where probability starts becoming a toolbox instead of a vocabulary list.
+
+## Prerequisite Recall
+
+- a random variable is a function from outcomes to numbers
+- a distribution tells you how likely different values are
+- a PMF or PDF lets you average functions of a random variable
+
+## Intuition
+
+Expectation is the probabilistic analog of a center of mass.
+
+Variance asks how far the random variable typically sits from that center. It is a second-moment measure, so large deviations matter more than small ones.
+
+Covariance compares two centered random variables:
+
+$$
+X - E[X]
+\qquad \text{and} \qquad
+Y - E[Y].
+$$
+
+If they tend to be positive and negative together, covariance is positive. If one tends to be above its mean when the other is below, covariance is negative. If there is no systematic linear co-movement, covariance may be zero.
+
+The important caution is that zero covariance is weaker than independence.
+
+## Formal Core
+
+::: {#def-expectation}
+## Definition
+
+For a discrete random variable $X$ with PMF $p_X$,
+
+$$
+E[X] = \sum_x x\,p_X(x).
+$$
+
+For a continuous random variable with density $f_X$,
+
+$$
+E[X] = \int_{-\infty}^{\infty} x\,f_X(x)\,dx,
+$$
+
+provided the integral exists.
+:::
+
+::: {#def-variance}
+## Variance
+
+The variance of $X$ is
+
+$$
+\operatorname{Var}(X) = E\big[(X-E[X])^2\big].
+$$
+
+A useful identity is
+
+$$
+\operatorname{Var}(X)=E[X^2] - (E[X])^2.
+$$
+:::
+
+::: {#def-covariance}
+## Covariance
+
+For random variables $X$ and $Y$,
+
+$$
+\operatorname{Cov}(X,Y)
+= E\big[(X-E[X])(Y-E[Y])\big].
+$$
+
+An equivalent formula is
+
+$$
+\operatorname{Cov}(X,Y)=E[XY]-E[X]E[Y].
+$$
+:::
+
+::: {#prp-linearity}
+## Key Statements
+
+Expectation is linear:
+
+$$
+E[aX+bY+c] = aE[X] + bE[Y] + c.
+$$
+
+If $X$ and $Y$ are independent, then
+
+$$
+\operatorname{Cov}(X,Y)=0.
+$$
+
+The converse is false in general: zero covariance does not guarantee independence.
+:::
+
+## Worked Example
+
+Flip a fair coin twice.
+
+Let
+
+- $Y$ be the indicator that the first flip is heads
+- $X$ be the total number of heads in the two flips
+
+So the outcomes and values are:
+
+$$
+\begin{array}{c|cc}
+\text{outcome} & X & Y \\
+\hline
+HH & 2 & 1 \\
+HT & 1 & 1 \\
+TH & 1 & 0 \\
+TT & 0 & 0
+\end{array}
+$$
+
+First compute the expectations.
+
+For $X$,
+
+$$
+E[X] = 2\cdot \frac14 + 1\cdot \frac14 + 1\cdot \frac14 + 0\cdot \frac14 = 1.
+$$
+
+For $Y$,
+
+$$
+E[Y] = 1\cdot \frac12 + 0\cdot \frac12 = \frac12.
+$$
+
+Next compute the variance of $X$.
+
+We have
+
+$$
+E[X^2] = 4\cdot \frac14 + 1\cdot \frac14 + 1\cdot \frac14 = \frac32,
+$$
+
+so
+
+$$
+\operatorname{Var}(X)
+= E[X^2] - (E[X])^2
+= \frac32 - 1
+= \frac12.
+$$
+
+Now compute the covariance.
+
+Since
+
+$$
+XY =
+\begin{cases}
+2, & HH \\
+1, & HT \\
+0, & TH \\
+0, & TT,
+\end{cases}
+$$
+
+we get
+
+$$
+E[XY] = 2\cdot \frac14 + 1\cdot \frac14 = \frac34.
+$$
+
+Therefore
+
+$$
+\operatorname{Cov}(X,Y)
+= E[XY] - E[X]E[Y]
+= \frac34 - 1\cdot \frac12
+= \frac14.
+$$
+
+This is positive because knowing the first flip is heads pushes the total number of heads upward.
+
+The example shows the three roles clearly:
+
+1. expectation gives the center
+2. variance measures spread around that center
+3. covariance detects linear dependence between two random quantities
+
+## Computation Lens
+
+The fastest recurring moves are:
+
+- use linearity of expectation instead of expanding full distributions when possible
+- compute variance through $E[X^2] - (E[X])^2$
+- compute covariance through $E[XY]-E[X]E[Y]$
+
+These shortcuts matter because later problems often involve sums, averages, indicators, or matrix-valued random objects. The formulas above scale better than starting from scratch every time.
 
 ## Application Lens
 
-In data analysis and ML, covariance is often the hidden object underneath PCA, regression geometry, Gaussian modeling, and uncertainty quantification.
+This topic is a hidden backbone of modern applied math:
+
+- in statistics, standard errors come from variance
+- in regression, covariance structure controls estimation quality
+- in PCA, the covariance matrix stores the directions of variation
+- in learning theory and optimization, variance explains noise in stochastic gradients and empirical averages
+
+So these are not decorative summaries. They are the quantities that later theorems usually bound, estimate, or transform.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- what expectation averages over
+- why variance is about fluctuation around the mean
+- how covariance is different from full independence
+- how to compute all three in a small example
+
+then this page has done its main job.
+
+## Go Deeper
+
+The next page is [Joint, Conditional, and Bayes](joint-conditional-and-bayes.qmd), where covariance and dependence start being studied through full joint distributions and conditional laws.
+
+## Optional Paper Bridge
+
+- [Penn State STAT 414](https://online.stat.psu.edu/stat414/) - `Second pass` - official notes with a clean progression from expectation to covariance and correlation. Checked `2026-04-24`.
+- [Penn State STAT 414 Lesson 18](https://online.stat.psu.edu/stat414/Lesson18) - `Paper bridge` - a focused official lesson showing covariance formulas, interpretation, and common misconceptions. Checked `2026-04-24`.
+
+## Optional After First Pass
+
+If you want more practice before moving on:
+
+- compute the expectation of a sum using linearity only
+- build two dependent random variables with zero covariance
+- write down a small covariance table for a two-variable discrete model
 
 ## Common Mistakes
 
-- confusing variance with standard deviation
-- assuming zero covariance means full independence
-- forgetting what distribution expectation is taken over
+- confusing expectation with the most likely value
+- forgetting to square the centered quantity in the variance
+- thinking covariance is already a scale-free measure
+- assuming zero covariance implies independence
+- forgetting which distribution the expectation is taken over
+
+## Exercises
+
+1. Let $X$ be the result of a fair die roll. Compute $E[X]$ and $\operatorname{Var}(X)$.
+2. Suppose $Y$ is the indicator that a fair die roll is even. Compute $E[Y]$ and $\operatorname{Cov}(X,Y)$.
+3. Explain in words why independence implies zero covariance, but zero covariance need not imply independence.
+
+## Sources and Further Reading
+
+- [Harvard Stat 110](https://stat110.hsites.harvard.edu/) - `First pass` - strong official course hub with consistently good examples for expectation, covariance, and dependence. Checked `2026-04-24`.
+- [Penn State STAT 414](https://online.stat.psu.edu/stat414/) - `First pass` - official open notes that cover expectation and covariance with direct worked examples. Checked `2026-04-24`.
+- [Penn State STAT 414 Lesson 18](https://online.stat.psu.edu/stat414/Lesson18) - `Second pass` - direct official lesson on covariance and correlation. Checked `2026-04-24`.
+- [MIT RES.6-012 lecture notes](https://ocw.mit.edu/courses/res-6-012-introduction-to-probability-spring-2018/resources/lecture-notes/) - `Second pass` - official MIT notes with a theory-first treatment of moments, covariance, and derived distributions. Checked `2026-04-24`.
+
+Sources checked online on `2026-04-24`:
+
+- Harvard Stat 110 course homepage
+- Penn State STAT 414 overview
+- Penn State Lesson 18 on covariance
+- MIT RES.6-012 lecture notes page

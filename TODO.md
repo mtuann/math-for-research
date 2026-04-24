@@ -17,10 +17,10 @@ Use it to track:
 
 ## Current Snapshot
 
-- `61` `.qmd` pages currently exist
-- `11` concept-topic pages currently exist
-- strongest subject so far: `Linear Algebra`
-- partial supporting subjects: `Proofs`, `Probability`
+- `64` `.qmd` pages currently exist
+- `14` concept-topic pages currently exist
+- strongest subjects so far: `Linear Algebra`, `Probability`
+- partial supporting subjects: `Proofs`
 - non-topic sections already scaffolded: `Start Here`, `Roadmaps`, `Applications`, `Paper Lab`, `Research`, `Publication`, `Library`, `Notes`
 
 ## Site Sections
@@ -200,11 +200,11 @@ These are not required before the main spine is public, but they are the next hi
 ### Probability
 
 - [x] `Probability index`
-- [ ] `Sample spaces, events, conditioning`
+- [x] `Sample spaces, events, conditioning`
 - [x] `Random variables and distributions`
 - [x] `Expectation, variance, covariance`
-- [ ] `Joint, conditional, and Bayes`
-- [ ] `Law of large numbers and CLT`
+- [x] `Joint, conditional, and Bayes`
+- [x] `Law of large numbers and CLT`
 - [x] `Concentration and common inequalities`
 
 ### Statistics
@@ -316,12 +316,10 @@ Near-term highest-value content steps:
 
 1. [ ] `Commit the current uncommitted linear algebra spine pages`
 2. [ ] `Probability spine: sample spaces / conditioning`
-3. [ ] `Probability spine: joint, conditional, and Bayes`
-4. [ ] `Probability spine: law of large numbers and CLT`
-5. [ ] `Proofs spine: contrapositive and contradiction`
-6. [ ] `Proofs spine: induction`
-7. [ ] `Statistics index + first two concept pages`
-8. [ ] `Multivariable calculus index + first two concept pages`
+3. [ ] `Proofs spine: contrapositive and contradiction`
+4. [ ] `Proofs spine: induction`
+5. [ ] `Statistics index + first two concept pages`
+6. [ ] `Multivariable calculus index + first two concept pages`
 
 ## Work Outside Topic Content
 
