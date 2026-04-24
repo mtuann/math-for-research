@@ -1,0 +1,58 @@
+---
+title: "Orthogonality and Least Squares"
+---
+
+## Role
+
+This page is the bridge from geometric linear algebra to practical estimation and optimization.
+
+## Why It Matters
+
+Least squares is one of the cleanest places to see geometry, computation, and application meet.
+
+## Intuition
+
+When `Ax = b` has no exact solution, the next best thing is to find the vector `x` whose image `Ax` gets as close as possible to `b`.
+
+That “closest point” idea becomes a projection problem.
+
+## Formal Core
+
+The least-squares problem is
+
+$$
+\hat{x} = \arg\min_x \|Ax - b\|_2^2.
+$$ {#eq-least-squares}
+
+The optimality condition leads to the normal equations
+
+$$
+A^\top A \hat{x} = A^\top b.
+$$ {#eq-normal-equations}
+
+Equation @eq-normal-equations says the residual is orthogonal to the column space of `A`.
+
+::: {#prp-projection}
+## Projection Principle
+
+The least-squares approximation of `b` in the column space of `A` is the orthogonal projection of `b` onto that subspace.
+:::
+
+## Worked Example
+
+In linear regression, `A` is the design matrix, `x` is the parameter vector, and `b` is the observed target vector. Least squares chooses the parameter vector whose prediction error is smallest in Euclidean norm.
+
+## Application Lens
+
+This idea shows up in:
+
+- linear regression
+- overdetermined systems
+- signal approximation
+- PCA preprocessing
+- inverse problems
+
+## Paper Bridge
+
+Any paper that uses regression, matrix sketching, or linear inverse problems is probably leaning on this page somewhere, even if it never pauses to explain it.
+

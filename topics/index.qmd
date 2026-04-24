@@ -1,0 +1,22 @@
+---
+title: "Topics"
+---
+
+## How The Topic Tree Works
+
+Topics are organized by mathematical object and use, not by textbook.
+
+Every mature topic is meant to connect:
+
+- concept
+- proof pattern
+- exercises
+- applications
+- paper bridge
+- research direction
+
+## Main Branches
+
+- [Foundation](foundation/index.qmd)
+- [Advanced](advanced/index.qmd)
+

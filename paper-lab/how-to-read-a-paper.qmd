@@ -1,0 +1,26 @@
+---
+title: "How to Read a Paper"
+---
+
+## A Simple Reading Workflow
+
+Use this order:
+
+1. `skim for structure`
+2. `map the claims`
+3. `trace the dependencies`
+4. `decide what deserves deep proof reading`
+
+## What To Mark Up
+
+While reading, highlight:
+
+- the main theorem or result
+- the assumptions
+- the notation you do not recognize
+- the paper’s evidence for each major claim
+
+## What To Avoid
+
+Do not spend thirty minutes chasing a symbol before you know whether the paper is even worth a deep read.
+

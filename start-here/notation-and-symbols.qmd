@@ -1,0 +1,32 @@
+---
+title: "Notation and Symbols"
+---
+
+## Why This Page Exists
+
+Many people are blocked less by ideas than by notation density. This page gives a small common language the rest of the site can rely on.
+
+## Frequent Symbols
+
+- `\forall` means “for all”
+- `\exists` means “there exists”
+- `\in` means “is an element of”
+- `\subseteq` means “is a subset of”
+- `\mathbb{R}^n` means `n`-dimensional real space
+- `\|x\|` means a norm or size of `x`
+- `\langle x, y \rangle` means inner product
+- `\mathbb{E}[X]` means expectation
+- `\mathrm{Var}(X)` means variance
+- `A^\top` means transpose
+
+## Reading Advice
+
+When a formula feels dense:
+
+1. identify the objects
+2. identify the assumptions
+3. identify what is fixed and what is varying
+4. rewrite it in words once
+
+That one habit makes a huge difference later.
+

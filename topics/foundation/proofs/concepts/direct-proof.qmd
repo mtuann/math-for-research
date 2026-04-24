@@ -1,0 +1,48 @@
+---
+title: "Direct Proof"
+---
+
+## Role
+
+Direct proof is the baseline method: start from assumptions, use definitions and valid steps, and reach the conclusion.
+
+## Intuition
+
+A direct proof is the cleanest method when the structure of the claim already points forward.
+
+## Basic Template
+
+1. state the assumptions
+2. unpack the relevant definitions
+3. transform the expressions or objects in small justified steps
+4. end exactly at the desired conclusion
+
+## Worked Example
+
+::: {#prp-divisible-six}
+## Proposition
+
+If an integer `n` is divisible by `6`, then it is divisible by `3`.
+:::
+
+::: {.proof}
+If `n` is divisible by `6`, then `n = 6k` for some integer `k`. Since `6k = 3(2k)`, and `2k` is an integer, it follows that `n` is divisible by `3`.
+:::
+
+## Why This Works
+
+The proof succeeds because the definition of divisibility gives an algebraic representation, and that representation can be rearranged into the target form.
+
+## Application Lens
+
+Direct proof patterns show up everywhere:
+
+- proving closure properties
+- checking algorithm invariants
+- verifying matrix identities
+- establishing elementary bounds before a bigger theorem
+
+## Paper Bridge
+
+Even advanced proofs contain direct-proof fragments. When reading a hard paper, spotting those easier fragments can keep you oriented.
+

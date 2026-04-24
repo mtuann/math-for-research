@@ -1,0 +1,46 @@
+---
+title: "How to Write Proofs"
+---
+
+## A Proof Is An Organized Explanation
+
+A proof is not a ritual. It is an explanation that starts from assumptions, uses valid steps, and arrives at a clear conclusion.
+
+## A Reliable Structure
+
+Use this template:
+
+1. Restate the claim in your own words.
+2. Name the assumptions.
+3. State the proof method.
+4. Move in small justified steps.
+5. Mark the exact point where the claim is proved.
+
+## The Most Common Early Proof Methods
+
+- direct proof
+- proof by contrapositive
+- proof by contradiction
+- induction
+- counterexample construction
+
+## A Small Example
+
+::: {#prp-even-sum}
+## Proposition
+
+If `a` and `b` are even integers, then `a + b` is even.
+:::
+
+::: {.proof}
+If `a` and `b` are even, then there exist integers `m` and `n` such that `a = 2m` and `b = 2n`. Therefore
+
+$$
+a + b = 2m + 2n = 2(m+n).
+$$
+
+Since `m+n` is an integer, `a+b` is even.
+:::
+
+Notice the structure: assumptions, representation, algebra, conclusion.
+

@@ -1,0 +1,52 @@
+---
+title: "SVD and Low-Rank Approximation"
+---
+
+## Role
+
+The singular value decomposition is one of the most useful structural factorizations in applied math.
+
+## Intuition
+
+SVD says a matrix can be understood as:
+
+- a rotation or change of coordinates
+- a stretching along orthogonal directions
+- another rotation
+
+That turns an opaque matrix into geometry you can reason about.
+
+## Formal Core
+
+For a matrix `A \in \mathbb{R}^{m \times n}`, the SVD is
+
+$$
+A = U \Sigma V^\top,
+$$
+
+where `U` and `V` have orthonormal columns and `\Sigma` contains the singular values.
+
+::: {#thm-eckart-young}
+## Eckart-Young Intuition
+
+Keeping only the top singular directions gives the best low-rank approximation to `A` in spectral and Frobenius senses.
+:::
+
+## Why It Matters
+
+This is the mathematical core behind:
+
+- PCA
+- latent factor models
+- compression
+- denoising
+- low-rank methods in optimization and ML
+
+## Computation Lens
+
+SVD is not only a theorem. It is also a computational tool, and in large problems you immediately start caring about approximation quality, randomized algorithms, and numerical stability.
+
+## Paper Bridge
+
+Low-rank adaptation, matrix sketching, spectral clustering, and many representation-learning papers all rely on SVD thinking even when the paper language is more specialized.
+

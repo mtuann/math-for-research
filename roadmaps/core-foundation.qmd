@@ -1,0 +1,29 @@
+---
+title: "Core Foundation Roadmap"
+---
+
+## Main Sequence
+
+Use this as the clean default order:
+
+1. algebra repair
+2. proofs
+3. logic
+4. discrete math
+5. single-variable calculus
+6. linear algebra
+7. multivariable calculus
+8. ODEs
+9. probability
+10. statistics
+11. real analysis
+12. optimization
+13. numerical methods
+14. matrix analysis
+
+## Important Notes
+
+- Start `linear algebra` early.
+- Do `probability` before `statistics`.
+- Treat `real analysis` as the rigor upgrade, not as an optional side quest.
+

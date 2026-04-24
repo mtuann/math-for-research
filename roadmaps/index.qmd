@@ -1,0 +1,15 @@
+---
+title: "Roadmaps"
+---
+
+## Purpose
+
+The roadmaps help you move through the site in dependency-aware order instead of guessing what to study next.
+
+## Available Roadmaps
+
+- [Core Foundation](core-foundation.qmd)
+- [Theory Reading Track](theory-reading.qmd)
+
+Later, this section can expand into `AI / ML theory`, `engineering systems`, and topic-specific research tracks.
+

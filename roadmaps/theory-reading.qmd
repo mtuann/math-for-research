@@ -1,0 +1,24 @@
+---
+title: "Theory Reading Track"
+---
+
+## If Your Goal Is Heavy Theory Papers
+
+This is the shortest high-value route:
+
+1. proofs
+2. linear algebra
+3. multivariable calculus
+4. probability
+5. statistics
+6. real analysis
+7. optimization
+8. matrix analysis
+9. learning theory
+10. high-dimensional probability
+11. high-dimensional statistics
+
+## Overlay
+
+Run the `paper lab` in parallel. Do not wait until you feel fully ready before touching papers.
+

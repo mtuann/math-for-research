@@ -1,0 +1,18 @@
+---
+title: "Applications"
+---
+
+## Why This Section Exists
+
+Math becomes far easier to retain when you keep seeing where it actually appears.
+
+This section will eventually organize application bridges for:
+
+- machine learning
+- optimization and inference
+- scientific computing
+- signal and communication
+- control and dynamics
+
+The design rule is simple: every serious application page should point back to the exact math objects it uses.
+

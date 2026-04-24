@@ -1,0 +1,22 @@
+---
+title: "About"
+---
+
+## Mission
+
+This project is building a public math site for people who want a stronger research foundation in `CS`, `AI / ML`, and `engineering`.
+
+The long-term goal is not just to summarize content. It is to make mathematical ideas readable, useful, and connected to real research practice.
+
+## Design Principles
+
+- Organize by `topic and use`, not by textbook.
+- Keep `proofs, applications, and papers` connected.
+- Make every serious page readable as a standalone entry point.
+- Distinguish `stable core math` from `moving research frontier`.
+- Treat publication guidance as an advanced workflow layer, not the site's identity.
+
+## Current State
+
+This is the first scaffolded version of the site. The structure is in place, and the next step is to grow each module into a durable public resource.
+

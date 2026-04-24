@@ -1,0 +1,31 @@
+---
+title: "Start Here"
+---
+
+## What This Section Does
+
+This section helps you place yourself before you dive into the main topic tree.
+
+Use it to answer:
+
+- Where am I currently strong?
+- Which prerequisites are shaky?
+- How should I read this site?
+- How should I study proof-heavy pages?
+
+## Recommended Order
+
+1. [How to Use This Site](how-to-use-this-site.qmd)
+2. [Math Diagnostic](math-diagnostic.qmd)
+3. [Notation and Symbols](notation-and-symbols.qmd)
+4. [How to Write Proofs](how-to-write-proofs.qmd)
+5. [How to Read Theory Papers](how-to-read-theory-papers.qmd)
+
+## Rule Of Thumb
+
+If you are unsure where to begin, start with the diagnostic and then choose one of these tracks:
+
+- `proofs first` if theorem statements feel slippery
+- `linear algebra first` if modern ML math feels blurry
+- `probability first` if uncertainty and expectation arguments are the main blocker
+

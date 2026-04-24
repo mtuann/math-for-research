@@ -1,0 +1,63 @@
+---
+title: "Statements and Quantifiers"
+---
+
+## Role
+
+This page teaches the grammar of mathematical claims.
+
+## Why It Matters
+
+Many people think they do not understand proofs, when the real problem is that they are reading quantified statements too loosely.
+
+## Intuition
+
+A mathematical statement is not just a sentence. It also has scope:
+
+- who or what the claim talks about
+- whether the claim is universal or existential
+- what assumptions are active
+
+## Formal Core
+
+The two quantifiers you must read precisely are:
+
+- `\forall x \in S, P(x)` meaning “for every `x` in `S`, property `P(x)` holds”
+- `\exists x \in S such that P(x)` meaning “there exists at least one `x` in `S` with property `P(x)`”
+
+Negation rules matter:
+
+- `\neg(\forall x, P(x))` becomes `\exists x` such that `\neg P(x)`
+- `\neg(\exists x, P(x))` becomes `\forall x, \neg P(x)`
+
+## Worked Example
+
+Claim:
+
+> For every real number `x`, if `x > 1` then `x^2 > 1`.
+
+This is a universal statement with a conditional structure. To test your reading, ask:
+
+- what is the domain?
+- what is assumed?
+- what must be proved?
+
+## Application Lens
+
+In research papers, assumptions are often compressed into a line like:
+
+> Let `f` be `L`-smooth and `\mu`-strongly convex.
+
+That line is already doing heavy logical work. If you read it casually, the rest of the theorem becomes blurry.
+
+## Common Mistakes
+
+- treating “for all” like “for many”
+- forgetting the domain of the variable
+- negating universal claims incorrectly
+
+## Exercises
+
+1. Negate the statement: “For every matrix `A`, there exists a vector `x` such that `Ax = 0`.”
+2. Rewrite “No continuous function on `[0,1]` is unbounded” using quantifiers.
+

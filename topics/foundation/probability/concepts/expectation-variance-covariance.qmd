@@ -1,0 +1,56 @@
+---
+title: "Expectation, Variance, Covariance"
+---
+
+## Role
+
+This page explains the core summary statistics that almost every probabilistic argument uses.
+
+## Intuition
+
+- `expectation` is the average or center of mass
+- `variance` measures spread around that center
+- `covariance` measures how two random variables move together
+
+## Formal Core
+
+For a random variable `X`,
+
+$$
+\mathbb{E}[X]
+$$
+
+is its expectation, and
+
+$$
+\mathrm{Var}(X) = \mathbb{E}\big[(X-\mathbb{E}[X])^2\big]
+$$
+
+is its variance.
+
+For two random variables `X` and `Y`,
+
+$$
+\mathrm{Cov}(X,Y)=\mathbb{E}\big[(X-\mathbb{E}[X])(Y-\mathbb{E}[Y])\big].
+$$
+
+## Why It Matters
+
+These quantities power:
+
+- risk calculations
+- estimation error analysis
+- concentration bounds
+- Gaussian models
+- covariance matrix methods
+
+## Application Lens
+
+In data analysis and ML, covariance is often the hidden object underneath PCA, regression geometry, Gaussian modeling, and uncertainty quantification.
+
+## Common Mistakes
+
+- confusing variance with standard deviation
+- assuming zero covariance means full independence
+- forgetting what distribution expectation is taken over
+

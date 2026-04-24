@@ -1,0 +1,42 @@
+---
+title: "Random Variables and Distributions"
+---
+
+## Role
+
+This page introduces the central objects probability uses to describe uncertain outcomes.
+
+## Intuition
+
+A random variable is not randomness itself. It is a function that assigns a numerical value to each outcome in an underlying experiment.
+
+## Formal Core
+
+If the experiment outcome is `\omega`, then a random variable `X` maps `\omega` to a number `X(\omega)`.
+
+The distribution of `X` tells you how likely different values of `X` are.
+
+For discrete variables, this is often encoded by a probability mass function.
+For continuous variables, this is often encoded by a probability density function.
+
+## Worked Example
+
+If you flip a fair coin twice and let `X` be the number of heads, then `X` can take values `0`, `1`, and `2`.
+
+Its distribution is:
+
+- `P(X=0)=1/4`
+- `P(X=1)=1/2`
+- `P(X=2)=1/4`
+
+## Application Lens
+
+This distinction matters immediately in ML and statistics:
+
+- data points may be random
+- parameter estimates may be random
+- noise terms may be random
+- predictions may be modeled probabilistically
+
+If the object of randomness is unclear, the entire argument becomes unstable.
+

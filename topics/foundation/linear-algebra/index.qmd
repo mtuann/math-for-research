@@ -1,0 +1,43 @@
+---
+title: "Linear Algebra"
+---
+
+## Why This Module Matters
+
+Linear algebra is one of the most important modules on the whole site. Modern ML, optimization, signal processing, control, and statistics all keep returning to vectors, operators, geometry, and spectra.
+
+::: {.meta-strip}
+::: {.meta-box}
+**Prerequisites**
+Algebra and late single-variable calculus
+:::
+::: {.meta-box}
+**Unlocks**
+Multivariable calculus, optimization, numerics, matrix analysis
+:::
+::: {.meta-box}
+**Research Use**
+Least squares, SVD, covariance, kernels, spectral arguments
+:::
+:::
+
+## Starter Sequence
+
+1. [Vectors and Linear Combinations](concepts/vectors-and-linear-combinations.qmd)
+2. Matrices and linear maps
+3. Subspaces, basis, dimension
+4. [Orthogonality and Least Squares](concepts/orthogonality-and-least-squares.qmd)
+5. Eigenvalues and diagonalization
+6. [SVD and Low-Rank Approximation](concepts/svd-and-low-rank-approximation.qmd)
+
+## What You Want By The End
+
+- geometric intuition
+- symbolic fluency
+- operator viewpoint
+- ability to recognize where a paper is really using spectral structure
+
+## Application Door
+
+If you want a first application target, start with `least squares -> PCA -> low-rank approximation`. That chain alone will pay off again and again.
+

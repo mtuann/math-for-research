@@ -1,0 +1,114 @@
+---
+title: "Math for CS / AI / Engineering Research"
+subtitle: "A public knowledge system for foundations, theory-heavy papers, and research workflow"
+page-layout: full
+---
+
+::: {.hero-panel}
+# Build the math that lets you read hard papers calmly
+
+This site is designed for people who want more than scattered notes. The goal is to make each topic understandable on its own while still connecting it to proofs, algorithms, applications, and research directions.
+
+[Start Here](start-here/index.qmd){.btn .btn-primary .me-2}
+[See the Roadmaps](roadmaps/index.qmd){.btn .btn-outline-primary .me-2}
+[Open Paper Lab](paper-lab/index.qmd){.btn .btn-outline-secondary}
+
+<div>
+  <span class="site-chip">Foundations</span>
+  <span class="site-chip">Proofs</span>
+  <span class="site-chip">Applications</span>
+  <span class="site-chip">Paper Reading</span>
+  <span class="site-chip">Publication Workflow</span>
+</div>
+:::
+
+## What This Site Is Trying To Do
+
+This site is built around a simple promise: each topic should help you answer three questions.
+
+1. What is the math?
+2. Why does it matter?
+3. How is it used in papers, models, and research?
+
+The structure is intentionally topic-first. Books, courses, blogs, and school-specific syllabi are used as references inside pages, not as the organizing principle of the site.
+
+## Choose a Starting Path
+
+::: {.card-grid}
+::: {.feature-card}
+### Build foundations
+
+If your algebra, proof writing, calculus, or probability feels uneven, start with the guided foundation track and repair weak links early.
+:::
+
+::: {.feature-card}
+### Understand a topic
+
+If you already know roughly what you need, jump into a topic page and use the built-in flow: intuition, formal core, proof pattern, application, paper bridge.
+:::
+
+::: {.feature-card}
+### Read a hard paper
+
+If you are blocked by notation, theorem dependencies, or hidden assumptions, use the paper lab and research pages to backfill exactly what you need.
+:::
+:::
+
+## The Site Spine
+
+::: {.card-grid}
+::: {.feature-card}
+### Start Here
+
+Diagnostic pages, notation, proof writing, and how to read theory-heavy papers without getting lost.
+:::
+
+::: {.feature-card}
+### Topics
+
+Foundation and advanced modules that move from definitions to theorems to applications and research.
+:::
+
+::: {.feature-card}
+### Applications
+
+Machine learning, optimization, scientific computing, signal processing, control, and related bridges.
+:::
+
+::: {.feature-card}
+### Paper Lab
+
+Reading trails, theorem decoding, assumption tracing, and research-guided walkthroughs.
+:::
+
+::: {.feature-card}
+### Publication
+
+How strong papers align claims, theorems, experiments, and positioning without turning the site into prestige theater.
+:::
+
+::: {.feature-card}
+### Library
+
+Curated books, notes, and courses grouped by use case rather than dumped as an unstructured list.
+:::
+:::
+
+## First Pages Worth Opening
+
+- [How to Use This Site](start-here/how-to-use-this-site.qmd)
+- [Math Diagnostic](start-here/math-diagnostic.qmd)
+- [Core Foundation Roadmap](roadmaps/core-foundation.qmd)
+- [Proofs Module Overview](topics/foundation/proofs/index.qmd)
+- [Linear Algebra Module Overview](topics/foundation/linear-algebra/index.qmd)
+- [Probability Module Overview](topics/foundation/probability/index.qmd)
+- [Claim-Evidence Matrix](publication/claim-evidence-matrix.qmd)
+
+## Design Rule
+
+The site only works if each mature page respects the same loop:
+
+`Learn -> Prove -> Solve -> Apply -> Read`
+
+That is how the site stays useful for both deep study and urgent research reading.
+

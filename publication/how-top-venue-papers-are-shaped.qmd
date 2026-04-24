@@ -1,0 +1,43 @@
+---
+title: "How Top-Venue Papers Are Shaped"
+---
+
+## The Right Framing
+
+This page is not about prestige language. It is about understanding why strong papers feel coherent.
+
+## The Usual Structure
+
+A strong paper often has a visible alignment:
+
+1. a clear problem
+2. a contribution type the reader can name
+3. evidence matched to that contribution
+4. careful positioning against related work
+5. a story that stays consistent from abstract to conclusion
+
+## Contribution Types
+
+Papers can be strong for different reasons:
+
+- a theorem family
+- a better algorithm
+- a sharper experiment design
+- a systems contribution
+- a unifying viewpoint
+- a useful benchmark or dataset
+
+Problems start when a paper tries to sound like all of them at once.
+
+## What Reviewers Notice Fast
+
+- unclear claims
+- inflated novelty framing
+- disconnected theory and experiments
+- weak baseline choices
+- missing failure analysis
+
+## Best Use Of This Page
+
+Treat it as a pattern-recognition guide. Use it while reading strong papers and ask how each part of the story is being supported.
+

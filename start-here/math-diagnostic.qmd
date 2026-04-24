@@ -1,0 +1,63 @@
+---
+title: "Math Diagnostic"
+---
+
+## Use This As A Placement Check
+
+You do not need a perfect score. You need an honest sense of where friction appears.
+
+## Algebra
+
+You are probably fine to move on if you can do most of these comfortably:
+
+- manipulate equations and inequalities without sign mistakes
+- move between logarithmic and exponential forms
+- factor common expressions
+- interpret a function and its graph
+
+If not, start with `algebra repair`.
+
+## Proofs And Logic
+
+You are probably ready for proof-heavy pages if you can:
+
+- negate a quantified statement correctly
+- explain the difference between implication and equivalence
+- write a direct proof with clear assumptions and conclusion
+- produce a counterexample when a claim is false
+
+If not, start with `proofs` and `logic`.
+
+## Calculus And Linear Algebra
+
+You are probably ready for advanced ML math if you can:
+
+- explain a derivative as local linear change
+- compute a gradient of a multivariable function
+- reason about span, basis, rank, and orthogonality
+- explain why SVD matters beyond a formula
+
+If not, start with `single-variable calculus` plus `linear algebra`.
+
+## Probability And Statistics
+
+You are probably ready for learning theory and high-dimensional work if you can:
+
+- distinguish random variables from events
+- compute expectation and variance cleanly
+- explain conditional probability in words
+- describe bias-variance tradeoffs without hand-waving
+
+If not, start with `probability` before `statistics`.
+
+## Advanced Theory Readiness
+
+You are probably ready for `real analysis`, `optimization`, and `learning theory` if you can:
+
+- read a theorem and isolate assumptions
+- follow a convergence argument line by line
+- move between symbolic derivation and geometric meaning
+- explain why approximation and stability matter in computation
+
+If this still feels unstable, spend more time in foundations before chasing frontier topics.
+

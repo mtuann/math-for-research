@@ -1,0 +1,45 @@
+---
+title: "Proofs"
+---
+
+## Why This Module Matters
+
+Proof writing is the point where math stops being a pile of techniques and starts becoming a language.
+
+If you want to read theory-heavy papers well, this module is not optional.
+
+::: {.meta-strip}
+::: {.meta-box}
+**Prerequisites**
+Algebra fluency and patience
+:::
+::: {.meta-box}
+**Unlocks**
+Logic, discrete math, real analysis, learning theory
+:::
+::: {.meta-box}
+**Research Use**
+Theorem reading, assumption tracking, proof debugging
+:::
+:::
+
+## Module Sequence
+
+1. [Statements and Quantifiers](concepts/statements-and-quantifiers.qmd)
+2. [Direct Proof](concepts/direct-proof.qmd)
+3. Contrapositive and contradiction
+4. Induction
+5. Counterexamples and proof debugging
+
+## What You Should Be Able To Do After This Module
+
+- read a theorem statement carefully
+- identify hidden quantifiers
+- choose a reasonable proof strategy
+- explain why a proof step is valid
+- write short proofs without collapsing into symbol soup
+
+## Paper Bridge
+
+The first thing proofs teach you for research is how to read assumptions without skipping them. That single habit affects optimization, probability, learning theory, and statistics almost immediately.
+

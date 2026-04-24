@@ -1,0 +1,40 @@
+---
+title: "Probability"
+---
+
+## Why This Module Matters
+
+Probability is the main language of uncertainty, randomness, averages, and concentration. Without it, a large part of modern statistics, ML, control, and learning theory feels like memorized formulas.
+
+::: {.meta-strip}
+::: {.meta-box}
+**Prerequisites**
+Calculus, algebra, and proof comfort
+:::
+::: {.meta-box}
+**Unlocks**
+Statistics, learning theory, stochastic optimization
+:::
+::: {.meta-box}
+**Research Use**
+Generalization, uncertainty, random matrices, stochastic models
+:::
+:::
+
+## Starter Sequence
+
+1. [Random Variables and Distributions](concepts/random-variables-and-distributions.qmd)
+2. [Expectation, Variance, Covariance](concepts/expectation-variance-covariance.qmd)
+3. Conditional probability and Bayes
+4. Limit laws
+5. [Concentration and Common Inequalities](concepts/concentration-and-common-inequalities.qmd)
+
+## Big Picture
+
+You do not just want to compute probabilities. You want to think clearly about:
+
+- what is random
+- what is conditioned on
+- what is being averaged
+- how much fluctuation is left
+

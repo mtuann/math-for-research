@@ -1,0 +1,29 @@
+---
+title: "Theorem-to-Experiment Alignment"
+---
+
+## Core Idea
+
+If a paper includes both theory and experiments, the two parts should talk to each other.
+
+The worst pattern is:
+
+- theory section proves one thing
+- experiment section demonstrates something only loosely related
+- conclusion quietly merges both into a stronger story
+
+## What Alignment Looks Like
+
+If a theorem claims better dependence on noise, rank, dimension, smoothness, or sample size, the experiments should probe those exact variables where possible.
+
+## Good Questions To Ask
+
+- Which object in the theorem can be varied experimentally?
+- Which assumption can be stress-tested?
+- Which failure regime should appear if the theorem’s scope is exceeded?
+- Does the experiment support the theorem, or only the algorithm narrative?
+
+## Why This Matters
+
+This page is especially important for math-heavy ML and optimization work, where theory can easily become decorative unless it informs the empirical design.
+

@@ -1,0 +1,96 @@
+project:
+  type: website
+  output-dir: _site
+
+website:
+  title: "Math for CS / AI / Engineering Research"
+  site-url: "https://mtuann.github.io/math-for-research/"
+  repo-url: "https://github.com/mtuann/math-for-research"
+  repo-branch: main
+  page-navigation: true
+  back-to-top-navigation: true
+  search:
+    location: navbar
+    type: textbox
+  navbar:
+    left:
+      - href: start-here/index.qmd
+        text: Start Here
+      - href: roadmaps/index.qmd
+        text: Roadmaps
+      - href: topics/index.qmd
+        text: Topics
+      - href: applications/index.qmd
+        text: Applications
+      - href: paper-lab/index.qmd
+        text: Paper Lab
+      - href: research/index.qmd
+        text: Research
+      - href: publication/index.qmd
+        text: Publication
+      - href: library/index.qmd
+        text: Library
+      - href: notes/index.qmd
+        text: Notes
+    right:
+      - about.qmd
+  sidebar:
+    style: floating
+    search: true
+    collapse-level: 1
+    contents:
+      - section: "Start Here"
+        contents:
+          - start-here/index.qmd
+          - start-here/how-to-use-this-site.qmd
+          - start-here/math-diagnostic.qmd
+          - start-here/notation-and-symbols.qmd
+          - start-here/how-to-write-proofs.qmd
+          - start-here/how-to-read-theory-papers.qmd
+      - section: "Roadmaps"
+        contents:
+          - roadmaps/index.qmd
+          - roadmaps/core-foundation.qmd
+          - roadmaps/theory-reading.qmd
+      - section: "Topics"
+        contents:
+          - topics/index.qmd
+          - topics/foundation/index.qmd
+          - topics/foundation/proofs/index.qmd
+          - topics/foundation/proofs/concepts/statements-and-quantifiers.qmd
+          - topics/foundation/proofs/concepts/direct-proof.qmd
+          - topics/foundation/linear-algebra/index.qmd
+          - topics/foundation/linear-algebra/concepts/vectors-and-linear-combinations.qmd
+          - topics/foundation/linear-algebra/concepts/orthogonality-and-least-squares.qmd
+          - topics/foundation/linear-algebra/concepts/svd-and-low-rank-approximation.qmd
+          - topics/foundation/probability/index.qmd
+          - topics/foundation/probability/concepts/random-variables-and-distributions.qmd
+          - topics/foundation/probability/concepts/expectation-variance-covariance.qmd
+          - topics/foundation/probability/concepts/concentration-and-common-inequalities.qmd
+          - topics/advanced/index.qmd
+      - section: "Research Workflow"
+        contents:
+          - applications/index.qmd
+          - paper-lab/index.qmd
+          - paper-lab/how-to-read-a-paper.qmd
+          - research/index.qmd
+          - publication/index.qmd
+          - publication/claim-evidence-matrix.qmd
+          - publication/how-top-venue-papers-are-shaped.qmd
+          - publication/theorem-to-experiment-alignment.qmd
+          - library/index.qmd
+          - notes/index.qmd
+
+format:
+  html:
+    theme:
+      light: [journal, styles.scss]
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    html-math-method: mathjax
+    code-copy: true
+    code-overflow: wrap
+    smooth-scroll: true
+    anchor-sections: true
+    link-external-newwindow: true

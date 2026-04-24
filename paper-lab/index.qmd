@@ -1,0 +1,20 @@
+---
+title: "Paper Lab"
+---
+
+## What Paper Lab Does
+
+Paper Lab is where the site teaches research reading as a skill.
+
+A good paper guide should help you:
+
+- decode notation
+- identify assumptions
+- trace theorem dependencies
+- separate core claims from supporting details
+- connect proofs to experiments and applications
+
+## First Page
+
+- [How to Read a Paper](how-to-read-a-paper.qmd)
+

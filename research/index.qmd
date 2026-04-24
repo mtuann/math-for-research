@@ -1,0 +1,18 @@
+---
+title: "Research"
+---
+
+## The Research Layer
+
+Research pages are where stable math connects to moving frontier material.
+
+Each mature topic should eventually link to:
+
+- theorem families
+- application pages
+- paper labs
+- research directions
+- surveys and venue maps
+
+This section is the aggregator for those connections.
+

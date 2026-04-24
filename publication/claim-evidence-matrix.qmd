@@ -1,0 +1,32 @@
+---
+title: "Claim-Evidence Matrix"
+---
+
+## Why This Page Matters
+
+Many weak papers fail because their claims are not matched by the right evidence.
+
+The central question is simple:
+
+> For each claim, what evidence would make a careful reviewer trust it?
+
+## A Practical Matrix
+
+| Claim type | Evidence that usually matches it | Weak version reviewers distrust |
+|---|---|---|
+| Theoretical guarantee | precise theorem, assumptions, proof, interpretation | theorem with unclear scope or unexplained assumptions |
+| Empirical performance | strong baselines, ablations, repeated runs, error bars when relevant | one benchmark table with weak baselines |
+| Efficiency or scalability | runtime, memory, compute setting, scale regime, fair implementation details | vague “faster” language without setup clarity |
+| Robustness | stress tests, sensitivity analyses, failure cases, distribution shift checks | one lucky result under default settings |
+| Practical usefulness | real deployment context, meaningful task framing, realistic constraints | toy example used as a substitute for application |
+
+## Strong Habit
+
+Write claims in one column and required evidence in the next before you draft the paper. This forces alignment early and makes weak spots visible before review.
+
+## How This Connects To The Site
+
+- theorem-heavy pages should link here when discussing research use
+- application pages should link here when discussing experiments
+- paper labs should ask whether each major claim has matching support
+

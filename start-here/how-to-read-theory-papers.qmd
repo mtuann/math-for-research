@@ -1,0 +1,27 @@
+---
+title: "How to Read Theory Papers"
+---
+
+## Read In Passes
+
+Do not try to understand every line on first contact.
+
+Use a three-pass habit:
+
+1. `Pass one`: problem, claim, assumptions, contribution type
+2. `Pass two`: theorem map, notation, proof skeleton, experiments
+3. `Pass three`: technical details, hidden dependencies, critique
+
+## What To Extract Early
+
+Before diving into proofs, write down:
+
+- the main theorem
+- every assumption
+- where the math tools seem to come from
+- which experiments or examples are meant to support the story
+
+## The Best Sanity Check
+
+If you cannot explain the paper’s main claim in five plain sentences, you are still collecting symbols rather than understanding the paper.
+

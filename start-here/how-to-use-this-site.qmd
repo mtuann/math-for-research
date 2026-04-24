@@ -1,0 +1,43 @@
+---
+title: "How to Use This Site"
+---
+
+## The Core Workflow
+
+Every strong topic page on this site follows the same rhythm:
+
+`Learn -> Prove -> Solve -> Apply -> Read`
+
+That means you should not only read definitions. You should also ask:
+
+- Can I restate the idea in plain language?
+- Can I follow the proof pattern?
+- Can I solve a small problem with it?
+- Can I point to one real application?
+- Can I recognize it inside a paper?
+
+## How To Read A Topic Page
+
+Use this order:
+
+1. Read the `role` and `why it matters`.
+2. Read the `intuition` before the formal section.
+3. Slow down at the `formal core`.
+4. Work through the `worked example`.
+5. Skim the `paper bridge` only after the concept is stable.
+
+## How To Study Efficiently
+
+- Pick one primary source, not five.
+- Use repair sources only when a step truly blocks you.
+- Write tiny summaries after each page.
+- Re-derive short calculations by hand.
+- Keep a running list of theorem assumptions you keep forgetting.
+
+## What Not To Do
+
+- Do not confuse recognition with understanding.
+- Do not collect links faster than you process ideas.
+- Do not postpone proof writing forever.
+- Do not wait to be “fully ready” before reading papers.
+

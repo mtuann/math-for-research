@@ -1,0 +1,20 @@
+---
+title: "Publication"
+---
+
+## Why This Section Exists
+
+This section is not here to turn the site into a prestige machine.
+
+It exists because many learners eventually need to understand how strong papers are assembled:
+
+- how claims are framed
+- how theorems and experiments support each other
+- how positioning and evidence shape reviewer trust
+
+## First Publication Guides
+
+- [Claim-Evidence Matrix](claim-evidence-matrix.qmd)
+- [How Top-Venue Papers Are Shaped](how-top-venue-papers-are-shaped.qmd)
+- [Theorem-to-Experiment Alignment](theorem-to-experiment-alignment.qmd)
+

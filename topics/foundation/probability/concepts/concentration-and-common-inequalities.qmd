@@ -1,0 +1,39 @@
+---
+title: "Concentration and Common Inequalities"
+---
+
+## Role
+
+This page is the first bridge from elementary probability into modern theory.
+
+## Why It Matters
+
+Concentration tells you when a random quantity stays close to its mean or another central value. That idea powers learning theory, randomized algorithms, high-dimensional probability, and statistics.
+
+## Core Inequalities To Know
+
+- Markov inequality
+- Chebyshev inequality
+- Hoeffding-style bounds
+- union bound
+
+## Intuition
+
+Expectation tells you the center. Concentration asks how sharply the random object stays near that center.
+
+## Example
+
+If you average many bounded independent random variables, the result typically fluctuates less than a single observation. Concentration inequalities quantify that stability.
+
+## Application Lens
+
+Concentration is often the hidden engine behind claims like:
+
+- empirical averages are reliable
+- random projections preserve structure
+- generalization error is small with high probability
+
+## Paper Bridge
+
+Once a paper starts saying “with high probability,” you are usually looking at some concentration mechanism, even if it is buried behind a longer theorem.
+

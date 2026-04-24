@@ -1,0 +1,18 @@
+---
+title: "Advanced Topics"
+---
+
+## What Lives Here
+
+The advanced track is where the site moves into:
+
+- real analysis
+- optimization
+- numerical methods
+- matrix analysis
+- learning theory
+- high-dimensional probability
+- high-dimensional statistics
+
+This branch is planned in detail and will grow after the foundation spine is stable.
+
