@@ -1,0 +1,74 @@
+---
+title: "Paper Lab Title"
+description: "A guided reading page for one paper, survey, or theorem-heavy note."
+page-type: paper-lab
+status: draft
+update-status: monitor
+level: research
+topic: replace-me
+prerequisites:
+  - /paper-lab/how-to-read-a-paper.qmd
+learning-goals:
+  - "Identify the central claim and assumptions."
+  - "Map the paper to prerequisite math."
+  - "See how the field has moved since publication."
+applications:
+  - replace-me
+keywords:
+  - paper reading
+  - theory
+  - replace-me
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: quarterly
+date-modified: last-modified
+draft: true
+---
+
+<!--
+Before writing:
+1. Read the paper using at least a first and second pass
+2. Verify publication venue, year, and current relevance
+3. Check at least one newer survey, tutorial, or follow-up source
+4. Update freshness fields after checking sources
+-->
+
+## Why This Paper
+
+Explain why this is a good bridge paper for the site.
+
+## What To Know First
+
+- prerequisite topic 1
+- prerequisite topic 2
+
+## First Pass
+
+Summarize the paper's problem, claim, and big idea.
+
+## Second Pass
+
+List the real mathematical objects, assumptions, and proof tools.
+
+## Math Dependency Map
+
+Show which pages or topics the reader should know before reading deeply.
+
+## Key Claims and Evidence
+
+Match the paper's main claims to theorem, experiment, simulation, or construction.
+
+## What To Reproduce
+
+Name the most useful small reproduction target.
+
+## What Has Changed Since Publication
+
+Note follow-up directions, new assumptions, or newer competing viewpoints.
+
+## Sources and Further Reading
+
+- [Paper title](https://example.com) - `Paper bridge` - why this paper matters
+- [Survey or tutorial](https://example.com) - `Second pass` - what broader context it gives
+- [Follow-up or venue page](https://example.com) - `Paper bridge` - what changed later

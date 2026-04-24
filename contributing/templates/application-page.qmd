@@ -1,0 +1,72 @@
+---
+title: "Application Title"
+description: "A concrete use of one mathematical topic in CS, AI, or engineering."
+page-type: application
+status: draft
+update-status: major-refresh
+level: foundation
+topic: replace-me
+prerequisites:
+  - /topics/foundation/replace-me/index.qmd
+learning-goals:
+  - "Recognize where the math enters the problem."
+  - "Follow one complete application walkthrough."
+  - "See at least one failure mode or modeling limit."
+applications:
+  - replace-me
+keywords:
+  - application
+  - replace-me
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: semiannual
+date-modified: last-modified
+draft: true
+---
+
+<!--
+Before writing:
+1. Do a live source sweep: one primary source, one application-facing source, one paper bridge
+2. Pick one concrete mechanism, not a whole field
+3. Decide what exact equation, theorem, or object will anchor the walkthrough
+4. Update freshness fields after checking sources
+-->
+
+## Problem Setting
+
+State the concrete task and why this application matters.
+
+## Why This Math Appears
+
+Explain what role the mathematics is playing: modeling, estimation, optimization, approximation, control, or proof.
+
+## Math Objects In Use
+
+- object 1
+- object 2
+- object 3
+
+## Worked Walkthrough
+
+Carry one example from setup to interpretation.
+
+## Implementation or Computation Note
+
+Explain what changes when the math hits code, data, numerics, or constraints.
+
+## Failure Modes
+
+- failure mode 1
+- failure mode 2
+
+## Paper Bridge
+
+- `Reference`: what math to watch for
+- `Reference`: what assumptions or abstractions change
+
+## Sources and Further Reading
+
+- [Source title](https://example.com) - `First pass` - why it is included
+- [Source title](https://example.com) - `Second pass` - why it is included
+- [Source title](https://example.com) - `Paper bridge` - what it adds

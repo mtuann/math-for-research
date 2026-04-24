@@ -1,0 +1,101 @@
+---
+title: "Concept Title"
+description: "One-sentence summary of the concept."
+page-type: concept
+status: draft
+update-status: major-refresh
+level: foundation
+topic: replace-me
+prerequisites:
+  - /topics/foundation/replace-me/index.qmd
+learning-goals:
+  - "State the core definition precisely."
+  - "Work one complete example."
+  - "Connect the idea to one application or paper."
+applications:
+  - replace-me
+keywords:
+  - replace-me
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: annual
+date-modified: last-modified
+draft: true
+---
+
+<!--
+Before writing:
+1. Do a live source sweep: one primary, one second perspective, one paper/application bridge
+2. Confirm this page teaches one main concept only
+3. Decide the main example and one concrete application
+4. Update freshness fields after checking sources
+-->
+
+## Role
+
+State in `1 to 2` sentences what job this concept does inside the topic.
+
+## Why It Matters
+
+Explain where this concept appears in `CS / AI / engineering` and what it helps us compute, prove, or reason about.
+
+## Prerequisite Recall
+
+- fact or definition 1
+- fact or definition 2
+
+## Intuition
+
+Give the geometric, probabilistic, algorithmic, or structural picture first.
+
+## Formal Core
+
+State precise definitions, propositions, or theorems.
+
+::: {#def-placeholder}
+## Definition
+
+Write the main definition here.
+:::
+
+::: {#thm-placeholder}
+## Key Statement
+
+Write the most important theorem or property here, with assumptions.
+:::
+
+## Worked Example
+
+Carry one example from setup to interpretation. Do not stop at algebra.
+
+## Computation Lens
+
+Show how the concept appears in calculation, implementation, or symbolic manipulation.
+
+## Application Lens
+
+Explain one real use case. Name the exact object or step where this concept appears.
+
+## Paper Bridge
+
+- `Reference`: what to look for in the paper or note
+- `Reference`: what prior knowledge is assumed
+
+## Common Mistakes
+
+- mistake
+- mistake
+- mistake
+
+## Exercises
+
+1. short conceptual check
+2. routine computation or derivation
+3. transfer question or mini proof
+
+## Sources and Further Reading
+
+- [Source title](https://example.com) - `First pass` - why it is included
+- [Source title](https://example.com) - `Second pass` - why it is included
+- [Source title](https://example.com) - `Paper bridge` - what to look for in it

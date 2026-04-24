@@ -1,0 +1,96 @@
+---
+title: "Exercise Set Title"
+description: "Practice set for a single concept or tight module slice."
+page-type: exercise
+status: draft
+update-status: major-refresh
+level: foundation
+topic: replace-me
+prerequisites:
+  - /topics/foundation/replace-me/index.qmd
+learning-goals:
+  - "Check recall and computation."
+  - "Train proof or transfer skill."
+  - "Point the reader to the next page."
+applications:
+  - replace-me
+keywords:
+  - exercises
+  - replace-me
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: annual
+date-modified: last-modified
+draft: true
+---
+
+<!--
+Before writing:
+1. Decide the scope: one concept or one narrow cluster only
+2. Make sure the problems progress from recall to transfer
+3. Write solutions after checking difficulty balance
+4. Update freshness fields after checking sources
+-->
+
+## Scope and Goals
+
+State what this set is training: fluency, proof habits, computation, modeling, or transfer.
+
+## Prerequisites
+
+- prerequisite 1
+- prerequisite 2
+
+## Warm-Up Problems
+
+1. problem
+2. problem
+
+## Core Problems
+
+1. problem
+2. problem
+3. problem
+
+## Proof Problems
+
+1. problem
+2. problem
+
+## Computational or Applied Problems
+
+1. problem
+2. problem
+
+## Hints
+
+Keep hints separate from the problem statements.
+
+1. hint
+2. hint
+3. hint
+
+## Full Solutions
+
+### Solution 1
+
+Write the reasoning, not just the answer.
+
+### Solution 2
+
+Write the reasoning, not just the answer.
+
+## Common Errors
+
+- error 1
+- error 2
+
+## What To Do Next
+
+Tell the reader what page, concept, or application to open next.
+
+## Sources and Further Reading
+
+- [Source title](https://example.com) - `First pass` - why it is included
+- [Source title](https://example.com) - `Paper bridge` - why it is included

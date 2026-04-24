@@ -62,6 +62,13 @@ website:
           - topics/foundation/linear-algebra/index.qmd
           - topics/foundation/linear-algebra/concepts/vectors-and-linear-combinations.qmd
           - topics/foundation/linear-algebra/concepts/orthogonality-and-least-squares.qmd
+          - topics/foundation/linear-algebra/proofs/projection-theorem-and-normal-equations.qmd
+          - topics/foundation/linear-algebra/exercises/orthogonality-and-least-squares.qmd
+          - topics/foundation/linear-algebra/applications/linear-regression-through-projection.qmd
+          - topics/foundation/linear-algebra/labs/orthogonality-and-least-squares-geometry.qmd
+          - topics/foundation/linear-algebra/paper-lab/randomized-sketching-for-least-squares.qmd
+          - topics/foundation/linear-algebra/research/least-squares-sketching-and-overparameterized-regression.qmd
+          - topics/foundation/linear-algebra/sources/orthogonality-and-least-squares.qmd
           - topics/foundation/linear-algebra/concepts/svd-and-low-rank-approximation.qmd
           - topics/foundation/probability/index.qmd
           - topics/foundation/probability/concepts/random-variables-and-distributions.qmd

@@ -1,58 +1,291 @@
 ---
 title: "Orthogonality and Least Squares"
+description: "How orthogonality turns approximation into projection and makes linear regression, residual analysis, and numerical least squares fit together."
+page-type: concept
+status: published
+update-status: current
+level: foundation
+topic: linear-algebra
+prerequisites:
+  - /topics/foundation/linear-algebra/concepts/vectors-and-linear-combinations.qmd
+learning-goals:
+  - "Explain why least squares is a projection problem."
+  - "Derive and interpret the normal equations."
+  - "Connect orthogonality to regression, computation, and modern research directions."
+applications:
+  - regression
+  - signal-processing
+  - optimization
+keywords:
+  - orthogonality
+  - projection
+  - least squares
+  - regression
+  - normal equations
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: annual
+date-modified: last-modified
+draft: false
+next:
+  - /topics/foundation/linear-algebra/proofs/projection-theorem-and-normal-equations.qmd
+  - /topics/foundation/linear-algebra/applications/linear-regression-through-projection.qmd
+  - /topics/foundation/linear-algebra/labs/orthogonality-and-least-squares-geometry.qmd
+related-pages:
+  - /topics/foundation/linear-algebra/concepts/svd-and-low-rank-approximation.qmd
+  - /topics/foundation/probability/concepts/concentration-and-common-inequalities.qmd
+  - /topics/foundation/linear-algebra/sources/orthogonality-and-least-squares.qmd
+stable-sources:
+  - "MIT 18.06SC Linear Algebra resource index"
+  - "Stanford Math 51"
+  - "Hefferon, Linear Algebra"
+current-sources:
+  - "Raskutti and Mahoney (JMLR 2016)"
+  - "Shamir (JMLR 2023)"
 ---
 
 ## Role
 
-This page is the bridge from geometric linear algebra to practical estimation and optimization.
+This page is the bridge from geometric linear algebra to estimation, optimization, and numerical computation.
+
+Orthogonality tells you what it means to be the `best approximation inside a subspace`. Least squares turns that geometric idea into one of the most reused tools in statistics, machine learning, signal processing, and scientific computing.
 
 ## Why It Matters
 
-Least squares is one of the cleanest places to see geometry, computation, and application meet.
+This topic matters because it is one of the first places where the same mathematical object supports all of these at once:
+
+- a geometric statement: `best approximation = orthogonal projection`
+- a computational problem: solve an overdetermined system stably
+- a modeling problem: fit parameters to data
+- a research bridge: understand sketching, inverse problems, and overparameterized regression
+
+## Prerequisite Recall
+
+- the `column space` of a matrix `A` is the set of vectors of the form `Ax`
+- a vector `r` is orthogonal to a subspace `W` if it is orthogonal to every vector in `W`
+- projecting `b` onto a subspace means splitting it into
+  `b = p + r`, where `p` lies in the subspace and `r` is orthogonal to it
 
 ## Intuition
 
-When `Ax = b` has no exact solution, the next best thing is to find the vector `x` whose image `Ax` gets as close as possible to `b`.
+When `Ax = b` has no exact solution, the vectors you can actually produce are only the vectors in the column space of `A`.
 
-That “closest point” idea becomes a projection problem.
+So the right question is no longer:
+
+`Can I hit b exactly?`
+
+It becomes:
+
+`Which vector in the column space of A gets closest to b?`
+
+That closest vector is the orthogonal projection of `b` onto `\operatorname{col}(A)`.
+
+The residual
+
+$$
+r = b - A\hat{x}
+$$
+
+is not arbitrary noise. At the optimum it points exactly in the direction that the column space cannot explain. That is why the residual is orthogonal to every column of `A`.
 
 ## Formal Core
 
-The least-squares problem is
+::: {#def-least-squares}
+## Definition
+
+For a matrix `A \in \mathbb{R}^{m \times n}` and data vector `b \in \mathbb{R}^m`, the linear least-squares problem is
 
 $$
-\hat{x} = \arg\min_x \|Ax - b\|_2^2.
-$$ {#eq-least-squares}
+\hat{x} \in \arg\min_{x \in \mathbb{R}^n} \|Ax - b\|_2^2.
+$$
 
-The optimality condition leads to the normal equations
+The fitted vector is `A\hat{x}` and the residual is `r = b - A\hat{x}`.
+:::
+
+The key geometric fact is that `A\hat{x}` must be the orthogonal projection of `b` onto `\operatorname{col}(A)`.
+
+::: {#prp-projection-principle}
+## Projection Principle
+
+A vector `\hat{x}` solves the least-squares problem if and only if the residual `r = b - A\hat{x}` is orthogonal to the column space of `A`.
+
+Equivalently,
+
+$$
+A^\top (b - A\hat{x}) = 0.
+$$
+:::
+
+Rearranging gives the normal equations:
 
 $$
 A^\top A \hat{x} = A^\top b.
 $$ {#eq-normal-equations}
 
-Equation @eq-normal-equations says the residual is orthogonal to the column space of `A`.
+If the columns of `A` are linearly independent, then `A^\top A` is invertible and the least-squares solution is unique:
 
-::: {#prp-projection}
-## Projection Principle
+$$
+\hat{x} = (A^\top A)^{-1} A^\top b.
+$$
 
-The least-squares approximation of `b` in the column space of `A` is the orthogonal projection of `b` onto that subspace.
-:::
+This closed form is conceptually useful, but in practice it is usually better to solve least squares through `QR` or `SVD`, not by explicitly forming `(A^\top A)^{-1}`.
 
 ## Worked Example
 
-In linear regression, `A` is the design matrix, `x` is the parameter vector, and `b` is the observed target vector. Least squares chooses the parameter vector whose prediction error is smallest in Euclidean norm.
+Fit a line `y \approx \beta_0 + \beta_1 t` through the three points
+`(0,1)`, `(1,2)`, `(2,2)`.
+
+Write this as `A\beta \approx b`, with
+
+$$
+A =
+\begin{bmatrix}
+1 & 0 \\
+1 & 1 \\
+1 & 2
+\end{bmatrix},
+\qquad
+\beta =
+\begin{bmatrix}
+\beta_0 \\
+\beta_1
+\end{bmatrix},
+\qquad
+b =
+\begin{bmatrix}
+1 \\
+2 \\
+2
+\end{bmatrix}.
+$$
+
+Then
+
+$$
+A^\top A =
+\begin{bmatrix}
+3 & 3 \\
+3 & 5
+\end{bmatrix},
+\qquad
+A^\top b =
+\begin{bmatrix}
+5 \\
+6
+\end{bmatrix}.
+$$
+
+Solving @eq-normal-equations gives
+
+$$
+\hat{\beta} =
+\begin{bmatrix}
+7/6 \\
+1/2
+\end{bmatrix}.
+$$
+
+So the least-squares line is
+
+$$
+\hat{y}(t) = \frac{7}{6} + \frac{1}{2} t.
+$$
+
+The fitted values are
+
+$$
+A\hat{\beta} =
+\begin{bmatrix}
+7/6 \\
+5/3 \\
+13/6
+\end{bmatrix},
+\qquad
+r = b - A\hat{\beta} =
+\begin{bmatrix}
+-1/6 \\
+1/3 \\
+-1/6
+\end{bmatrix}.
+$$
+
+Now check the orthogonality conditions:
+
+$$
+\mathbf{1}^\top r = 0,
+\qquad
+\begin{bmatrix}
+0 & 1 & 2
+\end{bmatrix} r = 0.
+$$
+
+The residual is orthogonal to both columns of `A`, so it is orthogonal to the whole column space. That is exactly the projection principle at work.
+
+## Computation Lens
+
+The mathematics says `A^\top A \hat{x} = A^\top b`, but numerical linear algebra immediately asks a second question:
+
+`What is the stable way to solve it?`
+
+Three levels matter:
+
+- `normal equations`: conceptually clean, but can square the condition number
+- `QR factorization`: the standard stable method for many full-rank problems
+- `SVD`: more expensive, but the safest when rank deficiency or near-rank deficiency matters
+
+This is why least squares is not only a modeling tool. It is also a gateway to numerical thinking: conditioning, orthogonalization, and low-rank structure all show up here.
 
 ## Application Lens
 
-This idea shows up in:
+In linear regression, the design matrix `X` plays the role of `A`, the coefficient vector `\beta` plays the role of `x`, and the target vector `y` plays the role of `b`.
 
-- linear regression
-- overdetermined systems
-- signal approximation
-- PCA preprocessing
-- inverse problems
+The fitted prediction `X\hat{\beta}` is the orthogonal projection of `y` onto the column space of `X`.
+
+That one sentence explains several practical facts:
+
+- residuals are orthogonal to every feature column
+- with an intercept column, residuals sum to zero
+- near-collinearity can make coefficient recovery and normal-equation solves unstable
+- overparameterized models push attention toward minimum-norm or regularized solutions
+
+For a fuller application walkthrough, see [Linear Regression Through Projection](../applications/linear-regression-through-projection.qmd). For an interactive picture, see [Computation Lab: Projection Geometry and Regression Residuals](../labs/orthogonality-and-least-squares-geometry.qmd).
 
 ## Paper Bridge
 
-Any paper that uses regression, matrix sketching, or linear inverse problems is probably leaning on this page somewhere, even if it never pauses to explain it.
+- [A Statistical Perspective on Randomized Sketching for Ordinary Least-Squares](https://jmlr.org/papers/v17/15-440.html) - `Paper bridge` - watch how projection geometry survives after data are compressed by a sketching matrix.
+- [Iterative Hessian Sketch: Fast and Accurate Solution Approximation for Constrained Least-Squares](https://jmlr.org/beta/papers/v17/14-460.html) - `Paper bridge` - watch how least-squares structure is preserved while the algorithm changes.
+- [The Implicit Bias of Benign Overfitting](https://www.jmlr.org/papers/v24/22-0784.html) - `Paper bridge` - watch how least-squares and minimum-norm interpolation reappear in modern overparameterized theory.
 
+## Common Mistakes
+
+- thinking the normal equations are automatically the best numerical algorithm
+- forgetting that `A^\top A` is invertible only when the columns of `A` are linearly independent
+- confusing projection onto the `column space` with projection onto the `row space`
+- treating the residual as an arbitrary error vector instead of a vector forced into the orthogonal complement
+- using least squares as a default model choice even when the data are highly nonlinear, badly contaminated, or structurally constrained
+
+## Exercises
+
+1. Show that if the columns of `A` are orthonormal, then the least-squares solution is `\hat{x} = A^\top b`.
+2. In the worked example above, verify directly that the residual is orthogonal to every vector in `\operatorname{col}(A)`.
+3. Explain why an intercept term in linear regression forces the residuals to sum to zero.
+
+## Sources and Further Reading
+
+- [MIT 18.06SC Linear Algebra resource index](https://ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/pages/resource-index/) - `First pass` - clear official pathway for orthogonality, projections, and least squares, with problem sets and lecture summaries. Checked `2026-04-24`.
+- [Stanford Math 51](https://web.stanford.edu/class/math51/) - `First pass` - current course framing that ties least squares directly to applications and data-oriented linear algebra. Checked `2026-04-24`.
+- [Hefferon, Linear Algebra](https://hefferon.net/linearalgebra/) - `Second pass` - strong proof-and-exercise treatment that is still friendly to self-study. Checked `2026-04-24`.
+- [MIT 2.086 Unit 3: Matrices and Least Squares; Regression from Math, Numerics, and Programming](https://ocw.mit.edu/courses/2-086-numerical-computation-for-mechanical-engineers-fall-2012/resources/mit2_086f12_notes_unit3/) - `Second pass` - useful when you want the math and the computational interpretation together. Checked `2026-04-24`.
+- [A Statistical Perspective on Randomized Sketching for Ordinary Least-Squares](https://jmlr.org/papers/v17/15-440.html) - `Paper bridge` - a clean route from textbook least squares into modern large-scale regression theory. Checked `2026-04-24`.
+
+Sources checked online on `2026-04-24`:
+
+- MIT 18.06SC Linear Algebra resource index
+- MIT 18.06 Linear Algebra syllabus
+- Stanford Math 51
+- Hefferon, Linear Algebra
+- MIT 2.086 Unit 3 notes
+- JMLR 2016 randomized sketching paper
+- JMLR 2016 iterative Hessian sketch paper
+- JMLR 2023 benign overfitting paper

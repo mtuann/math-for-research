@@ -1,0 +1,100 @@
+---
+title: "Proof Title"
+description: "What claim is proved and why the proof matters."
+page-type: proof
+status: draft
+update-status: major-refresh
+level: foundation
+topic: replace-me
+prerequisites:
+  - /topics/foundation/replace-me/index.qmd
+learning-goals:
+  - "State the claim with assumptions."
+  - "Explain the proof strategy before the details."
+  - "Extract one reusable proof pattern."
+applications:
+  - replace-me
+keywords:
+  - proof
+  - replace-me
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: annual
+date-modified: last-modified
+draft: true
+---
+
+<!--
+Before writing:
+1. Verify theorem statement and assumptions from a primary source
+2. Decide whether this page teaches a full proof or a proof pattern
+3. Make sure all dependencies are already available somewhere on the site
+4. Update freshness fields after checking sources
+-->
+
+## Claim
+
+State the result exactly.
+
+::: {#thm-proof-page}
+## Theorem
+
+Write the theorem, proposition, or lemma with assumptions.
+:::
+
+## Why This Proof Matters
+
+Explain why this proof is worth learning and what later topics reuse it.
+
+## Dependencies
+
+- definition or theorem 1
+- definition or theorem 2
+
+## Strategy Before Details
+
+Name the method first: direct proof, contradiction, induction, exchange argument, averaging, compactness, convexity, spectral argument, and so on.
+
+## Full Proof
+
+::: {.proof}
+Write the proof here.
+:::
+
+## Step Annotations
+
+Break down the nontrivial steps.
+
+1. step and why it is valid
+2. step and why it is valid
+3. step and why it is valid
+
+## Why The Assumptions Matter
+
+Explain which assumptions are essential and what can fail without them.
+
+## Common Failure Modes
+
+- hidden assumption
+- invalid inference
+- notation mistake
+
+## Reusable Pattern
+
+Extract the general proof move the reader should carry forward.
+
+## Where This Shows Up Again
+
+Name later topics, algorithms, or papers where the same style appears.
+
+## Exercises
+
+1. identify the missing step
+2. adapt the proof to a nearby statement
+3. test what happens when an assumption is removed
+
+## Sources and Further Reading
+
+- [Source title](https://example.com) - `First pass` - why it is included
+- [Source title](https://example.com) - `Paper bridge` - why it is included

@@ -1,0 +1,70 @@
+---
+title: "Research Direction Title"
+description: "A research-facing overview of one active area and the math it depends on."
+page-type: research-direction
+status: draft
+update-status: monitor
+level: research
+topic: replace-me
+prerequisites:
+  - /topics/advanced/index.qmd
+learning-goals:
+  - "Understand the core problem families."
+  - "Recognize the main mathematical tools."
+  - "Know where to look for representative papers."
+applications:
+  - replace-me
+keywords:
+  - research direction
+  - replace-me
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: quarterly
+date-modified: last-modified
+draft: true
+---
+
+<!--
+Before writing:
+1. Do a live source sweep with one venue or research-group page, one survey or notes source, and one representative recent paper
+2. Avoid writing a bibliography dump; organize by problem families and math tools
+3. Update freshness fields after checking sources
+-->
+
+## Direction Summary
+
+State what the area studies and why it matters now.
+
+## Core Math
+
+- tool 1
+- tool 2
+- tool 3
+
+## Representative Problems
+
+Describe the main question types in the area.
+
+## Representative Venues
+
+List the conferences, journals, or communities where this work appears.
+
+## Starter Reading Trail
+
+Start with one survey or notes source, then one bridge paper, then one recent paper.
+
+## Open Questions
+
+- open question 1
+- open question 2
+
+## What To Learn Next
+
+Point to the next site pages or prerequisites a reader should study.
+
+## Sources and Further Reading
+
+- [Venue or research page](https://example.com) - `Second pass` - what ecosystem it shows
+- [Survey or notes](https://example.com) - `First pass` - why it is a good entry
+- [Recent paper](https://example.com) - `Paper bridge` - what active direction it shows

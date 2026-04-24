@@ -1,0 +1,103 @@
+---
+title: "Computation Lab Title"
+description: "A reproducible code, simulation, or visualization page for one mathematical idea."
+page-type: computation-lab
+status: draft
+update-status: major-refresh
+level: foundation
+topic: replace-me
+prerequisites:
+  - /topics/foundation/replace-me/index.qmd
+learning-goals:
+  - "Connect one mathematical object to a concrete computation or simulation."
+  - "Interpret a figure or parameter sweep correctly."
+  - "Recognize at least one numerical or modeling limitation."
+applications:
+  - replace-me
+keywords:
+  - computation
+  - simulation
+  - visualization
+  - replace-me
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: semiannual
+date-modified: last-modified
+draft: true
+execution-engine: python
+interactive: none
+reproducibility-note: "Document seeds, key parameters, and whether the output is pre-rendered or interactive."
+---
+
+<!--
+Before writing:
+1. Decide the exact math question the lab will illustrate
+2. Choose whether the lab is pre-rendered, interactive, or both
+3. Keep the code readable and split long helper logic away from the main explanation
+4. Document randomness, parameter defaults, and numerical assumptions
+5. Update freshness fields after checking sources and runtime choices
+-->
+
+## Lab Goal
+
+State the single main thing this lab helps the reader see or test.
+
+## Math Question
+
+State the definition, theorem, phenomenon, or failure mode the lab is about.
+
+## Model or Setup
+
+Describe the mathematical model, data-generating process, matrix, distribution, system, or optimization problem.
+
+## Parameters and Controls
+
+- parameter 1
+- parameter 2
+- control 1
+
+State default values and what changing them means.
+
+## Code and Simulation
+
+Place the code, simulation, or visualization here.
+
+Prefer short, readable blocks in the page body. Hide long helper code or move it to reusable files.
+
+## What To Observe
+
+- observation 1
+- observation 2
+- observation 3
+
+Tell the reader what changes matter and what would be misleading to infer.
+
+## Interpretation
+
+Connect the observed behavior back to the formal math.
+
+## Failure Modes and Numerical Cautions
+
+- numerical instability
+- finite-sample artifact
+- discretization effect
+- plotting artifact
+
+## Reproducibility Notes
+
+- execution engine
+- seed
+- package or library notes
+- static or interactive render mode
+
+## Extensions
+
+- extension 1
+- extension 2
+
+## Sources and Further Reading
+
+- [Primary source](https://example.com) - `First pass` - why it anchors the math
+- [Computation or notes source](https://example.com) - `Second pass` - what implementation or interpretation it improves
+- [Paper or survey](https://example.com) - `Paper bridge` - what research-facing behavior it connects to

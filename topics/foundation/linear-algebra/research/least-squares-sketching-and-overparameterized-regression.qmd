@@ -1,0 +1,186 @@
+---
+title: "Research Direction: Least Squares, Sketching, and Overparameterized Regression"
+description: "A research-facing overview of how least-squares geometry reappears in randomized linear algebra, large-scale regression, and overparameterized theory."
+page-type: research-direction
+status: published
+update-status: monitor
+level: research
+topic: linear-algebra
+prerequisites:
+  - /topics/foundation/linear-algebra/concepts/orthogonality-and-least-squares.qmd
+  - /topics/foundation/linear-algebra/concepts/svd-and-low-rank-approximation.qmd
+  - /topics/foundation/probability/concepts/concentration-and-common-inequalities.qmd
+learning-goals:
+  - "See how one foundational topic branches into multiple active research threads."
+  - "Separate stable least-squares geometry from moving frontier questions."
+  - "Find a justified reading path into the area."
+applications:
+  - numerical-linear-algebra
+  - machine-learning-theory
+  - distributed-systems
+keywords:
+  - research direction
+  - least squares
+  - sketching
+  - overparameterization
+  - regression
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: quarterly
+date-modified: last-modified
+draft: false
+stable-sources:
+  - "Orthogonality and Least Squares"
+  - "Randomized numerical linear algebra survey"
+current-sources:
+  - "Shamir (JMLR 2023)"
+  - "Zou et al. (JMLR 2023)"
+  - "NeurIPS 2024 distributed least squares"
+---
+
+## Direction In One Paragraph
+
+Least squares is no longer only a textbook topic about fitting a line.
+
+It is now a meeting point for several active research areas:
+
+- `randomized numerical linear algebra`, where sketches reduce the cost of solving large problems
+- `overparameterized learning theory`, where minimum-norm interpolation changes the role of least squares
+- `distributed and memory-limited optimization`, where communication and storage constraints affect which approximation is acceptable
+
+The stable backbone is still projection geometry. The frontier lies in understanding how that geometry interacts with randomness, scale, and implicit regularization.
+
+## Why It Matters
+
+Many modern systems still solve problems that are, in essence, least-squares problems:
+
+- linear prediction and calibration
+- inverse problems and signal recovery
+- local quadratic approximations inside larger nonlinear algorithms
+- sketched or compressed subproblems inside large-scale pipelines
+
+The research pressure comes from new constraints:
+
+- the matrix may be too large to solve exactly
+- the data may be distributed across machines
+- the model may be underdetermined or overparameterized
+- the right quality metric may be prediction error, not only optimization error
+
+## Stable Math Backbone
+
+- orthogonal projection
+- residual orthogonality and normal equations
+- `QR`, `SVD`, and conditioning
+- concentration and subspace embeddings
+- minimum-norm solutions and pseudoinverses
+
+## Problem Families
+
+### 1. Sketched Least Squares
+
+Can we compress the data first and still preserve the part of the least-squares geometry we care about?
+
+### 2. Constrained and Iterative Least Squares
+
+When constraints or repeated solves appear, which sketching or preconditioning scheme keeps solution quality under control?
+
+### 3. Overparameterized Regression
+
+When there are many exact interpolants, why do minimum-norm or SGD-type solutions sometimes generalize well and sometimes fail?
+
+### 4. Distributed and Small-Space Regression
+
+How much communication, memory, or bias correction is needed to keep regression accurate at system scale?
+
+## Current Frontier Map
+
+Right now the most active frontier clusters look like this:
+
+- `sketching with statistical guarantees`: not just faster solves, but guarantees that respect inference or prediction criteria
+- `overparameterized linear regression`: minimum-norm solutions, benign overfitting, and implicit bias
+- `distributed and memory-limited least squares`: bias correction and communication-efficient algorithms
+- `robust, private, or structured regression`: least squares under contamination, privacy, or structural constraints
+
+## Representative Reading Trail
+
+Start with the sketching-centered core:
+
+- [Randomized Numerical Linear Algebra: Foundations and Algorithms](https://www.cambridge.org/core/journals/acta-numerica/article/randomized-numerical-linear-algebra-foundations-and-algorithms/4486926746CFF4547F42A2996C7DC09C) - `Second pass` - survey-level map of the field, especially useful once the linear algebra basics are stable.
+- [A Statistical Perspective on Randomized Sketching for Ordinary Least-Squares](https://jmlr.org/papers/v17/15-440.html) - `Paper bridge` - clean entry point for sketching and the split between optimization and statistical criteria.
+
+Then branch in one of two directions.
+
+### Branch A: Overparameterized regression
+
+- [The Implicit Bias of Benign Overfitting](https://www.jmlr.org/papers/v24/22-0784.html) - `Paper bridge` - good bridge from classical least squares to high-dimensional interpolation.
+- [Benign Overfitting of Constant-Stepsize SGD for Linear Regression](https://jmlr.org/beta/papers/v24/21-1297.html) - `Paper bridge` - connects regression geometry to optimization dynamics.
+
+### Branch B: Distributed and systems-constrained least squares
+
+- [Distributed Least Squares in Small Space via Sketching and Bias Reduction](https://proceedings.neurips.cc/paper_files/paper/2024/hash/86c283920335ed1fec3edee227e05fbf-Abstract-Conference.html) - `Paper bridge` - current systems-aware direction where sketching meets communication constraints.
+
+## How The Math Shows Up
+
+The same mathematical themes keep recurring across these papers:
+
+- `projection geometry`: the exact or approximate solution is still organized around a subspace approximation problem
+- `spectral structure`: singular values and covariance spectra control stability and generalization
+- `subspace preservation`: sketching methods work only when the compressed problem keeps the relevant geometry
+- `minimum-norm bias`: in overparameterized settings, the choice among infinitely many interpolants is itself a mathematical object
+
+## Evaluation Norms
+
+Evidence in this direction usually comes from a mix of:
+
+- theorem-level approximation guarantees
+- excess-risk or prediction bounds
+- runtime or memory tradeoff analysis
+- numerical experiments that compare exact, sketched, and distributed solutions
+
+Readers should be careful not to treat these as interchangeable. A method can look strong under one criterion and weak under another.
+
+## Open Questions
+
+- Which sketch guarantees are strong enough for inference, not only optimization?
+- When does minimum-norm interpolation in linear regression achieve low excess risk despite exact interpolation?
+- How should we compare exact, sketched, and distributed least-squares solutions when memory and communication are part of the objective?
+- Which spectral properties of the design matrix best predict success in overparameterized regression?
+
+## Entry Projects
+
+- `Beginner`: reproduce a synthetic least-squares experiment comparing exact and sketched residual error as sketch size changes
+- `Intermediate`: compare minimum-norm interpolation, ridge regression, and SGD on a controlled overparameterized linear regression problem
+- `Theory-heavy`: trace one proof that converts a subspace-embedding guarantee into a least-squares approximation guarantee
+
+## Watchpoints
+
+- do not collapse optimization guarantees into prediction guarantees
+- do not read benign overfitting papers as saying interpolation is automatically good
+- do not assume a sketching result remains valid after changing the objective, constraints, or statistical model
+- do not confuse numerical stability with statistical robustness
+
+## What To Learn Next
+
+- [Computation Lab: Projection Geometry and Regression Residuals](../labs/orthogonality-and-least-squares-geometry.qmd)
+- [Paper Lab: Randomized Sketching for Least Squares](../paper-lab/randomized-sketching-for-least-squares.qmd)
+- [SVD and Low-Rank Approximation](../concepts/svd-and-low-rank-approximation.qmd)
+- [Concentration and Common Inequalities](../../probability/concepts/concentration-and-common-inequalities.qmd)
+
+## Representative Venues
+
+- `JMLR`
+- `NeurIPS`
+- `ICML`
+- `COLT`
+- `SIAM Journal on Matrix Analysis and Applications`
+- `SIAM Journal on Scientific Computing`
+- `Acta Numerica`
+
+## Sources and Further Reading
+
+- [Randomized Numerical Linear Algebra: Foundations and Algorithms](https://www.cambridge.org/core/journals/acta-numerica/article/randomized-numerical-linear-algebra-foundations-and-algorithms/4486926746CFF4547F42A2996C7DC09C) - `Second pass` - broad survey-level picture of the area. Checked `2026-04-24`.
+- [A Statistical Perspective on Randomized Sketching for Ordinary Least-Squares](https://jmlr.org/papers/v17/15-440.html) - `Paper bridge` - the cleanest bridge from foundational least squares into sketching theory. Checked `2026-04-24`.
+- [The Implicit Bias of Benign Overfitting](https://www.jmlr.org/papers/v24/22-0784.html) - `Paper bridge` - current theory-facing view of least squares in the overparameterized regime. Checked `2026-04-24`.
+- [Benign Overfitting of Constant-Stepsize SGD for Linear Regression](https://jmlr.org/beta/papers/v24/21-1297.html) - `Paper bridge` - useful when you want the optimization and statistical views together. Checked `2026-04-24`.
+- [Distributed Least Squares in Small Space via Sketching and Bias Reduction](https://proceedings.neurips.cc/paper_files/paper/2024/hash/86c283920335ed1fec3edee227e05fbf-Abstract-Conference.html) - `Paper bridge` - current official conference example of systems-constrained least squares. Checked `2026-04-24`.

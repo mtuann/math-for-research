@@ -1,0 +1,214 @@
+---
+title: "Paper Lab: Randomized Sketching for Least Squares"
+description: "A guided reading page for a modern least-squares paper that connects projection geometry to large-scale computation."
+page-type: paper-lab
+status: published
+update-status: monitor
+level: research
+topic: linear-algebra
+prerequisites:
+  - /paper-lab/how-to-read-a-paper.qmd
+  - /topics/foundation/linear-algebra/concepts/orthogonality-and-least-squares.qmd
+  - /topics/foundation/probability/concepts/concentration-and-common-inequalities.qmd
+learning-goals:
+  - "Identify the least-squares geometry inside a sketching paper."
+  - "Distinguish residual error guarantees from prediction or solution guarantees."
+  - "Use one paper as a bridge from linear algebra to current large-scale regression research."
+applications:
+  - numerical-linear-algebra
+  - machine-learning
+keywords:
+  - paper reading
+  - least squares
+  - sketching
+  - randomized numerical linear algebra
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: quarterly
+date-modified: last-modified
+draft: false
+stable-sources:
+  - "Orthogonality and Least Squares concept page"
+current-sources:
+  - "Raskutti and Mahoney (JMLR 2016)"
+  - "NeurIPS 2024 distributed least squares"
+---
+
+## Why This Paper
+
+Use this paper lab when you want your first serious example of a research paper that still keeps one foot in familiar linear algebra.
+
+The anchor paper is:
+
+- [A Statistical Perspective on Randomized Sketching for Ordinary Least-Squares](https://jmlr.org/papers/v17/15-440.html)
+
+It is a strong bridge paper because it asks a modern question without abandoning the core object:
+
+`What happens to least-squares geometry when we compress the problem before solving it?`
+
+## Paper At A Glance
+
+- `Type`: theory-meets-algorithms paper with statistical framing
+- `Setting`: large-scale ordinary least squares with randomized sketching
+- `Main claim`: algorithmic guarantees and statistical guarantees for sketched least squares are not interchangeable
+- `Why it matters`: it turns a familiar objective into a modern question about scale, approximation, and what counts as success
+
+## Reading Plan
+
+Use the three-pass pattern.
+
+### First pass
+
+Read the paper as a story about two competing goals:
+
+1. make least squares faster by replacing `(X, Y)` with `(SX, SY)`
+2. keep the resulting estimator close enough to the original or statistically meaningful target
+
+The paper’s main contribution is not only a set of bounds. It is a separation of viewpoints:
+
+- `algorithmic / worst-case`: how well does the sketch preserve the optimization problem?
+- `statistical`: how well does the sketched estimator predict under a linear model with noise?
+
+That distinction is easy to miss if you read the paper only as “random projection makes regression faster.”
+
+### Second pass
+
+The main mathematical objects to track are:
+
+- the design matrix `X`
+- the response vector `Y`
+- the sketching matrix `S`
+- the sketched problem `(SX, SY)`
+- residual efficiency versus prediction efficiency
+
+The page [Orthogonality and Least Squares](../concepts/orthogonality-and-least-squares.qmd) tells you what the exact least-squares solution is doing geometrically.
+
+This paper asks how much of that geometry survives when `X` and `Y` are compressed first.
+
+Two reading habits help:
+
+- whenever you see a guarantee, ask whether it is about the objective value, the coefficient vector, or prediction
+- whenever you see a random sketch, ask which subspace or norm it is trying to preserve
+
+### Third pass
+
+On a third pass, focus on proof architecture:
+
+- where the sketch needs to preserve subspace geometry
+- where the paper changes the success criterion from residual quality to prediction quality
+- where experiments are supporting a conceptual separation rather than merely reporting speedups
+
+## Prerequisite Math Map
+
+- orthogonality and projection in least squares
+- normal equations and why they characterize the optimum
+- basic random matrix or concentration language
+- the difference between algorithmic error and statistical prediction error
+
+Read this paper after you are comfortable with:
+
+- [Orthogonality and Least Squares](../concepts/orthogonality-and-least-squares.qmd)
+- [Projection Theorem and Normal Equations](../proofs/projection-theorem-and-normal-equations.qmd)
+- [SVD and Low-Rank Approximation](../concepts/svd-and-low-rank-approximation.qmd)
+- [Concentration and Common Inequalities](../../probability/concepts/concentration-and-common-inequalities.qmd)
+
+## Notation Table
+
+- `X`: design matrix
+- `Y`: response vector
+- `S`: sketching matrix
+- `(SX, SY)`: compressed least-squares instance
+- `RE`: residual efficiency
+- `PE`: prediction efficiency
+
+## Assumption Audit
+
+The paper materially depends on these assumptions:
+
+- the regression problem is linear least squares
+- the sketch is chosen from a family with geometric preservation properties
+- statistical guarantees are evaluated under an explicit noisy linear model
+- the comparison criterion must be fixed before theorems are interpreted
+
+If you blur the last point, the paper becomes easy to misread.
+
+## Main Results Unpacked
+
+The main conceptual result is not “sketching works” in a generic sense.
+
+It is:
+
+`different notions of success lead to different sample-size requirements and different interpretations of the same sketch`.
+
+Unpack the paper this way:
+
+1. `Objective-level view`
+   Theorems here ask whether the sketched problem preserves the least-squares objective or residual quality well enough.
+
+2. `Prediction-level view`
+   Theorems here ask whether the sketched estimator predicts as well under a statistical model with noise.
+
+3. `Key takeaway`
+   Residual preservation can look strong before prediction preservation does. That gap is the heart of the paper.
+
+## Evidence Audit
+
+The paper’s evidence comes in two forms.
+
+First, theorem-level comparisons explain when sketched least squares preserves residual behavior well and when it does not preserve prediction quality as strongly.
+
+Second, experiments compare sketching schemes and sample sizes. Those experiments matter because they make the split between optimization approximation and statistical prediction visible.
+
+## What To Reproduce
+
+A good reproduction target is:
+
+1. generate a synthetic Gaussian design matrix `X`
+2. generate responses from a noisy linear model
+3. compare exact least squares with sketched least squares for increasing sketch size
+4. plot both residual error and prediction error
+
+If your plots show the two error criteria behaving differently, then you are reproducing the paper’s conceptual heart rather than just one figure.
+
+## Context And Lineage
+
+This paper sits between two traditions:
+
+- classical numerical linear algebra, which cares about preserving the least-squares solve efficiently
+- modern statistical learning theory, which cares about prediction and generalization under noise
+
+That is why it is such a useful bridge paper for this site.
+
+## Transfer And Limits
+
+What transfers:
+
+- the projection view of least squares
+- the importance of preserving subspace geometry
+- the need to declare the right success metric before reading a theorem
+
+What does not transfer automatically:
+
+- guarantees for constrained least squares
+- guarantees for overparameterized interpolation
+- conclusions about robustness, privacy, or nonlinear regression
+
+## What Has Changed Since Publication
+
+Direct sketching follow-ups include:
+
+- constrained or iterative sketching, such as [Iterative Hessian Sketch](https://jmlr.org/beta/papers/v17/14-460.html)
+- newer distributed and memory-constrained sketching regimes, such as [Distributed Least Squares in Small Space via Sketching and Bias Reduction](https://proceedings.neurips.cc/paper_files/paper/2024/hash/86c283920335ed1fec3edee227e05fbf-Abstract-Conference.html)
+
+Neighboring least-squares directions include:
+
+- overparameterized regression and minimum-norm interpolation, such as [The Implicit Bias of Benign Overfitting](https://www.jmlr.org/papers/v24/22-0784.html)
+
+So the paper still works as a bridge, but it should be read as a sketching paper first and a gateway to adjacent least-squares theory second.
+
+## Resource Kit
+
+- [A Statistical Perspective on Randomized Sketching for Ordinary Least-Squares](https://jmlr.org/papers/v17/15-440.html) - `Paper bridge` - the anchor reading for this lab. Checked `2026-04-24`.
+- [Iterative Hessian Sketch: Fast and Accurate Solution Approximation for Constrained Least-Squares](https://jmlr.org/beta/papers/v17/14-460.html) - `Paper bridge` - good follow-up if you want stronger optimization-oriented guarantees. Checked `2026-04-24`.
+- [Distributed Least Squares in Small Space via Sketching and Bias Reduction](https://proceedings.neurips.cc/paper_files/paper/2024/hash/86c283920335ed1fec3edee227e05fbf-Abstract-Conference.html) - `Paper bridge` - useful current example of the same idea under modern distributed-memory constraints. Checked `2026-04-24`.

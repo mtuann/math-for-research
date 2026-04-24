@@ -1,0 +1,111 @@
+---
+title: "Module Title"
+description: "What this module teaches and why it matters."
+page-type: module-overview
+status: draft
+update-status: major-refresh
+level: foundation
+topic: replace-me
+prerequisites:
+  - /start-here/index.qmd
+learning-goals:
+  - "Understand the scope of the module."
+  - "Know the internal study order."
+  - "See where the module appears in research and applications."
+applications:
+  - replace-me
+keywords:
+  - replace-me
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: annual
+date-modified: last-modified
+draft: true
+---
+
+<!--
+Before writing:
+1. Complete the source sweep from contributing/page-templates.md
+2. Verify at least 3 live sources
+3. Decide the module boundary: what is in and what is out
+4. Update freshness fields after checking sources
+-->
+
+## Why This Module Matters
+
+Write `2 to 4` short paragraphs:
+
+- what mathematical objects this module studies
+- why the module matters for `CS / AI / engineering`
+- what breaks if this module is skipped
+
+## Prerequisites
+
+- `Topic or skill`: why it is needed
+- `Topic or skill`: why it is needed
+
+## What You Will Learn
+
+- outcome 1
+- outcome 2
+- outcome 3
+
+## Module Map
+
+List the internal sequence in order. Keep it directional, not alphabetical.
+
+1. topic
+2. topic
+3. topic
+4. topic
+
+## Core Concepts
+
+Briefly describe each major concept page and why it belongs here.
+
+### Concept 1
+
+One paragraph.
+
+### Concept 2
+
+One paragraph.
+
+## Proof Patterns In This Module
+
+- pattern 1 and where it first appears
+- pattern 2 and where it becomes important
+
+## Applications
+
+Name at least `2` real use cases and explain the math connection.
+
+### Application 1
+
+What objects from this module appear here? What questions does the math answer?
+
+### Application 2
+
+What objects from this module appear here? What questions does the math answer?
+
+## Paper Bridge
+
+Include `1 classic` and `1 bridge or modern` reference.
+
+- `Reference`: what math from this module the reader should watch for
+- `Reference`: what makes it a good bridge
+
+## Study Order
+
+Explain:
+
+- the recommended reading order inside the module
+- what can be skimmed first
+- what must be mastered before moving on
+
+## Sources and Further Reading
+
+- [Source title](https://example.com) - `First pass` - why it is included
+- [Source title](https://example.com) - `Second pass` - why it is included
+- [Source title](https://example.com) - `Paper bridge` - what it helps the reader do

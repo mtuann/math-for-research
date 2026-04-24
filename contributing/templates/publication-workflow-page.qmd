@@ -1,0 +1,87 @@
+---
+title: "Publication Workflow Title"
+description: "A reusable workflow page for a specific research-writing or submission task."
+page-type: publication-workflow
+status: draft
+update-status: monitor
+level: research
+topic: publication
+prerequisites:
+  - /publication/index.qmd
+learning-goals:
+  - "Use a specific workflow on a real draft."
+  - "Match claims to the right evidence."
+  - "Anticipate reviewer or reproducibility concerns."
+applications:
+  - publication
+papers: []
+keywords:
+  - publication
+  - workflow
+  - research writing
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: quarterly
+date-modified: last-modified
+draft: true
+stable-sources: []
+current-sources: []
+---
+
+<!--
+Before writing:
+1. Do a live source sweep with at least one official venue/policy page and one stable writing or methodology source
+2. Decide the exact workflow outcome: e.g. claim-evidence matrix, theorem-to-experiment alignment, rebuttal workflow
+3. Make the page operational, not motivational
+4. Update freshness fields after checking sources
+-->
+
+## Workflow Goal
+
+State what this workflow helps the reader produce and when it matters.
+
+## Inputs Required
+
+- input 1
+- input 2
+- input 3
+
+## Decision Checkpoints
+
+- checkpoint 1
+- checkpoint 2
+- checkpoint 3
+
+## Step-By-Step Process
+
+1. step
+2. step
+3. step
+4. step
+
+## Quality Bar
+
+Explain what a skeptical reviewer or collaborator should be able to verify after this workflow is done.
+
+## Common Failure Modes
+
+- theory-side failure
+- experiment-side failure
+- writing or positioning failure
+
+## Reproducibility And Artifact Expectations
+
+State what should exist in the paper, appendix, artifact, or code release.
+
+## Mini Template Or Checklist
+
+- checklist item 1
+- checklist item 2
+- checklist item 3
+
+## Sources and Further Reading
+
+- [Official policy or venue page](https://example.com) - `Paper bridge` - why this policy matters here
+- [Writing or methodology source](https://example.com) - `Second pass` - what process it clarifies
+- [Companion workflow source](https://example.com) - `Paper bridge` - what it adds

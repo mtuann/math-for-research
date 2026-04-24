@@ -1,0 +1,227 @@
+---
+title: "Projection Theorem and Normal Equations"
+description: "A proof that least-squares minimizers are exactly the vectors whose residuals are orthogonal to the column space."
+page-type: proof
+status: published
+update-status: current
+level: foundation
+topic: linear-algebra
+prerequisites:
+  - /topics/foundation/linear-algebra/concepts/orthogonality-and-least-squares.qmd
+learning-goals:
+  - "State the projection characterization of least squares precisely."
+  - "Follow both directions of the proof and see where orthogonality enters."
+  - "Extract a reusable optimization pattern from the argument."
+applications:
+  - regression
+  - optimization
+keywords:
+  - proof
+  - least squares
+  - projection
+  - normal equations
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/foundation/linear-algebra/applications/linear-regression-through-projection.qmd
+  - /topics/foundation/linear-algebra/labs/orthogonality-and-least-squares-geometry.qmd
+stable-sources:
+  - "MIT 18.06SC Linear Algebra resource index"
+  - "Hefferon, Linear Algebra"
+current-sources:
+  - "MIT 2.086 Unit 3 notes"
+---
+
+## Claim
+
+We want the exact theorem behind the slogan
+
+`best approximation = orthogonal projection`.
+
+::: {#thm-projection-normal-equations}
+## Theorem
+
+Let `A \in \mathbb{R}^{m \times n}` and `b \in \mathbb{R}^m`. For a vector `\hat{x} \in \mathbb{R}^n`, the following are equivalent:
+
+1. `\hat{x}` minimizes `\|Ax - b\|_2^2`.
+2. The residual `r = b - A\hat{x}` is orthogonal to `\operatorname{col}(A)`.
+3. `A^\top A \hat{x} = A^\top b`.
+
+If the columns of `A` are linearly independent, then the minimizer is unique.
+:::
+
+## Why This Proof Matters
+
+This proof is worth learning because it gets reused everywhere:
+
+- linear regression
+- projection methods
+- constrained optimization with quadratic objectives
+- QR-based numerical methods
+- randomized and sketched least-squares arguments
+
+The reusable pattern is:
+
+`optimality can be checked by asking whether every feasible first-order perturbation increases the objective`.
+
+## Dependencies
+
+- the column space of `A` consists of all vectors `Az`
+- orthogonality to a subspace means orthogonality to every vector in it
+- `\|u\|_2^2 = u^\top u`
+
+## Strategy Before Details
+
+The proof has two directions.
+
+For `2 -> 1`, assume the residual is already orthogonal to the column space and show every perturbation makes the objective larger.
+
+For `1 -> 3`, assume `\hat{x}` minimizes the objective and probe the objective along arbitrary directions `\hat{x} + tz`.
+
+That gives the normal equations, and the normal equations are exactly the matrix form of residual orthogonality.
+
+## Full Proof
+
+::: {.proof}
+Let
+
+$$
+f(x) = \|Ax - b\|_2^2.
+$$
+
+First prove `2 -> 1`.
+
+Assume `r = b - A\hat{x}` is orthogonal to `\operatorname{col}(A)`. Then for any `h \in \mathbb{R}^n`,
+
+$$
+A(\hat{x} + h) - b = A\hat{x} - b + Ah = -r + Ah.
+$$
+
+Hence
+
+$$
+\|A(\hat{x}+h)-b\|_2^2
+= \|-r + Ah\|_2^2
+= \|r\|_2^2 + \|Ah\|_2^2 - 2 r^\top Ah.
+$$
+
+Because `Ah \in \operatorname{col}(A)` and `r` is orthogonal to `\operatorname{col}(A)`, we have `r^\top Ah = 0`. Therefore
+
+$$
+\|A(\hat{x}+h)-b\|_2^2
+= \|r\|_2^2 + \|Ah\|_2^2
+\ge \|r\|_2^2
+= \|A\hat{x}-b\|_2^2.
+$$
+
+So `\hat{x}` is a least-squares minimizer.
+
+Now prove `1 -> 3`.
+
+Assume `\hat{x}` minimizes `f`. Let `z \in \mathbb{R}^n` be arbitrary and consider
+
+$$
+g(t) = f(\hat{x} + tz) = \|A(\hat{x}+tz)-b\|_2^2.
+$$
+
+Since `t = 0` is a minimizer of the scalar function `g`, we must have `g'(0)=0`.
+
+Expand:
+
+$$
+g(t)
+= (A\hat{x}-b + tAz)^\top (A\hat{x}-b + tAz).
+$$
+
+Differentiating and evaluating at `t=0` gives
+
+$$
+g'(0) = 2 z^\top A^\top(A\hat{x}-b) = 0.
+$$
+
+Because this holds for every `z`, we conclude
+
+$$
+A^\top(A\hat{x}-b)=0,
+$$
+
+which is equivalent to
+
+$$
+A^\top A\hat{x} = A^\top b.
+$$
+
+Finally, `3 <-> 2` is immediate because
+
+$$
+A^\top(b-A\hat{x}) = 0
+$$
+
+means the residual has zero inner product with every column of `A`, hence is orthogonal to `\operatorname{col}(A)`.
+
+If the columns of `A` are linearly independent and `v \neq 0`, then `Av \neq 0`, so
+
+$$
+v^\top A^\top A v = \|Av\|_2^2 > 0.
+$$
+
+Thus `A^\top A` is positive definite and therefore invertible, which makes the minimizer unique.
+:::
+
+## Step Annotations
+
+1. The perturbation `Ah` stays inside the column space. That is the geometry hiding inside the algebra.
+2. The cross term disappears only because the residual is orthogonal to the whole column space, not just to one chosen vector.
+3. The derivative argument works because every direction `z` is allowed. That turns a scalar minimization fact into a vector optimality condition.
+4. The matrix `A^\top A` appears because the objective uses Euclidean norm and the feasible set is built from `A`.
+
+## Why The Assumptions Matter
+
+- We used the Euclidean norm. Different norms lead to different optimality conditions.
+- We did not need full column rank for existence of a minimizer, only for uniqueness.
+- The orthogonality statement depends on the standard inner product. In a weighted least-squares problem, the residual is orthogonal under a weighted geometry instead.
+
+## Common Failure Modes
+
+- proving only `A^\top r = 0` without explaining why that means `r \perp \operatorname{col}(A)`
+- assuming invertibility of `A^\top A` too early
+- forgetting that `\hat{x}` can fail to be unique when the columns are dependent
+- treating the derivative calculation as formal manipulation without justifying the arbitrary direction `z`
+
+## Reusable Pattern
+
+This proof teaches a pattern that appears again and again:
+
+1. write the objective in a way that isolates the residual
+2. perturb the candidate solution in an arbitrary feasible direction
+3. use orthogonality or vanishing derivative to kill the cross term
+4. conclude optimality
+
+You will see the same structure in:
+
+- projection theorems in Hilbert spaces
+- quadratic optimization
+- KKT systems for constrained least squares
+- sketching analyses that compare exact and approximate minimizers
+
+## Where This Shows Up Again
+
+- [Orthogonality and Least Squares](../concepts/orthogonality-and-least-squares.qmd)
+- [Linear Regression Through Projection](../applications/linear-regression-through-projection.qmd)
+- [Computation Lab: Projection Geometry and Regression Residuals](../labs/orthogonality-and-least-squares-geometry.qmd)
+- [SVD and Low-Rank Approximation](../concepts/svd-and-low-rank-approximation.qmd)
+
+## Exercises
+
+1. Adapt the proof to the special case where the columns of `A` are orthonormal.
+2. Show that if `A` has dependent columns, then two different minimizers must differ by a vector in `\operatorname{null}(A)`.
+
+## Sources and Further Reading
+
+- [MIT 18.06SC Linear Algebra resource index](https://ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/pages/resource-index/) - `First pass` - official lecture and problem flow for projections and least squares. Checked `2026-04-24`.
+- [Hefferon, Linear Algebra](https://hefferon.net/linearalgebra/) - `Second pass` - especially good for proof structure and exercises. Checked `2026-04-24`.
+- [MIT 2.086 Unit 3 notes](https://ocw.mit.edu/courses/2-086-numerical-computation-for-mechanical-engineers-fall-2012/resources/mit2_086f12_notes_unit3/) - `Paper bridge` - useful for seeing how the same proof ideas lead into computational regression workflows. Checked `2026-04-24`.

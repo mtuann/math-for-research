@@ -1,5 +1,31 @@
 ---
 title: "Linear Algebra"
+description: "Core linear algebra for research-facing work in CS, AI, and engineering."
+page-type: module-overview
+status: published
+update-status: current
+level: foundation
+topic: linear-algebra
+prerequisites:
+  - /start-here/index.qmd
+learning-goals:
+  - "Build geometric and operator intuition."
+  - "Connect core matrix ideas to estimation, optimization, and spectral methods."
+  - "Use the module as a bridge into advanced theory papers."
+applications:
+  - machine-learning
+  - optimization
+  - signal-processing
+keywords:
+  - linear algebra
+  - least squares
+  - spectral methods
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: annual
+date-modified: last-modified
+draft: false
 ---
 
 ## Why This Module Matters
@@ -30,6 +56,21 @@ Least squares, SVD, covariance, kernels, spectral arguments
 5. Eigenvalues and diagonalization
 6. [SVD and Low-Rank Approximation](concepts/svd-and-low-rank-approximation.qmd)
 
+## Gold-Standard Topic Package
+
+The first full topic package in this module is `orthogonality-and-least-squares`.
+
+If you want to see the whole site model in one place, use this sequence:
+
+1. [Orthogonality and Least Squares](concepts/orthogonality-and-least-squares.qmd)
+2. [Projection Theorem and Normal Equations](proofs/projection-theorem-and-normal-equations.qmd)
+3. [Exercises: Orthogonality and Least Squares](exercises/orthogonality-and-least-squares.qmd)
+4. [Linear Regression Through Projection](applications/linear-regression-through-projection.qmd)
+5. [Computation Lab: Projection Geometry and Regression Residuals](labs/orthogonality-and-least-squares-geometry.qmd)
+6. [Paper Lab: Randomized Sketching for Least Squares](paper-lab/randomized-sketching-for-least-squares.qmd)
+7. [Research Direction: Least Squares, Sketching, and Overparameterized Regression](research/least-squares-sketching-and-overparameterized-regression.qmd)
+8. [Source Guide: Orthogonality and Least Squares](sources/orthogonality-and-least-squares.qmd)
+
 ## What You Want By The End
 
 - geometric intuition
@@ -41,3 +82,8 @@ Least squares, SVD, covariance, kernels, spectral arguments
 
 If you want a first application target, start with `least squares -> PCA -> low-rank approximation`. That chain alone will pay off again and again.
 
+## Sources and Further Reading
+
+- [MIT 18.06SC Linear Algebra resource index](https://ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/pages/resource-index/) - `First pass` - strong official module spine. Checked `2026-04-24`.
+- [Stanford Math 51](https://web.stanford.edu/class/math51/) - `First pass` - current applied framing for the linear algebra side of the module. Checked `2026-04-24`.
+- [Hefferon, Linear Algebra](https://hefferon.net/linearalgebra/) - `Second pass` - proof-and-exercise depth for self-study. Checked `2026-04-24`.

@@ -1,0 +1,237 @@
+---
+title: "Computation Lab: Projection Geometry and Regression Residuals"
+description: "An interactive lab for seeing how slope, intercept, residuals, and projection geometry fit together in least squares."
+page-type: computation-lab
+status: published
+update-status: current
+level: foundation
+topic: linear-algebra
+prerequisites:
+  - /topics/foundation/linear-algebra/concepts/orthogonality-and-least-squares.qmd
+learning-goals:
+  - "See how changing coefficients changes residual geometry."
+  - "Recognize the least-squares fit as the point where residual orthogonality appears."
+  - "Connect a visualization back to the normal equations."
+applications:
+  - regression
+  - data-visualization
+keywords:
+  - computation
+  - simulation
+  - visualization
+  - least squares
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+execution-engine: ojs
+interactive: ojs
+reproducibility-note: "Client-side Observable JS only; no server runtime. Deterministic point set, no randomness."
+---
+
+## Lab Goal
+
+This lab helps you see one specific fact:
+
+`least squares is the place where the residual becomes orthogonal to the model directions`.
+
+## Math Question
+
+For the three-point regression example, how do the slope and intercept affect:
+
+- the fitted line
+- the residual vector
+- the sum of squared residuals
+- the orthogonality checks behind the normal equations
+
+## Model or Setup
+
+We use the line-fitting problem from the concept page:
+
+$$
+y \approx \beta_0 + \beta_1 t
+$$
+
+for the points `(0,1)`, `(1,2)`, and `(2,2)`.
+
+The least-squares solution is
+
+$$
+\hat{\beta}_0 = \frac{7}{6},
+\qquad
+\hat{\beta}_1 = \frac{1}{2}.
+$$
+
+## Parameters and Controls
+
+- `Intercept`: moves the line up and down
+- `Slope`: tilts the line
+
+The dashed line is the current choice from the sliders. The solid line is the true least-squares fit.
+
+## Code and Simulation
+
+```{ojs}
+//| echo: false
+points = [
+  {t: 0, y: 1},
+  {t: 1, y: 2},
+  {t: 2, y: 2}
+]
+
+betaHat = {beta0: 7 / 6, beta1: 1 / 2}
+```
+
+```{ojs}
+//| echo: false
+viewof beta0 = Inputs.range([-0.5, 2.5], {
+  value: 0.8,
+  step: 1 / 60,
+  label: "Intercept"
+})
+
+viewof beta1 = Inputs.range([-1, 2], {
+  value: 0.9,
+  step: 1 / 60,
+  label: "Slope"
+})
+```
+
+```{ojs}
+//| echo: false
+residualRows = points.map((p) => {
+  const fit = beta0 + beta1 * p.t
+  const residual = p.y - fit
+  return {
+    t: p.t,
+    observed: p.y,
+    fitted: fit,
+    residual,
+    sqResidual: residual * residual
+  }
+})
+
+summary = {
+  sse: residualRows.reduce((acc, row) => acc + row.sqResidual, 0),
+  interceptCheck: residualRows.reduce((acc, row) => acc + row.residual, 0),
+  slopeCheck: residualRows.reduce((acc, row) => acc + row.t * row.residual, 0)
+}
+
+lineGrid = Array.from({length: 61}, (_, i) => {
+  const t = -0.5 + i * 0.05
+  return {t, y: beta0 + beta1 * t, line: "chosen line"}
+})
+
+optimalGrid = Array.from({length: 61}, (_, i) => {
+  const t = -0.5 + i * 0.05
+  return {t, y: betaHat.beta0 + betaHat.beta1 * t, line: "least-squares line"}
+})
+
+segments = residualRows.map((row) => ({
+  x1: row.t,
+  y1: row.observed,
+  x2: row.t,
+  y2: row.fitted
+}))
+```
+
+```{ojs}
+//| echo: false
+Plot.plot({
+  height: 420,
+  x: {label: "t"},
+  y: {label: "response"},
+  color: {legend: true},
+  marks: [
+    Plot.gridX({strokeOpacity: 0.15}),
+    Plot.gridY({strokeOpacity: 0.15}),
+    Plot.line(optimalGrid, {x: "t", y: "y", stroke: "line", strokeWidth: 3}),
+    Plot.line(lineGrid, {
+      x: "t",
+      y: "y",
+      stroke: "line",
+      strokeWidth: 2,
+      strokeDasharray: "6,3"
+    }),
+    Plot.link(segments, {
+      x1: "x1",
+      y1: "y1",
+      x2: "x2",
+      y2: "y2",
+      stroke: "firebrick",
+      strokeWidth: 2
+    }),
+    Plot.dot(points, {x: "t", y: "y", fill: "black", r: 5})
+  ]
+})
+```
+
+```{ojs}
+//| echo: false
+Inputs.table(
+  residualRows.map((row) => ({
+    t: row.t,
+    observed: row.observed.toFixed(2),
+    fitted: row.fitted.toFixed(2),
+    residual: row.residual.toFixed(2),
+    sq_residual: row.sqResidual.toFixed(4)
+  }))
+)
+```
+
+```{ojs}
+//| echo: false
+md`
+- Current SSE: **${summary.sse.toFixed(4)}**
+- Residual sum (intercept orthogonality check): **${summary.interceptCheck.toFixed(4)}**
+- Weighted residual sum (slope orthogonality check): **${summary.slopeCheck.toFixed(4)}**
+`
+```
+
+## What To Observe
+
+- Start by moving the sliders until the dashed line sits on top of the solid least-squares line.
+- When the sliders are at the least-squares values, the `SSE` is smallest.
+- At the same point, both orthogonality checks are approximately zero.
+- Moving away from the least-squares line makes the red residual segments longer and breaks at least one orthogonality check.
+- The residual is not trying to be “small componentwise.” It is trying to be orthogonal to the model directions.
+
+## Interpretation
+
+This lab is showing the normal equations in geometric form.
+
+The intercept column and the slope column span the model subspace. The least-squares fit is the unique point in that subspace where the residual lands in the orthogonal complement.
+
+So the table and plot are both visual proofs of the same fact:
+
+$$
+X^\top (y - X\hat{\beta}) = 0.
+$$
+
+## Failure Modes and Numerical Cautions
+
+- This is a tiny deterministic example, so it hides conditioning issues.
+- On larger problems, explicitly forming `X^\top X` can be numerically worse than using `QR` or `SVD`.
+- A line fit can look visually reasonable even when the modeling assumptions are poor.
+- Squared loss is sensitive to outliers, so projection geometry does not automatically imply robust modeling.
+
+## Reproducibility Notes
+
+- execution engine: `Observable JS`
+- no randomness and no seed required
+- built-in Quarto client-side libraries: `Inputs`, `Plot`, `md`
+- static-site friendly: no server or notebook kernel required after render
+
+## Extensions
+
+- replace the line fit with a two-feature design matrix and watch the residual stay orthogonal to each feature column
+- compare the least-squares fit with a deliberately collinear feature matrix
+- connect this lab to [SVD and Low-Rank Approximation](../concepts/svd-and-low-rank-approximation.qmd) by asking how `QR` and `SVD` compute the same fit more stably
+
+## Sources and Further Reading
+
+- [MIT 18.06SC Linear Algebra resource index](https://ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/pages/resource-index/) - `First pass` - good official support for projection-based least-squares intuition. Checked `2026-04-24`.
+- [MIT 2.086 Unit 3 notes](https://ocw.mit.edu/courses/2-086-numerical-computation-for-mechanical-engineers-fall-2012/resources/mit2_086f12_notes_unit3/) - `Second pass` - useful for turning the geometric picture into numerical workflow. Checked `2026-04-24`.
+- [A Statistical Perspective on Randomized Sketching for Ordinary Least-Squares](https://jmlr.org/papers/v17/15-440.html) - `Paper bridge` - shows that even after compression, the geometry of the least-squares problem is still the core object. Checked `2026-04-24`.

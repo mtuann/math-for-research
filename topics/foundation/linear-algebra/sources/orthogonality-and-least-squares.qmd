@@ -1,0 +1,99 @@
+---
+title: "Source Guide: Orthogonality and Least Squares"
+description: "A curated source guide for learning orthogonality and least squares from first pass through research bridge."
+page-type: source-guide
+status: published
+update-status: current
+level: foundation
+topic: linear-algebra
+prerequisites:
+  - /topics/foundation/linear-algebra/concepts/orthogonality-and-least-squares.qmd
+learning-goals:
+  - "Choose the right resource for first exposure, second pass, or paper bridge."
+  - "Separate durable references from current research-facing references."
+  - "See which sources belong to the concept, application, and research pages in this package."
+applications:
+  - regression
+  - numerical-linear-algebra
+keywords:
+  - source guide
+  - least squares
+  - orthogonality
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+stable-sources:
+  - "MIT 18.06SC Linear Algebra resource index"
+  - "Stanford Math 51"
+  - "Hefferon, Linear Algebra"
+current-sources:
+  - "Acta Numerica RandNLA survey"
+  - "JMLR 2023 benign overfitting"
+  - "NeurIPS 2024 distributed least squares"
+---
+
+## How To Use This Guide
+
+Use exactly one source from each layer at a time:
+
+- `First pass` for intuition and basic fluency
+- `Second pass` for proofs, exercises, and numerics
+- `Paper bridge` for reading current research
+
+Do not try to read everything in parallel.
+
+## Stable Core
+
+- [MIT 18.06SC Linear Algebra resource index](https://ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/pages/resource-index/) - `First pass` - best official structured path if you want lectures, problems, and projection-focused least-squares coverage. Checked `2026-04-24`.
+- [Stanford Math 51](https://web.stanford.edu/class/math51/) - `First pass` - strong current course framing for applied linear algebra with regression and data-facing motivation. Checked `2026-04-24`.
+- [Hefferon, Linear Algebra](https://hefferon.net/linearalgebra/) - `Second pass` - especially strong for motivated proofs and self-study exercises. Checked `2026-04-24`.
+- [MIT 2.086 Unit 3: Matrices and Least Squares; Regression from Math, Numerics, and Programming](https://ocw.mit.edu/courses/2-086-numerical-computation-for-mechanical-engineers-fall-2012/resources/mit2_086f12_notes_unit3/) - `Second pass` - excellent when you want regression, numerics, and programming concerns in one place. Checked `2026-04-24`.
+
+## Current Bridge
+
+- [Randomized Numerical Linear Algebra: Foundations and Algorithms](https://www.cambridge.org/core/journals/acta-numerica/article/randomized-numerical-linear-algebra-foundations-and-algorithms/4486926746CFF4547F42A2996C7DC09C) - `Second pass` - modern survey context for how least squares fits into sketching and large-scale numerical methods. Checked `2026-04-24`.
+- [The Implicit Bias of Benign Overfitting](https://www.jmlr.org/papers/v24/22-0784.html) - `Paper bridge` - current perspective on minimum-norm interpolation and high-dimensional regression. Checked `2026-04-24`.
+- [Benign Overfitting of Constant-Stepsize SGD for Linear Regression](https://jmlr.org/beta/papers/v24/21-1297.html) - `Paper bridge` - current view linking least squares to optimization dynamics. Checked `2026-04-24`.
+- [Distributed Least Squares in Small Space via Sketching and Bias Reduction](https://proceedings.neurips.cc/paper_files/paper/2024/hash/86c283920335ed1fec3edee227e05fbf-Abstract-Conference.html) - `Paper bridge` - useful current example when the systems side matters. Checked `2026-04-24`.
+
+## Paper Bridge
+
+- [A Statistical Perspective on Randomized Sketching for Ordinary Least-Squares](https://jmlr.org/papers/v17/15-440.html) - `Paper bridge` - best first bridge paper for this topic package because it keeps the core least-squares geometry visible. Checked `2026-04-24`.
+- [Iterative Hessian Sketch: Fast and Accurate Solution Approximation for Constrained Least-Squares](https://jmlr.org/beta/papers/v17/14-460.html) - `Paper bridge` - stronger optimization-facing follow-up once the first sketching paper is comfortable. Checked `2026-04-24`.
+
+## Recommended Reading Paths
+
+### Path 1: First serious understanding
+
+1. MIT 18.06SC resource index
+2. [Orthogonality and Least Squares](../concepts/orthogonality-and-least-squares.qmd)
+3. Hefferon for more exercises
+
+### Path 2: Regression and computation
+
+1. [Orthogonality and Least Squares](../concepts/orthogonality-and-least-squares.qmd)
+2. MIT 2.086 Unit 3 notes
+3. [Computation Lab: Projection Geometry and Regression Residuals](../labs/orthogonality-and-least-squares-geometry.qmd)
+4. [Linear Regression Through Projection](../applications/linear-regression-through-projection.qmd)
+
+### Path 3: Bridge to research
+
+1. [Orthogonality and Least Squares](../concepts/orthogonality-and-least-squares.qmd)
+2. [Projection Theorem and Normal Equations](../proofs/projection-theorem-and-normal-equations.qmd)
+3. [Paper Lab: Randomized Sketching for Least Squares](../paper-lab/randomized-sketching-for-least-squares.qmd)
+4. [Research Direction: Least Squares, Sketching, and Overparameterized Regression](../research/least-squares-sketching-and-overparameterized-regression.qmd)
+5. Acta Numerica survey or current JMLR paper
+
+## Sources Checked Online
+
+All links above were checked on `2026-04-24`.
+
+The online verification pass included:
+
+- official course pages
+- official author-maintained textbook pages
+- official journal or proceedings pages
+- official conference proceedings page for the 2024 NeurIPS example
