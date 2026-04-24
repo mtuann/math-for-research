@@ -201,7 +201,7 @@ If you want to inspect these residual conditions directly, use the paired [Compu
 
 ## Failure Modes
 
-- `collinearity`: if columns of `X` are nearly dependent, the fitted coefficients can be unstable
+- `collinearity`: if columns of $X$ are nearly dependent, the fitted coefficients can be unstable
 - `outliers`: squared loss can let a few large residuals dominate the fit
 - `model mismatch`: projection only finds the best fit inside the chosen model class
 - `overparameterization`: when $p \ge m$, there can be many interpolating solutions and geometry shifts toward minimum-norm or regularized solutions

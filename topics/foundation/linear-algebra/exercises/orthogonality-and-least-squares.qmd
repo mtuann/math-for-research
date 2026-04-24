@@ -50,9 +50,9 @@ This set trains four things:
 
 1. Let
    `u = (1,1,0)` and `v = (1,-1,2)`.
-   Are `u` and `v` orthogonal?
+   Are $u$ and $v$ orthogonal?
 2. Let $W = \operatorname{span}\{(1,1,1)\}$ and `b = (2,0,1)`.
-   Find the orthogonal projection of `b` onto `W`.
+   Find the orthogonal projection of $b$ onto $W$.
 
 ## Core Problems
 

@@ -46,7 +46,7 @@ The anchor paper is:
 
 It is a strong bridge paper because it keeps one fixed benchmark in view the whole time:
 
-`the exact truncated SVD is the gold standard, and randomized methods are judged by how closely they approach it`.
+the exact truncated SVD is the gold standard, and randomized methods are judged by how closely they approach it.
 
 ## Paper At A Glance
 
@@ -67,17 +67,17 @@ Exact `SVD` is mathematically ideal, but it can be expensive on very large matri
 
 On a first pass, track only three objects:
 
-- the input matrix `A`
+- the input matrix $A$
 - the sampled or sketched matrix $Y = A\Omega$
-- the orthonormal basis `Q` extracted from `Y`
+- the orthonormal basis $Q$ extracted from $Y$
 
-If you understand why `Q` should approximate the dominant left singular subspace of `A`, you have the paper’s main idea.
+If you understand why $Q$ should approximate the dominant left singular subspace of $A$, you have the paper’s main idea.
 
 ### Second pass
 
 The main mathematical objects to track are:
 
-- the singular spectrum of `A`
+- the singular spectrum of $A$
 - oversampling and sketch size
 - power iteration or subspace iteration
 - approximation error in Frobenius or spectral norm
@@ -92,7 +92,7 @@ At this pass, ask:
 
 On a third pass, focus on proof architecture:
 
-- how the random test matrix $\Omega$ captures the dominant range of `A`
+- how the random test matrix $\Omega$ captures the dominant range of $A$
 - how subspace projection error is converted into low-rank approximation error
 - when extra power iterations improve spectral separation
 
@@ -111,18 +111,18 @@ Read this paper after you are comfortable with:
 
 ## Notation Table
 
-- `A`: target matrix
-- `k`: target rank
+- $A$: target matrix
+- $k$: target rank
 - $\Omega$: random test matrix
 - $Y = A\Omega$: sampled range information
-- `Q`: orthonormal basis for the sampled range
+- $Q$: orthonormal basis for the sampled range
 - $B = Q^\top A$: reduced matrix whose decomposition is cheap
 
 ## Assumption Audit
 
 The paper materially depends on these assumptions:
 
-- matrix-vector or matrix-matrix access to `A` is cheaper than a full exact decomposition
+- matrix-vector or matrix-matrix access to $A$ is cheaper than a full exact decomposition
 - the dominant singular subspace can be discovered from randomized probing
 - approximation quality is judged against the exact truncated `SVD` benchmark
 - the spectrum and pass budget matter for practical performance
@@ -134,16 +134,16 @@ If you forget the last two points, the paper is easy to misread as “randomizat
 The paper’s core algorithmic story is:
 
 1. `Range finding`
-   Multiply `A` by a random matrix to probe its dominant action.
+   Multiply $A$ by a random matrix to probe its dominant action.
 
 2. `Compression`
-   Turn the sampled matrix into an orthonormal basis `Q`.
+   Turn the sampled matrix into an orthonormal basis $Q$.
 
 3. `Small deterministic solve`
    Compute a smaller factorization of $B = Q^\top A$.
 
 4. `Lift back`
-   Form an approximate factorization of the original matrix from `Q` and the reduced solve.
+   Form an approximate factorization of the original matrix from $Q$ and the reduced solve.
 
 The conceptual result is:
 
@@ -160,7 +160,7 @@ The theorems explain how oversampling and power iterations control error. The ex
 A good reproduction target is:
 
 1. generate a matrix with controlled singular-value decay
-2. compute the exact rank-`k` truncated SVD error
+2. compute the exact rank-$k$ truncated SVD error
 3. run a randomized range finder with several oversampling levels
 4. compare approximation error against the SVD benchmark
 

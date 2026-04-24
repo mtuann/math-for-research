@@ -212,13 +212,13 @@ So $A_k$ is a best rank-$k$ approximation in Frobenius norm.
 ## Why The Assumptions Matter
 
 - We used Frobenius norm, which behaves well with orthogonality and Pythagorean decompositions.
-- The ordered singular values matter because “top `k`” only makes sense after sorting.
+- The ordered singular values matter because “top $k$” only makes sense after sorting.
 - The same conclusion in spectral norm is true, but its proof needs a different argument.
 
 ## Common Failure Modes
 
-- writing $A_k$ correctly but forgetting to justify why every other rank-`k` matrix can be compared through its column space
-- using the projection matrix `P` without noting that `PB = B`
+- writing $A_k$ correctly but forgetting to justify why every other rank-$k$ matrix can be compared through its column space
+- using the projection matrix $P$ without noting that $PB = B$
 - assuming the best subspace result without explaining why the dominant singular directions maximize captured energy
 - claiming the spectral-norm statement was proved here when this page only proved the Frobenius-norm version
 
@@ -242,7 +242,7 @@ This proof teaches a pattern that returns later:
 
 1. Show directly that $\|A-A_k\|_F^2 = \sum_{i=k+1}^r \sigma_i^2$ using the outer-product expansion.
 2. Identify exactly where the proof uses the ordering $\sigma_1 \ge \cdots \ge \sigma_r$.
-3. Explain why the proof naturally suggests `PCA` when `A` is a centered data matrix.
+3. Explain why the proof naturally suggests `PCA` when $A$ is a centered data matrix.
 
 ## Sources and Further Reading
 

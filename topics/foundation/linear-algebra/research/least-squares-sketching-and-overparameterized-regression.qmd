@@ -124,7 +124,7 @@ Then branch in one of two directions.
 
 The same mathematical themes keep recurring across these papers:
 
-- `projection geometry`: the exact or approximate solution is still organized around a subspace approximation problem
+- projection geometry: the exact or approximate solution is still organized around a subspace approximation problem
 - `spectral structure`: singular values and covariance spectra control stability and generalization
 - `subspace preservation`: sketching methods work only when the compressed problem keeps the relevant geometry
 - `minimum-norm bias`: in overparameterized settings, the choice among infinitely many interpolants is itself a mathematical object

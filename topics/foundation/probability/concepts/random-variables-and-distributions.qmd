@@ -21,7 +21,7 @@ For continuous variables, this is often encoded by a probability density functio
 
 ## Worked Example
 
-If you flip a fair coin twice and let `X` be the number of heads, then `X` can take values `0`, `1`, and `2`.
+If you flip a fair coin twice and let $X$ be the number of heads, then $X$ can take values $0$, $1$, and $2$.
 
 Its distribution is:
 

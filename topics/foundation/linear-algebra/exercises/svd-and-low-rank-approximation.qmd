@@ -252,7 +252,7 @@ $$
 
 So the top eigenvector of $X^\top X$ is the first right singular vector of $X$.
 
-Numerically, software should return the same direction up to sign. If one method returns `v` and the other `-v`, they still represent the same principal component.
+Numerically, software should return the same direction up to sign. If one method returns $v$ and the other $-v$, they still represent the same principal component.
 
 ## Sources and Further Reading
 

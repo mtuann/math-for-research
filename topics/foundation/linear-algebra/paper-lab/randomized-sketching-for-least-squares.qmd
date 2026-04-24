@@ -76,15 +76,15 @@ That distinction is easy to miss if you read the paper only as “random project
 
 The main mathematical objects to track are:
 
-- the design matrix `X`
-- the response vector `Y`
-- the sketching matrix `S`
+- the design matrix $X$
+- the response vector $Y$
+- the sketching matrix $S$
 - the sketched problem `(SX, SY)`
 - residual efficiency versus prediction efficiency
 
 The page [Orthogonality and Least Squares](../concepts/orthogonality-and-least-squares.qmd) tells you what the exact least-squares solution is doing geometrically.
 
-This paper asks how much of that geometry survives when `X` and `Y` are compressed first.
+This paper asks how much of that geometry survives when $X$ and $Y$ are compressed first.
 
 Two reading habits help:
 
@@ -115,9 +115,9 @@ Read this paper after you are comfortable with:
 
 ## Notation Table
 
-- `X`: design matrix
-- `Y`: response vector
-- `S`: sketching matrix
+- $X$: design matrix
+- $Y$: response vector
+- $S$: sketching matrix
 - `(SX, SY)`: compressed least-squares instance
 - `RE`: residual efficiency
 - `PE`: prediction efficiency
@@ -164,7 +164,7 @@ Second, experiments compare sketching schemes and sample sizes. Those experiment
 
 A good reproduction target is:
 
-1. generate a synthetic Gaussian design matrix `X`
+1. generate a synthetic Gaussian design matrix $X$
 2. generate responses from a noisy linear model
 3. compare exact least squares with sketched least squares for increasing sketch size
 4. plot both residual error and prediction error

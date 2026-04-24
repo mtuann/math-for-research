@@ -48,7 +48,7 @@ It is now a meeting point for several active areas:
 - `streaming and memory-limited approximation`, where pass budgets and storage limits reshape the algorithm
 - `foundation-model adaptation`, where low-rank updates trade parameter count for efficiency and control
 
-The stable backbone is still singular values, singular subspaces, and best rank-`k` approximation. The frontier lies in deciding which low-rank structure matters, how it can be approximated efficiently, and when it improves statistical or systems performance.
+The stable backbone is still singular values, singular subspaces, and best rank-$k$ approximation. The frontier lies in deciding which low-rank structure matters, how it can be approximated efficiently, and when it improves statistical or systems performance.
 
 ## Why It Matters
 
@@ -124,7 +124,7 @@ The same mathematical themes keep recurring:
 
 - `dominant subspaces`: the useful action of a large matrix is often concentrated in a few directions
 - `spectral decay`: the rate at which singular values fall controls how compressible the object is
-- `projection quality`: approximate methods are judged by how well they preserve the dominant range or singular structure
+- projection quality: approximate methods are judged by how well they preserve the dominant range or singular structure
 - `low-dimensional updates`: in adaptation settings, the update itself is modeled as a low-rank object
 
 ## Evaluation Norms
@@ -147,7 +147,7 @@ Readers should be careful not to treat these as interchangeable. A method can lo
 
 ## Entry Projects
 
-- `Beginner`: reproduce the rank-`1` versus rank-`2` PCA reconstruction story on a few synthetic matrices with different spectral decay
+- `Beginner`: reproduce the rank-$1$ versus rank-$2$ PCA reconstruction story on a few synthetic matrices with different spectral decay
 - `Intermediate`: compare exact truncated `SVD` with a randomized low-rank approximation on synthetic matrices
 - `Research-facing`: read a low-rank adaptation paper and map every matrix update back to the basic $U \Sigma V^\top$ picture
 

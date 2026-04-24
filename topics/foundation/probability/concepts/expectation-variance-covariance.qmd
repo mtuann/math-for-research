@@ -14,7 +14,7 @@ This page explains the core summary statistics that almost every probabilistic a
 
 ## Formal Core
 
-For a random variable `X`,
+For a random variable $X$,
 
 $$
 \mathbb{E}[X]
@@ -28,7 +28,7 @@ $$
 
 is its variance.
 
-For two random variables `X` and `Y`,
+For two random variables $X$ and $Y$,
 
 $$
 \mathrm{Cov}(X,Y)=\mathbb{E}\big[(X-\mathbb{E}[X])(Y-\mathbb{E}[Y])\big].
@@ -53,4 +53,3 @@ In data analysis and ML, covariance is often the hidden object underneath PCA, r
 - confusing variance with standard deviation
 - assuming zero covariance means full independence
 - forgetting what distribution expectation is taken over
-

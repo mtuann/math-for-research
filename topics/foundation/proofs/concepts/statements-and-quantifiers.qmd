@@ -58,5 +58,5 @@ That line is already doing heavy logical work. If you read it casually, the rest
 
 ## Exercises
 
-1. Negate the statement: “For every matrix `A`, there exists a vector `x` such that `Ax = 0`.”
+1. Negate the statement: “For every matrix $A$, there exists a vector $x$ such that $Ax = 0$.”
 2. Rewrite “No continuous function on `[0,1]` is unbounded” using quantifiers.

@@ -57,7 +57,7 @@ The singular value decomposition tells you how a matrix rotates coordinates, str
 This topic matters because one matrix factorization supports several different jobs at once:
 
 - a geometric statement: every matrix has orthogonal input and output directions
-- an approximation principle: the strongest `k` singular directions give the best rank-`k` approximation
+- an approximation principle: the strongest $k$ singular directions give the best rank-$k$ approximation
 - a computational viewpoint: `SVD` is a stable way to analyze ill-conditioned or rank-deficient problems
 - a research bridge: randomized low-rank methods, streaming approximation, and model adaptation all reuse this language
 
@@ -112,7 +112,7 @@ When the singular values decay quickly, that simple rule preserves most of the u
 
 Let $A \in \mathbb{R}^{m \times n}$ have rank $r$.
 
-A thin singular value decomposition of `A` is
+A thin singular value decomposition of $A$ is
 
 $$
 A = U_r \Sigma_r V_r^\top
@@ -170,7 +170,7 @@ $$
 \|A - A_k\|_2 = \sigma_{k+1}.
 $$
 
-So the truncated SVD is the best rank-`k` approximation in both Frobenius and spectral norm.
+So the truncated SVD is the best rank-$k$ approximation in both Frobenius and spectral norm.
 :::
 
 ## Worked Example
@@ -198,7 +198,7 @@ $$
 A = I \operatorname{diag}(4,2,1) I^\top.
 $$
 
-The best rank-`1` approximation keeps only the top singular direction:
+The best rank-$1$ approximation keeps only the top singular direction:
 
 $$
 A_1 =
@@ -209,7 +209,7 @@ A_1 =
 \end{bmatrix}.
 $$
 
-The best rank-`2` approximation keeps the top two:
+The best rank-$2$ approximation keeps the top two:
 
 $$
 A_2 =
@@ -245,7 +245,7 @@ SVD is not only a theorem. It is also a computational tool.
 Three computational ideas matter immediately:
 
 - `thin or economy SVD`: keep only the nonzero singular directions instead of a full square decomposition
-- `truncated SVD`: use only the top `k` components when storage or approximation quality matters more than exactness
+- `truncated SVD`: use only the top $k$ components when storage or approximation quality matters more than exactness
 - `numerical rank`: in floating-point settings, very small singular values often behave like noise or near-dependence
 
 SVD also explains why it is safer than the normal equations in hard least-squares problems: it exposes tiny singular values directly instead of hiding them inside $A^\top A$.
@@ -262,7 +262,7 @@ This topic powers several concrete workflows:
 - `least squares`: use singular values to see rank deficiency and compute pseudoinverse-based solutions
 - `model adaptation`: low-rank updates can capture useful changes with far fewer parameters
 
-For a concrete data-analysis example, see [PCA Through SVD](../applications/pca-through-svd.qmd). For an interactive picture of rank-`1` reconstruction, see [Computation Lab: Rank-1 Approximation and PCA Geometry](../labs/rank-one-approximation-and-pca-geometry.qmd).
+For a concrete data-analysis example, see [PCA Through SVD](../applications/pca-through-svd.qmd). For an interactive picture of rank-$1$ reconstruction, see [Computation Lab: Rank-1 Approximation and PCA Geometry](../labs/rank-one-approximation-and-pca-geometry.qmd).
 
 ## Paper Bridge
 
@@ -281,7 +281,7 @@ For a concrete data-analysis example, see [PCA Through SVD](../applications/pca-
 ## Exercises
 
 1. Write the thin SVD and best rank-$1$ approximation of $\operatorname{diag}(5,2)$.
-2. Show that if `A` has orthonormal columns, then all of its singular values are `1`.
+2. Show that if $A$ has orthonormal columns, then all of its singular values are $1$.
 3. Explain in one paragraph why `SVD` is the right tool to understand both `PCA` and ill-conditioned least squares.
 
 ## Sources and Further Reading

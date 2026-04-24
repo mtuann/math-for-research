@@ -177,8 +177,34 @@ h1, h2, h3, h4 {
   border: 1px solid var(--line);
 }
 
+code:not(pre code) {
+  background: rgba(15, 91, 120, 0.08);
+  color: var(--ink);
+  padding: 0.12rem 0.35rem;
+}
+
 pre, code {
   border-radius: 12px;
+}
+
+.page-columns .content .math.display,
+.page-columns .content mjx-container[jax="CHTML"][display="true"] {
+  display: block;
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 100%;
+  margin: 1rem 0 1.15rem;
+  padding: 0.15rem 0.1rem;
+}
+
+.page-columns .content mjx-container[jax="CHTML"] {
+  color: var(--ink);
+}
+
+.page-columns .content p .math.inline,
+.page-columns .content li .math.inline,
+.page-columns .content mjx-container[jax="CHTML"]:not([display="true"]) {
+  font-size: 1.01em;
 }
 
 table {

@@ -36,7 +36,7 @@ reproducibility-note: "Client-side Observable JS only; deterministic data constr
 
 This lab helps you see one specific fact:
 
-`in a two-feature centered data matrix, the rank-1 truncated SVD is just projection onto the top principal direction`.
+in a two-feature centered data matrix, the rank-$1$ truncated SVD is just projection onto the top principal direction.
 
 ## Math Question
 
@@ -44,19 +44,19 @@ How do noise level and retained rank affect:
 
 - the singular values
 - the top principal direction
-- the rank-`1` reconstruction
+- the rank-$1$ reconstruction
 - the Frobenius reconstruction error
 
 ## Model or Setup
 
 We start from a deterministic point cloud that is almost one-dimensional.
 
-The points are centered feature vectors in $\mathbb{R}^2$. When the noise scale is small, the data matrix is close to rank `1`; when the noise scale grows, the second singular value grows too.
+The points are centered feature vectors in $\mathbb{R}^2$. When the noise scale is small, the data matrix is close to rank $1$; when the noise scale grows, the second singular value grows too.
 
 ## Parameters and Controls
 
 - `Noise scale`: controls how far the cloud deviates from an exact one-dimensional pattern
-- `Retained rank`: choose between a rank-`1` reconstruction and the full rank-`2` reconstruction
+- `Retained rank`: choose between a rank-$1$ reconstruction and the full rank-$2$ reconstruction
 
 Default values are `0.60` for noise scale and `1` for retained rank.
 
@@ -263,20 +263,20 @@ This lab is the two-feature version of truncated SVD.
 
 The centered data matrix $X$ is being approximated by $X_1$, the best rank-$1$ matrix. In geometry, that means every data row is projected onto the top principal direction.
 
-In this setup, the Frobenius reconstruction error for the rank-`1` approximation matches the discarded singular value because there are only two singular values total:
+In this setup, the Frobenius reconstruction error for the rank-$1$ approximation matches the discarded singular value because there are only two singular values total:
 
 $$
 \|X-X_1\|_F = \sigma_2.
 $$
 
-To keep the displayed value numerically stable at the exact rank-`1` endpoint, the lab reports the second singular value through this reconstruction error identity rather than from a cancellation-prone closed-form subtraction.
+To keep the displayed value numerically stable at the exact rank-$1$ endpoint, the lab reports the second singular value through this reconstruction error identity rather than from a cancellation-prone closed-form subtraction.
 
 So the picture, the table, and the displayed error are all different views of the same theorem.
 
 ## Failure Modes and Numerical Cautions
 
 - This is a tiny synthetic example, so it hides scaling and conditioning issues that appear in larger data sets.
-- The principal direction is only defined up to sign, so software may return `v` or `-v`.
+- The principal direction is only defined up to sign, so software may return $v$ or $-v$.
 - The lab is about best linear reconstruction, not causal interpretation.
 - Centering is built in here; on raw data, leaving out centering can seriously change the result.
 
@@ -289,7 +289,7 @@ So the picture, the table, and the displayed error are all different views of th
 
 ## Extensions
 
-- add a third feature and compare rank-`1` versus rank-`2` reconstructions
+- add a third feature and compare rank-$1$ versus rank-$2$ reconstructions
 - replace the synthetic point cloud with a small image-like matrix and study compression directly
 - connect the same geometry to [PCA Through SVD](../applications/pca-through-svd.qmd) and then to randomized low-rank approximation
 

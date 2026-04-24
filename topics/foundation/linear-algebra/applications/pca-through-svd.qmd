@@ -39,7 +39,7 @@ current-sources:
 
 Principal component analysis is the cleanest applied face of low-rank approximation.
 
-On a centered data matrix, `PCA` asks for the best low-dimensional linear representation of the data. `SVD` answers that question directly: the top right singular vectors are the principal directions, and the truncated SVD gives the best rank-`k` reconstruction.
+On a centered data matrix, `PCA` asks for the best low-dimensional linear representation of the data. `SVD` answers that question directly: the top right singular vectors are the principal directions, and the truncated SVD gives the best rank-$k$ reconstruction.
 
 ## Problem Setting
 
@@ -49,11 +49,11 @@ $$
 X \in \mathbb{R}^{m \times d}
 $$
 
-has `m` samples and `d` features.
+has $m$ samples and $d$ features.
 
-We want a lower-dimensional representation that keeps as much variation as possible while replacing `X` by a rank-`k` matrix.
+We want a lower-dimensional representation that keeps as much variation as possible while replacing $X$ by a rank-$k$ matrix.
 
-The SVD of `X` is
+The SVD of $X$ is
 
 $$
 X = U \Sigma V^\top.
@@ -61,7 +61,7 @@ $$
 
 Then:
 
-- the columns of `V` are the principal directions
+- the columns of $V$ are the principal directions
 - the matrix $U\Sigma$ contains the principal component scores
 - the truncated matrix
 
@@ -69,7 +69,7 @@ Then:
   X_k = U_k \Sigma_k V_k^\top
   $$
 
-  is the best rank-`k` approximation to `X`
+  is the best rank-$k$ approximation to $X$
 
 ## Why This Math Appears
 
@@ -77,11 +77,11 @@ There are two equivalent ways to say what `PCA` is doing.
 
 One is variance language:
 
-`find directions that capture as much variation as possible`.
+find directions that capture as much variation as possible.
 
 The other is approximation language:
 
-`find the rank-k matrix closest to the data matrix`.
+find the rank-$k$ matrix closest to the data matrix.
 
 SVD makes these two statements the same theorem.
 
@@ -93,11 +93,11 @@ $$
 
 the principal directions are exactly the eigenvectors of the covariance-type matrix $X^\top X$.
 
-Because of Eckart-Young, the same singular vectors also solve the best rank-`k` reconstruction problem.
+Because of Eckart-Young, the same singular vectors also solve the best rank-$k$ reconstruction problem.
 
 ## Math Objects In Use
 
-- centered data matrix `X`
+- centered data matrix $X$
 - right singular vectors $v_i$
 - singular values $\sigma_i$
 - rank-$k$ reconstruction $X_k$
@@ -140,7 +140,7 @@ That vector is the first principal direction.
 
 The large gap between $\sigma_1$ and $\sigma_2$ tells you the data are close to one-dimensional.
 
-Keeping only the first singular direction gives the rank-`1` approximation
+Keeping only the first singular direction gives the rank-$1$ approximation
 
 $$
 X_1 = U_1 \Sigma_1 V_1^\top
@@ -183,8 +183,8 @@ This is a good example of theory helping implementation. The math says covarianc
 ## Try It
 
 1. Replace the second feature by `10` times its current value and recompute the top principal direction. How much of the change is scaling rather than structure?
-2. Compute both $X^\top X$ and the `SVD` of `X` in software. Verify that the leading eigenvector and leading right singular vector agree up to sign.
-3. Compare $X_1$ with the original `X` row by row and interpret the reconstruction error geometrically.
+2. Compute both $X^\top X$ and the `SVD` of $X$ in software. Verify that the leading eigenvector and leading right singular vector agree up to sign.
+3. Compare $X_1$ with the original $X$ row by row and interpret the reconstruction error geometrically.
 
 ## Sources and Further Reading
 

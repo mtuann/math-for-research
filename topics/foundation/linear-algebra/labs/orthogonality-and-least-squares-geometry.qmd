@@ -35,7 +35,7 @@ reproducibility-note: "Client-side Observable JS only; no server runtime. Determ
 
 This lab helps you see one specific fact:
 
-`least squares is the place where the residual becomes orthogonal to the model directions`.
+least squares is the place where the residual becomes orthogonal to the model directions.
 
 ## Math Question
 

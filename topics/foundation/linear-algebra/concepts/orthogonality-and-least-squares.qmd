@@ -55,7 +55,7 @@ Orthogonality tells you what it means to be the `best approximation inside a sub
 
 This topic matters because it is one of the first places where the same mathematical object supports all of these at once:
 
-- a geometric statement: `best approximation = orthogonal projection`
+- a geometric statement: $\text{best approximation} = \text{orthogonal projection}$
 - a computational problem: solve an overdetermined system stably
 - a modeling problem: fit parameters to data
 - a research bridge: understand sketching, inverse problems, and overparameterized regression
@@ -74,14 +74,14 @@ Use this page as the `entry point`. Then branch into the companion pages only wh
 
 ## Prerequisite Recall
 
-- the `column space` of a matrix `A` is the set of vectors of the form `Ax`
-- a vector `r` is orthogonal to a subspace `W` if it is orthogonal to every vector in `W`
-- projecting `b` onto a subspace means splitting it into
-  `b = p + r`, where `p` lies in the subspace and `r` is orthogonal to it
+- the column space of a matrix $A$ is the set of vectors of the form $Ax$
+- a vector $r$ is orthogonal to a subspace $W$ if it is orthogonal to every vector in $W$
+- projecting $b$ onto a subspace means splitting it into
+  $b = p + r$, where $p$ lies in the subspace and $r$ is orthogonal to it
 
 ## Intuition
 
-When `Ax = b` has no exact solution, the vectors you can actually produce are only the vectors in the column space of `A`.
+When $Ax = b$ has no exact solution, the vectors you can actually produce are only the vectors in the column space of $A$.
 
 So the right question is no longer:
 
@@ -89,7 +89,7 @@ So the right question is no longer:
 
 It becomes:
 
-`Which vector in the column space of A gets closest to b?`
+Which vector in the column space of $A$ gets closest to $b$?
 
 That closest vector is the orthogonal projection of $b$ onto $\operatorname{col}(A)$.
 
@@ -232,7 +232,7 @@ $$
 \end{bmatrix} r = 0.
 $$
 
-The residual is orthogonal to both columns of `A`, so it is orthogonal to the whole column space. That is exactly the projection principle at work.
+The residual is orthogonal to both columns of $A$, so it is orthogonal to the whole column space. That is exactly the projection principle at work.
 
 ## Computation Lens
 
@@ -273,7 +273,7 @@ For a fuller application walkthrough, see [Linear Regression Through Projection]
 
 - thinking the normal equations are automatically the best numerical algorithm
 - forgetting that $A^\top A$ is invertible only when the columns of $A$ are linearly independent
-- confusing projection onto the `column space` with projection onto the `row space`
+- confusing projection onto the column space with projection onto the row space
 - treating the residual as an arbitrary error vector instead of a vector forced into the orthogonal complement
 - using least squares as a default model choice even when the data are highly nonlinear, badly contaminated, or structurally constrained
 

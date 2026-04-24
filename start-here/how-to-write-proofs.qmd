@@ -29,18 +29,17 @@ Use this template:
 ::: {#prp-even-sum}
 ## Proposition
 
-If `a` and `b` are even integers, then `a + b` is even.
+If $a$ and $b$ are even integers, then $a + b$ is even.
 :::
 
 ::: {.proof}
-If `a` and `b` are even, then there exist integers `m` and `n` such that `a = 2m` and `b = 2n`. Therefore
+If $a$ and $b$ are even, then there exist integers $m$ and $n$ such that $a = 2m$ and $b = 2n$. Therefore
 
 $$
 a + b = 2m + 2n = 2(m+n).
 $$
 
-Since `m+n` is an integer, `a+b` is even.
+Since $m+n$ is an integer, $a+b$ is even.
 :::
 
 Notice the structure: assumptions, representation, algebra, conclusion.
-

@@ -22,11 +22,11 @@ A direct proof is the cleanest method when the structure of the claim already po
 ::: {#prp-divisible-six}
 ## Proposition
 
-If an integer `n` is divisible by `6`, then it is divisible by `3`.
+If an integer $n$ is divisible by $6$, then it is divisible by $3$.
 :::
 
 ::: {.proof}
-If `n` is divisible by `6`, then `n = 6k` for some integer `k`. Since `6k = 3(2k)`, and `2k` is an integer, it follows that `n` is divisible by `3`.
+If $n$ is divisible by $6$, then $n = 6k$ for some integer $k$. Since $6k = 3(2k)$, and $2k$ is an integer, it follows that $n$ is divisible by $3$.
 :::
 
 ## Why This Works
@@ -45,4 +45,3 @@ Direct proof patterns show up everywhere:
 ## Paper Bridge
 
 Even advanced proofs contain direct-proof fragments. When reading a hard paper, spotting those easier fragments can keep you oriented.
-
