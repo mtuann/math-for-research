@@ -43,7 +43,7 @@ That one statement explains fitted values, residual structure, computational cho
 
 ## Problem Setting
 
-Suppose we observe inputs `x_1,\dots,x_m` and responses `y_1,\dots,y_m`, and we want a linear model
+Suppose we observe inputs $x_1,\dots,x_m$ and responses $y_1,\dots,y_m$, and we want a linear model
 
 $$
 \hat{y}_i = \beta_0 + \beta_1 x_i^{(1)} + \cdots + \beta_p x_i^{(p)}.
@@ -55,7 +55,7 @@ $$
 X\beta \approx y,
 $$
 
-where `X` is the design matrix, `\beta` is the coefficient vector, and `y` is the response vector.
+where $X$ is the design matrix, $\beta$ is the coefficient vector, and $y$ is the response vector.
 
 When the system is overdetermined or noisy, exact equality usually fails. Linear regression asks for the coefficient vector that minimizes the residual sum of squares:
 
@@ -65,7 +65,7 @@ $$
 
 ## Why This Math Appears
 
-The model predictions `X\beta` live in the column space of `X`.
+The model predictions $X\beta$ live in the column space of $X$.
 
 So regression is not just “fit a line” or “fit a hyperplane.” It is:
 
@@ -73,22 +73,22 @@ So regression is not just “fit a line” or “fit a hyperplane.” It is:
 
 Orthogonality then explains the fitted solution:
 
-- `X\hat{\beta}` is the projection of `y` onto `\operatorname{col}(X)`
-- `r = y - X\hat{\beta}` is orthogonal to every feature column
-- the normal equations `X^\top X \hat{\beta} = X^\top y` are exactly the matrix form of that orthogonality
+- $X\hat{\beta}$ is the projection of $y$ onto $\operatorname{col}(X)$
+- $r = y - X\hat{\beta}$ is orthogonal to every feature column
+- the normal equations $X^\top X \hat{\beta} = X^\top y$ are exactly the matrix form of that orthogonality
 
 ## Math Objects In Use
 
-- the design matrix `X`
-- the column space `\operatorname{col}(X)`
-- the residual vector `r = y - X\hat{\beta}`
-- the Gram matrix `X^\top X`
+- the design matrix $X$
+- the column space $\operatorname{col}(X)$
+- the residual vector $r = y - X\hat{\beta}$
+- the Gram matrix $X^\top X$
 - orthogonal projection
 - `QR` or `SVD` for stable computation
 
 ## Worked Walkthrough
 
-Take the three points `(0,1)`, `(1,2)`, `(2,2)` and fit a line `y \approx \beta_0 + \beta_1 t`.
+Take the three points `(0,1)`, `(1,2)`, `(2,2)` and fit a line $y \approx \beta_0 + \beta_1 t$.
 
 Then
 
@@ -157,9 +157,9 @@ r =
 \end{bmatrix}.
 $$
 
-Because the first column of `X` is the intercept column, `\mathbf{1}^\top r = 0`, so the residuals sum to zero.
+Because the first column of $X$ is the intercept column, $\mathbf{1}^\top r = 0$, so the residuals sum to zero.
 
-Because the second column is `(0,1,2)^\top`, we also have
+Because the second column is $(0,1,2)^\top$, we also have
 
 $$
 \begin{bmatrix}
@@ -184,7 +184,7 @@ $$
 \hat{\beta} = (X^\top X)^{-1}X^\top y
 $$
 
-is mathematically convenient but only valid when `X` has full column rank, so that `X^\top X` is invertible.
+is mathematically convenient but only valid when $X$ has full column rank, so that $X^\top X$ is invertible.
 
 Even in that case, it is computationally fragile.
 
@@ -204,7 +204,7 @@ If you want to inspect these residual conditions directly, use the paired [Compu
 - `collinearity`: if columns of `X` are nearly dependent, the fitted coefficients can be unstable
 - `outliers`: squared loss can let a few large residuals dominate the fit
 - `model mismatch`: projection only finds the best fit inside the chosen model class
-- `overparameterization`: when `p \ge m`, there can be many interpolating solutions and geometry shifts toward minimum-norm or regularized solutions
+- `overparameterization`: when $p \ge m$, there can be many interpolating solutions and geometry shifts toward minimum-norm or regularized solutions
 
 ## Paper Bridge
 

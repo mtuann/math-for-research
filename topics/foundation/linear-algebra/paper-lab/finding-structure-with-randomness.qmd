@@ -68,7 +68,7 @@ Exact `SVD` is mathematically ideal, but it can be expensive on very large matri
 On a first pass, track only three objects:
 
 - the input matrix `A`
-- the sampled or sketched matrix `Y = A\Omega`
+- the sampled or sketched matrix $Y = A\Omega$
 - the orthonormal basis `Q` extracted from `Y`
 
 If you understand why `Q` should approximate the dominant left singular subspace of `A`, you have the paper’s main idea.
@@ -92,7 +92,7 @@ At this pass, ask:
 
 On a third pass, focus on proof architecture:
 
-- how the random test matrix `\Omega` captures the dominant range of `A`
+- how the random test matrix $\Omega$ captures the dominant range of `A`
 - how subspace projection error is converted into low-rank approximation error
 - when extra power iterations improve spectral separation
 
@@ -113,10 +113,10 @@ Read this paper after you are comfortable with:
 
 - `A`: target matrix
 - `k`: target rank
-- `\Omega`: random test matrix
-- `Y = A\Omega`: sampled range information
+- $\Omega$: random test matrix
+- $Y = A\Omega$: sampled range information
 - `Q`: orthonormal basis for the sampled range
-- `B = Q^\top A`: reduced matrix whose decomposition is cheap
+- $B = Q^\top A$: reduced matrix whose decomposition is cheap
 
 ## Assumption Audit
 
@@ -140,7 +140,7 @@ The paper’s core algorithmic story is:
    Turn the sampled matrix into an orthonormal basis `Q`.
 
 3. `Small deterministic solve`
-   Compute a smaller factorization of `B = Q^\top A`.
+   Compute a smaller factorization of $B = Q^\top A$.
 
 4. `Lift back`
    Form an approximate factorization of the original matrix from `Q` and the reduced solve.

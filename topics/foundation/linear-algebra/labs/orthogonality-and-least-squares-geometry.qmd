@@ -213,7 +213,7 @@ $$
 ## Failure Modes and Numerical Cautions
 
 - This is a tiny deterministic example, so it hides conditioning issues.
-- On larger problems, explicitly forming `X^\top X` can be numerically worse than using `QR` or `SVD`.
+- On larger problems, explicitly forming $X^\top X$ can be numerically worse than using `QR` or `SVD`.
 - A line fit can look visually reasonable even when the modeling assumptions are poor.
 - Squared loss is sensitive to outliers, so projection geometry does not automatically imply robust modeling.
 

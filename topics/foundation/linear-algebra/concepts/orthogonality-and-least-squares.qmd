@@ -91,7 +91,7 @@ It becomes:
 
 `Which vector in the column space of A gets closest to b?`
 
-That closest vector is the orthogonal projection of `b` onto `\operatorname{col}(A)`.
+That closest vector is the orthogonal projection of $b$ onto $\operatorname{col}(A)$.
 
 The residual
 
@@ -99,28 +99,28 @@ $$
 r = b - A\hat{x}
 $$
 
-is not arbitrary noise. At the optimum it points exactly in the direction that the column space cannot explain. That is why the residual is orthogonal to every column of `A`.
+is not arbitrary noise. At the optimum it points exactly in the direction that the column space cannot explain. That is why the residual is orthogonal to every column of $A$.
 
 ## Formal Core
 
 ::: {#def-least-squares}
 ## Definition
 
-For a matrix `A \in \mathbb{R}^{m \times n}` and data vector `b \in \mathbb{R}^m`, the linear least-squares problem is
+For a matrix $A \in \mathbb{R}^{m \times n}$ and data vector $b \in \mathbb{R}^m$, the linear least-squares problem is
 
 $$
 \hat{x} \in \arg\min_{x \in \mathbb{R}^n} \|Ax - b\|_2^2.
 $$
 
-The fitted vector is `A\hat{x}` and the residual is `r = b - A\hat{x}`.
+The fitted vector is $A\hat{x}$ and the residual is $r = b - A\hat{x}$.
 :::
 
-The key geometric fact is that `A\hat{x}` must be the orthogonal projection of `b` onto `\operatorname{col}(A)`.
+The key geometric fact is that $A\hat{x}$ must be the orthogonal projection of $b$ onto $\operatorname{col}(A)$.
 
 ::: {#prp-projection-principle}
 ## Projection Principle
 
-A vector `\hat{x}` solves the least-squares problem if and only if the residual `r = b - A\hat{x}` is orthogonal to the column space of `A`.
+A vector $\hat{x}$ solves the least-squares problem if and only if the residual $r = b - A\hat{x}$ is orthogonal to the column space of $A$.
 
 Equivalently,
 
@@ -135,20 +135,20 @@ $$
 A^\top A \hat{x} = A^\top b.
 $$ {#eq-normal-equations}
 
-If the columns of `A` are linearly independent, then `A^\top A` is invertible and the least-squares solution is unique:
+If the columns of $A$ are linearly independent, then $A^\top A$ is invertible and the least-squares solution is unique:
 
 $$
 \hat{x} = (A^\top A)^{-1} A^\top b.
 $$
 
-This closed form is conceptually useful, but in practice it is usually better to solve least squares through `QR` or `SVD`, not by explicitly forming `(A^\top A)^{-1}`.
+This closed form is conceptually useful, but in practice it is usually better to solve least squares through `QR` or `SVD`, not by explicitly forming $(A^\top A)^{-1}$.
 
 ## Worked Example
 
-Fit a line `y \approx \beta_0 + \beta_1 t` through the three points
+Fit a line $y \approx \beta_0 + \beta_1 t$ through the three points
 `(0,1)`, `(1,2)`, `(2,2)`.
 
-Write this as `A\beta \approx b`, with
+Write this as $A\beta \approx b$, with
 
 $$
 A =
@@ -236,7 +236,7 @@ The residual is orthogonal to both columns of `A`, so it is orthogonal to the wh
 
 ## Computation Lens
 
-The mathematics says `A^\top A \hat{x} = A^\top b`, but numerical linear algebra immediately asks a second question:
+The mathematics says $A^\top A \hat{x} = A^\top b$, but numerical linear algebra immediately asks a second question:
 
 `What is the stable way to solve it?`
 
@@ -250,9 +250,9 @@ This is why least squares is not only a modeling tool. It is also a gateway to n
 
 ## Application Lens
 
-In linear regression, the design matrix `X` plays the role of `A`, the coefficient vector `\beta` plays the role of `x`, and the target vector `y` plays the role of `b`.
+In linear regression, the design matrix $X$ plays the role of $A$, the coefficient vector $\beta$ plays the role of $x$, and the target vector $y$ plays the role of $b$.
 
-The fitted prediction `X\hat{\beta}` is the orthogonal projection of `y` onto the column space of `X`.
+The fitted prediction $X\hat{\beta}$ is the orthogonal projection of $y$ onto the column space of $X$.
 
 That one sentence explains several practical facts:
 
@@ -272,15 +272,15 @@ For a fuller application walkthrough, see [Linear Regression Through Projection]
 ## Common Mistakes
 
 - thinking the normal equations are automatically the best numerical algorithm
-- forgetting that `A^\top A` is invertible only when the columns of `A` are linearly independent
+- forgetting that $A^\top A$ is invertible only when the columns of $A$ are linearly independent
 - confusing projection onto the `column space` with projection onto the `row space`
 - treating the residual as an arbitrary error vector instead of a vector forced into the orthogonal complement
 - using least squares as a default model choice even when the data are highly nonlinear, badly contaminated, or structurally constrained
 
 ## Exercises
 
-1. Show that if the columns of `A` are orthonormal, then the least-squares solution is `\hat{x} = A^\top b`.
-2. In the worked example above, verify directly that the residual is orthogonal to every vector in `\operatorname{col}(A)`.
+1. Show that if the columns of $A$ are orthonormal, then the least-squares solution is $\hat{x} = A^\top b$.
+2. In the worked example above, verify directly that the residual is orthogonal to every vector in $\operatorname{col}(A)$.
 3. Explain why an intercept term in linear regression forces the residuals to sum to zero.
 
 ## Sources and Further Reading

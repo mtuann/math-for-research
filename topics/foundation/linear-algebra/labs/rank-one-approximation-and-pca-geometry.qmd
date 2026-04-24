@@ -51,7 +51,7 @@ How do noise level and retained rank affect:
 
 We start from a deterministic point cloud that is almost one-dimensional.
 
-The points are centered feature vectors in `\mathbb{R}^2`. When the noise scale is small, the data matrix is close to rank `1`; when the noise scale grows, the second singular value grows too.
+The points are centered feature vectors in $\mathbb{R}^2$. When the noise scale is small, the data matrix is close to rank `1`; when the noise scale grows, the second singular value grows too.
 
 ## Parameters and Controls
 
@@ -252,7 +252,7 @@ md`
 
 ## What To Observe
 
-- With `Noise scale = 0`, the point cloud is exactly rank `1`, so the second singular value and the rank-`1` reconstruction error both collapse to zero up to floating-point roundoff.
+- With `Noise scale = 0`, the point cloud is exactly rank $1$, so the second singular value and the rank-$1$ reconstruction error both collapse to zero up to floating-point roundoff.
 - When `Retained rank = 1`, the orange reconstruction points lie on the principal line.
 - As the noise scale increases, the reconstruction segments grow and the second singular value grows with them.
 - When `Retained rank = 2`, the reconstruction becomes exact and the Frobenius error drops to zero.
@@ -261,7 +261,7 @@ md`
 
 This lab is the two-feature version of truncated SVD.
 
-The centered data matrix `X` is being approximated by `X_1`, the best rank-`1` matrix. In geometry, that means every data row is projected onto the top principal direction.
+The centered data matrix $X$ is being approximated by $X_1$, the best rank-$1$ matrix. In geometry, that means every data row is projected onto the top principal direction.
 
 In this setup, the Frobenius reconstruction error for the rank-`1` approximation matches the discarded singular value because there are only two singular values total:
 

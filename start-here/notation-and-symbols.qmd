@@ -8,16 +8,16 @@ Many people are blocked less by ideas than by notation density. This page gives 
 
 ## Frequent Symbols
 
-- `\forall` means “for all”
-- `\exists` means “there exists”
-- `\in` means “is an element of”
-- `\subseteq` means “is a subset of”
-- `\mathbb{R}^n` means `n`-dimensional real space
-- `\|x\|` means a norm or size of `x`
-- `\langle x, y \rangle` means inner product
-- `\mathbb{E}[X]` means expectation
-- `\mathrm{Var}(X)` means variance
-- `A^\top` means transpose
+- $\forall$ means “for all”
+- $\exists$ means “there exists”
+- $\in$ means “is an element of”
+- $\subseteq$ means “is a subset of”
+- $\mathbb{R}^n$ means $n$-dimensional real space
+- $\|x\|$ means a norm or size of $x$
+- $\langle x, y \rangle$ means inner product
+- $\mathbb{E}[X]$ means expectation
+- $\mathrm{Var}(X)$ means variance
+- $A^\top$ means transpose
 
 ## Reading Advice
 
@@ -29,4 +29,3 @@ When a formula feels dense:
 4. rewrite it in words once
 
 That one habit makes a huge difference later.
-

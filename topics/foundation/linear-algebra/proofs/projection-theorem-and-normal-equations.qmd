@@ -80,7 +80,7 @@ The proof has two directions.
 
 For `2 -> 1`, assume the residual is already orthogonal to the column space and show every perturbation makes the objective larger.
 
-For `1 -> 3`, assume $\hat{x}$ minimizes the objective and probe the objective along arbitrary directions $\hat{x} + tz$.
+For implication $1 \to 3$, assume $\hat{x}$ minimizes the objective and probe the objective along arbitrary directions $\hat{x} + tz$.
 
 That gives the normal equations, and the normal equations are exactly the matrix form of residual orthogonality.
 

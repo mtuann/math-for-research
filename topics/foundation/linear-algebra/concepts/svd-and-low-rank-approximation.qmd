@@ -76,7 +76,7 @@ Use this page as the `entry point`. Then branch into the companion pages only wh
 ## Prerequisite Recall
 
 - an orthogonal matrix preserves dot products and Euclidean norms
-- the matrix `A^\top A` is symmetric positive semidefinite
+- the matrix $A^\top A$ is symmetric positive semidefinite
 - rank counts the number of independent directions carried by a matrix
 - orthogonal projection explains best approximation inside a subspace
 - [Orthogonality and Least Squares](orthogonality-and-least-squares.qmd) already showed one best-approximation problem inside linear algebra
@@ -97,7 +97,7 @@ $$
 A = \sum_{i=1}^r \sigma_i u_i v_i^\top
 $$
 
-writes the matrix as a sum of rank-`1` ingredients, ordered from most important to least important by the singular values `\sigma_i`.
+writes the matrix as a sum of rank-$1$ ingredients, ordered from most important to least important by the singular values $\sigma_i$.
 
 Low-rank approximation says:
 
@@ -110,7 +110,7 @@ When the singular values decay quickly, that simple rule preserves most of the u
 ::: {#def-thin-svd}
 ## Definition
 
-Let `A \in \mathbb{R}^{m \times n}` have rank `r`.
+Let $A \in \mathbb{R}^{m \times n}$ have rank $r$.
 
 A thin singular value decomposition of `A` is
 
@@ -121,12 +121,12 @@ $$
 
 where:
 
-- `U_r \in \mathbb{R}^{m \times r}` has orthonormal columns
-- `V_r \in \mathbb{R}^{n \times r}` has orthonormal columns
-- `\Sigma_r = \operatorname{diag}(\sigma_1,\dots,\sigma_r)` with
-  `\sigma_1 \ge \sigma_2 \ge \cdots \ge \sigma_r > 0`
+- $U_r \in \mathbb{R}^{m \times r}$ has orthonormal columns
+- $V_r \in \mathbb{R}^{n \times r}$ has orthonormal columns
+- $\Sigma_r = \operatorname{diag}(\sigma_1,\dots,\sigma_r)$ with
+  $\sigma_1 \ge \sigma_2 \ge \cdots \ge \sigma_r > 0$
 
-The vectors `u_i` are the left singular vectors, the vectors `v_i` are the right singular vectors, and the `\sigma_i` are the singular values.
+The vectors $u_i$ are the left singular vectors, the vectors $v_i$ are the right singular vectors, and the $\sigma_i$ are the singular values.
 :::
 
 The singular values are tightly linked to symmetric matrices:
@@ -137,24 +137,24 @@ A^\top A = V_r \Sigma_r^2 V_r^\top,
 AA^\top = U_r \Sigma_r^2 U_r^\top.
 $$
 
-So the right singular vectors are eigenvectors of `A^\top A`, the left singular vectors are eigenvectors of `AA^\top`, and the singular values are the square roots of the nonzero eigenvalues.
+So the right singular vectors are eigenvectors of $A^\top A$, the left singular vectors are eigenvectors of $AA^\top$, and the singular values are the square roots of the nonzero eigenvalues.
 
 ::: {#def-truncated-svd}
 ## Truncated SVD
 
-For `1 \le k < r`, the rank-`k` truncated SVD is
+For $1 \le k < r$, the rank-$k$ truncated SVD is
 
 $$
 A_k = \sum_{i=1}^k \sigma_i u_i v_i^\top.
 $$
 
-This keeps the top `k` singular directions and discards the rest.
+This keeps the top $k$ singular directions and discards the rest.
 :::
 
 ::: {#thm-eckart-young}
 ## Eckart-Young Theorem
 
-For every matrix `B` with `\operatorname{rank}(B) \le k`,
+For every matrix $B$ with $\operatorname{rank}(B) \le k$,
 
 $$
 \|A - A_k\|_F \le \|A - B\|_F
@@ -248,7 +248,7 @@ Three computational ideas matter immediately:
 - `truncated SVD`: use only the top `k` components when storage or approximation quality matters more than exactness
 - `numerical rank`: in floating-point settings, very small singular values often behave like noise or near-dependence
 
-SVD also explains why it is safer than the normal equations in hard least-squares problems: it exposes tiny singular values directly instead of hiding them inside `A^\top A`.
+SVD also explains why it is safer than the normal equations in hard least-squares problems: it exposes tiny singular values directly instead of hiding them inside $A^\top A$.
 
 On large matrices, exact SVD can be too expensive. That is where randomized low-rank approximation, sketching, and streaming methods enter.
 
@@ -280,7 +280,7 @@ For a concrete data-analysis example, see [PCA Through SVD](../applications/pca-
 
 ## Exercises
 
-1. Write the thin SVD and best rank-`1` approximation of `\operatorname{diag}(5,2)`.
+1. Write the thin SVD and best rank-$1$ approximation of $\operatorname{diag}(5,2)$.
 2. Show that if `A` has orthonormal columns, then all of its singular values are `1`.
 3. Explain in one paragraph why `SVD` is the right tool to understand both `PCA` and ill-conditioned least squares.
 

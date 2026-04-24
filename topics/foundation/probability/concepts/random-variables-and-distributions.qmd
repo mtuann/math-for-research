@@ -12,9 +12,9 @@ A random variable is not randomness itself. It is a function that assigns a nume
 
 ## Formal Core
 
-If the experiment outcome is `\omega`, then a random variable `X` maps `\omega` to a number `X(\omega)`.
+If the experiment outcome is $\omega$, then a random variable $X$ maps $\omega$ to a number $X(\omega)$.
 
-The distribution of `X` tells you how likely different values of `X` are.
+The distribution of $X$ tells you how likely different values of $X$ are.
 
 For discrete variables, this is often encoded by a probability mass function.
 For continuous variables, this is often encoded by a probability density function.
@@ -39,4 +39,3 @@ This distinction matters immediately in ML and statistics:
 - predictions may be modeled probabilistically
 
 If the object of randomness is unclear, the entire argument becomes unstable.
-

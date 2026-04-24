@@ -51,16 +51,16 @@ $$
 A = \sum_{i=1}^r \sigma_i u_i v_i^\top
 $$
 
-be the thin SVD of `A \in \mathbb{R}^{m \times n}`, with
-`\sigma_1 \ge \cdots \ge \sigma_r > 0`.
+be the thin SVD of $A \in \mathbb{R}^{m \times n}$, with
+$\sigma_1 \ge \cdots \ge \sigma_r > 0$.
 
-For `1 \le k < r`, define the truncated SVD
+For $1 \le k < r$, define the truncated SVD
 
 $$
 A_k = \sum_{i=1}^k \sigma_i u_i v_i^\top.
 $$
 
-Then for every matrix `B` with `\operatorname{rank}(B) \le k`,
+Then for every matrix $B$ with $\operatorname{rank}(B) \le k$,
 
 $$
 \|A-A_k\|_F \le \|A-B\|_F.
@@ -79,31 +79,31 @@ This proof is worth learning because it keeps reappearing in disguised form:
 
 - `PCA` is the same theorem applied to a centered data matrix
 - randomized low-rank algorithms are measured against the truncated SVD benchmark
-- matrix denoising and compression arguments often reduce to the same rank-`k` comparison
+- matrix denoising and compression arguments often reduce to the same rank-$k$ comparison
 - later spectral proofs reuse the same pattern of rotating into the singular-vector basis
 
 ## Dependencies
 
 - orthogonal matrices preserve Frobenius norm
 - singular vectors give orthonormal bases
-- orthogonal projection onto a `k`-dimensional subspace maximizes captured energy when the subspace aligns with dominant singular directions
-- for a matrix `M`, `\|M\|_F^2` is the sum of squares of its entries
+- orthogonal projection onto a $k$-dimensional subspace maximizes captured energy when the subspace aligns with dominant singular directions
+- for a matrix $M$, $\|M\|_F^2$ is the sum of squares of its entries
 
 ## Strategy Before Details
 
 The proof has two steps.
 
-1. Show that `A_k` leaves behind exactly the tail singular values, so its error is easy to compute.
-2. Show that every other rank-`k` matrix must miss at least that much energy.
+1. Show that $A_k$ leaves behind exactly the tail singular values, so its error is easy to compute.
+2. Show that every other rank-$k$ matrix must miss at least that much energy.
 
-The key move is to compare any candidate matrix `B` through the projection onto its column space.
+The key move is to compare any candidate matrix $B$ through the projection onto its column space.
 
 ## Full Proof
 
 ::: {.proof}
 First compute the error of the truncated SVD itself.
 
-Because the outer products `u_i v_i^\top` are orthonormal under the Frobenius inner product,
+Because the outer products $u_i v_i^\top$ are orthonormal under the Frobenius inner product,
 
 $$
 A - A_k = \sum_{i=k+1}^r \sigma_i u_i v_i^\top
@@ -115,9 +115,9 @@ $$
 \|A-A_k\|_F^2 = \sum_{i=k+1}^r \sigma_i^2.
 $$
 
-Now let `B` be any matrix with `\operatorname{rank}(B) \le k`.
-Let `P` be the orthogonal projection onto `\operatorname{col}(B)`.
-Since every column of `B` lies in `\operatorname{col}(B)`, we have `PB = B`.
+Now let $B$ be any matrix with $\operatorname{rank}(B) \le k$.
+Let $P$ be the orthogonal projection onto $\operatorname{col}(B)$.
+Since every column of $B$ lies in $\operatorname{col}(B)$, we have $PB = B$.
 
 Write
 
@@ -125,7 +125,7 @@ $$
 A-B = (I-P)A + (PA-B).
 $$
 
-The first term lies in `\operatorname{col}(B)^\perp`, while the second lies in `\operatorname{col}(B)`.
+The first term lies in $\operatorname{col}(B)^\perp$, while the second lies in $\operatorname{col}(B)$.
 So they are orthogonal, and the Pythagorean theorem gives
 
 $$
@@ -134,15 +134,15 @@ $$
 \ge \|(I-P)A\|_F^2.
 $$
 
-Thus it is enough to lower-bound `\|(I-P)A\|_F^2`.
+Thus it is enough to lower-bound $\|(I-P)A\|_F^2$.
 
-Since `P` is an orthogonal projection,
+Since $P$ is an orthogonal projection,
 
 $$
 \|(I-P)A\|_F^2 = \|A\|_F^2 - \|PA\|_F^2.
 $$
 
-Let `s = \operatorname{rank}(B)`, so `s \le k`, and let `q_1,\dots,q_s` be an orthonormal basis for `\operatorname{col}(B)`.
+Let $s = \operatorname{rank}(B)$, so $s \le k$, and let $q_1,\dots,q_s$ be an orthonormal basis for $\operatorname{col}(B)$.
 Then
 
 $$
@@ -151,7 +151,7 @@ $$
 = \sum_{j=1}^s q_j^\top A A^\top q_j.
 $$
 
-Using `AA^\top = U_r \Sigma_r^2 U_r^\top`, write `q_j = U_r z_j + w_j`, where `w_j` is orthogonal to `\operatorname{col}(U_r)`.
+Using $AA^\top = U_r \Sigma_r^2 U_r^\top$, write $q_j = U_r z_j + w_j$, where $w_j$ is orthogonal to $\operatorname{col}(U_r)$.
 Then
 
 $$
@@ -172,7 +172,7 @@ $$
 \alpha_i = \sum_{j=1}^s z_{j,i}^2.
 $$
 
-Each `\alpha_i` lies in `[0,1]`, and because the `q_j` are orthonormal,
+Each $\alpha_i$ lies in $[0,1]$, and because the $q_j$ are orthonormal,
 
 $$
 \sum_{i=1}^r \alpha_i
@@ -181,8 +181,8 @@ $$
 \le k.
 $$
 
-Therefore `\sum_{i=1}^r \sigma_i^2 \alpha_i` is at most
-`\sum_{i=1}^k \sigma_i^2`, because the total mass is at most `k`, each coefficient is at most `1`, and the singular values are ordered from largest to smallest.
+Therefore $\sum_{i=1}^r \sigma_i^2 \alpha_i$ is at most
+$\sum_{i=1}^k \sigma_i^2$, because the total mass is at most $k$, each coefficient is at most $1$, and the singular values are ordered from largest to smallest.
 Hence
 
 $$
@@ -199,15 +199,15 @@ $$
 = \|A-A_k\|_F^2.
 $$
 
-So `A_k` is a best rank-`k` approximation in Frobenius norm.
+So $A_k$ is a best rank-$k$ approximation in Frobenius norm.
 :::
 
 ## Step Annotations
 
-1. The tail formula for `A-A_k` works because the rank-`1` SVD pieces are orthogonal in Frobenius inner product.
-2. Replacing `B` by projection onto its column space is the key simplification: the best rank-`k` matrix must live inside some `k`-dimensional output subspace.
-3. The proof becomes an energy-capture question: how much of `A` can any `k`-dimensional subspace retain?
-4. The ordering of the singular values forces the best subspace to align with the first `k` left singular vectors.
+1. The tail formula for $A-A_k$ works because the rank-$1$ SVD pieces are orthogonal in Frobenius inner product.
+2. Replacing $B$ by projection onto its column space is the key simplification: the best rank-$k$ matrix must live inside some $k$-dimensional output subspace.
+3. The proof becomes an energy-capture question: how much of $A$ can any $k$-dimensional subspace retain?
+4. The ordering of the singular values forces the best subspace to align with the first $k$ left singular vectors.
 
 ## Why The Assumptions Matter
 
@@ -217,7 +217,7 @@ So `A_k` is a best rank-`k` approximation in Frobenius norm.
 
 ## Common Failure Modes
 
-- writing `A_k` correctly but forgetting to justify why every other rank-`k` matrix can be compared through its column space
+- writing $A_k$ correctly but forgetting to justify why every other rank-`k` matrix can be compared through its column space
 - using the projection matrix `P` without noting that `PB = B`
 - assuming the best subspace result without explaining why the dominant singular directions maximize captured energy
 - claiming the spectral-norm statement was proved here when this page only proved the Frobenius-norm version
@@ -240,8 +240,8 @@ This proof teaches a pattern that returns later:
 
 ## Exercises
 
-1. Show directly that `\|A-A_k\|_F^2 = \sum_{i=k+1}^r \sigma_i^2` using the outer-product expansion.
-2. Identify exactly where the proof uses the ordering `\sigma_1 \ge \cdots \ge \sigma_r`.
+1. Show directly that $\|A-A_k\|_F^2 = \sum_{i=k+1}^r \sigma_i^2$ using the outer-product expansion.
+2. Identify exactly where the proof uses the ordering $\sigma_1 \ge \cdots \ge \sigma_r$.
 3. Explain why the proof naturally suggests `PCA` when `A` is a centered data matrix.
 
 ## Sources and Further Reading

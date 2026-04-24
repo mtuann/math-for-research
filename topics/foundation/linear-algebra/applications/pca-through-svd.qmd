@@ -62,7 +62,7 @@ $$
 Then:
 
 - the columns of `V` are the principal directions
-- the matrix `U\Sigma` contains the principal component scores
+- the matrix $U\Sigma$ contains the principal component scores
 - the truncated matrix
 
   $$
@@ -91,16 +91,16 @@ $$
 X^\top X = V \Sigma^2 V^\top,
 $$
 
-the principal directions are exactly the eigenvectors of the covariance-type matrix `X^\top X`.
+the principal directions are exactly the eigenvectors of the covariance-type matrix $X^\top X$.
 
 Because of Eckart-Young, the same singular vectors also solve the best rank-`k` reconstruction problem.
 
 ## Math Objects In Use
 
 - centered data matrix `X`
-- right singular vectors `v_i`
-- singular values `\sigma_i`
-- rank-`k` reconstruction `X_k`
+- right singular vectors $v_i$
+- singular values $\sigma_i$
+- rank-$k$ reconstruction $X_k$
 - explained-variance ratios
 - projection of data rows onto the top singular directions
 
@@ -138,7 +138,7 @@ $$
 
 That vector is the first principal direction.
 
-The large gap between `\sigma_1` and `\sigma_2` tells you the data are close to one-dimensional.
+The large gap between $\sigma_1$ and $\sigma_2$ tells you the data are close to one-dimensional.
 
 Keeping only the first singular direction gives the rank-`1` approximation
 
@@ -183,8 +183,8 @@ This is a good example of theory helping implementation. The math says covarianc
 ## Try It
 
 1. Replace the second feature by `10` times its current value and recompute the top principal direction. How much of the change is scaling rather than structure?
-2. Compute both `X^\top X` and the `SVD` of `X` in software. Verify that the leading eigenvector and leading right singular vector agree up to sign.
-3. Compare `X_1` with the original `X` row by row and interpret the reconstruction error geometrically.
+2. Compute both $X^\top X$ and the `SVD` of `X` in software. Verify that the leading eigenvector and leading right singular vector agree up to sign.
+3. Compare $X_1$ with the original `X` row by row and interpret the reconstruction error geometrically.
 
 ## Sources and Further Reading
 

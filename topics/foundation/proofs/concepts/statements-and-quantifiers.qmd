@@ -22,19 +22,19 @@ A mathematical statement is not just a sentence. It also has scope:
 
 The two quantifiers you must read precisely are:
 
-- `\forall x \in S, P(x)` meaning “for every `x` in `S`, property `P(x)` holds”
-- `\exists x \in S such that P(x)` meaning “there exists at least one `x` in `S` with property `P(x)`”
+- $\forall x \in S, P(x)$ meaning “for every $x$ in $S$, property $P(x)$ holds”
+- $\exists x \in S \text{ such that } P(x)$ meaning “there exists at least one $x$ in $S$ with property $P(x)$”
 
 Negation rules matter:
 
-- `\neg(\forall x, P(x))` becomes `\exists x` such that `\neg P(x)`
-- `\neg(\exists x, P(x))` becomes `\forall x, \neg P(x)`
+- $\neg(\forall x, P(x))$ becomes $\exists x$ such that $\neg P(x)$
+- $\neg(\exists x, P(x))$ becomes $\forall x, \neg P(x)$
 
 ## Worked Example
 
 Claim:
 
-> For every real number `x`, if `x > 1` then `x^2 > 1`.
+> For every real number $x$, if $x > 1$ then $x^2 > 1$.
 
 This is a universal statement with a conditional structure. To test your reading, ask:
 
@@ -46,7 +46,7 @@ This is a universal statement with a conditional structure. To test your reading
 
 In research papers, assumptions are often compressed into a line like:
 
-> Let `f` be `L`-smooth and `\mu`-strongly convex.
+> Let $f$ be $L$-smooth and $\mu$-strongly convex.
 
 That line is already doing heavy logical work. If you read it casually, the rest of the theorem becomes blurry.
 
@@ -60,4 +60,3 @@ That line is already doing heavy logical work. If you read it casually, the rest
 
 1. Negate the statement: “For every matrix `A`, there exists a vector `x` such that `Ax = 0`.”
 2. Rewrite “No continuous function on `[0,1]` is unbounded” using quantifiers.
-
