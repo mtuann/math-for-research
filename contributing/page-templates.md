@@ -31,6 +31,17 @@ Use exactly one of the templates in [contributing/templates](templates/README.md
 
 Do not merge `concept`, `proof`, `application`, and `paper-lab` into one page. One page should have one main job.
 
+### 2.5. Make the concept page the first-pass finish line
+
+For a standard topic:
+
+- the `concept` page must stand on its own for first-pass learning
+- a reader should not have to open another page just to understand the core idea
+- the default public path should expose at most `3` primary companion links
+- those primary companions should normally be `proof`, `application`, and `exercise` or `computation-lab`
+
+Treat `paper-lab`, `research-direction`, `source-guide`, and any extra practice pages as optional secondary depth, not as required reading for the first pass.
+
 ### 3. Fill front matter before writing
 
 Set the page metadata first so the page is classifiable, reviewable, and easy to list later.
@@ -300,6 +311,7 @@ Every page revision should satisfy all of these:
 
 - `metadata complete`
 - `source sweep completed`
+- `main page stands alone for first-pass understanding`
 - `last-reviewed updated`
 - `source-check-date updated`
 - `review cadence set`
@@ -307,11 +319,27 @@ Every page revision should satisfy all of these:
 - `notation introduced before use`
 - `at least one worked example included`
 - `at least one application or paper bridge included`
+- `primary companion links limited to the pages that truly change learning mode`
 - `prerequisites and next links checked`
 - `if code appears, the static render path is clear`
 - `if randomness appears, seeds or stochastic assumptions are documented`
 - `if figures appear, axes, legends, and control meanings are labeled`
 - `draft flag correct`
+
+## Gold-Standard Topic Rule
+
+A `gold-standard` topic is not “every possible page attached to one slug.”
+
+A gold-standard topic should have:
+
+- `1 canonical concept page` that is fully usable on its own
+- `0 to 3 primary companions` for proof, application, and practice or lab
+- `optional secondary depth pages` only when they materially improve practice, paper reading, or current-awareness
+
+Use this rule of thumb:
+
+- if removing a companion page makes the concept page confusing, merge the material back into the concept page
+- if the companion page changes the reader's mode from learning to proving, applying, practicing, simulating, or reading papers, splitting is justified
 
 ## Computational Content Policy
 

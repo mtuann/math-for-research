@@ -30,6 +30,7 @@ Before writing:
 2. Verify at least 3 live sources
 3. Decide the module boundary: what is in and what is out
 4. Update freshness fields after checking sources
+5. Make the module page show the spine first, not the full package catalog
 -->
 
 ## Why This Module Matters
@@ -51,14 +52,22 @@ Write `2 to 4` short paragraphs:
 - outcome 2
 - outcome 3
 
-## Module Map
+## First Pass Through This Module
 
-List the internal sequence in order. Keep it directional, not alphabetical.
+List only the core concept sequence in order. Keep it directional, not alphabetical.
 
 1. topic
 2. topic
 3. topic
 4. topic
+
+## Navigation Rule
+
+Explain that:
+
+- the global sidebar shows the spine
+- concept pages are the first-pass finish line
+- proof, application, lab, paper-lab, research, and source pages are optional depth
 
 ## Core Concepts
 
@@ -66,11 +75,11 @@ Briefly describe each major concept page and why it belongs here.
 
 ### Concept 1
 
-One paragraph.
+One short paragraph.
 
 ### Concept 2
 
-One paragraph.
+One short paragraph.
 
 ## Proof Patterns In This Module
 
@@ -89,7 +98,20 @@ What objects from this module appear here? What questions does the math answer?
 
 What objects from this module appear here? What questions does the math answer?
 
-## Paper Bridge
+## Go Deeper By Topic
+
+For each anchor topic, point to only the most useful next step pages.
+
+Suggested pattern:
+
+- `Topic page`
+- `Proof` if the reader wants derivation
+- `Application` if the reader wants context
+- `Exercise` or `lab` if the reader wants practice or visual intuition
+
+Do not list every possible companion page in the main module flow.
+
+## Optional Deep Dives After First Pass
 
 Include `1 classic` and `1 bridge or modern` reference.
 
@@ -101,7 +123,8 @@ Include `1 classic` and `1 bridge or modern` reference.
 Explain:
 
 - the recommended reading order inside the module
-- what can be skimmed first
+- what counts as the first pass
+- what can be revisited later as optional depth
 - what must be mastered before moving on
 
 ## Sources and Further Reading

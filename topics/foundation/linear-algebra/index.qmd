@@ -47,7 +47,7 @@ Least squares, SVD, covariance, kernels, spectral arguments
 :::
 :::
 
-## Starter Sequence
+## First Pass Through This Module
 
 1. [Vectors and Linear Combinations](concepts/vectors-and-linear-combinations.qmd)
 2. Matrices and linear maps
@@ -55,6 +55,8 @@ Least squares, SVD, covariance, kernels, spectral arguments
 4. [Orthogonality and Least Squares](concepts/orthogonality-and-least-squares.qmd)
 5. Eigenvalues and diagonalization
 6. [SVD and Low-Rank Approximation](concepts/svd-and-low-rank-approximation.qmd)
+
+On a first pass, stay on the concept pages. You should not need proof, application, lab, paper-lab, research, or source-guide pages just to understand the main story of the module.
 
 ## Navigation Rule
 
@@ -65,34 +67,38 @@ The global sidebar shows only the linear algebra `spine`:
 
 The proof, exercise, application, lab, paper-lab, research, and source-guide pages are `deep-dive companions`. They stay linked from this module page and the topic concept pages, rather than all appearing in the main sidebar at once.
 
-## Deep-Dive Topic Packages
+## Go Deeper By Topic
 
-The first two full topic packages in this module are:
+### Orthogonality and Least Squares
 
-- `orthogonality-and-least-squares`
-- `svd-and-low-rank-approximation`
+Start with [Orthogonality and Least Squares](concepts/orthogonality-and-least-squares.qmd).
 
-If you want to see the whole site model in one place, use this sequence:
+If you want more after the main page:
 
-1. [Orthogonality and Least Squares](concepts/orthogonality-and-least-squares.qmd)
-2. [Projection Theorem and Normal Equations](proofs/projection-theorem-and-normal-equations.qmd)
-3. [Exercises: Orthogonality and Least Squares](exercises/orthogonality-and-least-squares.qmd)
-4. [Linear Regression Through Projection](applications/linear-regression-through-projection.qmd)
-5. [Computation Lab: Projection Geometry and Regression Residuals](labs/orthogonality-and-least-squares-geometry.qmd)
-6. [Paper Lab: Randomized Sketching for Least Squares](paper-lab/randomized-sketching-for-least-squares.qmd)
-7. [Research Direction: Least Squares, Sketching, and Overparameterized Regression](research/least-squares-sketching-and-overparameterized-regression.qmd)
-8. [Source Guide: Orthogonality and Least Squares](sources/orthogonality-and-least-squares.qmd)
+- `Proof`: [Projection Theorem and Normal Equations](proofs/projection-theorem-and-normal-equations.qmd)
+- `Application`: [Linear Regression Through Projection](applications/linear-regression-through-projection.qmd)
+- `Visual intuition`: [Computation Lab: Projection Geometry and Regression Residuals](labs/orthogonality-and-least-squares-geometry.qmd)
 
-For the spectral side of the module, use this second package:
+### SVD and Low-Rank Approximation
 
-1. [SVD and Low-Rank Approximation](concepts/svd-and-low-rank-approximation.qmd)
-2. [Eckart-Young and Truncated SVD](proofs/eckart-young-and-truncated-svd.qmd)
-3. [Exercises: SVD and Low-Rank Approximation](exercises/svd-and-low-rank-approximation.qmd)
-4. [PCA Through SVD](applications/pca-through-svd.qmd)
-5. [Computation Lab: Rank-1 Approximation and PCA Geometry](labs/rank-one-approximation-and-pca-geometry.qmd)
-6. [Paper Lab: Finding Structure with Randomness](paper-lab/finding-structure-with-randomness.qmd)
-7. [Research Direction: Low-Rank Structure from Randomized Algorithms to Model Adaptation](research/low-rank-structure-from-randomized-algorithms-to-model-adaptation.qmd)
-8. [Source Guide: SVD and Low-Rank Approximation](sources/svd-and-low-rank-approximation.qmd)
+Start with [SVD and Low-Rank Approximation](concepts/svd-and-low-rank-approximation.qmd).
+
+If you want more after the main page:
+
+- `Proof`: [Eckart-Young and Truncated SVD](proofs/eckart-young-and-truncated-svd.qmd)
+- `Application`: [PCA Through SVD](applications/pca-through-svd.qmd)
+- `Visual intuition`: [Computation Lab: Rank-1 Approximation and PCA Geometry](labs/rank-one-approximation-and-pca-geometry.qmd)
+
+## Optional Deep Dives After First Pass
+
+After the first pass, use these pages when you want research-facing depth rather than basic understanding:
+
+- [Paper Lab: Randomized Sketching for Least Squares](paper-lab/randomized-sketching-for-least-squares.qmd)
+- [Research Direction: Least Squares, Sketching, and Overparameterized Regression](research/least-squares-sketching-and-overparameterized-regression.qmd)
+- [Source Guide: Orthogonality and Least Squares](sources/orthogonality-and-least-squares.qmd)
+- [Paper Lab: Finding Structure with Randomness](paper-lab/finding-structure-with-randomness.qmd)
+- [Research Direction: Low-Rank Structure from Randomized Algorithms to Model Adaptation](research/low-rank-structure-from-randomized-algorithms-to-model-adaptation.qmd)
+- [Source Guide: SVD and Low-Rank Approximation](sources/svd-and-low-rank-approximation.qmd)
 
 ## What You Want By The End
 

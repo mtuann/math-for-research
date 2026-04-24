@@ -30,11 +30,21 @@ Before writing:
 2. Confirm this page teaches one main concept only
 3. Decide the main example and one concrete application
 4. Update freshness fields after checking sources
+5. Make this page strong enough that a first-pass reader can stop here and still understand the topic
 -->
 
 ## Role
 
 State in `1 to 2` sentences what job this concept does inside the topic.
+
+## First-Pass Promise
+
+Tell the reader what they will understand from this page alone.
+
+Use plain language like:
+
+- `Read this page first.`
+- `If you stop here, you should still understand the core idea, one example, and one use.`
 
 ## Why It Matters
 
@@ -77,10 +87,37 @@ Show how the concept appears in calculation, implementation, or symbolic manipul
 
 Explain one real use case. Name the exact object or step where this concept appears.
 
-## Paper Bridge
+## Stop Here If
+
+- you understand the main definition or theorem
+- you can explain the worked example
+- you can describe one concrete use of the idea
+
+## Go Deeper
+
+Link only the primary companions that change the learning mode.
+
+Typical maximum:
+
+1. proof page
+2. application page
+3. exercise page or computation lab
+
+## Optional Paper Bridge
+
+Mark this section clearly as optional after the first pass.
 
 - `Reference`: what to look for in the paper or note
 - `Reference`: what prior knowledge is assumed
+
+## Optional After First Pass
+
+Link only optional deeper pages such as:
+
+- paper-lab
+- research-direction
+- source-guide
+- extra exercises if they are not part of the primary path
 
 ## Common Mistakes
 

@@ -51,6 +51,17 @@ This page is the bridge from geometric linear algebra to estimation, optimizatio
 
 Orthogonality tells you what it means to be the `best approximation inside a subspace`. Least squares turns that geometric idea into one of the most reused tools in statistics, machine learning, signal processing, and scientific computing.
 
+## First-Pass Promise
+
+Read this page first.
+
+If you stop here, you should still understand:
+
+- why least squares is a projection problem
+- what the normal equations say
+- how one complete worked example behaves
+- how the topic connects to regression and numerical computation
+
 ## Why It Matters
 
 This topic matters because it is one of the first places where the same mathematical object supports all of these at once:
@@ -59,18 +70,6 @@ This topic matters because it is one of the first places where the same mathemat
 - a computational problem: solve an overdetermined system stably
 - a modeling problem: fit parameters to data
 - a research bridge: understand sketching, inverse problems, and overparameterized regression
-
-## Companion Pages
-
-Use this page as the `entry point`. Then branch into the companion pages only when you want more depth:
-
-1. [Projection Theorem and Normal Equations](../proofs/projection-theorem-and-normal-equations.qmd)
-2. [Exercises: Orthogonality and Least Squares](../exercises/orthogonality-and-least-squares.qmd)
-3. [Linear Regression Through Projection](../applications/linear-regression-through-projection.qmd)
-4. [Computation Lab: Projection Geometry and Regression Residuals](../labs/orthogonality-and-least-squares-geometry.qmd)
-5. [Paper Lab: Randomized Sketching for Least Squares](../paper-lab/randomized-sketching-for-least-squares.qmd)
-6. [Research Direction: Least Squares, Sketching, and Overparameterized Regression](../research/least-squares-sketching-and-overparameterized-regression.qmd)
-7. [Source Guide: Orthogonality and Least Squares](../sources/orthogonality-and-least-squares.qmd)
 
 ## Prerequisite Recall
 
@@ -263,12 +262,6 @@ That one sentence explains several practical facts:
 
 For a fuller application walkthrough, see [Linear Regression Through Projection](../applications/linear-regression-through-projection.qmd). For an interactive picture, see [Computation Lab: Projection Geometry and Regression Residuals](../labs/orthogonality-and-least-squares-geometry.qmd).
 
-## Paper Bridge
-
-- [A Statistical Perspective on Randomized Sketching for Ordinary Least-Squares](https://jmlr.org/papers/v17/15-440.html) - `Paper bridge` - watch how projection geometry survives after data are compressed by a sketching matrix.
-- [Iterative Hessian Sketch: Fast and Accurate Solution Approximation for Constrained Least-Squares](https://jmlr.org/beta/papers/v17/14-460.html) - `Paper bridge` - watch how least-squares structure is preserved while the algorithm changes.
-- [The Implicit Bias of Benign Overfitting](https://www.jmlr.org/papers/v24/22-0784.html) - `Paper bridge` - watch how least-squares and minimum-norm interpolation reappear in modern overparameterized theory.
-
 ## Common Mistakes
 
 - thinking the normal equations are automatically the best numerical algorithm
@@ -282,6 +275,39 @@ For a fuller application walkthrough, see [Linear Regression Through Projection]
 1. Show that if the columns of $A$ are orthonormal, then the least-squares solution is $\hat{x} = A^\top b$.
 2. In the worked example above, verify directly that the residual is orthogonal to every vector in $\operatorname{col}(A)$.
 3. Explain why an intercept term in linear regression forces the residuals to sum to zero.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- why best approximation becomes orthogonal projection
+- why the normal equations encode residual orthogonality
+- how the worked example connects to regression
+
+then this page has done its main job.
+
+## Go Deeper
+
+Open one of these only if you want a different learning mode:
+
+1. [Projection Theorem and Normal Equations](../proofs/projection-theorem-and-normal-equations.qmd) for the full derivation
+2. [Linear Regression Through Projection](../applications/linear-regression-through-projection.qmd) for the cleanest application framing
+3. [Computation Lab: Projection Geometry and Regression Residuals](../labs/orthogonality-and-least-squares-geometry.qmd) for visual and numerical intuition
+
+## Optional Paper Bridge
+
+- [A Statistical Perspective on Randomized Sketching for Ordinary Least-Squares](https://jmlr.org/papers/v17/15-440.html) - `Paper bridge` - watch how projection geometry survives after data are compressed by a sketching matrix.
+- [Iterative Hessian Sketch: Fast and Accurate Solution Approximation for Constrained Least-Squares](https://jmlr.org/beta/papers/v17/14-460.html) - `Paper bridge` - watch how least-squares structure is preserved while the algorithm changes.
+- [The Implicit Bias of Benign Overfitting](https://www.jmlr.org/papers/v24/22-0784.html) - `Paper bridge` - watch how least-squares and minimum-norm interpolation reappear in modern overparameterized theory.
+
+## Optional After First Pass
+
+These are optional after the first pass:
+
+- [Exercises: Orthogonality and Least Squares](../exercises/orthogonality-and-least-squares.qmd)
+- [Paper Lab: Randomized Sketching for Least Squares](../paper-lab/randomized-sketching-for-least-squares.qmd)
+- [Research Direction: Least Squares, Sketching, and Overparameterized Regression](../research/least-squares-sketching-and-overparameterized-regression.qmd)
+- [Source Guide: Orthogonality and Least Squares](../sources/orthogonality-and-least-squares.qmd)
 
 ## Sources and Further Reading
 

@@ -6,6 +6,36 @@ This site is topic-first, not source-first. Books, courses, notes, papers, and b
 
 Every contributor must complete the sourcing checklist below before drafting or revising a topic page.
 
+## Topic Architecture Policy
+
+The default unit of teaching on this site is:
+
+- `one self-contained concept page`
+- `up to 3 primary companion pages`
+- `optional secondary depth pages`
+
+That means:
+
+- a reader should be able to understand the core topic from the main concept page alone on a first pass
+- the main page should answer `what is it`, `why does it matter`, and `how is it used`
+- proof, application, and exercise or lab pages are the only companions that should normally feel primary
+- paper-lab, research-direction, source-guide, and extra practice pages are secondary depth and should not be required for first-pass understanding
+
+Do not split a topic into many pages unless the split changes the learning mode.
+
+Good reasons to split:
+
+- a full proof with its own narrative
+- a distinct application reframing
+- a computation lab, simulation, or visualization
+- a separate paper-reading or research-direction layer
+
+Bad reasons to split:
+
+- the page feels long but still has one coherent teaching job
+- the companion page mostly repeats the core explanation
+- the topic page would become incomplete without the companion
+
 ### 1. Required Source Sweep
 
 Before writing, check online for all changeable items:

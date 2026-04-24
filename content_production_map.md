@@ -177,15 +177,11 @@ It also creates a strong path for later advanced modules:
 
 ## Tier 3: First 15 Gold-Standard Topics
 
-These are the first topics that should be promoted beyond a single concept page into a full package with:
+These are the first topics that should be promoted beyond a single concept page into a `gold-standard topic model` with:
 
-- concept page
-- proof page
-- exercise page
-- application page
-- paper-lab page
-- research-direction page
-- source guide
+- one canonical concept page that stands alone for first-pass learning
+- up to `3` primary companions such as proof, application, and exercise or lab
+- optional `secondary depth` pages only when they materially help with practice, papers, or current directions
 
 ### Proof And Math Language
 
@@ -257,17 +253,35 @@ This topic is the strongest template topic because it has all the right ingredie
 
 It is easier to turn into a complete package than `SVD`, while still giving you a very research-relevant result.
 
-## Recommended Gold-Standard Package For `orthogonality-and-least-squares`
+## Recommended Gold-Standard Model For `orthogonality-and-least-squares`
 
-Use this file set:
+Use this shape:
+
+### Canonical Main Page
 
 1. `concepts/orthogonality-and-least-squares.qmd`
+
+This page must be good enough that a first-pass reader can stop there and still understand:
+
+- the projection intuition
+- the normal equations
+- one complete worked example
+- one applied use
+
+### Primary Companions
+
 2. `proofs/projection-theorem-and-normal-equations.qmd`
-3. `exercises/orthogonality-and-least-squares.qmd`
-4. `applications/linear-regression-through-projection.qmd`
-5. `paper-lab/from-least-squares-to-modern-regression.qmd`
-6. `research/least-squares-sketching-and-overparameterized-regimes.qmd`
-7. `sources/orthogonality-and-least-squares.qmd`
+3. `applications/linear-regression-through-projection.qmd`
+4. `labs/orthogonality-and-least-squares-geometry.qmd`
+
+These pages change the learning mode from `understand` to `prove`, `apply`, and `visualize`.
+
+### Optional Secondary Depth
+
+5. `exercises/orthogonality-and-least-squares.qmd`
+6. `paper-lab/randomized-sketching-for-least-squares.qmd`
+7. `research/least-squares-sketching-and-overparameterized-regression.qmd`
+8. `sources/orthogonality-and-least-squares.qmd`
 
 ## What This Example Should Demonstrate
 
@@ -282,6 +296,8 @@ It should demonstrate:
 - how to connect a foundation topic to current papers without overselling novelty
 - how to annotate resources as `First pass`, `Second pass`, and `Paper bridge`
 - how to separate stable core from active frontier
+- how to make the concept page the finish line for a first pass
+- how to keep companion pages optional rather than required
 
 ## Second And Third Gold-Standard Candidates
 
@@ -297,7 +313,7 @@ These work well because:
 
 ## Recommended Publishing Order After The First Gold Standard
 
-1. Finish the full `orthogonality-and-least-squares` package
+1. Finish the main `orthogonality-and-least-squares` concept page and its `3` primary companions
 2. Promote `svd-and-low-rank-approximation`
 3. Promote `concentration-and-common-inequalities`
 4. Promote `constrained-optimization-kkt-and-lagrangians`
