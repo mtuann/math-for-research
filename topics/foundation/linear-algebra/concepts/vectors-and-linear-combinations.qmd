@@ -1,34 +1,103 @@
 ---
 title: "Vectors and Linear Combinations"
+description: "How vectors act as directions, states, and features, and why linear combinations and span are the first real language of linear algebra."
+page-type: concept
+status: published
+update-status: current
+level: foundation
+topic: linear-algebra
+prerequisites:
+  - /start-here/notation-and-symbols.qmd
+learning-goals:
+  - "Interpret vectors as mathematical objects rather than only columns of numbers."
+  - "Define linear combination and span precisely."
+  - "Recognize matrix-vector multiplication as a linear combination of columns."
+applications:
+  - machine-learning
+  - signal-processing
+  - optimization
+keywords:
+  - vectors
+  - linear combinations
+  - span
+  - column space
+  - matrix-vector multiplication
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: annual
+date-modified: last-modified
+draft: false
+next:
+  - /topics/foundation/linear-algebra/index.qmd
+related-pages:
+  - /topics/foundation/linear-algebra/index.qmd
+  - /topics/foundation/linear-algebra/concepts/orthogonality-and-least-squares.qmd
+stable-sources:
+  - "MIT 18.06SC Basis and Dimension"
+  - "Stanford Math 51"
+  - "Hefferon, Linear Algebra"
+current-sources:
+  - "Deep learning, transformers and graph neural networks: a linear algebra perspective (2025)"
 ---
 
 ## Role
 
-This page introduces the idea that many mathematical objects are best understood as combinations of simpler directions.
+This page is the true entry point into linear algebra.
+
+It introduces the idea that complicated objects are often built from simpler directions, and that understanding which vectors can be assembled from other vectors is the start of span, basis, column space, least squares, and SVD.
+
+## First-Pass Promise
+
+Read this page first.
+
+If you stop here, you should still understand:
+
+- what a vector is allowed to represent
+- what a linear combination is
+- what span means
+- why $Ax$ is a linear combination of the columns of $A$
 
 ## Why It Matters
 
-The idea of a `linear combination` is everywhere:
+This topic matters because linear algebra does not really begin with determinants or eigenvalues. It begins with the question:
 
-- basis expansion
-- regression models
-- feature maps
-- signal decomposition
-- low-rank approximation
+`Which directions do I already have, and what can I build from them?`
+
+That question keeps returning in:
+
+- regression, where predictions live in the span of feature columns
+- signal processing, where a signal is assembled from simpler components
+- optimization, where updates move in chosen directions
+- machine learning, where embeddings, activations, and attention outputs are vectors
+- low-rank methods, where we approximate complicated objects using a small number of directions
+
+## Prerequisite Recall
+
+- a scalar is a number used to scale a vector
+- vectors can be added and scaled
+- two vectors are equal when all corresponding entries match
 
 ## Intuition
 
-A vector is not just a column of numbers. It can represent:
+A vector is not just a vertical list of numbers.
 
-- a point
-- a direction
+Depending on context, a vector can represent:
+
+- a point in space
+- a direction of motion
+- a state of a system
 - a signal
-- a state
-- a feature representation
+- a feature representation or embedding
 
-A linear combination builds a new vector by scaling and adding known vectors.
+The key move in linear algebra is to stop seeing a vector as an isolated object and start asking how it can be built from other vectors.
+
+If we already know a few useful directions, then a linear combination lets us scale them and add them together. That is how we describe reachable outputs, coordinate systems, model predictions, and compressed representations.
 
 ## Formal Core
+
+::: {#def-linear-combination}
+## Definition
 
 If $v_1, \dots, v_k$ are vectors and $a_1, \dots, a_k$ are scalars, then
 
@@ -37,34 +106,268 @@ a_1 v_1 + a_2 v_2 + \cdots + a_k v_k
 $$
 
 is a linear combination of those vectors.
+:::
 
-The `span` of a set of vectors is the collection of all linear combinations formed from them.
+::: {#def-span}
+## Span
+
+The span of vectors $v_1,\dots,v_k$ is the set of all linear combinations of those vectors:
+
+$$
+\operatorname{span}\{v_1,\dots,v_k\}
+=
+\left\{
+a_1 v_1 + \cdots + a_k v_k : a_1,\dots,a_k \in \mathbb{R}
+\right\}.
+$$
+
+So span answers the question:
+
+`What vectors can I build from the directions I already have?`
+:::
+
+::: {#prp-matrix-columns}
+## Key Statement
+
+If a matrix $A$ has columns $a_1,\dots,a_n$ and
+
+$$
+x =
+\begin{bmatrix}
+x_1 \\
+\vdots \\
+x_n
+\end{bmatrix},
+$$
+
+then
+
+$$
+Ax = x_1 a_1 + x_2 a_2 + \cdots + x_n a_n.
+$$
+
+So matrix-vector multiplication is exactly the operation of forming a linear combination of the columns of $A$.
+:::
+
+That one fact is the bridge to column space, solving $Ax=b$, least squares, and later spectral methods.
 
 ## Worked Example
 
-If
+Start with three vectors in $\mathbb{R}^2$:
 
 $$
-v_1 = \begin{bmatrix}1 \\ 0\end{bmatrix},
+v_1 =
+\begin{bmatrix}
+1 \\
+0
+\end{bmatrix},
 \qquad
-v_2 = \begin{bmatrix}0 \\ 1\end{bmatrix},
+v_2 =
+\begin{bmatrix}
+0 \\
+1
+\end{bmatrix},
+\qquad
+v_3 =
+\begin{bmatrix}
+1 \\
+1
+\end{bmatrix}.
 $$
 
-then every vector in $\mathbb{R}^2$ can be written as
+Notice that $v_3 = v_1 + v_2$, so these three vectors are not independent.
+
+Now take the target vector
 
 $$
-x = a_1 v_1 + a_2 v_2.
+b =
+\begin{bmatrix}
+3 \\
+1
+\end{bmatrix}.
 $$
 
-This is why the standard basis is so powerful: it spans the whole space.
+One description is immediate:
+
+$$
+b = 3v_1 + 1v_2.
+$$
+
+But because $v_3 = v_1 + v_2$, we also have
+
+$$
+b = 2v_1 + 0v_2 + 1v_3.
+$$
+
+So the same vector can be built in two different ways from the same generating set.
+
+Now package the vectors into a matrix:
+
+$$
+A =
+\begin{bmatrix}
+1 & 0 & 1 \\
+0 & 1 & 1
+\end{bmatrix}
+=
+\begin{bmatrix}
+\vert & \vert & \vert \\
+v_1 & v_2 & v_3 \\
+\vert & \vert & \vert
+\end{bmatrix}.
+$$
+
+Then the two coefficient vectors
+
+$$
+x =
+\begin{bmatrix}
+3 \\
+1 \\
+0
+\end{bmatrix},
+\qquad
+x' =
+\begin{bmatrix}
+2 \\
+0 \\
+1
+\end{bmatrix}
+$$
+
+both satisfy
+
+$$
+Ax = b,
+\qquad
+Ax' = b.
+$$
+
+This example teaches three things at once:
+
+1. $Ax$ is a linear combination of the columns of $A$.
+2. The output lies in the span of those columns.
+3. Dependent columns can give more than one coefficient description for the same output vector.
+
+That third point is the doorway to independence, basis, and dimension.
+
+## Computation Lens
+
+Linear combinations are not just definitions. They are what computation is doing.
+
+When a matrix multiplies a vector, the coefficients in the input vector tell you how much of each column direction to use.
+
+So if
+
+$$
+A =
+\begin{bmatrix}
+\vert &        & \vert \\
+a_1   & \cdots & a_n \\
+\vert &        & \vert
+\end{bmatrix},
+$$
+
+then computing $Ax$ means:
+
+- take the column directions $a_1,\dots,a_n$
+- weight them by $x_1,\dots,x_n$
+- add them together
+
+This is why column space matters. It is the collection of outputs the matrix can actually produce.
 
 ## Application Lens
 
-In ML, parameter vectors, feature vectors, and embeddings all live in vector spaces. When you understand span, basis, and projection, model behavior becomes much easier to reason about.
+Two grounded examples make this idea concrete.
+
+In linear models, the prediction vector $X\beta$ is a linear combination of the feature columns of the design matrix $X$. That is why later least-squares pages can say the fitted vector lives in the column space.
+
+In signal processing, a waveform is often described as a weighted combination of simpler components. The mathematics is the same: choose directions, scale them, and add them.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- what a linear combination is
+- what span means
+- why $Ax$ is a linear combination of columns
+- why dependent directions can produce non-unique coefficient descriptions
+
+then this page has done its main job.
+
+## Go Deeper
+
+This topic does not need a full companion package yet.
+
+The best next move is to continue the linear algebra spine:
+
+1. [Linear Algebra](../index.qmd) for the module path
+2. [Orthogonality and Least Squares](orthogonality-and-least-squares.qmd) once you want to see column space turn into approximation and regression
+
+## Optional Paper Bridge
+
+- [Deep learning, transformers and graph neural networks: a linear algebra perspective](https://link.springer.com/article/10.1007/s11075-025-02218-2) - `Second pass` - a current survey showing how basic vector language grows into embeddings, attention, and graph methods. Checked `2026-04-24`.
+- [Attention is All you Need](https://proceedings.nips.cc/paper_files/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html) - `Paper bridge` - useful later, once weighted combinations of vectors already feel natural. Checked `2026-04-24`.
+
+## Optional After First Pass
+
+If you want more practice before moving on:
+
+- rewrite a few matrix-vector products explicitly as column combinations
+- test whether a target vector lies in the span of chosen directions
+- compare a dependent spanning set with a basis
 
 ## Common Mistakes
 
 - treating vectors as only points, not directions or abstract objects
-- confusing a specific representation with the object itself
-- forgetting that coordinates depend on a basis
+- thinking coefficients are always unique even when the generating vectors are dependent
+- confusing “belongs to the span” with “looks similar”
+- treating $Ax$ as a black-box multiplication instead of a column combination
+- forgetting that coordinates depend on the chosen generating set or basis
 
+## Exercises
+
+1. Write the vector $\begin{bmatrix}4 \\ -1\end{bmatrix}$ as a linear combination of the standard basis vectors in $\mathbb{R}^2$.
+2. Let
+
+   $$
+   v_1 =
+   \begin{bmatrix}
+   1 \\
+   1
+   \end{bmatrix},
+   \qquad
+   v_2 =
+   \begin{bmatrix}
+   1 \\
+   -1
+   \end{bmatrix}.
+   $$
+
+   Find scalars $a_1,a_2$ such that
+
+   $$
+   a_1 v_1 + a_2 v_2 =
+   \begin{bmatrix}
+   3 \\
+   1
+   \end{bmatrix}.
+   $$
+
+3. If the columns of $A$ are $a_1,a_2,a_3$, explain in words what it means for a vector $b$ to belong to the column space of $A$.
+
+## Sources and Further Reading
+
+- [MIT 18.06SC Basis and Dimension](https://live.ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/resources/basis-and-dimension-1/) - `First pass` - strong official entry into span, basis, and dimension from the MIT linear algebra sequence. Checked `2026-04-24`.
+- [Stanford Math 51](https://web.stanford.edu/class/math51/) - `First pass` - current course framing that emphasizes visual understanding and applications across quantitative fields. Checked `2026-04-24`.
+- [Hefferon, Linear Algebra](https://hefferon.net/linearalgebra/) - `Second pass` - very good for independent study once you want more exercises and proof-level depth. Checked `2026-04-24`.
+- [Deep learning, transformers and graph neural networks: a linear algebra perspective](https://link.springer.com/article/10.1007/s11075-025-02218-2) - `Second pass` - modern bridge from basic vector language to current AI systems and numerical linear algebra. Checked `2026-04-24`.
+- [Attention is All you Need](https://proceedings.nips.cc/paper_files/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html) - `Paper bridge` - useful once you want to recognize weighted vector combinations inside a major ML architecture. Checked `2026-04-24`.
+
+Sources checked online on `2026-04-24`:
+
+- MIT 18.06SC Basis and Dimension
+- Stanford Math 51
+- Hefferon, Linear Algebra
+- Springer Numerical Algorithms article on linear algebra perspectives in deep learning
+- NeurIPS proceedings page for Attention is All you Need
