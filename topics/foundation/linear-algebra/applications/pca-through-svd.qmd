@@ -1,0 +1,195 @@
+---
+title: "PCA Through SVD"
+description: "A concrete application page showing how the singular value decomposition becomes principal component analysis."
+page-type: application
+status: published
+update-status: current
+level: foundation
+topic: linear-algebra
+prerequisites:
+  - /topics/foundation/linear-algebra/concepts/svd-and-low-rank-approximation.qmd
+learning-goals:
+  - "Map SVD objects to PCA objects on a centered data matrix."
+  - "Interpret principal directions, scores, and explained variance."
+  - "Recognize where centering, scaling, and numerical choices matter in practice."
+applications:
+  - machine-learning
+  - statistics
+  - dimensionality-reduction
+keywords:
+  - application
+  - pca
+  - svd
+  - dimensionality reduction
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+stable-sources:
+  - "Stanford VMLS"
+  - "CS168 Lecture 9"
+current-sources:
+  - "Randomized Numerical Linear Algebra: Foundations & Algorithms"
+  - "Finding Structure with Randomness"
+---
+
+## Application Snapshot
+
+Principal component analysis is the cleanest applied face of low-rank approximation.
+
+On a centered data matrix, `PCA` asks for the best low-dimensional linear representation of the data. `SVD` answers that question directly: the top right singular vectors are the principal directions, and the truncated SVD gives the best rank-`k` reconstruction.
+
+## Problem Setting
+
+Suppose a centered data matrix
+
+$$
+X \in \mathbb{R}^{m \times d}
+$$
+
+has `m` samples and `d` features.
+
+We want a lower-dimensional representation that keeps as much variation as possible while replacing `X` by a rank-`k` matrix.
+
+The SVD of `X` is
+
+$$
+X = U \Sigma V^\top.
+$$
+
+Then:
+
+- the columns of `V` are the principal directions
+- the matrix `U\Sigma` contains the principal component scores
+- the truncated matrix
+
+  $$
+  X_k = U_k \Sigma_k V_k^\top
+  $$
+
+  is the best rank-`k` approximation to `X`
+
+## Why This Math Appears
+
+There are two equivalent ways to say what `PCA` is doing.
+
+One is variance language:
+
+`find directions that capture as much variation as possible`.
+
+The other is approximation language:
+
+`find the rank-k matrix closest to the data matrix`.
+
+SVD makes these two statements the same theorem.
+
+Because
+
+$$
+X^\top X = V \Sigma^2 V^\top,
+$$
+
+the principal directions are exactly the eigenvectors of the covariance-type matrix `X^\top X`.
+
+Because of Eckart-Young, the same singular vectors also solve the best rank-`k` reconstruction problem.
+
+## Math Objects In Use
+
+- centered data matrix `X`
+- right singular vectors `v_i`
+- singular values `\sigma_i`
+- rank-`k` reconstruction `X_k`
+- explained-variance ratios
+- projection of data rows onto the top singular directions
+
+## Worked Walkthrough
+
+Take the centered matrix
+
+$$
+X =
+\begin{bmatrix}
+-2 & -1.1 \\
+-1 & -0.4 \\
+1 & 0.6 \\
+2 & 0.9
+\end{bmatrix}.
+$$
+
+Numerically, its singular values are approximately
+
+$$
+\sigma_1 \approx 3.5367,
+\qquad
+\sigma_2 \approx 0.1788.
+$$
+
+The top right singular vector is approximately
+
+$$
+v_1 \approx
+\begin{bmatrix}
+0.8939 \\
+0.4484
+\end{bmatrix}.
+$$
+
+That vector is the first principal direction.
+
+The large gap between `\sigma_1` and `\sigma_2` tells you the data are close to one-dimensional.
+
+Keeping only the first singular direction gives the rank-`1` approximation
+
+$$
+X_1 = U_1 \Sigma_1 V_1^\top
+\approx
+\begin{bmatrix}
+-2.0388 & -1.0227 \\
+-0.9593 & -0.4812 \\
+1.0394 & 0.5214 \\
+1.9586 & 0.9825
+\end{bmatrix}.
+$$
+
+So each data row is replaced by its projection onto the principal line.
+
+Because the discarded singular value is small, the reconstruction is already close to the original data.
+
+## Implementation or Computation Note
+
+Three practical points matter a lot:
+
+- `center first`: without centering, PCA can mostly track the mean direction rather than variation
+- `scale thoughtfully`: when features use very different units, standardization can matter as much as centering
+- `compute stably`: modern software often uses SVD directly instead of forming the covariance matrix explicitly, especially in high dimensions
+
+This is a good example of theory helping implementation. The math says covariance eigenvectors and SVD singular vectors agree, but the numerical route you choose still matters.
+
+## Failure Modes
+
+- `uncentered data`: the principal directions can become misleading
+- `unscaled features`: a large-unit feature can dominate the singular spectrum
+- `slow spectral decay`: if many singular values are similar, low-rank compression loses much more information
+- `semantic over-interpretation`: a principal component is a dominant variance direction, not automatically a causal or meaningful factor
+
+## Paper Bridge
+
+- [CS168 Lecture 9: The Singular Value Decomposition and Low-Rank Matrix Approximations](https://web.stanford.edu/class/cs168/l/l9.pdf) - `Second pass` - a short continuation from PCA into denoising, compression, and missing-data intuition.
+- [Low-rank approximations](https://nlp.stanford.edu/IR-book/html/htmledition/low-rank-approximations-1.html) - `Paper bridge` - shows the same truncated-SVD idea in latent semantic indexing and text retrieval.
+- [Finding Structure with Randomness: Probabilistic Algorithms for Constructing Approximate Matrix Decompositions](https://authors.library.caltech.edu/records/hy0mc-xmn26/latest) - `Paper bridge` - a natural next step when exact PCA-style low-rank approximation becomes too expensive.
+
+## Try It
+
+1. Replace the second feature by `10` times its current value and recompute the top principal direction. How much of the change is scaling rather than structure?
+2. Compute both `X^\top X` and the `SVD` of `X` in software. Verify that the leading eigenvector and leading right singular vector agree up to sign.
+3. Compare `X_1` with the original `X` row by row and interpret the reconstruction error geometrically.
+
+## Sources and Further Reading
+
+- [Introduction to Applied Linear Algebra – Vectors, Matrices, and Least Squares](https://web.stanford.edu/~boyd/vmls/) - `First pass` - official online book with a strong PCA-and-computation perspective. Checked `2026-04-24`.
+- [CS168 Lecture 9: The Singular Value Decomposition and Low-Rank Matrix Approximations](https://web.stanford.edu/class/cs168/l/l9.pdf) - `Second pass` - clear application framing for compression and missing-data intuition. Checked `2026-04-24`.
+- [MIT 18.06 Lecture 29: Singular value decomposition](https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/resources/lecture-29-singular-value-decomposition/) - `Second pass` - good official reinforcement on the linear algebra side. Checked `2026-04-24`.
+- [Low-rank approximations](https://nlp.stanford.edu/IR-book/html/htmledition/low-rank-approximations-1.html) - `Paper bridge` - concrete bridge from PCA-style SVD to text and latent-semantic applications. Checked `2026-04-24`.
+- [Finding Structure with Randomness: Probabilistic Algorithms for Constructing Approximate Matrix Decompositions](https://authors.library.caltech.edu/records/hy0mc-xmn26/latest) - `Paper bridge` - bridge from exact PCA/SVD to scalable approximate low-rank methods. Checked `2026-04-24`.

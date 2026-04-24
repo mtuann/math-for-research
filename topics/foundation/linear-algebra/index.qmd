@@ -58,7 +58,10 @@ Least squares, SVD, covariance, kernels, spectral arguments
 
 ## Gold-Standard Topic Package
 
-The first full topic package in this module is `orthogonality-and-least-squares`.
+The first two full topic packages in this module are:
+
+- `orthogonality-and-least-squares`
+- `svd-and-low-rank-approximation`
 
 If you want to see the whole site model in one place, use this sequence:
 
@@ -71,6 +74,17 @@ If you want to see the whole site model in one place, use this sequence:
 7. [Research Direction: Least Squares, Sketching, and Overparameterized Regression](research/least-squares-sketching-and-overparameterized-regression.qmd)
 8. [Source Guide: Orthogonality and Least Squares](sources/orthogonality-and-least-squares.qmd)
 
+For the spectral side of the module, use this second package:
+
+1. [SVD and Low-Rank Approximation](concepts/svd-and-low-rank-approximation.qmd)
+2. [Eckart-Young and Truncated SVD](proofs/eckart-young-and-truncated-svd.qmd)
+3. [Exercises: SVD and Low-Rank Approximation](exercises/svd-and-low-rank-approximation.qmd)
+4. [PCA Through SVD](applications/pca-through-svd.qmd)
+5. [Computation Lab: Rank-1 Approximation and PCA Geometry](labs/rank-one-approximation-and-pca-geometry.qmd)
+6. [Paper Lab: Finding Structure with Randomness](paper-lab/finding-structure-with-randomness.qmd)
+7. [Research Direction: Low-Rank Structure from Randomized Algorithms to Model Adaptation](research/low-rank-structure-from-randomized-algorithms-to-model-adaptation.qmd)
+8. [Source Guide: SVD and Low-Rank Approximation](sources/svd-and-low-rank-approximation.qmd)
+
 ## What You Want By The End
 
 - geometric intuition
@@ -80,7 +94,7 @@ If you want to see the whole site model in one place, use this sequence:
 
 ## Application Door
 
-If you want a first application target, start with `least squares -> PCA -> low-rank approximation`. That chain alone will pay off again and again.
+If you want a first application target, start with `least squares -> SVD -> PCA -> low-rank approximation`. That chain alone will pay off again and again.
 
 ## Sources and Further Reading
 

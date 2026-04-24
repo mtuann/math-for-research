@@ -1,0 +1,252 @@
+---
+title: "Eckart-Young and Truncated SVD"
+description: "A proof that the truncated SVD is the best rank-k approximation in Frobenius norm."
+page-type: proof
+status: published
+update-status: current
+level: foundation
+topic: linear-algebra
+prerequisites:
+  - /topics/foundation/linear-algebra/concepts/svd-and-low-rank-approximation.qmd
+learning-goals:
+  - "State the Frobenius-norm Eckart-Young theorem precisely."
+  - "See how orthogonal invariance and projection geometry drive the proof."
+  - "Reuse the argument as a template for later spectral and randomized proofs."
+applications:
+  - numerical-linear-algebra
+  - machine-learning
+keywords:
+  - proof
+  - svd
+  - low-rank approximation
+  - eckart-young
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/foundation/linear-algebra/applications/pca-through-svd.qmd
+  - /topics/foundation/linear-algebra/labs/rank-one-approximation-and-pca-geometry.qmd
+stable-sources:
+  - "MIT 18.06 Lecture 29: Singular value decomposition"
+  - "Hefferon, Linear Algebra"
+current-sources:
+  - "Randomized Numerical Linear Algebra: Foundations & Algorithms"
+---
+
+## Claim
+
+We want the theorem behind the slogan
+
+`keep the top singular directions and you get the best low-rank matrix`.
+
+::: {#thm-eckart-young-fro}
+## Theorem
+
+Let
+
+$$
+A = \sum_{i=1}^r \sigma_i u_i v_i^\top
+$$
+
+be the thin SVD of `A \in \mathbb{R}^{m \times n}`, with
+`\sigma_1 \ge \cdots \ge \sigma_r > 0`.
+
+For `1 \le k < r`, define the truncated SVD
+
+$$
+A_k = \sum_{i=1}^k \sigma_i u_i v_i^\top.
+$$
+
+Then for every matrix `B` with `\operatorname{rank}(B) \le k`,
+
+$$
+\|A-A_k\|_F \le \|A-B\|_F.
+$$
+
+Moreover,
+
+$$
+\|A-A_k\|_F^2 = \sum_{i=k+1}^r \sigma_i^2.
+$$
+:::
+
+## Why This Proof Matters
+
+This proof is worth learning because it keeps reappearing in disguised form:
+
+- `PCA` is the same theorem applied to a centered data matrix
+- randomized low-rank algorithms are measured against the truncated SVD benchmark
+- matrix denoising and compression arguments often reduce to the same rank-`k` comparison
+- later spectral proofs reuse the same pattern of rotating into the singular-vector basis
+
+## Dependencies
+
+- orthogonal matrices preserve Frobenius norm
+- singular vectors give orthonormal bases
+- orthogonal projection onto a `k`-dimensional subspace maximizes captured energy when the subspace aligns with dominant singular directions
+- for a matrix `M`, `\|M\|_F^2` is the sum of squares of its entries
+
+## Strategy Before Details
+
+The proof has two steps.
+
+1. Show that `A_k` leaves behind exactly the tail singular values, so its error is easy to compute.
+2. Show that every other rank-`k` matrix must miss at least that much energy.
+
+The key move is to compare any candidate matrix `B` through the projection onto its column space.
+
+## Full Proof
+
+::: {.proof}
+First compute the error of the truncated SVD itself.
+
+Because the outer products `u_i v_i^\top` are orthonormal under the Frobenius inner product,
+
+$$
+A - A_k = \sum_{i=k+1}^r \sigma_i u_i v_i^\top
+$$
+
+and therefore
+
+$$
+\|A-A_k\|_F^2 = \sum_{i=k+1}^r \sigma_i^2.
+$$
+
+Now let `B` be any matrix with `\operatorname{rank}(B) \le k`.
+Let `P` be the orthogonal projection onto `\operatorname{col}(B)`.
+Since every column of `B` lies in `\operatorname{col}(B)`, we have `PB = B`.
+
+Write
+
+$$
+A-B = (I-P)A + (PA-B).
+$$
+
+The first term lies in `\operatorname{col}(B)^\perp`, while the second lies in `\operatorname{col}(B)`.
+So they are orthogonal, and the Pythagorean theorem gives
+
+$$
+\|A-B\|_F^2
+= \|(I-P)A\|_F^2 + \|PA-B\|_F^2
+\ge \|(I-P)A\|_F^2.
+$$
+
+Thus it is enough to lower-bound `\|(I-P)A\|_F^2`.
+
+Since `P` is an orthogonal projection,
+
+$$
+\|(I-P)A\|_F^2 = \|A\|_F^2 - \|PA\|_F^2.
+$$
+
+Let `s = \operatorname{rank}(B)`, so `s \le k`, and let `q_1,\dots,q_s` be an orthonormal basis for `\operatorname{col}(B)`.
+Then
+
+$$
+\|PA\|_F^2
+= \sum_{j=1}^s \|q_j^\top A\|_2^2
+= \sum_{j=1}^s q_j^\top A A^\top q_j.
+$$
+
+Using `AA^\top = U_r \Sigma_r^2 U_r^\top`, write `q_j = U_r z_j + w_j`, where `w_j` is orthogonal to `\operatorname{col}(U_r)`.
+Then
+
+$$
+q_j^\top A A^\top q_j = z_j^\top \Sigma_r^2 z_j.
+$$
+
+So
+
+$$
+\|PA\|_F^2
+= \sum_{j=1}^s z_j^\top \Sigma_r^2 z_j
+= \sum_{i=1}^r \sigma_i^2 \alpha_i,
+$$
+
+where
+
+$$
+\alpha_i = \sum_{j=1}^s z_{j,i}^2.
+$$
+
+Each `\alpha_i` lies in `[0,1]`, and because the `q_j` are orthonormal,
+
+$$
+\sum_{i=1}^r \alpha_i
+= \sum_{j=1}^s \|z_j\|_2^2
+\le s
+\le k.
+$$
+
+Therefore `\sum_{i=1}^r \sigma_i^2 \alpha_i` is at most
+`\sum_{i=1}^k \sigma_i^2`, because the total mass is at most `k`, each coefficient is at most `1`, and the singular values are ordered from largest to smallest.
+Hence
+
+$$
+\|PA\|_F^2 \le \sum_{i=1}^k \sigma_i^2.
+$$
+
+Substituting into the previous bound,
+
+$$
+\|A-B\|_F^2
+\ge \|A\|_F^2 - \sum_{i=1}^k \sigma_i^2
+= \sum_{i=1}^r \sigma_i^2 - \sum_{i=1}^k \sigma_i^2
+= \sum_{i=k+1}^r \sigma_i^2
+= \|A-A_k\|_F^2.
+$$
+
+So `A_k` is a best rank-`k` approximation in Frobenius norm.
+:::
+
+## Step Annotations
+
+1. The tail formula for `A-A_k` works because the rank-`1` SVD pieces are orthogonal in Frobenius inner product.
+2. Replacing `B` by projection onto its column space is the key simplification: the best rank-`k` matrix must live inside some `k`-dimensional output subspace.
+3. The proof becomes an energy-capture question: how much of `A` can any `k`-dimensional subspace retain?
+4. The ordering of the singular values forces the best subspace to align with the first `k` left singular vectors.
+
+## Why The Assumptions Matter
+
+- We used Frobenius norm, which behaves well with orthogonality and Pythagorean decompositions.
+- The ordered singular values matter because “top `k`” only makes sense after sorting.
+- The same conclusion in spectral norm is true, but its proof needs a different argument.
+
+## Common Failure Modes
+
+- writing `A_k` correctly but forgetting to justify why every other rank-`k` matrix can be compared through its column space
+- using the projection matrix `P` without noting that `PB = B`
+- assuming the best subspace result without explaining why the dominant singular directions maximize captured energy
+- claiming the spectral-norm statement was proved here when this page only proved the Frobenius-norm version
+
+## Reusable Pattern
+
+This proof teaches a pattern that returns later:
+
+1. express the target object in an orthogonal basis
+2. reduce the approximation problem to a projection question
+3. bound how much energy any low-dimensional subspace can capture
+4. identify the dominant spectral directions as the optimizer
+
+## Where This Shows Up Again
+
+- [SVD and Low-Rank Approximation](../concepts/svd-and-low-rank-approximation.qmd)
+- [PCA Through SVD](../applications/pca-through-svd.qmd)
+- [Computation Lab: Rank-1 Approximation and PCA Geometry](../labs/rank-one-approximation-and-pca-geometry.qmd)
+- [Paper Lab: Finding Structure with Randomness](../paper-lab/finding-structure-with-randomness.qmd)
+
+## Exercises
+
+1. Show directly that `\|A-A_k\|_F^2 = \sum_{i=k+1}^r \sigma_i^2` using the outer-product expansion.
+2. Identify exactly where the proof uses the ordering `\sigma_1 \ge \cdots \ge \sigma_r`.
+3. Explain why the proof naturally suggests `PCA` when `A` is a centered data matrix.
+
+## Sources and Further Reading
+
+- [MIT 18.06 Lecture 29: Singular value decomposition](https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/resources/lecture-29-singular-value-decomposition/) - `First pass` - strong official anchor for the theorem and its geometry. Checked `2026-04-24`.
+- [Hefferon, Linear Algebra](https://hefferon.net/linearalgebra/) - `Second pass` - useful for proof structure and independent exercises. Checked `2026-04-24`.
+- [Introduction to Applied Linear Algebra – Vectors, Matrices, and Least Squares](https://web.stanford.edu/~boyd/vmls/) - `Second pass` - a good source for the applied interpretation around rank reduction and approximation. Checked `2026-04-24`.
+- [Randomized Numerical Linear Algebra: Foundations & Algorithms](https://arxiv.org/abs/2002.01387) - `Paper bridge` - modern survey showing how the truncated SVD theorem becomes the benchmark for approximate algorithms. Checked `2026-04-24`.

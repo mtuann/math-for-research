@@ -1,14 +1,77 @@
 ---
 title: "SVD and Low-Rank Approximation"
+description: "How singular values turn a matrix into ordered geometric directions and why truncated SVD gives the best low-rank approximation."
+page-type: concept
+status: published
+update-status: current
+level: foundation
+topic: linear-algebra
+prerequisites:
+  - /topics/foundation/linear-algebra/concepts/vectors-and-linear-combinations.qmd
+  - /topics/foundation/linear-algebra/concepts/orthogonality-and-least-squares.qmd
+learning-goals:
+  - "Interpret SVD as orthogonal coordinates plus ordered scaling."
+  - "State the truncated SVD and the Eckart-Young approximation theorem."
+  - "Connect SVD to PCA, stable computation, and current low-rank research directions."
+applications:
+  - machine-learning
+  - numerical-linear-algebra
+  - data-compression
+keywords:
+  - singular value decomposition
+  - low-rank approximation
+  - truncated svd
+  - eckart-young
+  - spectral methods
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: annual
+date-modified: last-modified
+draft: false
+next:
+  - /topics/foundation/linear-algebra/proofs/eckart-young-and-truncated-svd.qmd
+  - /topics/foundation/linear-algebra/applications/pca-through-svd.qmd
+  - /topics/foundation/linear-algebra/labs/rank-one-approximation-and-pca-geometry.qmd
+related-pages:
+  - /topics/foundation/linear-algebra/concepts/orthogonality-and-least-squares.qmd
+  - /topics/foundation/linear-algebra/research/low-rank-structure-from-randomized-algorithms-to-model-adaptation.qmd
+  - /topics/foundation/linear-algebra/sources/svd-and-low-rank-approximation.qmd
+stable-sources:
+  - "MIT 18.06 Lecture 29: Singular value decomposition"
+  - "Stanford VMLS"
+  - "Hefferon, Linear Algebra"
+current-sources:
+  - "Randomized Numerical Linear Algebra: Foundations & Algorithms"
+  - "Low-Rank Adaptation for Foundation Models: A Comprehensive Review"
 ---
 
 ## Role
 
-The singular value decomposition is one of the most useful structural factorizations in applied math.
+This page is the bridge from basic matrix algebra to spectral thinking.
+
+The singular value decomposition tells you how a matrix rotates coordinates, stretches along orthogonal directions, and suppresses weaker directions. Low-rank approximation then turns that structure into one of the main tools for compression, dimensionality reduction, denoising, and large-scale learning.
+
+## Why It Matters
+
+This topic matters because one matrix factorization supports several different jobs at once:
+
+- a geometric statement: every matrix has orthogonal input and output directions
+- an approximation principle: the strongest `k` singular directions give the best rank-`k` approximation
+- a computational viewpoint: `SVD` is a stable way to analyze ill-conditioned or rank-deficient problems
+- a research bridge: randomized low-rank methods, streaming approximation, and model adaptation all reuse this language
+
+## Prerequisite Recall
+
+- an orthogonal matrix preserves dot products and Euclidean norms
+- the matrix `A^\top A` is symmetric positive semidefinite
+- rank counts the number of independent directions carried by a matrix
+- orthogonal projection explains best approximation inside a subspace
+- [Orthogonality and Least Squares](orthogonality-and-least-squares.qmd) already showed one best-approximation problem inside linear algebra
 
 ## Intuition
 
-SVD says a matrix can be understood as:
+SVD says a matrix can be understood as three simpler moves:
 
 - a rotation or change of coordinates
 - a stretching along orthogonal directions
@@ -16,37 +79,203 @@ SVD says a matrix can be understood as:
 
 That turns an opaque matrix into geometry you can reason about.
 
+There is a second intuition that matters just as much: the outer-product expansion
+
+$$
+A = \sum_{i=1}^r \sigma_i u_i v_i^\top
+$$
+
+writes the matrix as a sum of rank-`1` ingredients, ordered from most important to least important by the singular values `\sigma_i`.
+
+Low-rank approximation says:
+
+`keep the strongest ingredients and drop the weaker ones`.
+
+When the singular values decay quickly, that simple rule preserves most of the useful structure while reducing dimension, storage, or noise.
+
 ## Formal Core
 
-For a matrix `A \in \mathbb{R}^{m \times n}`, the SVD is
+::: {#def-thin-svd}
+## Definition
+
+Let `A \in \mathbb{R}^{m \times n}` have rank `r`.
+
+A thin singular value decomposition of `A` is
 
 $$
-A = U \Sigma V^\top,
+A = U_r \Sigma_r V_r^\top
+= \sum_{i=1}^r \sigma_i u_i v_i^\top,
 $$
 
-where `U` and `V` have orthonormal columns and `\Sigma` contains the singular values.
+where:
 
-::: {#thm-eckart-young}
-## Eckart-Young Intuition
+- `U_r \in \mathbb{R}^{m \times r}` has orthonormal columns
+- `V_r \in \mathbb{R}^{n \times r}` has orthonormal columns
+- `\Sigma_r = \operatorname{diag}(\sigma_1,\dots,\sigma_r)` with
+  `\sigma_1 \ge \sigma_2 \ge \cdots \ge \sigma_r > 0`
 
-Keeping only the top singular directions gives the best low-rank approximation to `A` in spectral and Frobenius senses.
+The vectors `u_i` are the left singular vectors, the vectors `v_i` are the right singular vectors, and the `\sigma_i` are the singular values.
 :::
 
-## Why It Matters
+The singular values are tightly linked to symmetric matrices:
 
-This is the mathematical core behind:
+$$
+A^\top A = V_r \Sigma_r^2 V_r^\top,
+\qquad
+AA^\top = U_r \Sigma_r^2 U_r^\top.
+$$
 
-- PCA
-- latent factor models
-- compression
-- denoising
-- low-rank methods in optimization and ML
+So the right singular vectors are eigenvectors of `A^\top A`, the left singular vectors are eigenvectors of `AA^\top`, and the singular values are the square roots of the nonzero eigenvalues.
+
+::: {#def-truncated-svd}
+## Truncated SVD
+
+For `1 \le k < r`, the rank-`k` truncated SVD is
+
+$$
+A_k = \sum_{i=1}^k \sigma_i u_i v_i^\top.
+$$
+
+This keeps the top `k` singular directions and discards the rest.
+:::
+
+::: {#thm-eckart-young}
+## Eckart-Young Theorem
+
+For every matrix `B` with `\operatorname{rank}(B) \le k`,
+
+$$
+\|A - A_k\|_F \le \|A - B\|_F
+\qquad\text{and}\qquad
+\|A - A_k\|_2 \le \|A - B\|_2.
+$$
+
+Moreover,
+
+$$
+\|A - A_k\|_F^2 = \sum_{i=k+1}^r \sigma_i^2,
+\qquad
+\|A - A_k\|_2 = \sigma_{k+1}.
+$$
+
+So the truncated SVD is the best rank-`k` approximation in both Frobenius and spectral norm.
+:::
+
+## Worked Example
+
+Take the diagonal matrix
+
+$$
+A =
+\begin{bmatrix}
+4 & 0 & 0 \\
+0 & 2 & 0 \\
+0 & 0 & 1
+\end{bmatrix}.
+$$
+
+Its singular values are already visible:
+
+$$
+\sigma_1 = 4,\qquad \sigma_2 = 2,\qquad \sigma_3 = 1.
+$$
+
+The singular vectors are the standard basis vectors, so the SVD is simply
+
+$$
+A = I \operatorname{diag}(4,2,1) I^\top.
+$$
+
+The best rank-`1` approximation keeps only the top singular direction:
+
+$$
+A_1 =
+\begin{bmatrix}
+4 & 0 & 0 \\
+0 & 0 & 0 \\
+0 & 0 & 0
+\end{bmatrix}.
+$$
+
+The best rank-`2` approximation keeps the top two:
+
+$$
+A_2 =
+\begin{bmatrix}
+4 & 0 & 0 \\
+0 & 2 & 0 \\
+0 & 0 & 0
+\end{bmatrix}.
+$$
+
+The approximation errors are:
+
+$$
+\|A-A_1\|_F = \sqrt{2^2 + 1^2} = \sqrt{5},
+\qquad
+\|A-A_1\|_2 = 2,
+$$
+
+and
+
+$$
+\|A-A_2\|_F = 1,
+\qquad
+\|A-A_2\|_2 = 1.
+$$
+
+This example is diagonal, so it looks unusually clean. But that is exactly the point of SVD: every matrix can be rotated into this ordered diagonal picture.
 
 ## Computation Lens
 
-SVD is not only a theorem. It is also a computational tool, and in large problems you immediately start caring about approximation quality, randomized algorithms, and numerical stability.
+SVD is not only a theorem. It is also a computational tool.
+
+Three computational ideas matter immediately:
+
+- `thin or economy SVD`: keep only the nonzero singular directions instead of a full square decomposition
+- `truncated SVD`: use only the top `k` components when storage or approximation quality matters more than exactness
+- `numerical rank`: in floating-point settings, very small singular values often behave like noise or near-dependence
+
+SVD also explains why it is safer than the normal equations in hard least-squares problems: it exposes tiny singular values directly instead of hiding them inside `A^\top A`.
+
+On large matrices, exact SVD can be too expensive. That is where randomized low-rank approximation, sketching, and streaming methods enter.
+
+## Application Lens
+
+This topic powers several concrete workflows:
+
+- `PCA`: principal directions are the right singular vectors of the centered data matrix
+- `compression`: keep only the large singular values and store a smaller factorization
+- `denoising`: discard weak directions that mostly carry noise
+- `least squares`: use singular values to see rank deficiency and compute pseudoinverse-based solutions
+- `model adaptation`: low-rank updates can capture useful changes with far fewer parameters
+
+For a concrete data-analysis example, see [PCA Through SVD](../applications/pca-through-svd.qmd). For an interactive picture of rank-`1` reconstruction, see [Computation Lab: Rank-1 Approximation and PCA Geometry](../labs/rank-one-approximation-and-pca-geometry.qmd).
 
 ## Paper Bridge
 
-Low-rank adaptation, matrix sketching, spectral clustering, and many representation-learning papers all rely on SVD thinking even when the paper language is more specialized.
+- [Finding Structure with Randomness: Probabilistic Algorithms for Constructing Approximate Matrix Decompositions](https://authors.library.caltech.edu/records/hy0mc-xmn26/latest) - `Paper bridge` - shows how randomized algorithms recover near-optimal low-rank structure without computing a full exact SVD.
+- [Randomized Numerical Linear Algebra: Foundations & Algorithms](https://arxiv.org/abs/2002.01387) - `Second pass` - broad modern survey of low-rank approximation, regression, streaming, and approximation guarantees.
+- [LoRA: Low-Rank Adaptation of Large Language Models](https://arxiv.org/abs/2106.09685) - `Paper bridge` - modern example where low-rank structure becomes a practical modeling tool rather than only a matrix-compression tool.
 
+## Common Mistakes
+
+- confusing `eigenvectors of A` with `singular vectors of A`
+- thinking low rank means “small entries” instead of “few dominant directions”
+- forgetting that `PCA` uses the `SVD` of a centered data matrix, not raw data by default
+- assuming a tiny singular value is automatically zero rather than a sign of numerical or modeling near-dependence
+- treating truncated SVD as a universal best approximation without naming the norm being optimized
+
+## Exercises
+
+1. Write the thin SVD and best rank-`1` approximation of `\operatorname{diag}(5,2)`.
+2. Show that if `A` has orthonormal columns, then all of its singular values are `1`.
+3. Explain in one paragraph why `SVD` is the right tool to understand both `PCA` and ill-conditioned least squares.
+
+## Sources and Further Reading
+
+- [MIT 18.06 Lecture 29: Singular value decomposition](https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/resources/lecture-29-singular-value-decomposition/) - `First pass` - strong official first exposure to SVD and its geometric meaning. Checked `2026-04-24`.
+- [Introduction to Applied Linear Algebra – Vectors, Matrices, and Least Squares](https://web.stanford.edu/~boyd/vmls/) - `First pass` - official applied linear algebra book with a clear computational lens. Checked `2026-04-24`.
+- [Hefferon, Linear Algebra](https://hefferon.net/linearalgebra/) - `Second pass` - helpful for motivated proofs, exercises, and independent study. Checked `2026-04-24`.
+- [CS168 Lecture 9: The Singular Value Decomposition and Low-Rank Matrix Approximations](https://web.stanford.edu/class/cs168/l/l9.pdf) - `Second pass` - unusually good for applications like denoising, matrix completion, and model updates. Checked `2026-04-24`.
+- [Finding Structure with Randomness: Probabilistic Algorithms for Constructing Approximate Matrix Decompositions](https://authors.library.caltech.edu/records/hy0mc-xmn26/latest) - `Paper bridge` - classic randomized low-rank approximation bridge paper. Checked `2026-04-24`.

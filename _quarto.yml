@@ -70,6 +70,13 @@ website:
           - topics/foundation/linear-algebra/research/least-squares-sketching-and-overparameterized-regression.qmd
           - topics/foundation/linear-algebra/sources/orthogonality-and-least-squares.qmd
           - topics/foundation/linear-algebra/concepts/svd-and-low-rank-approximation.qmd
+          - topics/foundation/linear-algebra/proofs/eckart-young-and-truncated-svd.qmd
+          - topics/foundation/linear-algebra/exercises/svd-and-low-rank-approximation.qmd
+          - topics/foundation/linear-algebra/applications/pca-through-svd.qmd
+          - topics/foundation/linear-algebra/labs/rank-one-approximation-and-pca-geometry.qmd
+          - topics/foundation/linear-algebra/paper-lab/finding-structure-with-randomness.qmd
+          - topics/foundation/linear-algebra/research/low-rank-structure-from-randomized-algorithms-to-model-adaptation.qmd
+          - topics/foundation/linear-algebra/sources/svd-and-low-rank-approximation.qmd
           - topics/foundation/probability/index.qmd
           - topics/foundation/probability/concepts/random-variables-and-distributions.qmd
           - topics/foundation/probability/concepts/expectation-variance-covariance.qmd

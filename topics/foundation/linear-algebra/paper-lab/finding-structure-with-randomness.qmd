@@ -1,0 +1,210 @@
+---
+title: "Paper Lab: Finding Structure with Randomness"
+description: "A guided reading page for the classic low-rank approximation paper that helped define modern randomized matrix methods."
+page-type: paper-lab
+status: published
+update-status: monitor
+level: research
+topic: linear-algebra
+prerequisites:
+  - /paper-lab/how-to-read-a-paper.qmd
+  - /topics/foundation/linear-algebra/concepts/svd-and-low-rank-approximation.qmd
+  - /topics/foundation/linear-algebra/proofs/eckart-young-and-truncated-svd.qmd
+learning-goals:
+  - "Identify the SVD benchmark inside a randomized low-rank paper."
+  - "Understand what a randomized range finder is trying to preserve."
+  - "See how the field has moved since the anchor paper."
+applications:
+  - numerical-linear-algebra
+  - machine-learning
+keywords:
+  - paper reading
+  - svd
+  - low-rank approximation
+  - randomized numerical linear algebra
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: quarterly
+date-modified: last-modified
+draft: false
+stable-sources:
+  - "SVD and Low-Rank Approximation concept page"
+  - "Finding Structure with Randomness"
+current-sources:
+  - "Randomized Numerical Linear Algebra: Foundations & Algorithms"
+  - "Randomized low-rank approximations beyond Gaussian random matrices"
+---
+
+## Why This Paper
+
+Use this paper lab when you want your first serious reading in randomized low-rank approximation without leaving the core SVD story behind.
+
+The anchor paper is:
+
+- [Finding Structure with Randomness: Probabilistic Algorithms for Constructing Approximate Matrix Decompositions](https://authors.library.caltech.edu/records/hy0mc-xmn26/latest)
+
+It is a strong bridge paper because it keeps one fixed benchmark in view the whole time:
+
+`the exact truncated SVD is the gold standard, and randomized methods are judged by how closely they approach it`.
+
+## Paper At A Glance
+
+- `Type`: survey-style theory paper with algorithms and error analysis
+- `Setting`: large-scale low-rank matrix approximation
+- `Main claim`: random sampling and random projections can produce near-optimal low-rank approximations much faster than exact deterministic methods on large problems
+- `Why it matters`: it helped define the language and workflow of modern randomized numerical linear algebra
+
+## Reading Plan
+
+Use the three-pass pattern.
+
+### First pass
+
+Read the paper as a story about scale.
+
+Exact `SVD` is mathematically ideal, but it can be expensive on very large matrices. The paper asks whether randomization can quickly discover the important singular subspace and then finish with a smaller deterministic decomposition.
+
+On a first pass, track only three objects:
+
+- the input matrix `A`
+- the sampled or sketched matrix `Y = A\Omega`
+- the orthonormal basis `Q` extracted from `Y`
+
+If you understand why `Q` should approximate the dominant left singular subspace of `A`, you have the paper’s main idea.
+
+### Second pass
+
+The main mathematical objects to track are:
+
+- the singular spectrum of `A`
+- oversampling and sketch size
+- power iteration or subspace iteration
+- approximation error in Frobenius or spectral norm
+
+At this pass, ask:
+
+- which guarantee is being compared to the exact truncated SVD?
+- what part of the singular spectrum makes the algorithm easier or harder?
+- where does randomness enter only for discovery of a subspace, and where does deterministic linear algebra finish the job?
+
+### Third pass
+
+On a third pass, focus on proof architecture:
+
+- how the random test matrix `\Omega` captures the dominant range of `A`
+- how subspace projection error is converted into low-rank approximation error
+- when extra power iterations improve spectral separation
+
+## Prerequisite Math Map
+
+- thin and truncated `SVD`
+- the Frobenius-norm Eckart-Young theorem
+- orthogonal projection onto a subspace
+- basic probability comfort with random matrices and concentration language
+
+Read this paper after you are comfortable with:
+
+- [SVD and Low-Rank Approximation](../concepts/svd-and-low-rank-approximation.qmd)
+- [Eckart-Young and Truncated SVD](../proofs/eckart-young-and-truncated-svd.qmd)
+- [Computation Lab: Rank-1 Approximation and PCA Geometry](../labs/rank-one-approximation-and-pca-geometry.qmd)
+
+## Notation Table
+
+- `A`: target matrix
+- `k`: target rank
+- `\Omega`: random test matrix
+- `Y = A\Omega`: sampled range information
+- `Q`: orthonormal basis for the sampled range
+- `B = Q^\top A`: reduced matrix whose decomposition is cheap
+
+## Assumption Audit
+
+The paper materially depends on these assumptions:
+
+- matrix-vector or matrix-matrix access to `A` is cheaper than a full exact decomposition
+- the dominant singular subspace can be discovered from randomized probing
+- approximation quality is judged against the exact truncated `SVD` benchmark
+- the spectrum and pass budget matter for practical performance
+
+If you forget the last two points, the paper is easy to misread as “randomization is always enough by itself.”
+
+## Main Results Unpacked
+
+The paper’s core algorithmic story is:
+
+1. `Range finding`
+   Multiply `A` by a random matrix to probe its dominant action.
+
+2. `Compression`
+   Turn the sampled matrix into an orthonormal basis `Q`.
+
+3. `Small deterministic solve`
+   Compute a smaller factorization of `B = Q^\top A`.
+
+4. `Lift back`
+   Form an approximate factorization of the original matrix from `Q` and the reduced solve.
+
+The conceptual result is:
+
+`if Q captures the dominant singular subspace well, then the resulting low-rank approximation is close to the optimal truncated SVD`.
+
+## Evidence Audit
+
+The paper’s evidence comes from both theorem-level bounds and computational experiments.
+
+The theorems explain how oversampling and power iterations control error. The experiments matter because they show that the resulting methods are not only asymptotically interesting; they work on real large matrices where exact factorization is costly.
+
+## What To Reproduce
+
+A good reproduction target is:
+
+1. generate a matrix with controlled singular-value decay
+2. compute the exact rank-`k` truncated SVD error
+3. run a randomized range finder with several oversampling levels
+4. compare approximation error against the SVD benchmark
+
+If you see the randomized method approach the SVD benchmark as oversampling or power iterations increase, then you are reproducing the paper’s central phenomenon.
+
+## Context And Lineage
+
+This paper sits between two traditions:
+
+- classical matrix computation, where exact factorizations are the reference
+- modern large-scale learning and scientific computing, where one often needs approximate factorizations under time or memory constraints
+
+That is why it remains a good bridge paper for this site.
+
+## Transfer And Limits
+
+What transfers:
+
+- the truncated `SVD` is still the main benchmark
+- subspace capture is the central intermediate object
+- randomized sketches can be understood geometrically, not only probabilistically
+
+What does not transfer automatically:
+
+- guarantees for matrix completion from missing entries
+- guarantees for parameter-efficient model adaptation
+- guarantees under every structured randomness model or access model
+
+## What Has Changed Since Publication
+
+Since this paper, the field has expanded in several directions:
+
+- broader low-rank and regression surveys, such as [Randomized Numerical Linear Algebra: Foundations & Algorithms](https://arxiv.org/abs/2002.01387)
+- streaming and single-view methods for memory-limited settings
+- analyses beyond simple Gaussian sketches, such as [Randomized low-rank approximations beyond Gaussian random matrices](https://arxiv.org/abs/2308.05814)
+
+There is also a neighboring branch where low-rank ideas traveled outside the randomized-SVD lineage itself:
+
+- low-rank structure used in modern model adaptation, such as [Low-Rank Adaptation for Foundation Models: A Comprehensive Review](https://arxiv.org/abs/2501.00365)
+
+So the paper is still foundational, but now it is the entry point to a much wider ecosystem.
+
+## Resource Kit
+
+- [Finding Structure with Randomness: Probabilistic Algorithms for Constructing Approximate Matrix Decompositions](https://authors.library.caltech.edu/records/hy0mc-xmn26/latest) - `Paper bridge` - the anchor paper for this lab. Checked `2026-04-24`.
+- [Randomized Numerical Linear Algebra: Foundations & Algorithms](https://arxiv.org/abs/2002.01387) - `Second pass` - broader map of the field once the anchor paper is comfortable. Checked `2026-04-24`.
+- [Randomized low-rank approximations beyond Gaussian random matrices](https://arxiv.org/abs/2308.05814) - `Paper bridge` - current example of how the assumptions behind randomized low-rank theory are still evolving. Checked `2026-04-24`.

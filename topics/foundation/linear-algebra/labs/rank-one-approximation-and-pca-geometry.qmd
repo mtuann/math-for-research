@@ -1,0 +1,300 @@
+---
+title: "Computation Lab: Rank-1 Approximation and PCA Geometry"
+description: "An interactive lab for seeing how singular values, principal directions, and rank-1 reconstruction fit together."
+page-type: computation-lab
+status: published
+update-status: current
+level: foundation
+topic: linear-algebra
+prerequisites:
+  - /topics/foundation/linear-algebra/concepts/svd-and-low-rank-approximation.qmd
+learning-goals:
+  - "See how a nearly rank-1 data matrix appears in geometry."
+  - "Watch the discarded singular value become a reconstruction error."
+  - "Connect truncated SVD to PCA-style projection."
+applications:
+  - machine-learning
+  - data-visualization
+keywords:
+  - computation
+  - simulation
+  - visualization
+  - svd
+  - pca
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+execution-engine: ojs
+interactive: ojs
+reproducibility-note: "Client-side Observable JS only; deterministic data construction with no randomness or external runtime."
+---
+
+## Lab Goal
+
+This lab helps you see one specific fact:
+
+`in a two-feature centered data matrix, the rank-1 truncated SVD is just projection onto the top principal direction`.
+
+## Math Question
+
+How do noise level and retained rank affect:
+
+- the singular values
+- the top principal direction
+- the rank-`1` reconstruction
+- the Frobenius reconstruction error
+
+## Model or Setup
+
+We start from a deterministic point cloud that is almost one-dimensional.
+
+The points are centered feature vectors in `\mathbb{R}^2`. When the noise scale is small, the data matrix is close to rank `1`; when the noise scale grows, the second singular value grows too.
+
+## Parameters and Controls
+
+- `Noise scale`: controls how far the cloud deviates from an exact one-dimensional pattern
+- `Retained rank`: choose between a rank-`1` reconstruction and the full rank-`2` reconstruction
+
+Default values are `0.60` for noise scale and `1` for retained rank.
+
+## Code and Simulation
+
+```{ojs}
+//| echo: false
+base = [-3, -2, -1, -0.5, 0.5, 1, 2, 3]
+noiseX = [0.2, -0.1, 0.15, -0.05, 0.05, -0.12, 0.08, -0.2]
+noiseY = [-0.3, 0.25, -0.15, 0.08, -0.07, 0.12, -0.2, 0.3]
+```
+
+```{ojs}
+//| echo: false
+viewof noiseScale = Inputs.range([0, 1], {
+  value: 0.6,
+  step: 0.05,
+  label: "Noise scale"
+})
+
+viewof keptRank = Inputs.radio([1, 2], {
+  value: 1,
+  label: "Retained rank"
+})
+```
+
+```{ojs}
+//| echo: false
+rawPoints = base.map((t, i) => ({
+  id: i + 1,
+  x: 1.8 * t + noiseScale * noiseX[i],
+  y: 0.7 * t + noiseScale * noiseY[i]
+}))
+
+meanX = rawPoints.reduce((acc, p) => acc + p.x, 0) / rawPoints.length
+meanY = rawPoints.reduce((acc, p) => acc + p.y, 0) / rawPoints.length
+
+centeredPoints = rawPoints.map((p) => ({
+  id: p.id,
+  x: p.x - meanX,
+  y: p.y - meanY
+}))
+
+a = centeredPoints.reduce((acc, p) => acc + p.x * p.x, 0)
+b = centeredPoints.reduce((acc, p) => acc + p.x * p.y, 0)
+d = centeredPoints.reduce((acc, p) => acc + p.y * p.y, 0)
+
+trace = a + d
+delta = Math.sqrt((a - d) ** 2 + 4 * b ** 2)
+lambda1 = (trace + delta) / 2
+
+singular1 = Math.sqrt(lambda1)
+
+topVecRaw =
+  Math.abs(b) > 1e-12 || Math.abs(lambda1 - a) > 1e-12
+    ? [b, lambda1 - a]
+    : [1, 0]
+
+topVecNorm = Math.hypot(topVecRaw[0], topVecRaw[1])
+v1 = [topVecRaw[0] / topVecNorm, topVecRaw[1] / topVecNorm]
+v2 = [-v1[1], v1[0]]
+
+rankOneRows = centeredPoints.map((p) => {
+  const c1 = p.x * v1[0] + p.y * v1[1]
+  const c2 = p.x * v2[0] + p.y * v2[1]
+  const xr1 = c1 * v1[0]
+  const yr1 = c1 * v1[1]
+  const rx1 = p.x - xr1
+  const ry1 = p.y - yr1
+  return {
+    id: p.id,
+    x: p.x,
+    y: p.y,
+    c1,
+    c2,
+    xr1,
+    yr1,
+    residual1: Math.hypot(rx1, ry1)
+  }
+})
+
+rankOneError = Math.sqrt(
+  rankOneRows.reduce((acc, p) => acc + p.residual1 ** 2, 0)
+)
+
+singular2 = rankOneError
+lambda2 = singular2 ** 2
+
+reconstructed = rankOneRows.map((p) =>
+  keptRank === 1
+    ? {
+        ...p,
+        xr: p.xr1,
+        yr: p.yr1,
+        residualNorm: p.residual1
+      }
+    : {
+        ...p,
+        xr: p.x,
+        yr: p.y,
+        residualNorm: 0
+      }
+)
+
+froError =
+  keptRank === 1
+    ? rankOneError
+    : 0
+
+energyCaptured =
+  keptRank === 1 ? lambda1 / (lambda1 + lambda2) : 1
+
+axisExtent = Math.max(
+  ...centeredPoints.map((p) => Math.hypot(p.x, p.y)),
+  1
+)
+
+principalLine = Array.from({length: 81}, (_, i) => {
+  const t = -1.25 * axisExtent + (2.5 * axisExtent * i) / 80
+  return {x: t * v1[0], y: t * v1[1]}
+})
+
+segments = reconstructed.map((p) => ({
+  x1: p.x,
+  y1: p.y,
+  x2: p.xr,
+  y2: p.yr
+}))
+```
+
+```{ojs}
+//| echo: false
+Plot.plot({
+  height: 440,
+  x: {label: "Centered feature 1"},
+  y: {label: "Centered feature 2"},
+  marks: [
+    Plot.gridX({strokeOpacity: 0.15}),
+    Plot.gridY({strokeOpacity: 0.15}),
+    Plot.ruleX([0], {strokeOpacity: 0.25}),
+    Plot.ruleY([0], {strokeOpacity: 0.25}),
+    Plot.line(principalLine, {x: "x", y: "y", stroke: "#1d4ed8", strokeWidth: 3}),
+    Plot.link(segments, {
+      x1: "x1",
+      y1: "y1",
+      x2: "x2",
+      y2: "y2",
+      stroke: "#94a3b8",
+      strokeWidth: 2
+    }),
+    Plot.dot(centeredPoints, {
+      x: "x",
+      y: "y",
+      fill: "black",
+      r: 5,
+      tip: true
+    }),
+    Plot.dot(reconstructed, {
+      x: "xr",
+      y: "yr",
+      fill: "#f97316",
+      r: 4,
+      tip: true
+    })
+  ]
+})
+```
+
+```{ojs}
+//| echo: false
+Inputs.table(
+  reconstructed.map((p) => ({
+    point: p.id,
+    original_x: p.x.toFixed(2),
+    original_y: p.y.toFixed(2),
+    recon_x: p.xr.toFixed(2),
+    recon_y: p.yr.toFixed(2),
+    residual_norm: p.residualNorm.toFixed(3)
+  }))
+)
+```
+
+```{ojs}
+//| echo: false
+md`
+- Top singular value: **${singular1.toFixed(4)}**
+- Second singular value: **${singular2.toFixed(4)}**
+- Frobenius reconstruction error: **${froError.toFixed(4)}**
+- Energy captured by retained rank: **${(100 * energyCaptured).toFixed(2)}%**
+- Top principal direction: **(${v1[0].toFixed(4)}, ${v1[1].toFixed(4)})**
+`
+```
+
+## What To Observe
+
+- With `Noise scale = 0`, the point cloud is exactly rank `1`, so the second singular value and the rank-`1` reconstruction error both collapse to zero up to floating-point roundoff.
+- When `Retained rank = 1`, the orange reconstruction points lie on the principal line.
+- As the noise scale increases, the reconstruction segments grow and the second singular value grows with them.
+- When `Retained rank = 2`, the reconstruction becomes exact and the Frobenius error drops to zero.
+
+## Interpretation
+
+This lab is the two-feature version of truncated SVD.
+
+The centered data matrix `X` is being approximated by `X_1`, the best rank-`1` matrix. In geometry, that means every data row is projected onto the top principal direction.
+
+In this setup, the Frobenius reconstruction error for the rank-`1` approximation matches the discarded singular value because there are only two singular values total:
+
+$$
+\|X-X_1\|_F = \sigma_2.
+$$
+
+To keep the displayed value numerically stable at the exact rank-`1` endpoint, the lab reports the second singular value through this reconstruction error identity rather than from a cancellation-prone closed-form subtraction.
+
+So the picture, the table, and the displayed error are all different views of the same theorem.
+
+## Failure Modes and Numerical Cautions
+
+- This is a tiny synthetic example, so it hides scaling and conditioning issues that appear in larger data sets.
+- The principal direction is only defined up to sign, so software may return `v` or `-v`.
+- The lab is about best linear reconstruction, not causal interpretation.
+- Centering is built in here; on raw data, leaving out centering can seriously change the result.
+
+## Reproducibility Notes
+
+- execution engine: `Observable JS`
+- no randomness and no seed required
+- deterministic point construction from fixed arrays
+- static-site friendly: no server runtime or notebook kernel required after render
+
+## Extensions
+
+- add a third feature and compare rank-`1` versus rank-`2` reconstructions
+- replace the synthetic point cloud with a small image-like matrix and study compression directly
+- connect the same geometry to [PCA Through SVD](../applications/pca-through-svd.qmd) and then to randomized low-rank approximation
+
+## Sources and Further Reading
+
+- [Introduction to Applied Linear Algebra – Vectors, Matrices, and Least Squares](https://web.stanford.edu/~boyd/vmls/) - `First pass` - good anchor for PCA geometry and computation. Checked `2026-04-24`.
+- [CS168 Lecture 9: The Singular Value Decomposition and Low-Rank Matrix Approximations](https://web.stanford.edu/class/cs168/l/l9.pdf) - `Second pass` - strong application framing for low-rank reconstruction. Checked `2026-04-24`.
+- [Randomized Numerical Linear Algebra: Foundations & Algorithms](https://arxiv.org/abs/2002.01387) - `Paper bridge` - modern context for why low-rank approximation matters computationally at scale. Checked `2026-04-24`.

@@ -1,0 +1,113 @@
+---
+title: "Source Guide: SVD and Low-Rank Approximation"
+description: "A curated source guide for learning SVD and low-rank approximation from first pass through research bridge."
+page-type: source-guide
+status: published
+update-status: current
+level: foundation
+topic: linear-algebra
+prerequisites:
+  - /topics/foundation/linear-algebra/concepts/svd-and-low-rank-approximation.qmd
+learning-goals:
+  - "Choose the right resource for first exposure, second pass, or paper bridge."
+  - "Separate durable SVD references from current low-rank research references."
+  - "See which sources belong to the concept, application, lab, and research pages in this package."
+applications:
+  - machine-learning
+  - numerical-linear-algebra
+keywords:
+  - source guide
+  - svd
+  - low-rank approximation
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+stable-sources:
+  - "MIT 18.06 Lecture 29: Singular value decomposition"
+  - "Stanford VMLS"
+  - "Hefferon, Linear Algebra"
+current-sources:
+  - "Randomized Numerical Linear Algebra: Foundations & Algorithms"
+  - "Randomized low-rank approximations beyond Gaussian random matrices"
+  - "Low-Rank Adaptation for Foundation Models: A Comprehensive Review"
+---
+
+## How To Use This Guide
+
+Use this guide on two axes at once.
+
+First choose the role you need:
+
+- `First pass` for intuition and basic fluency
+- `Second pass` for proofs, computation, and broader applications
+- `Paper bridge` for research-facing reading
+
+Then use the sections below as filters:
+
+- `Stable Core` for durable first-pass and second-pass references
+- `Current Bridge` for newer surveys or recent frontier notes
+- `Paper Bridge` for concrete papers
+
+Do not try to read everything in parallel.
+
+## Stable Core
+
+- [MIT 18.06 Lecture 29: Singular value decomposition](https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/resources/lecture-29-singular-value-decomposition/) - `First pass` - best official first stop if you want the geometric core without too much abstraction. Checked `2026-04-24`.
+- [Introduction to Applied Linear Algebra – Vectors, Matrices, and Least Squares](https://web.stanford.edu/~boyd/vmls/) - `First pass` - strong official online book for the applied and computational viewpoint. Checked `2026-04-24`.
+- [Hefferon, Linear Algebra](https://hefferon.net/linearalgebra/) - `Second pass` - useful for self-study, proofs, and exercises once the first intuition is in place. Checked `2026-04-24`.
+- [CS168 Lecture 9: The Singular Value Decomposition and Low-Rank Matrix Approximations](https://web.stanford.edu/class/cs168/l/l9.pdf) - `Second pass` - especially good for denoising, matrix completion intuition, and modern applications. Checked `2026-04-24`.
+
+## Current Bridge
+
+- [Randomized Numerical Linear Algebra: Foundations & Algorithms](https://arxiv.org/abs/2002.01387) - `Second pass` - modern survey context for low-rank approximation, streaming, and sketching. Checked `2026-04-24`.
+- [Randomized low-rank approximations beyond Gaussian random matrices](https://arxiv.org/abs/2308.05814) - `Paper bridge` - current example of how the assumptions behind randomized approximation are still broadening. Checked `2026-04-24`.
+- [Low-Rank Adaptation for Foundation Models: A Comprehensive Review](https://arxiv.org/abs/2501.00365) - `Second pass` - current survey showing how low-rank structure now appears in model adaptation workflows. Checked `2026-04-24`.
+
+## Paper Bridge
+
+- [Finding Structure with Randomness: Probabilistic Algorithms for Constructing Approximate Matrix Decompositions](https://authors.library.caltech.edu/records/hy0mc-xmn26/latest) - `Paper bridge` - classic starting point for approximate low-rank algorithms. Checked `2026-04-24`.
+- [LoRA: Low-Rank Adaptation of Large Language Models](https://arxiv.org/abs/2106.09685) - `Paper bridge` - useful if you want to see low-rank ideas in a modern ML setting immediately. Checked `2026-04-24`.
+- [Streaming Low-Rank Matrix Approximation with an Application to Scientific Simulation](https://authors.library.caltech.edu/records/3q0s1-h6e69) - `Paper bridge` - good next paper if memory and pass constraints interest you. Checked `2026-04-24`.
+
+## Recommended Reading Paths
+
+### Path 1: First serious understanding
+
+1. MIT 18.06 Lecture 29
+2. [SVD and Low-Rank Approximation](../concepts/svd-and-low-rank-approximation.qmd)
+3. Stanford VMLS or Hefferon for more exercises
+
+### Path 2: PCA and data analysis
+
+1. [SVD and Low-Rank Approximation](../concepts/svd-and-low-rank-approximation.qmd)
+2. [PCA Through SVD](../applications/pca-through-svd.qmd)
+3. [Computation Lab: Rank-1 Approximation and PCA Geometry](../labs/rank-one-approximation-and-pca-geometry.qmd)
+4. Stanford VMLS
+
+### Path 3: Bridge to randomized algorithms
+
+1. [SVD and Low-Rank Approximation](../concepts/svd-and-low-rank-approximation.qmd)
+2. [Eckart-Young and Truncated SVD](../proofs/eckart-young-and-truncated-svd.qmd)
+3. [Paper Lab: Finding Structure with Randomness](../paper-lab/finding-structure-with-randomness.qmd)
+4. RNLA survey
+
+### Path 4: Bridge to modern model adaptation
+
+1. [SVD and Low-Rank Approximation](../concepts/svd-and-low-rank-approximation.qmd)
+2. [Research Direction: Low-Rank Structure from Randomized Algorithms to Model Adaptation](../research/low-rank-structure-from-randomized-algorithms-to-model-adaptation.qmd)
+3. LoRA paper
+4. 2025 low-rank adaptation review
+
+## Sources Checked Online
+
+All links above were checked on `2026-04-24`.
+
+The online verification pass included:
+
+- official course pages
+- official author-maintained textbook pages
+- official arXiv or author-hosted paper pages
+- current survey pages for low-rank adaptation and randomized low-rank methods
