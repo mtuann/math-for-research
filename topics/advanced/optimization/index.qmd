@@ -8,7 +8,8 @@ level: advanced
 topic: optimization
 prerequisites:
   - /topics/foundation/linear-algebra/index.qmd
-  - "Basic calculus: derivatives, partial derivatives, gradients, and curvature intuition"
+  - /topics/foundation/single-variable-calculus/index.qmd
+  - /topics/foundation/multivariable-calculus/index.qmd
 learning-goals:
   - "Understand the internal study order of a first optimization pass."
   - "See how gradients, constraints, multipliers, and convexity fit together."
@@ -55,7 +56,7 @@ If this module is skipped, later material starts to feel like disconnected recip
 ::: {.meta-strip}
 ::: {.meta-box}
 **Prerequisites**
-Linear algebra first. Basic calculus is strongly recommended. Probability helps connect objectives to estimation and uncertainty.
+Linear algebra first. [Single-Variable Calculus](../../foundation/single-variable-calculus/index.qmd) and [Multivariable Calculus](../../foundation/multivariable-calculus/index.qmd) should come first. Probability helps connect objectives to estimation and uncertainty.
 :::
 ::: {.meta-box}
 **Unlocks**
@@ -75,17 +76,7 @@ Reading papers with objectives, constraints, certificates, regularization, and s
 4. [Unconstrained First-Order Methods](concepts/unconstrained-first-order-methods.qmd)
 5. [Duality and Certificates](concepts/duality-and-certificates.qmd)
 
-The current live first-pass path is:
-
-1. [Convex Sets and Separation](concepts/convex-sets-and-separation.qmd)
-2. [Convex Functions and Subgradients](concepts/convex-functions-and-subgradients.qmd)
-3. [Constrained Optimization, KKT, and Lagrangians](concepts/constrained-optimization-kkt-and-lagrangians.qmd)
-4. [Unconstrained First-Order Methods](concepts/unconstrained-first-order-methods.qmd)
-5. [Duality and Certificates](concepts/duality-and-certificates.qmd)
-
-The five-page first-pass core of the optimization module is now live.
-
-Because the site's calculus sequence is not live yet, this module is best read after you are already comfortable with derivatives, partial derivatives, gradients, and basic curvature intuition.
+This module is best read after you are already comfortable with derivatives, partial derivatives, gradients, and basic curvature intuition from the site's calculus modules.
 
 ## Navigation Rule
 
@@ -122,17 +113,13 @@ Trajectory planning, resource allocation, filter design, inverse problems, and e
 
 ## Go Deeper By Topic
 
-### Convex Geometry First
+Follow the five-page first pass in order:
 
-Start with [Convex Sets and Separation](concepts/convex-sets-and-separation.qmd).
-
-Then move to [Convex Functions and Subgradients](concepts/convex-functions-and-subgradients.qmd).
-
-Then move to [Constrained Optimization, KKT, and Lagrangians](concepts/constrained-optimization-kkt-and-lagrangians.qmd).
-
-Then move to [Unconstrained First-Order Methods](concepts/unconstrained-first-order-methods.qmd).
-
-Then move to [Duality and Certificates](concepts/duality-and-certificates.qmd).
+1. [Convex Sets and Separation](concepts/convex-sets-and-separation.qmd)
+2. [Convex Functions and Subgradients](concepts/convex-functions-and-subgradients.qmd)
+3. [Constrained Optimization, KKT, and Lagrangians](concepts/constrained-optimization-kkt-and-lagrangians.qmd)
+4. [Unconstrained First-Order Methods](concepts/unconstrained-first-order-methods.qmd)
+5. [Duality and Certificates](concepts/duality-and-certificates.qmd)
 
 If you want adjacent context right away, the best current bridges are:
 
@@ -150,21 +137,7 @@ The strongest official deeper references currently connected to this module are:
 
 ## Study Order
 
-The intended long-term first pass through optimization is:
-
-1. [Convex Sets and Separation](concepts/convex-sets-and-separation.qmd)
-2. [Convex Functions and Subgradients](concepts/convex-functions-and-subgradients.qmd)
-3. [Constrained Optimization, KKT, and Lagrangians](concepts/constrained-optimization-kkt-and-lagrangians.qmd)
-4. [Unconstrained First-Order Methods](concepts/unconstrained-first-order-methods.qmd)
-5. [Duality and Certificates](concepts/duality-and-certificates.qmd)
-
-Right now the current live path starts with geometry, then objective shape, then constrained first-order reasoning, so the module already has a real first conceptual arc:
-
-1. [Convex Sets and Separation](concepts/convex-sets-and-separation.qmd)
-2. [Convex Functions and Subgradients](concepts/convex-functions-and-subgradients.qmd)
-3. [Constrained Optimization, KKT, and Lagrangians](concepts/constrained-optimization-kkt-and-lagrangians.qmd)
-4. [Unconstrained First-Order Methods](concepts/unconstrained-first-order-methods.qmd)
-5. [Duality and Certificates](concepts/duality-and-certificates.qmd)
+The intended first pass is the five-step sequence above.
 
 You are ready to move deeper into the module when you can:
 

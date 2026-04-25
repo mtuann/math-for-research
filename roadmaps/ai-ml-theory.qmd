@@ -59,14 +59,16 @@ Use this as the default order.
 3. [Linear Algebra](../topics/foundation/linear-algebra/index.qmd)
 4. [Probability](../topics/foundation/probability/index.qmd)
 5. [Statistics](../topics/foundation/statistics/index.qmd)
-6. `Optimization` when it lands
-7. `Real Analysis` when it lands
-8. `Matrix Analysis` when it lands
-9. `Learning Theory` when it lands
-10. `High-Dimensional Probability` when it lands
-11. `High-Dimensional Statistics` when it lands
+6. [Single-Variable Calculus](../topics/foundation/single-variable-calculus/index.qmd)
+7. [Multivariable Calculus](../topics/foundation/multivariable-calculus/index.qmd)
+8. [Optimization](../topics/advanced/optimization/index.qmd)
+9. `Real Analysis`
+10. `Matrix Analysis`
+11. `Learning Theory`
+12. `High-Dimensional Probability`
+13. `High-Dimensional Statistics`
 
-The first five stages are already live on the site. They are enough to begin reading the cleaner end of ML-facing math pages right now.
+The first eight stages are already live on the site. They are enough to begin reading the cleaner end of ML-facing math pages right now.
 
 ## Why This Order Works
 
@@ -101,7 +103,7 @@ Before branching, there is one short shared core:
 4. calibrated confidence and uncertainty
 5. regularization and model complexity
 
-The shared-core bridge pages now live are:
+Useful shared-core bridge pages are:
 
 - [Supervised Learning, Losses, and Empirical Risk](../applications/machine-learning/supervised-learning-losses-and-empirical-risk.qmd)
 - [Optimization for Machine Learning](../applications/machine-learning/optimization-for-machine-learning.qmd)
@@ -150,7 +152,7 @@ Use this branch if you care about:
 - representation learning
 - scaling and overparameterized training
 
-The first bridge pages for this branch are now live:
+Useful bridge pages for this branch are:
 
 - [Backpropagation and Computation Graphs](../applications/machine-learning/backpropagation-and-computation-graphs.qmd)
 - [Attention, Softmax, and Weighted Mixtures](../applications/machine-learning/attention-softmax-and-weighted-mixtures.qmd)
@@ -167,7 +169,7 @@ Use this branch if you care about:
 - molecular, relational, or recommendation graphs
 - spectral versus spatial graph design choices
 
-The first bridge pages for this branch are now live:
+Useful bridge pages for this branch are:
 
 - [Graph Diffusion and Message Passing](../applications/machine-learning/graph-diffusion-and-message-passing.qmd)
 - [Oversmoothing, Depth, and Graph Sampling](../applications/machine-learning/oversmoothing-depth-and-graph-sampling.qmd)
@@ -183,7 +185,7 @@ Use this branch if you care about:
 - Gaussian-process regression
 - uncertainty-aware function prediction
 
-The first bridge pages for this branch are now live:
+Useful bridge pages for this branch are:
 
 - [Kernel Methods and Similarity Geometry](../applications/machine-learning/kernel-methods-and-similarity-geometry.qmd)
 - [Kernel Ridge and Gaussian-Process Intuition](../applications/machine-learning/kernel-ridge-and-gaussian-process-intuition.qmd)
@@ -198,7 +200,7 @@ Use this branch if you care about:
 - diffusion probabilistic models
 - score-based or stochastic-process views of generation
 
-The first bridge pages for this branch are now live:
+Useful bridge pages for this branch are:
 
 - [Diffusion Models and Denoising](../applications/machine-learning/diffusion-models-and-denoising.qmd)
 - [Score Matching and the SDE View of Diffusion](../applications/machine-learning/score-matching-and-the-sde-view-of-diffusion.qmd)
@@ -253,13 +255,13 @@ A good current sequence is:
 1. [Vector Mixtures in Embeddings and Attention](../topics/foundation/linear-algebra/applications/vector-mixtures-in-embeddings-and-attention.qmd)
 2. [Paper Lab: Attention as Weighted Vector Mixture](../topics/foundation/linear-algebra/paper-lab/attention-as-weighted-vector-mixture.qmd)
 
-## What To Build Next To Strengthen This Roadmap
+## Common Next Theory Directions
 
-The next big theory module with the best payoff is `Optimization`.
+After the current foundations, calculus bridge, and optimization path, the next big theory modules with the best payoff are:
 
-The current named ML bridge backlog is complete.
-
-So the next highest-value step is no longer another isolated ML bridge page, but a deeper theory module such as `Optimization`, followed by a review / polish pass across the ML section.
+- `Real Analysis`
+- `Learning Theory`
+- `High-Dimensional Probability`
 
 ## Sources and Further Reading
 

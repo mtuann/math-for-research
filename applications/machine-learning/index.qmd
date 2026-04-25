@@ -82,6 +82,18 @@ Start in this order:
 3. [Statistics](../../topics/foundation/statistics/index.qmd)
 4. [AI / ML Theory Roadmap](../../roadmaps/ai-ml-theory.qmd)
 
+### If You Want The Canonical Bridge Route Inside This Section
+
+Start in this order:
+
+1. [Supervised Learning, Losses, and Empirical Risk](supervised-learning-losses-and-empirical-risk.qmd)
+2. [Optimization for Machine Learning](optimization-for-machine-learning.qmd)
+3. [Generalization, Overfitting, and Validation](generalization-overfitting-and-validation.qmd)
+4. [Regularization, Implicit Bias, and Model Complexity](regularization-implicit-bias-and-model-complexity.qmd)
+5. [Uncertainty Calibration and Predictive Confidence](uncertainty-calibration-and-predictive-confidence.qmd)
+
+This is the cleanest first bridge from the site's math modules into recurring ML questions.
+
 ### If You Want Concrete Model Components First
 
 Start with the linear-algebra-heavy bridges:
@@ -119,8 +131,8 @@ Use this family when you want to see how vectors, matrices, orthogonality, and l
 
 Use this family when you want to understand how prompts act like temporary task descriptions and why attention-based models can sometimes behave like small learners at inference time:
 
-- [Attention, Softmax, and Weighted Mixtures](attention-softmax-and-weighted-mixtures.qmd)
 - [Backpropagation and Computation Graphs](backpropagation-and-computation-graphs.qmd)
+- [Attention, Softmax, and Weighted Mixtures](attention-softmax-and-weighted-mixtures.qmd)
 - [In-Context Learning and Linearization](in-context-learning-and-linearization.qmd)
 
 ### Graph and Spectral ML
@@ -176,38 +188,17 @@ These pages are useful when you want the first step from stable math into curren
 - [Research Direction: Low-Dimensional Structure and Subspace Methods](../../topics/foundation/linear-algebra/research/low-dimensional-structure-and-subspace-methods.qmd)
 - [Research Direction: Least Squares, Sketching, and Overparameterized Regression](../../topics/foundation/linear-algebra/research/least-squares-sketching-and-overparameterized-regression.qmd)
 
-## Core Bridge Pages Now Live
+## How To Move Beyond The First Bridge Route
 
-These are the current short bridge pages that connect the site's math modules to recurring ML ideas:
+After the canonical bridge route, branch by family instead of reading the whole section linearly.
 
-1. [Supervised Learning, Losses, and Empirical Risk](supervised-learning-losses-and-empirical-risk.qmd)
-2. [Optimization for Machine Learning](optimization-for-machine-learning.qmd)
-3. [Generalization, Overfitting, and Validation](generalization-overfitting-and-validation.qmd)
-4. [Backpropagation and Computation Graphs](backpropagation-and-computation-graphs.qmd)
-5. [Attention, Softmax, and Weighted Mixtures](attention-softmax-and-weighted-mixtures.qmd)
-6. [Kernel Methods and Similarity Geometry](kernel-methods-and-similarity-geometry.qmd)
-7. [Regularization, Implicit Bias, and Model Complexity](regularization-implicit-bias-and-model-complexity.qmd)
-8. [Graph Diffusion and Message Passing](graph-diffusion-and-message-passing.qmd)
-9. [Representation Learning and Geometry of Embeddings](representation-learning-and-geometry-of-embeddings.qmd)
-10. [Kernel Ridge and Gaussian-Process Intuition](kernel-ridge-and-gaussian-process-intuition.qmd)
-11. [Oversmoothing, Depth, and Graph Sampling](oversmoothing-depth-and-graph-sampling.qmd)
-12. [Diffusion Models and Denoising](diffusion-models-and-denoising.qmd)
-13. [Linear Probes and Representation Diagnostics](linear-probes-and-representation-diagnostics.qmd)
-14. [Bayesian Optimization and Surrogate Modeling](bayesian-optimization-and-surrogate-modeling.qmd)
-15. [Graph Rewiring, Homophily, and Heterophily](graph-rewiring-homophily-and-heterophily.qmd)
-16. [Score Matching and the SDE View of Diffusion](score-matching-and-the-sde-view-of-diffusion.qmd)
-17. [Uncertainty Calibration and Predictive Confidence](uncertainty-calibration-and-predictive-confidence.qmd)
-18. [In-Context Learning and Linearization](in-context-learning-and-linearization.qmd)
-19. [Long-Range Dependence and Oversquashing in Graphs](long-range-dependence-and-oversquashing-in-graphs.qmd)
-20. [Flow Matching and Transport Views of Generation](flow-matching-and-transport-views-of-generation.qmd)
+- choose `Transformers, Prompting, and In-Context Learning` if you care about sequence models and inference-time adaptation
+- choose `Training, Complexity, and Generalization` if you care about why models fit and generalize
+- choose `Graph and Spectral ML` if you care about structured data and message passing
+- choose `Similarity and Kernel ML` if you care about nonlinear prediction through geometry
+- choose `Generative Modeling and Denoising` if you care about diffusion, score, and transport views
 
-These pages are compact bridge pages. They are here to point you back to the exact math objects already developed elsewhere on the site instead of reteaching full modules.
-
-## Next Steps
-
-The current named ML bridge backlog is complete.
-
-The next high-value move is not another isolated bridge page, but a deeper theory module such as `Optimization`, or a review / polish pass across the ML section.
+The family blocks above are the main navigation layer. They are better first guides than a long page inventory.
 
 ## How To Use This Section
 
