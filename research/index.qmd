@@ -1,31 +1,98 @@
 ---
 title: "Research"
+description: "A top-level map from stable math and paper-reading skills into theorem families, active directions, surveys, and venue cultures."
+page-type: module-overview
+status: published
+update-status: current
+level: research
+topic: research-map
+prerequisites:
+  - /paper-lab/index.qmd
+  - /roadmaps/ai-ml-theory.qmd
+learning-goals:
+  - "Understand the recommended first-pass order through the Research section."
+  - "See how theorem families, directions, surveys, and venues play different roles."
+  - "Connect stable topic mastery to frontier reading without skipping the paper-reading workflow."
+  - "Choose the right research page for your current bottleneck."
+applications:
+  - research-reading
+  - theory-paper-reading
+  - literature-entry
+  - publication-awareness
+keywords:
+  - research
+  - theorem families
+  - surveys
+  - venues
+  - directions
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: quarterly
+date-modified: last-modified
+draft: false
+stable-sources:
+  - "Paper Lab"
+  - "AI / ML Theory roadmap"
+current-sources:
+  - "Theorem Families"
+  - "Directions"
+  - "Surveys"
+  - "Venues"
 ---
 
-## The Research Layer
+## Why This Section Matters
 
-Research pages are where stable math connects to moving frontier material.
+`Research` is where the site stops acting like a curriculum and starts acting like a literature map.
 
-Each mature topic should eventually link to:
+The job of this section is not to throw you into random current papers. Its job is to help you answer:
 
-- theorem families
-- application pages
-- paper labs
-- research directions
-- surveys and venue maps
+- what theorem family is this paper using?
+- which direction does this result belong to?
+- should I read a survey first?
+- what kind of venue culture am I looking at?
 
-This section is the aggregator for those connections.
+That makes this section the layer between:
 
-## First Page
+- stable math
+- paper-reading workflow
+- active research literature
 
-- [Theorem Families](theorem-families.qmd)
-- [Directions](directions.qmd)
-- [Surveys](surveys.qmd)
-- [Venues](venues.qmd)
+## Recommended First-Pass Order
 
-## What This Section Should Eventually Contain
+Use this order:
 
-- `Theorem Families`: recurring proof and result patterns that appear across many papers
-- `Directions`: active frontier maps by area
-- `Surveys`: curated entry points into broader literature
-- `Venues`: where different kinds of work are usually published
+1. [Theorem Families](theorem-families.qmd)
+2. [Directions](directions.qmd)
+3. [Surveys](surveys.qmd)
+4. [Venues](venues.qmd)
+
+That order is deliberate:
+
+- start with recurring theorem and proof patterns
+- then see which active directions are built on top of those patterns
+- then choose good literature entry points
+- finally learn how venue families shape audience and evidence expectations
+
+## When To Open Which Page
+
+- `Theorem Families`: open when a theorem feels dense, but the bigger pattern is still unclear
+- `Directions`: open when you want to know where a stable topic leads in current research
+- `Surveys`: open when you need a structured entry point instead of jumping into recent papers
+- `Venues`: open when you want to understand audience, evidence culture, and where a line of work tends to live
+
+## How This Section Connects To The Rest Of The Site
+
+- [Paper Lab](../paper-lab/index.qmd) teaches you how to read papers
+- `Research` helps you choose what literature patch to read next
+- [Applications](../applications/index.qmd) shows where the math reappears in modern models
+- [Roadmaps](../roadmaps/index.qmd) gives you longer study paths when you need a sequencing layer
+
+If `Paper Lab` teaches workflow, `Research` teaches orientation.
+
+## Sources And Further Reading
+
+- [Paper Lab](../paper-lab/index.qmd) - `First pass` - the workflow layer you should use before diving into theorem families and literature maps.
+- [AI / ML Theory Roadmap](../roadmaps/ai-ml-theory.qmd) - `Second pass` - a strong route when your research interest is specifically theory-facing ML.
+- [Theorem Families](theorem-families.qmd) - `Paper bridge` - the best first research page when theorem statements still feel isolated and opaque.
+- [Directions](directions.qmd) - `Paper bridge` - the best next page when you want to know which frontier areas grow naturally out of the site's stable math.

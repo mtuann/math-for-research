@@ -299,7 +299,7 @@ The point is to extract a trail, not to collect a dozen references you never ret
 
 ## What To Learn Next
 
-- [Venues](index.qmd), once the top-level venue page is live
+- [Venues](venues.qmd), if you want to understand where the literature you just entered tends to live
 - [Paper Lab](../paper-lab/index.qmd), if you want paper-reading workflow instead of literature entry
 - [Directions](directions.qmd), if you want to choose a frontier before choosing a survey
 

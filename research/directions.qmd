@@ -315,8 +315,8 @@ That is why this page is grouped by mathematical direction, not by model brand.
 
 ## What To Learn Next
 
-- [Surveys](index.qmd), once the top-level survey page is live
-- [Venues](index.qmd), once the venue map is live
+- [Surveys](surveys.qmd), if you want structured literature entry points after choosing a direction
+- [Venues](venues.qmd), if you want to understand where work in this direction usually gets published
 - [Paper Lab](../paper-lab/index.qmd), if you want reading workflows instead of direction maps
 - [Applications > Machine Learning](../applications/machine-learning/index.qmd), if you want problem-first bridges
 

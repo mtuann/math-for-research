@@ -385,7 +385,7 @@ That is one reason this page distinguishes stable theorem families from the movi
 
 ## What To Learn Next
 
-- [Directions](index.qmd), once the top-level research directions page is live
+- [Directions](directions.qmd), if you want to move from recurring theorem patterns to active frontier maps
 - [Paper Lab](../paper-lab/index.qmd), if you want theorem-reading workflow instead of topic-first study
 - [Applications > Machine Learning](../applications/machine-learning/index.qmd), if you want problem-first bridges
 - [AI / ML Theory roadmap](../roadmaps/ai-ml-theory.qmd), if your goal is a research-reading route rather than isolated topic lookup
