@@ -17,8 +17,8 @@ Use it to track:
 
 ## Current Snapshot
 
-- `209` `.qmd` pages currently exist
-- `90` concept-topic pages currently exist
+- `217` `.qmd` pages currently exist
+- `96` concept-topic pages currently exist
 - strongest subjects so far: `Linear Algebra`, `Probability`, `Proofs`, `Logic`, `Statistics`, `Single-Variable Calculus`, `Multivariable Calculus`, `Optimization`, `Real Analysis`
 - strongest public-facing bridge so far: `Applications > Machine Learning`
 - non-topic sections already scaffolded: `Start Here`, `Roadmaps`, `Applications`, `Paper Lab`, `Research`, `Publication`, `Library`, `Notes`
@@ -324,13 +324,16 @@ These are not required before the main spine is public, but they are the next hi
 - [ ] `Channel coding intuition`
 - [ ] `Information-theoretic ML bridges`
 
-### Control
+### Control and Dynamics
 
-- [ ] `State-space models`
-- [ ] `Controllability and observability`
-- [ ] `Stability and Lyapunov intuition`
-- [ ] `Linear quadratic regulation`
-- [ ] `Control and learning bridges`
+- [x] `Control and Dynamics index`
+- [x] `State-space models, inputs, and outputs`
+- [x] `Controllability, reachability, and observability`
+- [x] `Feedback, stability, and pole placement`
+- [x] `Linear quadratic regulation and Riccati intuition`
+- [x] `Estimation, Kalman filtering, and the separation principle`
+- [x] `Model predictive control and constraint handling`
+- [x] `Learning-based control, system identification, and RL bridges`
 
 ## Gold-Standard Topic Targets
 

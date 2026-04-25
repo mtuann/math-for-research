@@ -1,0 +1,404 @@
+---
+title: "Feedback, Stability, and Pole Placement"
+description: "How state feedback changes system dynamics, why closed-loop stability is read through eigenvalues or poles, and when controllability allows us to place those poles where we want."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: control-and-dynamics
+prerequisites:
+  - /topics/advanced/control-and-dynamics/concepts/controllability-reachability-and-observability.qmd
+  - /topics/advanced/control-and-dynamics/concepts/state-space-models-inputs-and-outputs.qmd
+  - /topics/advanced/odes-and-dynamical-systems/concepts/phase-portraits-equilibria-and-local-stability.qmd
+learning-goals:
+  - "Explain what full-state feedback does to a linear system."
+  - "Relate closed-loop stability to eigenvalues and poles."
+  - "State the first-pass pole-placement theorem for controllable LTI systems."
+  - "Recognize why uncontrollable modes limit feedback design."
+applications:
+  - control-and-dynamics
+  - engineering-systems
+  - scientific-computing
+keywords:
+  - feedback
+  - stability
+  - pole placement
+  - state feedback
+  - stabilizability
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/control-and-dynamics/index.qmd
+  - /topics/advanced/control-and-dynamics/concepts/state-space-models-inputs-and-outputs.qmd
+  - /topics/advanced/control-and-dynamics/concepts/controllability-reachability-and-observability.qmd
+  - /topics/advanced/odes-and-dynamical-systems/concepts/phase-portraits-equilibria-and-local-stability.qmd
+  - /topics/advanced/optimization/index.qmd
+stable-sources:
+  - "MIT 6.241 Dynamic Systems and Control"
+  - "MIT 16.30 Feedback Control Systems"
+  - "Stanford EE363 Linear Dynamical Systems"
+  - "Stanford ENGR105 Feedback Control Design"
+current-sources:
+  - "MIT 6.241 lecture notes"
+  - "MIT 6.241 lecture 23 feedback stabilization"
+  - "MIT 16.30 lecture notes"
+  - "MIT 16.30 topic 11 full-state feedback control"
+  - "MIT 16.30 topic 12 pole placement approach"
+  - "Stanford EE363 bulletin"
+  - "Stanford ENGR105 bulletin"
+  - "Stanford ENGR205 bulletin"
+---
+
+## Role
+
+This is the third page of the `Control and Dynamics` module.
+
+Its job is to explain what we do once a system is both modeled and controllable:
+
+`we feed the state back into the input in order to reshape the dynamics`
+
+That is the first serious design move in control.
+
+## First-Pass Promise
+
+Read this page after [Controllability, Reachability, and Observability](controllability-reachability-and-observability.qmd).
+
+If you stop here, you should still understand:
+
+- what full-state feedback means
+- how feedback changes the system matrix
+- how closed-loop stability is read through poles or eigenvalues
+- why controllability is the condition that makes pole placement possible
+
+## Why It Matters
+
+Open-loop steering can be fragile.
+
+Even if a system is reachable, an open-loop input plan can fail badly when:
+
+- the model is not exact
+- the initial state is uncertain
+- disturbances are present
+- numerical or measurement errors accumulate
+
+Feedback changes that story.
+
+Instead of choosing the input once and hoping the model behaves, we let the current state influence the next input:
+
+$$
+u(t) = -Kx(t) + r(t).
+$$
+
+This means the system no longer evolves by the original matrix `A` alone.
+
+It evolves by a new closed-loop matrix.
+
+That is the central idea of this page:
+
+`feedback does not only react to the system; it changes the system's own dynamics`
+
+## Prerequisite Recall
+
+- a state-space model has the form `\dot x = Ax + Bu`
+- controllability asks whether the input channel can influence every relevant state direction
+- stability for linear systems is read from the long-time behavior of the modes
+- in continuous time, stable linear modes have eigenvalues with negative real part
+
+## Intuition
+
+### Feedback Rewrites The Dynamics
+
+For a linear system
+
+$$
+\dot x = Ax + Bu,
+$$
+
+if we choose the control law
+
+$$
+u = -Kx,
+$$
+
+then the dynamics become
+
+$$
+\dot x = (A-BK)x.
+$$
+
+So the design question becomes:
+
+`can we choose K so that A-BK has better behavior than A?`
+
+### Poles Are The Dynamical Modes We Are Trying To Shape
+
+For an LTI system, the poles or eigenvalues tell us whether modes:
+
+- decay
+- grow
+- oscillate
+
+Moving poles left in the continuous-time complex plane usually means faster decay, but doing that aggressively can demand more control effort and amplify sensitivity.
+
+### Pole Placement Is Possible Only If The Input Reaches The Relevant Modes
+
+If a mode is uncontrollable, no state feedback can move its pole.
+
+So controllability is not just a technical side condition.
+
+It tells us whether feedback design has enough authority to reshape the dynamics at all.
+
+### Stability And Pole Placement Are Connected But Not Identical
+
+Sometimes we only care about making an unstable system stable.
+
+Sometimes we want more:
+
+- a certain decay rate
+- a certain damping ratio
+- faster transient response
+- less overshoot
+
+Pole placement is the first-pass language for that stronger design problem.
+
+## Formal Core
+
+::: {#def-state-feedback}
+## Definition: Full-State Feedback
+
+For the LTI system
+
+$$
+\dot x = Ax + Bu,
+$$
+
+a full-state feedback law has the form
+
+$$
+u = -Kx + r,
+$$
+
+where `K` is the feedback gain and `r` is an optional reference or external command.
+:::
+
+::: {#def-closed-loop}
+## Definition: Closed-Loop Matrix
+
+Under the feedback law `u=-Kx`, the closed-loop dynamics are
+
+$$
+\dot x = (A-BK)x.
+$$
+
+The matrix
+
+$$
+A_{\mathrm{cl}} = A-BK
+$$
+
+is the `closed-loop matrix`.
+:::
+
+::: {#def-ct-stability}
+## Definition: Continuous-Time Internal Stability For LTI Systems
+
+At a first pass, a continuous-time LTI system is internally asymptotically stable when every eigenvalue of its dynamics matrix has negative real part.
+:::
+
+::: {#def-dt-stability}
+## Definition: Discrete-Time Internal Stability For LTI Systems
+
+At a first pass, a discrete-time LTI system is internally asymptotically stable when every eigenvalue of its update matrix lies strictly inside the unit disk.
+:::
+
+::: {#thm-pole-placement}
+## Theorem Idea: Pole Placement By State Feedback
+
+For a finite-dimensional controllable LTI system, state feedback can assign the closed-loop poles of `A-BK` arbitrarily, subject to the usual complex-conjugate pairing when `K` is real.
+:::
+
+This is the first-pass pole-placement theorem.
+
+::: {#thm-uncontrollable-modes}
+## Theorem Idea: Uncontrollable Modes Cannot Be Moved
+
+If a mode is uncontrollable, state feedback cannot change its pole.
+:::
+
+So uncontrollable unstable modes block stabilization entirely.
+
+::: {#def-stabilizable}
+## Definition: Stabilizable
+
+At a first pass, a pair `(A,B)` is `stabilizable` if every uncontrollable mode is already stable.
+:::
+
+This is weaker than full controllability but still enough for stabilization.
+
+## Worked Example
+
+Consider the unstable system
+
+$$
+\dot x = Ax + Bu,
+$$
+
+with
+
+$$
+A=
+\begin{bmatrix}
+1 & 1 \\
+1 & 2
+\end{bmatrix},
+\qquad
+B=
+\begin{bmatrix}
+1 \\
+0
+\end{bmatrix}.
+$$
+
+Choose full-state feedback
+
+$$
+u=-Kx,
+\qquad
+K=\begin{bmatrix}k_1 & k_2\end{bmatrix}.
+$$
+
+Then
+
+$$
+A-BK=
+\begin{bmatrix}
+1-k_1 & 1-k_2 \\
+1 & 2
+\end{bmatrix}.
+$$
+
+The closed-loop characteristic polynomial is
+
+$$
+\det(sI-(A-BK))
+=
+s^2 + (k_1-3)s + (1-2k_1+k_2).
+$$
+
+Suppose we want the closed-loop poles at `-5` and `-6`.
+
+Then the desired polynomial is
+
+$$
+(s+5)(s+6)=s^2+11s+30.
+$$
+
+Matching coefficients gives
+
+$$
+k_1-3=11
+\quad\Rightarrow\quad
+k_1=14,
+$$
+
+and
+
+$$
+1-2k_1+k_2=30
+\quad\Rightarrow\quad
+k_2=57.
+$$
+
+So one valid feedback gain is
+
+$$
+K=\begin{bmatrix}14 & 57\end{bmatrix}.
+$$
+
+This example shows the main control-design pattern:
+
+- write the closed-loop matrix `A-BK`
+- compute its characteristic polynomial
+- choose desired poles
+- solve for `K`
+
+The whole strategy works because the input channel has enough authority over the modes.
+
+## Computation Lens
+
+When you see a feedback-design problem, ask:
+
+1. are we in continuous time or discrete time?
+2. what is the open-loop matrix, and where are its unstable modes?
+3. is the pair `(A,B)` controllable or at least stabilizable?
+4. what does the chosen feedback law change: only stability, or also transient speed and damping?
+5. are the requested pole locations reasonable, or do they imply excessive control effort or sensitivity?
+
+These questions often matter more than the raw algebra of solving for `K`.
+
+## Application Lens
+
+### Stabilizing Unstable Systems
+
+Aircraft, inverted pendulums, and many balancing systems rely on feedback because open-loop plans alone are too fragile.
+
+### Fast Versus Gentle Control
+
+Pole placement lets us talk about tradeoffs between rapid response and aggressive control effort.
+
+### Bridge To Optimal Control
+
+This page sets up the next module step naturally:
+
+LQR can be read as a principled way to pick feedback gains instead of hand-choosing pole locations.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- what full-state feedback does to the dynamics
+- why the closed-loop matrix is `A-BK`
+- how stability is read from poles or eigenvalues
+- why controllability enables pole placement
+- why uncontrollable unstable modes block stabilization
+
+then this page has done its job.
+
+## Go Deeper
+
+The next natural step in this module is:
+
+- [Linear Quadratic Regulation and Riccati Intuition](linear-quadratic-regulation-and-riccati-intuition.qmd)
+
+The strongest adjacent live pages right now are:
+
+- [Control and Dynamics](../index.qmd)
+- [State-Space Models, Inputs, and Outputs](state-space-models-inputs-and-outputs.qmd)
+- [Controllability, Reachability, and Observability](controllability-reachability-and-observability.qmd)
+- [Linear Quadratic Regulation and Riccati Intuition](linear-quadratic-regulation-and-riccati-intuition.qmd)
+- [Phase Portraits, Equilibria, and Local Stability](../../odes-and-dynamical-systems/concepts/phase-portraits-equilibria-and-local-stability.qmd)
+- [Optimization](../../optimization/index.qmd)
+
+## Optional Deeper Reading After First Pass
+
+The strongest current references connected to this page are:
+
+- [MIT 16.30 Topic 11: Full-state feedback control](https://ocw.mit.edu/courses/16-30-feedback-control-systems-fall-2010/c553561f63feaa6173e31994f45f0c60_MIT16_30F10_lec11.pdf) - official lecture notes for the closed-loop matrix viewpoint and hand pole-placement examples. Checked `2026-04-25`.
+- [MIT 16.30 Topic 12: Pole placement approach](https://ocw.mit.edu/courses/16-30-feedback-control-systems-fall-2010/be97882d33e1689ef2eb80cf181afafb_MIT16_30F10_lec12.pdf) - official lecture notes for time-domain pole placement and design tradeoffs. Checked `2026-04-25`.
+- [MIT 6.241J Lecture 23: Feedback stabilization](https://ocw.mit.edu/courses/6-241j-dynamic-systems-and-control-spring-2011/c8fc22a8adf04e602a575fdfd60c039a_MIT6_241JS11_lec23.pdf) - official lecture notes for the control-theoretic stabilization viewpoint. Checked `2026-04-25`.
+- [Stanford EE363 bulletin](https://bulletin.stanford.edu/courses/2273941) - official current course description connecting feedback, reachability, observability, LQR, and Kalman filtering. Checked `2026-04-25`.
+- [Stanford ENGR105 bulletin](https://bulletin.stanford.edu/courses/1042961) - official current course description explicitly naming feedback design for stability and dynamic response. Checked `2026-04-25`.
+- [Stanford ENGR205 bulletin](https://bulletin.stanford.edu/courses/1043361) - official current course description explicitly naming pole placement and observer design. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [MIT 16.30 Topic 11: Full-state feedback control](https://ocw.mit.edu/courses/16-30-feedback-control-systems-fall-2010/c553561f63feaa6173e31994f45f0c60_MIT16_30F10_lec11.pdf) - `First pass` - official notes for how feedback changes the poles through `A-BK`. Checked `2026-04-25`.
+- [MIT 16.30 Topic 12: Pole placement approach](https://ocw.mit.edu/courses/16-30-feedback-control-systems-fall-2010/be97882d33e1689ef2eb80cf181afafb_MIT16_30F10_lec12.pdf) - `First pass` - official notes for practical pole-placement design heuristics. Checked `2026-04-25`.
+- [MIT 6.241J Lecture 23: Feedback stabilization](https://ocw.mit.edu/courses/6-241j-dynamic-systems-and-control-spring-2011/c8fc22a8adf04e602a575fdfd60c039a_MIT6_241JS11_lec23.pdf) - `Second pass` - official notes for the broader stabilization viewpoint. Checked `2026-04-25`.
+- [Stanford EE363 bulletin](https://bulletin.stanford.edu/courses/2273941) - `Second pass` - official current description of the broader linear-dynamical-systems route. Checked `2026-04-25`.
+- [Stanford ENGR105 bulletin](https://bulletin.stanford.edu/courses/1042961) - `Second pass` - official current description of feedback control design for stability and response specifications. Checked `2026-04-25`.
+- [Stanford ENGR205 bulletin](https://bulletin.stanford.edu/courses/1043361) - `Second pass` - official current description that explicitly includes pole placement and observer design. Checked `2026-04-25`.

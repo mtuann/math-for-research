@@ -9,6 +9,7 @@ The advanced track is where the site moves into:
 - real analysis
 - optimization
 - numerical methods
+- control and dynamics
 - matrix analysis
 - learning theory
 - high-dimensional probability
@@ -20,6 +21,7 @@ The advanced track is where the site moves into:
 - [Optimization](optimization/index.qmd)
 - [Numerical Methods](numerical-methods/index.qmd)
 - [ODEs and Dynamical Systems](odes-and-dynamical-systems/index.qmd)
+- [Control and Dynamics](control-and-dynamics/index.qmd)
 - [Matrix Analysis](matrix-analysis/index.qmd)
 - [Learning Theory](learning-theory/index.qmd)
 - [High-Dimensional Probability](high-dimensional-probability/index.qmd)
@@ -83,6 +85,27 @@ Its current live route is:
 - [Research Bridges: Reverse-Time SDEs, Probability-Flow ODEs, Flow Matching, and Control](odes-and-dynamical-systems/concepts/research-bridges-reverse-time-sdes-probability-flow-odes-flow-matching-and-control.qmd) - optional research bridge into continuous-time ML
 
 This module is where the site turns derivatives into actual continuous-time models, qualitative dynamics, and the language needed for later control and simulation.
+
+## Control and Dynamics
+
+[Control and Dynamics](control-and-dynamics/index.qmd) is the systems-facing bridge from passive dynamics to feedback, estimation, and steering.
+
+Its current first-pass spine is:
+
+- [State-Space Models, Inputs, and Outputs](control-and-dynamics/concepts/state-space-models-inputs-and-outputs.qmd)
+- [Controllability, Reachability, and Observability](control-and-dynamics/concepts/controllability-reachability-and-observability.qmd)
+- [Feedback, Stability, and Pole Placement](control-and-dynamics/concepts/feedback-stability-and-pole-placement.qmd)
+- [Linear Quadratic Regulation and Riccati Intuition](control-and-dynamics/concepts/linear-quadratic-regulation-and-riccati-intuition.qmd)
+- [Estimation, Kalman Filtering, and the Separation Principle](control-and-dynamics/concepts/estimation-kalman-filtering-and-the-separation-principle.qmd)
+- [Model Predictive Control and Constraint Handling](control-and-dynamics/concepts/model-predictive-control-and-constraint-handling.qmd)
+- [Learning-Based Control, System Identification, and RL Bridges](control-and-dynamics/concepts/learning-based-control-system-identification-and-rl-bridges.qmd)
+
+Closest companion pages:
+
+- [Discretization, Time-Stepping, and the Bridge to Control](odes-and-dynamical-systems/concepts/discretization-time-stepping-and-the-bridge-to-control.qmd)
+- [Time-Stepping for ODEs and Stability](numerical-methods/concepts/time-stepping-for-odes-and-stability.qmd)
+
+This module is where the site turns trajectories into systems with actuation, sensing, feedback, and optimization over behavior.
 
 ## Matrix Analysis
 

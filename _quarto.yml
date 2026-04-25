@@ -155,6 +155,16 @@ website:
               - topics/advanced/odes-and-dynamical-systems/concepts/lyapunov-functions-invariant-sets-and-long-time-behavior.qmd
               - topics/advanced/odes-and-dynamical-systems/concepts/discretization-time-stepping-and-the-bridge-to-control.qmd
               - topics/advanced/odes-and-dynamical-systems/concepts/research-bridges-reverse-time-sdes-probability-flow-odes-flow-matching-and-control.qmd
+          - section: "Control and Dynamics"
+            contents:
+              - topics/advanced/control-and-dynamics/index.qmd
+              - topics/advanced/control-and-dynamics/concepts/state-space-models-inputs-and-outputs.qmd
+              - topics/advanced/control-and-dynamics/concepts/controllability-reachability-and-observability.qmd
+              - topics/advanced/control-and-dynamics/concepts/feedback-stability-and-pole-placement.qmd
+              - topics/advanced/control-and-dynamics/concepts/linear-quadratic-regulation-and-riccati-intuition.qmd
+              - topics/advanced/control-and-dynamics/concepts/estimation-kalman-filtering-and-the-separation-principle.qmd
+              - topics/advanced/control-and-dynamics/concepts/model-predictive-control-and-constraint-handling.qmd
+              - topics/advanced/control-and-dynamics/concepts/learning-based-control-system-identification-and-rl-bridges.qmd
           - section: "Matrix Analysis"
             contents:
               - topics/advanced/matrix-analysis/index.qmd

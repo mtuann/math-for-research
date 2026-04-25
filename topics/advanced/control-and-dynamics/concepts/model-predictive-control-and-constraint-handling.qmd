@@ -1,0 +1,316 @@
+---
+title: "Model Predictive Control and Constraint Handling"
+description: "How MPC solves a finite-horizon control problem repeatedly, why receding-horizon replanning handles constraints naturally, and how feasibility and stability depend on the optimization design."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: control-and-dynamics
+prerequisites:
+  - /topics/advanced/control-and-dynamics/concepts/linear-quadratic-regulation-and-riccati-intuition.qmd
+  - /topics/advanced/optimization/index.qmd
+  - /topics/advanced/numerical-methods/index.qmd
+learning-goals:
+  - "Explain why MPC repeatedly solves a finite-horizon optimization problem online."
+  - "Describe receding-horizon control and why only the first control action is applied."
+  - "Recognize why MPC handles state and input constraints naturally."
+  - "State the first-pass role of feasibility, terminal ingredients, and stability guarantees."
+applications:
+  - control-and-dynamics
+  - engineering-systems
+  - scientific-computing
+keywords:
+  - MPC
+  - model predictive control
+  - receding horizon
+  - constraints
+  - optimal control
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/control-and-dynamics/index.qmd
+  - /topics/advanced/control-and-dynamics/concepts/linear-quadratic-regulation-and-riccati-intuition.qmd
+  - /topics/advanced/control-and-dynamics/concepts/estimation-kalman-filtering-and-the-separation-principle.qmd
+  - /topics/advanced/optimization/index.qmd
+  - /topics/advanced/numerical-methods/index.qmd
+stable-sources:
+  - "MIT 16.323 Principles of Optimal Control"
+  - "Stanford EE364b Convex Optimization II"
+  - "Stanford AA203 Optimal and Learning-Based Control"
+current-sources:
+  - "MIT 16.323 model predictive control"
+  - "MIT 16.323 lecture notes"
+  - "Stanford EE364b course information"
+  - "Stanford EE364b lecture slides and notes"
+  - "Stanford EE364b model predictive control slides"
+  - "Stanford AA203 bulletin"
+---
+
+## Role
+
+This is the sixth page of the `Control and Dynamics` module.
+
+Its job is to explain what happens when we want optimal control with explicit constraints:
+
+`we solve a finite-horizon control problem online, apply only the first action, then re-solve at the next step`
+
+That is the first-pass entry point into model predictive control.
+
+## First-Pass Promise
+
+Read this page after [Estimation, Kalman Filtering, and the Separation Principle](estimation-kalman-filtering-and-the-separation-principle.qmd).
+
+If you stop here, you should still understand:
+
+- why MPC is a repeated finite-horizon optimization method
+- what receding horizon means
+- why constraints are the main reason MPC is so useful
+- why feasibility and stability are design questions, not automatic consequences
+
+## Why It Matters
+
+LQR is elegant, but it does not directly handle many practical requirements such as:
+
+- actuator saturation
+- safety bounds on state variables
+- input-rate limits
+- hard operational constraints over time
+
+MPC addresses this by putting the control problem into an optimization loop that explicitly includes those constraints.
+
+At each time step, it:
+
+- predicts future trajectories over a finite horizon
+- optimizes a control sequence
+- applies only the first control action
+- repeats after receiving the new state estimate
+
+So this page is where the site turns:
+
+`optimal control law from one derivation`
+
+into
+
+`online constrained optimization running inside the controller`
+
+## Prerequisite Recall
+
+- LQR solved a structured unconstrained quadratic optimal-control problem
+- Kalman filtering gave a recursive state estimate for noisy systems
+- optimization under constraints needs explicit feasible sets and objective design
+- numerical methods matter because MPC is only useful if the optimization can be solved fast enough
+
+## Intuition
+
+### MPC Plans Ahead, But Does Not Commit Forever
+
+MPC solves a finite-horizon problem over future inputs
+
+$$
+u_0,u_1,\dots,u_{N-1},
+$$
+
+but it only applies `u_0`.
+
+At the next step, it shifts the horizon forward and solves again.
+
+This is the `receding-horizon` idea.
+
+### Constraints Are First-Class Objects
+
+In MPC, constraints are not an afterthought.
+
+They are part of the optimization problem:
+
+- `x_t \in X`
+- `u_t \in U`
+
+That is why MPC is often preferred when saturations, envelopes, or safety limits matter.
+
+### Prediction Model Plus Online Optimization Gives Flexibility
+
+MPC uses the model to forecast what future states would happen under candidate controls.
+
+Then optimization chooses the best feasible plan under the cost and constraints.
+
+So MPC lives exactly at the intersection of:
+
+- dynamics
+- optimization
+- computation
+
+### Stability Is Not Free
+
+Because MPC repeatedly solves truncated finite-horizon problems, stability is not automatic.
+
+Terminal costs, terminal constraints, and feasible-set design are often what make the closed-loop behavior well-behaved.
+
+## Formal Core
+
+::: {#def-finite-horizon-ocp}
+## Definition: Finite-Horizon Optimal Control Problem
+
+At a first pass, the discrete-time constrained control problem is
+
+$$
+\begin{aligned}
+\text{minimize}\quad & \sum_{t=0}^{N-1}\ell(x_t,u_t) + \ell_f(x_N) \\
+\text{subject to}\quad & x_{t+1}=f(x_t,u_t), \\
+& x_t \in X,\quad u_t \in U, \\
+& x_0 \text{ given}.
+\end{aligned}
+$$
+:::
+
+::: {#def-mpc}
+## Definition: Model Predictive Control
+
+Model predictive control solves a finite-horizon optimal control problem at each time step, applies only the first control action, then repeats the optimization at the next step using updated state information.
+:::
+
+::: {#def-receding-horizon}
+## Definition: Receding Horizon Policy
+
+If the optimizer returns the sequence
+
+$$
+u_0^\star,u_1^\star,\dots,u_{N-1}^\star,
+$$
+
+MPC applies only `u_0^\star`, advances the system one step, and re-solves from the new state.
+:::
+
+::: {#def-feasibility}
+## Definition: Recursive Feasibility
+
+At a first pass, `recursive feasibility` means:
+
+if the MPC problem is feasible at the current step and we apply the resulting first action, then the next-step MPC problem remains feasible as the system evolves.
+:::
+
+::: {#thm-terminal-ingredients}
+## Theorem Idea: Terminal Ingredients Support Stability
+
+Under standard assumptions, suitable terminal cost and terminal constraint choices can make the receding-horizon controller inherit a useful stability guarantee.
+:::
+
+At a first pass, this means the optimization problem is not only about cost. Its structure matters for long-time behavior.
+
+## Worked Example
+
+Consider the scalar system
+
+$$
+x_{k+1}=x_k+u_k
+$$
+
+with input constraint
+
+$$
+|u_k|\le 1
+$$
+
+and state constraint
+
+$$
+|x_k|\le 5.
+$$
+
+Suppose the cost over horizon `N=3` is
+
+$$
+\sum_{t=0}^{2}(x_t^2+0.1u_t^2) + x_3^2.
+$$
+
+If the current state is `x_0=4.5`, then the controller cannot simply choose an unconstrained aggressive move if that would violate the actuator limit.
+
+Instead, MPC searches over the feasible control sequence and picks the best one that respects:
+
+- the dynamics
+- the input bound
+- the state bound
+
+This example shows why MPC is different from pure LQR intuition:
+
+- the model predicts future consequences
+- the optimizer respects explicit limits
+- the resulting first action is chosen from a feasible sequence, not from an unconstrained closed-form formula alone
+
+## Computation Lens
+
+When you see an MPC setup, ask:
+
+1. what prediction model is being used, and how accurate is it over the planning horizon?
+2. what are the hard state and input constraints?
+3. what horizon length is long enough to matter but short enough to solve online?
+4. is the optimization problem convex, or is this a nonlinear or nonconvex MPC problem?
+5. what terminal ingredients are being used to support recursive feasibility or stability?
+
+These questions are usually more important than memorizing a generic block optimization form.
+
+## Application Lens
+
+### Real-Time Constrained Control
+
+MPC is widely used when constraints are central, such as in energy systems, process control, autonomous systems, and trajectory planning.
+
+### Optimization In The Loop
+
+This is one of the clearest cases where optimization is not just an offline design tool but part of the controller itself.
+
+### Bridge To Learning-Based Control
+
+The next natural step is where model quality becomes part of the problem:
+
+if the model is learned, adapted, or uncertain, then control starts blending into system identification and reinforcement learning.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- why MPC repeatedly solves a finite-horizon problem instead of one infinite-horizon law once and for all
+- what receding horizon means
+- why constraints make MPC attractive
+- why feasibility and stability need design attention
+- why MPC sits at the intersection of dynamics, optimization, and computation
+
+then this page has done its job.
+
+## Go Deeper
+
+The next natural step in this module is:
+
+- [Learning-Based Control, System Identification, and RL Bridges](learning-based-control-system-identification-and-rl-bridges.qmd)
+
+The strongest adjacent live pages right now are:
+
+- [Control and Dynamics](../index.qmd)
+- [Linear Quadratic Regulation and Riccati Intuition](linear-quadratic-regulation-and-riccati-intuition.qmd)
+- [Estimation, Kalman Filtering, and the Separation Principle](estimation-kalman-filtering-and-the-separation-principle.qmd)
+- [Learning-Based Control, System Identification, and RL Bridges](learning-based-control-system-identification-and-rl-bridges.qmd)
+- [Optimization](../../optimization/index.qmd)
+- [Numerical Methods](../../numerical-methods/index.qmd)
+
+## Optional Deeper Reading After First Pass
+
+The strongest current references connected to this page are:
+
+- [MIT 16.323 Lecture 16: Model Predictive Control](https://ocw.mit.edu/courses/16-323-principles-of-optimal-control-spring-2008/resources/lec16/) - official lecture notes page for receding-horizon control and constrained optimal-control structure. Checked `2026-04-25`.
+- [MIT 16.323 lecture notes](https://ocw.mit.edu/courses/16-323-principles-of-optimal-control-spring-2008/pages/lecture-notes/) - official notes index for dynamic programming, MPC, and optimal-control context. Checked `2026-04-25`.
+- [Stanford EE364b course information](https://web.stanford.edu/class/ee364b/course.html) - official recent course page for convex optimization with control-facing applications. Checked `2026-04-25`.
+- [Stanford EE364b: Lecture Slides and Notes](https://web.stanford.edu/class/ee364b/lectures.html) - official lecture index including MPC and stochastic MPC materials. Checked `2026-04-25`.
+- [Stanford EE364b: Model Predictive Control slides](https://web.stanford.edu/class/ee364b/lectures/mpc_slides.pdf) - official Stanford slides for linear time-invariant convex optimal control and receding-horizon design. Checked `2026-04-25`.
+- [Stanford AA203 bulletin](https://22-23.bulletin.stanford.edu/courses/2136621) - official archived course description that explicitly includes an introduction to model predictive control. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [MIT 16.323 Lecture 16: Model Predictive Control](https://ocw.mit.edu/courses/16-323-principles-of-optimal-control-spring-2008/resources/lec16/) - `First pass` - official notes page for finite-horizon receding-horizon control. Checked `2026-04-25`.
+- [MIT 16.323 lecture notes](https://ocw.mit.edu/courses/16-323-principles-of-optimal-control-spring-2008/pages/lecture-notes/) - `Second pass` - official notes index for the broader optimal-control context around MPC. Checked `2026-04-25`.
+- [Stanford EE364b course information](https://web.stanford.edu/class/ee364b/course.html) - `Second pass` - official recent course page for optimization methods that feed directly into control applications. Checked `2026-04-25`.
+- [Stanford EE364b: Lecture Slides and Notes](https://web.stanford.edu/class/ee364b/lectures.html) - `Second pass` - official lecture index showing where MPC fits inside convex optimization and control. Checked `2026-04-25`.
+- [Stanford EE364b: Model Predictive Control slides](https://web.stanford.edu/class/ee364b/lectures/mpc_slides.pdf) - `Second pass` - official slides for convex finite-horizon control and receding-horizon policy design. Checked `2026-04-25`.
+- [Stanford AA203 bulletin](https://22-23.bulletin.stanford.edu/courses/2136621) - `Second pass` - official archived description connecting MPC to broader optimal and learning-based control. Checked `2026-04-25`.

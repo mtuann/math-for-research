@@ -1,0 +1,360 @@
+---
+title: "Linear Quadratic Regulation and Riccati Intuition"
+description: "How LQR turns feedback design into an optimization problem, why the optimal law is linear state feedback, and how the Riccati equation packages the tradeoff between state error and control effort."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: control-and-dynamics
+prerequisites:
+  - /topics/advanced/control-and-dynamics/concepts/feedback-stability-and-pole-placement.qmd
+  - /topics/advanced/optimization/index.qmd
+  - /topics/advanced/matrix-analysis/index.qmd
+learning-goals:
+  - "Explain why LQR is an optimal-feedback problem rather than only a pole-placement problem."
+  - "Interpret the matrices Q and R as state and control penalties."
+  - "State the first-pass infinite-horizon continuous-time LQR result."
+  - "Recognize why the Riccati equation produces the feedback gain."
+applications:
+  - control-and-dynamics
+  - engineering-systems
+  - scientific-computing
+keywords:
+  - LQR
+  - Riccati equation
+  - optimal control
+  - state feedback
+  - quadratic cost
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/control-and-dynamics/index.qmd
+  - /topics/advanced/control-and-dynamics/concepts/feedback-stability-and-pole-placement.qmd
+  - /topics/advanced/optimization/index.qmd
+  - /topics/advanced/matrix-analysis/index.qmd
+  - /topics/advanced/numerical-methods/concepts/numerical-least-squares-and-regularization.qmd
+stable-sources:
+  - "MIT 16.30 Feedback Control Systems"
+  - "MIT 16.323 Principles of Optimal Control"
+  - "Stanford EE363 Linear Dynamical Systems"
+  - "Stanford AA203 Optimal and Learning-Based Control"
+current-sources:
+  - "MIT 16.30 topic 18 linear quadratic regulator"
+  - "MIT 16.323 lecture notes"
+  - "MIT 16.323 syllabus"
+  - "Stanford EE363 bulletin"
+  - "Stanford AA203 bulletin"
+---
+
+## Role
+
+This is the fourth page of the `Control and Dynamics` module.
+
+Its job is to show what happens when we stop choosing feedback gains only by pole locations and instead ask for the `best` feedback law relative to a precise objective.
+
+That is the first-pass entry point into optimal control.
+
+## First-Pass Promise
+
+Read this page after [Feedback, Stability, and Pole Placement](feedback-stability-and-pole-placement.qmd).
+
+If you stop here, you should still understand:
+
+- why LQR is a feedback-design problem with an optimization objective
+- what the matrices `Q` and `R` are penalizing
+- why the optimal control law is linear state feedback
+- why the Riccati equation is the object that packages the whole design tradeoff
+
+## Why It Matters
+
+Pole placement is powerful, but it leaves an important question open:
+
+`which stable feedback gain should we prefer among the many possible ones?`
+
+LQR answers that by introducing a cost functional that balances two goals:
+
+- keep the state small
+- avoid using unnecessarily large control effort
+
+So instead of saying only
+
+`move the poles somewhere stable`
+
+we say
+
+`choose the feedback law that minimizes a mathematically explicit performance objective`
+
+That makes LQR one of the cleanest bridges in the whole site:
+
+- from dynamics to control
+- from feedback to optimization
+- from matrices to Riccati equations
+
+## Prerequisite Recall
+
+- full-state feedback has the form `u=-Kx+r`
+- the closed-loop matrix is `A-BK`
+- stability by itself does not say how expensive the control signal is
+- quadratic forms and positive semidefinite matrices are the natural language for energy-like penalties
+
+## Intuition
+
+### LQR Optimizes Over Feedback Behavior
+
+For the linear system
+
+$$
+\dot x = Ax + Bu,
+$$
+
+we choose a cost such as
+
+$$
+J(u) = \int_0^\infty \left(x(t)^TQx(t) + u(t)^TRu(t)\right)\,dt.
+$$
+
+The matrix `Q` says which state directions we care about keeping small.
+
+The matrix `R` says how expensive different control actions are.
+
+### The Best Input Law Ends Up Being Linear
+
+A first-pass surprise is that for this linear system with quadratic cost, the optimal control law still has the form
+
+$$
+u = -Kx.
+$$
+
+So the optimization problem does not lead to a complicated nonlinear controller here.
+
+It leads back to state feedback, but now with a gain chosen by a principled tradeoff.
+
+### The Riccati Equation Encodes The Tradeoff
+
+The gain is not picked directly.
+
+Instead, we solve for a symmetric matrix `P` that measures the value of being at state `x`.
+
+That matrix satisfies the algebraic Riccati equation, and then the gain comes out from `P`.
+
+So the picture is:
+
+`cost choice -> Riccati equation -> matrix P -> gain K -> closed-loop dynamics`
+
+### LQR Is More Structured Than Hand-Tuned Pole Placement
+
+Pole placement says where the modes should go.
+
+LQR says how much state error and control effort are worth relative to each other.
+
+The resulting poles are not chosen by hand. They are the consequence of solving the optimization problem.
+
+## Formal Core
+
+::: {#def-lqr-problem}
+## Definition: Continuous-Time Infinite-Horizon LQR
+
+Consider the linear system
+
+$$
+\dot x = Ax + Bu.
+$$
+
+The continuous-time infinite-horizon LQR problem is to choose `u(t)` to minimize
+
+$$
+J(u)=\int_0^\infty \left(x(t)^TQx(t)+u(t)^TRu(t)\right)\,dt,
+$$
+
+where `Q \succeq 0` and `R \succ 0`.
+:::
+
+::: {#def-q-r}
+## Definition: State And Control Penalties
+
+At a first pass:
+
+- `Q` penalizes state deviation
+- `R` penalizes control effort
+
+Larger weights in `Q` push the controller to suppress those state directions more strongly.
+
+Larger weights in `R` make aggressive control more expensive.
+:::
+
+::: {#thm-lqr-law}
+## Theorem Idea: Optimal Control Is Linear State Feedback
+
+Under the standard stabilizability and detectability conditions, the optimal control law for infinite-horizon continuous-time LQR has the form
+
+$$
+u^\ast = -Kx,
+$$
+
+with
+
+$$
+K = R^{-1}B^TP,
+$$
+
+where `P` is a symmetric positive semidefinite solution of the algebraic Riccati equation.
+:::
+
+::: {#def-care}
+## Definition: Continuous-Time Algebraic Riccati Equation
+
+The matrix `P` satisfies
+
+$$
+A^TP + PA - PBR^{-1}B^TP + Q = 0.
+$$
+:::
+
+::: {#thm-lqr-closed-loop}
+## Theorem Idea: The Riccati Solution Produces A Stabilizing Closed Loop
+
+Under the standard first-pass assumptions, the gain
+
+$$
+K = R^{-1}B^TP
+$$
+
+produces a stabilizing closed-loop matrix
+
+$$
+A-BK.
+$$
+:::
+
+This is why LQR is not only an optimization story. It is also a stability-design story.
+
+## Worked Example
+
+Consider the scalar system
+
+$$
+\dot x = ax + bu,
+$$
+
+with cost
+
+$$
+J(u)=\int_0^\infty \left(x(t)^2 + \rho\,u(t)^2\right)\,dt,
+$$
+
+where `\rho>0`.
+
+Here
+
+$$
+Q=1,
+\qquad
+R=\rho.
+$$
+
+The Riccati equation becomes
+
+$$
+2aP - \frac{b^2}{\rho}P^2 + 1 = 0.
+$$
+
+So instead of searching directly over all possible input signals, we solve a scalar quadratic equation for `P`.
+
+Once we obtain the stabilizing solution `P`, the optimal feedback gain is
+
+$$
+K = \frac{b}{\rho}P.
+$$
+
+Then the closed-loop system is
+
+$$
+\dot x = (a-bK)x.
+$$
+
+This example shows the core control pattern:
+
+- write the objective
+- derive the Riccati equation
+- solve for `P`
+- recover `K`
+- read the resulting closed-loop behavior
+
+## Computation Lens
+
+When you see an LQR problem, ask:
+
+1. what are the actual state directions we care about, and how are they weighted in `Q`?
+2. what control actions are expensive, and how is that encoded in `R`?
+3. are we in continuous time or discrete time?
+4. is the system stabilizable, so that the Riccati solution can produce a meaningful stabilizing gain?
+5. are we solving one regulator problem around one operating point, or trying to control a genuinely nonlinear system far from that point?
+
+These questions usually matter more than memorizing the Riccati equation by itself.
+
+## Application Lens
+
+### Balancing State Error And Control Effort
+
+LQR is one of the cleanest ways to formalize the engineering idea that good control should be accurate without being unnecessarily aggressive.
+
+### Bridge To Estimation And Kalman Filtering
+
+The next natural page is not just another feedback page.
+
+It is the estimator side of the same systems story:
+
+Kalman filtering introduces a closely related Riccati equation on the observation side.
+
+### Bridge To MPC And Modern Control
+
+Finite-horizon optimal control, model predictive control, and many learning-based control methods all look easier once LQR is in place as the first exact benchmark.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- why LQR is more structured than hand-chosen pole placement
+- what `Q` and `R` mean
+- why the optimal law is still linear feedback
+- why the Riccati equation is the central matrix object
+- how stabilization and optimization are joined in the same design
+
+then this page has done its job.
+
+## Go Deeper
+
+The next natural step in this module is:
+
+- [Estimation, Kalman Filtering, and the Separation Principle](estimation-kalman-filtering-and-the-separation-principle.qmd)
+
+The strongest adjacent live pages right now are:
+
+- [Control and Dynamics](../index.qmd)
+- [Feedback, Stability, and Pole Placement](feedback-stability-and-pole-placement.qmd)
+- [Estimation, Kalman Filtering, and the Separation Principle](estimation-kalman-filtering-and-the-separation-principle.qmd)
+- [Optimization](../../optimization/index.qmd)
+- [Matrix Analysis](../../matrix-analysis/index.qmd)
+- [Numerical Least Squares and Regularization](../../numerical-methods/concepts/numerical-least-squares-and-regularization.qmd)
+
+## Optional Deeper Reading After First Pass
+
+The strongest current references connected to this page are:
+
+- [MIT 16.30 Topic 18: Linear Quadratic Regulator](https://ocw.mit.edu/courses/16-30-feedback-control-systems-fall-2010/55d0aa6e1e4631a0c3366fb68028ae50_MIT16_30F10_lec18.pdf) - official lecture notes for the continuous-time LQR problem and Riccati viewpoint. Checked `2026-04-25`.
+- [MIT 16.323: Principles of Optimal Control lecture notes](https://ocw.mit.edu/courses/16-323-principles-of-optimal-control-spring-2008/pages/lecture-notes/) - official notes index for dynamic programming, continuous/discrete LQR, and optimal-control structure. Checked `2026-04-25`.
+- [MIT 16.323 syllabus](https://ocw.mit.edu/courses/16-323-principles-of-optimal-control-spring-2008/pages/syllabus) - official syllabus showing where LQR sits in a broader optimal-control course. Checked `2026-04-25`.
+- [Stanford EE363 bulletin](https://bulletin.stanford.edu/courses/2273941) - official current course description connecting state-space models, LQR, and Kalman filtering. Checked `2026-04-25`.
+- [Stanford AA203 bulletin](https://22-23.bulletin.stanford.edu/courses/2136621) - official archived course description for optimal and learning-based control. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [MIT 16.30 Topic 18: Linear Quadratic Regulator](https://ocw.mit.edu/courses/16-30-feedback-control-systems-fall-2010/55d0aa6e1e4631a0c3366fb68028ae50_MIT16_30F10_lec18.pdf) - `First pass` - official notes for the finite/infinite-horizon LQR setup and the Riccati viewpoint. Checked `2026-04-25`.
+- [MIT 16.323: Principles of Optimal Control lecture notes](https://ocw.mit.edu/courses/16-323-principles-of-optimal-control-spring-2008/pages/lecture-notes/) - `Second pass` - official notes index for discrete LQR, continuous LQR, and dynamic-programming viewpoints. Checked `2026-04-25`.
+- [MIT 16.323 syllabus](https://ocw.mit.edu/courses/16-323-principles-of-optimal-control-spring-2008/pages/syllabus) - `Second pass` - official syllabus for the broader optimal-control context around LQR. Checked `2026-04-25`.
+- [Stanford EE363 bulletin](https://bulletin.stanford.edu/courses/2273941) - `Second pass` - official current description connecting regulator design and estimation in one course arc. Checked `2026-04-25`.
+- [Stanford AA203 bulletin](https://22-23.bulletin.stanford.edu/courses/2136621) - `Second pass` - official archived description connecting optimal control with modern learning-based directions. Checked `2026-04-25`.

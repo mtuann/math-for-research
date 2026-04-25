@@ -1,0 +1,348 @@
+---
+title: "Estimation, Kalman Filtering, and the Separation Principle"
+description: "How noisy measurements become state estimates, why the Kalman filter alternates prediction and correction, and how estimation and control separate cleanly in the linear-quadratic-Gaussian setting."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: control-and-dynamics
+prerequisites:
+  - /topics/advanced/control-and-dynamics/concepts/controllability-reachability-and-observability.qmd
+  - /topics/advanced/control-and-dynamics/concepts/linear-quadratic-regulation-and-riccati-intuition.qmd
+  - /topics/foundation/probability/index.qmd
+  - /topics/foundation/statistics/index.qmd
+learning-goals:
+  - "Explain why state estimation is needed when the full state is not directly measured."
+  - "Describe the Kalman filter as a prediction-correction algorithm."
+  - "Interpret process noise, measurement noise, and covariance in the estimator."
+  - "State the first-pass separation principle linking Kalman filtering and LQR."
+applications:
+  - control-and-dynamics
+  - engineering-systems
+  - scientific-computing
+keywords:
+  - estimation
+  - Kalman filter
+  - observer
+  - covariance
+  - separation principle
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/control-and-dynamics/index.qmd
+  - /topics/advanced/control-and-dynamics/concepts/state-space-models-inputs-and-outputs.qmd
+  - /topics/advanced/control-and-dynamics/concepts/controllability-reachability-and-observability.qmd
+  - /topics/advanced/control-and-dynamics/concepts/linear-quadratic-regulation-and-riccati-intuition.qmd
+  - /topics/foundation/probability/index.qmd
+  - /topics/foundation/statistics/index.qmd
+stable-sources:
+  - "MIT 16.323 Principles of Optimal Control"
+  - "MIT 16.30 Feedback Control Systems"
+  - "Stanford EE363 Linear Dynamical Systems"
+  - "Stanford AA273 State Estimation and Filtering for Robotic Perception"
+current-sources:
+  - "MIT 16.323 estimators observers"
+  - "MIT 16.323 lecture notes"
+  - "MIT 16.30 recitation 10"
+  - "Stanford EE363 bulletin"
+  - "Stanford AA273 bulletin"
+---
+
+## Role
+
+This is the fifth page of the `Control and Dynamics` module.
+
+Its job is to explain what we do when the full state is not directly available:
+
+`we estimate the hidden state from noisy measurements, then use that estimate inside the controller`
+
+This is the estimator side of the same systems story that LQR plays on the control side.
+
+## First-Pass Promise
+
+Read this page after [Linear Quadratic Regulation and Riccati Intuition](linear-quadratic-regulation-and-riccati-intuition.qmd).
+
+If you stop here, you should still understand:
+
+- why state estimation is needed
+- how the Kalman filter alternates prediction and correction
+- why covariance matters for estimator trust
+- what the separation principle says at a first pass
+
+## Why It Matters
+
+Many systems are controlled through incomplete and noisy measurements.
+
+We may measure:
+
+- position but not velocity
+- some sensors but not the whole internal state
+- a delayed or noisy proxy instead of the exact quantity we care about
+
+So even if a good feedback law exists in terms of the true state `x`, the controller often cannot use `x` directly.
+
+It must use an estimate `\hat x`.
+
+That is why estimation is not an optional add-on. It is one half of practical feedback design.
+
+This page is where the site turns:
+
+`state-space + noisy outputs`
+
+into
+
+`recursive state estimation + control-ready state estimates`
+
+## Prerequisite Recall
+
+- a state-space model distinguishes hidden state, input, and measured output
+- observability asks whether output data can reveal the state
+- LQR solved the control side by balancing state deviation against control effort
+- covariance measures uncertainty and is the natural language for mean-square estimation
+
+## Intuition
+
+### Estimation Is About Hidden State, Not Just Sensor Denoising
+
+The point is not only to smooth noisy measurements.
+
+The point is to infer the internal state that the dynamics still needs.
+
+So an estimator uses both:
+
+- the measurements
+- the model of how the state evolves
+
+### Prediction And Correction Are The Two Motions Of The Kalman Filter
+
+At each step, the filter:
+
+1. predicts the next state using the dynamics model
+2. corrects that prediction using the new measurement
+
+This is the core rhythm of the algorithm.
+
+### Covariance Tells Us How Much To Trust Model Versus Measurement
+
+If process noise is large, then model-based prediction becomes less trustworthy.
+
+If measurement noise is small, then new data should be weighted more heavily.
+
+The Kalman gain formalizes that balance.
+
+### The Separation Principle Is The Clean Bridge Back To Control
+
+LQR solved:
+
+`what feedback law is best if the state were known`
+
+Kalman filtering solves:
+
+`what estimate is best if the measurements are noisy`
+
+The separation principle says these two designs can be combined cleanly in the standard linear-quadratic-Gaussian setting.
+
+## Formal Core
+
+::: {#def-linear-gaussian-model}
+## Definition: Linear State-Space Model With Process And Measurement Noise
+
+At a first pass, the discrete-time estimation model is
+
+$$
+x_{k+1}=Ax_k+Bu_k+w_k,
+\qquad
+y_k=Cx_k+v_k,
+$$
+
+where:
+
+- `w_k` is process noise
+- `v_k` is measurement noise
+:::
+
+In the standard Kalman setup, these noises are taken to be zero-mean with known covariances.
+
+::: {#def-kalman-prediction}
+## Definition: Prediction Step
+
+The predicted state and covariance are
+
+$$
+\hat x_{k|k-1}=A\hat x_{k-1|k-1}+Bu_{k-1},
+$$
+
+$$
+P_{k|k-1}=AP_{k-1|k-1}A^T+W.
+$$
+:::
+
+::: {#def-innovation}
+## Definition: Innovation
+
+The innovation is the measurement mismatch
+
+$$
+r_k = y_k - C\hat x_{k|k-1}.
+$$
+:::
+
+This is the new information not already explained by the prediction.
+
+::: {#def-kalman-update}
+## Definition: Kalman Update
+
+The Kalman gain is
+
+$$
+L_k = P_{k|k-1}C^T(CP_{k|k-1}C^T+V)^{-1},
+$$
+
+and the corrected estimate is
+
+$$
+\hat x_{k|k}=\hat x_{k|k-1}+L_kr_k.
+$$
+:::
+
+::: {#thm-kalman-optimality}
+## Theorem Idea: Kalman Filter Optimality
+
+Under the standard linear-Gaussian assumptions, the Kalman filter gives the minimum-mean-square estimate of the state among estimators based on the available measurements.
+:::
+
+::: {#thm-separation}
+## Theorem Idea: Separation Principle
+
+In the standard linear-quadratic-Gaussian setting, optimal state-feedback control and optimal state estimation can be designed separately:
+
+- LQR designs the control gain
+- Kalman filtering designs the estimator gain
+
+Then the controller uses the estimated state in place of the true state.
+:::
+
+At a first pass, this means the estimator and controller are two Riccati-based halves of one larger design.
+
+## Worked Example
+
+Consider the scalar random-walk model
+
+$$
+x_{k+1}=x_k+w_k,
+\qquad
+y_k=x_k+v_k,
+$$
+
+where
+
+$$
+\mathbb E[w_k]=0,
+\qquad
+\mathbb E[v_k]=0,
+\qquad
+\operatorname{Var}(w_k)=q,
+\qquad
+\operatorname{Var}(v_k)=r.
+$$
+
+Suppose our prior estimate at step `k` has variance `P^-`.
+
+Then the scalar Kalman gain is
+
+$$
+L = \frac{P^-}{P^-+r}.
+$$
+
+The updated estimate is
+
+$$
+\hat x^+ = \hat x^- + L(y-\hat x^-).
+$$
+
+This simple formula already shows the right intuition:
+
+- if `r` is small, the measurement is trusted more, so `L` is larger
+- if `P^-` is large, the prediction is uncertain, so the filter leans more on the new measurement
+- if `r` is large, the filter trusts the model more and corrects less aggressively
+
+So the Kalman filter is not just “averaging.”
+
+It is averaging with weights determined by uncertainty.
+
+## Computation Lens
+
+When you see a Kalman-filtering problem, ask:
+
+1. what part of the state is hidden and why can it not be measured directly?
+2. what dynamics model produces the one-step prediction?
+3. what are the process-noise and measurement-noise covariances trying to encode?
+4. is the system observable enough for the measurements to inform the hidden state directions?
+5. are we in a linear-Gaussian regime where the plain Kalman filter is justified, or is this really an EKF/UKF/particle-filter situation?
+
+These questions matter more than memorizing the recursion alone.
+
+## Application Lens
+
+### Navigation And Robotics
+
+Control systems for vehicles, drones, and robots often estimate velocity, attitude, or other hidden states from noisy sensors before applying feedback.
+
+### Signal Processing And Tracking
+
+Recursive filtering is the systems-language version of sequential inference under uncertainty.
+
+### Bridge To LQG And MPC
+
+This page sets up the next control idea naturally:
+
+once control and estimation both exist, we can combine them, and then later impose constraints through MPC.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- why control often needs a state estimate instead of the true state
+- how prediction and correction alternate in the Kalman filter
+- why covariance determines the trust balance
+- what the innovation is
+- why estimation and control separate cleanly in the standard LQG setting
+
+then this page has done its job.
+
+## Go Deeper
+
+The next natural step in this module is:
+
+- [Model Predictive Control and Constraint Handling](model-predictive-control-and-constraint-handling.qmd)
+
+The strongest adjacent live pages right now are:
+
+- [Control and Dynamics](../index.qmd)
+- [Controllability, Reachability, and Observability](controllability-reachability-and-observability.qmd)
+- [Linear Quadratic Regulation and Riccati Intuition](linear-quadratic-regulation-and-riccati-intuition.qmd)
+- [Model Predictive Control and Constraint Handling](model-predictive-control-and-constraint-handling.qmd)
+- [Probability](../../../foundation/probability/index.qmd)
+- [Statistics](../../../foundation/statistics/index.qmd)
+
+## Optional Deeper Reading After First Pass
+
+The strongest current references connected to this page are:
+
+- [MIT 16.323 Lecture 11: Estimators/Observers](https://ocw.mit.edu/courses/16-323-principles-of-optimal-control-spring-2008/resources/lec11/) - official lecture notes page for estimators, observers, and optimal estimators. Checked `2026-04-25`.
+- [MIT 16.323 lecture notes](https://ocw.mit.edu/courses/16-323-principles-of-optimal-control-spring-2008/pages/lecture-notes/) - official notes index for estimators, stochastic optimal control, and LQG context. Checked `2026-04-25`.
+- [MIT 16.30/31 Recitation 10](https://ocw.mit.edu/courses/16-30-feedback-control-systems-fall-2010/f9b82f847c59b5fdfcf54bf6ca9ddc86_MIT16_30F10_rec10.pdf) - official recitation notes for the Kalman filter and innovation-gain interpretation. Checked `2026-04-25`.
+- [Stanford EE363 bulletin](https://bulletin.stanford.edu/courses/2273941) - official current course description connecting LQR and the Kalman filter in one linear-systems arc. Checked `2026-04-25`.
+- [Stanford AA273 bulletin](https://bulletin.stanford.edu/courses/2179261) - official current course description for state estimation and filtering in robotics and autonomy. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [MIT 16.323 Lecture 11: Estimators/Observers](https://ocw.mit.edu/courses/16-323-principles-of-optimal-control-spring-2008/resources/lec11/) - `First pass` - official notes page for observer and optimal-estimation structure. Checked `2026-04-25`.
+- [MIT 16.30/31 Recitation 10](https://ocw.mit.edu/courses/16-30-feedback-control-systems-fall-2010/f9b82f847c59b5fdfcf54bf6ca9ddc86_MIT16_30F10_rec10.pdf) - `First pass` - official notes for the Kalman gain, covariance recursion, and innovation form. Checked `2026-04-25`.
+- [MIT 16.323 lecture notes](https://ocw.mit.edu/courses/16-323-principles-of-optimal-control-spring-2008/pages/lecture-notes/) - `Second pass` - official notes index for the broader estimator, stochastic optimal control, and LQG context. Checked `2026-04-25`.
+- [Stanford EE363 bulletin](https://bulletin.stanford.edu/courses/2273941) - `Second pass` - official current course description connecting regulator design and Kalman filtering. Checked `2026-04-25`.
+- [Stanford AA273 bulletin](https://bulletin.stanford.edu/courses/2179261) - `Second pass` - official current course description for modern filtering and state-estimation applications. Checked `2026-04-25`.

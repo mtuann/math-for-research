@@ -1,0 +1,387 @@
+---
+title: "Controllability, Reachability, and Observability"
+description: "How control asks whether states can be reached by inputs, whether hidden state can be reconstructed from outputs, and why rank tests turn these questions into matrix conditions."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: control-and-dynamics
+prerequisites:
+  - /topics/advanced/control-and-dynamics/concepts/state-space-models-inputs-and-outputs.qmd
+  - /topics/advanced/odes-and-dynamical-systems/concepts/linear-systems-matrix-exponentials-and-modes.qmd
+  - /topics/foundation/linear-algebra/index.qmd
+learning-goals:
+  - "Explain the basic meanings of reachability, controllability, and observability."
+  - "Use the Kalman reachability and observability matrices at a first pass."
+  - "Understand why these properties are about what inputs can do and what outputs can reveal."
+  - "Recognize the duality between controllability and observability."
+applications:
+  - control-and-dynamics
+  - engineering-systems
+  - scientific-computing
+keywords:
+  - controllability
+  - reachability
+  - observability
+  - Kalman matrix
+  - state-space
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/control-and-dynamics/index.qmd
+  - /topics/advanced/control-and-dynamics/concepts/state-space-models-inputs-and-outputs.qmd
+  - /topics/advanced/odes-and-dynamical-systems/concepts/linear-systems-matrix-exponentials-and-modes.qmd
+  - /topics/advanced/odes-and-dynamical-systems/concepts/discretization-time-stepping-and-the-bridge-to-control.qmd
+  - /topics/advanced/numerical-methods/concepts/time-stepping-for-odes-and-stability.qmd
+stable-sources:
+  - "MIT 6.241 Dynamic Systems and Control"
+  - "MIT 16.30 Feedback Control Systems"
+  - "Stanford EE363 Linear Dynamical Systems"
+  - "Stanford EE263 Introduction to Linear Dynamical Systems"
+current-sources:
+  - "MIT 6.241 lecture notes"
+  - "MIT 6.241 lecture 20 reachability and observability"
+  - "MIT 16.30 topic 9 state-space systems"
+  - "MIT 16.30 recitation 7"
+  - "Stanford EE363 bulletin"
+  - "Stanford EE263 bulletin"
+---
+
+## Role
+
+This is the second page of the `Control and Dynamics` module.
+
+Its job is to answer two foundational control questions:
+
+- `can the input move the system where we want it to go?`
+- `can the measurements reveal the hidden internal state?`
+
+Those are the questions behind reachability, controllability, and observability.
+
+## First-Pass Promise
+
+Read this page after [State-Space Models, Inputs, and Outputs](state-space-models-inputs-and-outputs.qmd).
+
+If you stop here, you should still understand:
+
+- what reachability asks
+- what observability asks
+- why these are matrix-rank questions for LTI systems
+- why controllability and observability are dual ideas
+
+## Why It Matters
+
+A state-space model tells us how a system evolves:
+
+$$
+\dot x = Ax + Bu,
+\qquad
+y = Cx + Du.
+$$
+
+But writing the model down is only the start.
+
+Control then asks:
+
+- can a suitable input drive the state to desired places?
+- are some directions in state space impossible to excite?
+- are some directions invisible at the output?
+- can two different initial states produce the same measured behavior?
+
+If the answer to those questions is bad, then later steps like feedback design or state estimation may fail before they begin.
+
+So this page is where control stops being just notation and starts testing what the model can actually do.
+
+## Prerequisite Recall
+
+- the state stores the information needed for future prediction
+- the input channel `B` tells us how external forcing enters the dynamics
+- the output map `C` tells us which parts of the state are measured
+- linear systems evolve by superposition, so input effects and initial-condition effects can be separated
+
+## Intuition
+
+### Reachability Is About Steering From Zero
+
+Imagine starting from the zero state and asking:
+
+`what states can I create by choosing the input over a time interval?`
+
+That is the reachability question.
+
+If some state direction can never be produced, then that direction is unreachable no matter how clever the controller is.
+
+### Controllability Is The Stronger Steering Story
+
+At a first pass, controllability is the idea that we can steer the system where we need it to go in finite time.
+
+For finite-dimensional LTI systems, the reachability and controllability tests line up cleanly, so many first-pass courses treat them together.
+
+The important intuition is:
+
+`the input must touch enough dynamical modes of the system`
+
+### Observability Is About Inference From Output
+
+Suppose the full state is hidden and we only see the output `y(t)`.
+
+Then the observability question is:
+
+`can the output history tell us which initial state the system had?`
+
+If two different initial states always produce the same output behavior, then the output is not rich enough to distinguish them.
+
+### Input Geometry And Output Geometry Are Dual
+
+The reachability problem asks whether the input directions, after being propagated through the dynamics, span the state space.
+
+The observability problem asks whether the output map, when composed with the dynamics, can probe every relevant state direction.
+
+That is why the two rank tests look like transposes of each other.
+
+## Formal Core
+
+::: {#def-reachability}
+## Definition: Reachability
+
+For the continuous-time LTI system
+
+$$
+\dot x = Ax + Bu,
+\qquad
+x(0)=0,
+$$
+
+a state `x_d` is `reachable` over a time interval if there exists an input `u(t)` that drives the system from `x(0)=0` to `x(T)=x_d`.
+:::
+
+::: {#def-observability}
+## Definition: Observability
+
+For the system
+
+$$
+\dot x = Ax + Bu,
+\qquad
+y = Cx + Du,
+$$
+
+the system is `observable` if the initial state can be uniquely determined from the output over a time interval when the input is known.
+:::
+
+::: {#def-reachability-matrix}
+## Definition: Reachability Matrix
+
+For an `n`-dimensional LTI system, the Kalman reachability matrix is
+
+$$
+\mathcal R = \begin{bmatrix}
+B & AB & A^2B & \cdots & A^{n-1}B
+\end{bmatrix}.
+$$
+:::
+
+::: {#def-observability-matrix}
+## Definition: Observability Matrix
+
+The Kalman observability matrix is
+
+$$
+\mathcal O =
+\begin{bmatrix}
+C \\
+CA \\
+CA^2 \\
+\vdots \\
+CA^{n-1}
+\end{bmatrix}.
+$$
+:::
+
+::: {#thm-reachability-test}
+## Theorem Idea: Kalman Reachability Test
+
+For a finite-dimensional LTI system, the system is reachable at first pass exactly when the reachability matrix `\mathcal R` has full rank `n`.
+:::
+
+This means the input directions, after repeated action by the dynamics matrix `A`, span the whole state space.
+
+::: {#thm-observability-test}
+## Theorem Idea: Kalman Observability Test
+
+For a finite-dimensional LTI system, the system is observable at first pass exactly when the observability matrix `\mathcal O` has full rank `n`.
+:::
+
+This means the output map, together with repeated action by the dynamics, can distinguish every state direction.
+
+::: {#thm-duality}
+## Theorem Idea: Duality
+
+Observability of `(A,C)` is the controllability or reachability story of the transposed pair `(A^T,C^T)`.
+:::
+
+This duality is why many proofs and rank tests come in matching pairs.
+
+## Worked Example
+
+Consider the two-state system
+
+$$
+\dot x = Ax + Bu,
+\qquad
+y = Cx,
+$$
+
+with
+
+$$
+A=
+\begin{bmatrix}
+0 & 1 \\
+0 & 0
+\end{bmatrix},
+\qquad
+B=
+\begin{bmatrix}
+0 \\
+1
+\end{bmatrix},
+\qquad
+C=
+\begin{bmatrix}
+1 & 0
+\end{bmatrix}.
+$$
+
+### Reachability
+
+The reachability matrix is
+
+$$
+\mathcal R=
+\begin{bmatrix}
+B & AB
+\end{bmatrix}
+=
+\begin{bmatrix}
+0 & 1 \\
+1 & 0
+\end{bmatrix}.
+$$
+
+Its rank is `2`, so the system is reachable.
+
+Interpretation:
+
+- the input directly pushes the second state through `B`
+- the dynamics matrix `A` then transfers that influence into the first state
+
+So the combination of `B` and the internal dynamics reaches both state directions.
+
+### Observability
+
+The observability matrix is
+
+$$
+\mathcal O=
+\begin{bmatrix}
+C \\
+CA
+\end{bmatrix}
+=
+\begin{bmatrix}
+1 & 0 \\
+0 & 1
+\end{bmatrix}.
+$$
+
+Its rank is also `2`, so the system is observable.
+
+Interpretation:
+
+- the output directly measures the first state
+- the time evolution couples the second state into what the output reveals over time
+
+So even though `y=Cx` only shows one coordinate instantaneously, the output history contains enough information to recover both coordinates.
+
+This is the key control lesson:
+
+- one-time measurement and observability are not the same thing
+- direct forcing and reachability are not the same thing
+
+The dynamics matrix `A` matters in both stories.
+
+## Computation Lens
+
+When you see a control model, ask:
+
+1. does the input matrix `B` touch every important mode directly or indirectly?
+2. does the output matrix `C` expose every important mode directly or indirectly?
+3. what do the rank tests say for the reachability and observability matrices?
+4. if the rank is deficient, which directions are hidden or uncontrollable?
+5. is the issue in the actuator geometry, the sensor geometry, or the system dynamics?
+
+These questions usually reveal whether later controller or observer design is even worth attempting.
+
+## Application Lens
+
+### Actuator Placement
+
+Reachability language helps decide where actuators must be placed so inputs can influence all important modes.
+
+### Sensor Design
+
+Observability language helps decide whether available measurements are enough to reconstruct the internal state.
+
+### Estimation And Feedback
+
+Kalman filtering, observer design, and state feedback all rely on the system not hiding the important state directions.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- what reachability asks
+- what observability asks
+- why the rank tests depend on `A` together with `B` or `C`
+- why observability is not the same as seeing the whole state instantaneously
+- why reachability and observability are dual
+
+then this page has done its job.
+
+## Go Deeper
+
+The next natural step in this module is:
+
+- [Feedback, Stability, and Pole Placement](feedback-stability-and-pole-placement.qmd)
+
+The strongest adjacent live pages right now are:
+
+- [Control and Dynamics](../index.qmd)
+- [State-Space Models, Inputs, and Outputs](state-space-models-inputs-and-outputs.qmd)
+- [Feedback, Stability, and Pole Placement](feedback-stability-and-pole-placement.qmd)
+- [Discretization, Time-Stepping, and the Bridge to Control](../../odes-and-dynamical-systems/concepts/discretization-time-stepping-and-the-bridge-to-control.qmd)
+- [Linear Systems, Matrix Exponentials, and Modes](../../odes-and-dynamical-systems/concepts/linear-systems-matrix-exponentials-and-modes.qmd)
+- [Time-Stepping for ODEs and Stability](../../numerical-methods/concepts/time-stepping-for-odes-and-stability.qmd)
+
+## Optional Deeper Reading After First Pass
+
+The strongest current references connected to this page are:
+
+- [MIT 6.241J Lecture 20: Reachability and Observability](https://ocw.mit.edu/courses/6-241j-dynamic-systems-and-control-spring-2011/43a02bc538e449c1e5eae487139b5030_MIT6_241JS11_lec20.pdf) - official lecture notes for the central reachability, Gramian, and observability ideas. Checked `2026-04-25`.
+- [MIT 16.30 Topic 9: State-space model features](https://ocw.mit.edu/courses/16-30-feedback-control-systems-fall-2010/a2e9eccea56da4ba879a5a3e15cf8cde_MIT16_30F10_lec09.pdf) - official lecture notes emphasizing controllability, observability, and minimal-realization intuition. Checked `2026-04-25`.
+- [MIT 16.30 Recitation 7](https://ocw.mit.edu/courses/16-30-feedback-control-systems-fall-2010/c2c336c787d150d55873a98dfbd75e0f_MIT16_30F10_rec07.pdf) - official worked examples for checking controllability and observability by hand. Checked `2026-04-25`.
+- [Stanford EE363 bulletin](https://bulletin.stanford.edu/courses/2273941) - official current course description putting reachability, observability, LQR, and Kalman filtering in one route. Checked `2026-04-25`.
+- [Stanford EE263 bulletin](https://22-23.bulletin.stanford.edu/courses/1038991) - official archived bulletin for the prerequisite linear-dynamical-systems layer. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [MIT 6.241J Lecture 20: Reachability and Observability](https://ocw.mit.edu/courses/6-241j-dynamic-systems-and-control-spring-2011/43a02bc538e449c1e5eae487139b5030_MIT6_241JS11_lec20.pdf) - `First pass` - official notes for reachability, observability, and their Gramian/rank viewpoints. Checked `2026-04-25`.
+- [MIT 16.30 Topic 9: State-space model features](https://ocw.mit.edu/courses/16-30-feedback-control-systems-fall-2010/a2e9eccea56da4ba879a5a3e15cf8cde_MIT16_30F10_lec09.pdf) - `First pass` - official notes connecting controllability and observability to state-space-model features. Checked `2026-04-25`.
+- [MIT 16.30 Recitation 7](https://ocw.mit.edu/courses/16-30-feedback-control-systems-fall-2010/c2c336c787d150d55873a98dfbd75e0f_MIT16_30F10_rec07.pdf) - `Second pass` - official worked examples for hand-checking these properties. Checked `2026-04-25`.
+- [Stanford EE363 bulletin](https://bulletin.stanford.edu/courses/2273941) - `Second pass` - official current description of the broader route from state-space models into control and estimation. Checked `2026-04-25`.
+- [Stanford EE263 bulletin](https://22-23.bulletin.stanford.edu/courses/1038991) - `Second pass` - official archived description of the prerequisite linear-dynamical-systems layer. Checked `2026-04-25`.

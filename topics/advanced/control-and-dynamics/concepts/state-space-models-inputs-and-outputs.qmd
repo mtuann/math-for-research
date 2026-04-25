@@ -1,0 +1,402 @@
+---
+title: "State-Space Models, Inputs, and Outputs"
+description: "How dynamical systems are rewritten in state-space form, why the state summarizes the past for future prediction, and how inputs and outputs organize control problems."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: control-and-dynamics
+prerequisites:
+  - /topics/advanced/odes-and-dynamical-systems/index.qmd
+  - /topics/foundation/linear-algebra/index.qmd
+  - /topics/advanced/odes-and-dynamical-systems/concepts/discretization-time-stepping-and-the-bridge-to-control.qmd
+learning-goals:
+  - "Define state, input, and output in a control-facing dynamical model."
+  - "Write continuous-time and discrete-time state-space models."
+  - "Explain why the state summarizes the past for future prediction."
+  - "Convert a simple second-order physical model into state-space form."
+applications:
+  - control-and-dynamics
+  - engineering-systems
+  - scientific-computing
+keywords:
+  - state-space
+  - state
+  - input
+  - output
+  - control
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/control-and-dynamics/index.qmd
+  - /topics/advanced/odes-and-dynamical-systems/index.qmd
+  - /topics/advanced/odes-and-dynamical-systems/concepts/discretization-time-stepping-and-the-bridge-to-control.qmd
+  - /topics/advanced/odes-and-dynamical-systems/concepts/linear-systems-matrix-exponentials-and-modes.qmd
+  - /topics/advanced/numerical-methods/concepts/time-stepping-for-odes-and-stability.qmd
+stable-sources:
+  - "MIT 6.241 Dynamic Systems and Control"
+  - "MIT 16.30 Feedback Control Systems"
+  - "Stanford EE363 Linear Dynamical Systems"
+  - "Stanford EE263 Introduction to Linear Dynamical Systems"
+current-sources:
+  - "MIT 6.241 lecture notes"
+  - "MIT 6.241 lecture 7 state-space models"
+  - "MIT 6.241 lecture 8 solutions of state-space models"
+  - "MIT 6.011 lecture 5 state-space models equilibrium linearization"
+  - "MIT 16.30 feedback control systems course page"
+  - "Stanford EE363 bulletin"
+  - "Stanford EE263 bulletin"
+---
+
+## Role
+
+This is the first page of the `Control and Dynamics` module.
+
+Its job is to introduce the basic control viewpoint:
+
+`a dynamical system is organized around internal state, external input, and measured output`
+
+That shift is small in notation, but huge in meaning. It is what turns a differential equation into something we can steer, observe, and eventually optimize.
+
+## First-Pass Promise
+
+Read this page first in the module, after the ODE bridge into control.
+
+If you stop here, you should still understand:
+
+- what a `state` is supposed to represent
+- why control models separate `input` from `state`
+- what the `output` is doing in the model
+- how a second-order physical law becomes a first-order state-space system
+
+## Why It Matters
+
+Many physical or computational systems come to us as laws of change:
+
+$$
+\text{position''} = \text{force law},
+\qquad
+\text{concentration'} = \text{reaction law},
+\qquad
+\text{voltage'} = \text{circuit law}.
+$$
+
+For analysis alone, that may be enough.
+
+For control, we need a more operational language:
+
+- what information do we need to predict the future?
+- what quantity can we choose or actuate?
+- what quantity do we actually measure?
+
+That is why state-space models matter.
+
+They separate three roles:
+
+- the `state` stores the system's internal configuration
+- the `input` is what we can apply from outside
+- the `output` is what we read out or care about
+
+Once those roles are explicit, later questions about reachability, observability, feedback, and estimation become mathematically clean.
+
+## Prerequisite Recall
+
+- a higher-order ODE can be rewritten as a first-order system by introducing state variables
+- linear systems evolve through matrices and, in continuous time, often through `e^{tA}`
+- sampled systems turn continuous evolution into discrete state updates
+- not every quantity we care about has to be part of the state; some quantities are outputs derived from the state
+
+## Intuition
+
+### State As The Right Summary Of The Past
+
+If a system is causal, then the future depends on the past.
+
+But carrying around the entire past input and trajectory is too much information.
+
+The idea of `state` is that we compress the relevant past into a finite vector that is just large enough to predict future behavior once future inputs are specified.
+
+So state is not just "some variables we happen to write down."
+
+It is:
+
+`the memory of the past that the future still needs`
+
+### Inputs And Outputs Play Different Roles
+
+The input `u` is what the outside world can inject:
+
+- a force
+- a voltage
+- a thrust command
+- a steering angle
+
+The output `y` is what we measure or care to track:
+
+- position
+- velocity
+- temperature
+- a sensor reading
+
+State, input, and output are related, but they are not interchangeable.
+
+### The Same Dynamics Can Be Written In Different State Coordinates
+
+There is often more than one valid choice of state.
+
+Different coordinates may make a model easier to simulate, analyze, or control.
+
+So one of the first things to learn is:
+
+`the state-space model is not unique, but the dynamical behavior it represents is`
+
+### Continuous-Time And Discrete-Time Versions Belong To The Same Family
+
+In continuous time, we usually write
+
+$$
+\dot x(t)=f(x(t),u(t),t),
+\qquad
+y(t)=g(x(t),u(t),t).
+$$
+
+In discrete time, we usually write
+
+$$
+x_{k+1}=F(x_k,u_k,k),
+\qquad
+y_k=G(x_k,u_k,k).
+$$
+
+The control viewpoint works in both settings. The difference is whether evolution happens continuously or in sampled steps.
+
+## Formal Core
+
+::: {#def-state}
+## Definition: State
+
+At a first pass, the `state` of a dynamical system at time `t_0` is the information needed, together with future inputs after `t_0`, to determine the future behavior of the system.
+:::
+
+This is why the state is often described as a sufficient summary of the relevant past.
+
+::: {#def-ct-ss}
+## Definition: Continuous-Time State-Space Model
+
+A continuous-time state-space model has the form
+
+$$
+\dot x(t)=f(x(t),u(t),t),
+\qquad
+y(t)=g(x(t),u(t),t).
+$$
+
+Here:
+
+- `x(t)` is the state
+- `u(t)` is the input
+- `y(t)` is the output
+:::
+
+::: {#def-dt-ss}
+## Definition: Discrete-Time State-Space Model
+
+A discrete-time state-space model has the form
+
+$$
+x_{k+1}=F(x_k,u_k,k),
+\qquad
+y_k=G(x_k,u_k,k).
+$$
+:::
+
+This is the sampled-step viewpoint that becomes important for digital control and simulation.
+
+::: {#def-lti-ss}
+## Definition: Linear Time-Invariant State-Space Model
+
+The standard continuous-time LTI form is
+
+$$
+\dot x = Ax + Bu,
+\qquad
+y = Cx + Du.
+$$
+
+The standard discrete-time LTI form is
+
+$$
+x_{k+1}=A_d x_k + B_d u_k,
+\qquad
+y_k=C_d x_k + D_d u_k.
+$$
+:::
+
+::: {#thm-state-prediction}
+## Theorem Idea: State Plus Future Input Determines Future Output
+
+For a well-posed state-space model, once the state at time `t_0` and the future input after `t_0` are known, the future state and output are determined.
+:::
+
+This is the main reason state is the right object for control.
+
+::: {#thm-zero-input-forced}
+## Theorem Idea: Linear Responses Split Into Initial-Condition And Forced Parts
+
+For linear state-space systems, the total response can be decomposed into:
+
+- the response caused by the initial state with zero input
+- the response caused by the input with zero initial state
+:::
+
+This split is one of the main advantages of linear control language.
+
+## Worked Example
+
+Consider the mass-spring-damper equation
+
+$$
+m q'' + c q' + k q = u(t),
+$$
+
+where:
+
+- `q(t)` is position
+- `u(t)` is the applied force
+
+Suppose the measured output is position:
+
+$$
+y(t)=q(t).
+$$
+
+Define the state variables
+
+$$
+x_1 = q,
+\qquad
+x_2 = q'.
+$$
+
+Then
+
+$$
+\dot x_1 = x_2,
+$$
+
+and from the original equation,
+
+$$
+\dot x_2
+=
+-\frac{k}{m}x_1-\frac{c}{m}x_2+\frac{1}{m}u.
+$$
+
+So the state-space model is
+
+$$
+\dot x
+=
+\begin{bmatrix}
+0 & 1 \\
+-k/m & -c/m
+\end{bmatrix}x
++
+\begin{bmatrix}
+0 \\
+1/m
+\end{bmatrix}u,
+$$
+
+with output equation
+
+$$
+y=
+\begin{bmatrix}
+1 & 0
+\end{bmatrix}x.
+$$
+
+This example shows the whole control translation in one place:
+
+- a second-order ODE becomes a first-order system
+- the forcing term becomes an input channel
+- the quantity we care about becomes an output map
+
+The state now carries enough information to evolve the system forward.
+
+## Computation Lens
+
+When you meet a control model, ask:
+
+1. what variables are chosen as the state, and why are they enough?
+2. what is the input, and what can actually be actuated in the real system?
+3. what is the output, and is it the same as the full state?
+4. is the model continuous-time, discrete-time, or a sampled version of one into the other?
+5. what parts of the behavior come from the current state versus the external input?
+
+Those questions usually make the model much easier to read than the matrix symbols alone.
+
+## Application Lens
+
+### Robotics And Mechanical Systems
+
+Position and velocity are natural state variables, while forces or torques become inputs and sensor readings become outputs.
+
+### Circuits And Signals
+
+Voltages and currents often form the state, external sources become inputs, and measured ports become outputs.
+
+### Estimation And Filtering
+
+The output equation is the entry point for observer design and Kalman filtering, because it tells us what part of the hidden state is actually seen.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- what a state is supposed to summarize
+- why inputs and outputs are distinct from the state
+- how continuous-time and discrete-time state-space models are written
+- how a second-order physical equation becomes a first-order control model
+
+then this page has done its job.
+
+## Go Deeper
+
+The next natural step in this module is:
+
+- [Controllability, Reachability, and Observability](controllability-reachability-and-observability.qmd)
+
+The strongest adjacent live pages right now are:
+
+- [Control and Dynamics](../index.qmd)
+- [Controllability, Reachability, and Observability](controllability-reachability-and-observability.qmd)
+- [ODEs and Dynamical Systems](../../odes-and-dynamical-systems/index.qmd)
+- [Discretization, Time-Stepping, and the Bridge to Control](../../odes-and-dynamical-systems/concepts/discretization-time-stepping-and-the-bridge-to-control.qmd)
+- [Linear Systems, Matrix Exponentials, and Modes](../../odes-and-dynamical-systems/concepts/linear-systems-matrix-exponentials-and-modes.qmd)
+- [Time-Stepping for ODEs and Stability](../../numerical-methods/concepts/time-stepping-for-odes-and-stability.qmd)
+
+## Optional Deeper Reading After First Pass
+
+The strongest current references connected to this page are:
+
+- [MIT 6.241J Lecture 7: State-space Models](https://ocw.mit.edu/courses/6-241j-dynamic-systems-and-control-spring-2011/71ed66d4f5063dd92ac026870dcf8237_MIT6_241JS11_lec07.pdf) - official lecture notes defining state and standard continuous/discrete state-space form. Checked `2026-04-25`.
+- [MIT 6.241J Lecture 8: Solutions of State-space Models](https://ocw.mit.edu/courses/6-241j-dynamic-systems-and-control-spring-2011/40ffa7a501e68278efd1715eae732170_MIT6_241JS11_lec08.pdf) - official lecture notes for zero-input versus forced response and state-transition language. Checked `2026-04-25`.
+- [MIT 6.011 Lecture 5: State-Space Models, Equilibrium, Linearization](https://ocw.mit.edu/courses/6-011-signals-systems-and-inference-spring-2018/f3e2660d22e2d57ebbf62fbe77cc156f_MIT6_011S18lec5.pdf) - official lecture notes for state-space intuition and equilibrium/linearization context. Checked `2026-04-25`.
+- [Stanford EE363 bulletin](https://bulletin.stanford.edu/courses/2273941) - official current course description that places state-space, reachability, observability, LQR, and Kalman filtering in one route. Checked `2026-04-25`.
+- [Stanford EE263 bulletin](https://22-23.bulletin.stanford.edu/courses/1038991) - official archived bulletin for the linear-dynamical-systems prerequisite layer. Checked `2026-04-25`.
+- [MIT 16.30: Feedback Control Systems](https://ocw.mit.edu/courses/16-30-feedback-control-systems-fall-2010/) - official course page for the broader feedback-control arc that this module grows into. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [MIT 6.241J Lecture 7: State-space Models](https://ocw.mit.edu/courses/6-241j-dynamic-systems-and-control-spring-2011/71ed66d4f5063dd92ac026870dcf8237_MIT6_241JS11_lec07.pdf) - `First pass` - official notes for what state means and how standard state-space models are written. Checked `2026-04-25`.
+- [MIT 6.241J Lecture 8: Solutions of State-space Models](https://ocw.mit.edu/courses/6-241j-dynamic-systems-and-control-spring-2011/40ffa7a501e68278efd1715eae732170_MIT6_241JS11_lec08.pdf) - `First pass` - official notes for the split between initial-condition and forced response. Checked `2026-04-25`.
+- [MIT 6.011 Lecture 5: State-Space Models, Equilibrium, Linearization](https://ocw.mit.edu/courses/6-011-signals-systems-and-inference-spring-2018/f3e2660d22e2d57ebbf62fbe77cc156f_MIT6_011S18lec5.pdf) - `First pass` - official lecture notes for state-space intuition in a signals-and-systems setting. Checked `2026-04-25`.
+- [Stanford EE363 bulletin](https://bulletin.stanford.edu/courses/2273941) - `Second pass` - official current description of the broader linear-dynamical-systems and control route. Checked `2026-04-25`.
+- [Stanford EE263 bulletin](https://22-23.bulletin.stanford.edu/courses/1038991) - `Second pass` - official archived description of the prerequisite state-space and linear-dynamical-systems layer. Checked `2026-04-25`.
+- [MIT 16.30: Feedback Control Systems](https://ocw.mit.edu/courses/16-30-feedback-control-systems-fall-2010/) - `Second pass` - official course page for the feedback-design direction this module is heading toward. Checked `2026-04-25`.

@@ -1,0 +1,249 @@
+---
+title: "Control and Dynamics"
+description: "How state-space models, feedback, estimation, and optimal control turn dynamical systems into systems that can be steered, stabilized, and observed."
+page-type: module-overview
+status: published
+update-status: current
+level: advanced
+topic: control-and-dynamics
+prerequisites:
+  - /topics/advanced/odes-and-dynamical-systems/index.qmd
+  - /topics/advanced/numerical-methods/index.qmd
+  - /topics/foundation/linear-algebra/index.qmd
+learning-goals:
+  - "Understand why control organizes dynamics around state, input, output, and feedback."
+  - "Know the intended first-pass order for the control-and-dynamics module."
+  - "Connect ODEs, numerical simulation, estimation, and optimal control in one systems-facing language."
+applications:
+  - control-and-dynamics
+  - engineering-systems
+  - scientific-computing
+keywords:
+  - control
+  - state-space
+  - feedback
+  - observability
+  - LQR
+  - MPC
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+stable-sources:
+  - "MIT 6.241 Dynamic Systems and Control"
+  - "MIT 16.30 Feedback Control Systems"
+  - "Stanford EE363 Linear Dynamical Systems"
+  - "Stanford EE263 Introduction to Linear Dynamical Systems"
+current-sources:
+  - "MIT 6.241 lecture notes"
+  - "MIT 6.241 lecture 7 state-space models"
+  - "MIT 6.241 lecture 8 solutions of state-space models"
+  - "MIT 6.241 lecture 20 reachability and observability"
+  - "MIT 6.241 lecture 23 feedback stabilization"
+  - "MIT 6.435 system identification course"
+  - "MIT 6.435 lecture notes"
+  - "MIT 6.435 syllabus"
+  - "MIT 16.30 topic 9 state-space systems"
+  - "MIT 16.30 topic 11 full-state feedback control"
+  - "MIT 16.30 topic 12 pole placement approach"
+  - "MIT 16.30 topic 18 linear quadratic regulator"
+  - "MIT 16.323 lecture notes"
+  - "MIT 16.323 estimators observers"
+  - "MIT 16.323 model predictive control"
+  - "MIT 16.30 recitation 10"
+  - "MIT 16.323 syllabus"
+  - "MIT 6.011 lecture 5 state-space models equilibrium linearization"
+  - "MIT 16.30 feedback control systems course page"
+  - "Stanford EE363 bulletin"
+  - "Stanford EE263 bulletin"
+  - "Stanford AA203 bulletin"
+  - "Stanford AA273 bulletin"
+  - "Stanford EE364b course information"
+  - "Stanford EE364b lecture slides and notes"
+  - "Stanford EE364b model predictive control slides"
+  - "Stanford EE365 course"
+  - "Stanford EE365 lecture slides"
+  - "Stanford ENGR105 bulletin"
+  - "Stanford ENGR205 bulletin"
+---
+
+## Why This Module Matters
+
+Dynamics asks:
+
+- what trajectory follows from a law of change
+- where the equilibria are
+- whether nearby trajectories stay close
+
+Control asks one layer more:
+
+- what input should we apply
+- what state can we infer from measurements
+- what feedback stabilizes the system
+- what objective are we optimizing over trajectories
+
+So this module is where the site turns `dynamics you analyze` into `dynamics you can shape`.
+
+It is the bridge from ODEs and numerical simulation into feedback, estimation, optimal control, and learning-based systems work.
+
+::: {.meta-strip}
+::: {.meta-box}
+**Prerequisites**
+[ODEs and Dynamical Systems](../odes-and-dynamical-systems/index.qmd) should come first. [Numerical Methods](../numerical-methods/index.qmd) matters because real controllers and simulations live on sampled updates, not only exact flows. [Linear Algebra](../../foundation/linear-algebra/index.qmd) is the language of state-space models, reachability, and feedback.
+:::
+::: {.meta-box}
+**Unlocks**
+Feedback design, reachability and observability, LQR, Kalman filtering, MPC, robotics, systems thinking
+:::
+::: {.meta-box}
+**Research Use**
+Reading papers or courses on control, estimation, dynamical systems, model-based RL, robotics, and continuous-time system design
+:::
+:::
+
+## First Pass Through This Module
+
+The intended first-pass spine for this module is:
+
+1. [State-Space Models, Inputs, and Outputs](concepts/state-space-models-inputs-and-outputs.qmd)
+2. [Controllability, Reachability, and Observability](concepts/controllability-reachability-and-observability.qmd)
+3. [Feedback, Stability, and Pole Placement](concepts/feedback-stability-and-pole-placement.qmd)
+4. [Linear Quadratic Regulation and Riccati Intuition](concepts/linear-quadratic-regulation-and-riccati-intuition.qmd)
+5. [Estimation, Kalman Filtering, and the Separation Principle](concepts/estimation-kalman-filtering-and-the-separation-principle.qmd)
+6. [Model Predictive Control and Constraint Handling](concepts/model-predictive-control-and-constraint-handling.qmd)
+7. [Learning-Based Control, System Identification, and RL Bridges](concepts/learning-based-control-system-identification-and-rl-bridges.qmd)
+
+The module now has a complete seven-page first-pass spine. The pages move from state-space modeling to reachability and observability, then into feedback design, LQR, Kalman filtering, MPC, and finally the bridge into learning-based control and RL-flavored sequential decision-making.
+
+## How To Use This Module
+
+A good first pass through the live pages is:
+
+1. start with [State-Space Models, Inputs, and Outputs](concepts/state-space-models-inputs-and-outputs.qmd)
+2. continue to [Controllability, Reachability, and Observability](concepts/controllability-reachability-and-observability.qmd)
+3. continue to [Feedback, Stability, and Pole Placement](concepts/feedback-stability-and-pole-placement.qmd)
+4. continue to [Linear Quadratic Regulation and Riccati Intuition](concepts/linear-quadratic-regulation-and-riccati-intuition.qmd)
+5. continue to [Estimation, Kalman Filtering, and the Separation Principle](concepts/estimation-kalman-filtering-and-the-separation-principle.qmd)
+6. continue to [Model Predictive Control and Constraint Handling](concepts/model-predictive-control-and-constraint-handling.qmd)
+7. continue to [Learning-Based Control, System Identification, and RL Bridges](concepts/learning-based-control-system-identification-and-rl-bridges.qmd)
+8. pair those pages with [Discretization, Time-Stepping, and the Bridge to Control](../odes-and-dynamical-systems/concepts/discretization-time-stepping-and-the-bridge-to-control.qmd)
+9. use [Linear Systems, Matrix Exponentials, and Modes](../odes-and-dynamical-systems/concepts/linear-systems-matrix-exponentials-and-modes.qmd) as the continuous-time systems companion
+10. use [Time-Stepping for ODEs and Stability](../numerical-methods/concepts/time-stepping-for-odes-and-stability.qmd) to keep the continuous versus sampled distinction clear
+11. return to [Optimization](../optimization/index.qmd) once the route reaches LQR or MPC
+
+The design goal is to make the state-input-output viewpoint feel natural before introducing heavier control theorems.
+
+## Core Concepts
+
+- [State-Space Models, Inputs, and Outputs](concepts/state-space-models-inputs-and-outputs.qmd): the opening page that explains what a state is, how inputs and outputs enter the model, and why control uses this viewpoint instead of only raw differential equations.
+- [Controllability, Reachability, and Observability](concepts/controllability-reachability-and-observability.qmd): the page that tests whether inputs can move the state where needed and whether outputs can reveal the hidden state.
+- [Feedback, Stability, and Pole Placement](concepts/feedback-stability-and-pole-placement.qmd): the page that turns controllability into actual feedback design and stability shaping.
+- [Linear Quadratic Regulation and Riccati Intuition](concepts/linear-quadratic-regulation-and-riccati-intuition.qmd): the page that turns feedback design into an explicit optimization problem with quadratic cost and Riccati structure.
+- [Estimation, Kalman Filtering, and the Separation Principle](concepts/estimation-kalman-filtering-and-the-separation-principle.qmd): the page that turns noisy outputs into recursive state estimates and connects estimator design back to LQR through the separation principle.
+- [Model Predictive Control and Constraint Handling](concepts/model-predictive-control-and-constraint-handling.qmd): the page that turns constrained optimal control into an online receding-horizon optimization problem.
+- [Learning-Based Control, System Identification, and RL Bridges](concepts/learning-based-control-system-identification-and-rl-bridges.qmd): the page that distinguishes learned models, learned controllers, and RL objectives while connecting them back to Bellman, MPC, and optimal control.
+
+## After This First Pass
+
+Natural next directions after the completed spine are:
+
+- `Applications > Control and Dynamics`
+- `stochastic control and dynamic programming`
+- `robust or adaptive control`
+- `deeper reinforcement learning theory`
+
+## Applications
+
+### Robotics And Autonomous Systems
+
+Control turns motion models into systems that can track, stabilize, and reject disturbances.
+
+### Estimation And Sensing
+
+The same state-space language also supports observers, filtering, and hidden-state estimation.
+
+### ML And Sequential Decision-Making
+
+Modern ML keeps rediscovering control language through model-based RL, system identification, differentiable simulators, and continuous-time generative viewpoints.
+
+## Go Deeper By Topic
+
+The strongest adjacent live pages right now are:
+
+- [ODEs and Dynamical Systems](../odes-and-dynamical-systems/index.qmd)
+- [Discretization, Time-Stepping, and the Bridge to Control](../odes-and-dynamical-systems/concepts/discretization-time-stepping-and-the-bridge-to-control.qmd)
+- [Research Bridges: Reverse-Time SDEs, Probability-Flow ODEs, Flow Matching, and Control](../odes-and-dynamical-systems/concepts/research-bridges-reverse-time-sdes-probability-flow-odes-flow-matching-and-control.qmd)
+- [Numerical Methods](../numerical-methods/index.qmd)
+- [Time-Stepping for ODEs and Stability](../numerical-methods/concepts/time-stepping-for-odes-and-stability.qmd)
+- [Controllability, Reachability, and Observability](concepts/controllability-reachability-and-observability.qmd)
+- [Feedback, Stability, and Pole Placement](concepts/feedback-stability-and-pole-placement.qmd)
+- [Linear Quadratic Regulation and Riccati Intuition](concepts/linear-quadratic-regulation-and-riccati-intuition.qmd)
+- [Estimation, Kalman Filtering, and the Separation Principle](concepts/estimation-kalman-filtering-and-the-separation-principle.qmd)
+- [Model Predictive Control and Constraint Handling](concepts/model-predictive-control-and-constraint-handling.qmd)
+- [Learning-Based Control, System Identification, and RL Bridges](concepts/learning-based-control-system-identification-and-rl-bridges.qmd)
+- [Optimization](../optimization/index.qmd)
+
+## Optional Deeper Reading After First Pass
+
+The strongest current references connected to this module are:
+
+- [MIT 6.241J: Dynamic Systems and Control](https://ocw.mit.edu/courses/6-241j-dynamic-systems-and-control-spring-2011/pages/lecture-notes/) - official lecture-note index spanning state-space models, reachability, observability, feedback stabilization, and optimal control. Checked `2026-04-25`.
+- [MIT 6.241J Lecture 7: State-space Models](https://ocw.mit.edu/courses/6-241j-dynamic-systems-and-control-spring-2011/71ed66d4f5063dd92ac026870dcf8237_MIT6_241JS11_lec07.pdf) - official lecture notes for the state definition and continuous/discrete state-space form. Checked `2026-04-25`.
+- [MIT 6.241J Lecture 8: Solutions of State-space Models](https://ocw.mit.edu/courses/6-241j-dynamic-systems-and-control-spring-2011/40ffa7a501e68278efd1715eae732170_MIT6_241JS11_lec08.pdf) - official lecture notes for zero-input versus forced response and state-transition language. Checked `2026-04-25`.
+- [MIT 6.241J Lecture 20: Reachability and Observability](https://ocw.mit.edu/courses/6-241j-dynamic-systems-and-control-spring-2011/43a02bc538e449c1e5eae487139b5030_MIT6_241JS11_lec20.pdf) - official lecture notes for the next control test layer after state-space form. Checked `2026-04-25`.
+- [MIT 6.241J Lecture 23: Feedback stabilization](https://ocw.mit.edu/courses/6-241j-dynamic-systems-and-control-spring-2011/c8fc22a8adf04e602a575fdfd60c039a_MIT6_241JS11_lec23.pdf) - official lecture notes for the feedback-stabilization viewpoint. Checked `2026-04-25`.
+- [MIT 16.30 Topic 9: State-space model features](https://ocw.mit.edu/courses/16-30-feedback-control-systems-fall-2010/a2e9eccea56da4ba879a5a3e15cf8cde_MIT16_30F10_lec09.pdf) - official lecture notes emphasizing controllability, observability, and minimal realization language. Checked `2026-04-25`.
+- [MIT 16.30 Topic 11: Full-state feedback control](https://ocw.mit.edu/courses/16-30-feedback-control-systems-fall-2010/c553561f63feaa6173e31994f45f0c60_MIT16_30F10_lec11.pdf) - official lecture notes for turning controllability into feedback design. Checked `2026-04-25`.
+- [MIT 16.30 Topic 12: Pole placement approach](https://ocw.mit.edu/courses/16-30-feedback-control-systems-fall-2010/be97882d33e1689ef2eb80cf181afafb_MIT16_30F10_lec12.pdf) - official lecture notes for where to place poles and why. Checked `2026-04-25`.
+- [MIT 16.30 Topic 18: Linear Quadratic Regulator](https://ocw.mit.edu/courses/16-30-feedback-control-systems-fall-2010/55d0aa6e1e4631a0c3366fb68028ae50_MIT16_30F10_lec18.pdf) - official lecture notes for the LQR setup and Riccati interpretation. Checked `2026-04-25`.
+- [MIT 16.323: Principles of Optimal Control lecture notes](https://ocw.mit.edu/courses/16-323-principles-of-optimal-control-spring-2008/pages/lecture-notes/) - official lecture-note index for dynamic programming, continuous/discrete LQR, and optimal-control structure. Checked `2026-04-25`.
+- [MIT 16.323 Lecture 11: Estimators/Observers](https://ocw.mit.edu/courses/16-323-principles-of-optimal-control-spring-2008/resources/lec11/) - official lecture notes page for estimators, observers, and optimal estimators. Checked `2026-04-25`.
+- [MIT 16.323 Lecture 16: Model Predictive Control](https://ocw.mit.edu/courses/16-323-principles-of-optimal-control-spring-2008/resources/lec16/) - official lecture notes page for receding-horizon control and constrained optimal-control structure. Checked `2026-04-25`.
+- [MIT 16.30/31 Recitation 10](https://ocw.mit.edu/courses/16-30-feedback-control-systems-fall-2010/f9b82f847c59b5fdfcf54bf6ca9ddc86_MIT16_30F10_rec10.pdf) - official recitation notes for the Kalman filter and innovation-gain interpretation. Checked `2026-04-25`.
+- [MIT 6.435: System Identification](https://ocw.mit.edu/courses/6-435-system-identification-spring-2005/) - official course page for learning dynamics from observations. Checked `2026-04-25`.
+- [MIT 6.435 lecture notes](https://ocw.mit.edu/courses/6-435-system-identification-spring-2005/pages/lecture-notes/) - official lecture index for identifiability, prediction-error methods, and recursive estimation. Checked `2026-04-25`.
+- [MIT 16.30: Feedback Control Systems](https://ocw.mit.edu/courses/16-30-feedback-control-systems-fall-2010/) - official course page showing the standard state-space and feedback-control arc. Checked `2026-04-25`.
+- [Stanford EE363 bulletin](https://bulletin.stanford.edu/courses/2273941) - official current course description connecting state-space models, reachability, observability, LQR, and Kalman filtering. Checked `2026-04-25`.
+- [Stanford EE263 bulletin](https://22-23.bulletin.stanford.edu/courses/1038991) - official archived bulletin describing the linear-dynamical-systems prerequisite layer into control and estimation. Checked `2026-04-25`.
+- [Stanford AA203 bulletin](https://22-23.bulletin.stanford.edu/courses/2136621) - official archived course description for optimal and learning-based control. Checked `2026-04-25`.
+- [Stanford AA273 bulletin](https://bulletin.stanford.edu/courses/2179261) - official current course description for state estimation and filtering in robotics and autonomy. Checked `2026-04-25`.
+- [Stanford EE364b course information](https://web.stanford.edu/class/ee364b/course.html) - official recent course page for optimization methods with control-facing applications. Checked `2026-04-25`.
+- [Stanford EE364b: Lecture Slides and Notes](https://web.stanford.edu/class/ee364b/lectures.html) - official lecture index including MPC and stochastic MPC materials. Checked `2026-04-25`.
+- [Stanford EE364b: Model Predictive Control slides](https://web.stanford.edu/class/ee364b/lectures/mpc_slides.pdf) - official Stanford slides for linear time-invariant convex optimal control and receding-horizon design. Checked `2026-04-25`.
+- [Stanford EE365: Stochastic Control](https://web.stanford.edu/class/ee365/) - official course page for Bellman, policy iteration, and stochastic-control bridges to RL. Checked `2026-04-25`.
+- [Stanford EE365 lecture slides](https://web.stanford.edu/class/ee365/lectures.html) - official lecture index for dynamic programming and value-function viewpoints. Checked `2026-04-25`.
+- [Stanford ENGR105 bulletin](https://bulletin.stanford.edu/courses/1042961) - official current course description centered on feedback control design. Checked `2026-04-25`.
+- [Stanford ENGR205 bulletin](https://bulletin.stanford.edu/courses/1043361) - official current course description explicitly naming state-feedback regulator design and pole placement. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [MIT 6.241J: Dynamic Systems and Control](https://ocw.mit.edu/courses/6-241j-dynamic-systems-and-control-spring-2011/pages/lecture-notes/) - `First pass` - official lecture-note index for the state-space-to-control route. Checked `2026-04-25`.
+- [MIT 6.241J Lecture 7: State-space Models](https://ocw.mit.edu/courses/6-241j-dynamic-systems-and-control-spring-2011/71ed66d4f5063dd92ac026870dcf8237_MIT6_241JS11_lec07.pdf) - `First pass` - official notes for what state means and how continuous/discrete state-space models are written. Checked `2026-04-25`.
+- [MIT 6.241J Lecture 8: Solutions of State-space Models](https://ocw.mit.edu/courses/6-241j-dynamic-systems-and-control-spring-2011/40ffa7a501e68278efd1715eae732170_MIT6_241JS11_lec08.pdf) - `First pass` - official notes for state-transition and forced-response language. Checked `2026-04-25`.
+- [MIT 6.241J Lecture 20: Reachability and Observability](https://ocw.mit.edu/courses/6-241j-dynamic-systems-and-control-spring-2011/43a02bc538e449c1e5eae487139b5030_MIT6_241JS11_lec20.pdf) - `First pass` - official notes for the first input/output feasibility tests in the module. Checked `2026-04-25`.
+- [MIT 6.241J Lecture 23: Feedback stabilization](https://ocw.mit.edu/courses/6-241j-dynamic-systems-and-control-spring-2011/c8fc22a8adf04e602a575fdfd60c039a_MIT6_241JS11_lec23.pdf) - `First pass` - official notes for why stabilization needs feedback rather than only open-loop steering. Checked `2026-04-25`.
+- [MIT 16.30 Topic 9: State-space model features](https://ocw.mit.edu/courses/16-30-feedback-control-systems-fall-2010/a2e9eccea56da4ba879a5a3e15cf8cde_MIT16_30F10_lec09.pdf) - `First pass` - official notes emphasizing controllability, observability, and hidden state directions. Checked `2026-04-25`.
+- [MIT 16.30 Topic 11: Full-state feedback control](https://ocw.mit.edu/courses/16-30-feedback-control-systems-fall-2010/c553561f63feaa6173e31994f45f0c60_MIT16_30F10_lec11.pdf) - `First pass` - official notes for shaping the closed-loop poles with state feedback. Checked `2026-04-25`.
+- [MIT 16.30 Topic 12: Pole placement approach](https://ocw.mit.edu/courses/16-30-feedback-control-systems-fall-2010/be97882d33e1689ef2eb80cf181afafb_MIT16_30F10_lec12.pdf) - `First pass` - official notes for practical pole-placement tradeoffs. Checked `2026-04-25`.
+- [MIT 16.30 Topic 18: Linear Quadratic Regulator](https://ocw.mit.edu/courses/16-30-feedback-control-systems-fall-2010/55d0aa6e1e4631a0c3366fb68028ae50_MIT16_30F10_lec18.pdf) - `First pass` - official notes for the LQR problem and the Riccati viewpoint. Checked `2026-04-25`.
+- [MIT 16.323 Lecture 11: Estimators/Observers](https://ocw.mit.edu/courses/16-323-principles-of-optimal-control-spring-2008/resources/lec11/) - `First pass` - official notes page for observer and optimal-estimation structure. Checked `2026-04-25`.
+- [MIT 16.323 Lecture 16: Model Predictive Control](https://ocw.mit.edu/courses/16-323-principles-of-optimal-control-spring-2008/resources/lec16/) - `First pass` - official notes page for finite-horizon receding-horizon control. Checked `2026-04-25`.
+- [MIT 16.30/31 Recitation 10](https://ocw.mit.edu/courses/16-30-feedback-control-systems-fall-2010/f9b82f847c59b5fdfcf54bf6ca9ddc86_MIT16_30F10_rec10.pdf) - `First pass` - official notes for the Kalman gain, covariance recursion, and innovation form. Checked `2026-04-25`.
+- [MIT 6.435: System Identification](https://ocw.mit.edu/courses/6-435-system-identification-spring-2005/) - `First pass` - official course page for the system-identification side of learning-based control. Checked `2026-04-25`.
+- [MIT 6.435 lecture notes](https://ocw.mit.edu/courses/6-435-system-identification-spring-2005/pages/lecture-notes/) - `Second pass` - official notes index for identifiability, prediction error methods, and recursive estimation. Checked `2026-04-25`.
+- [MIT 6.435 syllabus](https://ocw.mit.edu/courses/6-435-system-identification-spring-2005/pages/syllabus/) - `Second pass` - official syllabus showing the broader structure of a full system-identification course. Checked `2026-04-25`.
+- [MIT 16.30: Feedback Control Systems](https://ocw.mit.edu/courses/16-30-feedback-control-systems-fall-2010/) - `Second pass` - official course page for the broader feedback-design arc. Checked `2026-04-25`.
+- [MIT 16.323: Principles of Optimal Control lecture notes](https://ocw.mit.edu/courses/16-323-principles-of-optimal-control-spring-2008/pages/lecture-notes/) - `Second pass` - official notes index for discrete/continuous LQR and optimal-control formulations. Checked `2026-04-25`.
+- [Stanford EE363 bulletin](https://bulletin.stanford.edu/courses/2273941) - `Second pass` - official current course description connecting the module's later topics in one place. Checked `2026-04-25`.
+- [Stanford EE263 bulletin](https://22-23.bulletin.stanford.edu/courses/1038991) - `Second pass` - official archived description of the state-space prerequisite layer. Checked `2026-04-25`.
+- [Stanford AA203 bulletin](https://22-23.bulletin.stanford.edu/courses/2136621) - `Second pass` - official archived description connecting optimal control with learning-based directions. Checked `2026-04-25`.
+- [Stanford AA273 bulletin](https://bulletin.stanford.edu/courses/2179261) - `Second pass` - official current course description for modern state estimation and filtering applications. Checked `2026-04-25`.
+- [Stanford EE364b course information](https://web.stanford.edu/class/ee364b/course.html) - `Second pass` - official recent course page for optimization methods that feed directly into control applications. Checked `2026-04-25`.
+- [Stanford EE364b: Lecture Slides and Notes](https://web.stanford.edu/class/ee364b/lectures.html) - `Second pass` - official lecture index showing where MPC fits inside convex optimization and control. Checked `2026-04-25`.
+- [Stanford EE364b: Model Predictive Control slides](https://web.stanford.edu/class/ee364b/lectures/mpc_slides.pdf) - `Second pass` - official slides for convex finite-horizon control and receding-horizon policy design. Checked `2026-04-25`.
+- [Stanford EE365: Stochastic Control](https://web.stanford.edu/class/ee365/) - `Second pass` - official course page for Bellman-style sequential decision-making and stochastic control. Checked `2026-04-25`.
+- [Stanford EE365 lecture slides](https://web.stanford.edu/class/ee365/lectures.html) - `Second pass` - official lecture index for value functions, policy iteration, and stochastic-control foundations. Checked `2026-04-25`.
+- [Stanford ENGR105 bulletin](https://bulletin.stanford.edu/courses/1042961) - `Second pass` - official current description of feedback control design for stability and response specifications. Checked `2026-04-25`.
+- [Stanford ENGR205 bulletin](https://bulletin.stanford.edu/courses/1043361) - `Second pass` - official current description that explicitly includes pole placement and observer design. Checked `2026-04-25`.

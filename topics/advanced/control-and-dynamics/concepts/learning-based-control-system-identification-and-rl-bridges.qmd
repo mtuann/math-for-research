@@ -1,0 +1,303 @@
+---
+title: "Learning-Based Control, System Identification, and RL Bridges"
+description: "How control changes when the model is learned from data, why system identification and reinforcement learning are different tasks, and where modern RL reconnects with classical optimal control."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: control-and-dynamics
+prerequisites:
+  - /topics/advanced/control-and-dynamics/concepts/model-predictive-control-and-constraint-handling.qmd
+  - /topics/foundation/probability/index.qmd
+learning-goals:
+  - "Explain the difference between system identification, model-based control, and reinforcement learning."
+  - "Recognize when learned models enter the control loop."
+  - "Understand why exploration, uncertainty, and distribution shift complicate control from data."
+  - "See where modern RL reconnects with Bellman, MPC, and optimal control ideas."
+applications:
+  - control-and-dynamics
+  - engineering-systems
+  - machine-learning
+keywords:
+  - system identification
+  - learning-based control
+  - reinforcement learning
+  - model-based RL
+  - Bellman
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/control-and-dynamics/index.qmd
+  - /topics/advanced/control-and-dynamics/concepts/model-predictive-control-and-constraint-handling.qmd
+  - /topics/advanced/control-and-dynamics/concepts/estimation-kalman-filtering-and-the-separation-principle.qmd
+  - /topics/advanced/control-and-dynamics/concepts/linear-quadratic-regulation-and-riccati-intuition.qmd
+  - /topics/advanced/learning-theory/index.qmd
+  - /applications/machine-learning/in-context-learning-and-linearization.qmd
+stable-sources:
+  - "MIT 6.435 System Identification"
+  - "MIT 16.323 Principles of Optimal Control"
+  - "Stanford AA203 Optimal and Learning-Based Control"
+  - "Stanford EE365 Stochastic Control"
+current-sources:
+  - "MIT 6.435 system identification course"
+  - "MIT 6.435 lecture notes"
+  - "MIT 6.435 syllabus"
+  - "Stanford AA203 bulletin"
+  - "Stanford EE365 course"
+  - "Stanford EE365 lecture slides"
+---
+
+## Role
+
+This is the seventh page of the `Control and Dynamics` module.
+
+Its job is to explain what changes once the model is no longer fully known in advance:
+
+`we may have to learn dynamics from data, adapt the controller, or optimize behavior directly from interaction`
+
+This is the bridge from classical control into learning-based control and reinforcement learning.
+
+## First-Pass Promise
+
+Read this page after [Model Predictive Control and Constraint Handling](model-predictive-control-and-constraint-handling.qmd).
+
+If you stop here, you should still understand:
+
+- how `system identification` differs from `control`
+- how `learning-based control` differs from `reinforcement learning`
+- why learned models can help but also introduce uncertainty and distribution shift
+- where Bellman, MPC, and modern RL meet
+
+## Why It Matters
+
+Classical control usually starts from a model that is already given:
+
+$$
+x_{t+1}=f(x_t,u_t).
+$$
+
+But in many practical systems, the model is only partly known, badly calibrated, or changes with operating conditions.
+
+Then we need one or more of these moves:
+
+- estimate the model from data
+- adapt the model online
+- design a controller that is robust to model error
+- learn a policy directly from interaction
+
+That is why this page matters.
+
+It tells the reader how to place three ideas that are often blurred together:
+
+- `system identification`
+- `learning-based control`
+- `reinforcement learning`
+
+## Prerequisite Recall
+
+- state-space models organize dynamics around state, input, and output
+- LQR and MPC assume a model and then optimize control behavior using it
+- Kalman filtering estimates hidden state from noisy observations
+- Bellman-style dynamic programming is another way to describe sequential decision problems
+
+## Intuition
+
+### System Identification Learns The Model
+
+System identification asks:
+
+`given data from the system, what dynamical model best explains the observed input-output behavior?`
+
+The output is a model:
+
+- a state-space model
+- an input-output model
+- a parametric or nonparametric predictor
+
+Control is then designed on top of that model.
+
+### Learning-Based Control Uses Learning Inside The Control Loop
+
+Learning-based control is broader.
+
+It may use:
+
+- learned dynamics models
+- learned disturbances
+- learned costs
+- adaptive or data-driven controllers
+
+So the learned object does not have to be the final policy itself.
+
+### Reinforcement Learning Optimizes Behavior From Interaction
+
+Reinforcement learning is organized around returns or rewards over trajectories.
+
+Instead of first fitting a model and then solving control, it may:
+
+- learn a value function
+- learn a policy directly
+- learn a model and use it for planning
+
+So RL can be:
+
+- model-free
+- model-based
+
+and only the second case looks close to classical control pipelines.
+
+### The Bridges Are Real, But The Differences Matter
+
+Modern RL reconnects with classical control through:
+
+- Bellman equations
+- finite-horizon planning
+- MPC-style replanning
+- LQR and linear-quadratic stochastic control as exact benchmarks
+
+But RL also introduces issues that are less central in classical control:
+
+- exploration
+- off-policy distribution shift
+- reward design
+- sample efficiency
+
+## Formal Core
+
+::: {#def-system-id}
+## Definition: System Identification
+
+At a first pass, `system identification` is the task of learning a dynamical model from observed input-output or state-transition data.
+:::
+
+::: {#def-learning-based-control}
+## Definition: Learning-Based Control
+
+`Learning-based control` uses learned objects inside the control pipeline, such as learned dynamics, learned residual models, learned cost surrogates, or learned policies.
+:::
+
+::: {#def-rl}
+## Definition: Reinforcement Learning
+
+At a first pass, `reinforcement learning` studies how to choose actions sequentially to maximize expected cumulative reward through interaction with an environment.
+:::
+
+::: {#def-model-based-rl}
+## Definition: Model-Based RL
+
+`Model-based RL` learns or updates a model of the environment and then uses that model for prediction, planning, or control.
+:::
+
+::: {#thm-bellman-bridge}
+## Theorem Idea: Bellman Viewpoint Bridges Control And RL
+
+Finite-horizon optimal control, stochastic control, and many RL problems can all be phrased through value functions and Bellman-style recursion.
+:::
+
+At a first pass, this means the mathematical bridge is real even when the engineering workflow differs.
+
+::: {#thm-model-error}
+## Theorem Idea: Model Error Propagates Into Control Error
+
+When the learned model is inaccurate, the resulting controller may make poor predictions, violate constraints, or exploit modeling artifacts.
+:::
+
+This is why identification quality, uncertainty quantification, and robustness matter so much in learning-based control.
+
+## Worked Example
+
+Suppose we want to control a vehicle but do not know the exact drag coefficient or actuator lag.
+
+There are several distinct strategies:
+
+1. `System identification`:
+   fit a linearized or nonlinear model from trajectory data, then design LQR or MPC on that learned model.
+
+2. `Learning-based control`:
+   keep a nominal physics model, but learn a residual dynamics correction from data and use it inside MPC.
+
+3. `Reinforcement learning`:
+   optimize a policy directly from rollout reward without first requiring an explicit identified model.
+
+These three strategies are related, but they are not the same.
+
+The main lesson is:
+
+`learning can enter before the controller, inside the controller, or as the controller`
+
+## Computation Lens
+
+When you see a learning-based control setup, ask:
+
+1. what is being learned: a model, a residual, a value function, or a policy?
+2. where does the training data come from: passive logs, simulated rollouts, or online interaction?
+3. how is uncertainty about the learned model handled?
+4. are constraints enforced during planning, or only encouraged through penalties?
+5. is the method closer to system identification plus control, or closer to RL proper?
+
+These questions usually clarify the method faster than the method name alone.
+
+## Application Lens
+
+### Robotics And Adaptive Systems
+
+Learning-based control is useful when the environment changes, the model is approximate, or the system must improve from experience.
+
+### Simulators And Model-Based RL
+
+A learned simulator can become the planning model used inside MPC-like or trajectory-optimization loops.
+
+### Bridge To Modern ML
+
+This page is where the control module touches modern ML most directly:
+
+- model-based RL
+- world models
+- policy optimization
+- learned dynamics and representation learning for control
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- how system identification differs from control design
+- how learning-based control differs from RL
+- why model-based RL is the cleanest bridge back to classical control
+- why uncertainty and model error matter so much
+- where Bellman, MPC, and sequential decision-making meet
+
+then this page has done its job.
+
+## Go Deeper
+
+The strongest adjacent live pages right now are:
+
+- [Control and Dynamics](../index.qmd)
+- [Model Predictive Control and Constraint Handling](model-predictive-control-and-constraint-handling.qmd)
+- [Learning Theory](../../learning-theory/index.qmd)
+- [High-Dimensional Statistics](../../high-dimensional-statistics/index.qmd)
+- [In-Context Learning and Linearization](../../../../applications/machine-learning/in-context-learning-and-linearization.qmd)
+
+## Optional Deeper Reading After First Pass
+
+The strongest current references connected to this page are:
+
+- [MIT 6.435: System Identification](https://ocw.mit.edu/courses/6-435-system-identification-spring-2005/) - official course page for system identification from input-output data. Checked `2026-04-25`.
+- [MIT 6.435 lecture notes](https://ocw.mit.edu/courses/6-435-system-identification-spring-2005/pages/lecture-notes/) - official lecture index covering identifiability, prediction-error methods, recursive estimation, and closed-loop identification. Checked `2026-04-25`.
+- [MIT 6.435 syllabus](https://ocw.mit.edu/courses/6-435-system-identification-spring-2005/pages/syllabus/) - official syllabus showing the first-pass map of the system-identification pipeline. Checked `2026-04-25`.
+- [Stanford AA203 bulletin](https://22-23.bulletin.stanford.edu/courses/2136621) - official archived course description connecting optimal control, MPC, and model-based reinforcement learning. Checked `2026-04-25`.
+- [Stanford EE365: Stochastic Control](https://web.stanford.edu/class/ee365/) - official course page for Bellman, value iteration, policy iteration, and stochastic control viewpoints. Checked `2026-04-25`.
+- [Stanford EE365 lecture slides](https://web.stanford.edu/class/ee365/lectures.html) - official lecture index for dynamic programming and stochastic-control material underlying many RL bridges. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [MIT 6.435: System Identification](https://ocw.mit.edu/courses/6-435-system-identification-spring-2005/) - `First pass` - official course page for the core idea of learning dynamics from data. Checked `2026-04-25`.
+- [MIT 6.435 lecture notes](https://ocw.mit.edu/courses/6-435-system-identification-spring-2005/pages/lecture-notes/) - `First pass` - official notes index for identifiability, prediction error methods, and recursive estimation. Checked `2026-04-25`.
+- [MIT 6.435 syllabus](https://ocw.mit.edu/courses/6-435-system-identification-spring-2005/pages/syllabus/) - `Second pass` - official syllabus that lays out the subject map for system identification in practice. Checked `2026-04-25`.
+- [Stanford AA203 bulletin](https://22-23.bulletin.stanford.edu/courses/2136621) - `Second pass` - official archived description connecting optimal control and learning-based control. Checked `2026-04-25`.
+- [Stanford EE365: Stochastic Control](https://web.stanford.edu/class/ee365/) - `Second pass` - official course page for Bellman-based sequential decision-making. Checked `2026-04-25`.
+- [Stanford EE365 lecture slides](https://web.stanford.edu/class/ee365/lectures.html) - `Second pass` - official lecture index for dynamic programming, policy iteration, and stochastic-control foundations. Checked `2026-04-25`.
