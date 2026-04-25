@@ -1,0 +1,325 @@
+---
+title: "Discrete Probability Bridge"
+description: "How finite sample spaces, counting, indicator variables, and expectation create the bridge from discrete math into probability."
+page-type: concept
+status: published
+update-status: current
+level: foundation
+topic: discrete-math
+prerequisites:
+  - /topics/foundation/discrete-math/concepts/counting-and-combinatorics.qmd
+  - /topics/foundation/discrete-math/concepts/graphs-and-trees.qmd
+learning-goals:
+  - "Model probability on finite sample spaces through counting."
+  - "Use indicator variables and linearity of expectation in simple discrete settings."
+  - "Recognize when a counting problem is really a probability problem in disguise."
+  - "See why this page is the bridge into the main probability module."
+applications:
+  - probability
+  - randomized-algorithms
+  - combinatorics
+keywords:
+  - discrete probability
+  - sample space
+  - indicator variable
+  - expectation
+  - linearity of expectation
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/foundation/discrete-math/index.qmd
+  - /topics/foundation/discrete-math/concepts/counting-and-combinatorics.qmd
+  - /topics/foundation/discrete-math/concepts/graphs-and-trees.qmd
+  - /topics/foundation/probability/index.qmd
+stable-sources:
+  - "MIT Mathematics for Computer Science"
+  - "Penn State STAT 414"
+  - "MIT Introduction to Probability"
+current-sources:
+  - "MIT 6.1200J introduction to probability lecture"
+  - "MIT 6.1200J Mathematics for Computer Science"
+  - "MIT 6.042J Mathematics for Computer Science"
+  - "Penn State STAT 414 counting techniques"
+  - "Penn State STAT 414 mathematical expectation"
+---
+
+## Role
+
+This page is the fourth step of the discrete-math module.
+
+It is the bridge from finite structure into probability:
+
+- outcomes become a sample space
+- counting becomes probability on uniform spaces
+- indicator variables turn events into algebra
+- expectation becomes a counting tool instead of only a distribution summary
+
+## First-Pass Promise
+
+Read this page after [Graphs and Trees](graphs-and-trees.qmd).
+
+If you stop here, you should still understand:
+
+- how counting and finite probability fit together
+- what an indicator variable is
+- why linearity of expectation is so useful
+- why probability often starts from modeling, not from formulas
+- how this page hands off naturally to the main [Probability](../../probability/index.qmd) module
+
+## Why It Matters
+
+Many first probability problems are really counting problems with uncertainty layered on top.
+
+That is especially true when:
+
+- the sample space is finite
+- all outcomes are equally likely
+- we care about collisions, occupancy, or random choices
+- we want an expected count rather than a full distribution
+
+This page matters because it turns ideas from discrete math into probability habits without asking for the whole continuous probability toolkit yet.
+
+It is where learners first see that:
+
+`counting and expectation are often more powerful than trying to enumerate every case directly`
+
+## Prerequisite Recall
+
+- [Counting and Combinatorics](counting-and-combinatorics.qmd) already built the habit of describing finite objects precisely
+- [Graphs and Trees](graphs-and-trees.qmd) already treated finite structure as a set of objects plus relationships
+- probability on a finite uniform sample space often reduces to `favorable outcomes / total outcomes`
+
+## Intuition
+
+Suppose a process chooses one outcome uniformly from a finite set $\Omega$.
+
+Then probability is just normalized counting:
+
+$$
+\mathbb{P}(A) = \frac{|A|}{|\Omega|}.
+$$
+
+That already explains why discrete probability belongs near combinatorics.
+
+But there is a second major idea:
+
+Instead of trying to compute the whole distribution of a quantity, we often define indicator variables for simple events and add them.
+
+That turns “how many collisions happen?” or “how many vertices have a property?” into expectation calculations.
+
+This is the first place where probability starts to feel like algebra on random variables rather than only fraction-of-outcomes bookkeeping.
+
+## Formal Core
+
+::: {#def-finite-probability}
+## Definition: Finite Probability Space
+
+If $\Omega$ is a finite sample space and all outcomes are equally likely, then for any event $A \subseteq \Omega$,
+
+$$
+\mathbb{P}(A) = \frac{|A|}{|\Omega|}.
+$$
+
+This is the cleanest bridge from combinatorics into probability.
+:::
+
+::: {#def-indicator}
+## Definition: Indicator Variable
+
+For an event $A$, the indicator variable of $A$ is
+
+$$
+\mathbf{1}_A =
+\begin{cases}
+1, & \text{if } A \text{ occurs},\\
+0, & \text{if } A \text{ does not occur}.
+\end{cases}
+$$
+
+Its expectation is
+
+$$
+\mathbb{E}[\mathbf{1}_A] = \mathbb{P}(A).
+$$
+:::
+
+::: {#thm-linearity-expectation}
+## Theorem Idea: Linearity of Expectation
+
+For random variables $X_1,\dots,X_n$,
+
+$$
+\mathbb{E}[X_1 + \cdots + X_n]
+=
+\mathbb{E}[X_1] + \cdots + \mathbb{E}[X_n].
+$$
+
+This holds whether or not the variables are independent.
+
+That is why indicator decompositions are so useful: they let us count expected totals one small event at a time.
+:::
+
+::: {#thm-counting-to-expectation}
+## Theorem Idea: Counting Through Indicators
+
+If a random quantity $X$ can be written as
+
+$$
+X = \mathbf{1}_{A_1} + \cdots + \mathbf{1}_{A_m},
+$$
+
+then
+
+$$
+\mathbb{E}[X]
+=
+\mathbb{P}(A_1) + \cdots + \mathbb{P}(A_m).
+$$
+
+So expected counts often become much easier than exact distributions.
+:::
+
+::: {#thm-uniform-finite}
+## Theorem Idea: Uniform Finite Modeling
+
+In a finite uniform setting, many probabilities are easier to compute by:
+
+1. defining the right outcome space
+2. counting all outcomes
+3. counting favorable outcomes
+4. simplifying the ratio
+
+This is the main modeling workflow of discrete probability.
+:::
+
+## Worked Example
+
+Suppose we choose a random binary string of length $5$, with each of the $2^5 = 32$ strings equally likely.
+
+What is the expected number of `1`s in the string?
+
+### Step 1: Define indicator variables
+
+For each position $i \in \{1,2,3,4,5\}$, let
+
+$$
+X_i =
+\begin{cases}
+1, & \text{if the } i\text{th bit is }1,\\
+0, & \text{if the } i\text{th bit is }0.
+\end{cases}
+$$
+
+Then the total number of `1`s is
+
+$$
+X = X_1 + X_2 + X_3 + X_4 + X_5.
+$$
+
+### Step 2: Compute each expectation
+
+Each bit is equally likely to be `0` or `1`, so
+
+$$
+\mathbb{E}[X_i] = \mathbb{P}(X_i=1) = \frac12.
+$$
+
+### Step 3: Use linearity of expectation
+
+Therefore
+
+$$
+\mathbb{E}[X]
+=
+\mathbb{E}[X_1] + \cdots + \mathbb{E}[X_5]
+=
+5 \cdot \frac12
+=
+\frac52.
+$$
+
+This example matters because it shows the bridge clearly:
+
+- the sample space is finite
+- the model is uniform
+- the quantity is counted through indicators
+- expectation is easier than the full distribution
+
+## Computation Lens
+
+In first-pass discrete probability, the main tactics are:
+
+1. define the sample space carefully
+2. check whether the space is uniform
+3. count total outcomes and favorable outcomes when possible
+4. use indicator variables for expected counts
+5. prefer linearity of expectation over case explosion
+
+This is one of the first places where “don’t brute-force the whole distribution” becomes a mathematical strategy.
+
+## Application Lens
+
+This page is the clean handoff from discrete math into the main probability module.
+
+It already supports:
+
+- occupancy and collision intuition
+- random graph or random string counts
+- expected number of successes or matches
+- randomized-algorithm sanity checks
+
+The same ideas later scale into:
+
+- binomial and hypergeometric models
+- expectation and variance calculations
+- concentration arguments
+- randomized graph and network reasoning
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- why finite probability often starts with counting
+- what an indicator variable does
+- why $\mathbb{E}[\mathbf{1}_A] = \mathbb{P}(A)$
+- why linearity of expectation is useful even without independence
+
+then this page has done its job.
+
+## Go Deeper
+
+The next page in this module is:
+
+- [Number Theory Basics](number-theory-basics.qmd)
+
+The strongest adjacent bridges are:
+
+- [Counting and Combinatorics](counting-and-combinatorics.qmd)
+- [Probability](../../probability/index.qmd)
+- [Expectation, Variance, Covariance](../../probability/concepts/expectation-variance-covariance.qmd)
+
+## Optional Deeper Reading After First Pass
+
+- [MIT 6.1200J introduction to probability lecture](https://ocw.mit.edu/courses/6-1200j-mathematics-for-computer-science-spring-2024/mit6_1200j_s24_lec18.pdf) - official MIT lecture PDF that introduces probability through rigorous discrete modeling. Checked `2026-04-25`.
+- [Penn State STAT 414 counting techniques](https://online.stat.psu.edu/stat414/Lesson03) - official open course notes reinforcing the combinatorial side of finite probability. Checked `2026-04-25`.
+- [Penn State STAT 414 mathematical expectation](https://online.stat.psu.edu/stat414/Lesson08) - official open course notes reinforcing expectation in discrete settings. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [MIT 6.1200J introduction to probability lecture](https://ocw.mit.edu/courses/6-1200j-mathematics-for-computer-science-spring-2024/mit6_1200j_s24_lec18.pdf) - `First pass` - official lecture PDF introducing discrete probability through precise modeling. Checked `2026-04-25`.
+- [MIT 6.1200J Mathematics for Computer Science](https://ocw.mit.edu/courses/6-1200j-mathematics-for-computer-science-spring-2024/) - `Second pass` - official course hub connecting counting, recurrences, graph theory, and discrete probability. Checked `2026-04-25`.
+- [MIT 6.042J Mathematics for Computer Science](https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-fall-2010/) - `Second pass` - classic official MIT course page for the broader discrete-math sequence. Checked `2026-04-25`.
+- [Penn State STAT 414 counting techniques](https://online.stat.psu.edu/stat414/Lesson03) - `First pass` - official open notes on counting methods that naturally feed finite probability. Checked `2026-04-25`.
+- [Penn State STAT 414 mathematical expectation](https://online.stat.psu.edu/stat414/Lesson08) - `First pass` - official open notes on expectation in discrete random-variable settings. Checked `2026-04-25`.
+
+Sources checked online on `2026-04-25`:
+
+- MIT 6.1200J lecture 18
+- MIT 6.1200J course page
+- MIT 6.042J course page
+- Penn State STAT 414 Lesson 03
+- Penn State STAT 414 Lesson 08

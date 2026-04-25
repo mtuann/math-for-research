@@ -1,0 +1,212 @@
+---
+title: "Discrete Math"
+description: "Finite counting, recurrence thinking, graph structure, discrete probability, and number-theoretic tools for CS, theory, and mathematical modeling."
+page-type: module-overview
+status: published
+update-status: current
+level: foundation
+topic: discrete-math
+prerequisites:
+  - /topics/foundation/proofs/index.qmd
+  - /topics/foundation/logic/index.qmd
+learning-goals:
+  - "Understand why discrete math organizes finite structure through counting, recursion, graphs, probability, and divisibility."
+  - "Know the intended first-pass direction of the discrete-math module."
+  - "Connect discrete reasoning to algorithms, probability, theoretical CS, and later advanced modules."
+applications:
+  - algorithms
+  - probability
+  - theoretical-cs
+keywords:
+  - discrete math
+  - combinatorics
+  - recurrence
+  - graphs
+  - modular arithmetic
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+stable-sources:
+  - "MIT Mathematics for Computer Science"
+  - "Stanford CS103"
+  - "CMU 15-151"
+current-sources:
+  - "MIT 6.1200J Mathematics for Computer Science"
+  - "MIT 6.042J Mathematics for Computer Science"
+  - "Stanford CS103 counting lecture"
+  - "MIT 6.1200J lecture 08"
+  - "MIT 6.1200J lecture 09"
+  - "MIT 6.1200J lecture 10"
+  - "MIT 6.1200J asymptotic notation lecture"
+  - "MIT 6.1200J recurrences lecture"
+  - "MIT 6.1200J graph theory lecture"
+  - "Stanford CS103 graphs lecture I"
+  - "Stanford CS103 graphs lecture II"
+  - "Stanford CS103 lecture 11"
+  - "MIT 6.1200J introduction to probability lecture"
+  - "Penn State STAT 414 counting techniques"
+  - "Penn State STAT 414 mathematical expectation"
+  - "CMU 15-151 course page"
+---
+
+## Why This Module Matters
+
+Discrete math is where the site learns to reason cleanly about finite structure.
+
+This is the part of the foundation stack where questions start looking like:
+
+- how many objects are possible?
+- how fast does a recurrence grow?
+- what structure does a graph force?
+- what happens when probability lives on a finite set?
+- how do divisibility and modular arithmetic constrain a problem?
+
+Without this layer, a large part of algorithms, theoretical CS, coding theory, combinatorial probability, and many proof-heavy pages feel like isolated tricks instead of one connected toolkit.
+
+::: {.meta-strip}
+::: {.meta-box}
+**Prerequisites**
+[Proofs](../proofs/index.qmd) and [Logic](../logic/index.qmd) are the strongest live prerequisites, especially for precise statement reading and structured case analysis.
+:::
+::: {.meta-box}
+**Unlocks**
+Algorithms, graph reasoning, finite probability, asymptotics, information theory, and later stochastic-process viewpoints
+:::
+::: {.meta-box}
+**Research Use**
+Combinatorial arguments, asymptotic counting, graph structure, collision and hashing intuition, modular constraints
+:::
+:::
+
+## First Pass Through This Module
+
+The first-pass spine is:
+
+1. [Counting and Combinatorics](concepts/counting-and-combinatorics.qmd)
+2. [Recurrences and Asymptotics](concepts/recurrences-and-asymptotics.qmd)
+3. [Graphs and Trees](concepts/graphs-and-trees.qmd)
+4. [Discrete Probability Bridge](concepts/discrete-probability-bridge.qmd)
+5. [Number Theory Basics](concepts/number-theory-basics.qmd)
+
+This now gives the module a complete first-pass spine through finite counting, asymptotic growth, graph structure, finite probability, and modular reasoning.
+
+## How To Use This Module
+
+The best opening path is:
+
+1. start with [Counting and Combinatorics](concepts/counting-and-combinatorics.qmd)
+2. continue to [Recurrences and Asymptotics](concepts/recurrences-and-asymptotics.qmd)
+3. continue to [Graphs and Trees](concepts/graphs-and-trees.qmd)
+4. continue to [Discrete Probability Bridge](concepts/discrete-probability-bridge.qmd)
+5. finish with [Number Theory Basics](concepts/number-theory-basics.qmd)
+6. keep [Proofs](../proofs/index.qmd) and [Logic](../logic/index.qmd) nearby for case splits, negation, and exact statement structure
+7. move into [Probability](../probability/index.qmd) once the counting language turns into random variables and distributions
+
+The design goal is to make finite structure feel organized before the module branches into recurrences, graphs, discrete probability, and modular arithmetic.
+
+## Core Concepts
+
+- [Counting and Combinatorics](concepts/counting-and-combinatorics.qmd): the opening page that builds sum and product rules, permutations, combinations, pigeonhole intuition, and inclusion-exclusion habits.
+- [Recurrences and Asymptotics](concepts/recurrences-and-asymptotics.qmd): the second live page that builds recursive definitions, growth rates, and the first algorithmic asymptotic lens.
+- [Graphs and Trees](concepts/graphs-and-trees.qmd): the third live page that builds vertices, edges, paths, cycles, trees, and connectivity.
+- [Discrete Probability Bridge](concepts/discrete-probability-bridge.qmd): the fourth live page that turns counting into finite probability modeling through sample spaces, indicators, and expectation.
+- [Number Theory Basics](concepts/number-theory-basics.qmd): the closing first-pass page for divisibility, primes, gcd, Euclid, and modular arithmetic.
+
+## After This First Pass
+
+The strongest adjacent live next moves are:
+
+- [Probability](../probability/index.qmd)
+- [Proofs](../proofs/index.qmd)
+- [Logic](../logic/index.qmd)
+- [Information Theory](../../advanced/information-theory/index.qmd)
+
+## Applications
+
+### Algorithms And Case Analysis
+
+Discrete math gives the language for finite search spaces, recursion patterns, and counting-based bounds.
+
+### Finite Probability And Randomized Reasoning
+
+Many probability arguments on finite spaces begin as counting arguments in disguise.
+
+### Theoretical CS And Information
+
+Graphs, asymptotics, counting, and modular reasoning keep reappearing in coding, communication, randomized algorithms, and combinatorial proofs.
+
+## Go Deeper By Topic
+
+### Counting And Combinatorics
+
+Start with [Counting and Combinatorics](concepts/counting-and-combinatorics.qmd).
+
+If you want one strong reinforcement path after that page:
+
+- revisit [Statements and Quantifiers](../proofs/concepts/statements-and-quantifiers.qmd)
+- then work a few finite counting problems where you must decide whether order matters, whether repetition is allowed, and whether complement counting is cleaner
+
+### Recurrences And Asymptotics
+
+Continue to [Recurrences and Asymptotics](concepts/recurrences-and-asymptotics.qmd).
+
+If you want one strong reinforcement path after that page:
+
+- revisit [Induction](../proofs/concepts/induction.qmd)
+- then solve one recurrence by repeated expansion and explain the asymptotic growth class in words, not only symbols
+
+### Graphs And Trees
+
+Continue to [Graphs and Trees](concepts/graphs-and-trees.qmd).
+
+If you want one strong reinforcement path after that page:
+
+- revisit [Sets, Functions, Relations](../logic/concepts/sets-functions-and-relations.qmd)
+- then take one small graph and explicitly list its degrees, a path between two vertices, whether a cycle exists, and whether a spanning tree is already present
+
+### Discrete Probability Bridge
+
+Continue to [Discrete Probability Bridge](concepts/discrete-probability-bridge.qmd).
+
+If you want one strong reinforcement path after that page:
+
+- revisit [Counting and Combinatorics](concepts/counting-and-combinatorics.qmd)
+- then solve one finite probability problem twice: once by raw case counting, and once by indicators plus linearity of expectation
+
+### Number Theory Basics
+
+Finish with [Number Theory Basics](concepts/number-theory-basics.qmd).
+
+If you want one strong reinforcement path after that page:
+
+- revisit [Induction](../proofs/concepts/induction.qmd)
+- then compute one gcd by Euclid and solve one small congruence to connect divisibility and modular arithmetic in the same exercise
+
+## Optional Deeper Reading After First Pass
+
+Now that the full discrete-math first-pass spine is live, the best deeper pass is through official course materials:
+
+- [MIT 6.1200J Mathematics for Computer Science](https://ocw.mit.edu/courses/6-1200j-mathematics-for-computer-science-spring-2024/) - broad official current course hub spanning logic, combinatorics, recurrences, graph theory, congruences, and discrete probability. Checked `2026-04-25`.
+- [MIT 6.042J Mathematics for Computer Science](https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-fall-2010/) - strong official full-course reference for the classic discrete-math backbone. Checked `2026-04-25`.
+- [Stanford CS103](https://web.stanford.edu/class/cs103/) - official course hub for discrete structures and theorem-reading habits. Checked `2026-04-25`.
+- [MIT 6.1200J lecture 08](https://ocw.mit.edu/courses/6-1200j-mathematics-for-computer-science-spring-2024/mit6_1200j_s24_lec08.pdf) - official MIT lecture PDF for the divisibility and congruence layer of number theory. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [MIT 6.1200J Mathematics for Computer Science](https://ocw.mit.edu/courses/6-1200j-mathematics-for-computer-science-spring-2024/) - `First pass` - official current course page covering counting, graph theory, recurrences, congruences, and discrete probability. Checked `2026-04-25`.
+- [MIT 6.042J Mathematics for Computer Science](https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-fall-2010/) - `Second pass` - official MIT course page for the classic discrete-math sequence. Checked `2026-04-25`.
+- [Stanford CS103 counting lecture](https://web.stanford.edu/class/archive/cs/cs103/cs103.1252/lectures/08/) - `First pass` - official lecture page that keeps the counting viewpoint tied to discrete structures rather than isolated formulas. Checked `2026-04-25`.
+- [MIT 6.1200J lecture 08](https://ocw.mit.edu/courses/6-1200j-mathematics-for-computer-science-spring-2024/mit6_1200j_s24_lec08.pdf) - `First pass` - official lecture PDF for the first divisibility and congruence viewpoint. Checked `2026-04-25`.
+- [CMU 15-151 course page](https://www.cs.cmu.edu/~15151/) - `Second pass` - official course hub for proof-heavy discrete mathematics with a strong theoretical-CS flavor. Checked `2026-04-25`.
+
+Sources checked online on `2026-04-25`:
+
+- MIT 6.1200J course page
+- MIT 6.042J course page
+- Stanford CS103 course page
+- Stanford CS103 counting lecture
+- MIT 6.1200J lecture 08
+- CMU 15-151 course page

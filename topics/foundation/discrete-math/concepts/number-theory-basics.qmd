@@ -1,0 +1,373 @@
+---
+title: "Number Theory Basics"
+description: "How divisibility, primes, gcd, Euclidean algorithm, and modular arithmetic organize the first number-theoretic layer of discrete math."
+page-type: concept
+status: published
+update-status: current
+level: foundation
+topic: discrete-math
+prerequisites:
+  - /topics/foundation/discrete-math/concepts/counting-and-combinatorics.qmd
+  - /topics/foundation/proofs/concepts/induction.qmd
+learning-goals:
+  - "Use divisibility notation and gcd language correctly."
+  - "Understand the Euclidean algorithm as the main computational tool for gcd."
+  - "Work with congruences and modular arithmetic in simple finite settings."
+  - "Recognize why primes, gcd, and modular reasoning reappear in algorithms, coding, and cryptography."
+applications:
+  - algorithms
+  - cryptography
+  - theoretical-cs
+keywords:
+  - divisibility
+  - prime
+  - gcd
+  - Euclidean algorithm
+  - modular arithmetic
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/foundation/discrete-math/index.qmd
+  - /topics/foundation/discrete-math/concepts/counting-and-combinatorics.qmd
+  - /topics/foundation/discrete-math/concepts/discrete-probability-bridge.qmd
+  - /topics/foundation/proofs/concepts/induction.qmd
+  - /topics/advanced/information-theory/index.qmd
+stable-sources:
+  - "MIT Mathematics for Computer Science"
+  - "Stanford CS103"
+  - "CMU 15-151"
+current-sources:
+  - "MIT 6.1200J lecture 08"
+  - "MIT 6.1200J lecture 09"
+  - "MIT 6.1200J lecture 10"
+  - "MIT 6.1200J Mathematics for Computer Science"
+  - "MIT 6.042J Mathematics for Computer Science"
+  - "Stanford CS103 lecture 11"
+  - "CMU 15-151 course page"
+---
+
+## Role
+
+This page closes the first-pass spine of the discrete-math module.
+
+It adds the last major finite-structure lens that keeps appearing later:
+
+- divisibility instead of only size
+- primes as basic building blocks
+- gcd as the clean notion of common structure
+- modular arithmetic as arithmetic after quotienting by a repeating pattern
+
+## First-Pass Promise
+
+Read this page after [Discrete Probability Bridge](discrete-probability-bridge.qmd).
+
+If you stop here, you should still understand:
+
+- what it means for one integer to divide another
+- what primes and gcd are doing structurally
+- how the Euclidean algorithm finds gcd efficiently
+- what a congruence modulo $m$ means
+- why modular arithmetic feels like finite arithmetic on residue classes
+
+## Why It Matters
+
+Number theory is one of the first places where discrete math teaches that not all structure comes from counting or graphs.
+
+Sometimes the important question is not:
+
+- how many objects are there?
+- how are they connected?
+
+Instead it is:
+
+- what common divisor structure do these integers share?
+- what remains if we only care about values modulo $m$?
+- when is an equation solvable in modular arithmetic?
+
+These ideas matter because they keep reappearing in:
+
+- hashing and modular indexing
+- parity and invariant arguments
+- coding and communication
+- cryptographic intuition
+- algorithmic number manipulations
+
+## Prerequisite Recall
+
+- [Counting and Combinatorics](counting-and-combinatorics.qmd) already built the habit of describing finite structure precisely
+- [Induction](../../proofs/concepts/induction.qmd) is useful because divisibility and recurrence-style Euclidean arguments are often proved recursively
+- modular arithmetic introduces finite equivalence classes, so exact definitions matter more than memorized rules
+
+## Intuition
+
+Number theory starts with a change of viewpoint.
+
+Instead of looking at integers only by magnitude, we look at them through:
+
+- factors
+- divisibility
+- remainders
+- residue classes
+
+For example:
+
+- `12` and `18` are interesting together because they share divisors
+- `17` is special because its only positive divisors are `1` and `17`
+- `29` and `1` are the same modulo `7` because they leave the same remainder
+
+So modular arithmetic is not strange arithmetic. It is ordinary arithmetic viewed through a finite repeating lens.
+
+That is why it belongs naturally inside discrete math.
+
+## Formal Core
+
+::: {#def-divisibility-gcd}
+## Definition: Divisibility and Greatest Common Divisor
+
+For integers $a$ and $b$ with $a \neq 0$, we say
+
+$$
+a \mid b
+$$
+
+if there exists an integer $k$ such that
+
+$$
+b = ak.
+$$
+
+If $a$ and $b$ are not both zero, then $\gcd(a,b)$ is the largest positive integer that divides both $a$ and $b$.
+:::
+
+::: {#def-prime}
+## Definition: Prime and Composite
+
+A positive integer $p>1$ is prime if its only positive divisors are `1` and $p$.
+
+A positive integer greater than `1` that is not prime is composite.
+
+Primes are the first indivisible building blocks of integer factorization.
+:::
+
+::: {#def-congruence}
+## Definition: Congruence Modulo $m$
+
+For an integer $m \ge 1$, we say
+
+$$
+a \equiv b \pmod m
+$$
+
+if $m$ divides $a-b$.
+
+Equivalently, $a$ and $b$ leave the same remainder when divided by $m$.
+:::
+
+::: {#thm-euclidean}
+## Theorem Idea: Euclidean Algorithm
+
+If
+
+$$
+a = bq + r
+\quad \text{with} \quad 0 \le r < |b|,
+$$
+
+then
+
+$$
+\gcd(a,b) = \gcd(b,r).
+$$
+
+So gcd can be computed by repeatedly replacing a pair by a smaller pair.
+
+This is the main computational tool of first-pass number theory.
+:::
+
+::: {#thm-bezout}
+## Theorem Idea: Bezout Identity
+
+For integers $a$ and $b$, there exist integers $x$ and $y$ such that
+
+$$
+ax + by = \gcd(a,b).
+$$
+
+This matters because gcd is not only a divisor object. It is also the smallest positive linear combination structure behind $a$ and $b$.
+:::
+
+::: {#thm-mod-arithmetic}
+## Theorem Idea: Congruence Respects Arithmetic
+
+If
+
+$$
+a \equiv b \pmod m
+\quad \text{and} \quad
+c \equiv d \pmod m,
+$$
+
+then
+
+$$
+a+c \equiv b+d \pmod m
+$$
+
+and
+
+$$
+ac \equiv bd \pmod m.
+$$
+
+So once two integers are equivalent modulo $m$, we can safely replace one by the other inside sums and products.
+:::
+
+## Worked Example
+
+Find $\gcd(252,198)$ and then solve
+
+$$
+3x \equiv 1 \pmod 7.
+$$
+
+### Step 1: Use the Euclidean algorithm
+
+Compute successive remainders:
+
+$$
+252 = 198 + 54,
+$$
+
+$$
+198 = 3 \cdot 54 + 36,
+$$
+
+$$
+54 = 36 + 18,
+$$
+
+$$
+36 = 2 \cdot 18 + 0.
+$$
+
+So
+
+$$
+\gcd(252,198)=18.
+$$
+
+### Step 2: Interpret the result
+
+This tells us:
+
+- `18` is the largest positive integer dividing both `252` and `198`
+- every common divisor of `252` and `198` must also divide `18`
+
+### Step 3: Solve the modular equation
+
+We want
+
+$$
+3x \equiv 1 \pmod 7.
+$$
+
+Since
+
+$$
+3 \cdot 5 = 15 \equiv 1 \pmod 7,
+$$
+
+we have
+
+$$
+x \equiv 5 \pmod 7.
+$$
+
+So `5` is a modular inverse of `3` modulo `7`.
+
+This example shows the two main first-pass workflows:
+
+- use Euclid to simplify divisibility structure
+- reduce integers modulo $m$ to solve finite arithmetic problems
+
+## Computation Lens
+
+In first-pass number theory, the main habits are:
+
+1. translate divisibility into an explicit equation like $b=ak$
+2. compute gcd by repeated remainder steps, not by listing all divisors
+3. reduce integers modulo $m$ early when only remainder structure matters
+4. check whether a modular equation is really asking for an inverse
+5. keep residue classes small, since simpler representatives are easier to reason about
+
+This page is one of the clearest places where mathematical structure and efficient computation line up almost perfectly.
+
+## Application Lens
+
+The ideas here are basic, but they feed directly into many later topics:
+
+- parity and invariant arguments in proofs
+- modular hashing and indexing in algorithms
+- coding and communication through finite alphabets and residue structure
+- cryptographic intuition around inverses and modular equations
+- algebraic simplifications in information and computation problems
+
+Even when a later paper looks probabilistic or algorithmic, a small modular or divisibility lemma is often doing essential hidden work.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- what $a \mid b$ really means
+- what gcd measures
+- why the Euclidean algorithm works by passing to remainders
+- what $a \equiv b \pmod m$ says structurally
+- why modular arithmetic behaves like finite repeated arithmetic
+
+then this page has done its job.
+
+## Go Deeper
+
+The strongest adjacent bridges are:
+
+- [Counting and Combinatorics](counting-and-combinatorics.qmd)
+- [Induction](../../proofs/concepts/induction.qmd)
+- [Information Theory](../../../advanced/information-theory/index.qmd)
+
+For one extra reinforcement step, take a pair of integers, compute their gcd by Euclid, then solve one small congruence like
+
+$$
+5x \equiv 1 \pmod 9.
+$$
+
+That forces the key ideas to work together.
+
+## Optional Deeper Reading After First Pass
+
+- [MIT 6.1200J lecture 08](https://ocw.mit.edu/courses/6-1200j-mathematics-for-computer-science-spring-2024/mit6_1200j_s24_lec08.pdf) - official MIT lecture PDF for the opening divisibility and congruence layer of discrete mathematics. Checked `2026-04-25`.
+- [MIT 6.1200J lecture 09](https://ocw.mit.edu/courses/6-1200j-mathematics-for-computer-science-spring-2024/mit6_1200j_s24_lec09.pdf) - official MIT lecture PDF continuing gcd, modular arithmetic, and congruence reasoning. Checked `2026-04-25`.
+- [MIT 6.1200J lecture 10](https://ocw.mit.edu/courses/6-1200j-mathematics-for-computer-science-spring-2024/mit6_1200j_s24_lec10.pdf) - official MIT lecture PDF continuing the number-theoretic backbone used throughout later discrete mathematics. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [MIT 6.1200J lecture 08](https://ocw.mit.edu/courses/6-1200j-mathematics-for-computer-science-spring-2024/mit6_1200j_s24_lec08.pdf) - `First pass` - official lecture PDF for the first divisibility and congruence viewpoint. Checked `2026-04-25`.
+- [MIT 6.1200J lecture 09](https://ocw.mit.edu/courses/6-1200j-mathematics-for-computer-science-spring-2024/mit6_1200j_s24_lec09.pdf) - `First pass` - official lecture PDF reinforcing gcd and modular-arithmetic structure. Checked `2026-04-25`.
+- [MIT 6.1200J lecture 10](https://ocw.mit.edu/courses/6-1200j-mathematics-for-computer-science-spring-2024/mit6_1200j_s24_lec10.pdf) - `First pass` - official lecture PDF continuing the modular and number-theoretic toolkit. Checked `2026-04-25`.
+- [MIT 6.1200J Mathematics for Computer Science](https://ocw.mit.edu/courses/6-1200j-mathematics-for-computer-science-spring-2024/) - `Second pass` - official current course hub tying number theory back into the full discrete-math sequence. Checked `2026-04-25`.
+- [MIT 6.042J Mathematics for Computer Science](https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-fall-2010/) - `Second pass` - classic official MIT course page for the broader discrete-math backbone. Checked `2026-04-25`.
+- [Stanford CS103 lecture 11](https://web.stanford.edu/class/archive/cs/cs103/cs103.1252/lectures/11/) - `Second pass` - official Stanford lecture page reinforcing discrete-structure reasoning in a proof-oriented style. Checked `2026-04-25`.
+- [CMU 15-151 course page](https://www.cs.cmu.edu/~15151/) - `Second pass` - official course hub for proof-heavy discrete mathematics with a strong theoretical-CS flavor. Checked `2026-04-25`.
+
+Sources checked online on `2026-04-25`:
+
+- MIT 6.1200J lecture 08
+- MIT 6.1200J lecture 09
+- MIT 6.1200J lecture 10
+- MIT 6.1200J course page
+- MIT 6.042J course page
+- Stanford CS103 lecture 11
+- CMU 15-151 course page

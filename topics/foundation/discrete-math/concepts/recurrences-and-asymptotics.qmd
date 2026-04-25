@@ -1,0 +1,377 @@
+---
+title: "Recurrences and Asymptotics"
+description: "How recursively defined quantities, growth rates, and asymptotic notation organize discrete structure and algorithmic scaling."
+page-type: concept
+status: published
+update-status: current
+level: foundation
+topic: discrete-math
+prerequisites:
+  - /topics/foundation/discrete-math/concepts/counting-and-combinatorics.qmd
+  - /topics/foundation/proofs/concepts/induction.qmd
+learning-goals:
+  - "Read a recurrence as a rule that defines a sequence from earlier values."
+  - "Use asymptotic notation to compare growth rates cleanly."
+  - "Recognize simple recurrence patterns and connect them to closed forms or asymptotic bounds."
+  - "See why recurrences and asymptotics are the bridge from finite counting to algorithmic reasoning."
+applications:
+  - algorithms
+  - asymptotic-analysis
+  - theoretical-cs
+keywords:
+  - recurrence
+  - asymptotics
+  - big-O
+  - master theorem
+  - induction
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/foundation/discrete-math/index.qmd
+  - /topics/foundation/discrete-math/concepts/counting-and-combinatorics.qmd
+  - /topics/foundation/proofs/concepts/induction.qmd
+  - /topics/advanced/numerical-methods/index.qmd
+stable-sources:
+  - "MIT Mathematics for Computer Science"
+  - "CMU 15-151"
+  - "Stanford CS103"
+current-sources:
+  - "MIT 6.1200J asymptotic notation lecture"
+  - "MIT 6.1200J recurrences lecture"
+  - "MIT 6.1200J Mathematics for Computer Science"
+  - "MIT 6.042J Mathematics for Computer Science"
+  - "CMU 15-151 course page"
+---
+
+## Role
+
+This page is the second step of the discrete-math module.
+
+It takes the finite-structure viewpoint from counting and turns it into a language for growth:
+
+- sequences defined from earlier terms
+- recursive counting patterns
+- runtime-style recurrences
+- asymptotic comparison between functions
+
+## First-Pass Promise
+
+Read this page after [Counting and Combinatorics](counting-and-combinatorics.qmd).
+
+If you stop here, you should still understand:
+
+- what a recurrence is
+- why base cases matter
+- what `O`, `Theta`, and `Omega` are trying to summarize
+- how simple recurrences translate into growth rates
+- why this page is a bridge toward algorithms and later numerical or probabilistic scaling arguments
+
+## Why It Matters
+
+Many discrete objects are not easiest to describe directly.
+
+Instead, they are defined by:
+
+- how the next value depends on earlier ones
+- how a problem splits into smaller subproblems
+- how a counting process grows as size increases
+
+That is the world of recurrences.
+
+Asymptotics then answers a different but closely related question:
+
+`once a formula or recurrence is known, which growth feature actually matters at large scale?`
+
+Together these ideas show up in:
+
+- divide-and-conquer algorithms
+- graph and tree recurrences
+- dynamic programming states
+- combinatorial sequences
+- complexity comparisons
+
+## Prerequisite Recall
+
+- [Counting and Combinatorics](counting-and-combinatorics.qmd) already trained the habit of describing objects by structured choices
+- [Induction](../../proofs/concepts/induction.qmd) is the proof pattern that naturally matches recursively defined sequences
+- growth comparison is often about dominant terms, not exact constants
+
+## Intuition
+
+A recurrence is a rule that says:
+
+`to know the size at step n, look at smaller steps first`
+
+For example:
+
+$$
+a_n = a_{n-1} + 3
+$$
+
+means each term is obtained by adding the same amount to the previous one.
+
+More complicated recurrences encode:
+
+- branching processes
+- divide-and-conquer structure
+- tree growth
+- repeated halving or splitting
+
+Asymptotic notation is what we use after that, when exact formulas become less important than growth type.
+
+For example, these functions do not grow in the same way:
+
+- $n$
+- $n \log n$
+- $n^2$
+- 2^n
+
+Even if constants or lower-order terms differ, the dominant growth pattern controls the large-scale story.
+
+## Formal Core
+
+::: {#def-recurrence}
+## Definition: Recurrence
+
+A recurrence relation defines a sequence by expressing each term in terms of earlier terms.
+
+A simple example is
+
+$$
+a_n = a_{n-1} + 3 \quad \text{for } n \ge 1,
+$$
+
+together with a base case such as
+
+$$
+a_0 = 2.
+$$
+
+Without the base case, the rule alone does not determine the sequence.
+:::
+
+::: {#def-asymptotic-notation}
+## Definition: Asymptotic Notation
+
+For functions $f$ and $g$ on the positive integers:
+
+- $f(n) = O(g(n))$ means $f$ is eventually bounded above by a constant multiple of $g$
+- $f(n) = \Omega(g(n))$ means $f$ is eventually bounded below by a constant multiple of $g$
+- $f(n) = \Theta(g(n))$ means both bounds hold, so $f$ and $g$ have the same asymptotic growth rate up to constants
+
+The point is to ignore bounded-scale details and keep the large-$n$ growth pattern.
+:::
+
+::: {#thm-linear-recurrence}
+## Theorem Idea: Repeated Expansion For Simple Recurrences
+
+If
+
+$$
+a_n = a_{n-1} + c
+$$
+
+with base case $a_0 = b$, then repeated substitution gives
+
+$$
+a_n = b + cn.
+$$
+
+So the recurrence defines a linearly growing sequence, which means
+
+$$
+a_n = \Theta(n)
+$$
+
+when $c \neq 0$.
+:::
+
+::: {#thm-divide-conquer}
+## Theorem Idea: Divide-and-Conquer Growth
+
+Recurrences of the form
+
+$$
+T(n) = aT(n/b) + f(n)
+$$
+
+encode a common algorithmic pattern:
+
+- split into $a$ subproblems
+- each subproblem has size about $n/b$
+- pay additional nonrecursive work $f(n)$
+
+The large-scale growth depends on the balance between:
+
+- the branching term $aT(n/b)$
+- the extra work $f(n)$
+
+This is the intuition behind master-theorem style reasoning.
+:::
+
+::: {#thm-dominant-term}
+## Theorem Idea: Dominant-Term Comparison
+
+For asymptotic growth, the largest-order term eventually dominates lower-order terms and constant factors.
+
+For example,
+
+$$
+7n^2 + 3n + 10 = \Theta(n^2).
+$$
+
+This is why asymptotic notation compresses formulas without erasing the growth behavior that matters most.
+:::
+
+## Worked Example
+
+Consider the recurrence
+
+$$
+T(n) = 2T(n/2) + n
+$$
+
+for powers of two, with base case
+
+$$
+T(1) = 1.
+$$
+
+This is the basic divide-and-conquer pattern:
+
+- split into two subproblems of half size
+- do additional linear work
+
+### Step 1: Expand once
+
+$$
+T(n) = 2\left(2T(n/4) + n/2\right) + n
+= 4T(n/4) + 2n.
+$$
+
+### Step 2: Expand again
+
+$$
+T(n) = 4\left(2T(n/8) + n/4\right) + 2n
+= 8T(n/8) + 3n.
+$$
+
+A pattern appears: after $k$ expansions,
+
+$$
+T(n) = 2^k T(n/2^k) + kn.
+$$
+
+### Step 3: Stop at the base case
+
+Set $n/2^k = 1$, so $2^k = n$ and $k = \log_2 n$.
+
+Then
+
+$$
+T(n) = nT(1) + n\log_2 n
+= n + n\log_2 n.
+$$
+
+So
+
+$$
+T(n) = \Theta(n \log n).
+$$
+
+This example matters because it shows both ideas at once:
+
+- a recurrence captures recursive structure
+- asymptotic notation extracts the real growth story
+
+## Computation Lens
+
+For first-pass recurrence work, the main tactics are:
+
+1. compute the first few terms
+2. expand the recurrence repeatedly
+3. look for a stable pattern
+4. guess the closed form or asymptotic rate
+5. check it, often by induction
+
+For asymptotics, the main habit is:
+
+1. identify the dominant term
+2. ignore lower-order terms and constant factors only after the dominant structure is clear
+3. keep track of whether you need an upper bound, lower bound, or tight bound
+
+## Application Lens
+
+This page is one of the main bridges from foundation math into algorithms.
+
+A recurrence often appears when an algorithm:
+
+- splits a problem recursively
+- scans data at each level
+- recombines partial answers
+
+Then asymptotic notation tells you whether the growth is:
+
+- linear
+- near-linear
+- quadratic
+- exponential
+
+The exact same habits later reappear in:
+
+- graph algorithms
+- dynamic programming analyses
+- numerical iteration counts
+- probabilistic scaling arguments
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- why recurrences need base cases
+- how repeated expansion works
+- what `O`, `Omega`, and `Theta` are tracking
+- why $n \log n$ and $n^2$ are genuinely different growth classes
+
+then this page has done its job.
+
+## Go Deeper
+
+The next pages in this module are:
+
+- [Graphs and Trees](graphs-and-trees.qmd)
+- [Discrete Probability Bridge](discrete-probability-bridge.qmd)
+- [Number Theory Basics](number-theory-basics.qmd)
+
+The strongest adjacent bridges are:
+
+- [Graphs and Trees](graphs-and-trees.qmd)
+- [Counting and Combinatorics](counting-and-combinatorics.qmd)
+- [Induction](../../proofs/concepts/induction.qmd)
+- [Numerical Methods](../../../advanced/numerical-methods/index.qmd)
+
+## Optional Deeper Reading After First Pass
+
+- [MIT 6.1200J asymptotic notation lecture](https://ocw.mit.edu/courses/6-1200j-mathematics-for-computer-science-spring-2024/mit6_1200j_s24_lec06.pdf) - official MIT lecture PDF on asymptotic comparison and growth language. Checked `2026-04-25`.
+- [MIT 6.1200J recurrences lecture](https://ocw.mit.edu/courses/6-1200j-mathematics-for-computer-science-spring-2024/mit6_1200j_s24_lec07.pdf) - official MIT lecture PDF on recurrences, repeated expansion, and master-theorem style cases. Checked `2026-04-25`.
+- [MIT 6.042J Mathematics for Computer Science](https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-fall-2010/) - official MIT course page for the classic full discrete-math backbone. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [MIT 6.1200J asymptotic notation lecture](https://ocw.mit.edu/courses/6-1200j-mathematics-for-computer-science-spring-2024/mit6_1200j_s24_lec06.pdf) - `First pass` - official lecture PDF on growth comparison and asymptotic notation. Checked `2026-04-25`.
+- [MIT 6.1200J recurrences lecture](https://ocw.mit.edu/courses/6-1200j-mathematics-for-computer-science-spring-2024/mit6_1200j_s24_lec07.pdf) - `First pass` - official lecture PDF on recurrence solving and master-theorem intuition. Checked `2026-04-25`.
+- [MIT 6.1200J Mathematics for Computer Science](https://ocw.mit.edu/courses/6-1200j-mathematics-for-computer-science-spring-2024/) - `Second pass` - official course hub covering recurrences, asymptotics, graph theory, and discrete probability together. Checked `2026-04-25`.
+- [MIT 6.042J Mathematics for Computer Science](https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-fall-2010/) - `Second pass` - classic official MIT course page for the broader discrete-math sequence. Checked `2026-04-25`.
+- [CMU 15-151 course page](https://www.cs.cmu.edu/~15151/) - `Second pass` - official course hub for proof-heavy discrete mathematics with strong algorithmic flavor. Checked `2026-04-25`.
+
+Sources checked online on `2026-04-25`:
+
+- MIT 6.1200J lecture 06
+- MIT 6.1200J lecture 07
+- MIT 6.1200J course page
+- MIT 6.042J course page
+- CMU 15-151 course page

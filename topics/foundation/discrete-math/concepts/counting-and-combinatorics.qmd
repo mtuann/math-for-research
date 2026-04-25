@@ -1,0 +1,333 @@
+---
+title: "Counting and Combinatorics"
+description: "How finite counting starts from sum and product rules, then moves into permutations, combinations, pigeonhole arguments, and inclusion-exclusion."
+page-type: concept
+status: published
+update-status: current
+level: foundation
+topic: discrete-math
+prerequisites:
+  - /topics/foundation/proofs/concepts/statements-and-quantifiers.qmd
+  - /topics/foundation/logic/concepts/sets-functions-and-relations.qmd
+learning-goals:
+  - "Use sum and product rules correctly in finite counting problems."
+  - "Distinguish when order matters and when it does not."
+  - "Recognize when permutations, combinations, complement counting, or inclusion-exclusion are the right lens."
+  - "Use the pigeonhole principle as a structural existence argument."
+applications:
+  - algorithms
+  - probability
+  - graph-theory
+keywords:
+  - counting
+  - combinatorics
+  - permutations
+  - combinations
+  - pigeonhole principle
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/foundation/discrete-math/index.qmd
+  - /topics/foundation/proofs/concepts/statements-and-quantifiers.qmd
+  - /topics/foundation/logic/concepts/sets-functions-and-relations.qmd
+  - /topics/foundation/probability/index.qmd
+stable-sources:
+  - "MIT Mathematics for Computer Science"
+  - "Stanford CS103"
+  - "CMU 15-151"
+current-sources:
+  - "MIT 6.1200J Mathematics for Computer Science"
+  - "MIT 6.042J Mathematics for Computer Science"
+  - "Stanford CS103 counting lecture"
+  - "CMU 15-151 course page"
+---
+
+## Role
+
+This page opens the discrete-math module.
+
+It teaches the first finite-structure habit that keeps returning across the rest of the site:
+
+`before computing anything probabilistic or algorithmic, first count the right objects cleanly`
+
+## First-Pass Promise
+
+Read this page first in `Discrete Math`.
+
+If you stop here, you should still understand:
+
+- the difference between sum and product rules
+- when order matters and when it does not
+- why permutations and combinations answer different questions
+- how complement counting can simplify a problem
+- what the pigeonhole principle is really saying
+
+## Why It Matters
+
+Counting is one of the first places where discrete math stops being a bag of formulas and becomes a way of organizing structure.
+
+The same ideas reappear in:
+
+- probability on finite sample spaces
+- algorithmic runtime bounds
+- graph counting
+- hashing and collision arguments
+- coding and information questions
+
+When counting is weak, later pages often feel mysterious because the real issue is not probability or algorithms yet. The issue is that the space of possibilities was never described correctly.
+
+## Prerequisite Recall
+
+- a finite set can often be partitioned into disjoint cases
+- `and` usually signals a sequence of choices
+- `or` often signals a split into alternative cases
+- order and repetition are separate modeling decisions
+
+## Intuition
+
+Most counting problems reduce to one of four questions:
+
+1. are we splitting into separate cases?
+2. are we making a sequence of choices?
+3. does order matter?
+4. is it easier to count the complement?
+
+That is why the subject starts with very small structural moves:
+
+- `sum rule` for disjoint alternatives
+- `product rule` for chained choices
+- `permutations` when order matters
+- `combinations` when order does not
+
+Then two more ideas quickly become load-bearing:
+
+- `pigeonhole principle`: enough objects forced into too few boxes creates a collision
+- `inclusion-exclusion`: if cases overlap, you cannot just add them blindly
+
+## Formal Core
+
+::: {#def-sum-rule}
+## Definition: Sum Rule
+
+If a finite set of outcomes is partitioned into disjoint cases
+
+$$
+A_1, A_2, \dots, A_k,
+$$
+
+then the total number of outcomes is
+
+$$
+|A_1 \cup \cdots \cup A_k|
+=
+|A_1| + \cdots + |A_k|.
+$$
+
+The key word is `disjoint`. If the cases overlap, simple addition overcounts.
+:::
+
+::: {#def-product-rule}
+## Definition: Product Rule
+
+If an object is built by making a sequence of choices, and:
+
+- the first choice has $n_1$ possibilities
+- the second choice has $n_2$ possibilities
+- ...
+- the $k$th choice has $n_k$ possibilities
+
+then the total number of possible objects is
+
+$$
+n_1 n_2 \cdots n_k.
+$$
+
+This is the main reason finite counting often looks like multiplication.
+:::
+
+::: {#def-permutations-combinations}
+## Definition: Permutations and Combinations
+
+If order matters and repetition is not allowed, the number of ordered selections of $k$ objects from $n$ distinct objects is
+
+$$
+P(n,k) = n(n-1)\cdots(n-k+1).
+$$
+
+If order does not matter, the number of size-$k$ subsets of an $n$-element set is
+
+$$
+\binom{n}{k}
+=
+\frac{n!}{k!(n-k)!}.
+$$
+
+The difference is conceptual:
+
+- `permutations` count arrangements
+- `combinations` count selections
+:::
+
+::: {#thm-pigeonhole}
+## Theorem Idea: Pigeonhole Principle
+
+If more than $n$ objects are placed into $n$ boxes, then at least one box contains at least two objects.
+
+More generally, if $m$ objects are placed into $n$ boxes, then some box contains at least
+
+$$
+\left\lceil \frac{m}{n} \right\rceil
+$$
+
+objects.
+
+This is not a formula trick. It is a structural impossibility statement.
+:::
+
+::: {#thm-inclusion-exclusion}
+## Theorem Idea: Inclusion-Exclusion
+
+For finite sets $A$ and $B$,
+
+$$
+|A \cup B|
+=
+|A| + |B| - |A \cap B|.
+$$
+
+The subtraction is the correction for double counting.
+
+This is the first version of a general habit:
+
+`if two counting descriptions overlap, fix the overlap explicitly`
+:::
+
+## Worked Example
+
+How many four-digit codes over the digits $0,1,\dots,9$ contain at least one repeated digit?
+
+Here a code is allowed to begin with $0$, so we are really counting all length-$4$ strings over ten symbols.
+
+### Step 1: Count everything
+
+By the product rule,
+
+$$
+10 \cdot 10 \cdot 10 \cdot 10 = 10^4 = 10000
+$$
+
+codes are possible in total.
+
+### Step 2: Count the complement
+
+It is easier to count codes with all digits distinct.
+
+For those:
+
+- the first digit has $10$ choices
+- the second has $9$
+- the third has $8$
+- the fourth has $7$
+
+So the number of all-distinct codes is
+
+$$
+10 \cdot 9 \cdot 8 \cdot 7 = 5040.
+$$
+
+### Step 3: Subtract
+
+Therefore the number of codes with at least one repeated digit is
+
+$$
+10000 - 5040 = 4960.
+$$
+
+This example matters because it shows the main first-pass workflow:
+
+- model the object correctly
+- use the product rule for sequential choices
+- switch to complement counting if the direct constraint is awkward
+
+## Computation Lens
+
+When a counting problem shows up, this checklist is usually more useful than memorizing formulas:
+
+1. decide what object is being counted
+2. decide whether the problem splits into `disjoint cases`
+3. decide whether the object is built by `sequential choices`
+4. decide whether `order matters`
+5. decide whether `repetition is allowed`
+6. check whether counting the `complement` is simpler
+7. if cases overlap, ask whether `inclusion-exclusion` is needed
+
+That is the computational habit behind most first-pass combinatorics.
+
+## Application Lens
+
+One reason counting matters so much is that finite probability often starts here.
+
+If all outcomes are equally likely, then probability becomes:
+
+$$
+\mathbb{P}(A) = \frac{|A|}{|\Omega|}.
+$$
+
+So before you can do the probability calculation, you often need a combinatorics calculation.
+
+The same idea appears in:
+
+- birthday-collision intuition
+- occupancy and hashing arguments
+- counting paths or matchings in graphs
+- measuring how large a search space really is
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- when to add and when to multiply
+- why permutations and combinations answer different questions
+- how complement counting helps
+- what the pigeonhole principle forces
+
+then this page has done its job.
+
+## Go Deeper
+
+The next pages in this module are:
+
+- [Recurrences and Asymptotics](recurrences-and-asymptotics.qmd)
+- [Graphs and Trees](graphs-and-trees.qmd)
+- [Discrete Probability Bridge](discrete-probability-bridge.qmd)
+
+The strongest adjacent bridges are:
+
+- [Recurrences and Asymptotics](recurrences-and-asymptotics.qmd)
+- [Probability](../../probability/index.qmd)
+- [Statements and Quantifiers](../../proofs/concepts/statements-and-quantifiers.qmd)
+- [Sets, Functions, Relations](../../logic/concepts/sets-functions-and-relations.qmd)
+
+## Optional Deeper Reading After First Pass
+
+- [MIT 6.1200J Mathematics for Computer Science](https://ocw.mit.edu/courses/6-1200j-mathematics-for-computer-science-spring-2024/) - official current course hub that includes counting principles inside a full discrete-math sequence. Checked `2026-04-25`.
+- [MIT 6.042J Mathematics for Computer Science](https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-fall-2010/) - official MIT course page for the classic discrete-math progression. Checked `2026-04-25`.
+- [Stanford CS103 counting lecture](https://web.stanford.edu/class/archive/cs/cs103/cs103.1252/lectures/08/) - official lecture page for counting and combinatorial modeling in a modern discrete-structures course. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [MIT 6.1200J Mathematics for Computer Science](https://ocw.mit.edu/courses/6-1200j-mathematics-for-computer-science-spring-2024/) - `First pass` - official current course page spanning combinatorics, graph theory, recurrences, and discrete probability. Checked `2026-04-25`.
+- [MIT 6.042J Mathematics for Computer Science](https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-fall-2010/) - `Second pass` - official MIT course page for the classic full discrete-math backbone. Checked `2026-04-25`.
+- [Stanford CS103 counting lecture](https://web.stanford.edu/class/archive/cs/cs103/cs103.1252/lectures/08/) - `First pass` - official lecture page reinforcing counting through structure rather than isolated formulas. Checked `2026-04-25`.
+- [CMU 15-151 course page](https://www.cs.cmu.edu/~15151/) - `Second pass` - official course hub for proof-oriented discrete mathematics with a strong theoretical-CS flavor. Checked `2026-04-25`.
+
+Sources checked online on `2026-04-25`:
+
+- MIT 6.1200J course page
+- MIT 6.042J course page
+- Stanford CS103 counting lecture
+- CMU 15-151 course page

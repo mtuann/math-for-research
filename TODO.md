@@ -17,9 +17,10 @@ Use it to track:
 
 ## Current Snapshot
 
-- `241` `.qmd` pages currently exist
-- `117` concept-topic pages currently exist
-- strongest subjects so far: `Linear Algebra`, `Probability`, `Proofs`, `Logic`, `Statistics`, `Single-Variable Calculus`, `Multivariable Calculus`, `Optimization`, `Real Analysis`
+- `247` `.qmd` pages currently exist
+- `122` concept-topic pages currently exist
+- strongest completed foundation spines so far: `Discrete Math`, `Linear Algebra`, `Probability`, `Proofs`, `Logic`, `Statistics`, `Single-Variable Calculus`, `Multivariable Calculus`
+- strongest completed advanced spines so far: `Optimization`, `Real Analysis`, `Numerical Methods`, `ODEs and Dynamical Systems`, `Matrix Analysis`, `Learning Theory`, `High-Dimensional Probability`, `High-Dimensional Statistics`, `Information Theory`, `Control and Dynamics`, `Stochastic Control and Dynamic Programming`, `Signal Processing and Estimation`
 - strongest public-facing bridge so far: `Applications > Machine Learning`
 - non-topic sections already scaffolded: `Start Here`, `Roadmaps`, `Applications`, `Paper Lab`, `Research`, `Publication`, `Library`, `Notes`
 
@@ -154,11 +155,12 @@ Use it to track:
 
 ### Discrete Math
 
-- [ ] `Counting and combinatorics`
-- [ ] `Recurrences and asymptotics`
-- [ ] `Graphs and trees`
-- [ ] `Discrete probability bridge`
-- [ ] `Number theory basics`
+- [x] `Discrete Math index`
+- [x] `Counting and combinatorics`
+- [x] `Recurrences and asymptotics`
+- [x] `Graphs and trees`
+- [x] `Discrete probability bridge`
+- [x] `Number theory basics`
 
 ### Single-Variable Calculus
 
@@ -360,6 +362,16 @@ These are not required before the main spine is public, but they are the next hi
 - [x] `Continuous-time stochastic control and Hamilton-Jacobi-Bellman intuition`
 - [x] `Partial observability, belief states, and RL/control bridges`
 
+### Stochastic Processes
+
+- [ ] `Stochastic Processes index`
+- [ ] `Markov chains and stationary distributions`
+- [ ] `Martingales and optional stopping intuition`
+- [ ] `Poisson processes and counting models`
+- [ ] `Brownian motion and diffusion intuition`
+- [ ] `SDEs and Ito intuition`
+- [ ] `Mixing, ergodicity, and MCMC bridges`
+
 ## Gold-Standard Topic Targets
 
 These are the topics that should eventually become canonical examples for future contributors.
@@ -398,13 +410,14 @@ These are the topics that should eventually become canonical examples for future
 
 Near-term highest-value content steps:
 
-1. [ ] `Paper Lab: notation translation`
-1. [ ] `Render and visually QA single-variable + multivariable calculus locally`
-2. [ ] `Curate Library: books and courses`
-3. [ ] `Render and visually QA the optimization module locally`
-4. [ ] `Sweep review the full optimization module`
-5. [ ] `Curate Library: papers`
+1. [ ] `Build Foundation: Algebra Repair module`
+2. [ ] `Build Applications: Control and dynamics`
+3. [ ] `Build Applications: Signal and communication`
+4. [ ] `Build Roadmap: Engineering systems`
+5. [ ] `Build Advanced: Stochastic Processes module`
 6. [ ] `Build Publication: venue map`
+7. [ ] `Curate Library: books and courses`
+8. [ ] `Run local render + visual QA pass`
 
 ## Work Outside Topic Content
 
@@ -450,6 +463,6 @@ Yes, there is important work outside topic writing.
 
 ## Notes
 
-- Current content momentum is strongest in `Linear Algebra`, `Probability`, `Proofs`, `Logic`, `Statistics`, and `Applications > Machine Learning`.
-- The next subject most worth strengthening is `Optimization`.
+- Current content momentum is strongest in the advanced bridge cluster: `Numerical Methods`, `ODEs and Dynamical Systems`, `Control and Dynamics`, `Stochastic Control and Dynamic Programming`, `Information Theory`, and `Signal Processing and Estimation`.
+- The next content gaps most worth filling are `Algebra Repair`, `Stochastic Processes`, and the missing non-ML application hubs.
 - The next non-content task most worth doing is a `local render + visual QA pass`.

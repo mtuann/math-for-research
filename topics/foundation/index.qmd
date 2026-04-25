@@ -10,10 +10,11 @@ The foundation track is where you build fluency strong enough that later theory 
 
 - [Proofs](proofs/index.qmd)
 - [Logic](logic/index.qmd)
+- [Discrete Math](discrete-math/index.qmd)
 - [Single-Variable Calculus](single-variable-calculus/index.qmd)
 - [Multivariable Calculus](multivariable-calculus/index.qmd)
 - [Linear Algebra](linear-algebra/index.qmd)
 - [Probability](probability/index.qmd)
 - [Statistics](statistics/index.qmd)
 
-These are the first starter modules scaffolded in this version of the site.
+These are the foundation modules currently live on the site.

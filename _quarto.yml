@@ -74,6 +74,14 @@ website:
               - topics/foundation/logic/concepts/predicate-logic.qmd
               - topics/foundation/logic/concepts/sets-functions-and-relations.qmd
               - topics/foundation/logic/concepts/translation-between-english-and-symbols.qmd
+          - section: "Discrete Math"
+            contents:
+              - topics/foundation/discrete-math/index.qmd
+              - topics/foundation/discrete-math/concepts/counting-and-combinatorics.qmd
+              - topics/foundation/discrete-math/concepts/recurrences-and-asymptotics.qmd
+              - topics/foundation/discrete-math/concepts/graphs-and-trees.qmd
+              - topics/foundation/discrete-math/concepts/discrete-probability-bridge.qmd
+              - topics/foundation/discrete-math/concepts/number-theory-basics.qmd
           - section: "Single-Variable Calculus"
             contents:
               - topics/foundation/single-variable-calculus/index.qmd

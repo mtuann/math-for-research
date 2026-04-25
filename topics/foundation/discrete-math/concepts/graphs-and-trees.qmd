@@ -1,0 +1,353 @@
+---
+title: "Graphs and Trees"
+description: "How vertices, edges, paths, cycles, connectedness, and trees organize finite relational structure."
+page-type: concept
+status: published
+update-status: current
+level: foundation
+topic: discrete-math
+prerequisites:
+  - /topics/foundation/discrete-math/concepts/counting-and-combinatorics.qmd
+  - /topics/foundation/logic/concepts/sets-functions-and-relations.qmd
+learning-goals:
+  - "Read a graph as a finite relational object built from vertices and edges."
+  - "Distinguish paths, cycles, connectedness, and trees."
+  - "Use degree counting and the handshaking lemma correctly."
+  - "Recognize trees as the simplest connected acyclic graphs and as load-bearing objects for algorithms and structure."
+applications:
+  - algorithms
+  - graph-theory
+  - networks
+keywords:
+  - graph
+  - tree
+  - path
+  - cycle
+  - connectedness
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/foundation/discrete-math/index.qmd
+  - /topics/foundation/discrete-math/concepts/counting-and-combinatorics.qmd
+  - /topics/foundation/discrete-math/concepts/recurrences-and-asymptotics.qmd
+  - /topics/foundation/logic/concepts/sets-functions-and-relations.qmd
+  - /topics/advanced/control-and-dynamics/index.qmd
+stable-sources:
+  - "MIT Mathematics for Computer Science"
+  - "Stanford CS103"
+  - "CMU 15-151"
+current-sources:
+  - "MIT 6.1200J graph theory lecture"
+  - "MIT 6.1200J Mathematics for Computer Science"
+  - "MIT 6.042J Mathematics for Computer Science"
+  - "Stanford CS103 graphs lecture I"
+  - "Stanford CS103 graphs lecture II"
+  - "CMU 15-151 course page"
+---
+
+## Role
+
+This page is the third step of the discrete-math module.
+
+It shifts the module from counting and recurrence patterns into relational structure:
+
+- objects as vertices
+- relationships as edges
+- movement as paths
+- feedback as cycles
+- minimal connected structure as trees
+
+## First-Pass Promise
+
+Read this page after [Recurrences and Asymptotics](recurrences-and-asymptotics.qmd).
+
+If you stop here, you should still understand:
+
+- what a graph is
+- what paths, cycles, and connectedness mean
+- what the degree of a vertex measures
+- why the handshaking lemma is true
+- why trees are the simplest connected acyclic graphs
+
+## Why It Matters
+
+Graphs are one of the first places where discrete math starts to model structure directly instead of only counting possibilities.
+
+They show up whenever we care about:
+
+- communication links
+- dependency structure
+- routing and search
+- social or biological networks
+- state transitions
+
+Trees matter even more than they first appear to:
+
+- recursive definitions often induce trees
+- search procedures often build trees
+- hierarchical data is tree-shaped
+- spanning trees are the first simplification of a network that still preserves connectivity
+
+## Prerequisite Recall
+
+- [Counting and Combinatorics](counting-and-combinatorics.qmd) already built the habit of describing finite objects precisely
+- [Sets, Functions, Relations](../../logic/concepts/sets-functions-and-relations.qmd) already treated structure through membership and pairing
+- graph arguments often use simple case reasoning, structural definitions, and counting together
+
+## Intuition
+
+A graph is a finite collection of objects together with a rule saying which pairs are linked.
+
+So a graph lets us ask structural questions like:
+
+- can one point reach another?
+- is there a loop?
+- how many links touch each point?
+- can the whole network be simplified while keeping connectivity?
+
+This makes graphs different from pure counting.
+
+Counting asks `how many`.
+
+Graph theory often asks `how are things connected`.
+
+Trees are the cleanest answer to that second question. They are connected enough that every vertex can reach every other, but sparse enough that no cycles remain.
+
+## Formal Core
+
+::: {#def-graph}
+## Definition: Graph
+
+A simple undirected graph consists of:
+
+- a finite set of vertices $V$
+- a set of edges $E$, where each edge is an unordered pair $\{u,v\}$ of distinct vertices
+
+We often write
+
+$$
+G = (V,E).
+$$
+
+The graph records which vertices are adjacent.
+:::
+
+::: {#def-path-cycle}
+## Definition: Path and Cycle
+
+A path is a sequence of vertices
+
+$$
+v_0, v_1, \dots, v_k
+$$
+
+such that each consecutive pair is joined by an edge.
+
+A cycle is a closed path of positive length that returns to its starting vertex without repeating intermediate vertices.
+
+Paths encode reachability. Cycles encode structural feedback or redundancy.
+:::
+
+::: {#def-degree-connected-tree}
+## Definition: Degree, Connectedness, Tree
+
+The degree of a vertex is the number of edges incident to it.
+
+A graph is connected if every pair of vertices can be joined by a path.
+
+A tree is a connected graph with no cycles.
+:::
+
+::: {#thm-handshaking}
+## Theorem Idea: Handshaking Lemma
+
+For any finite undirected graph,
+
+$$
+\sum_{v \in V} \deg(v) = 2|E|.
+$$
+
+Each edge contributes exactly `1` to the degree count of each of its two endpoints, so every edge is counted twice.
+:::
+
+::: {#thm-tree-characterization}
+## Theorem Idea: Tree Characterization
+
+If a graph with $n$ vertices is connected and has exactly
+
+$$
+n-1
+$$
+
+edges, then it is a tree.
+
+Equivalently, a tree on $n$ vertices always has exactly $n-1$ edges.
+
+This is one of the first clean examples where connectedness and sparsity balance perfectly.
+:::
+
+::: {#thm-spanning-tree}
+## Theorem Idea: Spanning Tree
+
+Every connected graph contains a spanning tree:
+
+- it keeps all the vertices
+- it stays connected
+- it removes enough edges to eliminate cycles
+
+So trees are the minimal connected skeleton inside a connected graph.
+:::
+
+## Worked Example
+
+Consider the graph with
+
+$$
+V = \{A,B,C,D,E\}
+$$
+
+and edges
+
+$$
+E = \{\{A,B\}, \{A,C\}, \{C,D\}, \{C,E\}\}.
+$$
+
+### Step 1: Compute degrees
+
+- $\deg(A)=2$
+- $\deg(B)=1$
+- $\deg(C)=3$
+- $\deg(D)=1$
+- $\deg(E)=1$
+
+So
+
+$$
+2 + 1 + 3 + 1 + 1 = 8.
+$$
+
+There are $4$ edges, so the handshaking lemma predicts
+
+$$
+2|E| = 2 \cdot 4 = 8,
+$$
+
+which matches.
+
+### Step 2: Check connectedness
+
+Every vertex can be reached from $C$, and therefore every pair of vertices is joined by some path.
+
+So the graph is connected.
+
+### Step 3: Check whether it has a cycle
+
+There is no closed loop:
+
+- $B$ only touches $A$
+- $D$ only touches $C$
+- $E$ only touches $C$
+
+So no cycle can form.
+
+### Step 4: Recognize the tree structure
+
+The graph has:
+
+- $5$ vertices
+- $4$ edges
+
+Since it is connected and has $5-1=4$ edges, it is a tree.
+
+This example matters because it shows the standard first-pass workflow:
+
+- count degrees
+- test connectivity
+- test whether cycles remain
+- use the `n-1` edge rule as a clean structural check
+
+## Computation Lens
+
+For first-pass graph work, the main habits are:
+
+1. write down the vertex set and edge set explicitly
+2. compute degrees
+3. ask whether paths connect all vertices
+4. ask whether a cycle appears
+5. if the graph is connected, look for a spanning tree or check whether it already is one
+
+Many algorithmic graph procedures are just larger versions of those same habits:
+
+- search for reachability
+- remove or detect cycles
+- preserve connectivity with fewer edges
+
+## Application Lens
+
+Graphs and trees are the discrete language of many later subjects.
+
+They appear in:
+
+- search and shortest-path algorithms
+- communication networks
+- dependency graphs
+- spanning-tree and routing problems
+- message passing and graph learning
+- control graphs and state transitions
+
+Trees are especially important because they are the first sparse structure that is still fully connected.
+
+That makes them the cleanest place to study recursion, traversal, and hierarchical organization.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- what a graph is
+- what paths, cycles, and connectedness mean
+- why the sum of all degrees is twice the number of edges
+- why a connected graph with $n-1$ edges is a tree
+
+then this page has done its job.
+
+## Go Deeper
+
+The next pages in this module are:
+
+- [Discrete Probability Bridge](discrete-probability-bridge.qmd)
+- [Number Theory Basics](number-theory-basics.qmd)
+
+The strongest adjacent bridges are:
+
+- [Discrete Probability Bridge](discrete-probability-bridge.qmd)
+- [Counting and Combinatorics](counting-and-combinatorics.qmd)
+- [Recurrences and Asymptotics](recurrences-and-asymptotics.qmd)
+- [Control and Dynamics](../../../advanced/control-and-dynamics/index.qmd)
+
+## Optional Deeper Reading After First Pass
+
+- [MIT 6.1200J graph theory lecture](https://ocw.mit.edu/courses/6-1200j-mathematics-for-computer-science-spring-2024/mit6_1200j_s24_lec11.pdf) - official MIT lecture PDF for graph structure, paths, trees, and related definitions. Checked `2026-04-25`.
+- [MIT 6.042J Mathematics for Computer Science](https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-fall-2010/) - official MIT course page for the classic full discrete-math backbone. Checked `2026-04-25`.
+- [Stanford CS103 graphs lecture I](https://web.stanford.edu/class/archive/cs/cs103/cs103.1252/lectures/05/) - official lecture page for the first graphs pass in a modern discrete-structures course. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [MIT 6.1200J graph theory lecture](https://ocw.mit.edu/courses/6-1200j-mathematics-for-computer-science-spring-2024/mit6_1200j_s24_lec11.pdf) - `First pass` - official lecture PDF for graph basics, degree ideas, and trees. Checked `2026-04-25`.
+- [MIT 6.1200J Mathematics for Computer Science](https://ocw.mit.edu/courses/6-1200j-mathematics-for-computer-science-spring-2024/) - `Second pass` - official course hub connecting graphs with recurrences, asymptotics, and probability. Checked `2026-04-25`.
+- [MIT 6.042J Mathematics for Computer Science](https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-fall-2010/) - `Second pass` - classic official MIT course page for the broader discrete-math sequence. Checked `2026-04-25`.
+- [Stanford CS103 graphs lecture I](https://web.stanford.edu/class/archive/cs/cs103/cs103.1252/lectures/05/) - `First pass` - official lecture page for graph basics and structural interpretation. Checked `2026-04-25`.
+- [Stanford CS103 graphs lecture II](https://web.stanford.edu/class/archive/cs/cs103/cs103.1252/lectures/06/) - `Second pass` - official continuation page for deeper graph and relation structure. Checked `2026-04-25`.
+- [CMU 15-151 course page](https://www.cs.cmu.edu/~15151/) - `Second pass` - official course hub for proof-oriented discrete mathematics with graph-theoretic flavor. Checked `2026-04-25`.
+
+Sources checked online on `2026-04-25`:
+
+- MIT 6.1200J lecture 11
+- MIT 6.1200J course page
+- MIT 6.042J course page
+- Stanford CS103 graphs lecture I
+- Stanford CS103 graphs lecture II
+- CMU 15-151 course page
