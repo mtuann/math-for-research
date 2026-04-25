@@ -1,0 +1,326 @@
+---
+title: "Trace, Determinant, and Matrix Functions"
+description: "How trace and determinant summarize spectrum, and how functions like square root, inverse, logarithm, and exponential act on matrices through their eigenvalues."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: matrix-analysis
+prerequisites:
+  - /topics/advanced/matrix-analysis/concepts/perturbation-and-stability.qmd
+  - /topics/advanced/matrix-analysis/concepts/positive-semidefinite-matrices-and-quadratic-forms.qmd
+  - /topics/foundation/linear-algebra/index.qmd
+learning-goals:
+  - "Understand trace and determinant as spectral summaries rather than isolated formulas."
+  - "Know the first-pass spectral definitions of common matrix functions for symmetric matrices."
+  - "Recognize when square root, inverse, logarithm, and exponential are naturally defined."
+  - "See why these objects appear in ODEs, Gaussian models, kernels, and optimization."
+applications:
+  - optimization
+  - random-matrices
+  - machine-learning-theory
+keywords:
+  - trace
+  - determinant
+  - matrix exponential
+  - matrix logarithm
+  - matrix square root
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/matrix-analysis/index.qmd
+  - /topics/advanced/matrix-analysis/concepts/perturbation-and-stability.qmd
+  - /topics/advanced/optimization/index.qmd
+  - /applications/machine-learning/kernel-ridge-and-gaussian-process-intuition.qmd
+stable-sources:
+  - "MIT 18.06 Linear Algebra"
+  - "MIT 18.03SC Differential Equations"
+  - "Convex Optimization by Boyd and Vandenberghe"
+current-sources:
+  - "MIT 18.06 lecture notes"
+  - "MIT 18.03SC matrix exponentials"
+  - "The Exponential Matrix notes"
+  - "Stanford EE364a course page"
+---
+
+## Role
+
+This is the fifth page of the `Matrix Analysis` module.
+
+The earlier pages built the operator, PSD, spectral, and perturbation language.
+
+This page closes the first pass by showing how spectral information gets compressed into scalar summaries and functional calculus.
+
+The key shift is:
+
+`once eigenvalues matter, many scalar functions can be applied to matrices through the spectrum`
+
+## First-Pass Promise
+
+Read this page after `Perturbation and Stability`.
+
+If you stop here, you should still understand:
+
+- why trace and determinant are spectral summaries
+- how symmetric matrix functions are defined by acting on eigenvalues
+- when square root, inverse, logarithm, and exponential make sense
+- why these objects appear in ODEs, Gaussian models, kernels, and optimization
+
+## Why It Matters
+
+Many advanced formulas are really about trace, determinant, or a matrix function:
+
+- `trace` summarizes total spectral mass
+- `determinant` summarizes signed volume scaling and invertibility
+- `log det` appears in Gaussian likelihoods and barrier methods
+- $A^{-1}$ and $A^{-1/2}$ appear in whitening and preconditioning
+- $e^{tA}$ appears in linear dynamics and diffusion
+
+Without the spectral viewpoint, these can feel like disconnected tricks.
+
+With the spectral viewpoint, they are all versions of the same idea:
+
+`understand the matrix by understanding what happens to its eigenvalues`
+
+## Prerequisite Recall
+
+- symmetric matrices admit orthonormal eigendecompositions
+- PSD and positive definite matrices have nonnegative or positive eigenvalues
+- perturbation theory tells us when spectral summaries are stable
+- eigenvalues and singular values are operator-level information, not entrywise information
+
+## Intuition
+
+### Trace And Determinant As Spectral Summaries
+
+The trace adds eigenvalues.
+
+The determinant multiplies eigenvalues.
+
+So they are not arbitrary formulas: they compress the spectrum in two different ways.
+
+### Matrix Functions From Scalar Functions
+
+If a symmetric matrix diagonalizes as
+
+$$
+A = Q \Lambda Q^\top,
+$$
+
+then any reasonable scalar function $f$ can be applied to the diagonal entries of $\Lambda$:
+
+$$
+f(A)=Q f(\Lambda) Q^\top.
+$$
+
+This is the cleanest first-pass definition of a matrix function.
+
+### Domain Restrictions Matter
+
+Not every scalar function makes sense on every spectrum.
+
+For example:
+
+- $A^{-1}$ needs nonzero eigenvalues
+- $\log(A)$ needs positive eigenvalues
+- $A^{1/2}$ needs nonnegative eigenvalues if we want a real symmetric square root
+
+So the eigenvalue domain tells you when the matrix function is legal.
+
+## Formal Core
+
+::: {#thm-trace-spectrum}
+## Theorem Idea: Trace Is The Sum Of Eigenvalues
+
+For a square matrix, the trace equals the sum of its eigenvalues, counted with algebraic multiplicity:
+
+$$
+\operatorname{tr}(A)=\sum_i \lambda_i.
+$$
+:::
+
+In the symmetric case, this is especially transparent because the eigendecomposition is orthogonal.
+
+::: {#thm-det-spectrum}
+## Theorem Idea: Determinant Is The Product Of Eigenvalues
+
+For a square matrix,
+
+$$
+\det(A)=\prod_i \lambda_i.
+$$
+
+In particular, $A$ is invertible if and only if $\det(A)\neq 0$.
+:::
+
+This is the spectral version of the volume-scaling picture.
+
+::: {#thm-trace-cyclic}
+## Theorem Idea: Trace Is Cyclic
+
+Whenever the products are defined,
+
+$$
+\operatorname{tr}(AB)=\operatorname{tr}(BA).
+$$
+:::
+
+At first pass, this is one of the most useful algebraic identities involving trace.
+
+::: {#def-matrix-function-symmetric}
+## Definition: Matrix Function For A Symmetric Matrix
+
+If
+
+$$
+A=Q\Lambda Q^\top
+$$
+
+with $Q$ orthogonal and $\Lambda=\operatorname{diag}(\lambda_1,\dots,\lambda_n)$, then for a scalar function $f$ defined on the eigenvalues,
+
+$$
+f(A)=Q\,\operatorname{diag}(f(\lambda_1),\dots,f(\lambda_n))\,Q^\top.
+$$
+:::
+
+This is the cleanest first-pass route to matrix square roots, inverses, logarithms, and exponentials.
+
+::: {#thm-spd-functions}
+## Theorem Idea: SPD Matrices Support The Most Useful First-Pass Functions
+
+If $A$ is symmetric positive definite, then the following are well-defined through the spectrum:
+
+- $A^{-1}$
+- $A^{1/2}$
+- $\log(A)$
+- $\exp(A)$
+
+and they preserve the same eigenvectors while transforming the eigenvalues entrywise.
+:::
+
+For example, if $A=Q\Lambda Q^\top$ with $\lambda_i>0$, then
+
+$$
+\log(A)=Q\,\operatorname{diag}(\log \lambda_i)\,Q^\top.
+$$
+
+## Worked Example
+
+Let
+
+$$
+A=
+\begin{bmatrix}
+4 & 0\\
+0 & 1
+\end{bmatrix}.
+$$
+
+Then the eigenvalues are $4$ and $1$, so
+
+$$
+\operatorname{tr}(A)=4+1=5,
+\qquad
+\det(A)=4\cdot 1=4.
+$$
+
+Because $A$ is symmetric positive definite, several matrix functions are immediately available:
+
+$$
+A^{1/2}=
+\begin{bmatrix}
+2 & 0\\
+0 & 1
+\end{bmatrix},
+\qquad
+A^{-1}=
+\begin{bmatrix}
+1/4 & 0\\
+0 & 1
+\end{bmatrix},
+$$
+
+$$
+\log(A)=
+\begin{bmatrix}
+\log 4 & 0\\
+0 & 0
+\end{bmatrix},
+\qquad
+\exp(A)=
+\begin{bmatrix}
+e^4 & 0\\
+0 & e
+\end{bmatrix}.
+$$
+
+So one eigendecomposition gives many useful objects at once.
+
+This is the matrix-function viewpoint in its simplest form.
+
+## Computation Lens
+
+When a theorem contains trace, determinant, or a matrix function, ask:
+
+1. is this really a statement about the eigenvalues?
+2. is the matrix symmetric or PSD/PD?
+3. is the function defined on the whole spectrum?
+4. do we want a scalar summary like `trace` or `log det`, or a transformed matrix like $A^{-1/2}$ or $e^{tA}$?
+
+Those questions usually expose the underlying linear-algebra structure.
+
+## Application Lens
+
+### Linear Dynamics
+
+The matrix exponential $e^{tA}$ solves linear systems of ODEs and turns eigenvalue structure into growth and decay rates.
+
+### Gaussian Models And Optimization
+
+Covariance matrices are SPD, so trace, inverse, and `log det` appear naturally in Gaussian likelihoods, regularization, and barrier methods.
+
+### Kernels, Whitening, And Geometry
+
+Matrix square roots and inverse square roots appear in whitening, Mahalanobis geometry, kernel normalization, and covariance transport.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- why trace sums eigenvalues
+- why determinant multiplies eigenvalues
+- how a symmetric matrix function is defined spectrally
+- why SPD structure is what makes inverse, square root, and logarithm especially clean
+
+then this page has done its job.
+
+## Go Deeper
+
+This page closes the first-pass `Matrix Analysis` spine.
+
+The strongest adjacent live pages right now are:
+
+- [Perturbation and Stability](perturbation-and-stability.qmd)
+- [Optimization](../../optimization/index.qmd)
+- [Kernel Ridge and Gaussian-Process Intuition](../../../../applications/machine-learning/kernel-ridge-and-gaussian-process-intuition.qmd)
+- [Random Matrices and Spectral Concentration](../../high-dimensional-probability/concepts/random-matrices-and-spectral-concentration.qmd)
+
+## Optional Deeper Reading After First Pass
+
+The strongest current references connected to this page are:
+
+- [MIT 18.06 lecture notes](https://www.mit.edu/~18.06/Fall19/Lecture%20notes.pdf) - official notes for trace, determinant, eigenvalues, and diagonalization background. Checked `2026-04-25`.
+- [MIT 18.03SC Matrix Exponentials](https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-iv-first-order-systems/matrix-exponentials/) - official unit page connecting matrix functions to linear dynamics. Checked `2026-04-25`.
+- [The Exponential Matrix notes](https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/0ce856b9367d1de2fcd774815cc7b137_MIT18_03SCF11_s35_7text.pdf) - official notes for the cleanest first-pass route to the matrix exponential. Checked `2026-04-25`.
+- [Stanford EE364a: Convex Optimization I](https://web.stanford.edu/class/ee364a/index.html) - official current course page where trace and `log det` repeatedly appear in convex and semidefinite modeling. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [MIT 18.06 lecture notes](https://www.mit.edu/~18.06/Fall19/Lecture%20notes.pdf) - `First pass` - official notes for trace, determinant, eigenvalue, and diagonalization background. Checked `2026-04-25`.
+- [MIT 18.03SC Matrix Exponentials](https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-iv-first-order-systems/matrix-exponentials/) - `First pass` - official unit page connecting spectral structure to matrix exponentials. Checked `2026-04-25`.
+- [The Exponential Matrix notes](https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/0ce856b9367d1de2fcd774815cc7b137_MIT18_03SCF11_s35_7text.pdf) - `Second pass` - official notes for the matrix-exponential viewpoint used in ODEs and linear systems. Checked `2026-04-25`.
+- [Stanford EE364a: Convex Optimization I](https://web.stanford.edu/class/ee364a/index.html) - `Second pass` - official course page where trace and `log det` feed into optimization models and PSD reasoning. Checked `2026-04-25`.

@@ -17,8 +17,8 @@ Use it to track:
 
 ## Current Snapshot
 
-- `179` `.qmd` pages currently exist
-- `63` concept-topic pages currently exist
+- `185` `.qmd` pages currently exist
+- `68` concept-topic pages currently exist
 - strongest subjects so far: `Linear Algebra`, `Probability`, `Proofs`, `Logic`, `Statistics`, `Single-Variable Calculus`, `Multivariable Calculus`, `Optimization`, `Real Analysis`
 - strongest public-facing bridge so far: `Applications > Machine Learning`
 - non-topic sections already scaffolded: `Start Here`, `Roadmaps`, `Applications`, `Paper Lab`, `Research`, `Publication`, `Library`, `Notes`
@@ -270,11 +270,12 @@ These are not required before the main spine is public, but they are the next hi
 
 ### Matrix Analysis
 
-- [ ] `Norms and operator norms`
-- [ ] `Positive semidefinite matrices`
-- [ ] `Spectral inequalities`
-- [ ] `Perturbation and stability`
-- [ ] `Trace, determinant, and matrix functions`
+- [x] `Matrix Analysis index`
+- [x] `Norms and operator norms`
+- [x] `Positive semidefinite matrices and quadratic forms`
+- [x] `Spectral inequalities and variational principles`
+- [x] `Perturbation and stability`
+- [x] `Trace, determinant, and matrix functions`
 
 ### Learning Theory
 

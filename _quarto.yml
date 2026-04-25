@@ -135,6 +135,14 @@ website:
               - topics/advanced/optimization/concepts/constrained-optimization-kkt-and-lagrangians.qmd
               - topics/advanced/optimization/concepts/unconstrained-first-order-methods.qmd
               - topics/advanced/optimization/concepts/duality-and-certificates.qmd
+          - section: "Matrix Analysis"
+            contents:
+              - topics/advanced/matrix-analysis/index.qmd
+              - topics/advanced/matrix-analysis/concepts/norms-and-operator-norms.qmd
+              - topics/advanced/matrix-analysis/concepts/positive-semidefinite-matrices-and-quadratic-forms.qmd
+              - topics/advanced/matrix-analysis/concepts/spectral-inequalities-and-variational-principles.qmd
+              - topics/advanced/matrix-analysis/concepts/perturbation-and-stability.qmd
+              - topics/advanced/matrix-analysis/concepts/trace-determinant-and-matrix-functions.qmd
           - section: "Learning Theory"
             contents:
               - topics/advanced/learning-theory/index.qmd

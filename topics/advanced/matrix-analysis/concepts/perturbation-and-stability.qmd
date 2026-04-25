@@ -1,0 +1,338 @@
+---
+title: "Perturbation and Stability"
+description: "How operator-norm perturbations move eigenvalues, singular values, and eigenspaces, and why spectral gaps are the main first-pass control knob for stability."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: matrix-analysis
+prerequisites:
+  - /topics/advanced/matrix-analysis/concepts/spectral-inequalities-and-variational-principles.qmd
+  - /topics/advanced/matrix-analysis/concepts/norms-and-operator-norms.qmd
+  - /topics/foundation/linear-algebra/index.qmd
+learning-goals:
+  - "Understand why perturbation questions are naturally measured in operator norm."
+  - "Know the first-pass stability story for symmetric eigenvalues and singular values."
+  - "Recognize why eigenspace stability requires a spectral gap."
+  - "Use perturbation language to read covariance, PCA, kernel, and Hessian arguments more confidently."
+applications:
+  - random-matrices
+  - optimization
+  - machine-learning-theory
+keywords:
+  - perturbation theory
+  - Weyl inequality
+  - singular value stability
+  - Davis-Kahan
+  - spectral gap
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/matrix-analysis/index.qmd
+  - /topics/advanced/matrix-analysis/concepts/spectral-inequalities-and-variational-principles.qmd
+  - /topics/advanced/high-dimensional-probability/concepts/random-matrices-and-spectral-concentration.qmd
+  - /applications/machine-learning/kernel-ridge-and-gaussian-process-intuition.qmd
+stable-sources:
+  - "MIT 18.06 Linear Algebra"
+  - "MIT 18.065 Matrix Methods in Data Analysis, Signal Processing, and Machine Learning"
+  - "Cornell CS6210 Matrix Computations"
+current-sources:
+  - "Cornell CS6210 perturbation theory notes"
+  - "Cornell CS6210 matrix computations notes"
+  - "MIT 18.065 eigenvalue and singular-value lecture"
+  - "MIT 18.06 lecture notes"
+---
+
+## Role
+
+This is the fourth page of the `Matrix Analysis` module.
+
+The previous page turned symmetric matrix questions into variational max/min problems.
+
+This page asks the next natural question:
+
+`if the matrix changes a little, how much do the spectral objects change?`
+
+That is the core perturbation viewpoint.
+
+## First-Pass Promise
+
+Read this page after `Spectral Inequalities and Variational Principles`.
+
+If you stop here, you should still understand:
+
+- why operator norm is the natural first-pass size for perturbations
+- why symmetric eigenvalues and singular values are stable under small perturbations
+- why eigenspaces need a spectral gap in order to stay stable
+- why covariance, PCA, kernels, and Hessian arguments keep talking about perturbation
+
+## Why It Matters
+
+Real matrices are almost never observed exactly.
+
+They come from:
+
+- noisy samples
+- finite precision
+- estimated covariance matrices
+- approximate Hessians
+- truncated kernels and low-rank approximations
+
+So advanced arguments constantly ask:
+
+- if the matrix estimate is close, are the top eigenvalues close?
+- do the leading eigenvectors stay meaningful?
+- how large does the spectral gap need to be?
+- what quantity is actually stable enough to trust?
+
+Perturbation theory is the language for turning `matrix close` into `spectral close`.
+
+## Prerequisite Recall
+
+- operator norm measures worst-case amplification
+- Rayleigh quotients give variational formulas for extreme eigenvalues
+- singular values measure operator size even for nonsymmetric matrices
+- PSD and symmetric structure make spectral reasoning much cleaner
+
+## Intuition
+
+### Stable Objects Differ By Type
+
+Not every spectral quantity reacts to perturbation in the same way.
+
+At a first pass:
+
+- symmetric eigenvalues are stable
+- singular values are stable
+- eigenspaces are stable only when separated by a gap
+
+That is why perturbation arguments usually start by saying what object they want to control.
+
+### Why Symmetry Helps
+
+For symmetric matrices, eigenvalues come from max/min principles.
+
+That variational structure forces the spectrum to move in a controlled way when the matrix changes by a small operator-norm amount.
+
+For general nonsymmetric matrices, eigenvalues can be much more delicate.
+
+So the clean first-pass stability story lives in the symmetric and singular-value settings.
+
+### Why Gaps Matter
+
+Suppose the top two eigenvalues are almost tied.
+
+Then a tiny perturbation can rotate the corresponding top eigenspace a lot, because the matrix has almost no preference between those nearby directions.
+
+If the gap is large, the preferred direction is much more robust.
+
+So eigenspace stability is really a `signal versus gap` story.
+
+## Formal Core
+
+::: {#def-perturbation-size}
+## Definition: Perturbation Size
+
+If a matrix $A$ is replaced by $A+E$, then $E$ is the perturbation.
+
+At a first pass, the most common size measure is the operator norm
+
+$$
+\|E\|_{\mathrm{op}}.
+$$
+:::
+
+::: {#thm-weyl-symmetric}
+## Theorem Idea: Symmetric Eigenvalues Are Stable In Operator Norm
+
+If $A$ and $A+E$ are real symmetric matrices, then their ordered eigenvalues satisfy
+
+$$
+|\lambda_i(A+E)-\lambda_i(A)| \le \|E\|_{\mathrm{op}}
+$$
+
+for every index $i$.
+:::
+
+This is the first-pass eigenvalue stability theorem to remember.
+
+::: {#thm-singular-value-perturbation}
+## Theorem Idea: Singular Values Are Stable In Operator Norm
+
+For any matrices $A$ and $A+E$ of the same size,
+
+$$
+|\sigma_i(A+E)-\sigma_i(A)| \le \|E\|_{\mathrm{op}}
+$$
+
+for every singular value index $i$.
+:::
+
+So singular values inherit a strong Lipschitz-type stability under operator-norm perturbations.
+
+::: {#def-spectral-gap}
+## Definition: Spectral Gap
+
+A spectral gap is a separation between the eigenvalue or singular-value block you care about and the nearby spectrum.
+
+At first pass, think of it as:
+
+`how far is the target spectral cluster from the rest?`
+:::
+
+::: {#thm-davis-kahan-idea}
+## Theorem Idea: Eigenspace Stability Needs A Gap
+
+If a symmetric matrix is perturbed by $E$, then the invariant subspace for a separated eigenvalue block changes by an amount on the order of
+
+$$
+\frac{\|E\|_{\mathrm{op}}}{\text{gap}}.
+$$
+
+This is the core Davis-Kahan idea.
+:::
+
+The message is not that subspaces are automatically stable.
+
+The message is:
+
+- small perturbation helps
+- large spectral gap helps
+- without a gap, eigendirections can rotate a lot
+
+## Worked Example
+
+Consider the symmetric matrix
+
+$$
+A=
+\begin{bmatrix}
+5 & 0\\
+0 & 1
+\end{bmatrix}
+$$
+
+and perturb it by
+
+$$
+E=
+\begin{bmatrix}
+0 & 0.2\\
+0.2 & 0
+\end{bmatrix}.
+$$
+
+Then
+
+$$
+\|E\|_{\mathrm{op}}=0.2.
+$$
+
+The perturbed matrix is
+
+$$
+A+E=
+\begin{bmatrix}
+5 & 0.2\\
+0.2 & 1
+\end{bmatrix}.
+$$
+
+Its eigenvalues are
+
+$$
+3 \pm \sqrt{4.04},
+$$
+
+which are approximately
+
+$$
+5.01 \quad \text{and} \quad 0.99.
+$$
+
+So the eigenvalue shifts are much smaller than the operator-norm bound $0.2$, exactly as Weyl's inequality permits.
+
+The original gap was
+
+$$
+5-1=4,
+$$
+
+which is large compared with the perturbation size.
+
+That is why the top eigendirection only rotates a little: the matrix still strongly prefers the first coordinate direction.
+
+This is the core first-pass perturbation picture:
+
+- eigenvalues move by at most operator-norm scale
+- eigendirections stay reliable when the gap is comfortably larger than the perturbation
+
+## Computation Lens
+
+When a theorem says that an estimated matrix is close to a target matrix, ask:
+
+1. close in what norm?
+2. do we care about eigenvalues, singular values, or eigenspaces?
+3. is there a spectral gap?
+4. is the perturbation small relative to that gap?
+
+Those four questions usually reveal the actual stability mechanism.
+
+## Application Lens
+
+### PCA And Covariance Estimation
+
+Sample covariance matrices are perturbations of population covariance matrices. Perturbation theory explains when top principal components remain meaningful.
+
+### Optimization
+
+Approximate Hessians are useful only when curvature summaries such as eigenvalues and dominant eigenspaces stay stable under approximation.
+
+### Kernels And Spectral ML
+
+Kernel matrices, graph Laplacians, and normalized operators are often estimated from finite data. Perturbation bounds explain when the learned spectral structure is trustworthy.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- why operator norm is the default perturbation scale
+- why symmetric eigenvalues and singular values are stable
+- why eigenspace stability needs a gap
+- why perturbation theorems appear constantly in PCA, kernels, and random-matrix arguments
+
+then this page has done its job.
+
+## Go Deeper
+
+After this page, the next natural step is:
+
+- [Trace, Determinant, and Matrix Functions](trace-determinant-and-matrix-functions.qmd)
+
+The strongest adjacent live pages right now are:
+
+- [Spectral Inequalities and Variational Principles](spectral-inequalities-and-variational-principles.qmd)
+- [Trace, Determinant, and Matrix Functions](trace-determinant-and-matrix-functions.qmd)
+- [Random Matrices and Spectral Concentration](../../high-dimensional-probability/concepts/random-matrices-and-spectral-concentration.qmd)
+- [High-Dimensional Probability for Learning Theory and Modern ML](../../high-dimensional-probability/concepts/high-dimensional-probability-for-learning-theory-and-modern-ml.qmd)
+- [Kernel Ridge and Gaussian-Process Intuition](../../../../applications/machine-learning/kernel-ridge-and-gaussian-process-intuition.qmd)
+
+## Optional Deeper Reading After First Pass
+
+The strongest current references connected to this page are:
+
+- [Cornell CS6210 perturbation theory notes](https://www.cs.cornell.edu/courses/cs6210/2025fa/lec/2025-10-22.html) - official current notes for first-order eigenvalue sensitivity and perturbation language. Checked `2026-04-25`.
+- [Cornell CS6210 matrix computations notes](https://www.cs.cornell.edu/courses/cs6210/2025fa/lec/2025-08-25.pdf) - official current notes that frame conditioning and operator-norm reasoning clearly. Checked `2026-04-25`.
+- [MIT 18.065: Computing Eigenvalues and Singular Values](https://ocw.mit.edu/courses/18-065-matrix-methods-in-data-analysis-signal-processing-and-machine-learning-spring-2018/resources/lecture-12-computing-eigenvalues-and-singular-values/) - official lecture page tied to spectral computation and stability ideas. Checked `2026-04-25`.
+- [MIT 18.06 lecture notes](https://www.mit.edu/~18.06/Fall19/Lecture%20notes.pdf) - official notes with the cleanest linear-algebra background for symmetric and singular-value structure. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [Cornell CS6210 perturbation theory notes](https://www.cs.cornell.edu/courses/cs6210/2025fa/lec/2025-10-22.html) - `First pass` - official perturbation notes with direct sensitivity formulas and stability framing. Checked `2026-04-25`.
+- [MIT 18.065: Computing Eigenvalues and Singular Values](https://ocw.mit.edu/courses/18-065-matrix-methods-in-data-analysis-signal-processing-and-machine-learning-spring-2018/resources/lecture-12-computing-eigenvalues-and-singular-values/) - `First pass` - official lecture page that helps connect spectral structure to numerical stability questions. Checked `2026-04-25`.
+- [Cornell CS6210 matrix computations notes](https://www.cs.cornell.edu/courses/cs6210/2025fa/lec/2025-08-25.pdf) - `Second pass` - official notes for matrix-conditioning language and operator-level reasoning. Checked `2026-04-25`.
+- [MIT 18.06 lecture notes](https://www.mit.edu/~18.06/Fall19/Lecture%20notes.pdf) - `Second pass` - official notes for the linear-algebra background behind the perturbation story. Checked `2026-04-25`.

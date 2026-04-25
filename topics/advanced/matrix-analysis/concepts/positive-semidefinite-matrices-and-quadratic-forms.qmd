@@ -1,0 +1,331 @@
+---
+title: "Positive Semidefinite Matrices and Quadratic Forms"
+description: "How symmetric matrices become geometric objects through quadratic forms, and why PSD structure sits at the center of optimization, covariance, kernels, and spectral reasoning."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: matrix-analysis
+prerequisites:
+  - /topics/advanced/matrix-analysis/concepts/norms-and-operator-norms.qmd
+  - /topics/foundation/linear-algebra/index.qmd
+learning-goals:
+  - "Define positive semidefinite and positive definite matrices through quadratic forms."
+  - "Recognize the main equivalent pictures of PSD structure at a first pass."
+  - "Understand why Gram matrices and covariance matrices are naturally PSD."
+  - "See why PSD language is central in optimization, kernels, and spectral arguments."
+applications:
+  - optimization
+  - machine-learning-theory
+  - high-dimensional-statistics
+keywords:
+  - positive semidefinite
+  - quadratic form
+  - Gram matrix
+  - covariance
+  - Cholesky
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/matrix-analysis/index.qmd
+  - /topics/advanced/matrix-analysis/concepts/norms-and-operator-norms.qmd
+  - /topics/advanced/optimization/index.qmd
+  - /applications/machine-learning/kernel-ridge-and-gaussian-process-intuition.qmd
+stable-sources:
+  - "Stanford EE364a"
+  - "Convex Optimization by Boyd and Vandenberghe"
+  - "MIT 18.06 Linear Algebra"
+current-sources:
+  - "MIT 18.065 positive semidefinite lecture"
+  - "MIT 18.06 positive definite lecture"
+  - "MIT 18.06 lecture notes"
+  - "Stanford EE364a course page"
+---
+
+## Role
+
+This is the second page of the `Matrix Analysis` module.
+
+The norms page treated matrices as operators that stretch vectors.
+
+This page treats a symmetric matrix as a quadratic object:
+
+$$
+x^\top A x.
+$$
+
+That shift is what makes PSD structure central in optimization, covariance geometry, kernels, and spectral proofs.
+
+## First-Pass Promise
+
+Read this page after `Norms and Operator Norms`.
+
+If you stop here, you should still understand:
+
+- what `positive semidefinite` means
+- why PSD is a statement about quadratic forms, not just entries
+- why Gram matrices and covariance matrices are automatically PSD
+- why PSD structure appears constantly in optimization and ML theory
+
+## Why It Matters
+
+Many of the most important matrices in modern theory are not arbitrary.
+
+They are PSD:
+
+- covariance matrices
+- Gram and kernel matrices
+- Hessians of convex quadratics
+- graph Laplacians
+- normal-equation matrices like $X^\top X$
+
+PSD structure matters because it gives:
+
+- nonnegative energies
+- nonnegative eigenvalues
+- factorization as a square-like object
+- a partial order that supports comparison arguments later
+
+## Prerequisite Recall
+
+- operator norms measure worst-case amplification
+- symmetric matrices have real eigenvalues
+- quadratic expressions like $x^\top A x$ encode geometric information
+- Hessians and quadratic objectives are good examples of where this language appears
+
+## Intuition
+
+### Quadratic Forms
+
+Given a symmetric matrix $A$, the expression
+
+$$
+x^\top A x
+$$
+
+measures a direction-dependent energy.
+
+If this quantity is always nonnegative, then the matrix never bends space in a genuinely negative direction.
+
+That is the PSD condition.
+
+### Why Symmetry Matters
+
+PSD language belongs naturally to symmetric matrices.
+
+Without symmetry, the quadratic-form picture and spectral picture no longer line up cleanly.
+
+### Gram And Covariance Pictures
+
+If
+
+$$
+A = B^\top B,
+$$
+
+then
+
+$$
+x^\top A x = \|Bx\|_2^2 \ge 0.
+$$
+
+That is the cleanest PSD intuition:
+
+`a PSD matrix is something that looks like a squared linear map`
+
+This is why Gram matrices and covariance matrices keep showing up here.
+
+## Formal Core
+
+::: {#def-psd}
+## Definition: Positive Semidefinite
+
+A symmetric matrix $A$ is `positive semidefinite` if
+
+$$
+x^\top A x \ge 0
+\qquad
+\text{for all }x.
+$$
+:::
+
+If the inequality is strict for every nonzero $x$, then $A$ is `positive definite`.
+
+::: {#thm-psd-equivalences}
+## Theorem Idea: Equivalent PSD Pictures
+
+For a symmetric matrix $A$, the following first-pass pictures line up:
+
+- $A$ is positive semidefinite
+- every eigenvalue of $A$ is nonnegative
+- $A$ can be written as $B^\top B$ for some matrix $B$
+:::
+
+These are the main equivalent ways of recognizing PSD structure.
+
+::: {#thm-gram-cov-psd}
+## Theorem Idea: Gram And Covariance Matrices Are PSD
+
+Matrices of the form
+
+$$
+G_{ij}=\langle v_i,v_j\rangle
+$$
+
+and covariance-type matrices of the form
+
+$$
+\Sigma = \mathbb E[(X-\mu)(X-\mu)^\top]
+$$
+
+are positive semidefinite.
+:::
+
+That is why PSD language appears so naturally in machine learning and statistics.
+
+::: {#thm-pd-minima}
+## Theorem Idea: Positive Definiteness Means Strict Curvature
+
+If a quadratic objective has Hessian matrix $A$ and $A$ is positive definite, then the quadratic bends upward in every nonzero direction.
+:::
+
+This is one of the simplest bridges from linear algebra to optimization.
+
+## Worked Example
+
+Consider
+
+$$
+A=
+\begin{bmatrix}
+1 & 1\\
+1 & 1
+\end{bmatrix}.
+$$
+
+Then
+
+$$
+x^\top A x
+=
+\begin{bmatrix}
+x_1 & x_2
+\end{bmatrix}
+\begin{bmatrix}
+1 & 1\\
+1 & 1
+\end{bmatrix}
+\begin{bmatrix}
+x_1\\
+x_2
+\end{bmatrix}
+=
+(x_1+x_2)^2.
+$$
+
+So
+
+$$
+x^\top A x \ge 0
+\qquad \text{for all }x,
+$$
+
+which means $A$ is PSD.
+
+But it is not positive definite, because if $x=(1,-1)$ then
+
+$$
+x^\top A x = 0
+$$
+
+even though $x\neq 0$.
+
+This is a good first-pass example because it shows:
+
+- PSD allows zero-energy directions
+- PD rules them out
+- a PSD matrix can still be singular
+
+It also has the Gram form
+
+$$
+A = v v^\top
+\qquad \text{with } v=(1,1)^\top,
+$$
+
+so the `B^\top B` picture is visible immediately.
+
+## Computation Lens
+
+When checking whether a matrix is PSD in practice, you usually do not test infinitely many vectors.
+
+Instead, you use one of the equivalent pictures:
+
+1. verify symmetry
+2. inspect eigenvalues
+3. identify a Gram or covariance form
+4. in positive-definite cases, use a Cholesky factorization when appropriate
+
+That is why PSD structure is both theoretically clean and computationally useful.
+
+## Application Lens
+
+### Optimization
+
+Convex quadratic objectives and many Hessian-based arguments are really PSD statements in disguise.
+
+### Statistics
+
+Covariance matrices are PSD by construction, so variance geometry already lives in this language.
+
+### Machine Learning
+
+Kernel matrices, Gram matrices, and normal-equation matrices like $X^\top X$ are PSD, which is why PSD structure keeps appearing in regression, kernels, Gaussian processes, and high-dimensional theory.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- why PSD is a quadratic-form condition
+- why nonnegative eigenvalues are the spectral picture of PSD structure
+- why Gram and covariance matrices are naturally PSD
+- why PSD does not mean invertible or strictly positive in every direction
+
+then this page has done its job.
+
+## Go Deeper
+
+This is the current stopping point of the live `Matrix Analysis` opening.
+
+The next natural module steps are:
+
+- [Spectral Inequalities and Variational Principles](spectral-inequalities-and-variational-principles.qmd)
+- `Perturbation and Stability`
+
+Until those pages are live, the strongest adjacent pages right now are:
+
+- [Norms and Operator Norms](norms-and-operator-norms.qmd)
+- [Spectral Inequalities and Variational Principles](spectral-inequalities-and-variational-principles.qmd)
+- [Optimization](../../optimization/index.qmd)
+- [Kernel Ridge and Gaussian-Process Intuition](../../../../applications/machine-learning/kernel-ridge-and-gaussian-process-intuition.qmd)
+- [Random Matrices and Spectral Concentration](../../high-dimensional-probability/concepts/random-matrices-and-spectral-concentration.qmd)
+
+## Optional Deeper Reading After First Pass
+
+The strongest current references connected to this page are:
+
+- [MIT 18.065 Lecture 5: Positive Definite and Semidefinite Matrices](https://live.ocw.mit.edu/courses/18-065-matrix-methods-in-data-analysis-signal-processing-and-machine-learning-spring-2018/resources/lecture-5-positive-definite-and-semidefinite-matrices/) - official lecture page centered exactly on PSD ideas. Checked `2026-04-25`.
+- [MIT 18.06SC Lecture 27: Positive Definite Matrices and Minima](https://ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/resources/lecture-27-positive-definite-matrices-and-minima/) - official lecture page connecting PSD structure to minima and quadratic geometry. Checked `2026-04-25`.
+- [MIT 18.06 lecture notes](https://www.mit.edu/~18.06/Fall19/Lecture%20notes.pdf) - official notes with clean PSD equivalences and examples. Checked `2026-04-25`.
+- [Stanford EE364a: Convex Optimization I](https://web.stanford.edu/class/ee364a/index.html) - official course page where PSD matrices and semidefinite constraints are standard language. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [MIT 18.065 Lecture 5: Positive Definite and Semidefinite Matrices](https://live.ocw.mit.edu/courses/18-065-matrix-methods-in-data-analysis-signal-processing-and-machine-learning-spring-2018/resources/lecture-5-positive-definite-and-semidefinite-matrices/) - `First pass` - official lecture page focused directly on PSD structure. Checked `2026-04-25`.
+- [MIT 18.06SC Lecture 27: Positive Definite Matrices and Minima](https://ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/resources/lecture-27-positive-definite-matrices-and-minima/) - `First pass` - official lecture page connecting positive definiteness to minima and quadratic forms. Checked `2026-04-25`.
+- [MIT 18.06 lecture notes](https://www.mit.edu/~18.06/Fall19/Lecture%20notes.pdf) - `First pass` - official notes with clean PSD equivalences, examples, and spectral language. Checked `2026-04-25`.
+- [Stanford EE364a: Convex Optimization I](https://web.stanford.edu/class/ee364a/index.html) - `Second pass` - official optimization course page where PSD structure becomes part of broader convex-analysis language. Checked `2026-04-25`.

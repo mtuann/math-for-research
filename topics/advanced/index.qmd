@@ -18,6 +18,7 @@ The advanced track is where the site moves into:
 
 - [Real Analysis](real-analysis/index.qmd)
 - [Optimization](optimization/index.qmd)
+- [Matrix Analysis](matrix-analysis/index.qmd)
 - [Learning Theory](learning-theory/index.qmd)
 - [High-Dimensional Probability](high-dimensional-probability/index.qmd)
 
@@ -46,6 +47,20 @@ This module is where the site makes limits, continuity, compactness, and theorem
 - [Duality and Certificates](optimization/concepts/duality-and-certificates.qmd)
 
 It is the natural bridge from the foundation stack into convexity, duality, certificates, first-order methods, and research-facing mathematical modeling.
+
+## Matrix Analysis
+
+[Matrix Analysis](matrix-analysis/index.qmd) is the operator-level bridge between linear algebra and modern theory-facing math.
+
+Its current first-pass spine is:
+
+- [Norms and Operator Norms](matrix-analysis/concepts/norms-and-operator-norms.qmd)
+- [Positive Semidefinite Matrices and Quadratic Forms](matrix-analysis/concepts/positive-semidefinite-matrices-and-quadratic-forms.qmd)
+- [Spectral Inequalities and Variational Principles](matrix-analysis/concepts/spectral-inequalities-and-variational-principles.qmd)
+- [Perturbation and Stability](matrix-analysis/concepts/perturbation-and-stability.qmd)
+- [Trace, Determinant, and Matrix Functions](matrix-analysis/concepts/trace-determinant-and-matrix-functions.qmd)
+
+This module is where the site turns matrices into operator-sized, spectral, quadratic-form, and matrix-function objects instead of only arrays with eigenvalues.
 
 ## Learning Theory
 
@@ -81,5 +96,4 @@ This module is where the site shifts from scalar probability intuition to non-as
 ## Planned Next Advanced Modules
 
 - `Numerical Methods`
-- `Matrix Analysis`
 - `High-Dimensional Statistics`

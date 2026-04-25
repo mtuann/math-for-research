@@ -1,0 +1,162 @@
+---
+title: "Matrix Analysis"
+description: "Operator norms, positive semidefinite structure, spectral inequalities, perturbation, and matrix functions as the operator-level bridge between linear algebra and modern theory."
+page-type: module-overview
+status: published
+update-status: current
+level: advanced
+topic: matrix-analysis
+prerequisites:
+  - /topics/foundation/linear-algebra/index.qmd
+learning-goals:
+  - "Understand why matrix analysis goes beyond first-pass linear algebra."
+  - "Know the intended first-pass order for the matrix-analysis module."
+  - "Connect norms, PSD structure, spectra, and perturbation language to optimization, learning theory, and high-dimensional probability."
+applications:
+  - optimization
+  - machine-learning-theory
+  - random-matrices
+keywords:
+  - matrix analysis
+  - operator norm
+  - positive semidefinite
+  - perturbation
+  - spectral inequalities
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+stable-sources:
+  - "Stanford EE364a"
+  - "Convex Optimization by Boyd and Vandenberghe"
+  - "MIT 18.06 Linear Algebra"
+current-sources:
+  - "Stanford EE364a course page"
+  - "Boyd and Vandenberghe book page"
+  - "MIT 18.06 lecture notes"
+  - "Cornell CS6210 matrix computations notes"
+---
+
+## Why This Module Matters
+
+Linear algebra teaches vectors, subspaces, eigenvalues, and SVD.
+
+Matrix analysis asks the next layer of questions:
+
+- how large is an operator, not just an entry
+- when is a matrix positive semidefinite as a quadratic object
+- how do spectra move under perturbation
+- how do trace, determinant, and matrix functions encode geometry
+
+That operator-level language appears everywhere in the site's advanced stack:
+
+- [Optimization](../optimization/index.qmd)
+- [Learning Theory](../learning-theory/index.qmd)
+- [High-Dimensional Probability](../high-dimensional-probability/index.qmd)
+- kernels, Gaussian processes, graph diffusion, covariance estimation, and random-matrix arguments
+
+This module is the bridge from first-pass linear algebra to the matrix language used in modern theory papers.
+
+::: {.meta-strip}
+::: {.meta-box}
+**Prerequisites**
+[Linear Algebra](../../foundation/linear-algebra/index.qmd) should come first. [Optimization](../optimization/index.qmd) is a strong adjacent module because PSD matrices, quadratic forms, and operator norms show up constantly there, but it is not required before a first pass here. [Real Analysis](../real-analysis/index.qmd) becomes more useful once the module reaches perturbation and matrix-function ideas.
+:::
+::: {.meta-box}
+**Unlocks**
+PSD order, operator bounds, perturbation language, covariance/Gram matrix reasoning, spectral proof tools
+:::
+::: {.meta-box}
+**Research Use**
+Reading papers that use Hessians, covariance operators, kernel matrices, Laplacians, spectral gaps, or stability under perturbation
+:::
+:::
+
+## First Pass Through This Module
+
+The intended first-pass spine for this module is:
+
+1. [Norms and Operator Norms](concepts/norms-and-operator-norms.qmd)
+2. [Positive Semidefinite Matrices and Quadratic Forms](concepts/positive-semidefinite-matrices-and-quadratic-forms.qmd)
+3. [Spectral Inequalities and Variational Principles](concepts/spectral-inequalities-and-variational-principles.qmd)
+4. [Perturbation and Stability](concepts/perturbation-and-stability.qmd)
+5. [Trace, Determinant, and Matrix Functions](concepts/trace-determinant-and-matrix-functions.qmd)
+
+This module now forms a complete five-page first-pass spine, moving from operator size to PSD geometry, variational spectral control, perturbation stability, and spectral summaries / matrix functions.
+
+## How To Use This Module
+
+Read this module in spine order.
+
+For a clean first pass, that means:
+
+1. start with [Norms and Operator Norms](concepts/norms-and-operator-norms.qmd)
+2. continue to [Positive Semidefinite Matrices and Quadratic Forms](concepts/positive-semidefinite-matrices-and-quadratic-forms.qmd)
+3. continue to [Spectral Inequalities and Variational Principles](concepts/spectral-inequalities-and-variational-principles.qmd)
+4. continue to [Perturbation and Stability](concepts/perturbation-and-stability.qmd)
+5. finish with [Trace, Determinant, and Matrix Functions](concepts/trace-determinant-and-matrix-functions.qmd)
+6. then use nearby live pages in [Linear Algebra](../../foundation/linear-algebra/index.qmd), [Optimization](../optimization/index.qmd), and [High-Dimensional Probability](../high-dimensional-probability/index.qmd) when a theorem talks about spectra, covariance, Hessians, or operator control
+
+This module should stay compact and proof-tool-oriented rather than repeating the whole linear algebra curriculum.
+
+## Core Concepts
+
+- [Norms and Operator Norms](concepts/norms-and-operator-norms.qmd): the opening page that turns matrices into size-measuring operators rather than just arrays of entries.
+- [Positive Semidefinite Matrices and Quadratic Forms](concepts/positive-semidefinite-matrices-and-quadratic-forms.qmd): the page where PSD structure, Gram matrices, and covariance geometry become explicit.
+- [Spectral Inequalities and Variational Principles](concepts/spectral-inequalities-and-variational-principles.qmd): the page that turns quadratic-form reasoning into eigenvalue bounds and variational spectral control.
+- [Perturbation and Stability](concepts/perturbation-and-stability.qmd): the page that explains how small matrix changes move eigenvalues, singular values, and subspaces.
+- [Trace, Determinant, and Matrix Functions](concepts/trace-determinant-and-matrix-functions.qmd): the page that connects algebraic summaries back to geometry and operator calculus.
+
+## Proof Patterns In This Module
+
+- `Size through actions`: understand a matrix by what it does to vectors, not by reading entries one by one.
+- `Quadratic-form reasoning`: test matrix structure through expressions like $x^\top A x$.
+- `Spectral translation`: turn geometric or optimization claims into statements about eigenvalues, singular values, or PSD order.
+
+## Applications
+
+### Optimization And Convexity
+
+Hessians, curvature, strong convexity, smoothness, and semidefinite constraints all rely on matrix-analysis language.
+
+### Learning Theory And ML
+
+Kernel matrices, covariance operators, random features, and spectral regularization all depend on norms, PSD structure, and perturbation reasoning.
+
+### High-Dimensional Probability
+
+Random matrix bounds are meaningful only once operator norms and spectral quantities are already familiar.
+
+## Go Deeper By Topic
+
+The strongest adjacent live pages right now are:
+
+- [Linear Algebra](../../foundation/linear-algebra/index.qmd)
+- [Optimization](../optimization/index.qmd)
+- [High-Dimensional Probability](../high-dimensional-probability/index.qmd)
+- [Regularization, Implicit Bias, and Model Complexity](../../../applications/machine-learning/regularization-implicit-bias-and-model-complexity.qmd)
+
+## Optional Deeper Reading After First Pass
+
+The strongest current references connected to this module are:
+
+- [Stanford EE364a: Convex Optimization I](https://web.stanford.edu/class/ee364a/index.html) - official current course page where operator norms and PSD structure appear constantly. Checked `2026-04-25`.
+- [Convex Optimization by Boyd and Vandenberghe](https://web.stanford.edu/~boyd/cvxbook/) - official book page with a mature treatment of norms, PSD order, and spectral viewpoints. Checked `2026-04-25`.
+- [MIT 18.06 lecture notes](https://www.mit.edu/~18.06/Fall19/Lecture%20notes.pdf) - official linear-algebra notes with strong PSD and spectral background. Checked `2026-04-25`.
+- [Cornell CS6210 matrix computations notes](https://www.cs.cornell.edu/courses/cs6210/2025fa/lec/2025-08-25.pdf) - official notes with a clear operator-norm viewpoint. Checked `2026-04-25`.
+
+You are ready to move deeper into this module when you can:
+
+- distinguish entrywise size from operator size
+- explain why PSD structure is a statement about quadratic forms, not just diagonal entries
+- explain why covariance and Gram matrices are naturally PSD
+- explain why spectral/operator language is more stable than raw-coordinate language in advanced proofs
+
+## Sources and Further Reading
+
+- [Stanford EE364a: Convex Optimization I](https://web.stanford.edu/class/ee364a/index.html) - `First pass` - official current course page for operator norms and PSD structure in optimization language. Checked `2026-04-25`.
+- [Convex Optimization by Boyd and Vandenberghe](https://web.stanford.edu/~boyd/cvxbook/) - `First pass` - official book page for a clean spectral and convex-analysis route. Checked `2026-04-25`.
+- [MIT 18.06 lecture notes](https://www.mit.edu/~18.06/Fall19/Lecture%20notes.pdf) - `First pass` - official notes that make PSD matrices and eigenvalue structure concrete. Checked `2026-04-25`.
+- [Cornell CS6210 matrix computations notes](https://www.cs.cornell.edu/courses/cs6210/2025fa/lec/2025-08-25.pdf) - `Second pass` - official notes with a clean operator-norm and matrix-computations viewpoint. Checked `2026-04-25`.

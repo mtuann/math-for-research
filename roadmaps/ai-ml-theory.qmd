@@ -64,11 +64,11 @@ Use this as the default order.
 8. [Optimization](../topics/advanced/optimization/index.qmd)
 9. [Real Analysis](../topics/advanced/real-analysis/index.qmd)
 10. [Learning Theory](../topics/advanced/learning-theory/index.qmd)
-11. `Matrix Analysis`
+11. [Matrix Analysis](../topics/advanced/matrix-analysis/index.qmd)
 12. [High-Dimensional Probability](../topics/advanced/high-dimensional-probability/index.qmd)
 13. `High-Dimensional Statistics`
 
-The first ten stages are already fully live on the site, and [High-Dimensional Probability](../topics/advanced/high-dimensional-probability/index.qmd) has now opened as the next research-facing probability layer. That is already enough to begin reading the cleaner end of ML-facing math pages right now.
+The first twelve stages are now at least open on the site through [High-Dimensional Probability](../topics/advanced/high-dimensional-probability/index.qmd), with [Matrix Analysis](../topics/advanced/matrix-analysis/index.qmd) now providing the missing operator-level bridge before the high-dimensional theory layers. That is already enough to begin reading the cleaner end of ML-facing math pages right now.
 
 ## Why This Order Works
 
@@ -257,10 +257,10 @@ A good current sequence is:
 
 ## Common Next Theory Directions
 
-After the current foundations, calculus bridge, optimization path, learning-theory spine, and the opening [High-Dimensional Probability](../topics/advanced/high-dimensional-probability/index.qmd) route, the next big theory modules with the best payoff are:
+After the current foundations, calculus bridge, optimization path, learning-theory spine, [Matrix Analysis](../topics/advanced/matrix-analysis/index.qmd), and the opening [High-Dimensional Probability](../topics/advanced/high-dimensional-probability/index.qmd) route, the next big theory modules with the best payoff are:
 
-- `Matrix Analysis`
 - `High-Dimensional Statistics`
+- `Numerical Methods`
 
 ## Sources and Further Reading
 

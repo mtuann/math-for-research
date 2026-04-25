@@ -1,0 +1,357 @@
+---
+title: "Spectral Inequalities and Variational Principles"
+description: "How symmetric matrices turn quadratic-form reasoning into eigenvalue bounds, and why Rayleigh quotients and min-max principles are the cleanest first-pass spectral tools."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: matrix-analysis
+prerequisites:
+  - /topics/advanced/matrix-analysis/concepts/positive-semidefinite-matrices-and-quadratic-forms.qmd
+  - /topics/foundation/linear-algebra/index.qmd
+learning-goals:
+  - "Understand why symmetric matrices are special for spectral reasoning."
+  - "Define the Rayleigh quotient and interpret it as directionwise energy per unit length."
+  - "Use first-pass variational principles to identify extreme eigenvalues."
+  - "Recognize the main spectral inequalities that follow from quadratic-form and PSD-order reasoning."
+applications:
+  - optimization
+  - random-matrices
+  - machine-learning-theory
+keywords:
+  - spectral theorem
+  - Rayleigh quotient
+  - variational principle
+  - eigenvalue bounds
+  - PSD order
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/matrix-analysis/index.qmd
+  - /topics/advanced/matrix-analysis/concepts/positive-semidefinite-matrices-and-quadratic-forms.qmd
+  - /topics/advanced/optimization/index.qmd
+  - /topics/advanced/high-dimensional-probability/concepts/random-matrices-and-spectral-concentration.qmd
+stable-sources:
+  - "MIT 18.06 Linear Algebra"
+  - "Stanford EE364a"
+  - "Boyd and Vandenberghe, Convex Optimization"
+current-sources:
+  - "MIT 18.06 lecture notes"
+  - "Cornell CS6241 symmetric eigenvalue notes"
+  - "Cornell CS6210 matrix computations notes"
+  - "Stanford EE364a course page"
+---
+
+## Role
+
+This is the third page of the `Matrix Analysis` module.
+
+The PSD page said that symmetric matrices can be tested through quadratic forms.
+
+This page shows how that same quadratic-form viewpoint turns directly into eigenvalue bounds.
+
+That is the core spectral move:
+
+`turn a matrix question into a max/min problem over directions`
+
+## First-Pass Promise
+
+Read this page after `Positive Semidefinite Matrices and Quadratic Forms`.
+
+If you stop here, you should still understand:
+
+- why symmetric matrices admit especially clean spectral reasoning
+- what the Rayleigh quotient measures
+- how extreme eigenvalues arise from max/min principles
+- why many useful spectral inequalities are really quadratic-form inequalities in disguise
+
+## Why It Matters
+
+Many theorems do not ask for every eigenvalue exactly.
+
+They ask for bounds like:
+
+- how large can the top eigenvalue be?
+- how small can the bottom eigenvalue be?
+- how does a matrix compare to another one in every direction?
+- what is the worst curvature, variance, or amplification?
+
+Variational principles answer these questions without requiring a full eigendecomposition every time.
+
+This is why they show up constantly in:
+
+- optimization through Hessian bounds
+- high-dimensional probability through random-matrix concentration
+- kernel and covariance methods through Gram matrices
+- graph and spectral ML through Laplacians and energy forms
+
+## Prerequisite Recall
+
+- symmetric matrices have real eigenvalues
+- PSD structure is a statement about quadratic forms
+- operator norms measure worst-case amplification
+- quadratic forms already let us test a matrix by probing directions
+
+## Intuition
+
+### The Rayleigh Quotient
+
+For a symmetric matrix $A$, the quantity
+
+$$
+\frac{x^\top A x}{x^\top x}
+$$
+
+measures the energy of the matrix in the direction $x$, normalized by the size of $x$.
+
+If $x$ happens to be an eigenvector, this quotient is exactly the eigenvalue.
+
+So the Rayleigh quotient is the right bridge between:
+
+- arbitrary directions
+- actual eigen-directions
+
+### Why Max And Min Matter
+
+If you sweep over all nonzero directions, the largest Rayleigh quotient gives the top eigenvalue and the smallest gives the bottom one.
+
+That turns spectral questions into optimization problems over the sphere.
+
+### Spectral Inequalities As Directionwise Bounds
+
+Many matrix inequalities become transparent once you say:
+
+`for every vector x, compare x^T A x and x^T B x`
+
+If one quadratic form is always smaller than another, then the corresponding eigenvalues and operator-level quantities are often ordered too.
+
+## Formal Core
+
+::: {#thm-spectral-theorem}
+## Theorem Idea: Spectral Theorem For Symmetric Matrices
+
+If $A$ is a real symmetric matrix, then there exists an orthonormal basis of eigenvectors and a decomposition
+
+$$
+A = Q \Lambda Q^\top,
+$$
+
+where $Q$ is orthogonal and $\Lambda$ is diagonal with real eigenvalues.
+:::
+
+This is what makes symmetric matrices especially friendly: geometry and spectrum line up cleanly.
+
+::: {#def-rayleigh}
+## Definition: Rayleigh Quotient
+
+For a symmetric matrix $A$ and nonzero vector $x$, the Rayleigh quotient is
+
+$$
+R_A(x)=\frac{x^\top A x}{x^\top x}.
+$$
+:::
+
+If $x$ is a unit vector, this simplifies to
+
+$$
+R_A(x)=x^\top A x.
+$$
+
+::: {#thm-extreme-variational}
+## Theorem Idea: Extreme Eigenvalues As Variational Quantities
+
+For a symmetric matrix $A$,
+
+$$
+\lambda_{\max}(A)=\max_{\|x\|_2=1} x^\top A x,
+\qquad
+\lambda_{\min}(A)=\min_{\|x\|_2=1} x^\top A x.
+$$
+:::
+
+So the top and bottom eigenvalues are optimization problems over unit directions.
+
+::: {#thm-rayleigh-bounds}
+## Theorem Idea: Every Rayleigh Quotient Lies Between The Extreme Eigenvalues
+
+For every nonzero vector $x$,
+
+$$
+\lambda_{\min}(A)
+\le
+\frac{x^\top A x}{x^\top x}
+\le
+\lambda_{\max}(A).
+$$
+:::
+
+This is one of the most useful first-pass spectral inequalities.
+
+::: {#thm-psd-order-spectral}
+## Theorem Idea: PSD Order Gives Spectral Bounds
+
+If $A$ and $B$ are symmetric and
+
+$$
+A \preceq B,
+$$
+
+meaning
+
+$$
+x^\top A x \le x^\top B x
+\qquad \text{for all }x,
+$$
+
+then
+
+$$
+\lambda_{\max}(A)\le \lambda_{\max}(B)
+\qquad \text{and} \qquad
+\lambda_{\min}(A)\le \lambda_{\min}(B).
+$$
+:::
+
+The first-pass message is simple:
+
+- compare quadratic forms in every direction
+- get spectral comparisons as a consequence
+
+## Worked Example
+
+Consider
+
+$$
+A=
+\begin{bmatrix}
+4 & 0\\
+0 & 1
+\end{bmatrix}.
+$$
+
+For a unit vector $x=(\cos\theta,\sin\theta)$,
+
+$$
+x^\top A x
+=
+4\cos^2\theta + \sin^2\theta.
+$$
+
+This quantity is largest when $\theta=0$, giving
+
+$$
+\lambda_{\max}(A)=4,
+$$
+
+and smallest when $\theta=\frac{\pi}{2}$, giving
+
+$$
+\lambda_{\min}(A)=1.
+$$
+
+So here the Rayleigh quotient makes the variational principle completely visible:
+
+- the sphere of directions is the search space
+- the eigen-directions are exactly the maximizing and minimizing directions
+
+Now compare with
+
+$$
+B=
+\begin{bmatrix}
+5 & 0\\
+0 & 2
+\end{bmatrix}.
+$$
+
+Since
+
+$$
+x^\top A x \le x^\top B x
+\qquad \text{for every }x,
+$$
+
+we get
+
+$$
+\lambda_{\max}(A)\le \lambda_{\max}(B)
+$$
+
+and similarly for the bottom eigenvalue.
+
+That is the core pattern behind many spectral inequalities.
+
+## Computation Lens
+
+When a theorem contains an eigenvalue bound, try rewriting it as:
+
+1. a maximization or minimization over unit vectors
+2. a quadratic-form comparison
+3. a PSD-order comparison
+
+That translation often reveals what the proof is really doing.
+
+## Application Lens
+
+### Optimization
+
+The largest and smallest eigenvalues of a Hessian control smoothness and curvature. Variational principles turn those quantities into directional tests.
+
+### High-Dimensional Probability
+
+Random-matrix concentration often aims to show that
+
+$$
+\|A-\mathbb E A\|_{\mathrm{op}}
+$$
+
+is small, which for symmetric matrices is directly tied to extreme eigenvalue control.
+
+### Machine Learning
+
+Kernel matrices, covariance operators, and graph Laplacians are often analyzed through Rayleigh quotients and spectral inequalities rather than full diagonalization.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- what the Rayleigh quotient measures
+- why extreme eigenvalues arise from max/min problems over directions
+- why quadratic-form comparisons imply spectral inequalities
+- why symmetric matrices are much easier to analyze spectrally than arbitrary matrices
+
+then this page has done its job.
+
+## Go Deeper
+
+After this page, the next natural step is:
+
+- [Perturbation and Stability](perturbation-and-stability.qmd)
+
+The strongest adjacent live pages right now are:
+
+- [Positive Semidefinite Matrices and Quadratic Forms](positive-semidefinite-matrices-and-quadratic-forms.qmd)
+- [Perturbation and Stability](perturbation-and-stability.qmd)
+- [Random Matrices and Spectral Concentration](../../high-dimensional-probability/concepts/random-matrices-and-spectral-concentration.qmd)
+- [Optimization](../../optimization/index.qmd)
+- [Eigenvalues and Diagonalization](../../../foundation/linear-algebra/concepts/eigenvalues-and-diagonalization.qmd)
+
+## Optional Deeper Reading After First Pass
+
+The strongest current references connected to this page are:
+
+- [MIT 18.06 lecture notes](https://www.mit.edu/~18.06/Fall19/Lecture%20notes.pdf) - official notes with clean positive-(semi)definite and eigenvalue background. Checked `2026-04-25`.
+- [Cornell CS6241 symmetric eigenvalue notes](https://www.cs.cornell.edu/courses/cs6241/2025sp/lec/2025-02-13.html) - official notes connecting symmetric matrices, quadratic forms, and eigenvalue viewpoints. Checked `2026-04-25`.
+- [Cornell CS6210 matrix computations notes](https://www.cs.cornell.edu/courses/cs6210/2025fa/lec/2025-08-25.pdf) - official notes with a compact operator-norm and spectral summary. Checked `2026-04-25`.
+- [Stanford EE364a: Convex Optimization I](https://web.stanford.edu/class/ee364a/index.html) - official current course page where spectral bounds and PSD structure feed directly into optimization reasoning. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [MIT 18.06 lecture notes](https://www.mit.edu/~18.06/Fall19/Lecture%20notes.pdf) - `First pass` - official notes for the cleanest first-pass route through quadratic forms and eigenvalue bounds. Checked `2026-04-25`.
+- [Cornell CS6241 symmetric eigenvalue notes](https://www.cs.cornell.edu/courses/cs6241/2025sp/lec/2025-02-13.html) - `First pass` - official notes highlighting the quadratic-form and symmetric-eigenvalue viewpoint. Checked `2026-04-25`.
+- [Cornell CS6210 matrix computations notes](https://www.cs.cornell.edu/courses/cs6210/2025fa/lec/2025-08-25.pdf) - `Second pass` - official notes with a stronger matrix-computations perspective on norms and spectra. Checked `2026-04-25`.
+- [Stanford EE364a: Convex Optimization I](https://web.stanford.edu/class/ee364a/index.html) - `Second pass` - official optimization course page where spectral inequalities keep reappearing through Hessian and PSD arguments. Checked `2026-04-25`.

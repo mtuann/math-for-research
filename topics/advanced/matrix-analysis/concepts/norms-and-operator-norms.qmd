@@ -1,0 +1,297 @@
+---
+title: "Norms and Operator Norms"
+description: "How vectors and matrices get measured, and why operator norms replace entrywise size once matrices are treated as linear maps."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: matrix-analysis
+prerequisites:
+  - /topics/foundation/linear-algebra/index.qmd
+learning-goals:
+  - "Explain why operator size is different from entrywise size."
+  - "Define induced matrix norms and interpret them as worst-case amplification factors."
+  - "Recognize the special role of the spectral norm and Frobenius norm."
+  - "See why operator norms matter for stability, perturbation, and modern theory."
+applications:
+  - optimization
+  - random-matrices
+  - machine-learning-theory
+keywords:
+  - norm
+  - operator norm
+  - spectral norm
+  - Frobenius norm
+  - submultiplicativity
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/matrix-analysis/index.qmd
+  - /topics/advanced/matrix-analysis/concepts/positive-semidefinite-matrices-and-quadratic-forms.qmd
+  - /topics/advanced/optimization/index.qmd
+  - /topics/advanced/high-dimensional-probability/index.qmd
+stable-sources:
+  - "Stanford EE364a"
+  - "Convex Optimization by Boyd and Vandenberghe"
+  - "MIT 18.06 Linear Algebra"
+current-sources:
+  - "Stanford EE364a course page"
+  - "Boyd and Vandenberghe book page"
+  - "MIT 18.06 lecture notes"
+  - "Cornell CS6210 matrix computations notes"
+---
+
+## Role
+
+This is the first page of the `Matrix Analysis` module.
+
+Its job is to replace the vague question
+
+`how big is this matrix?`
+
+with the operator-level question
+
+`how much can this matrix amplify vectors?`
+
+## First-Pass Promise
+
+Read this page first in the module.
+
+If you stop here, you should still understand:
+
+- why entrywise size is not the same as operator size
+- what an induced or operator norm measures
+- why the spectral norm is central
+- how norms connect directly to stability, perturbation, and random-matrix bounds
+
+## Why It Matters
+
+Matrices are not only tables of numbers. They are linear maps.
+
+So the right size question is usually not:
+
+`how large are the entries?`
+
+but:
+
+`how much can the map change the vectors it acts on?`
+
+That distinction matters immediately in:
+
+- numerical stability
+- optimization step-size bounds
+- Lipschitz and smoothness constants
+- random matrix concentration
+- sensitivity of learned solutions
+
+## Prerequisite Recall
+
+- a vector norm measures vector size
+- a matrix acts on vectors by multiplication
+- singular values describe principal stretching factors
+- linear algebra already introduced orthogonality, eigenvalues, and SVD
+
+## Intuition
+
+### Entrywise Size Is Not Enough
+
+Two matrices can have similarly sized entries but act very differently on vectors.
+
+The important object is the worst-case amplification over unit vectors.
+
+### Operator Size
+
+Given a vector norm, the matrix norm induced by it should satisfy
+
+$$
+\|Ax\|\le \|A\|\,\|x\|.
+$$
+
+So the matrix norm becomes the smallest constant that always makes that inequality true.
+
+### Why The Spectral Norm Appears Everywhere
+
+When the underlying vector norm is Euclidean, the induced matrix norm is the spectral norm.
+
+This is the most common operator norm in modern theory because it is:
+
+- geometrically natural
+- orthogonally invariant
+- tightly connected to singular values
+
+## Formal Core
+
+::: {#def-vector-norm}
+## Definition: Vector Norm
+
+A norm on a vector space is a function $\|\cdot\|$ satisfying:
+
+- $\|x\|\ge 0$ and $\|x\|=0$ only for $x=0$
+- $\|\alpha x\| = |\alpha|\,\|x\|$
+- $\|x+y\|\le \|x\|+\|y\|$
+:::
+
+::: {#def-induced-norm}
+## Definition: Induced Matrix Norm
+
+Given a vector norm, the induced matrix norm is
+
+$$
+\|A\|
+=
+\sup_{x\neq 0}\frac{\|Ax\|}{\|x\|}
+=
+\sup_{\|x\|=1}\|Ax\|.
+$$
+:::
+
+This is the worst-case amplification factor of the linear map.
+
+::: {#thm-submultiplicative}
+## Theorem Idea: Operator Norms Compose
+
+If a matrix norm is induced by a vector norm, then
+
+$$
+\|AB\|\le \|A\|\,\|B\|.
+$$
+:::
+
+This submultiplicative property is one reason operator norms are so useful in analysis and perturbation arguments.
+
+::: {#thm-spectral-singular}
+## Theorem Idea: Spectral Norm Equals Largest Singular Value
+
+For the Euclidean vector norm, the induced operator norm satisfies
+
+$$
+\|A\|_2 = \sigma_{\max}(A).
+$$
+:::
+
+So the spectral norm measures the largest geometric stretching of the matrix.
+
+::: {#def-frobenius}
+## Definition: Frobenius Norm
+
+The Frobenius norm is
+
+$$
+\|A\|_F
+=
+\left(\sum_{i,j} a_{ij}^2\right)^{1/2}.
+$$
+:::
+
+It is often useful computationally, but it is not the same as the operator norm.
+
+## Worked Example
+
+Consider
+
+$$
+A=
+\begin{bmatrix}
+3 & 0\\
+0 & 1/2
+\end{bmatrix}.
+$$
+
+For a unit vector $x=(x_1,x_2)$, we have
+
+$$
+Ax=(3x_1,\tfrac12 x_2).
+$$
+
+So the matrix stretches the first coordinate direction by `3` and the second by `1/2`.
+
+The worst-case amplification occurs in the first direction, so
+
+$$
+\|A\|_2 = 3.
+$$
+
+Meanwhile,
+
+$$
+\|A\|_F = \sqrt{3^2 + (1/2)^2}.
+$$
+
+This example shows the distinction:
+
+- the spectral norm measures worst-case directional amplification
+- the Frobenius norm measures aggregate entrywise energy
+
+## Computation Lens
+
+When you see a matrix norm in a theorem, ask:
+
+1. is this measuring worst-case action on vectors, or aggregate entrywise size?
+2. is the bound meant to control one step of a map, or repeated composition?
+3. would the theorem fail if we replaced operator norm by an entrywise norm?
+
+That is often the real content hiding behind the notation.
+
+## Application Lens
+
+### Optimization
+
+Smoothness constants, Hessian bounds, and step-size guarantees are often stated in operator norm.
+
+### Random Matrices
+
+Matrix concentration theorems usually control
+
+$$
+\|A-\mathbb E A\|_{\mathrm{op}}
+$$
+
+because geometric distortion is the quantity that matters.
+
+### Stability And Generalization
+
+When a theorem says a perturbation is small, it usually means small in an operator sense, not only entrywise.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- why operator norms are different from entrywise size
+- why the induced norm is a worst-case amplification factor
+- why the spectral norm is tied to singular values
+- why operator norms compose well in proofs
+
+then this page has done its job.
+
+## Go Deeper
+
+After this page, the next natural step is:
+
+- [Positive Semidefinite Matrices and Quadratic Forms](positive-semidefinite-matrices-and-quadratic-forms.qmd)
+
+The strongest adjacent live pages right now are:
+
+- [Positive Semidefinite Matrices and Quadratic Forms](positive-semidefinite-matrices-and-quadratic-forms.qmd)
+- [Optimization](../../optimization/index.qmd)
+- [High-Dimensional Probability](../../high-dimensional-probability/index.qmd)
+- [Linear Algebra](../../../foundation/linear-algebra/index.qmd)
+
+## Optional Deeper Reading After First Pass
+
+The strongest current references connected to this page are:
+
+- [Stanford EE364a: Convex Optimization I](https://web.stanford.edu/class/ee364a/index.html) - official current course page where operator norms appear throughout optimization analysis. Checked `2026-04-25`.
+- [Convex Optimization by Boyd and Vandenberghe](https://web.stanford.edu/~boyd/cvxbook/) - official book page with a clean operator-norm viewpoint used throughout convex analysis. Checked `2026-04-25`.
+- [MIT 18.06 lecture notes](https://www.mit.edu/~18.06/Fall19/Lecture%20notes.pdf) - official notes connecting singular values, spectral structure, and matrix norms. Checked `2026-04-25`.
+- [Cornell CS6210 matrix computations notes](https://www.cs.cornell.edu/courses/cs6210/2025fa/lec/2025-08-25.pdf) - official notes with a compact, useful operator-norm summary. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [Stanford EE364a: Convex Optimization I](https://web.stanford.edu/class/ee364a/index.html) - `First pass` - official current course page for operator-norm language in optimization. Checked `2026-04-25`.
+- [Convex Optimization by Boyd and Vandenberghe](https://web.stanford.edu/~boyd/cvxbook/) - `First pass` - official book page for the convex-analysis route through operator size and stability. Checked `2026-04-25`.
+- [MIT 18.06 lecture notes](https://www.mit.edu/~18.06/Fall19/Lecture%20notes.pdf) - `First pass` - official notes connecting norms, singular values, and geometric action of matrices. Checked `2026-04-25`.
+- [Cornell CS6210 matrix computations notes](https://www.cs.cornell.edu/courses/cs6210/2025fa/lec/2025-08-25.pdf) - `Second pass` - official notes with a practical matrix-computations perspective on induced norms. Checked `2026-04-25`.
