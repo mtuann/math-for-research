@@ -1,0 +1,189 @@
+---
+title: "Real Analysis"
+description: "How convergence, continuity, compactness, and proof-based calculus turn computational familiarity into theorem-level mathematical control."
+page-type: module-overview
+status: published
+update-status: current
+level: advanced
+topic: real-analysis
+prerequisites:
+  - /topics/foundation/proofs/index.qmd
+  - /topics/foundation/logic/index.qmd
+  - /topics/foundation/single-variable-calculus/index.qmd
+  - /topics/foundation/multivariable-calculus/index.qmd
+learning-goals:
+  - "Understand why real analysis is the rigor bridge between calculus and theorem-heavy advanced work."
+  - "Know the intended first-pass order for the real analysis module."
+  - "Connect convergence, continuity, compactness, and completeness to probability, optimization, and learning theory."
+applications:
+  - optimization
+  - probability
+  - learning-theory
+  - differential-equations
+keywords:
+  - real analysis
+  - convergence
+  - compactness
+  - completeness
+  - continuity
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+stable-sources:
+  - "MIT 18.100A Introduction to Analysis"
+  - "MIT 18.100A Fall 2020 lecture notes"
+  - "Jiří Lebl, Basic Analysis"
+current-sources:
+  - "MIT OpenCourseWare 18.100A course page"
+  - "MIT OpenCourseWare Fall 2020 lecture notes PDF"
+---
+
+## Why This Module Matters
+
+Real analysis is where mathematical statements stop being accepted because they feel plausible and start being justified because every limit, quantifier, and assumption has been made explicit.
+
+It turns familiar calculus ideas into theorem-level objects:
+
+- convergence becomes a definition you can prove with
+- continuity becomes a property you can characterize and transport
+- compactness and completeness become reusable engines behind many major theorems
+- differentiation and integration become theorems, not just procedures
+
+This module is the missing rigor bridge between:
+
+- computational calculus
+- optimization and probability
+- theorem-heavy papers in learning theory, statistics, and analysis-adjacent ML
+
+Without it, later theory often feels like symbol pressure instead of structured reasoning.
+
+::: {.meta-strip}
+::: {.meta-box}
+**Prerequisites**
+[Proofs](../../foundation/proofs/index.qmd), [Logic](../../foundation/logic/index.qmd), and [Single-Variable Calculus](../../foundation/single-variable-calculus/index.qmd) should come first. [Multivariable Calculus](../../foundation/multivariable-calculus/index.qmd) becomes important for the final page of the spine.
+:::
+::: {.meta-box}
+**Unlocks**
+Learning theory, advanced probability, matrix analysis, theorem-heavy optimization, rigorous numerical reasoning
+:::
+::: {.meta-box}
+**Research Use**
+Reading convergence statements, interchange-of-limit arguments, compactness claims, and proof-based calculus in modern papers
+:::
+:::
+
+## First Pass Through This Module
+
+The current first-pass spine for this module is:
+
+1. [Rigorous Convergence](concepts/rigorous-convergence.qmd)
+2. [Continuity, Compactness, and Completeness](concepts/continuity-compactness-completeness.qmd)
+3. [Sequences and Series of Functions](concepts/sequences-and-series-of-functions.qmd)
+4. [Differentiation and Integration as Theorems](concepts/differentiation-and-integration-as-theorems.qmd)
+5. [Fixed-Point, Implicit, and Inverse Function Ideas](concepts/fixed-point-implicit-and-inverse-function-ideas.qmd)
+
+The first page comes first because convergence is the load-bearing idea underneath everything else in real analysis.
+
+Pages `1-4` form a clean rigor bridge from single-variable calculus. Page `5` adds a genuine multivariable-analysis dependency, especially `Chain Rule and Linearization` and `Jacobians and Hessians`.
+
+## How To Use This Module
+
+Read the module in spine order.
+
+For now, that means:
+
+1. start with [Rigorous Convergence](concepts/rigorous-convergence.qmd)
+2. continue to [Continuity, Compactness, and Completeness](concepts/continuity-compactness-completeness.qmd)
+3. continue to [Sequences and Series of Functions](concepts/sequences-and-series-of-functions.qmd)
+4. continue to [Differentiation and Integration as Theorems](concepts/differentiation-and-integration-as-theorems.qmd)
+5. finish with [Fixed-Point, Implicit, and Inverse Function Ideas](concepts/fixed-point-implicit-and-inverse-function-ideas.qmd)
+
+If page `5` feels like a jump, pause and review [Multivariable Calculus](../../foundation/multivariable-calculus/index.qmd), especially `Chain Rule and Linearization` and `Jacobians and Hessians`.
+
+Then use nearby live pages in optimization and Paper Lab when you want extra support or a research-facing bridge.
+
+The design goal is simple: each core page should eventually be strong enough for first-pass learning on its own, while deeper pages stay optional rather than required.
+
+## Core Concepts
+
+- [Rigorous Convergence](concepts/rigorous-convergence.qmd): the first page because analysis starts when `gets close` turns into a proof-ready definition.
+- [Continuity, Compactness, and Completeness](concepts/continuity-compactness-completeness.qmd): the structural page that explains why good local behavior and existence theorems are not accidents.
+- [Sequences and Series of Functions](concepts/sequences-and-series-of-functions.qmd): the bridge to interchange-of-limit arguments, uniform convergence, and approximation theory.
+- [Differentiation and Integration as Theorems](concepts/differentiation-and-integration-as-theorems.qmd): the page where calculus rules are revisited as proved statements with hypotheses.
+- [Fixed-Point, Implicit, and Inverse Function Ideas](concepts/fixed-point-implicit-and-inverse-function-ideas.qmd): the page where analysis turns local linear structure into local solvability, inversion, and iteration theorems.
+
+## Proof Patterns In This Module
+
+- `Epsilon-N control`: a statement about convergence becomes a quantified stability claim after some index threshold.
+- `Counterexample discipline`: many false analysis claims fail because one hidden hypothesis is missing.
+- `Existence through structure`: boundedness, compactness, completeness, or monotonicity often replace explicit formulas.
+
+## Applications
+
+### Optimization, Probability, And Learning Theory
+
+Analysis explains why convergence statements mean what they say, when limit interchanges are legal, when minimizers exist, and why stability arguments need precise hypotheses. It is a major upgrade in reading optimization proofs, calibration claims, kernel arguments, and learning-theory statements.
+
+### Differential Equations And Continuous Models
+
+ODEs, vector fields, and continuous dynamics all rely on the analysis habit of asking:
+
+- what notion of convergence is being used
+- what topology or space the argument lives in
+- what regularity assumptions the theorem really needs
+
+## Go Deeper By Topic
+
+The current live five-page spine is:
+
+1. [Rigorous Convergence](concepts/rigorous-convergence.qmd)
+2. [Continuity, Compactness, and Completeness](concepts/continuity-compactness-completeness.qmd)
+3. [Sequences and Series of Functions](concepts/sequences-and-series-of-functions.qmd)
+4. [Differentiation and Integration as Theorems](concepts/differentiation-and-integration-as-theorems.qmd)
+5. [Fixed-Point, Implicit, and Inverse Function Ideas](concepts/fixed-point-implicit-and-inverse-function-ideas.qmd)
+
+If the first page feels shaky, revisit:
+
+- [Sequences and Series](../../foundation/single-variable-calculus/concepts/sequences-and-series.qmd)
+- [Taylor Expansion](../../foundation/single-variable-calculus/concepts/taylor-expansion.qmd)
+- [Theorem Decoder](../../../paper-lab/theorem-decoder.qmd)
+
+## Optional Deeper Reading After First Pass
+
+The strongest current references connected to this module are:
+
+- [MIT 18.100A Introduction to Analysis](https://ocw.mit.edu/courses/18-100a-introduction-to-analysis-fall-2012/) - official course page with a clean, proof-based first analysis arc. Checked `2026-04-25`.
+- [MIT 18.100A Fall 2020 Full Lecture Notes](https://www.ocw.mit.edu/courses/18-100a-real-analysis-fall-2020/mit18_100af20_lec_full2.pdf) - compact official notes covering convergence, continuity, uniform convergence, and the Riemann integral. Checked `2026-04-25`.
+- [Basic Analysis I by Jiří Lebl](https://jirka.org/ra/realanal.pdf) - strong open textbook for a careful second pass once the module spine feels stable. Checked `2026-04-25`.
+
+## Study Order
+
+For the current module state, read:
+
+1. [Rigorous Convergence](concepts/rigorous-convergence.qmd)
+2. [Continuity, Compactness, and Completeness](concepts/continuity-compactness-completeness.qmd)
+3. [Sequences and Series of Functions](concepts/sequences-and-series-of-functions.qmd)
+4. [Differentiation and Integration as Theorems](concepts/differentiation-and-integration-as-theorems.qmd)
+5. [Fixed-Point, Implicit, and Inverse Function Ideas](concepts/fixed-point-implicit-and-inverse-function-ideas.qmd)
+
+before trying to read theorem-heavy material elsewhere.
+
+You are ready to move deeper into real analysis when you can:
+
+- state the definition of sequence convergence without hand-waving
+- explain continuity as preservation of limits
+- explain why compactness on the real line means closed and bounded
+- explain why the mean value theorem and fundamental theorem of calculus are theorem-level statements with hypotheses
+- explain why fixed-point, inverse-function, and implicit-function theorems all rely on nondegeneracy rather than symbolic luck
+- distinguish numerical evidence from proof of convergence
+- explain why uniqueness of limit is a theorem, not a slogan
+- recognize when a paper is using convergence language informally versus rigorously
+
+## Sources and Further Reading
+
+- [MIT 18.100A Introduction to Analysis](https://ocw.mit.edu/courses/18-100a-introduction-to-analysis-fall-2012/) - `First pass` - official analysis course page showing the standard undergraduate rigor arc. Checked `2026-04-25`.
+- [MIT 18.100A Fall 2020 Full Lecture Notes](https://www.ocw.mit.edu/courses/18-100a-real-analysis-fall-2020/mit18_100af20_lec_full2.pdf) - `First pass` - official notes with a very usable sequence from convergence to continuity and uniform convergence. Checked `2026-04-25`.
+- [Basic Analysis I by Jiří Lebl](https://jirka.org/ra/realanal.pdf) - `Second pass` - open, proof-based textbook that pairs well with the first module pass. Checked `2026-04-25`.

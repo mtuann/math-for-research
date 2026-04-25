@@ -14,11 +14,28 @@ The advanced track is where the site moves into:
 - high-dimensional probability
 - high-dimensional statistics
 
-## First Live Module
+## Live Advanced Modules
 
+- [Real Analysis](real-analysis/index.qmd)
 - [Optimization](optimization/index.qmd)
 
-Optimization is the first advanced module now going live with an actual five-page spine:
+## Real Analysis
+
+[Real Analysis](real-analysis/index.qmd) is the rigor bridge from calculus into theorem-heavy work.
+
+Its current first-pass spine is:
+
+- [Rigorous Convergence](real-analysis/concepts/rigorous-convergence.qmd)
+- [Continuity, Compactness, and Completeness](real-analysis/concepts/continuity-compactness-completeness.qmd)
+- [Sequences and Series of Functions](real-analysis/concepts/sequences-and-series-of-functions.qmd)
+- [Differentiation and Integration as Theorems](real-analysis/concepts/differentiation-and-integration-as-theorems.qmd)
+- [Fixed-Point, Implicit, and Inverse Function Ideas](real-analysis/concepts/fixed-point-implicit-and-inverse-function-ideas.qmd)
+
+This module is where the site makes limits, continuity, compactness, and theorem-level calculus explicit enough for advanced probability, optimization, and learning theory.
+
+## Optimization
+
+[Optimization](optimization/index.qmd) is the first fully mature advanced module with a complete five-page spine:
 
 - [Convex Sets and Separation](optimization/concepts/convex-sets-and-separation.qmd)
 - [Convex Functions and Subgradients](optimization/concepts/convex-functions-and-subgradients.qmd)
@@ -30,7 +47,6 @@ It is the natural bridge from the foundation stack into convexity, duality, cert
 
 ## Planned Next Advanced Modules
 
-- `Real Analysis`
 - `Numerical Methods`
 - `Matrix Analysis`
 - `Learning Theory`

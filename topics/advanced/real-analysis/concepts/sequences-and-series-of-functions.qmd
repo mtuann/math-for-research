@@ -1,0 +1,313 @@
+---
+title: "Sequences and Series of Functions"
+description: "How analysis controls families of functions, distinguishes pointwise from uniform convergence, and decides when limits can pass through continuity, integration, and approximation."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: real-analysis
+prerequisites:
+  - /topics/advanced/real-analysis/concepts/continuity-compactness-completeness.qmd
+  - /topics/foundation/single-variable-calculus/concepts/sequences-and-series.qmd
+  - /topics/foundation/single-variable-calculus/concepts/taylor-expansion.qmd
+learning-goals:
+  - "Distinguish pointwise convergence from uniform convergence."
+  - "Explain why uniform convergence is the right notion for many limit-interchange theorems."
+  - "Use a simple comparison idea such as the Weierstrass M-test to certify uniform convergence."
+  - "See why sequences and series of functions matter for approximation, power series, and theorem-heavy analysis."
+applications:
+  - approximation-theory
+  - optimization
+  - probability
+  - generative-modeling
+keywords:
+  - pointwise convergence
+  - uniform convergence
+  - Weierstrass M-test
+  - function sequences
+  - power series
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/real-analysis/index.qmd
+  - /topics/advanced/real-analysis/concepts/continuity-compactness-completeness.qmd
+  - /topics/foundation/single-variable-calculus/concepts/taylor-expansion.qmd
+  - /paper-lab/theorem-decoder.qmd
+stable-sources:
+  - "MIT 18.100A Introduction to Analysis"
+  - "MIT 18.100A Fall 2020 lecture notes"
+  - "Jiří Lebl, Basic Analysis"
+current-sources:
+  - "MIT OpenCourseWare 18.100A course page"
+  - "MIT OpenCourseWare Fall 2020 lecture notes PDF"
+---
+
+## Role
+
+This page is where real analysis stops studying one function at a time and starts studying whole sequences and series of functions.
+
+That shift matters because many powerful mathematical objects are built exactly this way:
+
+- polynomial approximations
+- power series
+- iterative approximations
+- limit-defined functions
+- smoothing and denoising procedures
+
+## First-Pass Promise
+
+Read this page after `Continuity, Compactness, and Completeness`.
+
+If you stop here, you should still understand:
+
+- the difference between pointwise and uniform convergence
+- why uniform convergence is much stronger and much more useful
+- what the Weierstrass M-test is trying to guarantee
+- why limit-interchange questions are central in analysis
+
+## Why It Matters
+
+If a sequence of numbers converges, that is already meaningful.
+
+If a sequence of functions converges, the next question is immediately:
+
+`converges in what sense?`
+
+That question matters because the wrong notion of convergence can destroy structure.
+
+A pointwise limit of continuous functions need not be continuous.
+A uniformly convergent sequence of continuous functions, however, does preserve continuity.
+
+So this page is really about a major analysis lesson:
+
+`the mode of convergence controls which properties survive in the limit`
+
+That lesson later reappears in:
+
+- approximation theory
+- Fourier and power series
+- optimization and numerical analysis
+- probability on function spaces
+- diffusion and continuous-model arguments
+
+## Prerequisite Recall
+
+- continuity preserves limits of points
+- compactness and completeness are structural conditions behind existence and stability
+- a numerical series is built from partial sums; a functional series works the same way, but each partial sum is itself a function
+
+## Intuition
+
+Suppose you have functions $f_n(x)$ defined on a set $A$.
+
+### Pointwise convergence
+
+For each fixed $x$, the numbers $f_n(x)$ converge to some limit $f(x)$.
+
+This lets the speed of convergence depend on the point $x$.
+
+### Uniform convergence
+
+The same stage $N$ works simultaneously for all $x \in A$.
+
+This is much stronger. It says the entire graph of $f_n$ gets close to the graph of $f$, not just one point at a time.
+
+That is why uniform convergence is often the right tool when you want continuity, integration, or approximation theorems to survive the limiting process.
+
+## Formal Core
+
+::: {#def-pointwise}
+## Definition: Pointwise Convergence
+
+Let $f_n : A \to \mathbb{R}$ and let $f : A \to \mathbb{R}$.
+
+We say $f_n \to f$ `pointwise` on $A$ if for every $x \in A$ and every $\varepsilon > 0$, there exists $N$ such that for all $n \ge N$,
+
+$$
+|f_n(x) - f(x)| < \varepsilon.
+$$
+:::
+
+The important detail is that $N$ may depend on both $\varepsilon$ and $x$.
+
+::: {#def-uniform}
+## Definition: Uniform Convergence
+
+We say $f_n \to f$ `uniformly` on $A$ if for every $\varepsilon > 0$, there exists $N$ such that for all $n \ge N$ and all $x \in A$,
+
+$$
+|f_n(x) - f(x)| < \varepsilon.
+$$
+:::
+
+Now the same $N$ must work for every point in the domain.
+
+::: {#thm-uniform-continuity-preservation}
+## Theorem: Uniform Limits Preserve Continuity
+
+If each $f_n$ is continuous on $A$ and $f_n \to f$ uniformly on $A$, then $f$ is continuous on $A$.
+:::
+
+This theorem is one of the main reasons uniform convergence matters so much.
+
+::: {#thm-mtest}
+## Theorem: Weierstrass M-Test
+
+Suppose $f_n : A \to \mathbb{R}$ satisfy
+
+$$
+|f_n(x)| \le M_n \qquad \text{for all } x \in A
+$$
+
+and the numerical series
+
+$$
+\sum_{n=1}^\infty M_n
+$$
+
+converges.
+
+Then the function series
+
+$$
+\sum_{n=1}^\infty f_n(x)
+$$
+
+converges uniformly on $A$.
+:::
+
+This is the cleanest first-pass tool for proving uniform convergence of a series of functions.
+
+## Worked Example
+
+Consider the sequence of functions on $[0,1]$:
+
+$$
+f_n(x) = x^n.
+$$
+
+For each fixed $x \in [0,1)$, we have
+
+$$
+x^n \to 0.
+$$
+
+At the point $x=1$, we have
+
+$$
+f_n(1)=1.
+$$
+
+So the pointwise limit is
+
+$$
+f(x)=
+\begin{cases}
+0, & 0 \le x < 1, \\
+1, & x=1.
+\end{cases}
+$$
+
+This limit function is not continuous at $x=1$.
+
+But every $f_n(x)=x^n$ is continuous on $[0,1]$.
+
+Therefore the convergence cannot be uniform.
+
+This example is one of the most important first-pass warnings in analysis:
+
+pointwise convergence is often too weak to preserve continuity.
+
+Now compare that with a simple uniform-convergence example:
+
+$$
+g_n(x) = \frac{x}{n}
+\qquad \text{on } [0,1].
+$$
+
+Then for every $x \in [0,1]$,
+
+$$
+\left|g_n(x)-0\right| = \frac{x}{n} \le \frac{1}{n}.
+$$
+
+Given $\varepsilon > 0$, choose $N$ so that
+
+$$
+\frac{1}{N} < \varepsilon.
+$$
+
+Then for all $n \ge N$ and all $x \in [0,1]$,
+
+$$
+\left|g_n(x)\right| \le \frac{1}{n} \le \frac{1}{N} < \varepsilon.
+$$
+
+So $g_n \to 0$ uniformly on $[0,1]$.
+
+Here the same threshold works for the whole interval, and the limit function remains continuous.
+
+## Computation Lens
+
+In numerical work and approximation, the practical question is often:
+
+`Do I have one error tolerance that works on the whole domain, or only point by point?`
+
+That is the pointwise/uniform distinction in disguise.
+
+Uniform convergence is the more robust notion when you want:
+
+- approximation quality across an interval
+- stable interchange of limit and continuity
+- certified truncation error bounds for series expansions
+
+The M-test is especially useful because it reduces a functional convergence question to an ordinary numerical series.
+
+## Application Lens
+
+### Approximation And Power Series
+
+Taylor and power series are only useful because convergence questions can be asked in a structured way. Uniform convergence helps explain when finite truncations are trustworthy on a whole region.
+
+### Optimization And Continuous Models
+
+When objective functions, gradients, kernels, or value functions are approximated by sequences, the mode of convergence controls what properties survive in the limit.
+
+### Probability And Generative Modeling
+
+Later probability and diffusion-style arguments often depend on careful interchange of limits, expectations, integrals, or continuous transformations. This page is the first clean warning that such interchanges are never automatic.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- why pointwise convergence allows the threshold to depend on the point
+- why uniform convergence uses one threshold for the whole domain
+- why continuity can fail under pointwise limits
+- why the M-test is a bridge from numerical series to function-series control
+
+then this page has done its first-pass job.
+
+## Go Deeper
+
+The next natural module step is:
+
+- [Differentiation and Integration as Theorems](differentiation-and-integration-as-theorems.qmd)
+
+For now, the best live neighboring pages are:
+
+- [Continuity, Compactness, and Completeness](continuity-compactness-completeness.qmd)
+- [Differentiation and Integration as Theorems](differentiation-and-integration-as-theorems.qmd)
+- [Taylor Expansion](../../../foundation/single-variable-calculus/concepts/taylor-expansion.qmd)
+- [Optimization](../../optimization/index.qmd)
+- [Theorem Decoder](../../../../paper-lab/theorem-decoder.qmd)
+
+## Sources and Further Reading
+
+- [MIT 18.100A Introduction to Analysis](https://ocw.mit.edu/courses/18-100a-introduction-to-analysis-fall-2012/) - `First pass` - official analysis course page whose later lectures cover pointwise and uniform convergence and their consequences. Checked `2026-04-25`.
+- [MIT 18.100A Fall 2020 Full Lecture Notes](https://www.ocw.mit.edu/courses/18-100a-real-analysis-fall-2020/mit18_100af20_lec_full2.pdf) - `First pass` - official notes with a clean arc through pointwise convergence, uniform convergence, the M-test, and interchange results. Checked `2026-04-25`.
+- [Basic Analysis I by Jiří Lebl](https://jirka.org/ra/realanal.pdf) - `Second pass` - open textbook with a careful treatment of sequences of functions and power-series examples. Checked `2026-04-25`.

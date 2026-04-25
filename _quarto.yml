@@ -115,10 +115,18 @@ website:
               - topics/foundation/statistics/concepts/descriptive-statistics-and-data-models.qmd
               - topics/foundation/statistics/concepts/estimation-and-bias-variance.qmd
               - topics/foundation/statistics/concepts/maximum-likelihood-and-bayesian-basics.qmd
-              - topics/foundation/statistics/concepts/confidence-intervals-and-hypothesis-testing.qmd
-              - topics/foundation/statistics/concepts/regression-and-classification-basics.qmd
-              - topics/foundation/statistics/concepts/experimental-design-and-model-evaluation.qmd
+          - topics/foundation/statistics/concepts/confidence-intervals-and-hypothesis-testing.qmd
+          - topics/foundation/statistics/concepts/regression-and-classification-basics.qmd
+          - topics/foundation/statistics/concepts/experimental-design-and-model-evaluation.qmd
           - topics/advanced/index.qmd
+          - section: "Real Analysis"
+            contents:
+              - topics/advanced/real-analysis/index.qmd
+              - topics/advanced/real-analysis/concepts/rigorous-convergence.qmd
+              - topics/advanced/real-analysis/concepts/continuity-compactness-completeness.qmd
+              - topics/advanced/real-analysis/concepts/sequences-and-series-of-functions.qmd
+              - topics/advanced/real-analysis/concepts/differentiation-and-integration-as-theorems.qmd
+              - topics/advanced/real-analysis/concepts/fixed-point-implicit-and-inverse-function-ideas.qmd
           - section: "Optimization"
             contents:
               - topics/advanced/optimization/index.qmd

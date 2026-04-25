@@ -17,9 +17,9 @@ Use it to track:
 
 ## Current Snapshot
 
-- `158` `.qmd` pages currently exist
-- `45` concept-topic pages currently exist
-- strongest subjects so far: `Linear Algebra`, `Probability`, `Proofs`, `Logic`, `Statistics`, `Single-Variable Calculus`, `Multivariable Calculus`, `Optimization`
+- `164` `.qmd` pages currently exist
+- `50` concept-topic pages currently exist
+- strongest subjects so far: `Linear Algebra`, `Probability`, `Proofs`, `Logic`, `Statistics`, `Single-Variable Calculus`, `Multivariable Calculus`, `Optimization`, `Real Analysis`
 - strongest public-facing bridge so far: `Applications > Machine Learning`
 - non-topic sections already scaffolded: `Start Here`, `Roadmaps`, `Applications`, `Paper Lab`, `Research`, `Publication`, `Library`, `Notes`
 
@@ -244,11 +244,12 @@ These are not required before the main spine is public, but they are the next hi
 
 ### Real Analysis
 
-- [ ] `Rigorous convergence`
-- [ ] `Continuity, compactness, completeness`
-- [ ] `Sequences and series of functions`
-- [ ] `Differentiation and integration as theorems`
-- [ ] `Fixed-point, implicit, and inverse function ideas`
+- [x] `Real Analysis index`
+- [x] `Rigorous convergence`
+- [x] `Continuity, compactness, completeness`
+- [x] `Sequences and series of functions`
+- [x] `Differentiation and integration as theorems`
+- [x] `Fixed-point, implicit, and inverse function ideas`
 
 ### Optimization
 

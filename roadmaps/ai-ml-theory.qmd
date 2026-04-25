@@ -62,13 +62,13 @@ Use this as the default order.
 6. [Single-Variable Calculus](../topics/foundation/single-variable-calculus/index.qmd)
 7. [Multivariable Calculus](../topics/foundation/multivariable-calculus/index.qmd)
 8. [Optimization](../topics/advanced/optimization/index.qmd)
-9. `Real Analysis`
+9. [Real Analysis](../topics/advanced/real-analysis/index.qmd)
 10. `Matrix Analysis`
 11. `Learning Theory`
 12. `High-Dimensional Probability`
 13. `High-Dimensional Statistics`
 
-The first eight stages are already live on the site. They are enough to begin reading the cleaner end of ML-facing math pages right now.
+The first nine stages are already live on the site. They are enough to begin reading the cleaner end of ML-facing math pages right now.
 
 ## Why This Order Works
 
