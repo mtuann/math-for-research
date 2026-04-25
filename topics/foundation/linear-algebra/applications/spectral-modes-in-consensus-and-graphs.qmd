@@ -1,0 +1,173 @@
+---
+title: "Spectral Modes in Consensus and Graphs"
+description: "A concrete application page showing how eigenvalues and eigenvectors explain averaging dynamics, graph modes, and long-term behavior."
+page-type: application
+status: published
+update-status: current
+level: foundation
+topic: linear-algebra
+prerequisites:
+  - /topics/foundation/linear-algebra/concepts/eigenvalues-and-diagonalization.qmd
+learning-goals:
+  - "Map eigenvalues onto repeated update dynamics."
+  - "Interpret eigenvectors as persistent graph or consensus modes."
+  - "See where spectral assumptions help and where they can fail."
+applications:
+  - graph-learning
+  - dynamical-systems
+  - control
+keywords:
+  - application
+  - eigenvalues
+  - consensus
+  - graphs
+  - spectral modes
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+stable-sources:
+  - "MIT 18.06 Lecture 21: Eigenvalues and Eigenvectors"
+  - "MIT 18.06SC Lecture 22: Diagonalization and Powers of A"
+current-sources:
+  - "A Comprehensive Survey on Spectral Clustering with Graph Structure Learning (2025)"
+  - "Piecewise Constant Spectral Graph Neural Network (2025)"
+---
+
+## Application Snapshot
+
+Eigenvalues become especially useful when a system repeatedly applies the same linear update:
+
+$$
+x_{t+1} = Ax_t.
+$$
+
+Then eigenvectors describe the system’s modes, and eigenvalues tell which modes persist, decay, or dominate.
+
+## Problem Setting
+
+Consider the averaging matrix
+
+$$
+P =
+\begin{bmatrix}
+0.8 & 0.2 \\
+0.2 & 0.8
+\end{bmatrix}.
+$$
+
+This can represent two agents repeatedly averaging information with each other, or a tiny graph-based diffusion step.
+
+## Why This Math Appears
+
+If we diagonalize
+
+$$
+P = Q \Lambda Q^\top,
+$$
+
+then
+
+$$
+P^k = Q \Lambda^k Q^\top.
+$$
+
+So repeated dynamics become mode-by-mode scalar evolution.
+
+That is why the spectral viewpoint is so powerful:
+
+- the eigenvectors tell you the meaningful directions
+- the eigenvalues tell you what repeated updates do to those directions
+
+## Math Objects In Use
+
+- update matrix $P$
+- eigenvectors as modes
+- eigenvalues as persistence factors
+- powers $P^k$
+- graph or consensus interpretation
+
+## Worked Walkthrough
+
+For
+
+$$
+P =
+\begin{bmatrix}
+0.8 & 0.2 \\
+0.2 & 0.8
+\end{bmatrix},
+$$
+
+the eigenvectors are
+
+$$
+v_1 =
+\begin{bmatrix}
+1 \\
+1
+\end{bmatrix},
+\qquad
+v_2 =
+\begin{bmatrix}
+1 \\
+-1
+\end{bmatrix},
+$$
+
+with eigenvalues
+
+$$
+\lambda_1 = 1,
+\qquad
+\lambda_2 = 0.6.
+$$
+
+The first mode is the consensus direction. It stays fixed.
+
+The second mode measures disagreement between the two coordinates. Because its eigenvalue is $0.6$, repeated powers shrink it:
+
+$$
+P^k v_2 = 0.6^k v_2.
+$$
+
+So if the system starts with disagreement, that disagreement decays geometrically.
+
+This is the application payoff:
+
+eigenvalues turn the long-term behavior of the whole matrix into one scalar statement per mode.
+
+## Implementation or Computation Note
+
+In larger systems, we often do not compute all eigenvectors exactly. Instead we may use:
+
+- partial eigensolvers for leading modes
+- symmetric structure to stabilize computations
+- graph Laplacians or normalized operators instead of raw adjacency matrices
+
+The spectral idea stays the same even when the exact numerics get more sophisticated.
+
+## Failure Modes
+
+- a matrix may not be diagonalizable, so a pure modal picture can fail
+- nonnormal matrices can have dynamics that are more subtle than eigenvalues alone suggest
+- in graph learning, the operator choice matters a lot: adjacency, Laplacian, and normalized forms emphasize different structure
+
+## Paper Bridge
+
+- [A Comprehensive Survey on Spectral Clustering with Graph Structure Learning](https://arxiv.org/abs/2501.13597) - `Paper bridge` - current bridge from basic eigenvector modes to graph clustering pipelines.
+- [Piecewise Constant Spectral Graph Neural Network](https://openreview.net/pdf?id=sTdVnDW0HX) - `Paper bridge` - current example where spectral modes shape graph neural network design directly.
+
+## Try It
+
+1. Change the off-diagonal entries from `0.2` to `0.4` and recompute the eigenvalues.
+2. Start from an initial state already proportional to $(1,1)^\top$ and describe what happens.
+3. Read a graph-method paper and ask which matrix is being diagonalized and what its leading modes mean.
+
+## Sources and Further Reading
+
+- [MIT 18.06: Lecture 21, Eigenvalues and Eigenvectors](https://live.ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/resources/lecture-21-eigenvalues-and-eigenvectors/) - `First pass` - official source for the modal picture. Checked `2026-04-24`.
+- [MIT 18.06SC: Lecture 22, Diagonalization and Powers of A](https://live.ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/resources/lecture-22-diagonalization-and-powers-of-a-1/) - `Second pass` - official source for repeated matrix action. Checked `2026-04-24`.
+- [A Comprehensive Survey on Spectral Clustering with Graph Structure Learning](https://arxiv.org/abs/2501.13597) - `Paper bridge` - current bridge from eigen-modes to graph clustering. Checked `2026-04-24`.

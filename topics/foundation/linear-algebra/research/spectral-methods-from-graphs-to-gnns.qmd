@@ -1,0 +1,94 @@
+---
+title: "Research Direction: Spectral Methods from Graphs to GNNs"
+description: "A research-facing overview of how eigenvalues and eigenvectors reappear in graph operators, clustering, and spectral graph neural networks."
+page-type: research-direction
+status: published
+update-status: monitor
+level: research
+topic: linear-algebra
+prerequisites:
+  - /topics/foundation/linear-algebra/concepts/eigenvalues-and-diagonalization.qmd
+learning-goals:
+  - "See how spectral ideas branch into graph-based learning problems."
+  - "Separate stable eigenvalue math from changing graph-model choices."
+  - "Find a justified reading path into spectral graph papers."
+applications:
+  - graph-learning
+  - machine-learning
+keywords:
+  - research direction
+  - eigenvalues
+  - spectral methods
+  - graphs
+  - gnns
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: quarterly
+date-modified: last-modified
+draft: false
+stable-sources:
+  - "Eigenvalues and Diagonalization"
+current-sources:
+  - "A Comprehensive Survey on Spectral Clustering with Graph Structure Learning (2025)"
+  - "Piecewise Constant Spectral Graph Neural Network (2025)"
+---
+
+## Direction Summary
+
+Spectral methods take the eigen-structure of a graph-based operator and treat it as meaningful geometry.
+
+The stable backbone is:
+
+- choose a graph operator
+- study its eigenvectors and eigenvalues
+- interpret those modes for clustering, smoothing, or learned graph processing
+
+The frontier lies in learning the graph itself, scaling the computations, and deciding when spectral structure improves model quality.
+
+## Core Math
+
+- eigenvalues and eigenvectors
+- diagonalization of symmetric operators
+- graph Laplacians and related matrices
+- spectral filtering and modal decomposition
+
+## Representative Problems
+
+- which graph operator best captures the structure of the task?
+- how should eigenvectors be used for clustering or embeddings?
+- when do spectral filters improve graph neural networks?
+- how much of the spectrum is worth preserving computationally?
+
+## Representative Venues
+
+- `NeurIPS`
+- `ICML`
+- `ICLR`
+- `TMLR`
+- `JMLR`
+
+## Starter Reading Trail
+
+1. [Eigenvalues and Diagonalization](../concepts/eigenvalues-and-diagonalization.qmd)
+2. [Spectral Modes in Consensus and Graphs](../applications/spectral-modes-in-consensus-and-graphs.qmd)
+3. [Spectral Clustering and Graph Modes](../paper-lab/spectral-clustering-and-graph-modes.qmd)
+4. [A Comprehensive Survey on Spectral Clustering with Graph Structure Learning](https://arxiv.org/abs/2501.13597)
+
+## Open Questions
+
+- which learned graph constructions preserve useful spectral structure without becoming unstable?
+- when do spectral GNNs outperform non-spectral message-passing approaches?
+- how much spectral information is enough for clustering or representation quality?
+
+## What To Learn Next
+
+- [SVD and Low-Rank Approximation](../concepts/svd-and-low-rank-approximation.qmd)
+- [Source Guide: Eigenvalues and Diagonalization](../sources/eigenvalues-and-diagonalization.qmd)
+- [Low-Rank Structure from Randomized Algorithms to Model Adaptation](low-rank-structure-from-randomized-algorithms-to-model-adaptation.qmd)
+
+## Sources and Further Reading
+
+- [A Comprehensive Survey on Spectral Clustering with Graph Structure Learning](https://arxiv.org/abs/2501.13597) - `Second pass` - current overview of spectral clustering with learned graph structure. Checked `2026-04-24`.
+- [Piecewise Constant Spectral Graph Neural Network](https://openreview.net/pdf?id=sTdVnDW0HX) - `Paper bridge` - current example of explicit spectral design in a graph neural network. Checked `2026-04-24`.
+- [MIT 18.06SC: Lecture 22, Diagonalization and Powers of A](https://live.ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/resources/lecture-22-diagonalization-and-powers-of-a-1/) - `First pass` - durable source for the modal foundation before graph-specific papers. Checked `2026-04-24`.

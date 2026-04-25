@@ -1,0 +1,214 @@
+---
+title: "Basis Images Determine a Linear Map"
+description: "A proof that once you know where a linear map sends a basis, the whole map is fixed, which is the theorem underneath matrix representation."
+page-type: proof
+status: published
+update-status: current
+level: foundation
+topic: linear-algebra
+prerequisites:
+  - /topics/foundation/linear-algebra/concepts/matrices-and-linear-maps.qmd
+learning-goals:
+  - "State precisely why basis images determine a linear map."
+  - "See how the proof justifies matrix representation."
+  - "Reuse the proof pattern whenever a map is defined on a basis first."
+applications:
+  - machine-learning
+  - control
+keywords:
+  - proof
+  - basis
+  - linear map
+  - matrix representation
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/foundation/linear-algebra/concepts/matrices-and-linear-maps.qmd
+  - /topics/foundation/linear-algebra/applications/learned-linear-projections-in-transformers.qmd
+stable-sources:
+  - "MIT 18.06SC Linear Transformations and their Matrices"
+  - "Hefferon, Linear Algebra"
+current-sources:
+  - "Deep learning, transformers and graph neural networks: a linear algebra perspective (2025)"
+---
+
+## Claim
+
+We want the theorem behind the slogan
+
+`a matrix is determined by what it does to the basis vectors`.
+
+::: {#thm-basis-images}
+## Theorem
+
+Let $e_1,\dots,e_n$ be a basis of $\mathbb{R}^n$, and let $w_1,\dots,w_n \in \mathbb{R}^m$.
+
+Then there exists a unique linear map $T : \mathbb{R}^n \to \mathbb{R}^m$ such that
+
+$$
+T(e_j) = w_j
+\qquad \text{for } j=1,\dots,n.
+$$
+:::
+
+## Why This Proof Matters
+
+This proof is the real reason matrices work.
+
+It tells you:
+
+- why the columns of a matrix are enough to define the whole linear map
+- why linear maps are fully controlled by basis data
+- why “define the map on a basis and extend by linearity” is a legitimate construction
+
+## Dependencies
+
+- every vector in $\mathbb{R}^n$ has a unique expansion in a basis
+- a linear map must preserve linear combinations
+
+## Strategy Before Details
+
+There are two parts.
+
+1. `Existence`: define the map by expanding an arbitrary vector in the basis and replacing each basis vector by its target image.
+2. `Uniqueness`: any linear map with the same basis images must agree on every basis expansion.
+
+## Full Proof
+
+::: {.proof}
+Let $x \in \mathbb{R}^n$ be arbitrary. Because $e_1,\dots,e_n$ is a basis, there are unique scalars $a_1,\dots,a_n$ such that
+
+$$
+x = a_1 e_1 + \cdots + a_n e_n.
+$$
+
+Define
+
+$$
+T(x) = a_1 w_1 + \cdots + a_n w_n.
+$$
+
+This is well defined because the coefficients $a_1,\dots,a_n$ are unique.
+
+Now check linearity. Let
+
+$$
+x = \sum_{j=1}^n a_j e_j,
+\qquad
+y = \sum_{j=1}^n b_j e_j.
+$$
+
+Then
+
+$$
+x+y = \sum_{j=1}^n (a_j+b_j)e_j,
+$$
+
+so
+
+$$
+T(x+y)
+=
+\sum_{j=1}^n (a_j+b_j)w_j
+=
+\sum_{j=1}^n a_j w_j + \sum_{j=1}^n b_j w_j
+=
+T(x)+T(y).
+$$
+
+Similarly, for any scalar $c$,
+
+$$
+cx = \sum_{j=1}^n (ca_j)e_j,
+$$
+
+and therefore
+
+$$
+T(cx)
+=
+\sum_{j=1}^n (ca_j)w_j
+=
+c \sum_{j=1}^n a_j w_j
+=
+cT(x).
+$$
+
+So $T$ is linear.
+
+Also, if we apply the definition to a basis vector $e_i$, whose coefficient expansion has $1$ in the $i$th position and $0$ elsewhere, we get
+
+$$
+T(e_i) = w_i.
+$$
+
+This proves existence.
+
+For uniqueness, let $S : \mathbb{R}^n \to \mathbb{R}^m$ be another linear map with $S(e_j)=w_j$ for all $j$.
+If
+
+$$
+x = a_1 e_1 + \cdots + a_n e_n,
+$$
+
+then by linearity,
+
+$$
+S(x)
+=
+a_1 S(e_1) + \cdots + a_n S(e_n)
+=
+a_1 w_1 + \cdots + a_n w_n
+=
+T(x).
+$$
+
+So $S(x)=T(x)$ for every $x$, hence $S=T$.
+:::
+
+## Step Annotations
+
+1. The basis matters because it gives a unique coordinate expansion.
+2. Existence works by replacing coordinates in the domain basis with prescribed target vectors.
+3. Uniqueness works because every vector is built from the basis, and linearity forces the map to respect that construction.
+
+## Why The Assumptions Matter
+
+- If the list is not a basis, coordinates may fail to exist or fail to be unique, and the construction can break.
+- Linearity is essential. Nonlinear maps are not determined by basis images alone.
+
+## Common Failure Modes
+
+- forgetting to justify why the definition is well defined
+- assuming the result also holds for arbitrary generating sets
+- using linearity before proving the constructed map is linear
+
+## Reusable Pattern
+
+This proof teaches the construction:
+
+`define on a basis -> extend by linearity -> use uniqueness of coordinates`
+
+That same pattern appears in linear operator design, Fourier-style expansions, and later basis changes.
+
+## Where This Shows Up Again
+
+- [Matrices and Linear Maps](../concepts/matrices-and-linear-maps.qmd)
+- any argument that constructs a matrix from column images
+- operator definitions in control, numerics, and ML layers
+
+## Exercises
+
+1. Use the theorem to build the matrix of a linear map once the images of $e_1,e_2,e_3$ are given.
+2. Explain why the theorem fails if the chosen list of vectors is linearly dependent.
+3. Adapt the proof from the standard basis to an arbitrary basis.
+
+## Sources and Further Reading
+
+- [MIT 18.06SC: Linear Transformations and their Matrices](https://ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/pages/positive-definite-matrices-and-applications/linear-transformations-and-their-matrices/) - `First pass` - official source for the basis-image viewpoint behind matrices. Checked `2026-04-24`.
+- [Hefferon, Linear Algebra](https://hefferon.net/linearalgebra/) - `Second pass` - stronger proof-level treatment of linear maps and coordinate representation. Checked `2026-04-24`.
+- [Deep learning, transformers and graph neural networks: a linear algebra perspective](https://link.springer.com/article/10.1007/s11075-025-02218-2) - `Paper bridge` - current survey showing why learned operators still reduce to matrix maps after coordinates are chosen. Checked `2026-04-24`.

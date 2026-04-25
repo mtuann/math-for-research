@@ -1,0 +1,108 @@
+---
+title: "Paper Lab: Dimensionality Reduction as Subspace Modeling"
+description: "A guided reading page for a survey-style bridge that turns basis and dimension language into practical dimensionality reduction methods."
+page-type: paper-lab
+status: published
+update-status: monitor
+level: research
+topic: linear-algebra
+prerequisites:
+  - /paper-lab/how-to-read-a-paper.qmd
+  - /topics/foundation/linear-algebra/concepts/subspaces-basis-dimension.qmd
+learning-goals:
+  - "See how low-dimensional subspace language turns into practical reduction methods."
+  - "Distinguish linear subspace methods from nonlinear visualization tools."
+  - "Use a survey-style note as a bridge from foundations to method families."
+applications:
+  - dimensionality-reduction
+  - machine-learning
+keywords:
+  - paper reading
+  - subspace
+  - dimensionality reduction
+  - pca
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: quarterly
+date-modified: last-modified
+draft: false
+stable-sources:
+  - "Subspaces, Basis, and Dimension concept page"
+current-sources:
+  - "A Survey: Potential Dimensionality Reduction Methods (2025)"
+---
+
+## Why This Paper
+
+Use this page when you want a bridge from pure subspace language to the wider landscape of dimensionality reduction.
+
+The anchor reading is:
+
+- [A Survey: Potential Dimensionality Reduction Methods](https://arxiv.org/abs/2502.11036)
+
+## What To Know First
+
+- what a subspace is
+- what basis and dimension mean
+- why a low-dimensional model is a statement about independent directions
+
+## First Pass
+
+On a first pass, read the survey with one separating question:
+
+`Which methods are really subspace methods, and which methods are doing something more nonlinear?`
+
+This matters because `PCA` is the direct continuation of the subspace story, while methods like `t-SNE` or `UMAP` are not simply basis-selection procedures.
+
+## Second Pass
+
+Track these mathematical objects:
+
+- data matrix
+- target low-dimensional representation
+- variance or reconstruction criteria
+- local-neighborhood versus global-subspace goals
+
+At this pass, keep noting when the survey leaves the clean linear subspace world and moves into nonlinear geometry.
+
+## Math Dependency Map
+
+Read this page after:
+
+- [Subspaces, Basis, and Dimension](../concepts/subspaces-basis-dimension.qmd)
+- [Low-Dimensional Subspace Models](../applications/low-dimensional-subspace-models.qmd)
+- [SVD and Low-Rank Approximation](../concepts/svd-and-low-rank-approximation.qmd)
+
+## Key Claims and Evidence
+
+The survey’s value is organizational:
+
+- it shows which reduction methods still depend on linear subspace ideas
+- it compares tradeoffs between interpretability, efficiency, and structure preservation
+- it helps you see `PCA` as one family inside a larger ecosystem
+
+## What To Reproduce
+
+A good small reproduction target is:
+
+1. generate a matrix with one dominant low-dimensional direction
+2. apply a linear method like PCA
+3. compare it with a nonlinear visualization method on the same data
+4. explain which differences are about subspace modeling and which are not
+
+## What Has Changed Since Publication
+
+This survey is recent enough to be used as a current map, but the space keeps moving:
+
+- new visualization methods
+- task-specific low-dimensional representation strategies
+- more integration with deep representation learning
+
+The stable takeaway is still the linear-versus-nonlinear distinction.
+
+## Sources and Further Reading
+
+- [A Survey: Potential Dimensionality Reduction Methods](https://arxiv.org/abs/2502.11036) - `Paper bridge` - anchor survey for this lab. Checked `2026-04-24`.
+- [Low-Dimensional Subspace Models](../applications/low-dimensional-subspace-models.qmd) - `First pass` - site page that keeps the linear subspace story simple before the broader method survey.
+- [SVD and Low-Rank Approximation](../concepts/svd-and-low-rank-approximation.qmd) - `Second pass` - next page when you want the most important linear reduction method in detail.

@@ -1,0 +1,118 @@
+---
+title: "Paper Lab: Linear Operators in Modern AI Systems"
+description: "A guided reading page for a modern survey that keeps matrices and linear maps visible inside deep learning, transformers, and graph models."
+page-type: paper-lab
+status: published
+update-status: monitor
+level: research
+topic: linear-algebra
+prerequisites:
+  - /paper-lab/how-to-read-a-paper.qmd
+  - /topics/foundation/linear-algebra/concepts/matrices-and-linear-maps.qmd
+learning-goals:
+  - "See how the operator viewpoint survives inside modern AI systems."
+  - "Separate linear-map structure from nonlinear architecture pieces."
+  - "Use a survey-style paper as a bridge from foundations to current applications."
+applications:
+  - machine-learning
+  - graph-learning
+keywords:
+  - paper reading
+  - matrices
+  - linear maps
+  - transformers
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: quarterly
+date-modified: last-modified
+draft: false
+stable-sources:
+  - "Matrices and Linear Maps concept page"
+current-sources:
+  - "Deep learning, transformers and graph neural networks: a linear algebra perspective (2025)"
+  - "Attention Is All You Need"
+---
+
+## Why This Paper
+
+Use this page when you want a bridge from foundational matrix language to a current survey that keeps linear algebra visible inside modern AI systems.
+
+The anchor reading is:
+
+- [Deep learning, transformers and graph neural networks: a linear algebra perspective](https://link.springer.com/article/10.1007/s11075-025-02218-2)
+
+## What To Know First
+
+- what a linear map is
+- why a matrix stores basis images in coordinates
+- how composition becomes matrix multiplication
+
+## First Pass
+
+Read the survey with one question in mind:
+
+`Where are the learned linear maps?`
+
+On a first pass, do not chase every architecture detail. Just identify:
+
+- projection matrices
+- layerwise feature transformations
+- repeated compositions of learned linear operators
+
+## Second Pass
+
+The key mathematical objects to track are:
+
+- feature matrices
+- projection operators
+- adjacency-like or graph operators
+- compositions of linear maps before and after nonlinear steps
+
+At this pass, keep distinguishing:
+
+- `linear core`: matrix maps
+- `nonlinear wrapper`: activation, normalization, attention weighting, or graph-specific processing
+
+## Math Dependency Map
+
+Read this page after:
+
+- [Matrices and Linear Maps](../concepts/matrices-and-linear-maps.qmd)
+- [Learned Linear Projections in Transformers](../applications/learned-linear-projections-in-transformers.qmd)
+- [Basis Images Determine a Linear Map](../proofs/basis-images-determine-a-linear-map.qmd)
+
+## Key Claims and Evidence
+
+This survey is not proving a single theorem. Its main value is conceptual:
+
+- matrices remain central even in large nonlinear models
+- attention and graph updates still rely on linear operator pieces
+- modern architectures can often be parsed into repeated transformations of representation spaces
+
+The evidence is explanatory and synthetic rather than theorem-heavy.
+
+## What To Reproduce
+
+A useful small reproduction target is:
+
+1. take a toy matrix $W$
+2. apply it to a batch of vectors
+3. add one nonlinear step after it
+4. separate which behavior comes from the linear map and which from the nonlinearity
+
+## What Has Changed Since Publication
+
+This area keeps moving quickly:
+
+- more efficient transformer variants
+- graph-transformer hybrids
+- operator-learning perspectives for scientific models
+
+But the operator viewpoint remains a durable reading tool.
+
+## Sources and Further Reading
+
+- [Deep learning, transformers and graph neural networks: a linear algebra perspective](https://link.springer.com/article/10.1007/s11075-025-02218-2) - `Paper bridge` - anchor survey for this lab. Checked `2026-04-24`.
+- [Attention is All you Need](https://proceedings.neurips.cc/paper_files/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html) - `Paper bridge` - canonical architecture paper to pair with the survey. Checked `2026-04-24`.
+- [Learned Linear Projections in Transformers](../applications/learned-linear-projections-in-transformers.qmd) - `First pass` - site page that isolates the matrix-map story before the survey scale.

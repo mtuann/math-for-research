@@ -1,0 +1,181 @@
+---
+title: "Learned Linear Projections in Transformers"
+description: "A concrete application page showing how matrices act as learned linear maps that produce queries, keys, values, and feature transformations."
+page-type: application
+status: published
+update-status: current
+level: foundation
+topic: linear-algebra
+prerequisites:
+  - /topics/foundation/linear-algebra/concepts/matrices-and-linear-maps.qmd
+learning-goals:
+  - "Recognize matrix multiplication as the linear core of feature transformation."
+  - "Map linear-operator language onto learned projections in transformers."
+  - "See where nonlinearity and implementation details start to matter."
+applications:
+  - machine-learning
+  - representation-learning
+keywords:
+  - application
+  - matrices
+  - linear maps
+  - transformers
+  - projections
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+stable-sources:
+  - "Stanford VMLS"
+current-sources:
+  - "Attention Is All You Need"
+  - "Deep learning, transformers and graph neural networks: a linear algebra perspective (2025)"
+---
+
+## Application Snapshot
+
+Transformers are full of nonlinearities and normalization layers, but the linear algebra core keeps showing up in one very clean form:
+
+$$
+x \mapsto Wx.
+$$
+
+That is a learned linear map.
+
+## Problem Setting
+
+Suppose an input token representation is a vector
+
+$$
+x \in \mathbb{R}^d.
+$$
+
+To prepare it for attention, the model applies learned matrices:
+
+$$
+q = W_Q x,
+\qquad
+k = W_K x,
+\qquad
+v = W_V x.
+$$
+
+These are three different linear maps from the same input space into three learned feature spaces.
+
+## Why This Math Appears
+
+The operator viewpoint tells you what the model is doing:
+
+- the input vector is not merely stored, it is transformed
+- each matrix chooses a different learned coordinate system
+- composition of layers means composition of maps, which is matrix multiplication before nonlinearities are inserted
+
+So the linear-algebra object is not only the matrix itself, but the rule it represents.
+
+## Math Objects In Use
+
+- input vector $x$
+- projection matrices $W_Q, W_K, W_V$
+- linear maps between feature spaces
+- matrix multiplication as coordinate computation
+
+## Worked Walkthrough
+
+Take a toy input vector
+
+$$
+x =
+\begin{bmatrix}
+1 \\
+2
+\end{bmatrix},
+$$
+
+and projection matrices
+
+$$
+W_Q =
+\begin{bmatrix}
+1 & 0 \\
+1 & 1
+\end{bmatrix},
+\qquad
+W_K =
+\begin{bmatrix}
+2 & -1 \\
+0 & 1
+\end{bmatrix},
+\qquad
+W_V =
+\begin{bmatrix}
+1 & 1 \\
+0 & 2
+\end{bmatrix}.
+$$
+
+Then
+
+$$
+q = W_Q x =
+\begin{bmatrix}
+1 \\
+3
+\end{bmatrix},
+\qquad
+k = W_K x =
+\begin{bmatrix}
+0 \\
+2
+\end{bmatrix},
+\qquad
+v = W_V x =
+\begin{bmatrix}
+3 \\
+4
+\end{bmatrix}.
+$$
+
+So one vector has been sent through three different linear maps, each designed for a different role in the attention block.
+
+The point is not the toy numbers. It is that the matrices encode different operator behaviors.
+
+## Implementation or Computation Note
+
+Real code often batches many token vectors at once. Then the same math becomes
+
+$$
+Q = X W_Q,
+\qquad
+K = X W_K,
+\qquad
+V = X W_V,
+$$
+
+or the transposed equivalent, depending on the convention.
+
+The batch form can make the operator viewpoint harder to see, so it is helpful to remember that each row or column is still being sent through the same learned linear map.
+
+## Failure Modes
+
+- looking only at matrix entries instead of asking what the map does to directions
+- forgetting that the learned map depends on the chosen coordinate system of the feature space
+- over-interpreting one projection matrix without considering the rest of the block and the following nonlinear pieces
+
+## Paper Bridge
+
+- [Attention is All you Need](https://proceedings.neurips.cc/paper_files/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html) - `Paper bridge` - the canonical source where learned linear projections into query, key, and value spaces are explicit.
+- [Deep learning, transformers and graph neural networks: a linear algebra perspective](https://link.springer.com/article/10.1007/s11075-025-02218-2) - `Second pass` - current survey framing these learned projections as matrix and operator objects inside larger architectures.
+
+## Try It
+
+1. Replace one of the matrices by the identity and describe what role is removed.
+2. Compose two learned matrices and compare the single combined map with the two-step description.
+3. Read one transformer diagram and rewrite each projection box as a linear map.
+
+## Sources and Further Reading
+
+- [Attention is All you Need](https://proceedings.neurips.cc/paper_files/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html) - `First pass` - the cleanest architecture paper for seeing learned linear projections in action. Checked `2026-04-24`.
+- [Introduction to Applied Linear Algebra – Vectors, Matrices, and Least Squares](https://web.stanford.edu/~boyd/vmls/) - `Second pass` - good computational source for the operator viewpoint behind matrix multiplication. Checked `2026-04-24`.
+- [Deep learning, transformers and graph neural networks: a linear algebra perspective](https://link.springer.com/article/10.1007/s11075-025-02218-2) - `Paper bridge` - current bridge from basic linear maps to modern model architectures. Checked `2026-04-24`.

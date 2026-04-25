@@ -1,0 +1,173 @@
+---
+title: "Distinct Eigenvalues Give Independent Eigenvectors"
+description: "A proof that eigenvectors associated with distinct eigenvalues are linearly independent, which is the main doorway to diagonalization."
+page-type: proof
+status: published
+update-status: current
+level: foundation
+topic: linear-algebra
+prerequisites:
+  - /topics/foundation/linear-algebra/concepts/eigenvalues-and-diagonalization.qmd
+learning-goals:
+  - "State the independence theorem precisely."
+  - "See how the proof underwrites diagonalization."
+  - "Reuse the argument when checking whether enough eigenvectors exist."
+applications:
+  - dynamical-systems
+  - graph-learning
+keywords:
+  - proof
+  - eigenvalues
+  - eigenvectors
+  - diagonalization
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/foundation/linear-algebra/concepts/eigenvalues-and-diagonalization.qmd
+  - /topics/foundation/linear-algebra/applications/spectral-modes-in-consensus-and-graphs.qmd
+stable-sources:
+  - "MIT 18.06 Lecture 21: Eigenvalues and Eigenvectors"
+  - "Hefferon, Linear Algebra"
+current-sources:
+  - "A Comprehensive Survey on Spectral Clustering with Graph Structure Learning (2025)"
+---
+
+## Claim
+
+The key theorem behind diagonalization is:
+
+`different eigenvalues force genuinely different directions`.
+
+::: {#thm-distinct-eigenvalues-independent}
+## Theorem
+
+Let $A \in \mathbb{R}^{n \times n}$, and let $v_1,\dots,v_k$ be eigenvectors of $A$ with distinct eigenvalues $\lambda_1,\dots,\lambda_k$.
+
+Then $v_1,\dots,v_k$ are linearly independent.
+:::
+
+## Why This Proof Matters
+
+This is the theorem that starts turning eigenvalue computation into structural understanding.
+
+It matters because:
+
+- it explains why distinct eigenvalues automatically help diagonalization
+- it lets you count independent modes in a dynamical system
+- it keeps reappearing in graph and spectral arguments
+
+## Dependencies
+
+- $Av_i = \lambda_i v_i$ for each eigenpair
+- a linearly independent list is the same as a list with only the trivial linear relation
+
+## Strategy Before Details
+
+Use induction on the number of eigenvectors.
+
+The main trick is to start from a hypothetical linear relation and then apply $(A-\lambda_k I)$ to kill the last vector while keeping the others alive with shifted eigenvalues.
+
+## Full Proof
+
+::: {.proof}
+We prove the statement by induction on $k$.
+
+For $k=1$, the statement is immediate because an eigenvector is nonzero.
+
+Now assume the theorem holds for $k-1$ distinct eigenvalues, and suppose
+
+$$
+c_1 v_1 + \cdots + c_k v_k = 0
+$$
+
+for eigenvectors $v_1,\dots,v_k$ with distinct eigenvalues $\lambda_1,\dots,\lambda_k$.
+
+Apply $A-\lambda_k I$ to both sides:
+
+$$
+(A-\lambda_k I)(c_1 v_1 + \cdots + c_k v_k) = 0.
+$$
+
+Because $(A-\lambda_k I)v_k = 0$, this becomes
+
+$$
+c_1(\lambda_1-\lambda_k)v_1
++
+\cdots
++
+c_{k-1}(\lambda_{k-1}-\lambda_k)v_{k-1}
+=
+0.
+$$
+
+The eigenvalues are distinct, so each coefficient $(\lambda_j-\lambda_k)$ is nonzero for $j<k$.
+
+Therefore the vectors $v_1,\dots,v_{k-1}$ satisfy a linear relation. By the induction hypothesis, they are linearly independent, so
+
+$$
+c_1(\lambda_1-\lambda_k)=\cdots=c_{k-1}(\lambda_{k-1}-\lambda_k)=0.
+$$
+
+Hence
+
+$$
+c_1=\cdots=c_{k-1}=0.
+$$
+
+Returning to the original relation, we get
+
+$$
+c_k v_k = 0.
+$$
+
+Since $v_k \neq 0$, it follows that $c_k=0$.
+
+So all coefficients are zero, which proves that $v_1,\dots,v_k$ are linearly independent.
+:::
+
+## Step Annotations
+
+1. The operator $A-\lambda_k I$ is chosen to kill one selected eigenvector exactly.
+2. The other eigenvectors survive, but with nonzero scaling factors because their eigenvalues are different.
+3. Distinctness of eigenvalues is what prevents those scaling factors from vanishing.
+
+## Why The Assumptions Matter
+
+- The eigenvalues must be distinct. Repeated eigenvalues do not automatically give dependence, but they do not guarantee independence either.
+- The theorem does not say every matrix with repeated eigenvalues fails to diagonalize. It says distinct eigenvalues are a sufficient source of independence.
+
+## Common Failure Modes
+
+- forgetting to use the distinctness assumption
+- applying $A$ instead of $A-\lambda_k I$, which does not isolate the last vector
+- concluding “repeated eigenvalues imply dependence,” which is false
+
+## Reusable Pattern
+
+The proof teaches a durable move:
+
+`apply an operator that annihilates one chosen mode and rescales the others`.
+
+This same pattern appears in spectral decomposition arguments and minimal-polynomial reasoning.
+
+## Where This Shows Up Again
+
+- diagonalization tests
+- spectral methods for repeated matrix powers
+- graph operators where eigenvectors define independent modes
+
+## Exercises
+
+1. Adapt the proof to the case $k=2$ without induction.
+2. Give an example of a matrix with repeated eigenvalue that still has two independent eigenvectors.
+3. Explain why the theorem implies that a matrix with $n$ distinct eigenvalues is diagonalizable.
+
+## Sources and Further Reading
+
+- [MIT 18.06: Lecture 21, Eigenvalues and Eigenvectors](https://live.ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/resources/lecture-21-eigenvalues-and-eigenvectors/) - `First pass` - official source for the theorem and its role in diagonalization. Checked `2026-04-24`.
+- [Hefferon, Linear Algebra](https://hefferon.net/linearalgebra/) - `Second pass` - stronger proof and exercise treatment of eigenvalue theory. Checked `2026-04-24`.
+- [A Comprehensive Survey on Spectral Clustering with Graph Structure Learning](https://arxiv.org/abs/2501.13597) - `Paper bridge` - current reminder that independent eigen-directions still drive modern spectral methods. Checked `2026-04-24`.

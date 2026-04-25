@@ -29,9 +29,7 @@ review-cadence: annual
 date-modified: last-modified
 draft: false
 next:
-  - /topics/foundation/linear-algebra/proofs/projection-theorem-and-normal-equations.qmd
-  - /topics/foundation/linear-algebra/applications/linear-regression-through-projection.qmd
-  - /topics/foundation/linear-algebra/labs/orthogonality-and-least-squares-geometry.qmd
+  - /topics/foundation/linear-algebra/concepts/eigenvalues-and-diagonalization.qmd
 related-pages:
   - /topics/foundation/linear-algebra/concepts/svd-and-low-rank-approximation.qmd
   - /topics/foundation/probability/concepts/concentration-and-common-inequalities.qmd
@@ -53,7 +51,7 @@ Orthogonality tells you what it means to be the `best approximation inside a sub
 
 ## First-Pass Promise
 
-Read this page first.
+Read this page after `Subspaces, Basis, and Dimension`.
 
 If you stop here, you should still understand:
 

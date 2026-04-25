@@ -1,0 +1,89 @@
+---
+title: "Source Guide: Subspaces, Basis, and Dimension"
+description: "A curated source guide for learning subspaces, basis, and dimension from first pass through research bridge."
+page-type: source-guide
+status: published
+update-status: current
+level: foundation
+topic: linear-algebra
+prerequisites:
+  - /topics/foundation/linear-algebra/concepts/subspaces-basis-dimension.qmd
+learning-goals:
+  - "Choose the right source for subspace language at different depths."
+  - "Separate durable basis/dimension references from current low-dimensional bridges."
+  - "See which sources belong to the concept, application, and research pages in this package."
+applications:
+  - dimensionality-reduction
+  - regression
+keywords:
+  - source guide
+  - subspace
+  - basis
+  - dimension
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+stable-sources:
+  - "MIT 18.06SC Basis and Dimension"
+  - "Stanford VMLS"
+  - "Hefferon, Linear Algebra"
+current-sources:
+  - "Deep learning, transformers and graph neural networks: a linear algebra perspective (2025)"
+---
+
+## How To Use This Guide
+
+Use one layer at a time:
+
+- `First pass` for honest subspace language
+- `Second pass` for proof and exercise depth
+- `Paper bridge` for seeing why low-dimensional structure matters in practice
+
+## Stable Core
+
+- [MIT 18.06SC: Basis and Dimension](https://live.ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/resources/basis-and-dimension-1/) - `First pass` - best official source for the span/basis/dimension chain. Checked `2026-04-24`.
+- [Introduction to Applied Linear Algebra – Vectors, Matrices, and Least Squares](https://web.stanford.edu/~boyd/vmls/) - `First pass` - strong applied framing once you want low-dimensional modeling language. Checked `2026-04-24`.
+- [Hefferon, Linear Algebra](https://hefferon.net/linearalgebra/) - `Second pass` - stronger self-study source for proof and exercise depth. Checked `2026-04-24`.
+
+## Current Bridge
+
+- [Deep learning, transformers and graph neural networks: a linear algebra perspective](https://link.springer.com/article/10.1007/s11075-025-02218-2) - `Second pass` - current bridge from low-dimensional structure to representation learning. Checked `2026-04-24`.
+
+## Paper Bridge
+
+- [A Survey: Potential Dimensionality Reduction Methods](https://arxiv.org/abs/2502.11036) - `Paper bridge` - best current first bridge from subspace language to method families. Checked `2026-04-24`.
+- [Low-rank approximations](https://nlp.stanford.edu/IR-book/html/htmledition/low-rank-approximations-1.html) - `Second pass` - useful next stop once you want to see how low-dimensional subspaces become practical approximation models in a concrete application area. Checked `2026-04-24`.
+
+## Recommended Reading Paths
+
+### Path 1: First serious understanding
+
+1. MIT 18.06SC Basis and Dimension
+2. [Subspaces, Basis, and Dimension](../concepts/subspaces-basis-dimension.qmd)
+3. Hefferon for more exercises
+
+### Path 2: From basis language to applications
+
+1. [Subspaces, Basis, and Dimension](../concepts/subspaces-basis-dimension.qmd)
+2. [Low-Dimensional Subspace Models](../applications/low-dimensional-subspace-models.qmd)
+3. [Computation Lab: Basis and Column Space Geometry](../labs/basis-and-column-space-geometry.qmd)
+
+### Path 3: Bridge to dimensionality reduction
+
+1. [Subspaces, Basis, and Dimension](../concepts/subspaces-basis-dimension.qmd)
+2. [SVD and Low-Rank Approximation](../concepts/svd-and-low-rank-approximation.qmd)
+3. [Dimensionality Reduction as Subspace Modeling](../paper-lab/dimensionality-reduction-as-subspace-modeling.qmd)
+
+## Sources Checked Online
+
+All links above were checked on `2026-04-24`.
+
+The verification pass included:
+
+- official MIT OCW pages
+- official Stanford or author-maintained textbook pages
+- current arXiv survey page for dimensionality reduction
+- current journal page for the 2025 linear-algebra perspective survey

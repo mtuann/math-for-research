@@ -1,0 +1,89 @@
+---
+title: "Source Guide: Eigenvalues and Diagonalization"
+description: "A curated source guide for learning eigenvalues and diagonalization from first pass through graph- and dynamics-facing research bridges."
+page-type: source-guide
+status: published
+update-status: current
+level: foundation
+topic: linear-algebra
+prerequisites:
+  - /topics/foundation/linear-algebra/concepts/eigenvalues-and-diagonalization.qmd
+learning-goals:
+  - "Choose the right spectral source for first pass, second pass, or paper bridge."
+  - "Separate durable eigenvalue references from current graph-facing bridges."
+  - "See which sources belong to the concept, application, and research pages in this package."
+applications:
+  - graph-learning
+  - dynamical-systems
+keywords:
+  - source guide
+  - eigenvalues
+  - diagonalization
+  - spectral methods
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+stable-sources:
+  - "MIT 18.06 Lecture 21: Eigenvalues and Eigenvectors"
+  - "MIT 18.06SC Lecture 22: Diagonalization and Powers of A"
+  - "Hefferon, Linear Algebra"
+current-sources:
+  - "A Comprehensive Survey on Spectral Clustering with Graph Structure Learning (2025)"
+  - "Piecewise Constant Spectral Graph Neural Network (2025)"
+---
+
+## How To Use This Guide
+
+Use one layer at a time:
+
+- `First pass` for the geometric and modal picture
+- `Second pass` for more proofs and exercises
+- `Paper bridge` for graph and spectral-learning directions
+
+## Stable Core
+
+- [MIT 18.06: Lecture 21, Eigenvalues and Eigenvectors](https://live.ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/resources/lecture-21-eigenvalues-and-eigenvectors/) - `First pass` - best official first stop for spectral intuition and computation. Checked `2026-04-24`.
+- [MIT 18.06SC: Lecture 22, Diagonalization and Powers of A](https://live.ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/resources/lecture-22-diagonalization-and-powers-of-a-1/) - `First pass` - official source for matrix powers and diagonalization. Checked `2026-04-24`.
+- [Hefferon, Linear Algebra](https://hefferon.net/linearalgebra/) - `Second pass` - stronger self-study source for proof and exercise depth. Checked `2026-04-24`.
+
+## Current Bridge
+
+- [A Comprehensive Survey on Spectral Clustering with Graph Structure Learning](https://arxiv.org/abs/2501.13597) - `Second pass` - current map from classical spectral modes to graph clustering with learned structure. Checked `2026-04-24`.
+
+## Paper Bridge
+
+- [Piecewise Constant Spectral Graph Neural Network](https://openreview.net/pdf?id=sTdVnDW0HX) - `Paper bridge` - current example of explicit spectral design in graph learning. Checked `2026-04-24`.
+
+## Recommended Reading Paths
+
+### Path 1: First serious understanding
+
+1. MIT 18.06 Lecture 21
+2. MIT 18.06SC Lecture 22
+3. [Eigenvalues and Diagonalization](../concepts/eigenvalues-and-diagonalization.qmd)
+
+### Path 2: Modes and dynamics
+
+1. [Eigenvalues and Diagonalization](../concepts/eigenvalues-and-diagonalization.qmd)
+2. [Spectral Modes in Consensus and Graphs](../applications/spectral-modes-in-consensus-and-graphs.qmd)
+3. [Computation Lab: Matrix Powers and Spectral Modes](../labs/matrix-powers-and-spectral-modes.qmd)
+
+### Path 3: Bridge to graph learning
+
+1. [Eigenvalues and Diagonalization](../concepts/eigenvalues-and-diagonalization.qmd)
+2. [Spectral Clustering and Graph Modes](../paper-lab/spectral-clustering-and-graph-modes.qmd)
+3. [Spectral Methods from Graphs to GNNs](../research/spectral-methods-from-graphs-to-gnns.qmd)
+
+## Sources Checked Online
+
+All links above were checked on `2026-04-24`.
+
+The verification pass included:
+
+- official MIT OCW pages
+- official author-maintained textbook page
+- current arXiv survey page for spectral clustering
+- current OpenReview page for a spectral GNN paper

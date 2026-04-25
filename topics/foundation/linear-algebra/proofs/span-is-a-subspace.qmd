@@ -1,0 +1,171 @@
+---
+title: "Span Is a Subspace"
+description: "A proof that the span of any list of vectors is automatically a subspace, which is the first closure theorem behind column space and linear models."
+page-type: proof
+status: published
+update-status: current
+level: foundation
+topic: linear-algebra
+prerequisites:
+  - /topics/foundation/linear-algebra/concepts/vectors-and-linear-combinations.qmd
+learning-goals:
+  - "State the closure theorem for span precisely."
+  - "See how one short proof generates the idea of column space."
+  - "Reuse the proof pattern for later subspace checks."
+applications:
+  - machine-learning
+  - regression
+keywords:
+  - proof
+  - span
+  - subspace
+  - column space
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/foundation/linear-algebra/concepts/vectors-and-linear-combinations.qmd
+  - /topics/foundation/linear-algebra/concepts/subspaces-basis-dimension.qmd
+stable-sources:
+  - "MIT 18.06SC Basis and Dimension"
+  - "Hefferon, Linear Algebra"
+current-sources:
+  - "Deep learning, transformers and graph neural networks: a linear algebra perspective (2025)"
+---
+
+## Claim
+
+The first durable theorem after the definition of span is:
+
+`once you allow all linear combinations, you automatically get a subspace`.
+
+::: {#thm-span-subspace}
+## Theorem
+
+Let $v_1,\dots,v_k \in \mathbb{R}^n$. Then
+
+$$
+\operatorname{span}\{v_1,\dots,v_k\}
+$$
+
+is a subspace of $\mathbb{R}^n$.
+:::
+
+## Why This Proof Matters
+
+This proof is short, but it teaches a pattern that keeps returning:
+
+- column space is a subspace because it is a span
+- model classes in regression are subspaces because they are spans of feature columns
+- later basis arguments start by showing a set is already closed under linear combinations
+
+So this is really the first proof of `closure under the operations we care about`.
+
+## Dependencies
+
+- the span of $v_1,\dots,v_k$ is the set of all vectors of the form $a_1 v_1 + \cdots + a_k v_k$
+- a subspace must contain $0$ and be closed under addition and scalar multiplication
+
+## Strategy Before Details
+
+Use the definition of span directly.
+
+Take two generic vectors already in the span, write each one with coefficients, and then show their sum and any scalar multiple still have the same form.
+
+## Full Proof
+
+::: {.proof}
+Let
+
+$$
+W = \operatorname{span}\{v_1,\dots,v_k\}.
+$$
+
+We check the three subspace conditions.
+
+First, $0 \in W$ because
+
+$$
+0 = 0v_1 + \cdots + 0v_k.
+$$
+
+Now take $u,w \in W$. By the definition of span, there exist scalars $a_1,\dots,a_k$ and $b_1,\dots,b_k$ such that
+
+$$
+u = a_1 v_1 + \cdots + a_k v_k,
+\qquad
+w = b_1 v_1 + \cdots + b_k v_k.
+$$
+
+Then
+
+$$
+u+w
+=
+(a_1+b_1)v_1 + \cdots + (a_k+b_k)v_k,
+$$
+
+which is again a linear combination of $v_1,\dots,v_k$. So $u+w \in W$.
+
+Finally, let $c \in \mathbb{R}$ and let
+
+$$
+u = a_1 v_1 + \cdots + a_k v_k \in W.
+$$
+
+Then
+
+$$
+cu = (ca_1)v_1 + \cdots + (ca_k)v_k,
+$$
+
+which is also a linear combination of $v_1,\dots,v_k$. Hence $cu \in W$.
+
+So $W$ contains $0$ and is closed under addition and scalar multiplication. Therefore $W$ is a subspace of $\mathbb{R}^n$.
+:::
+
+## Step Annotations
+
+1. The zero vector appears because span allows all scalar choices, including zero coefficients.
+2. The sum of two linear combinations is still a linear combination because the coefficients simply add.
+3. Scalar multiplication stays inside the span because the scalar can be absorbed into each coefficient.
+
+## Why The Assumptions Matter
+
+- The theorem works in $\mathbb{R}^n$, but the same proof works in any vector space.
+- The span uses `all` linear combinations. If you restricted coefficients, for example to be nonnegative or to sum to $1$, you would usually get a cone or affine set instead of a subspace.
+
+## Common Failure Modes
+
+- proving closure under addition but forgetting scalar multiplication
+- saying “it is obvious” without writing the generic coefficient form
+- confusing span with convex combinations
+
+## Reusable Pattern
+
+When a set is defined by `all linear combinations of some generators`, the first proof move is almost always:
+
+1. write two generic elements with coefficients
+2. add them or scale them
+3. show the result is still the same kind of expression
+
+## Where This Shows Up Again
+
+- [Subspaces, Basis, and Dimension](../concepts/subspaces-basis-dimension.qmd)
+- [Orthogonality and Least Squares](../concepts/orthogonality-and-least-squares.qmd)
+- any proof that column space, null space, or solution sets of homogeneous systems are subspaces
+
+## Exercises
+
+1. Adapt the proof to show that the column space of a matrix is a subspace.
+2. Give an example of a set built from vectors that is closed under addition but not scalar multiplication.
+3. Explain why affine combinations do not usually form a subspace.
+
+## Sources and Further Reading
+
+- [MIT 18.06SC: Basis and Dimension](https://live.ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/resources/basis-and-dimension-1/) - `First pass` - official source for span, basis, and dimension as one storyline. Checked `2026-04-24`.
+- [Hefferon, Linear Algebra](https://hefferon.net/linearalgebra/) - `Second pass` - stronger exercise depth for span and subspace arguments. Checked `2026-04-24`.
+- [Deep learning, transformers and graph neural networks: a linear algebra perspective](https://link.springer.com/article/10.1007/s11075-025-02218-2) - `Paper bridge` - modern reminder that many learned representation spaces are still organized around spans and subspaces. Checked `2026-04-24`.

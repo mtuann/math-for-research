@@ -1,0 +1,111 @@
+---
+title: "Paper Lab: Spectral Clustering and Graph Modes"
+description: "A guided reading page for a current survey that turns eigenvalues and eigenvectors into clustering and graph-structure questions."
+page-type: paper-lab
+status: published
+update-status: monitor
+level: research
+topic: linear-algebra
+prerequisites:
+  - /paper-lab/how-to-read-a-paper.qmd
+  - /topics/foundation/linear-algebra/concepts/eigenvalues-and-diagonalization.qmd
+learning-goals:
+  - "See how spectral modes become graph-clustering machinery."
+  - "Track which operator is being diagonalized and why."
+  - "Use a current survey as a bridge from eigenvalue theory to graph learning."
+applications:
+  - graph-learning
+  - machine-learning
+keywords:
+  - paper reading
+  - eigenvalues
+  - spectral clustering
+  - graphs
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: quarterly
+date-modified: last-modified
+draft: false
+stable-sources:
+  - "Eigenvalues and Diagonalization concept page"
+current-sources:
+  - "A Comprehensive Survey on Spectral Clustering with Graph Structure Learning (2025)"
+  - "Piecewise Constant Spectral Graph Neural Network (2025)"
+---
+
+## Why This Paper
+
+Use this page when you want a bridge from basic eigenvector modes to graph-based ML methods.
+
+The anchor reading is:
+
+- [A Comprehensive Survey on Spectral Clustering with Graph Structure Learning](https://arxiv.org/abs/2501.13597)
+
+## What To Know First
+
+- what eigenvectors and eigenvalues mean
+- why diagonalization separates modes
+- why the choice of matrix matters
+
+## First Pass
+
+On a first pass, ask one question repeatedly:
+
+`Which graph operator is being diagonalized?`
+
+The survey is valuable because it makes clear that spectral methods are never only about “eigenvalues in general.” They are about the spectrum of a chosen graph matrix: adjacency, Laplacian, normalized Laplacian, or a learned variant.
+
+## Second Pass
+
+Track these objects:
+
+- graph matrix or Laplacian
+- eigenvectors used as embedding or clustering directions
+- graph-structure learning step
+- clustering objective or downstream graph task
+
+At this pass, notice how the spectral viewpoint remains stable even while the graph itself becomes a learned object.
+
+## Math Dependency Map
+
+Read this page after:
+
+- [Eigenvalues and Diagonalization](../concepts/eigenvalues-and-diagonalization.qmd)
+- [Spectral Modes in Consensus and Graphs](../applications/spectral-modes-in-consensus-and-graphs.qmd)
+- [Distinct Eigenvalues Give Independent Eigenvectors](../proofs/distinct-eigenvalues-give-independent-eigenvectors.qmd)
+
+## Key Claims and Evidence
+
+The survey’s main value is organizational and methodological:
+
+- spectral clustering depends on the eigenvectors of a graph operator
+- graph structure learning changes the operator before the spectral step
+- modern graph methods often inherit the same mode-based viewpoint
+
+The evidence is comparative and survey-based rather than one theorem.
+
+## What To Reproduce
+
+A good small reproduction target is:
+
+1. build a tiny graph
+2. form a graph Laplacian
+3. compute a few eigenvectors
+4. visualize what the second eigenvector separates
+
+That reproduction already captures the central spectral story.
+
+## What Has Changed Since Publication
+
+The area is active:
+
+- graph structure learning makes the operator itself adaptive
+- spectral GNNs revisit eigen-bases directly instead of only message-passing heuristics
+- scalability and stability remain open practical concerns
+
+## Sources and Further Reading
+
+- [A Comprehensive Survey on Spectral Clustering with Graph Structure Learning](https://arxiv.org/abs/2501.13597) - `Paper bridge` - anchor survey for this lab. Checked `2026-04-24`.
+- [Piecewise Constant Spectral Graph Neural Network](https://openreview.net/pdf?id=sTdVnDW0HX) - `Paper bridge` - current paper showing that spectral modes still shape GNN design directly. Checked `2026-04-24`.
+- [Spectral Modes in Consensus and Graphs](../applications/spectral-modes-in-consensus-and-graphs.qmd) - `First pass` - site page that isolates the modal intuition before graph-method details.

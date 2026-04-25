@@ -1,0 +1,96 @@
+---
+title: "Research Direction: Low-Dimensional Structure and Subspace Methods"
+description: "A research-facing overview of how subspace language grows into dimensionality reduction, compression, approximation, and representation learning."
+page-type: research-direction
+status: published
+update-status: monitor
+level: research
+topic: linear-algebra
+prerequisites:
+  - /topics/foundation/linear-algebra/concepts/subspaces-basis-dimension.qmd
+  - /topics/foundation/linear-algebra/concepts/svd-and-low-rank-approximation.qmd
+learning-goals:
+  - "See how subspace ideas branch into multiple active method families."
+  - "Separate stable linear subspace math from broader nonlinear reduction tools."
+  - "Find a justified reading path into low-dimensional modeling papers."
+applications:
+  - dimensionality-reduction
+  - signal-processing
+  - machine-learning
+keywords:
+  - research direction
+  - subspace
+  - dimensionality reduction
+  - low-dimensional structure
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: quarterly
+date-modified: last-modified
+draft: false
+stable-sources:
+  - "Subspaces, Basis, and Dimension"
+  - "SVD and Low-Rank Approximation"
+current-sources:
+  - "A Survey: Potential Dimensionality Reduction Methods (2025)"
+  - "Deep learning, transformers and graph neural networks: a linear algebra perspective (2025)"
+---
+
+## Direction Summary
+
+Low-dimensional structure is one of the most reused assumptions in applied mathematics and ML.
+
+The stable backbone is:
+
+- data or signals lie near a smaller subspace
+- a small basis captures most of the useful behavior
+- approximation quality depends on how well that subspace matches reality
+
+The frontier lies in deciding when a linear subspace is enough and when the problem needs nonlinear geometry instead.
+
+## Core Math
+
+- subspaces, bases, and dimension
+- column space and approximation
+- orthogonal projection
+- low-rank structure and PCA
+
+## Representative Problems
+
+- when is a low-dimensional linear model good enough?
+- how should a basis be chosen or learned?
+- what is the tradeoff between interpretability and compression quality?
+- when do nonlinear reduction tools beat linear subspace methods?
+
+## Representative Venues
+
+- `JMLR`
+- `NeurIPS`
+- `ICML`
+- `SIAM Review`
+- `Numerical Algorithms`
+
+## Starter Reading Trail
+
+1. [Subspaces, Basis, and Dimension](../concepts/subspaces-basis-dimension.qmd)
+2. [Low-Dimensional Subspace Models](../applications/low-dimensional-subspace-models.qmd)
+3. [SVD and Low-Rank Approximation](../concepts/svd-and-low-rank-approximation.qmd)
+4. [A Survey: Potential Dimensionality Reduction Methods](https://arxiv.org/abs/2502.11036)
+
+## Open Questions
+
+- when does a linear subspace model capture the real structure well enough?
+- how should downstream task performance influence basis choice?
+- how do we compare interpretable low-dimensional models with more powerful nonlinear embeddings?
+
+## What To Learn Next
+
+- [Orthogonality and Least Squares](../concepts/orthogonality-and-least-squares.qmd)
+- [SVD and Low-Rank Approximation](../concepts/svd-and-low-rank-approximation.qmd)
+- [Source Guide: Subspaces, Basis, and Dimension](../sources/subspaces-basis-dimension.qmd)
+
+## Sources and Further Reading
+
+- [A Survey: Potential Dimensionality Reduction Methods](https://arxiv.org/abs/2502.11036) - `Second pass` - current overview of the dimensionality-reduction landscape. Checked `2026-04-24`.
+- [Deep learning, transformers and graph neural networks: a linear algebra perspective](https://link.springer.com/article/10.1007/s11075-025-02218-2) - `Paper bridge` - useful current reminder that low-dimensional structure keeps reappearing inside modern learned representations. Checked `2026-04-24`.
+- [Introduction to Applied Linear Algebra – Vectors, Matrices, and Least Squares](https://web.stanford.edu/~boyd/vmls/) - `First pass` - durable applied source before branching into broader research directions. Checked `2026-04-24`.

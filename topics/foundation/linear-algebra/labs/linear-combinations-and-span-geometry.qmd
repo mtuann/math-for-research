@@ -1,0 +1,205 @@
+---
+title: "Computation Lab: Linear Combinations and Span Geometry"
+description: "An interactive lab for seeing how coefficients, generator directions, and dependence determine what vectors you can build."
+page-type: computation-lab
+status: published
+update-status: current
+level: foundation
+topic: linear-algebra
+prerequisites:
+  - /topics/foundation/linear-algebra/concepts/vectors-and-linear-combinations.qmd
+learning-goals:
+  - "See how coefficients create a vector from generators."
+  - "Watch the reachable set collapse when directions become dependent."
+  - "Connect determinant and span intuition in two dimensions."
+applications:
+  - machine-learning
+  - data-visualization
+keywords:
+  - computation
+  - simulation
+  - visualization
+  - span
+  - vectors
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+execution-engine: ojs
+interactive: ojs
+reproducibility-note: "Client-side Observable JS only; deterministic vectors and sliders, no randomness."
+---
+
+## Lab Goal
+
+This lab helps you see one specific fact:
+
+changing coefficients moves you inside the span you already have, but changing the generator directions changes the span itself.
+
+## Math Question
+
+How do the coefficients and the angle between two generator vectors affect:
+
+- the constructed vector
+- whether the generators are independent
+- whether the span is a line or the whole plane
+
+## Model or Setup
+
+We use two vectors in $\mathbb{R}^2$:
+
+$$
+v_1 =
+\begin{bmatrix}
+1 \\
+0
+\end{bmatrix},
+\qquad
+v_2 =
+\begin{bmatrix}
+\cos \theta \\
+\sin \theta
+\end{bmatrix}.
+$$
+
+The constructed vector is
+
+$$
+x = a v_1 + b v_2.
+$$
+
+## Parameters and Controls
+
+- `Angle`: controls whether $v_2$ is nearly parallel to $v_1$ or clearly independent
+- `Coefficient a`: weight on $v_1$
+- `Coefficient b`: weight on $v_2$
+
+Default values are `50` degrees, `1.2`, and `0.8`.
+
+## Code and Simulation
+
+```{ojs}
+//| echo: false
+viewof angleDeg = Inputs.range([0, 180], {
+  value: 50,
+  step: 1,
+  label: "Angle of second vector (degrees)"
+})
+
+viewof coeffA = Inputs.range([-2, 2], {
+  value: 1.2,
+  step: 0.05,
+  label: "Coefficient a"
+})
+
+viewof coeffB = Inputs.range([-2, 2], {
+  value: 0.8,
+  step: 0.05,
+  label: "Coefficient b"
+})
+```
+
+```{ojs}
+//| echo: false
+theta = angleDeg * Math.PI / 180
+v1 = ({x: 1, y: 0})
+v2 = ({x: Math.cos(theta), y: Math.sin(theta)})
+target = ({
+  x: coeffA * v1.x + coeffB * v2.x,
+  y: coeffA * v1.y + coeffB * v2.y
+})
+
+detValue = v1.x * v2.y - v1.y * v2.x
+independenceText =
+  Math.abs(detValue) < 1e-6
+    ? "Dependent generators: the span collapses to one line."
+    : "Independent generators: the span is all of R^2."
+
+segments = [
+  {x1: 0, y1: 0, x2: v1.x, y2: v1.y, kind: "v1"},
+  {x1: 0, y1: 0, x2: v2.x, y2: v2.y, kind: "v2"},
+  {x1: 0, y1: 0, x2: target.x, y2: target.y, kind: "target"}
+]
+
+linePoints = Array.from({length: 121}, (_, i) => {
+  const t = -3 + i * 0.05
+  return {x: t * v1.x, y: t * v1.y}
+})
+```
+
+```{ojs}
+//| echo: false
+Plot.plot({
+  height: 430,
+  x: {label: "x", domain: [-3, 3]},
+  y: {label: "y", domain: [-3, 3]},
+  color: {legend: true},
+  marks: [
+    Plot.gridX({strokeOpacity: 0.15}),
+    Plot.gridY({strokeOpacity: 0.15}),
+    Plot.ruleX([0], {strokeOpacity: 0.25}),
+    Plot.ruleY([0], {strokeOpacity: 0.25}),
+    Plot.line(linePoints, {x: "x", y: "y", stroke: "#cbd5e1", strokeWidth: 2}),
+    Plot.link(segments, {
+      x1: "x1",
+      y1: "y1",
+      x2: "x2",
+      y2: "y2",
+      stroke: "kind",
+      strokeWidth: 3,
+      markerEnd: "arrow"
+    }),
+    Plot.dot([{x: target.x, y: target.y}], {x: "x", y: "y", r: 6, fill: "#dc2626"})
+  ]
+})
+```
+
+```{ojs}
+//| echo: false
+md`
+- Constructed vector: **(${target.x.toFixed(3)}, ${target.y.toFixed(3)})**
+- Determinant of [v1 v2]: **${detValue.toFixed(4)}**
+- Interpretation: **${independenceText}**
+`
+```
+
+## What To Observe
+
+- As long as the angle is not `0` or `180` degrees, the two directions are independent.
+- When the angle approaches `0` or `180`, the determinant approaches zero and the span collapses toward a single line.
+- The sliders for $a$ and $b$ move the red vector inside the span you already have; they do not create a new span.
+- Dependence is not about one coefficient choice. It is about the geometry of the generators themselves.
+
+## Interpretation
+
+This is the geometry behind the phrase
+
+`span is the set of all linear combinations`.
+
+When the generators are independent in $\mathbb{R}^2$, their span is the whole plane. When they are dependent, all combinations stay on one line. The determinant here is a quick 2D witness of that change.
+
+## Failure Modes and Numerical Cautions
+
+- Near-zero determinants can look nonzero numerically because of floating-point rounding.
+- This is only a 2D picture. In higher dimensions, span and dependence still behave the same way, but the geometry is harder to draw.
+- A visually small angle does not by itself prove exact dependence; exact dependence is an algebraic statement.
+
+## Reproducibility Notes
+
+- execution engine: Observable JS
+- randomness: none
+- libraries: Quarto OJS with Plot and Inputs
+- render mode: interactive client-side
+
+## Extensions
+
+- replace $v_1$ by a non-axis-aligned vector
+- add a third vector and test when it changes the span and when it is redundant
+
+## Sources and Further Reading
+
+- [MIT 18.06SC: Basis and Dimension](https://live.ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/resources/basis-and-dimension-1/) - `First pass` - good official anchor for span and dependence. Checked `2026-04-24`.
+- [Introduction to Applied Linear Algebra – Vectors, Matrices, and Least Squares](https://web.stanford.edu/~boyd/vmls/) - `Second pass` - useful for computational and geometric phrasing. Checked `2026-04-24`.
+- [Attention is All you Need](https://proceedings.neurips.cc/paper_files/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html) - `Paper bridge` - later reminder that weighted vector mixtures remain central in modern ML systems. Checked `2026-04-24`.

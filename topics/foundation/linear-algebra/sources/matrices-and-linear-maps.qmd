@@ -1,0 +1,89 @@
+---
+title: "Source Guide: Matrices and Linear Maps"
+description: "A curated source guide for learning matrices as linear maps from first pass through research bridge."
+page-type: source-guide
+status: published
+update-status: current
+level: foundation
+topic: linear-algebra
+prerequisites:
+  - /topics/foundation/linear-algebra/concepts/matrices-and-linear-maps.qmd
+learning-goals:
+  - "Choose the right resource for the operator viewpoint at different depths."
+  - "Separate durable matrix references from current architecture-facing bridges."
+  - "See which sources belong to the concept, application, and research pages in this package."
+applications:
+  - machine-learning
+  - control
+keywords:
+  - source guide
+  - matrices
+  - linear maps
+  - operators
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+stable-sources:
+  - "MIT 18.06SC Linear Transformations and their Matrices"
+  - "Stanford VMLS"
+  - "Hefferon, Linear Algebra"
+current-sources:
+  - "Deep learning, transformers and graph neural networks: a linear algebra perspective (2025)"
+  - "Attention Is All You Need"
+---
+
+## How To Use This Guide
+
+Use one source per layer:
+
+- `First pass` for the operator viewpoint
+- `Second pass` for extra exercises and coordinate discipline
+- `Paper bridge` for seeing matrices inside modern systems
+
+## Stable Core
+
+- [MIT 18.06SC: Linear Transformations and their Matrices](https://ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/pages/positive-definite-matrices-and-applications/linear-transformations-and-their-matrices/) - `First pass` - best official source for the core theorem that columns are basis images. Checked `2026-04-24`.
+- [Introduction to Applied Linear Algebra – Vectors, Matrices, and Least Squares](https://web.stanford.edu/~boyd/vmls/) - `First pass` - good applied treatment of transformations and matrix computation. Checked `2026-04-24`.
+- [Hefferon, Linear Algebra](https://hefferon.net/linearalgebra/) - `Second pass` - stronger proof and exercise depth for linear maps and coordinate representations. Checked `2026-04-24`.
+
+## Current Bridge
+
+- [Deep learning, transformers and graph neural networks: a linear algebra perspective](https://link.springer.com/article/10.1007/s11075-025-02218-2) - `Second pass` - current survey showing how operator language remains useful in AI systems. Checked `2026-04-24`.
+
+## Paper Bridge
+
+- [Attention is All you Need](https://proceedings.neurips.cc/paper_files/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html) - `Paper bridge` - canonical architecture paper where learned projections are explicit matrix maps. Checked `2026-04-24`.
+
+## Recommended Reading Paths
+
+### Path 1: First serious understanding
+
+1. MIT 18.06SC Linear Transformations and their Matrices
+2. [Matrices and Linear Maps](../concepts/matrices-and-linear-maps.qmd)
+3. Hefferon for extra exercises
+
+### Path 2: Operator intuition with visuals
+
+1. [Matrices and Linear Maps](../concepts/matrices-and-linear-maps.qmd)
+2. [Computation Lab: Matrix Composition and Basis Action](../labs/matrix-composition-and-basis-action.qmd)
+3. [Exercises: Matrices and Linear Maps](../exercises/matrices-and-linear-maps.qmd)
+
+### Path 3: Bridge to modern ML systems
+
+1. [Matrices and Linear Maps](../concepts/matrices-and-linear-maps.qmd)
+2. [Learned Linear Projections in Transformers](../applications/learned-linear-projections-in-transformers.qmd)
+3. [Linear Operators in Modern AI Systems](../paper-lab/linear-operators-in-modern-ai-systems.qmd)
+
+## Sources Checked Online
+
+All links above were checked on `2026-04-24`.
+
+The verification pass included:
+
+- official MIT OCW pages
+- official Stanford or author-maintained textbook pages
+- official NeurIPS proceedings page
+- current journal page for the 2025 linear-algebra perspective survey

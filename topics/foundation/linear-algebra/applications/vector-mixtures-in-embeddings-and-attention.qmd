@@ -1,0 +1,204 @@
+---
+title: "Vector Mixtures in Embeddings and Attention"
+description: "A concrete application page showing how weighted vector combinations become embeddings, pooled representations, and attention outputs."
+page-type: application
+status: published
+update-status: current
+level: foundation
+topic: linear-algebra
+prerequisites:
+  - /topics/foundation/linear-algebra/concepts/vectors-and-linear-combinations.qmd
+learning-goals:
+  - "Recognize weighted vector sums inside common representation-learning pipelines."
+  - "Map the language of linear combinations onto embeddings and attention."
+  - "See where interpretation and modeling limits enter."
+applications:
+  - machine-learning
+  - representation-learning
+keywords:
+  - application
+  - vectors
+  - embeddings
+  - attention
+  - weighted sum
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+stable-sources:
+  - "Stanford VMLS"
+current-sources:
+  - "Attention Is All You Need"
+  - "Deep learning, transformers and graph neural networks: a linear algebra perspective (2025)"
+---
+
+## Application Snapshot
+
+One of the most common operations in modern ML is not mysterious at all:
+
+`take several vectors, weight them, and add them`.
+
+That is exactly a linear combination.
+
+This viewpoint lets you recognize the same math inside:
+
+- pooled embeddings
+- mixture models of features
+- attention outputs in transformers
+
+## Problem Setting
+
+Suppose we have three token or feature vectors in $\mathbb{R}^2$:
+
+$$
+v_1 =
+\begin{bmatrix}
+1.0 \\
+0.2
+\end{bmatrix},
+\qquad
+v_2 =
+\begin{bmatrix}
+0.4 \\
+1.1
+\end{bmatrix},
+\qquad
+v_3 =
+\begin{bmatrix}
+1.2 \\
+0.8
+\end{bmatrix}.
+$$
+
+We want one summary representation built from these directions.
+
+## Why This Math Appears
+
+If the weights are $a_1,a_2,a_3$, then the representation
+
+$$
+z = a_1 v_1 + a_2 v_2 + a_3 v_3
+$$
+
+is a linear combination of the available vectors.
+
+Different pipelines choose the weights differently:
+
+- in average pooling, they are fixed in advance
+- in learned mixtures, they are produced by another model component
+- in attention, they depend on similarity scores and are normalized before the sum is taken
+
+The math object stays the same even when the modeling story changes.
+
+## Math Objects In Use
+
+- embedding vectors $v_i$
+- scalar weights $a_i$
+- weighted sum $z = \sum_i a_i v_i$
+- span of the available representation directions
+
+## Worked Walkthrough
+
+Take weights
+
+$$
+a_1 = 0.2,
+\qquad
+a_2 = 0.5,
+\qquad
+a_3 = 0.3.
+$$
+
+Then
+
+$$
+z
+= 0.2v_1 + 0.5v_2 + 0.3v_3
+$$
+
+becomes
+
+$$
+z
+=
+0.2
+\begin{bmatrix}
+1.0 \\
+0.2
+\end{bmatrix}
++
+0.5
+\begin{bmatrix}
+0.4 \\
+1.1
+\end{bmatrix}
++
+0.3
+\begin{bmatrix}
+1.2 \\
+0.8
+\end{bmatrix}
+=
+\begin{bmatrix}
+0.76 \\
+0.83
+\end{bmatrix}.
+$$
+
+So the summary vector is not a new primitive object. It is assembled from the directions already present.
+
+In transformer attention, the same pattern appears in the output for one query:
+
+$$
+\operatorname{Attn}(q, K, V)
+=
+\sum_{i=1}^m \alpha_i v_i,
+$$
+
+where the coefficients $\alpha_i$ come from similarity scores between the query and the keys.
+
+So the output lives in the span of the value vectors.
+
+## Implementation or Computation Note
+
+In code, these mixtures are often written as matrix multiplication:
+
+$$
+z = V^\top \alpha
+\qquad \text{or} \qquad
+Z = AV,
+$$
+
+depending on orientation.
+
+That matrix form hides the same basic story:
+
+- the columns or rows of $V$ are the available directions
+- the weight vector or matrix chooses how much of each direction to use
+
+For interpretation, it often helps to unpack the matrix product back into a linear-combination formula.
+
+## Failure Modes
+
+- the weights can make the representation hard to interpret even if the algebra is simple
+- if the source vectors are redundant, many different coefficients can produce the same output
+- if the value vectors miss an important direction, no weighting scheme can create it from nothing
+
+## Paper Bridge
+
+- [Attention is All you Need](https://proceedings.neurips.cc/paper_files/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html) - `Paper bridge` - the attention output is literally a weighted sum of value vectors.
+- [Deep learning, transformers and graph neural networks: a linear algebra perspective](https://link.springer.com/article/10.1007/s11075-025-02218-2) - `Second pass` - current survey showing how vector spaces, embeddings, and linear mixing keep reappearing in modern AI systems.
+
+## Try It
+
+1. Change the weights so one coefficient is negative. The output is still a linear combination, but it is no longer an average-like mixture.
+2. Replace $v_3$ by $v_1+v_2$. Which outputs become representable in multiple ways?
+3. Read the attention equation in a paper and rewrite it explicitly as a linear combination.
+
+## Sources and Further Reading
+
+- [Introduction to Applied Linear Algebra – Vectors, Matrices, and Least Squares](https://web.stanford.edu/~boyd/vmls/) - `First pass` - good applied source for weighted vector combinations and matrix-form thinking. Checked `2026-04-24`.
+- [Attention is All you Need](https://proceedings.neurips.cc/paper_files/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html) - `Paper bridge` - canonical place to see weighted vector mixtures become an architecture-level operation. Checked `2026-04-24`.
+- [Deep learning, transformers and graph neural networks: a linear algebra perspective](https://link.springer.com/article/10.1007/s11075-025-02218-2) - `Second pass` - current bridge from vector language to representations, attention, and graph models. Checked `2026-04-24`.

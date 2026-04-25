@@ -1,0 +1,197 @@
+---
+title: "Exercises: Eigenvalues and Diagonalization"
+description: "Practice problems and worked solutions for eigenvalues, eigenvectors, diagonalization, and matrix powers."
+page-type: exercise
+status: published
+update-status: current
+level: foundation
+topic: linear-algebra
+prerequisites:
+  - /topics/foundation/linear-algebra/concepts/eigenvalues-and-diagonalization.qmd
+learning-goals:
+  - "Compute eigenpairs in simple examples."
+  - "Check diagonalizability from available eigenvectors."
+  - "Connect matrix powers to spectral modes."
+applications:
+  - dynamical-systems
+  - graph-learning
+keywords:
+  - exercises
+  - eigenvalues
+  - eigenvectors
+  - diagonalization
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/foundation/linear-algebra/proofs/distinct-eigenvalues-give-independent-eigenvectors.qmd
+  - /topics/foundation/linear-algebra/labs/matrix-powers-and-spectral-modes.qmd
+---
+
+## Scope and Goals
+
+This set trains four things:
+
+- finding eigenvalues and eigenvectors in small examples
+- checking whether diagonalization is available
+- reading matrix powers through eigen-modes
+- preparing for spectral applications and SVD
+
+## Prerequisites
+
+- matrix multiplication
+- basis and independence
+- diagonal matrices and powers
+
+## Warm-Up Problems
+
+1. Find the eigenvalues of
+
+   $$
+   \begin{bmatrix}
+   2 & 0 \\
+   0 & 3
+   \end{bmatrix}.
+   $$
+
+2. Find one eigenvector of
+
+   $$
+   \begin{bmatrix}
+   2 & 1 \\
+   0 & 3
+   \end{bmatrix}
+   $$
+
+   for each eigenvalue.
+
+## Core Problems
+
+1. Diagonalize
+
+   $$
+   A =
+   \begin{bmatrix}
+   4 & 0 \\
+   0 & 1
+   \end{bmatrix}
+   $$
+
+   and compute $A^5$.
+2. Let
+
+   $$
+   P =
+   \begin{bmatrix}
+   0.8 & 0.2 \\
+   0.2 & 0.8
+   \end{bmatrix}.
+   $$
+
+   Find its eigenvalues and explain which mode decays.
+3. Explain why a matrix with $n$ distinct eigenvalues is diagonalizable.
+
+## Proof Problems
+
+1. Prove that if $Av = \lambda v$ and $c \neq 0$, then $cv$ is also an eigenvector with eigenvalue $\lambda$.
+2. Show that if $A = S \Lambda S^{-1}$, then $A^k = S \Lambda^k S^{-1}$ for every positive integer $k$.
+
+## Computational or Applied Problems
+
+1. Open [Computation Lab: Matrix Powers and Spectral Modes](../labs/matrix-powers-and-spectral-modes.qmd). Change the mixing parameter and describe how the second eigenvalue controls the rate of convergence.
+2. In software, compute the eigenvalues of a symmetric matrix and compare them with the singular values of the same matrix when it is positive semidefinite.
+
+## Hints
+
+1. For diagonal matrices, the eigenvalues are already visible.
+2. For matrix powers, diagonalize first and then power the diagonal entries.
+3. Distinct eigenvalues give independent eigenvectors.
+
+## Full Solutions
+
+### Solution 1
+
+The eigenvalues are $2$ and $3$.
+
+### Solution 2
+
+For $\lambda=2$, solve
+
+$$
+\begin{bmatrix}
+0 & 1 \\
+0 & 1
+\end{bmatrix}
+v = 0,
+$$
+
+so one eigenvector is $(1,0)^\top$.
+
+For $\lambda=3$, solve
+
+$$
+\begin{bmatrix}
+-1 & 1 \\
+0 & 0
+\end{bmatrix}
+v = 0,
+$$
+
+so one eigenvector is $(1,1)^\top$.
+
+### Solution 3
+
+The matrix is already diagonal, so
+
+$$
+A = I
+\begin{bmatrix}
+4 & 0 \\
+0 & 1
+\end{bmatrix}
+I^{-1}.
+$$
+
+Therefore
+
+$$
+A^5 =
+\begin{bmatrix}
+4^5 & 0 \\
+0 & 1
+\end{bmatrix}
+=
+\begin{bmatrix}
+1024 & 0 \\
+0 & 1
+\end{bmatrix}.
+$$
+
+### Solution 4
+
+The eigenvalues are $1$ and $0.6$.
+
+The consensus mode $(1,1)^\top$ persists, while the disagreement mode $(1,-1)^\top$ decays because $0.6^k \to 0$.
+
+### Solution 5
+
+Distinct eigenvalues give linearly independent eigenvectors. So an $n \times n$ matrix with $n$ distinct eigenvalues has $n$ independent eigenvectors, which is exactly what diagonalization needs.
+
+## Common Errors
+
+- treating the zero vector as an eigenvector
+- assuming repeated eigenvalues automatically prevent diagonalization
+- forgetting that eigenvectors are determined only up to nonzero scaling
+
+## What To Do Next
+
+Open [SVD and Low-Rank Approximation](../concepts/svd-and-low-rank-approximation.qmd) next. That page brings spectral thinking back through the symmetric matrix $A^\top A$ and turns it into a stable approximation tool.
+
+## Sources and Further Reading
+
+- [MIT 18.06: Lecture 21, Eigenvalues and Eigenvectors](https://live.ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/resources/lecture-21-eigenvalues-and-eigenvectors/) - `First pass` - official source for computational practice on eigenpairs. Checked `2026-04-24`.
+- [MIT 18.06SC: Lecture 22, Diagonalization and Powers of A](https://live.ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/resources/lecture-22-diagonalization-and-powers-of-a-1/) - `Second pass` - official source for repeated powers. Checked `2026-04-24`.
+- [A Comprehensive Survey on Spectral Clustering with Graph Structure Learning](https://arxiv.org/abs/2501.13597) - `Paper bridge` - useful later for seeing eigen-modes inside graph methods. Checked `2026-04-24`.

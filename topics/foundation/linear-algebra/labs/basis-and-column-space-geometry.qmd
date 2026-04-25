@@ -1,0 +1,202 @@
+---
+title: "Computation Lab: Basis and Column Space Geometry"
+description: "An interactive lab for seeing how different generating sets can define the same subspace and how basis size tracks dimension."
+page-type: computation-lab
+status: published
+update-status: current
+level: foundation
+topic: linear-algebra
+prerequisites:
+  - /topics/foundation/linear-algebra/concepts/subspaces-basis-dimension.qmd
+learning-goals:
+  - "See when a generating set is redundant."
+  - "Watch a column space stay the same while the spanning list changes."
+  - "Connect determinant-based independence to basis size in two dimensions."
+applications:
+  - dimensionality-reduction
+  - regression
+keywords:
+  - computation
+  - simulation
+  - visualization
+  - basis
+  - subspace
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+execution-engine: ojs
+interactive: ojs
+reproducibility-note: "Client-side Observable JS only; deterministic generators and slider-controlled angles."
+---
+
+## Lab Goal
+
+This lab helps you see one specific fact:
+
+changing the generating set does not necessarily change the subspace, but changing independence changes the basis size.
+
+## Math Question
+
+How do the angle between two main generators and the choice of a third redundant vector affect:
+
+- the dimension of the column space
+- whether a basis needs one or two vectors
+- whether adding another column changes the underlying subspace
+
+## Model or Setup
+
+We use three column vectors in $\mathbb{R}^2$:
+
+$$
+c_1 =
+\begin{bmatrix}
+1 \\
+0
+\end{bmatrix},
+\qquad
+c_2 =
+\begin{bmatrix}
+\cos \theta \\
+\sin \theta
+\end{bmatrix},
+\qquad
+c_3 = c_1 + c_2.
+$$
+
+The third vector is always in the span of the first two.
+
+## Parameters and Controls
+
+- `Angle`: controls whether $c_1$ and $c_2$ are dependent or independent
+- `a, b, d`: coefficients in the combination $a c_1 + b c_2 + d c_3$
+
+## Code and Simulation
+
+```{ojs}
+//| echo: false
+viewof angleDeg = Inputs.range([0, 180], {
+  value: 60,
+  step: 1,
+  label: "Angle between c1 and c2 (degrees)"
+})
+
+viewof aCoef = Inputs.range([-2, 2], {
+  value: 1,
+  step: 0.05,
+  label: "Coefficient a"
+})
+
+viewof bCoef = Inputs.range([-2, 2], {
+  value: 0.5,
+  step: 0.05,
+  label: "Coefficient b"
+})
+
+viewof dCoef = Inputs.range([-2, 2], {
+  value: 0.8,
+  step: 0.05,
+  label: "Coefficient d"
+})
+```
+
+```{ojs}
+//| echo: false
+theta = angleDeg * Math.PI / 180
+c1 = ({x: 1, y: 0})
+c2 = ({x: Math.cos(theta), y: Math.sin(theta)})
+c3 = ({x: c1.x + c2.x, y: c1.y + c2.y})
+
+target = ({
+  x: aCoef * c1.x + bCoef * c2.x + dCoef * c3.x,
+  y: aCoef * c1.y + bCoef * c2.y + dCoef * c3.y
+})
+
+detValue = c1.x * c2.y - c1.y * c2.x
+dimensionText =
+  Math.abs(detValue) < 1e-6
+    ? "Dimension 1: c1 and c2 are dependent, so every column stays on one line."
+    : "Dimension 2: c1 and c2 are independent, so c3 adds no new dimension."
+
+segments = [
+  {x1: 0, y1: 0, x2: c1.x, y2: c1.y, kind: "c1"},
+  {x1: 0, y1: 0, x2: c2.x, y2: c2.y, kind: "c2"},
+  {x1: 0, y1: 0, x2: c3.x, y2: c3.y, kind: "c3"},
+  {x1: 0, y1: 0, x2: target.x, y2: target.y, kind: "target"}
+]
+```
+
+```{ojs}
+//| echo: false
+Plot.plot({
+  height: 430,
+  x: {label: "x", domain: [-4, 4]},
+  y: {label: "y", domain: [-4, 4]},
+  color: {legend: true},
+  marks: [
+    Plot.gridX({strokeOpacity: 0.15}),
+    Plot.gridY({strokeOpacity: 0.15}),
+    Plot.ruleX([0], {strokeOpacity: 0.25}),
+    Plot.ruleY([0], {strokeOpacity: 0.25}),
+    Plot.link(segments, {
+      x1: "x1",
+      y1: "y1",
+      x2: "x2",
+      y2: "y2",
+      stroke: "kind",
+      strokeWidth: 3,
+      markerEnd: "arrow"
+    }),
+    Plot.dot([{x: target.x, y: target.y}], {x: "x", y: "y", fill: "#dc2626", r: 6})
+  ]
+})
+```
+
+```{ojs}
+//| echo: false
+md`
+- Determinant of [c1 c2]: **${detValue.toFixed(4)}**
+- Basis interpretation: **${dimensionText}**
+- Built vector: **(${target.x.toFixed(3)}, ${target.y.toFixed(3)})**
+- Note: c3 is always redundant once c1 and c2 are independent.
+`
+```
+
+## What To Observe
+
+- When the angle is not `0` or `180`, the first two columns already span all of $\mathbb{R}^2$.
+- The third vector changes the spanning list but not the subspace.
+- When the angle collapses, all three columns fall into one one-dimensional subspace.
+- Dimension tracks independent directions, not the raw number of columns you wrote down.
+
+## Interpretation
+
+This lab shows why basis is a minimal spanning set.
+
+You can keep adding vectors to a generating list, but if they do not add a new independent direction, the subspace does not grow. That is the conceptual heart of basis reduction.
+
+## Failure Modes and Numerical Cautions
+
+- Near-zero determinants can make dependence look visually ambiguous.
+- In higher dimensions, basis extraction is less visual and more algebraic, but the same rule still applies.
+- A larger generating set is not automatically a richer model if it adds no new directions.
+
+## Reproducibility Notes
+
+- execution engine: Observable JS
+- randomness: none
+- libraries: Quarto OJS with Plot and Inputs
+- render mode: interactive client-side
+
+## Extensions
+
+- replace $c_3$ by another combination of $c_1$ and $c_2$
+- move to a 3D example where the ambient dimension is larger than the subspace dimension
+
+## Sources and Further Reading
+
+- [MIT 18.06SC: Basis and Dimension](https://live.ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/resources/basis-and-dimension-1/) - `First pass` - official anchor for span, basis, and dimension. Checked `2026-04-24`.
+- [Hefferon, Linear Algebra](https://hefferon.net/linearalgebra/) - `Second pass` - useful for more basis-reduction exercises. Checked `2026-04-24`.
+- [A Survey: Potential Dimensionality Reduction Methods](https://arxiv.org/abs/2502.11036) - `Paper bridge` - current reminder that low-dimensional modeling starts with honest basis and dimension language. Checked `2026-04-24`.

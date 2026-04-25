@@ -29,10 +29,6 @@ source-check-date: 2026-04-24
 review-cadence: annual
 date-modified: last-modified
 draft: false
-next:
-  - /topics/foundation/linear-algebra/proofs/eckart-young-and-truncated-svd.qmd
-  - /topics/foundation/linear-algebra/applications/pca-through-svd.qmd
-  - /topics/foundation/linear-algebra/labs/rank-one-approximation-and-pca-geometry.qmd
 related-pages:
   - /topics/foundation/linear-algebra/concepts/orthogonality-and-least-squares.qmd
   - /topics/foundation/linear-algebra/research/low-rank-structure-from-randomized-algorithms-to-model-adaptation.qmd
@@ -54,7 +50,7 @@ The singular value decomposition tells you how a matrix rotates coordinates, str
 
 ## First-Pass Promise
 
-Read this page first.
+Read this page after `Eigenvalues and Diagonalization`.
 
 If you stop here, you should still understand:
 

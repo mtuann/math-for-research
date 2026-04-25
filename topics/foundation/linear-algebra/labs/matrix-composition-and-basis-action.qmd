@@ -1,0 +1,224 @@
+---
+title: "Computation Lab: Matrix Composition and Basis Action"
+description: "An interactive lab for seeing how a matrix acts on basis vectors and how composing two maps differs from applying either one alone."
+page-type: computation-lab
+status: published
+update-status: current
+level: foundation
+topic: linear-algebra
+prerequisites:
+  - /topics/foundation/linear-algebra/concepts/matrices-and-linear-maps.qmd
+learning-goals:
+  - "See the columns of a matrix as images of basis vectors."
+  - "Watch composition become matrix multiplication."
+  - "Recognize why order matters."
+applications:
+  - machine-learning
+  - computer-graphics
+keywords:
+  - computation
+  - simulation
+  - visualization
+  - matrices
+  - composition
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+execution-engine: ojs
+interactive: ojs
+reproducibility-note: "Client-side Observable JS only; deterministic toy maps with slider-controlled shear and scale."
+---
+
+## Lab Goal
+
+This lab helps you see one specific fact:
+
+a matrix is fully determined by what it does to the basis vectors, and composing two maps creates a new matrix whose action depends on order.
+
+## Math Question
+
+How do shear and scale maps affect:
+
+- the images of $e_1$ and $e_2$
+- the image of a sample vector
+- the composed map $AB$ versus $BA$
+
+## Model or Setup
+
+We use two linear maps in $\mathbb{R}^2$:
+
+$$
+B =
+\begin{bmatrix}
+1 & s \\
+0 & 1
+\end{bmatrix},
+\qquad
+A =
+\begin{bmatrix}
+\lambda & 0 \\
+0 & 1
+\end{bmatrix}.
+$$
+
+Here $B$ is a shear and $A$ rescales the first coordinate.
+
+## Parameters and Controls
+
+- `Shear s`
+- `Horizontal scale λ`
+- `Sample vector x`
+
+Defaults are `0.8`, `1.5`, and $x=(1,1)$.
+
+## Code and Simulation
+
+```{ojs}
+//| echo: false
+viewof shear = Inputs.range([-2, 2], {
+  value: 0.8,
+  step: 0.05,
+  label: "Shear s"
+})
+
+viewof scaleX = Inputs.range([0.25, 2.5], {
+  value: 1.5,
+  step: 0.05,
+  label: "Horizontal scale λ"
+})
+
+viewof x1 = Inputs.range([-2, 2], {
+  value: 1,
+  step: 0.05,
+  label: "Sample vector x-coordinate"
+})
+
+viewof x2 = Inputs.range([-2, 2], {
+  value: 1,
+  step: 0.05,
+  label: "Sample vector y-coordinate"
+})
+```
+
+```{ojs}
+//| echo: false
+B = [[1, shear], [0, 1]]
+A = [[scaleX, 0], [0, 1]]
+
+applyMat = (M, v) => ({
+  x: M[0][0] * v.x + M[0][1] * v.y,
+  y: M[1][0] * v.x + M[1][1] * v.y
+})
+
+matMul = (M, N) => [
+  [
+    M[0][0] * N[0][0] + M[0][1] * N[1][0],
+    M[0][0] * N[0][1] + M[0][1] * N[1][1]
+  ],
+  [
+    M[1][0] * N[0][0] + M[1][1] * N[1][0],
+    M[1][0] * N[0][1] + M[1][1] * N[1][1]
+  ]
+]
+
+e1 = ({x: 1, y: 0})
+e2 = ({x: 0, y: 1})
+x = ({x: x1, y: x2})
+
+AB = matMul(A, B)
+BA = matMul(B, A)
+
+images = [
+  {label: "e1", ...e1},
+  {label: "e2", ...e2},
+  {label: "x", ...x},
+  {label: "ABx", ...applyMat(AB, x)},
+  {label: "BAx", ...applyMat(BA, x)}
+]
+
+segments = [
+  {x1: 0, y1: 0, x2: e1.x, y2: e1.y, kind: "e1"},
+  {x1: 0, y1: 0, x2: e2.x, y2: e2.y, kind: "e2"},
+  {x1: 0, y1: 0, x2: x.x, y2: x.y, kind: "x"},
+  {x1: 0, y1: 0, x2: applyMat(AB, x).x, y2: applyMat(AB, x).y, kind: "ABx"},
+  {x1: 0, y1: 0, x2: applyMat(BA, x).x, y2: applyMat(BA, x).y, kind: "BAx"}
+]
+```
+
+```{ojs}
+//| echo: false
+Plot.plot({
+  height: 430,
+  x: {label: "x", domain: [-4, 4]},
+  y: {label: "y", domain: [-4, 4]},
+  color: {legend: true},
+  marks: [
+    Plot.gridX({strokeOpacity: 0.15}),
+    Plot.gridY({strokeOpacity: 0.15}),
+    Plot.ruleX([0], {strokeOpacity: 0.25}),
+    Plot.ruleY([0], {strokeOpacity: 0.25}),
+    Plot.link(segments, {
+      x1: "x1",
+      y1: "y1",
+      x2: "x2",
+      y2: "y2",
+      stroke: "kind",
+      strokeWidth: 3,
+      markerEnd: "arrow"
+    }),
+    Plot.dot(images, {x: "x", y: "y", fill: "label", r: 5, tip: true})
+  ]
+})
+```
+
+```{ojs}
+//| echo: false
+Inputs.table([
+  {map: "A", row1: `[${A[0][0].toFixed(2)}, ${A[0][1].toFixed(2)}]`, row2: `[${A[1][0].toFixed(2)}, ${A[1][1].toFixed(2)}]`},
+  {map: "B", row1: `[${B[0][0].toFixed(2)}, ${B[0][1].toFixed(2)}]`, row2: `[${B[1][0].toFixed(2)}, ${B[1][1].toFixed(2)}]`},
+  {map: "AB", row1: `[${AB[0][0].toFixed(2)}, ${AB[0][1].toFixed(2)}]`, row2: `[${AB[1][0].toFixed(2)}, ${AB[1][1].toFixed(2)}]`},
+  {map: "BA", row1: `[${BA[0][0].toFixed(2)}, ${BA[0][1].toFixed(2)}]`, row2: `[${BA[1][0].toFixed(2)}, ${BA[1][1].toFixed(2)}]`}
+])
+```
+
+## What To Observe
+
+- The images of $e_1$ and $e_2$ are exactly the columns of each matrix.
+- The composed images $ABx$ and $BAx$ usually differ.
+- Changing the shear alters how much the second basis direction spills into the first coordinate.
+- Changing the scale changes the effect of composition depending on when the scaling happens.
+
+## Interpretation
+
+The plot is showing three core claims from the concept page:
+
+- columns record basis images
+- one matrix is one linear rule
+- composition becomes matrix multiplication, and order matters
+
+## Failure Modes and Numerical Cautions
+
+- This lab is deterministic and tiny, so it hides numerical conditioning issues.
+- In higher dimensions you cannot inspect basis images visually as easily, but the algebra stays the same.
+- A composition can look visually similar for one sample vector even when the matrices differ strongly.
+
+## Reproducibility Notes
+
+- execution engine: Observable JS
+- randomness: none
+- libraries: Quarto OJS with Plot and Inputs
+- render mode: interactive client-side
+
+## Extensions
+
+- replace the scaling map by a rotation-like matrix
+- compare one map written in two different bases
+
+## Sources and Further Reading
+
+- [MIT 18.06SC: Linear Transformations and their Matrices](https://ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/pages/positive-definite-matrices-and-applications/linear-transformations-and-their-matrices/) - `First pass` - official source for the basis-image and composition viewpoint. Checked `2026-04-24`.
+- [Introduction to Applied Linear Algebra – Vectors, Matrices, and Least Squares](https://web.stanford.edu/~boyd/vmls/) - `Second pass` - good computational reinforcement on transformations and maps. Checked `2026-04-24`.
+- [Deep learning, transformers and graph neural networks: a linear algebra perspective](https://link.springer.com/article/10.1007/s11075-025-02218-2) - `Paper bridge` - useful later, when you want to see modern learned operators through the same lens. Checked `2026-04-24`.

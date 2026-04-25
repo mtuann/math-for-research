@@ -1,0 +1,337 @@
+---
+title: "Exercises: Vectors and Linear Combinations"
+description: "Practice problems and worked solutions for vectors, span, dependence, and column combinations."
+page-type: exercise
+status: published
+update-status: current
+level: foundation
+topic: linear-algebra
+prerequisites:
+  - /topics/foundation/linear-algebra/concepts/vectors-and-linear-combinations.qmd
+learning-goals:
+  - "Practice writing vectors as combinations of generators."
+  - "Recognize when vectors are dependent or independent."
+  - "Translate matrix-vector multiplication into column-space language."
+applications:
+  - machine-learning
+  - signal-processing
+keywords:
+  - exercises
+  - vectors
+  - span
+  - linear combinations
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/foundation/linear-algebra/proofs/span-is-a-subspace.qmd
+  - /topics/foundation/linear-algebra/labs/linear-combinations-and-span-geometry.qmd
+---
+
+## Scope and Goals
+
+This set trains four things:
+
+- writing vectors explicitly as linear combinations
+- checking span and dependence
+- reading matrix-vector multiplication by columns
+- preparing for basis and dimension
+
+## Prerequisites
+
+- vector addition and scalar multiplication
+- the definition of span
+- the idea that $Ax$ is a column combination
+
+## Warm-Up Problems
+
+1. Write
+
+   $$
+   \begin{bmatrix}
+   4 \\
+   -1
+   \end{bmatrix}
+   $$
+
+   as a linear combination of the standard basis vectors in $\mathbb{R}^2$.
+2. Let
+
+   $$
+   v_1 =
+   \begin{bmatrix}
+   1 \\
+   1
+   \end{bmatrix},
+   \qquad
+   v_2 =
+   \begin{bmatrix}
+   1 \\
+   -1
+   \end{bmatrix}.
+   $$
+
+   Find coefficients $a,b$ so that $av_1+bv_2 = (3,1)^\top$.
+
+## Core Problems
+
+1. Decide whether
+
+   $$
+   b =
+   \begin{bmatrix}
+   2 \\
+   5
+   \end{bmatrix}
+   $$
+
+   belongs to the span of
+
+   $$
+   v_1 =
+   \begin{bmatrix}
+   1 \\
+   2
+   \end{bmatrix},
+   \qquad
+   v_2 =
+   \begin{bmatrix}
+   1 \\
+   1
+   \end{bmatrix}.
+   $$
+
+2. Let
+
+   $$
+   A =
+   \begin{bmatrix}
+   1 & 0 & 1 \\
+   0 & 1 & 1
+   \end{bmatrix},
+   \qquad
+   x =
+   \begin{bmatrix}
+   2 \\
+   -1 \\
+   3
+   \end{bmatrix}.
+   $$
+
+   Compute $Ax$ and explain it as a linear combination of the columns of $A$.
+3. Show that
+
+   $$
+   v_3 =
+   \begin{bmatrix}
+   2 \\
+   0
+   \end{bmatrix}
+   $$
+
+   is redundant in the set
+
+   $$
+   \left\{
+   \begin{bmatrix}
+   1 \\
+   0
+   \end{bmatrix},
+   \begin{bmatrix}
+   0 \\
+   1
+   \end{bmatrix},
+   \begin{bmatrix}
+   2 \\
+   0
+   \end{bmatrix}
+   \right\}.
+   $$
+
+## Proof Problems
+
+1. Prove that if $u$ and $v$ are both in $\operatorname{span}\{w_1,\dots,w_k\}$, then $u+v$ is also in that span.
+2. Prove that if one vector in a spanning set is itself a linear combination of the others, then removing it does not change the span.
+
+## Computational or Applied Problems
+
+1. Open [Computation Lab: Linear Combinations and Span Geometry](../labs/linear-combinations-and-span-geometry.qmd). Move the angle close to `0` degrees and record what happens to the determinant and the span description.
+2. In software, create a small matrix with dependent columns and test two different coefficient vectors that give the same output.
+
+## Hints
+
+1. To check membership in a span, solve for the coefficients.
+2. For matrix-vector multiplication, read each component of $x$ as a weight on a column of $A$.
+3. Redundancy means one direction is already available from the others.
+
+## Full Solutions
+
+### Solution 1
+
+$$
+\begin{bmatrix}
+4 \\
+-1
+\end{bmatrix}
+=
+4
+\begin{bmatrix}
+1 \\
+0
+\end{bmatrix}
+-
+\begin{bmatrix}
+0 \\
+1
+\end{bmatrix}.
+$$
+
+### Solution 2
+
+We solve
+
+$$
+a
+\begin{bmatrix}
+1 \\
+1
+\end{bmatrix}
++
+b
+\begin{bmatrix}
+1 \\
+-1
+\end{bmatrix}
+=
+\begin{bmatrix}
+3 \\
+1
+\end{bmatrix}.
+$$
+
+This gives
+
+$$
+a+b=3,
+\qquad
+a-b=1.
+$$
+
+So $a=2$ and $b=1$.
+
+### Solution 3
+
+Solve
+
+$$
+a
+\begin{bmatrix}
+1 \\
+2
+\end{bmatrix}
++
+b
+\begin{bmatrix}
+1 \\
+1
+\end{bmatrix}
+=
+\begin{bmatrix}
+2 \\
+5
+\end{bmatrix}.
+$$
+
+From the first coordinate, $a+b=2$. From the second, $2a+b=5$. Subtracting gives $a=3$, so $b=-1$.
+
+Therefore $b$ belongs to the span.
+
+### Solution 4
+
+The columns of $A$ are
+
+$$
+a_1 =
+\begin{bmatrix}
+1 \\
+0
+\end{bmatrix},
+\qquad
+a_2 =
+\begin{bmatrix}
+0 \\
+1
+\end{bmatrix},
+\qquad
+a_3 =
+\begin{bmatrix}
+1 \\
+1
+\end{bmatrix}.
+$$
+
+So
+
+$$
+Ax = 2a_1 - a_2 + 3a_3
+=
+2
+\begin{bmatrix}
+1 \\
+0
+\end{bmatrix}
+-
+\begin{bmatrix}
+0 \\
+1
+\end{bmatrix}
++
+3
+\begin{bmatrix}
+1 \\
+1
+\end{bmatrix}
+=
+\begin{bmatrix}
+5 \\
+2
+\end{bmatrix}.
+$$
+
+### Solution 5
+
+Because
+
+$$
+\begin{bmatrix}
+2 \\
+0
+\end{bmatrix}
+=
+2
+\begin{bmatrix}
+1 \\
+0
+\end{bmatrix},
+$$
+
+the third vector is already in the span of the first. Removing it does not change the span.
+
+## Common Errors
+
+- treating coefficients as if they must be unique even when the generators are dependent
+- checking span by eye instead of solving for coefficients
+- forgetting that matrix-vector multiplication is column-based, not row-based, in this interpretation
+
+## What To Do Next
+
+Open [Matrices and Linear Maps](../concepts/matrices-and-linear-maps.qmd) next. That page explains why these same linear combinations become operator language once matrices are viewed as maps.
+
+## Sources and Further Reading
+
+- [MIT 18.06SC: Basis and Dimension](https://live.ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/resources/basis-and-dimension-1/) - `First pass` - good official problem context for span and dependence. Checked `2026-04-24`.
+- [Hefferon, Linear Algebra](https://hefferon.net/linearalgebra/) - `Second pass` - strong extra exercises for span, dependence, and column space. Checked `2026-04-24`.
+- [Attention is All you Need](https://proceedings.neurips.cc/paper_files/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html) - `Paper bridge` - useful later, once weighted vector combinations feel natural. Checked `2026-04-24`.

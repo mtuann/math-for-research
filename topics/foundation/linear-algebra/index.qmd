@@ -69,6 +69,39 @@ The proof, exercise, application, lab, paper-lab, research, and source-guide pag
 
 ## Go Deeper By Topic
 
+### Vectors and Linear Combinations
+
+Start with [Vectors and Linear Combinations](concepts/vectors-and-linear-combinations.qmd).
+
+If you want more after the main page:
+
+- `Proof`: [Span Is a Subspace](proofs/span-is-a-subspace.qmd)
+- `Application`: [Vector Mixtures in Embeddings and Attention](applications/vector-mixtures-in-embeddings-and-attention.qmd)
+- `Visual intuition`: [Computation Lab: Linear Combinations and Span Geometry](labs/linear-combinations-and-span-geometry.qmd)
+- `Practice`: [Exercises: Vectors and Linear Combinations](exercises/vectors-and-linear-combinations.qmd)
+
+### Matrices and Linear Maps
+
+Start with [Matrices and Linear Maps](concepts/matrices-and-linear-maps.qmd).
+
+If you want more after the main page:
+
+- `Proof`: [Basis Images Determine a Linear Map](proofs/basis-images-determine-a-linear-map.qmd)
+- `Application`: [Learned Linear Projections in Transformers](applications/learned-linear-projections-in-transformers.qmd)
+- `Visual intuition`: [Computation Lab: Matrix Composition and Basis Action](labs/matrix-composition-and-basis-action.qmd)
+- `Practice`: [Exercises: Matrices and Linear Maps](exercises/matrices-and-linear-maps.qmd)
+
+### Subspaces, Basis, and Dimension
+
+Start with [Subspaces, Basis, and Dimension](concepts/subspaces-basis-dimension.qmd).
+
+If you want more after the main page:
+
+- `Proof`: [Exchange Argument and Why Dimension Is Well Defined](proofs/exchange-argument-and-dimension.qmd)
+- `Application`: [Low-Dimensional Subspace Models](applications/low-dimensional-subspace-models.qmd)
+- `Visual intuition`: [Computation Lab: Basis and Column Space Geometry](labs/basis-and-column-space-geometry.qmd)
+- `Practice`: [Exercises: Subspaces, Basis, and Dimension](exercises/subspaces-basis-dimension.qmd)
+
 ### Orthogonality and Least Squares
 
 Start with [Orthogonality and Least Squares](concepts/orthogonality-and-least-squares.qmd).
@@ -78,6 +111,18 @@ If you want more after the main page:
 - `Proof`: [Projection Theorem and Normal Equations](proofs/projection-theorem-and-normal-equations.qmd)
 - `Application`: [Linear Regression Through Projection](applications/linear-regression-through-projection.qmd)
 - `Visual intuition`: [Computation Lab: Projection Geometry and Regression Residuals](labs/orthogonality-and-least-squares-geometry.qmd)
+- `Practice`: [Exercises: Orthogonality and Least Squares](exercises/orthogonality-and-least-squares.qmd)
+
+### Eigenvalues and Diagonalization
+
+Start with [Eigenvalues and Diagonalization](concepts/eigenvalues-and-diagonalization.qmd).
+
+If you want more after the main page:
+
+- `Proof`: [Distinct Eigenvalues Give Independent Eigenvectors](proofs/distinct-eigenvalues-give-independent-eigenvectors.qmd)
+- `Application`: [Spectral Modes in Consensus and Graphs](applications/spectral-modes-in-consensus-and-graphs.qmd)
+- `Visual intuition`: [Computation Lab: Matrix Powers and Spectral Modes](labs/matrix-powers-and-spectral-modes.qmd)
+- `Practice`: [Exercises: Eigenvalues and Diagonalization](exercises/eigenvalues-and-diagonalization.qmd)
 
 ### SVD and Low-Rank Approximation
 
@@ -88,17 +133,17 @@ If you want more after the main page:
 - `Proof`: [Eckart-Young and Truncated SVD](proofs/eckart-young-and-truncated-svd.qmd)
 - `Application`: [PCA Through SVD](applications/pca-through-svd.qmd)
 - `Visual intuition`: [Computation Lab: Rank-1 Approximation and PCA Geometry](labs/rank-one-approximation-and-pca-geometry.qmd)
+- `Practice`: [Exercises: SVD and Low-Rank Approximation](exercises/svd-and-low-rank-approximation.qmd)
 
-## Optional Deep Dives After First Pass
+## Research Bridge
 
-After the first pass, use these pages when you want research-facing depth rather than basic understanding:
+After the first pass, use the `Optional Paper Bridge` and `Go Deeper` sections inside each concept page to open the relevant:
 
-- [Paper Lab: Randomized Sketching for Least Squares](paper-lab/randomized-sketching-for-least-squares.qmd)
-- [Research Direction: Least Squares, Sketching, and Overparameterized Regression](research/least-squares-sketching-and-overparameterized-regression.qmd)
-- [Source Guide: Orthogonality and Least Squares](sources/orthogonality-and-least-squares.qmd)
-- [Paper Lab: Finding Structure with Randomness](paper-lab/finding-structure-with-randomness.qmd)
-- [Research Direction: Low-Rank Structure from Randomized Algorithms to Model Adaptation](research/low-rank-structure-from-randomized-algorithms-to-model-adaptation.qmd)
-- [Source Guide: SVD and Low-Rank Approximation](sources/svd-and-low-rank-approximation.qmd)
+- paper lab
+- research direction
+- source guide
+
+That keeps the module landing page clean while still making every topic package discoverable from its own home page.
 
 ## What You Want By The End
 

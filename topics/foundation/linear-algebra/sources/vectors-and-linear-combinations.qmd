@@ -1,0 +1,91 @@
+---
+title: "Source Guide: Vectors and Linear Combinations"
+description: "A curated source guide for learning vectors, span, and weighted combinations from first pass through research bridge."
+page-type: source-guide
+status: published
+update-status: current
+level: foundation
+topic: linear-algebra
+prerequisites:
+  - /topics/foundation/linear-algebra/concepts/vectors-and-linear-combinations.qmd
+learning-goals:
+  - "Choose the right resource for first exposure, second pass, or paper bridge."
+  - "Separate stable vector-space references from current representation-learning bridges."
+  - "See which sources belong to the concept, application, and research pages in this package."
+applications:
+  - machine-learning
+  - representation-learning
+keywords:
+  - source guide
+  - vectors
+  - span
+  - embeddings
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+stable-sources:
+  - "MIT 18.06SC Basis and Dimension"
+  - "Stanford VMLS"
+  - "Hefferon, Linear Algebra"
+current-sources:
+  - "Deep learning, transformers and graph neural networks: a linear algebra perspective (2025)"
+  - "Attention Is All You Need"
+---
+
+## How To Use This Guide
+
+Use one source per layer:
+
+- `First pass` for intuition and basic fluency
+- `Second pass` for more exercises, operator language, or implementation flavor
+- `Paper bridge` for seeing vectors inside modern ML papers
+
+Do not try to read the whole stack at once.
+
+## Stable Core
+
+- [MIT 18.06SC: Basis and Dimension](https://live.ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/resources/basis-and-dimension-1/) - `First pass` - strong official source for span, basis, and dimension as one storyline. Checked `2026-04-24`.
+- [Introduction to Applied Linear Algebra – Vectors, Matrices, and Least Squares](https://web.stanford.edu/~boyd/vmls/) - `First pass` - very good applied framing for vectors, combinations, and matrix-based thinking. Checked `2026-04-24`.
+- [Hefferon, Linear Algebra](https://hefferon.net/linearalgebra/) - `Second pass` - self-study depth with more proof and exercise practice. Checked `2026-04-24`.
+
+## Current Bridge
+
+- [Deep learning, transformers and graph neural networks: a linear algebra perspective](https://link.springer.com/article/10.1007/s11075-025-02218-2) - `Second pass` - current bridge from vector-space basics to embeddings, attention, and graph models. Checked `2026-04-24`.
+
+## Paper Bridge
+
+- [Attention is All you Need](https://proceedings.neurips.cc/paper_files/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html) - `Paper bridge` - best first paper for seeing weighted vector mixtures become a central ML operation. Checked `2026-04-24`.
+
+## Recommended Reading Paths
+
+### Path 1: First serious understanding
+
+1. MIT 18.06SC Basis and Dimension
+2. [Vectors and Linear Combinations](../concepts/vectors-and-linear-combinations.qmd)
+3. Hefferon for extra exercises
+
+### Path 2: Vectors to modern representations
+
+1. [Vectors and Linear Combinations](../concepts/vectors-and-linear-combinations.qmd)
+2. [Vector Mixtures in Embeddings and Attention](../applications/vector-mixtures-in-embeddings-and-attention.qmd)
+3. [Attention as Weighted Vector Mixture](../paper-lab/attention-as-weighted-vector-mixture.qmd)
+
+### Path 3: Build intuition visually
+
+1. [Vectors and Linear Combinations](../concepts/vectors-and-linear-combinations.qmd)
+2. [Computation Lab: Linear Combinations and Span Geometry](../labs/linear-combinations-and-span-geometry.qmd)
+3. [Exercises: Vectors and Linear Combinations](../exercises/vectors-and-linear-combinations.qmd)
+
+## Sources Checked Online
+
+All links above were checked on `2026-04-24`.
+
+The verification pass included:
+
+- official MIT OCW pages
+- official Stanford or author-maintained textbook pages
+- official NeurIPS proceedings page
+- current journal page for the 2025 linear-algebra perspective survey

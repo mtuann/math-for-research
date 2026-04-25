@@ -361,12 +361,18 @@ then this page has done its main job.
 
 ## Go Deeper
 
-The best next move is to continue the linear algebra spine with [SVD and Low-Rank Approximation](svd-and-low-rank-approximation.qmd), where eigenvalue ideas reappear through symmetric matrices like $A^\top A$ and become useful for compression, PCA, and stable approximation.
+If you want more after the main page:
+
+- `Proof`: [Distinct Eigenvalues Give Independent Eigenvectors](../proofs/distinct-eigenvalues-give-independent-eigenvectors.qmd)
+- `Application`: [Spectral Modes in Consensus and Graphs](../applications/spectral-modes-in-consensus-and-graphs.qmd)
+- `Visual intuition`: [Computation Lab: Matrix Powers and Spectral Modes](../labs/matrix-powers-and-spectral-modes.qmd)
+- `Practice`: [Exercises: Eigenvalues and Diagonalization](../exercises/eigenvalues-and-diagonalization.qmd)
 
 ## Optional Paper Bridge
 
-- [A Comprehensive Survey on Spectral Clustering with Graph Structure Learning](https://arxiv.org/abs/2501.13597) - `Second pass` - a current survey showing how eigenvalues and eigenvectors of graph-based operators drive clustering and large-scale graph analysis. Checked `2026-04-24`.
-- [Piecewise Constant Spectral Graph Neural Network](https://openreview.net/pdf?id=sTdVnDW0HX) - `Paper bridge` - a 2025 TMLR paper where the eigenvalue spectrum of graph operators directly shapes learned filters. Checked `2026-04-24`.
+- [Paper Lab: Spectral Clustering and Graph Modes](../paper-lab/spectral-clustering-and-graph-modes.qmd)
+- [Research Direction: Spectral Methods from Graphs to GNNs](../research/spectral-methods-from-graphs-to-gnns.qmd)
+- [Source Guide: Eigenvalues and Diagonalization](../sources/eigenvalues-and-diagonalization.qmd)
 
 ## Optional After First Pass
 
@@ -375,6 +381,7 @@ If you want more practice before moving on:
 - diagonalize a simple $2 \times 2$ matrix with distinct eigenvalues
 - compare a diagonalizable matrix with one that has too few independent eigenvectors
 - study how powers of a matrix depend on whether $|\lambda|<1$, $|\lambda|=1$, or $|\lambda|>1$
+- continue to [SVD and Low-Rank Approximation](svd-and-low-rank-approximation.qmd) when you want spectral structure to become a matrix-approximation tool
 
 ## Common Mistakes
 

@@ -1,0 +1,133 @@
+---
+title: "Paper Lab: Attention as Weighted Vector Mixture"
+description: "A guided reading page for seeing the linear-combination heart of transformer attention inside the original paper."
+page-type: paper-lab
+status: published
+update-status: monitor
+level: research
+topic: linear-algebra
+prerequisites:
+  - /paper-lab/how-to-read-a-paper.qmd
+  - /topics/foundation/linear-algebra/concepts/vectors-and-linear-combinations.qmd
+  - /topics/foundation/linear-algebra/concepts/matrices-and-linear-maps.qmd
+learning-goals:
+  - "See the weighted-sum structure inside attention."
+  - "Separate the linear-combination core from the surrounding architecture."
+  - "Use a famous paper as a bridge from vectors to modern representation learning."
+applications:
+  - machine-learning
+  - representation-learning
+keywords:
+  - paper reading
+  - attention
+  - vectors
+  - embeddings
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: quarterly
+date-modified: last-modified
+draft: false
+stable-sources:
+  - "Vectors and Linear Combinations concept page"
+current-sources:
+  - "Attention Is All You Need"
+  - "Deep learning, transformers and graph neural networks: a linear algebra perspective (2025)"
+---
+
+## Why This Paper
+
+Use this paper lab when you want your first research-facing example of a famous ML paper whose core linear-algebra move is still simple:
+
+`build one vector by weighting and summing other vectors`.
+
+The anchor paper is:
+
+- [Attention is All you Need](https://proceedings.neurips.cc/paper_files/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html)
+
+## What To Know First
+
+- what a linear combination is
+- how a matrix can store a collection of vectors
+- why changing weights changes the output without changing the underlying span
+
+## First Pass
+
+On a first pass, ignore most architecture details and track only one equation:
+
+$$
+\sum_i \alpha_i v_i.
+$$
+
+That is the attention output for one query: a weighted sum of value vectors.
+
+The main story is:
+
+1. similarity scores produce weights
+2. weights choose how much each value vector matters
+3. the output representation lies in the span of the value vectors
+
+## Second Pass
+
+The real mathematical objects to track are:
+
+- query vector $q$
+- key vectors $k_i$
+- value vectors $v_i$
+- weights $\alpha_i$
+- output vector $\sum_i \alpha_i v_i$
+
+At this pass, separate two roles:
+
+- `linear map role`: learned projections create queries, keys, and values
+- `vector-mixture role`: the final output is a weighted combination of value vectors
+
+That separation helps you see which part belongs to the `Vectors` topic and which part belongs more naturally to `Matrices and Linear Maps`.
+
+## Math Dependency Map
+
+Read this page after:
+
+- [Vectors and Linear Combinations](../concepts/vectors-and-linear-combinations.qmd)
+- [Matrices and Linear Maps](../concepts/matrices-and-linear-maps.qmd)
+- [Vector Mixtures in Embeddings and Attention](../applications/vector-mixtures-in-embeddings-and-attention.qmd)
+
+## Key Claims and Evidence
+
+The paper’s main architectural claim is not itself a linear-algebra theorem.
+
+But the linear-algebra object inside the architecture is very clean:
+
+- the output is a weighted sum of value vectors
+- the learned projections are matrix maps
+- multi-head attention repeats this pattern in parallel subspaces
+
+The evidence in the paper is mainly experimental and architectural, not theorem-based.
+
+## What To Reproduce
+
+A good reproduction target is tiny:
+
+1. choose three value vectors in $\mathbb{R}^d$
+2. choose one query and three keys
+3. compute attention weights
+4. form the weighted sum explicitly
+5. verify that the output lies in the span of the values
+
+That reproduction target is small, but it teaches the main bridge idea.
+
+## What Has Changed Since Publication
+
+Since the original paper, attention has branched into:
+
+- larger transformer architectures
+- efficient or sparse attention variants
+- graph and multimodal attention mechanisms
+
+But the weighted-vector-mixture view still survives as a first reading lens.
+
+## Sources and Further Reading
+
+- [Attention is All you Need](https://proceedings.neurips.cc/paper_files/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html) - `Paper bridge` - the anchor paper for this lab. Checked `2026-04-24`.
+- [Deep learning, transformers and graph neural networks: a linear algebra perspective](https://link.springer.com/article/10.1007/s11075-025-02218-2) - `Second pass` - current survey context for seeing attention through a linear-algebra lens. Checked `2026-04-24`.
+- [Vector Mixtures in Embeddings and Attention](../applications/vector-mixtures-in-embeddings-and-attention.qmd) - `First pass` - site page that isolates the weighted-sum core before the architecture details.

@@ -1,0 +1,214 @@
+---
+title: "Exercises: Subspaces, Basis, and Dimension"
+description: "Practice problems and worked solutions for subspace checks, basis construction, and dimension counting."
+page-type: exercise
+status: published
+update-status: current
+level: foundation
+topic: linear-algebra
+prerequisites:
+  - /topics/foundation/linear-algebra/concepts/subspaces-basis-dimension.qmd
+learning-goals:
+  - "Check whether a set is a subspace."
+  - "Build a basis from a spanning set."
+  - "Interpret dimension as number of independent directions."
+applications:
+  - regression
+  - dimensionality-reduction
+keywords:
+  - exercises
+  - subspace
+  - basis
+  - dimension
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/foundation/linear-algebra/proofs/exchange-argument-and-dimension.qmd
+  - /topics/foundation/linear-algebra/labs/basis-and-column-space-geometry.qmd
+---
+
+## Scope and Goals
+
+This set trains four things:
+
+- checking subspace conditions carefully
+- extracting a basis from a spanning description
+- counting dimension correctly
+- connecting column space language to later least-squares geometry
+
+## Prerequisites
+
+- span and linear combinations
+- independence
+- column space as a set of outputs $Ax$
+
+## Warm-Up Problems
+
+1. Decide whether
+
+   $$
+   \left\{
+   \begin{bmatrix}
+   x \\
+   y \\
+   z
+   \end{bmatrix}
+   : x+y+z=0
+   \right\}
+   $$
+
+   is a subspace of $\mathbb{R}^3$.
+2. Find a basis for the line
+
+   $$
+   \operatorname{span}\left\{
+   \begin{bmatrix}
+   2 \\
+   -1
+   \end{bmatrix}
+   \right\}.
+   $$
+
+## Core Problems
+
+1. Find a basis and the dimension of
+
+   $$
+   W =
+   \operatorname{span}
+   \left\{
+   \begin{bmatrix}
+   1 \\
+   0 \\
+   1
+   \end{bmatrix},
+   \begin{bmatrix}
+   0 \\
+   1 \\
+   1
+   \end{bmatrix}
+   \right\}.
+   $$
+
+2. Explain why
+
+   $$
+   \left\{
+   \begin{bmatrix}
+   x \\
+   y
+   \end{bmatrix}
+   : x+y=1
+   \right\}
+   $$
+
+   is not a subspace.
+3. Let
+
+   $$
+   A =
+   \begin{bmatrix}
+   1 & 0 & 1 \\
+   0 & 1 & 1
+   \end{bmatrix}.
+   $$
+
+   Describe a basis for $\operatorname{col}(A)$.
+
+## Proof Problems
+
+1. Show that the column space of any matrix is a subspace.
+2. Prove that removing a redundant vector from a spanning set does not change the span.
+
+## Computational or Applied Problems
+
+1. Open [Computation Lab: Basis and Column Space Geometry](../labs/basis-and-column-space-geometry.qmd). Change the angle and explain when the third vector changes the subspace and when it does not.
+2. In software, create a matrix with three columns in $\mathbb{R}^2$ and compare the number of columns with the actual dimension of the column space.
+
+## Hints
+
+1. A subspace must contain the zero vector.
+2. To test independence, solve $a_1v_1 + a_2v_2 = 0$.
+3. Different spanning sets can define the same subspace.
+
+## Full Solutions
+
+### Solution 1
+
+Yes. The set contains $0$, and if $x+y+z=0$ and $x'+y'+z'=0$, then
+
+$$
+(x+x') + (y+y') + (z+z') = 0.
+$$
+
+Scalar multiples also preserve the equation, so the set is a subspace.
+
+### Solution 2
+
+A basis is just
+
+$$
+\left\{
+\begin{bmatrix}
+2 \\
+-1
+\end{bmatrix}
+\right\}.
+$$
+
+The dimension is $1$.
+
+### Solution 3
+
+The two given vectors are independent, so they already form a basis. Therefore
+
+$$
+\dim(W)=2.
+$$
+
+### Solution 4
+
+The vector $(0,0)^\top$ is not in the set because $0+0 \neq 1$. So the set cannot be a subspace.
+
+### Solution 5
+
+The columns are
+
+$$
+\begin{bmatrix}
+1 \\
+0
+\end{bmatrix},
+\quad
+\begin{bmatrix}
+0 \\
+1
+\end{bmatrix},
+\quad
+\begin{bmatrix}
+1 \\
+1
+\end{bmatrix}.
+$$
+
+The first two already span $\mathbb{R}^2$, and the third is their sum. So a basis is the first two columns.
+
+## Common Errors
+
+- forgetting that a subspace must contain zero
+- confusing ambient dimension with subspace dimension
+- thinking every spanning set is already a basis
+
+## What To Do Next
+
+Open [Orthogonality and Least Squares](../concepts/orthogonality-and-least-squares.qmd) next. That page turns column space into the target subspace for approximation.
+
+## Sources and Further Reading
+
+- [MIT 18.06SC: Basis and Dimension](https://live.ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/resources/basis-and-dimension-1/) - `First pass` - official exercise context for span, basis, and dimension. Checked `2026-04-24`.
+- [Hefferon, Linear Algebra](https://hefferon.net/linearalgebra/) - `Second pass` - stronger self-study exercise source on subspaces and bases. Checked `2026-04-24`.
+- [A Survey: Potential Dimensionality Reduction Methods](https://arxiv.org/abs/2502.11036) - `Paper bridge` - later reminder that low-dimensional models need honest basis and dimension reasoning. Checked `2026-04-24`.

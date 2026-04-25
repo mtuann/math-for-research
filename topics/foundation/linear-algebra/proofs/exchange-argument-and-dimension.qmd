@@ -1,0 +1,198 @@
+---
+title: "Exchange Argument and Why Dimension Is Well Defined"
+description: "A proof that any two bases of the same finite-dimensional subspace have the same number of vectors, which makes dimension a real invariant."
+page-type: proof
+status: published
+update-status: current
+level: foundation
+topic: linear-algebra
+prerequisites:
+  - /topics/foundation/linear-algebra/concepts/subspaces-basis-dimension.qmd
+learning-goals:
+  - "State the dimension-consistency theorem precisely."
+  - "See the exchange argument that compares two bases."
+  - "Reuse the argument when reasoning about basis size and rank."
+applications:
+  - regression
+  - numerical-linear-algebra
+keywords:
+  - proof
+  - basis
+  - dimension
+  - exchange argument
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/foundation/linear-algebra/concepts/subspaces-basis-dimension.qmd
+  - /topics/foundation/linear-algebra/concepts/orthogonality-and-least-squares.qmd
+stable-sources:
+  - "MIT 18.06SC Basis and Dimension"
+  - "Hefferon, Linear Algebra"
+current-sources:
+  - "A Survey: Potential Dimensionality Reduction Methods (2025)"
+---
+
+## Claim
+
+The whole idea of dimension depends on one theorem:
+
+`different bases of the same finite-dimensional space must have the same size`.
+
+::: {#thm-dimension-well-defined}
+## Theorem
+
+Let $W$ be a finite-dimensional subspace.
+
+If $v_1,\dots,v_k$ and $w_1,\dots,w_m$ are both bases of $W$, then
+
+$$
+k = m.
+$$
+
+So the number of vectors in a basis of $W$ is well defined.
+:::
+
+## Why This Proof Matters
+
+Without this theorem, `dimension` would just be a guess depending on which basis you wrote down.
+
+This proof matters because it also teaches the exchange style that later appears in:
+
+- rank arguments
+- basis reduction
+- greedy comparisons between independent and spanning sets
+
+## Dependencies
+
+- a basis both spans and is linearly independent
+- every vector in $W$ can be written as a linear combination of basis vectors
+
+## Strategy Before Details
+
+The idea is to compare one basis against another using a counting principle:
+
+- an independent list cannot be longer than a spanning list for the same space
+
+Apply that principle twice, once in each direction.
+
+## Full Proof
+
+::: {.proof}
+We first prove a lemma.
+
+### Lemma
+
+If $u_1,\dots,u_r$ is a linearly independent list in $W$ and $s_1,\dots,s_t$ spans $W$, then
+
+$$
+r \le t.
+$$
+
+### Proof of the lemma
+
+We use induction on $r$.
+
+If $r=0$, the statement is trivial.
+
+Now assume it is true for independent lists of length $r-1$, and suppose $u_1,\dots,u_r$ is linearly independent while $s_1,\dots,s_t$ spans $W$.
+
+Because the spanning list spans $W$, we can write
+
+$$
+u_r = a_1 s_1 + \cdots + a_t s_t.
+$$
+
+At least one coefficient is nonzero; relabel so that $a_t \neq 0$.
+Then
+
+$$
+s_t
+=
+\frac{1}{a_t}u_r - \sum_{j=1}^{t-1}\frac{a_j}{a_t}s_j.
+$$
+
+So the list
+
+$$
+s_1,\dots,s_{t-1},u_r
+$$
+
+still spans $W$.
+
+Now $u_1,\dots,u_{r-1}$ is linearly independent, and it lies in the span of
+
+$$
+s_1,\dots,s_{t-1},u_r.
+$$
+
+By the induction hypothesis,
+
+$$
+r-1 \le t-1.
+$$
+
+Therefore $r \le t$, proving the lemma.
+
+Now return to the theorem.
+
+Since $v_1,\dots,v_k$ is linearly independent and $w_1,\dots,w_m$ spans $W$, the lemma gives
+
+$$
+k \le m.
+$$
+
+Since $w_1,\dots,w_m$ is linearly independent and $v_1,\dots,v_k$ spans $W$, the same lemma gives
+
+$$
+m \le k.
+$$
+
+Hence $k=m$.
+:::
+
+## Step Annotations
+
+1. The key move is replacing one spanning vector by one independent vector without losing span.
+2. The induction counts how many independent directions can fit inside a spanning list.
+3. Running the argument in both directions forces equality.
+
+## Why The Assumptions Matter
+
+- Finite dimensionality matters because the counting argument needs finite list lengths.
+- The theorem compares bases of the `same` subspace. Different subspaces can of course have different basis sizes.
+
+## Common Failure Modes
+
+- assuming the result is obvious because two bases “feel minimal”
+- replacing a spanning vector without checking the new list still spans
+- proving only one inequality and forgetting the reverse direction
+
+## Reusable Pattern
+
+The exchange argument teaches a durable habit:
+
+`compare independence against spanning by swapping one vector at a time`.
+
+That same structure appears in rank proofs and basis simplification.
+
+## Where This Shows Up Again
+
+- [Subspaces, Basis, and Dimension](../concepts/subspaces-basis-dimension.qmd)
+- rank and nullity arguments later in linear algebra
+- low-dimensional approximation methods that rely on basis size as a real invariant
+
+## Exercises
+
+1. Show that any linearly independent list in a $d$-dimensional space has length at most $d$.
+2. Show that any spanning list in a $d$-dimensional space has length at least $d$.
+3. Apply the theorem to explain why the column space of a rank-$r$ matrix cannot have a basis with more or fewer than $r$ vectors.
+
+## Sources and Further Reading
+
+- [MIT 18.06SC: Basis and Dimension](https://live.ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/resources/basis-and-dimension-1/) - `First pass` - official source for the span, basis, and dimension chain. Checked `2026-04-24`.
+- [Hefferon, Linear Algebra](https://hefferon.net/linearalgebra/) - `Second pass` - stronger proof-based treatment of basis exchange ideas. Checked `2026-04-24`.
+- [A Survey: Potential Dimensionality Reduction Methods](https://arxiv.org/abs/2502.11036) - `Paper bridge` - modern reminder that low-dimensional structure only makes sense because dimension is a real invariant. Checked `2026-04-24`.

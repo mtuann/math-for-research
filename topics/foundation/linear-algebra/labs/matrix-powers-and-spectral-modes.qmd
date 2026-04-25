@@ -1,0 +1,196 @@
+---
+title: "Computation Lab: Matrix Powers and Spectral Modes"
+description: "An interactive lab for seeing how eigenvalues control repeated matrix powers and how different initial states split into spectral modes."
+page-type: computation-lab
+status: published
+update-status: current
+level: foundation
+topic: linear-algebra
+prerequisites:
+  - /topics/foundation/linear-algebra/concepts/eigenvalues-and-diagonalization.qmd
+learning-goals:
+  - "See one mode persist and another decay under repeated powers."
+  - "Connect initial-state decomposition to long-term behavior."
+  - "Interpret the second eigenvalue as a convergence rate."
+applications:
+  - dynamical-systems
+  - graph-learning
+keywords:
+  - computation
+  - simulation
+  - visualization
+  - eigenvalues
+  - matrix powers
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+execution-engine: ojs
+interactive: ojs
+reproducibility-note: "Client-side Observable JS only; deterministic 2x2 averaging matrix with slider-controlled mixing and iteration count."
+---
+
+## Lab Goal
+
+This lab helps you see one specific fact:
+
+the long-term behavior of repeated matrix powers is controlled by the eigenvalues attached to the modes present in the initial state.
+
+## Math Question
+
+How do the mixing strength and the starting vector affect:
+
+- the eigenvalues
+- the iterates $P^k x_0$
+- the decay of the disagreement mode
+
+## Model or Setup
+
+We use the symmetric two-state averaging matrix
+
+$$
+P =
+\begin{bmatrix}
+1-\alpha & \alpha \\
+\alpha & 1-\alpha
+\end{bmatrix},
+$$
+
+where $\alpha \in [0,0.5]$.
+
+Its eigenvalues are
+
+$$
+1
+\qquad \text{and} \qquad
+1-2\alpha.
+$$
+
+## Parameters and Controls
+
+- `Mixing α`
+- `Initial x-coordinate`
+- `Initial y-coordinate`
+- `Number of steps k`
+
+## Code and Simulation
+
+```{ojs}
+//| echo: false
+viewof alpha = Inputs.range([0, 0.5], {
+  value: 0.2,
+  step: 0.01,
+  label: "Mixing α"
+})
+
+viewof x0a = Inputs.range([-2, 2], {
+  value: 1,
+  step: 0.05,
+  label: "Initial x-coordinate"
+})
+
+viewof x0b = Inputs.range([-2, 2], {
+  value: 0,
+  step: 0.05,
+  label: "Initial y-coordinate"
+})
+
+viewof steps = Inputs.range([0, 20], {
+  value: 8,
+  step: 1,
+  label: "Number of steps k"
+})
+```
+
+```{ojs}
+//| echo: false
+P = [[1 - alpha, alpha], [alpha, 1 - alpha]]
+lambda1 = 1
+lambda2 = 1 - 2 * alpha
+
+applyP = (v) => ({
+  x: P[0][0] * v.x + P[0][1] * v.y,
+  y: P[1][0] * v.x + P[1][1] * v.y
+})
+
+state = ({x: x0a, y: x0b})
+trajectory = [{step: 0, x: state.x, y: state.y}]
+for (let i = 1; i <= steps; i++) {
+  state = applyP(state)
+  trajectory.push({step: i, x: state.x, y: state.y})
+}
+
+consensusValue = (x0a + x0b) / 2
+modeConsensus = ({x: consensusValue, y: consensusValue})
+modeDifference = ({x: (x0a - x0b) / 2, y: -(x0a - x0b) / 2})
+```
+
+```{ojs}
+//| echo: false
+Plot.plot({
+  height: 420,
+  x: {label: "step"},
+  y: {label: "state value"},
+  color: {legend: true},
+  marks: [
+    Plot.gridX({strokeOpacity: 0.15}),
+    Plot.gridY({strokeOpacity: 0.15}),
+    Plot.line(trajectory.map((d) => ({step: d.step, value: d.x, coord: "first"})), {x: "step", y: "value", stroke: "coord", strokeWidth: 3}),
+    Plot.line(trajectory.map((d) => ({step: d.step, value: d.y, coord: "second"})), {x: "step", y: "value", stroke: "coord", strokeWidth: 3}),
+    Plot.ruleY([consensusValue], {stroke: "#94a3b8", strokeDasharray: "6,3"})
+  ]
+})
+```
+
+```{ojs}
+//| echo: false
+md`
+- Eigenvalues: **1** and **${lambda2.toFixed(3)}**
+- Initial consensus mode: **(${modeConsensus.x.toFixed(3)}, ${modeConsensus.y.toFixed(3)})**
+- Initial disagreement mode: **(${modeDifference.x.toFixed(3)}, ${modeDifference.y.toFixed(3)})**
+- Current state after ${steps} steps: **(${trajectory[trajectory.length - 1].x.toFixed(3)}, ${trajectory[trajectory.length - 1].y.toFixed(3)})**
+`
+```
+
+## What To Observe
+
+- The average of the two coordinates stays fixed because the eigenvalue `1` mode persists.
+- The disagreement shrinks at a rate controlled by $|1-2\alpha|$.
+- Larger $\alpha$ makes the second eigenvalue smaller in magnitude, so convergence is faster.
+- If the initial state already lies on the consensus line, nothing changes except trivial persistence.
+
+## Interpretation
+
+This lab is a visual proof of the mode picture:
+
+- one eigenvector is the consensus direction
+- the other measures disagreement
+- repeated powers preserve one mode and damp the other
+
+That is exactly why eigenvalues matter in consensus, diffusion, and graph-based smoothing.
+
+## Failure Modes and Numerical Cautions
+
+- This is a symmetric 2x2 example, so it hides complications from defective or nonnormal matrices.
+- In larger graph systems, interpreting the spectrum depends on which operator is chosen.
+- A single dominant eigenvalue is not the whole story when multiple modes are close in magnitude.
+
+## Reproducibility Notes
+
+- execution engine: Observable JS
+- randomness: none
+- libraries: Quarto OJS with Plot and Inputs
+- render mode: interactive client-side
+
+## Extensions
+
+- compare this averaging matrix with a nonsymmetric update matrix
+- track the spectral gap as $\alpha$ varies
+
+## Sources and Further Reading
+
+- [MIT 18.06SC: Lecture 22, Diagonalization and Powers of A](https://live.ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/resources/lecture-22-diagonalization-and-powers-of-a-1/) - `First pass` - official source for the powers-of-a-matrix viewpoint. Checked `2026-04-24`.
+- [MIT 18.06: Lecture 21, Eigenvalues and Eigenvectors](https://live.ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/resources/lecture-21-eigenvalues-and-eigenvectors/) - `Second pass` - good official reinforcement on eigen-modes. Checked `2026-04-24`.
+- [A Comprehensive Survey on Spectral Clustering with Graph Structure Learning](https://arxiv.org/abs/2501.13597) - `Paper bridge` - useful later, once you want to see how modal thinking scales to graph operators. Checked `2026-04-24`.

@@ -1,0 +1,95 @@
+---
+title: "Research Direction: Vector Representations and Mixture Geometry"
+description: "A research-facing overview of how basic vector combinations grow into embeddings, pooling, attention, and learned representation spaces."
+page-type: research-direction
+status: published
+update-status: monitor
+level: research
+topic: linear-algebra
+prerequisites:
+  - /topics/foundation/linear-algebra/concepts/vectors-and-linear-combinations.qmd
+  - /topics/foundation/linear-algebra/concepts/matrices-and-linear-maps.qmd
+learning-goals:
+  - "See how one basic vector idea grows into representation-learning workflows."
+  - "Separate stable span geometry from changing modeling choices."
+  - "Find a justified reading path into embedding and attention papers."
+applications:
+  - machine-learning
+  - representation-learning
+keywords:
+  - research direction
+  - vectors
+  - embeddings
+  - attention
+  - representation geometry
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: quarterly
+date-modified: last-modified
+draft: false
+stable-sources:
+  - "Vectors and Linear Combinations"
+current-sources:
+  - "Attention Is All You Need"
+  - "Deep learning, transformers and graph neural networks: a linear algebra perspective (2025)"
+---
+
+## Direction Summary
+
+Vector addition and scalar weighting look elementary, but they sit underneath a large part of modern representation learning.
+
+The stable backbone is:
+
+- choose a vector space
+- store objects as vectors inside it
+- combine vectors with learned or fixed coefficients
+
+The frontier lies in how the vectors are learned, how the coefficients are produced, and what geometric properties make those representations useful.
+
+## Core Math
+
+- linear combinations and span
+- basis dependence of coordinates
+- matrix-based storage of vector collections
+- weighted mixtures and pooling
+
+## Representative Problems
+
+- how should objects be embedded into a vector space?
+- which mixtures preserve useful information and which destroy it?
+- when do weighted combinations act like interpretable summaries versus opaque learned features?
+- how do attention and graph aggregation change the geometry of the representation space?
+
+## Representative Venues
+
+- `NeurIPS`
+- `ICML`
+- `ICLR`
+- `JMLR`
+- `Numerical Algorithms`
+
+## Starter Reading Trail
+
+1. [Vectors and Linear Combinations](../concepts/vectors-and-linear-combinations.qmd)
+2. [Vector Mixtures in Embeddings and Attention](../applications/vector-mixtures-in-embeddings-and-attention.qmd)
+3. [Attention as Weighted Vector Mixture](../paper-lab/attention-as-weighted-vector-mixture.qmd)
+4. [Deep learning, transformers and graph neural networks: a linear algebra perspective](https://link.springer.com/article/10.1007/s11075-025-02218-2)
+
+## Open Questions
+
+- which geometric properties of embedding spaces actually predict downstream usefulness?
+- when do attention-style mixtures preserve structure versus blur it?
+- how should we evaluate representation quality beyond downstream accuracy alone?
+
+## What To Learn Next
+
+- [Matrices and Linear Maps](../concepts/matrices-and-linear-maps.qmd)
+- [Subspaces, Basis, and Dimension](../concepts/subspaces-basis-dimension.qmd)
+- [Source Guide: Vectors and Linear Combinations](../sources/vectors-and-linear-combinations.qmd)
+
+## Sources and Further Reading
+
+- [Deep learning, transformers and graph neural networks: a linear algebra perspective](https://link.springer.com/article/10.1007/s11075-025-02218-2) - `Second pass` - current survey map connecting vector-space language to modern AI systems. Checked `2026-04-24`.
+- [Attention is All you Need](https://proceedings.neurips.cc/paper_files/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html) - `Paper bridge` - canonical bridge from vector mixtures to architecture-scale representation learning. Checked `2026-04-24`.
+- [Introduction to Applied Linear Algebra – Vectors, Matrices, and Least Squares](https://web.stanford.edu/~boyd/vmls/) - `First pass` - durable source for the vector-space side of the story. Checked `2026-04-24`.

@@ -298,17 +298,18 @@ then this page has done its main job.
 
 ## Go Deeper
 
-This topic does not need a full companion package yet.
+If you want more after the main page:
 
-The best next move is to continue the linear algebra spine:
-
-1. [Linear Algebra](../index.qmd) for the module path
-2. [Orthogonality and Least Squares](orthogonality-and-least-squares.qmd) once you want to see column space turn into approximation and regression
+- `Proof`: [Span Is a Subspace](../proofs/span-is-a-subspace.qmd)
+- `Application`: [Vector Mixtures in Embeddings and Attention](../applications/vector-mixtures-in-embeddings-and-attention.qmd)
+- `Visual intuition`: [Computation Lab: Linear Combinations and Span Geometry](../labs/linear-combinations-and-span-geometry.qmd)
+- `Practice`: [Exercises: Vectors and Linear Combinations](../exercises/vectors-and-linear-combinations.qmd)
 
 ## Optional Paper Bridge
 
-- [Deep learning, transformers and graph neural networks: a linear algebra perspective](https://link.springer.com/article/10.1007/s11075-025-02218-2) - `Second pass` - a current survey showing how basic vector language grows into embeddings, attention, and graph methods. Checked `2026-04-24`.
-- [Attention is All you Need](https://proceedings.nips.cc/paper_files/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html) - `Paper bridge` - useful later, once weighted combinations of vectors already feel natural. Checked `2026-04-24`.
+- [Paper Lab: Attention as Weighted Vector Mixture](../paper-lab/attention-as-weighted-vector-mixture.qmd)
+- [Research Direction: Vector Representations and Mixture Geometry](../research/vector-representations-and-mixture-geometry.qmd)
+- [Source Guide: Vectors and Linear Combinations](../sources/vectors-and-linear-combinations.qmd)
 
 ## Optional After First Pass
 
@@ -317,6 +318,7 @@ If you want more practice before moving on:
 - rewrite a few matrix-vector products explicitly as column combinations
 - test whether a target vector lies in the span of chosen directions
 - compare a dependent spanning set with a basis
+- continue to [Matrices and Linear Maps](matrices-and-linear-maps.qmd) once span already feels natural
 
 ## Common Mistakes
 

@@ -127,11 +127,13 @@ $$
 
 defines a linear map from $\mathbb{R}^n$ to $\mathbb{R}^m$.
 
-Conversely, once bases are chosen for both the domain and codomain, every linear map $T : \mathbb{R}^n \to \mathbb{R}^m$ can be represented by a matrix $A$ such that
+Conversely, once a basis $B$ is chosen for the domain and a basis $C$ is chosen for the codomain, every linear map $T : \mathbb{R}^n \to \mathbb{R}^m$ can be represented by a matrix $A$ such that
 
 $$
-T(x) = Ax.
+[T(x)]_C = A[x]_B.
 $$
+
+In the standard bases, this becomes the familiar formula $T(x)=Ax$.
 :::
 
 ::: {#prp-columns-are-images}
@@ -333,15 +335,18 @@ then this page has done its main job.
 
 ## Go Deeper
 
-The best next move is to continue the linear algebra spine:
+If you want more after the main page:
 
-1. [Linear Algebra](../index.qmd) for the module path
-2. [Orthogonality and Least Squares](orthogonality-and-least-squares.qmd) once you want to study one especially important linear map in data fitting and approximation
+- `Proof`: [Basis Images Determine a Linear Map](../proofs/basis-images-determine-a-linear-map.qmd)
+- `Application`: [Learned Linear Projections in Transformers](../applications/learned-linear-projections-in-transformers.qmd)
+- `Visual intuition`: [Computation Lab: Matrix Composition and Basis Action](../labs/matrix-composition-and-basis-action.qmd)
+- `Practice`: [Exercises: Matrices and Linear Maps](../exercises/matrices-and-linear-maps.qmd)
 
 ## Optional Paper Bridge
 
-- [Deep learning, transformers and graph neural networks: a linear algebra perspective](https://link.springer.com/article/10.1007/s11075-025-02218-2) - `Second pass` - a current survey showing how matrices and linear operators sit inside embeddings, dense layers, attention, and graph-based models. Checked `2026-04-24`.
-- [Attention is All You Need](https://proceedings.neurips.cc/paper/7181-attention-is-all-you-need) - `Paper bridge` - useful later, once you want to recognize the learned linear projections that produce queries, keys, and values. Checked `2026-04-24`.
+- [Paper Lab: Linear Operators in Modern AI Systems](../paper-lab/linear-operators-in-modern-ai-systems.qmd)
+- [Research Direction: Linear Operators in Modern ML](../research/linear-operators-in-modern-ml.qmd)
+- [Source Guide: Matrices and Linear Maps](../sources/matrices-and-linear-maps.qmd)
 
 ## Optional After First Pass
 
@@ -350,6 +355,7 @@ If you want more practice before moving on:
 - compute the matrix of a map by sending each basis vector through it
 - check whether a given rule really preserves addition and scaling
 - compose two simple transformations and compare the result with matrix multiplication
+- continue to [Subspaces, Basis, and Dimension](subspaces-basis-dimension.qmd) once the operator viewpoint feels stable
 
 ## Common Mistakes
 

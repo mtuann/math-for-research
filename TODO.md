@@ -17,7 +17,7 @@ Use it to track:
 
 ## Current Snapshot
 
-- `75` `.qmd` pages currently exist
+- `103` `.qmd` pages currently exist
 - `24` concept-topic pages currently exist
 - strongest subjects so far: `Linear Algebra`, `Probability`, `Proofs`, `Statistics`
 - non-topic sections already scaffolded: `Start Here`, `Roadmaps`, `Applications`, `Paper Lab`, `Research`, `Publication`, `Library`, `Notes`
@@ -167,10 +167,10 @@ These are not required before the main spine is public, but they are the next hi
 - [x] `Orthogonality paper lab`
 - [x] `Orthogonality research page`
 - [x] `Orthogonality source guide`
-- [ ] `Vectors companion package`
-- [ ] `Matrices and linear maps companion package`
-- [ ] `Subspaces, basis, and dimension companion package`
-- [ ] `Eigenvalues and diagonalization companion package`
+- [x] `Vectors companion package`
+- [x] `Matrices and linear maps companion package`
+- [x] `Subspaces, basis, and dimension companion package`
+- [x] `Eigenvalues and diagonalization companion package`
 - [x] `SVD proof page`
 - [x] `SVD application page`
 - [x] `SVD lab page`
@@ -316,11 +316,11 @@ These are the topics that should eventually become canonical examples for future
 Near-term highest-value content steps:
 
 1. [ ] `Logic module: propositional logic`
-2. [ ] `Render and visually QA the proofs and statistics modules locally`
+2. [ ] `Logic module: predicate logic`
 3. [ ] `Machine learning applications index`
-4. [ ] `Applications: optimization and inference`
-5. [ ] `Commit and push the current statistics module additions`
-6. [ ] `Start logic module: predicate logic after propositional logic`
+4. [ ] `Render and visually QA the expanded linear algebra module locally`
+5. [ ] `AI / ML theory roadmap`
+6. [ ] `Curate Library: books and courses`
 
 ## Work Outside Topic Content
 
@@ -336,6 +336,7 @@ Yes, there is important work outside topic writing.
 ### Site UX And Navigation
 
 - [ ] `Render and visually QA the new linear algebra spine locally`
+- [ ] `Render and visually QA the new linear algebra companion pages locally`
 - [ ] `Check sidebar readability after adding more concept pages`
 - [ ] `Audit top-level navigation so Applications / Research / Publication feel intentional`
 - [ ] `Add clearer “first pass / deeper / research bridge” blocks to older pages where needed`

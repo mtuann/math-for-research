@@ -306,12 +306,18 @@ then this page has done its main job.
 
 ## Go Deeper
 
-The best next move is to continue the linear algebra spine with [Orthogonality and Least Squares](orthogonality-and-least-squares.qmd), where subspaces become approximation targets and column space becomes a geometric object you project onto.
+If you want more after the main page:
+
+- `Proof`: [Exchange Argument and Why Dimension Is Well Defined](../proofs/exchange-argument-and-dimension.qmd)
+- `Application`: [Low-Dimensional Subspace Models](../applications/low-dimensional-subspace-models.qmd)
+- `Visual intuition`: [Computation Lab: Basis and Column Space Geometry](../labs/basis-and-column-space-geometry.qmd)
+- `Practice`: [Exercises: Subspaces, Basis, and Dimension](../exercises/subspaces-basis-dimension.qmd)
 
 ## Optional Paper Bridge
 
-- [Deep learning, transformers and graph neural networks: a linear algebra perspective](https://link.springer.com/article/10.1007/s11075-025-02218-2) - `Second pass` - a modern survey that keeps returning to low-dimensional structure, embeddings, and matrix-based representations in current AI systems. Checked `2026-04-24`.
-- [A Survey: Potential Dimensionality Reduction Methods](https://arxiv.org/abs/2502.11036) - `Paper bridge` - useful once subspace ideas feel natural and you want to see how reduced representations appear across common ML pipelines. Checked `2026-04-24`.
+- [Paper Lab: Dimensionality Reduction as Subspace Modeling](../paper-lab/dimensionality-reduction-as-subspace-modeling.qmd)
+- [Research Direction: Low-Dimensional Structure and Subspace Methods](../research/low-dimensional-structure-and-subspace-methods.qmd)
+- [Source Guide: Subspaces, Basis, and Dimension](../sources/subspaces-basis-dimension.qmd)
 
 ## Optional After First Pass
 
@@ -320,6 +326,7 @@ If you want more practice before moving on:
 - test whether translated planes or lines are subspaces
 - describe a subspace both by equations and by a spanning set
 - compare a large spanning set with a smaller basis for the same space
+- continue to [Orthogonality and Least Squares](orthogonality-and-least-squares.qmd) when you want approximation inside a subspace
 
 ## Common Mistakes
 

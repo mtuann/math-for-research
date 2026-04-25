@@ -1,0 +1,164 @@
+---
+title: "Low-Dimensional Subspace Models"
+description: "A concrete application page showing how subspaces, bases, and dimension organize compression, fitting, and simplified signal models."
+page-type: application
+status: published
+update-status: current
+level: foundation
+topic: linear-algebra
+prerequisites:
+  - /topics/foundation/linear-algebra/concepts/subspaces-basis-dimension.qmd
+learning-goals:
+  - "Recognize a low-dimensional model as a subspace claim."
+  - "Map basis and dimension language onto approximation and compression."
+  - "See where the model can succeed or fail."
+applications:
+  - signal-processing
+  - machine-learning
+  - dimensionality-reduction
+keywords:
+  - application
+  - subspace
+  - basis
+  - dimension
+  - compression
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+stable-sources:
+  - "MIT 18.06SC Basis and Dimension"
+  - "Stanford VMLS"
+current-sources:
+  - "A Survey: Potential Dimensionality Reduction Methods (2025)"
+---
+
+## Application Snapshot
+
+Many applied models quietly assume:
+
+`the interesting data live near a low-dimensional subspace`.
+
+That one sentence connects basis and dimension to compression, denoising, dimensionality reduction, and approximation.
+
+## Problem Setting
+
+Suppose signals in $\mathbb{R}^3$ are believed to live in the plane
+
+$$
+W = \operatorname{span}\left\{
+\begin{bmatrix}
+1 \\
+0 \\
+1
+\end{bmatrix},
+\begin{bmatrix}
+0 \\
+1 \\
+1
+\end{bmatrix}
+\right\}.
+$$
+
+This says the ambient space has three coordinates, but the model uses only two independent directions.
+
+## Why This Math Appears
+
+The language of subspaces tells you:
+
+- which outputs the model can express
+- how many independent parameters are really needed
+- what a “compressed representation” means
+
+If the data really stay near $W$, then two coefficients are enough to describe the main behavior.
+
+## Math Objects In Use
+
+- ambient space $\mathbb{R}^3$
+- model subspace $W$
+- basis vectors for $W$
+- dimension $\dim(W)=2$
+- approximation of data by vectors inside $W$
+
+## Worked Walkthrough
+
+Take the vector
+
+$$
+y =
+\begin{bmatrix}
+2 \\
+3 \\
+5
+\end{bmatrix}.
+$$
+
+Because
+
+$$
+2
+\begin{bmatrix}
+1 \\
+0 \\
+1
+\end{bmatrix}
++
+3
+\begin{bmatrix}
+0 \\
+1 \\
+1
+\end{bmatrix}
+=
+\begin{bmatrix}
+2 \\
+3 \\
+5
+\end{bmatrix},
+$$
+
+the signal lies exactly in the subspace model.
+
+So instead of storing three independent coordinates, we can store only the two basis coefficients `(2,3)` relative to this model.
+
+If a nearby signal does not lie exactly in $W$, then the next question becomes:
+
+which vector in $W$ is closest?
+
+That is the bridge to least squares and projection.
+
+## Implementation or Computation Note
+
+In real systems, the basis might come from:
+
+- known physics or sensor structure
+- a hand-designed dictionary
+- a learned low-dimensional representation
+- principal components computed from data
+
+The subspace model is useful only if the basis actually captures the dominant variation of the task.
+
+## Failure Modes
+
+- the chosen subspace can be too small and miss essential directions
+- the basis can be badly conditioned, making coefficient recovery unstable
+- low-dimensional structure can be approximate rather than exact, so compression trades off against error
+
+## Paper Bridge
+
+- [A Survey: Potential Dimensionality Reduction Methods](https://arxiv.org/abs/2502.11036) - `Paper bridge` - current survey showing how low-dimensional subspace ideas evolve into common reduction methods.
+- [Deep learning, transformers and graph neural networks: a linear algebra perspective](https://link.springer.com/article/10.1007/s11075-025-02218-2) - `Second pass` - current bridge from low-dimensional structure to representation learning.
+
+## Try It
+
+1. Replace the second basis vector by $(0,1,0)^\top$ and ask how the modeled plane changes.
+2. Add a small perturbation to $y$ and describe what it would mean to find the closest point in $W$.
+3. Compare storing the raw coordinates of a signal with storing basis coefficients in a low-dimensional model.
+
+## Sources and Further Reading
+
+- [MIT 18.06SC: Basis and Dimension](https://live.ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/resources/basis-and-dimension-1/) - `First pass` - official source for the basis/dimension viewpoint behind subspace models. Checked `2026-04-24`.
+- [Introduction to Applied Linear Algebra – Vectors, Matrices, and Least Squares](https://web.stanford.edu/~boyd/vmls/) - `Second pass` - useful for applied framing and low-dimensional approximation language. Checked `2026-04-24`.
+- [A Survey: Potential Dimensionality Reduction Methods](https://arxiv.org/abs/2502.11036) - `Paper bridge` - current bridge from subspace language to practical reduction methods. Checked `2026-04-24`.

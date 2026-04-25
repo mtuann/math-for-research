@@ -1,0 +1,96 @@
+---
+title: "Research Direction: Linear Operators in Modern ML"
+description: "A research-facing overview of how basic linear maps reappear inside transformers, graph models, operator learning, and representation pipelines."
+page-type: research-direction
+status: published
+update-status: monitor
+level: research
+topic: linear-algebra
+prerequisites:
+  - /topics/foundation/linear-algebra/concepts/matrices-and-linear-maps.qmd
+  - /topics/foundation/linear-algebra/concepts/eigenvalues-and-diagonalization.qmd
+learning-goals:
+  - "See how operator language scales from toy maps to modern model components."
+  - "Separate stable matrix ideas from fast-moving architecture choices."
+  - "Find a reading path into operator-heavy ML papers."
+applications:
+  - machine-learning
+  - graph-learning
+  - scientific-machine-learning
+keywords:
+  - research direction
+  - matrices
+  - operators
+  - transformers
+  - graph neural networks
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: quarterly
+date-modified: last-modified
+draft: false
+stable-sources:
+  - "Matrices and Linear Maps"
+current-sources:
+  - "Deep learning, transformers and graph neural networks: a linear algebra perspective (2025)"
+  - "Attention Is All You Need"
+---
+
+## Direction Summary
+
+Modern ML models are not purely linear, but they keep relying on linear operators as structural building blocks.
+
+The stable backbone is:
+
+- learned projection matrices
+- compositions of maps across layers
+- operator viewpoints on graph propagation and feature transport
+
+The frontier lies in how these operators are parameterized, constrained, or interpreted inside much larger nonlinear systems.
+
+## Core Math
+
+- linear maps and matrix representations
+- composition and change of coordinates
+- spectra of learned or graph-based operators
+- structured matrices and parameter sharing
+
+## Representative Problems
+
+- how should learned feature maps be parameterized?
+- which operator structures improve efficiency or interpretability?
+- how do graph or sequence operators reshape representation spaces over many layers?
+- when should a model be read as repeated operator application rather than only as a generic neural network?
+
+## Representative Venues
+
+- `NeurIPS`
+- `ICML`
+- `ICLR`
+- `JMLR`
+- `Numerical Algorithms`
+
+## Starter Reading Trail
+
+1. [Matrices and Linear Maps](../concepts/matrices-and-linear-maps.qmd)
+2. [Learned Linear Projections in Transformers](../applications/learned-linear-projections-in-transformers.qmd)
+3. [Linear Operators in Modern AI Systems](../paper-lab/linear-operators-in-modern-ai-systems.qmd)
+4. [Deep learning, transformers and graph neural networks: a linear algebra perspective](https://link.springer.com/article/10.1007/s11075-025-02218-2)
+
+## Open Questions
+
+- which operator structures matter most for generalization versus efficiency?
+- how should we compare dense learned maps with sparse, low-rank, or graph-structured alternatives?
+- when can operator-level interpretation survive the surrounding nonlinear architecture?
+
+## What To Learn Next
+
+- [Eigenvalues and Diagonalization](../concepts/eigenvalues-and-diagonalization.qmd)
+- [SVD and Low-Rank Approximation](../concepts/svd-and-low-rank-approximation.qmd)
+- [Source Guide: Matrices and Linear Maps](../sources/matrices-and-linear-maps.qmd)
+
+## Sources and Further Reading
+
+- [Deep learning, transformers and graph neural networks: a linear algebra perspective](https://link.springer.com/article/10.1007/s11075-025-02218-2) - `Second pass` - current survey map for operator language inside modern AI systems. Checked `2026-04-24`.
+- [Attention is All you Need](https://proceedings.neurips.cc/paper_files/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html) - `Paper bridge` - classic architecture paper with explicit learned linear projections. Checked `2026-04-24`.
+- [Introduction to Applied Linear Algebra – Vectors, Matrices, and Least Squares](https://web.stanford.edu/~boyd/vmls/) - `First pass` - durable operator-first source before jumping to research papers. Checked `2026-04-24`.
