@@ -1,0 +1,342 @@
+---
+title: "Signals, Convolution, and Linear Time-Invariant Systems"
+description: "How signals become mathematical objects, why linear time-invariant systems are determined by impulse response, and how convolution expresses their full input-output behavior."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: signal-processing-and-estimation
+prerequisites:
+  - /topics/foundation/linear-algebra/index.qmd
+  - /topics/foundation/single-variable-calculus/index.qmd
+learning-goals:
+  - "Distinguish signals from systems at a first-pass mathematical level."
+  - "Explain the meaning of linearity and time invariance for a system."
+  - "State why an LTI system is determined by its impulse response."
+  - "Interpret convolution as superposition of shifted impulse responses."
+applications:
+  - signal-and-communication
+  - engineering-systems
+  - machine-learning
+keywords:
+  - signal
+  - system
+  - convolution
+  - LTI
+  - impulse response
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/signal-processing-and-estimation/index.qmd
+  - /topics/advanced/control-and-dynamics/index.qmd
+  - /topics/advanced/information-theory/index.qmd
+  - /topics/advanced/numerical-methods/index.qmd
+  - /topics/foundation/linear-algebra/index.qmd
+stable-sources:
+  - "MIT 6.003 Signals and Systems"
+  - "MIT 6.011 Signals, Systems and Inference"
+  - "Stanford EE102A Signal Processing and Linear Systems I"
+current-sources:
+  - "MIT 6.003 lecture notes"
+  - "MIT 6.003 convolution lecture"
+  - "Stanford EE102A course outline"
+  - "Stanford EE102A notes page"
+  - "Stanford EE102A bulletin"
+---
+
+## Role
+
+This is the first page of the `Signal Processing and Estimation` module.
+
+Its job is to build the load-bearing first-pass language:
+
+- what a signal is
+- what a system is
+- why linearity and time invariance matter
+- why convolution is the universal representation of `LTI` behavior
+
+Everything later in the module leans on this page.
+
+## First-Pass Promise
+
+Read this page before anything else in `Signal Processing and Estimation`.
+
+If you stop here, you should still understand:
+
+- the difference between a signal and a system
+- the meaning of linearity and time invariance
+- what an impulse response is
+- why convolution is the right formula for an `LTI` system
+
+## Why It Matters
+
+A huge number of engineering and ML objects can be treated as signals:
+
+- audio
+- sensor traces
+- images
+- communication waveforms
+- discretized trajectories
+
+And a huge number of useful operations can be treated as systems:
+
+- smoothing
+- filtering
+- delay
+- echo
+- channel distortion
+
+The reason signal processing becomes mathematically powerful is that many useful systems are approximately:
+
+- linear
+- time invariant
+
+Once that happens, the whole system is captured by one object: its impulse response.
+
+That is what makes convolution the first real organizing equation of the subject.
+
+## Prerequisite Recall
+
+- a vector space point of view helps because signals can be added and scaled
+- discrete-time signals are often sequences `x[n]`
+- continuous-time signals are often functions `x(t)`
+- integrals and sums are both accumulation operators, depending on whether time is continuous or discrete
+
+## Intuition
+
+### A Signal Is A Structured Quantity That Varies Over Time Or Index
+
+At first pass, a signal is simply a number attached to each time or index.
+
+Examples:
+
+- sound pressure over time
+- pixel intensity over location
+- sensor voltage over time
+
+The important point is not the physical unit.
+
+It is that the object has ordered structure.
+
+### A System Maps Signals To Signals
+
+A system takes an input signal and returns an output signal.
+
+Examples:
+
+- a delay system shifts the input
+- a blur system averages neighboring values
+- a channel distorts and scales a waveform
+
+The system is the rule, not the signal itself.
+
+### Linearity Means Superposition Works
+
+If a system is linear, then:
+
+- response to a sum is the sum of responses
+- response to a scaled signal scales the output
+
+This lets us decompose a complicated input into simpler pieces and then recombine the outputs.
+
+### Time Invariance Means Shifts Do Not Change The Rule
+
+If a system is time invariant, then delaying the input just delays the output by the same amount.
+
+So the system behaves the same way at every time location.
+
+That is what makes one impulse response reusable everywhere.
+
+### Convolution Is Shift-And-Add
+
+At first pass, convolution is best read operationally:
+
+- break the input into shifted impulses
+- each shifted impulse produces a shifted impulse response
+- weight those shifted responses by the input values
+- add everything up
+
+That is the core `LTI` picture.
+
+## Formal Core
+
+::: {#def-signal}
+## Definition: Signal
+
+A signal is a function or sequence that assigns a value to each time or index.
+
+Typical examples are:
+
+- discrete-time: `x[n]`
+- continuous-time: `x(t)`
+:::
+
+::: {#def-system}
+## Definition: System
+
+A system is a mapping that takes an input signal `x` and produces an output signal `y`.
+:::
+
+We often write this schematically as
+
+$$
+y = T x
+$$
+
+for some transformation `T`.
+
+::: {#def-linear-ti}
+## Definition: Linear Time-Invariant System
+
+A system is:
+
+- `linear` if it preserves addition and scaling
+- `time invariant` if shifting the input shifts the output by the same amount
+:::
+
+::: {#def-impulse}
+## Definition: Impulse Response
+
+The impulse response `h` of an `LTI` system is the output produced by the unit impulse input.
+:::
+
+At first pass, `h` is the system's response to the most concentrated possible input.
+
+::: {#thm-lti-convolution}
+## Theorem Idea: LTI Systems Are Determined By Convolution
+
+If a system is linear and time invariant, then its output is the convolution of the input with the impulse response.
+
+Discrete time:
+
+$$
+y[n] = \sum_k x[k]\, h[n-k].
+$$
+
+Continuous time:
+
+$$
+y(t) = \int x(\tau)\, h(t-\tau)\, d\tau.
+$$
+:::
+
+This is the main structural theorem of the page.
+
+::: {#thm-shift-add}
+## Theorem Idea: Convolution Is Superposition Of Shifted Responses
+
+Convolution expresses the output as a weighted sum or integral of shifted copies of the impulse response.
+:::
+
+So the output is built from:
+
+- input coefficients or amplitudes
+- shifts of one reusable template `h`
+
+## Worked Example
+
+Consider the discrete-time moving-average system
+
+$$
+y[n] = \frac{1}{2}x[n] + \frac{1}{2}x[n-1].
+$$
+
+Its impulse response is
+
+$$
+h[0]=\frac12,\qquad h[1]=\frac12,
+$$
+
+and `h[n]=0` otherwise.
+
+If the input is
+
+$$
+x[0]=2,\qquad x[1]=4,\qquad x[2]=0,
+$$
+
+then convolution says:
+
+$$
+y[n] = \sum_k x[k] h[n-k].
+$$
+
+Compute the first few outputs:
+
+- `y[0] = 2 \cdot \frac12 = 1`
+- `y[1] = 4 \cdot \frac12 + 2 \cdot \frac12 = 3`
+- `y[2] = 0 \cdot \frac12 + 4 \cdot \frac12 = 2`
+
+So the system smooths sudden changes by averaging neighboring samples.
+
+That is the first-pass meaning of convolution in action.
+
+## Computation Lens
+
+When you meet an `LTI` system, ask:
+
+1. what is the impulse response?
+2. is time discrete or continuous?
+3. can the output be read as a local averaging, delay, or weighted accumulation rule?
+4. is the system finite-memory like a short filter, or long-memory like a decaying response?
+
+Those questions usually make the formula readable before you do any algebra.
+
+## Application Lens
+
+### Filtering And Smoothing
+
+Many denoisers and smoothers are convolution systems in disguise.
+
+### Communication Channels
+
+Echo, multipath, blur, and bandwidth effects are often modeled by an impulse response acting through convolution.
+
+### ML And Representation Pipelines
+
+Convolutional architectures, spectral methods, and many sequence-processing tools reuse the same shift-and-aggregate viewpoint.
+
+## Stop Here For First Pass
+
+If you stop here, retain these five ideas:
+
+- a signal is an ordered function or sequence
+- a system maps one signal to another
+- linearity gives superposition
+- time invariance makes one response template reusable everywhere
+- convolution is the universal input-output formula for `LTI` systems
+
+## Go Deeper
+
+The strongest next page is:
+
+- [Fourier Analysis, Frequency Response, and Spectral Views](fourier-analysis-frequency-response-and-spectral-views.qmd)
+
+The strongest adjacent live pages are:
+
+- [Signal Processing and Estimation](../index.qmd)
+- [Fourier Analysis, Frequency Response, and Spectral Views](fourier-analysis-frequency-response-and-spectral-views.qmd)
+- [Information Theory](../../information-theory/index.qmd)
+- [Control and Dynamics](../../control-and-dynamics/index.qmd)
+- [Numerical Methods](../../numerical-methods/index.qmd)
+- [Linear Algebra](../../../foundation/linear-algebra/index.qmd)
+
+## Optional Deeper Reading After First Pass
+
+- [MIT 6.003: Signals and Systems lecture notes](https://ocw.mit.edu/courses/6-003-signals-and-systems-fall-2011/pages/lecture-notes/) - official note index for the full signals-and-systems sequence. Checked `2026-04-25`.
+- [MIT 6.003 convolution lecture](https://ocw.mit.edu/courses/6-003-signals-and-systems-fall-2011/resources/mit6_003f11_lec08/) - official notes page focused directly on convolution. Checked `2026-04-25`.
+- [Stanford EE102A course outline](https://web.stanford.edu/~pauly/ee102a/CourseOutline.html) - official outline with signals, systems, and convolution in the opening block. Checked `2026-04-25`.
+- [Stanford EE102A notes page](https://web.stanford.edu/class/ee102a/Notes.html) - official note index including the convolution lecture. Checked `2026-04-25`.
+- [Stanford EE102A bulletin](https://22-23.bulletin.stanford.edu/courses/2031051) - official Stanford bulletin entry for signal processing and linear systems. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [MIT 6.003: Signals and Systems lecture notes](https://ocw.mit.edu/courses/6-003-signals-and-systems-fall-2011/pages/lecture-notes/) - `First pass` - official note index for the signals-and-systems arc. Checked `2026-04-25`.
+- [MIT 6.003 convolution lecture](https://ocw.mit.edu/courses/6-003-signals-and-systems-fall-2011/resources/mit6_003f11_lec08/) - `First pass` - official notes page for convolution and LTI systems. Checked `2026-04-25`.
+- [Stanford EE102A course outline](https://web.stanford.edu/~pauly/ee102a/CourseOutline.html) - `First pass` - official outline covering signals, convolution, Fourier analysis, and sampling. Checked `2026-04-25`.
+- [Stanford EE102A notes page](https://web.stanford.edu/class/ee102a/Notes.html) - `First pass` - official note index for the course sequence. Checked `2026-04-25`.
+- [Stanford EE102A bulletin](https://22-23.bulletin.stanford.edu/courses/2031051) - `Second pass` - official Stanford bulletin entry summarizing the syllabus. Checked `2026-04-25`.

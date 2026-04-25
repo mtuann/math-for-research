@@ -1,0 +1,346 @@
+---
+title: "State Estimation, Smoothing, and Hidden-State Inference"
+description: "How hidden-state models organize filtering and smoothing, why Kalman and forward-backward recursions matter, and how past-only and past-plus-future inference differ."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: signal-processing-and-estimation
+prerequisites:
+  - /topics/advanced/signal-processing-and-estimation/concepts/noise-models-wiener-filtering-and-mmse-estimation.qmd
+  - /topics/foundation/probability/index.qmd
+  - /topics/foundation/statistics/index.qmd
+learning-goals:
+  - "Explain hidden-state models and why observations are often indirect measurements of latent state."
+  - "Distinguish prediction, filtering, and smoothing."
+  - "Recognize Kalman filtering as the linear-Gaussian version of recursive hidden-state inference."
+  - "Recognize forward-backward style inference as the discrete-state analogue for hidden Markov models."
+applications:
+  - signal-and-communication
+  - engineering-systems
+  - machine-learning
+keywords:
+  - state estimation
+  - filtering
+  - smoothing
+  - Kalman filter
+  - hidden Markov model
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/signal-processing-and-estimation/index.qmd
+  - /topics/advanced/signal-processing-and-estimation/concepts/noise-models-wiener-filtering-and-mmse-estimation.qmd
+  - /topics/advanced/control-and-dynamics/concepts/estimation-kalman-filtering-and-the-separation-principle.qmd
+  - /topics/advanced/stochastic-control-and-dynamic-programming/concepts/partial-observability-belief-states-and-rl-control-bridges.qmd
+  - /topics/foundation/probability/index.qmd
+  - /topics/foundation/statistics/index.qmd
+stable-sources:
+  - "MIT 6.438 Algorithms for Inference"
+  - "MIT 16.322 Stochastic Estimation and Control"
+  - "Stanford EE278 Probability and Statistical Inference"
+current-sources:
+  - "MIT 6.438 Lecture 13 Kalman Filtering and Smoothing"
+  - "MIT 16.322 readings page"
+  - "Stanford EE278 course overview"
+  - "Stanford EE278 course plan"
+  - "Stanford Stats366 HMM notes"
+  - "Stanford Stats366 underlying algorithms"
+---
+
+## Role
+
+This is the fifth page of the `Signal Processing and Estimation` module.
+
+Its job is to move from static denoising and Wiener-style estimation into sequential inference for hidden states.
+
+The previous page said:
+
+- noisy observations can be handled by MMSE and linear-MMSE estimation
+- Wiener filtering is the stationary spectral version of that story
+
+This page adds:
+
+- hidden states evolve over time
+- observations reveal those states only indirectly
+- filtering and smoothing are different inference tasks
+
+## First-Pass Promise
+
+Read this page after [Noise Models, Wiener Filtering, and MMSE Estimation](noise-models-wiener-filtering-and-mmse-estimation.qmd).
+
+If you stop here, you should still understand:
+
+- what a hidden-state model is
+- how prediction, filtering, and smoothing differ
+- why Kalman filtering is the load-bearing linear-Gaussian recursion
+- why forward-backward style inference is the discrete-state analogue
+
+## Why It Matters
+
+Many real systems are not observed directly.
+
+What we see is only a noisy projection of an evolving hidden state:
+
+- object position seen through noisy sensors
+- latent regime of a communication channel
+- speaker or phoneme state behind audio features
+- hidden biological state behind observed sequences
+- tracked system state behind measurements arriving over time
+
+So estimation is not only:
+
+- denoise one measurement
+
+It is often:
+
+- infer a trajectory of latent states from a sequence of observations
+
+This is where signal processing meets control, tracking, sequential statistics, HMMs, and modern probabilistic ML.
+
+## Prerequisite Recall
+
+- MMSE and LMMSE gave a static least-squares view of noisy estimation
+- Wiener filtering gave a stationary-process version of linear estimation
+- probability and statistics provide conditional distributions and posterior thinking
+- state-space viewpoints from control explain why a system can have internal memory not directly observed
+
+## Intuition
+
+### Observation Is Not State
+
+A sensor reading is often not the thing we care about.
+
+It is a noisy or partial function of the underlying state.
+
+So we need to infer the hidden state from what we observe.
+
+### Prediction, Filtering, And Smoothing Ask Different Questions
+
+These three questions sound similar but are not the same:
+
+- prediction: what will the state be next, given the past?
+- filtering: what is the current state, given observations up to now?
+- smoothing: what was the state at an earlier time, after seeing later observations too?
+
+Smoothing is usually stronger because it gets to use future evidence.
+
+### Recursive Estimation Is A Memory-Saving Principle
+
+A good sequential estimator should not reread the full observation history every time a new measurement arrives.
+
+It should update a compact summary:
+
+- the current posterior distribution
+- or, in simpler settings, the current mean and covariance
+
+That compact summary is the belief state or filtered state estimate.
+
+### Kalman Filtering Is Hidden-State Inference For Linear Gaussian Models
+
+When the dynamics are linear and the noise is Gaussian, recursive estimation becomes especially clean.
+
+The estimator cycles through:
+
+- prediction from the model
+- correction from the new measurement
+
+That is the Kalman filter.
+
+### Forward-Backward Is The Discrete-State Analogue
+
+For hidden Markov models with discrete latent states, the same structural story appears in a different algebra:
+
+- a forward pass accumulates information from the past
+- a backward pass brings in information from the future
+
+Their combination gives smoothed posteriors over hidden states.
+
+## Formal Core
+
+::: {#def-hidden-state-model}
+## Definition: Hidden-State Model
+
+A hidden-state model describes an evolving latent state `x_t` together with observations `y_t` generated from that state.
+:::
+
+At first pass, the model has two pieces:
+
+- state evolution
+- observation generation
+
+In discrete-state language, this is a hidden Markov model.
+
+In continuous linear-Gaussian language, this is a state-space model.
+
+::: {#def-pred-filter-smooth}
+## Definition: Prediction, Filtering, and Smoothing
+
+For a hidden-state model:
+
+- prediction estimates `x_{t+1}` from observations up to time `t`
+- filtering estimates `x_t` from observations up to time `t`
+- smoothing estimates `x_t` from observations up to a later horizon `T > t`
+:::
+
+At first pass, the corresponding distributions are:
+
+$$
+p(x_{t+1}\mid y_{1:t}), \qquad
+p(x_t\mid y_{1:t}), \qquad
+p(x_t\mid y_{1:T}).
+$$
+
+::: {#thm-forward-recursion}
+## Theorem Idea: Recursive Filtering
+
+Filtering updates the current state belief by combining:
+
+- propagation through the dynamics model
+- conditioning on the newest observation
+:::
+
+So recursive state estimation is a predict-update cycle.
+
+::: {#thm-forward-backward}
+## Theorem Idea: Forward-Backward Smoothing
+
+In hidden-state models, smoothing combines a forward pass carrying past information with a backward pass carrying future information.
+:::
+
+For discrete HMMs, this is the forward-backward algorithm.
+
+For linear-Gaussian models, this becomes Kalman smoothing.
+
+::: {#def-linear-gaussian}
+## Definition: Linear-Gaussian State-Space Model
+
+A linear-Gaussian hidden-state model has the form
+
+$$
+x_{t+1}=Ax_t+w_t,\qquad y_t=Cx_t+v_t,
+$$
+
+where `w_t` and `v_t` are Gaussian noise terms.
+:::
+
+::: {#thm-kalman}
+## Theorem Idea: Kalman Filtering
+
+For linear-Gaussian models, the filtered posterior remains Gaussian, so recursive state estimation can be tracked through means and covariances.
+:::
+
+At first pass, this is the reason the Kalman filter is computationally practical:
+
+- the entire posterior does not need to be stored symbolically
+- mean and covariance are enough
+
+## Worked Example
+
+Take the scalar random-walk model
+
+$$
+x_{t+1}=x_t+w_t, \qquad y_t=x_t+v_t,
+$$
+
+where:
+
+- `x_t` is hidden position
+- `y_t` is noisy measurement
+- `w_t` is process noise
+- `v_t` is measurement noise
+
+Suppose we observe:
+
+- `y_1`
+- then later `y_2`
+
+At time `1`, the filtered estimate of `x_1` uses only `y_1`.
+
+After `y_2` arrives, the smoothed estimate of `x_1` can use both `y_1` and `y_2`.
+
+So smoothing can revise earlier beliefs:
+
+- if `y_1` was noisy but `y_2` strongly supports a nearby trajectory, the estimate of `x_1` becomes sharper
+
+This is the central qualitative point:
+
+- filtering is online
+- smoothing is retrospective
+
+The Kalman filter gives the forward recursion.
+
+The Kalman smoother adds a backward refinement step.
+
+## Computation Lens
+
+When you meet a sequential inference problem, ask:
+
+1. what is hidden, and what is observed?
+2. is the latent state discrete, continuous, or mixed?
+3. do we need online filtering or offline smoothing?
+4. is the model linear-Gaussian, so Kalman methods apply?
+5. if not, is the right mental model closer to HMM forward-backward, particle filtering, or approximate inference?
+
+These questions usually determine whether the right tool is simple recursion, Kalman filtering, HMM inference, or a more approximate method.
+
+## Application Lens
+
+### Tracking And Navigation
+
+State estimation is the backbone of tracking position, velocity, orientation, and other latent physical states from sensor streams.
+
+### Communication And Speech
+
+Hidden-state models organize decoding and sequential latent-structure inference when the observed signal is only an emitted trace of a hidden process.
+
+### Modern Probabilistic ML
+
+Latent-variable sequence models, probabilistic state-space models, and many sequence-inference pipelines are direct descendants of this filtering-and-smoothing viewpoint.
+
+## Stop Here For First Pass
+
+If you stop here, retain these five ideas:
+
+- hidden-state models separate latent dynamics from noisy observations
+- prediction, filtering, and smoothing are different inference tasks
+- filtering uses the past, smoothing uses both past and future
+- Kalman filtering is the linear-Gaussian recursive estimator
+- forward-backward style inference is the discrete hidden-state analogue
+
+## Go Deeper
+
+The strongest next page is:
+
+- [Inverse Problems, Deconvolution, and Regularized Recovery](inverse-problems-deconvolution-and-regularized-recovery.qmd)
+
+The strongest adjacent live pages are:
+
+- [Signal Processing and Estimation](../index.qmd)
+- [Noise Models, Wiener Filtering, and MMSE Estimation](noise-models-wiener-filtering-and-mmse-estimation.qmd)
+- [Inverse Problems, Deconvolution, and Regularized Recovery](inverse-problems-deconvolution-and-regularized-recovery.qmd)
+- [Control and Dynamics: Estimation, Kalman Filtering, and the Separation Principle](../../control-and-dynamics/concepts/estimation-kalman-filtering-and-the-separation-principle.qmd)
+- [Stochastic Control and Dynamic Programming: Partial Observability, Belief States, and RL/Control Bridges](../../stochastic-control-and-dynamic-programming/concepts/partial-observability-belief-states-and-rl-control-bridges.qmd)
+- [Probability](../../../foundation/probability/index.qmd)
+- [Statistics](../../../foundation/statistics/index.qmd)
+
+## Optional Deeper Reading After First Pass
+
+- [MIT 6.438 Lecture 13: Kalman Filtering and Smoothing](https://ocw.mit.edu/courses/6-438-algorithms-for-inference-fall-2014/6a29d3d38474e9c62b746fa646899552_MIT6_438F14_Lec13.pdf) - official MIT notes connecting Gaussian HMMs, linear dynamical systems, Kalman filtering, and smoothing. Checked `2026-04-25`.
+- [MIT 16.322 readings page](https://ocw.mit.edu/courses/16-322-stochastic-estimation-and-control-fall-2004/pages/readings/) - official MIT reading map showing the path from estimation to state-space models and the discrete Kalman filter. Checked `2026-04-25`.
+- [Stanford EE278 course overview](https://web.stanford.edu/class/ee278/) - official Stanford page explicitly listing MMSE estimation, Wiener filtering, and Kalman filtering. Checked `2026-04-25`.
+- [Stanford EE278 course plan](https://web.stanford.edu/class/ee278/syllabus.html) - official course plan showing recursive estimation and Kalman filtering in the lecture sequence. Checked `2026-04-25`.
+- [Stanford Stats366 HMM notes](https://web.stanford.edu/class/stats366/hmmR2.html) - official course notes introducing hidden Markov models as hidden-state observation models. Checked `2026-04-25`.
+- [Stanford Stats366 underlying algorithms](https://web.stanford.edu/class/stats366/exs/algos.html) - official course notes on forward and backward recursions for hidden-state inference. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [MIT 6.438 Lecture 13: Kalman Filtering and Smoothing](https://ocw.mit.edu/courses/6-438-algorithms-for-inference-fall-2014/6a29d3d38474e9c62b746fa646899552_MIT6_438F14_Lec13.pdf) - `First pass` - official MIT notes on Gaussian HMMs, Kalman filtering, and smoothing. Checked `2026-04-25`.
+- [MIT 16.322 readings page](https://ocw.mit.edu/courses/16-322-stochastic-estimation-and-control-fall-2004/pages/readings/) - `First pass` - official MIT topic map for recursive estimation and discrete Kalman filtering. Checked `2026-04-25`.
+- [Stanford EE278 course overview](https://web.stanford.edu/class/ee278/) - `First pass` - official Stanford course page connecting MMSE, Wiener, and Kalman estimation topics. Checked `2026-04-25`.
+- [Stanford EE278 course plan](https://web.stanford.edu/class/ee278/syllabus.html) - `First pass` - official lecture plan for recursive estimation and Kalman filtering. Checked `2026-04-25`.
+- [Stanford Stats366 HMM notes](https://web.stanford.edu/class/stats366/hmmR2.html) - `First pass` - official course notes illustrating a basic hidden-state model. Checked `2026-04-25`.
+- [Stanford Stats366 underlying algorithms](https://web.stanford.edu/class/stats366/exs/algos.html) - `Second pass` - official notes for forward-backward style hidden-state inference. Checked `2026-04-25`.

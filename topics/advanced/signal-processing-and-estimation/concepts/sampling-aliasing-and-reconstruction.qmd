@@ -1,0 +1,329 @@
+---
+title: "Sampling, Aliasing, and Reconstruction"
+description: "How continuous-time signals become discrete-time data, why under-sampling causes aliasing, and when bandlimited signals can be reconstructed."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: signal-processing-and-estimation
+prerequisites:
+  - /topics/advanced/signal-processing-and-estimation/concepts/fourier-analysis-frequency-response-and-spectral-views.qmd
+  - /topics/foundation/linear-algebra/index.qmd
+  - /topics/foundation/single-variable-calculus/index.qmd
+learning-goals:
+  - "Explain why sampling turns a continuous-time signal into discrete-time data."
+  - "State the first-pass Nyquist idea for alias-free sampling of bandlimited signals."
+  - "Recognize aliasing as spectral overlap caused by sampling too slowly."
+  - "Understand reconstruction and anti-alias filtering as the core bridge between analog and digital signal processing."
+applications:
+  - signal-and-communication
+  - engineering-systems
+  - machine-learning
+keywords:
+  - sampling
+  - aliasing
+  - Nyquist
+  - reconstruction
+  - bandlimited signal
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/signal-processing-and-estimation/index.qmd
+  - /topics/advanced/signal-processing-and-estimation/concepts/signals-convolution-and-linear-time-invariant-systems.qmd
+  - /topics/advanced/signal-processing-and-estimation/concepts/fourier-analysis-frequency-response-and-spectral-views.qmd
+  - /topics/advanced/information-theory/index.qmd
+  - /topics/advanced/numerical-methods/index.qmd
+  - /topics/advanced/control-and-dynamics/index.qmd
+stable-sources:
+  - "MIT 6.003 Signals and Systems"
+  - "MIT 6.011 Signals, Systems and Inference"
+  - "Stanford EE102A Signal Processing and Linear Systems I"
+current-sources:
+  - "MIT 6.003 lecture notes"
+  - "MIT 6.003 Lecture 21: Sampling"
+  - "MIT 6.011 bandlimited signals notes"
+  - "Stanford EE102A course outline"
+  - "Stanford EE102A notes page"
+  - "Stanford EE102A bulletin"
+---
+
+## Role
+
+This is the third page of the `Signal Processing and Estimation` module.
+
+Its job is to explain how continuous-time signals become discrete-time data without losing the frequency story built on the previous page.
+
+The first two pages said:
+
+- `LTI` systems are described by convolution
+- frequency response explains systems spectrally
+
+This page adds:
+
+- sampling copies spectra
+- under-sampling causes overlap
+- bandlimiting plus enough sampling makes reconstruction possible
+
+## First-Pass Promise
+
+Read this page after [Fourier Analysis, Frequency Response, and Spectral Views](fourier-analysis-frequency-response-and-spectral-views.qmd).
+
+If you stop here, you should still understand:
+
+- why sampling is a modeling step, not only a hardware detail
+- what the Nyquist idea means at first pass
+- what aliasing is and why it happens
+- why reconstruction needs both a bandlimit story and an anti-aliasing story
+
+## Why It Matters
+
+Most modern systems live in a continuous-discrete loop.
+
+The world often generates continuous-time signals:
+
+- sound pressure
+- voltage traces
+- motion trajectories
+- optical intensity
+
+But computers, sensors, and storage systems work with samples.
+
+So signal processing needs a language for:
+
+- converting continuous-time signals into discrete-time data
+- knowing when that conversion loses information
+- reconstructing a continuous-time signal from samples when conditions are favorable
+
+This matters in communication, sensing, imaging, and ML because aliasing is not just a classroom artifact.
+
+It is a real failure mode whenever high-frequency content is hidden inside low-rate observations.
+
+## Prerequisite Recall
+
+- Fourier representations describe signals by their frequency components
+- the spectrum tells us where oscillatory content lives
+- `LTI` filtering can suppress or preserve different frequency bands
+- low-pass behavior is often the right first-pass model for smoothing or anti-alias filtering
+
+## Intuition
+
+### Sampling Turns A Continuous Signal Into A Sequence
+
+Sampling means measuring a continuous-time signal at regularly spaced times:
+
+$$
+x[n] = x_c(nT),
+$$
+
+where `T` is the sampling period and `f_s = 1/T` is the sampling rate.
+
+So a continuous waveform becomes a discrete sequence.
+
+### Sampling Repeats The Spectrum
+
+The spectral viewpoint says sampling is not neutral.
+
+At first pass, sampling takes the original spectrum and creates shifted copies spaced by the sampling frequency.
+
+If those copies stay separated, the original signal can be recovered.
+
+If they overlap, information is mixed together.
+
+That overlap is aliasing.
+
+### Aliasing Means Different Frequencies Become Indistinguishable
+
+When the sampling rate is too low, a high-frequency sinusoid can produce exactly the same samples as a lower-frequency sinusoid.
+
+So after sampling, the sequence no longer tells us which frequency was really present in continuous time.
+
+That is why aliasing is a loss-of-identifiability problem, not just a visual artifact.
+
+### Nyquist Is A Separation Condition
+
+If a signal is bandlimited and the sampling rate is at least twice the highest frequency present, then the repeated spectra stay separated.
+
+At first pass, this is the Nyquist idea:
+
+- enough spacing in time means enough separation in frequency copies
+
+### Reconstruction Needs Anti-Aliasing
+
+Real signals are often not perfectly bandlimited.
+
+So practical systems usually low-pass filter before sampling to remove frequency content that would fold back and alias.
+
+That pre-filter is the anti-aliasing filter.
+
+Then a reconstruction filter can rebuild a continuous-time signal from the clean enough sampled sequence.
+
+## Formal Core
+
+::: {#def-sampling}
+## Definition: Uniform Sampling
+
+Uniform sampling of a continuous-time signal `x_c(t)` with period `T` produces the discrete-time sequence
+
+$$
+x[n] = x_c(nT).
+$$
+:::
+
+The sampling rate is
+
+$$
+f_s = \frac{1}{T}.
+$$
+
+::: {#def-bandlimited}
+## Definition: Bandlimited Signal
+
+A continuous-time signal is bandlimited to bandwidth `W` if its spectrum is zero outside the frequency range `|\omega| \le W` or, equivalently, outside `|f| \le B` in ordinary-frequency notation.
+:::
+
+At first pass, bandlimited means:
+
+- there is a highest frequency that matters
+
+::: {#thm-sampling-spectrum}
+## Theorem Idea: Sampling Replicates The Spectrum
+
+Uniform sampling produces shifted copies of the original continuous-time spectrum, spaced by the sampling frequency.
+:::
+
+This is the main spectral fact behind both reconstruction and aliasing.
+
+::: {#thm-nyquist}
+## Theorem Idea: Nyquist Sampling Condition
+
+If a signal is bandlimited and the sampling rate is at least twice the highest frequency present, then ideal reconstruction from uniform samples is possible.
+:::
+
+At first pass, this is often stated as:
+
+$$
+f_s \ge 2B.
+$$
+
+The rate `2B` is the Nyquist rate.
+
+::: {#def-aliasing}
+## Definition: Aliasing
+
+Aliasing occurs when the spectral copies created by sampling overlap, making distinct continuous-time frequency components indistinguishable in the sampled sequence.
+:::
+
+::: {#thm-antialiasing}
+## Theorem Idea: Anti-Aliasing Before Sampling
+
+If a signal contains frequency content above what the sampling rate can safely represent, low-pass filtering before sampling can prevent those components from folding into lower frequencies.
+:::
+
+This is why anti-alias filtering is a structural part of sampling pipelines.
+
+## Worked Example
+
+Take the continuous-time signals
+
+$$
+x_1(t)=\sin(2\pi \cdot 1\, t), \qquad x_2(t)=\sin(2\pi \cdot 9\, t).
+$$
+
+Now sample at `f_s = 8` Hz, so `T = 1/8`.
+
+Then
+
+$$
+x_1[n] = \sin\!\left(2\pi \cdot \frac{1}{8} n\right)
+$$
+
+and
+
+$$
+x_2[n] = \sin\!\left(2\pi \cdot \frac{9}{8} n\right)
+= \sin\!\left(2\pi n + 2\pi \cdot \frac{1}{8} n\right)
+= \sin\!\left(2\pi \cdot \frac{1}{8} n\right).
+$$
+
+So the `1` Hz signal and the `9` Hz signal produce the same samples.
+
+That is aliasing in its cleanest possible form:
+
+- two different continuous-time frequencies
+- one identical discrete-time sequence
+
+So no downstream algorithm can recover which original frequency was present from the samples alone.
+
+## Computation Lens
+
+When a pipeline moves between continuous time and discrete time, ask:
+
+1. what is the actual sampling rate?
+2. what frequency content is present before sampling?
+3. is there enough bandlimit structure for alias-free representation?
+4. is an anti-alias filter present before sampling?
+5. is the reconstruction claim exact, approximate, or only good enough for the application?
+
+These questions matter in data collection, simulation, audio, imaging, sensor fusion, and sequence modeling.
+
+## Application Lens
+
+### Audio And Imaging
+
+Aliasing shows up as audible distortion in sound and as moire or jagged artifacts in images and video.
+
+### Communication And Sensing
+
+Sampling determines what part of an analog waveform a digital receiver can even hope to recover.
+
+### ML Pipelines
+
+Many learned systems consume sampled signals, images, spectrograms, or time series whose quality already depends on earlier sampling and anti-aliasing choices.
+
+## Stop Here For First Pass
+
+If you stop here, retain these five ideas:
+
+- sampling converts continuous-time signals into discrete-time sequences
+- sampling creates repeated copies of the spectrum
+- aliasing is spectral overlap caused by sampling too slowly
+- bandlimited signals can be reconstructed when the sampling rate is high enough
+- anti-alias filtering matters before sampling, not after the damage is already done
+
+## Go Deeper
+
+The strongest next page is:
+
+- [Noise Models, Wiener Filtering, and MMSE Estimation](noise-models-wiener-filtering-and-mmse-estimation.qmd)
+
+The strongest adjacent live pages are:
+
+- [Signal Processing and Estimation](../index.qmd)
+- [Signals, Convolution, and Linear Time-Invariant Systems](signals-convolution-and-linear-time-invariant-systems.qmd)
+- [Fourier Analysis, Frequency Response, and Spectral Views](fourier-analysis-frequency-response-and-spectral-views.qmd)
+- [Noise Models, Wiener Filtering, and MMSE Estimation](noise-models-wiener-filtering-and-mmse-estimation.qmd)
+- [Information Theory](../../information-theory/index.qmd)
+- [Numerical Methods](../../numerical-methods/index.qmd)
+- [Control and Dynamics](../../control-and-dynamics/index.qmd)
+
+## Optional Deeper Reading After First Pass
+
+- [MIT 6.003: Signals and Systems lecture notes](https://ocw.mit.edu/courses/6-003-signals-and-systems-fall-2011/pages/lecture-notes/) - official note index spanning convolution, Fourier analysis, and sampling. Checked `2026-04-25`.
+- [MIT 6.003 Lecture 21: Sampling](https://ocw.mit.edu/courses/6-003-signals-and-systems-fall-2011/12e6e5d7567fca2e993ef8563fef5a60_MIT6_003F11_lec21.pdf) - official MIT lecture PDF covering spectrum replication, aliasing, anti-alias filtering, and Nyquist-rate summaries. Checked `2026-04-25`.
+- [MIT 6.011 bandlimited signals notes](https://ocw.mit.edu/courses/6-011-signals-systems-and-inference-spring-2018/resources/mit6_011s18band-sign/) - official MIT notes focused on the bandlimited-signal viewpoint used in sampling and interpolation. Checked `2026-04-25`.
+- [Stanford EE102A course outline](https://web.stanford.edu/~pauly/ee102a/CourseOutline.html) - official outline emphasizing time/frequency sampling and interpolation. Checked `2026-04-25`.
+- [Stanford EE102A notes page](https://web.stanford.edu/class/ee102a/Notes.html) - official note index whose lecture sequence includes impulse trains, periodic signals, and sampling. Checked `2026-04-25`.
+- [Stanford EE102A bulletin](https://22-23.bulletin.stanford.edu/courses/2031051) - official Stanford bulletin entry describing sampling and continuous-discrete conversion in the course scope. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [MIT 6.003: Signals and Systems lecture notes](https://ocw.mit.edu/courses/6-003-signals-and-systems-fall-2011/pages/lecture-notes/) - `First pass` - official note index for the signals-and-systems arc. Checked `2026-04-25`.
+- [MIT 6.003 Lecture 21: Sampling](https://ocw.mit.edu/courses/6-003-signals-and-systems-fall-2011/12e6e5d7567fca2e993ef8563fef5a60_MIT6_003F11_lec21.pdf) - `First pass` - official MIT lecture PDF on aliasing, anti-alias filtering, and reconstruction. Checked `2026-04-25`.
+- [MIT 6.011 bandlimited signals notes](https://ocw.mit.edu/courses/6-011-signals-systems-and-inference-spring-2018/resources/mit6_011s18band-sign/) - `First pass` - official notes on bandlimited signals and interpolation structure. Checked `2026-04-25`.
+- [Stanford EE102A course outline](https://web.stanford.edu/~pauly/ee102a/CourseOutline.html) - `First pass` - official outline covering sampling, interpolation, and discrete-time processing. Checked `2026-04-25`.
+- [Stanford EE102A notes page](https://web.stanford.edu/class/ee102a/Notes.html) - `First pass` - official note index showing the lecture sequence through sampling. Checked `2026-04-25`.
+- [Stanford EE102A bulletin](https://22-23.bulletin.stanford.edu/courses/2031051) - `Second pass` - official Stanford bulletin entry summarizing the course scope. Checked `2026-04-25`.

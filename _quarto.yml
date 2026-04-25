@@ -145,6 +145,16 @@ website:
               - topics/advanced/numerical-methods/concepts/eigenvalue-and-svd-computation.qmd
               - topics/advanced/numerical-methods/concepts/approximation-differentiation-integration-and-error-control.qmd
               - topics/advanced/numerical-methods/concepts/time-stepping-for-odes-and-stability.qmd
+          - section: "Signal Processing and Estimation"
+            contents:
+              - topics/advanced/signal-processing-and-estimation/index.qmd
+              - topics/advanced/signal-processing-and-estimation/concepts/signals-convolution-and-linear-time-invariant-systems.qmd
+              - topics/advanced/signal-processing-and-estimation/concepts/fourier-analysis-frequency-response-and-spectral-views.qmd
+              - topics/advanced/signal-processing-and-estimation/concepts/sampling-aliasing-and-reconstruction.qmd
+              - topics/advanced/signal-processing-and-estimation/concepts/noise-models-wiener-filtering-and-mmse-estimation.qmd
+              - topics/advanced/signal-processing-and-estimation/concepts/state-estimation-smoothing-and-hidden-state-inference.qmd
+              - topics/advanced/signal-processing-and-estimation/concepts/inverse-problems-deconvolution-and-regularized-recovery.qmd
+              - topics/advanced/signal-processing-and-estimation/concepts/signal-processing-bridges-to-communication-sensing-and-modern-ml.qmd
           - section: "ODEs and Dynamical Systems"
             contents:
               - topics/advanced/odes-and-dynamical-systems/index.qmd

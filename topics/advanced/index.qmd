@@ -9,6 +9,7 @@ The advanced track is where the site moves into:
 - real analysis
 - optimization
 - numerical methods
+- signal processing and estimation
 - control and dynamics
 - stochastic control and dynamic programming
 - matrix analysis
@@ -22,6 +23,7 @@ The advanced track is where the site moves into:
 - [Real Analysis](real-analysis/index.qmd)
 - [Optimization](optimization/index.qmd)
 - [Numerical Methods](numerical-methods/index.qmd)
+- [Signal Processing and Estimation](signal-processing-and-estimation/index.qmd)
 - [ODEs and Dynamical Systems](odes-and-dynamical-systems/index.qmd)
 - [Control and Dynamics](control-and-dynamics/index.qmd)
 - [Stochastic Control and Dynamic Programming](stochastic-control-and-dynamic-programming/index.qmd)
@@ -35,7 +37,7 @@ The advanced track is where the site moves into:
 
 [Real Analysis](real-analysis/index.qmd) is the rigor bridge from calculus into theorem-heavy work.
 
-Its current first-pass spine is:
+Its first-pass spine is:
 
 - [Rigorous Convergence](real-analysis/concepts/rigorous-convergence.qmd)
 - [Continuity, Compactness, and Completeness](real-analysis/concepts/continuity-compactness-completeness.qmd)
@@ -72,6 +74,22 @@ Its current study route is:
 - [Time-Stepping for ODEs and Stability](numerical-methods/concepts/time-stepping-for-odes-and-stability.qmd) - optional extension toward ODEs and simulation
 
 This module is where the site turns exact linear-algebra, calculus, and optimization objects into actual computations that live in floating point and must be judged by conditioning, stability, and error.
+
+## Signal Processing and Estimation
+
+[Signal Processing and Estimation](signal-processing-and-estimation/index.qmd) is the signal-and-systems bridge from mathematical functions and sequences into filtering, sensing, communication, and inverse problems.
+
+Its current first-pass spine is:
+
+- [Signals, Convolution, and Linear Time-Invariant Systems](signal-processing-and-estimation/concepts/signals-convolution-and-linear-time-invariant-systems.qmd)
+- [Fourier Analysis, Frequency Response, and Spectral Views](signal-processing-and-estimation/concepts/fourier-analysis-frequency-response-and-spectral-views.qmd)
+- [Sampling, Aliasing, and Reconstruction](signal-processing-and-estimation/concepts/sampling-aliasing-and-reconstruction.qmd)
+- [Noise Models, Wiener Filtering, and MMSE Estimation](signal-processing-and-estimation/concepts/noise-models-wiener-filtering-and-mmse-estimation.qmd)
+- [State Estimation, Smoothing, and Hidden-State Inference](signal-processing-and-estimation/concepts/state-estimation-smoothing-and-hidden-state-inference.qmd)
+- [Inverse Problems, Deconvolution, and Regularized Recovery](signal-processing-and-estimation/concepts/inverse-problems-deconvolution-and-regularized-recovery.qmd)
+- [Signal Processing Bridges to Communication, Sensing, and Modern ML](signal-processing-and-estimation/concepts/signal-processing-bridges-to-communication-sensing-and-modern-ml.qmd)
+
+This module is where the site turns ordered data, system response, convolution, sampling, noise models, hidden-state inference, and ill-posed recovery into a full bridge toward communication, sensing, and modern ML.
 
 ## ODEs and Dynamical Systems
 
@@ -206,4 +224,4 @@ This module is where the site turns entropy, divergence, coding cost, and commun
 
 ## Planned Next Advanced Modules
 
-- `Signal Processing and Estimation`
+- `Stochastic Processes`

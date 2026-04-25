@@ -1,0 +1,350 @@
+---
+title: "Signal Processing Bridges to Communication, Sensing, and Modern ML"
+description: "How the same signal-processing objects reappear in communication, sensing, and modern ML through channels, inverse problems, state estimation, and learned representations."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: signal-processing-and-estimation
+prerequisites:
+  - /topics/advanced/signal-processing-and-estimation/concepts/inverse-problems-deconvolution-and-regularized-recovery.qmd
+  - /topics/advanced/information-theory/index.qmd
+  - /topics/foundation/probability/index.qmd
+learning-goals:
+  - "Recognize the shared mathematical core behind communication, sensing, and modern ML pipelines."
+  - "Map channels, sensors, and learned models onto operators, noise models, state models, and priors."
+  - "Distinguish decoding, estimation, and inverse recovery while seeing why they share the same toolkit."
+  - "Use the module as a bridge to adjacent sections such as information theory, control, and machine learning."
+applications:
+  - signal-and-communication
+  - engineering-systems
+  - machine-learning
+keywords:
+  - communication
+  - sensing
+  - machine learning
+  - representation
+  - signal processing
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/signal-processing-and-estimation/index.qmd
+  - /topics/advanced/signal-processing-and-estimation/concepts/inverse-problems-deconvolution-and-regularized-recovery.qmd
+  - /topics/advanced/information-theory/index.qmd
+  - /topics/advanced/control-and-dynamics/index.qmd
+  - /topics/advanced/stochastic-control-and-dynamic-programming/index.qmd
+  - /applications/machine-learning/index.qmd
+stable-sources:
+  - "MIT 6.011 Introduction to Communication, Control, and Signal Processing"
+  - "Stanford EE264 Digital Signal Processing"
+  - "Stanford EE269 Signal Processing and Quantization for Machine Learning"
+current-sources:
+  - "MIT 6.011 objectives and outcomes"
+  - "Stanford EE264 course page"
+  - "Stanford EE278 course overview"
+  - "Stanford EE367 course page"
+  - "Stanford EE269 course page"
+  - "Stanford EE269 slides"
+---
+
+## Role
+
+This is the seventh page of the `Signal Processing and Estimation` module.
+
+Its job is to synthesize the whole module and show why signal processing is not an isolated subject.
+
+It is a reusable mathematical language that keeps reappearing in:
+
+- communication
+- sensing
+- control and estimation
+- modern ML
+
+## First-Pass Promise
+
+Read this page after [Inverse Problems, Deconvolution, and Regularized Recovery](inverse-problems-deconvolution-and-regularized-recovery.qmd).
+
+If you stop here, you should still understand:
+
+- why channels, sensors, and learned systems often share the same operator-plus-noise structure
+- how communication, sensing, and ML ask different questions on top of similar math
+- why convolution, spectrum, estimation, and regularization keep returning across fields
+- where to go next in the site depending on your goal
+
+## Why It Matters
+
+By the end of this module, the same mathematical objects have appeared many times:
+
+- signals
+- `LTI` systems
+- convolution
+- frequency response
+- sampling
+- random noise models
+- hidden states
+- inverse operators
+- regularization
+
+The reason this module matters is that these are not topic-local tricks.
+
+They are shared building blocks behind many modern systems:
+
+- a communication receiver
+- an imaging pipeline
+- a tracking system
+- a speech or sequence model
+- a restoration or generative model in ML
+
+So this page is about pattern recognition:
+
+- seeing one mathematical language show up in multiple domains
+
+## Prerequisite Recall
+
+- convolution and frequency response describe linear channels and filters
+- sampling explains how continuous-time signals become discrete-time data
+- Wiener and MMSE viewpoints explain noisy estimation
+- state estimation handles hidden dynamics over time
+- inverse problems and regularization explain difficult recovery tasks
+
+## Intuition
+
+### Communication Is Signal Processing With Decoding Goals
+
+In communication, the main question is often:
+
+- what message or symbol sequence was transmitted?
+
+The signal-processing objects are familiar:
+
+- modulation
+- channel convolution
+- noise
+- equalization
+- filtering
+
+What changes is the task:
+
+- we care about reliable decoding, rate, and error probability
+
+### Sensing Is Signal Processing With Measurement Models
+
+In sensing and imaging, the main question is often:
+
+- what physical object or field produced the measurements?
+
+Again the same objects appear:
+
+- a forward operator
+- noise
+- sampling
+- deconvolution
+- regularized recovery
+
+What changes is the task:
+
+- we care about reconstruction quality, resolution, and uncertainty
+
+### Modern ML Reuses The Same Structure
+
+Many modern ML pipelines do not replace signal processing.
+
+They absorb it.
+
+Examples:
+
+- convolutional architectures reuse locality and shift structure
+- spectrograms and time-frequency features reuse Fourier thinking
+- state-space sequence models reuse hidden-state dynamics
+- diffusion and restoration systems reuse inverse-problem and denoising viewpoints
+- quantization and efficient inference reuse signal-model and representation tradeoffs
+
+### Same Math, Different End Goals
+
+The same model
+
+$$
+y = Hx + \eta
+$$
+
+can mean very different things:
+
+- a channel in communication
+- a sensor in imaging
+- a corruption model in ML restoration
+
+So the real question is not only what equation appears.
+
+It is:
+
+- what unknown are we trying to infer?
+- what structure can we exploit?
+- what success criterion matters?
+
+## Formal Core
+
+::: {#def-channel-model}
+## Definition: Communication Channel Model
+
+A communication pipeline often models the received signal as a transformed transmitted signal plus noise:
+
+$$
+y = Hx + \eta.
+$$
+:::
+
+At first pass, `H` can represent filtering, mixing, interference, or bandwidth limitations.
+
+::: {#def-sensing-model}
+## Definition: Sensing Or Imaging Model
+
+A sensing pipeline often models measurements as partial, blurred, mixed, or sampled observations of an underlying object:
+
+$$
+y = Hx + \eta.
+$$
+:::
+
+The mathematics may look the same as in communication, but the unknown `x` now represents a physical scene, field, or image rather than a transmitted message.
+
+::: {#def-ml-pipeline}
+## Definition: Representation Or Restoration Pipeline
+
+A modern ML pipeline often applies fixed or learned transforms to noisy, structured, or sequential data in order to classify, compress, predict, or reconstruct it.
+:::
+
+At first pass, these pipelines still reuse classical signal-processing structure:
+
+- local filtering
+- spectral features
+- hidden states
+- regularized or prior-driven recovery
+
+::: {#thm-shared-objects}
+## Theorem Idea: Shared Mathematical Objects Recur Across Domains
+
+The same operator, noise, and prior structures often underlie communication, sensing, and ML, even when the end task differs.
+:::
+
+This is why signal processing remains valuable after one learns statistics, optimization, or modern ML.
+
+::: {#thm-task-differences}
+## Theorem Idea: Decoding, Estimation, and Recovery Differ By Objective
+
+Different fields may share a measurement model but ask different questions:
+
+- decode symbols
+- estimate hidden states
+- reconstruct a signal or image
+- learn a useful representation
+:::
+
+So shared mathematics does not imply identical goals.
+
+## Worked Example
+
+Take the same observation model
+
+$$
+y = h * x + \eta.
+$$
+
+Now interpret it in three different ways.
+
+### Communication View
+
+- `x` is a transmitted waveform or symbol sequence
+- `h` is the channel response
+- the task is equalization plus decoding
+
+### Sensing View
+
+- `x` is a latent image or physical signal
+- `h` is blur or instrument response
+- the task is deconvolution or inverse recovery
+
+### ML View
+
+- `x` is the clean latent object we want a model to recover or represent
+- `h` and `\eta` define a corruption or observation model
+- the task is denoising, restoration, prediction, or representation learning
+
+The same equation appears in all three cases.
+
+What changes is:
+
+- the interpretation of the unknown
+- the prior knowledge used
+- the loss function or success criterion
+
+That is the main bridge insight of the page.
+
+## Computation Lens
+
+When a new application looks unfamiliar, ask:
+
+1. what is the signal?
+2. what is the forward operator?
+3. where do noise or uncertainty enter?
+4. is the task decoding, estimation, recovery, or representation learning?
+5. which part is fixed physics, and which part is learned?
+
+These questions often reveal that the “new” problem is built from old signal-processing pieces.
+
+## Application Lens
+
+### Communication
+
+Communication systems care about bandwidth, distortion, coding, equalization, and reliable recovery of transmitted information.
+
+### Sensing And Imaging
+
+Sensing systems care about how physical measurements are formed, what information is lost, and how much can be reconstructed stably.
+
+### Modern ML
+
+Modern ML often layers learned priors or learned decision rules on top of classical pipelines built from filtering, sampling, hidden-state inference, and inverse recovery.
+
+## Stop Here For First Pass
+
+If you stop here, retain these five ideas:
+
+- signal processing is a reusable mathematical language, not just a narrow engineering topic
+- communication, sensing, and ML often share the same operator-plus-noise backbone
+- the same model can support different tasks such as decoding, estimation, and reconstruction
+- convolution, spectrum, state estimation, and regularization keep reappearing because they solve recurring structural problems
+- the right next module depends on whether you care more about information limits, control, inverse recovery, or ML applications
+
+## Go Deeper
+
+The strongest adjacent live pages are:
+
+- [Information Theory](../../information-theory/index.qmd)
+- [Control and Dynamics](../../control-and-dynamics/index.qmd)
+- [Stochastic Control and Dynamic Programming](../../stochastic-control-and-dynamic-programming/index.qmd)
+- [Numerical Methods](../../numerical-methods/index.qmd)
+- [Applications: Machine Learning](../../../../applications/machine-learning/index.qmd)
+
+The signal-processing first pass is now complete.
+
+## Optional Deeper Reading After First Pass
+
+- [MIT 6.011 objectives and outcomes](https://ocw.mit.edu/courses/6-011-introduction-to-communication-control-and-signal-processing-spring-2010/resources/mit6_011s10_objectives/) - official MIT summary of how signals, systems, and inference combine communication, control, and signal processing. Checked `2026-04-25`.
+- [Stanford EE264 course page](https://web.stanford.edu/class/ee264/) - official Stanford DSP page emphasizing communications, sensing, compression, and ML-adjacent applications. Checked `2026-04-25`.
+- [Stanford EE278 course overview](https://web.stanford.edu/class/ee278/) - official Stanford page connecting statistical signal processing to inference, MMSE estimation, and Kalman filtering. Checked `2026-04-25`.
+- [Stanford EE367 course page](https://web.stanford.edu/class/ee367/) - official Stanford computational imaging page covering deconvolution, inverse problems, and modern reconstruction methods. Checked `2026-04-25`.
+- [Stanford EE269 course page](https://web.stanford.edu/class/ee269/) - official Stanford course page explicitly connecting signal processing concepts to machine learning and AI. Checked `2026-04-25`.
+- [Stanford EE269 slides](https://web.stanford.edu/class/ee269/slides.html) - official slide index showing signal-processing topics mapped into ML systems and quantization settings. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [MIT 6.011 objectives and outcomes](https://ocw.mit.edu/courses/6-011-introduction-to-communication-control-and-signal-processing-spring-2010/resources/mit6_011s10_objectives/) - `First pass` - official MIT statement of the communication-control-signal-processing bridge. Checked `2026-04-25`.
+- [Stanford EE264 course page](https://web.stanford.edu/class/ee264/) - `First pass` - official Stanford DSP page highlighting communications, sensing, and ML-adjacent applications. Checked `2026-04-25`.
+- [Stanford EE278 course overview](https://web.stanford.edu/class/ee278/) - `First pass` - official Stanford statistical signal processing overview. Checked `2026-04-25`.
+- [Stanford EE367 course page](https://web.stanford.edu/class/ee367/) - `First pass` - official Stanford computational imaging page for inverse-problem and sensing bridges. Checked `2026-04-25`.
+- [Stanford EE269 course page](https://web.stanford.edu/class/ee269/) - `First pass` - official Stanford course page on signal processing for machine learning and AI. Checked `2026-04-25`.
+- [Stanford EE269 slides](https://web.stanford.edu/class/ee269/slides.html) - `Second pass` - official slide index showing how the bridge extends into ML systems. Checked `2026-04-25`.

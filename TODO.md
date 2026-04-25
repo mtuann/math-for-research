@@ -17,8 +17,8 @@ Use it to track:
 
 ## Current Snapshot
 
-- `233` `.qmd` pages currently exist
-- `110` concept-topic pages currently exist
+- `241` `.qmd` pages currently exist
+- `117` concept-topic pages currently exist
 - strongest subjects so far: `Linear Algebra`, `Probability`, `Proofs`, `Logic`, `Statistics`, `Single-Variable Calculus`, `Multivariable Calculus`, `Optimization`, `Real Analysis`
 - strongest public-facing bridge so far: `Applications > Machine Learning`
 - non-topic sections already scaffolded: `Start Here`, `Roadmaps`, `Applications`, `Paper Lab`, `Research`, `Publication`, `Library`, `Notes`
@@ -274,6 +274,17 @@ These are not required before the main spine is public, but they are the next hi
 - [x] `Eigenvalue and SVD computation`
 - [x] `Approximation, differentiation, integration, and error control`
 - [x] `Time-stepping for ODEs and stability`
+
+### Signal Processing and Estimation
+
+- [x] `Signal Processing and Estimation index`
+- [x] `Signals, convolution, and linear time-invariant systems`
+- [x] `Fourier analysis, frequency response, and spectral views`
+- [x] `Sampling, aliasing, and reconstruction`
+- [x] `Noise models, Wiener filtering, and MMSE estimation`
+- [x] `State estimation, smoothing, and hidden-state inference`
+- [x] `Inverse problems, deconvolution, and regularized recovery`
+- [x] `Signal processing bridges to communication, sensing, and modern ML`
 
 ### Matrix Analysis
 

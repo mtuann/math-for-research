@@ -1,0 +1,224 @@
+---
+title: "Signal Processing and Estimation"
+description: "How signals, convolution, frequency views, sampling, noise, filtering, and inverse problems connect communication, sensing, estimation, and modern ML."
+page-type: module-overview
+status: published
+update-status: current
+level: advanced
+topic: signal-processing-and-estimation
+prerequisites:
+  - /topics/foundation/linear-algebra/index.qmd
+  - /topics/foundation/single-variable-calculus/index.qmd
+  - /topics/foundation/probability/index.qmd
+learning-goals:
+  - "Understand why signal processing organizes information through signals, systems, convolution, spectrum, noise, and estimation."
+  - "Know the intended first-pass order for the signal-processing-and-estimation module."
+  - "Connect communication, sensing, filtering, inverse problems, and modern ML through the language of linear systems and uncertainty."
+applications:
+  - signal-and-communication
+  - engineering-systems
+  - machine-learning
+keywords:
+  - signal processing
+  - estimation
+  - convolution
+  - Fourier analysis
+  - filtering
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+stable-sources:
+  - "MIT 6.003 Signals and Systems"
+  - "MIT 6.011 Signals, Systems and Inference"
+  - "Stanford EE102A Signal Processing and Linear Systems I"
+current-sources:
+  - "MIT 6.003 lecture notes"
+  - "MIT 6.003 convolution lecture"
+  - "MIT 6.003 Lecture 21: Sampling"
+  - "MIT 6.011 bandlimited signals notes"
+  - "MIT 6.011 Lecture 20 Wiener Filtering"
+  - "MIT 6.438 Lecture 13 Kalman Filtering and Smoothing"
+  - "MIT 18.085 Lecture 35 Deconvolution"
+  - "MIT 6.011 objectives and outcomes"
+  - "Stanford EE367 course page"
+  - "Stanford EE264 course page"
+  - "Stanford EE269 course page"
+  - "Stanford EE278 course overview"
+  - "Stanford EE278 course plan"
+  - "Stanford EE102A course outline"
+  - "Stanford EE102A notes page"
+  - "Stanford EE102A bulletin"
+---
+
+## Why This Module Matters
+
+Many mathematical objects in engineering, sensing, communication, and ML are not just vectors or random variables.
+
+They are signals:
+
+- audio waveforms
+- sensor traces
+- sampled time series
+- images viewed as structured arrays
+- hidden trajectories observed through noise
+
+This module is where the site turns that idea into a clean mathematical language.
+
+It is the bridge from:
+
+- functions and sequences
+- linear systems and convolution
+- Fourier and frequency viewpoints
+- noise and filtering
+- inverse problems and estimation
+
+into a reusable toolkit for communications, sensing, control, and modern ML.
+
+::: {.meta-strip}
+::: {.meta-box}
+**Prerequisites**
+[Linear Algebra](../../foundation/linear-algebra/index.qmd) helps with linear-system structure and transforms. [Single-Variable Calculus](../../foundation/single-variable-calculus/index.qmd) helps with continuous-time signals and integrals. [Probability](../../foundation/probability/index.qmd) becomes important once the module reaches noise, filtering, and estimation.
+:::
+::: {.meta-box}
+**Unlocks**
+Fourier analysis, sampling, filtering, state estimation, inverse problems, communication models, sensing pipelines
+:::
+::: {.meta-box}
+**Research Use**
+Reading papers or systems notes on signal processing, sensing, communication, spectral methods, denoising, inverse problems, and sequence or representation models
+:::
+:::
+
+## First Pass Through This Module
+
+The intended first-pass spine for this module is:
+
+1. [Signals, Convolution, and Linear Time-Invariant Systems](concepts/signals-convolution-and-linear-time-invariant-systems.qmd)
+2. [Fourier Analysis, Frequency Response, and Spectral Views](concepts/fourier-analysis-frequency-response-and-spectral-views.qmd)
+3. [Sampling, Aliasing, and Reconstruction](concepts/sampling-aliasing-and-reconstruction.qmd)
+4. [Noise Models, Wiener Filtering, and MMSE Estimation](concepts/noise-models-wiener-filtering-and-mmse-estimation.qmd)
+5. [State Estimation, Smoothing, and Hidden-State Inference](concepts/state-estimation-smoothing-and-hidden-state-inference.qmd)
+6. [Inverse Problems, Deconvolution, and Regularized Recovery](concepts/inverse-problems-deconvolution-and-regularized-recovery.qmd)
+7. [Signal Processing Bridges to Communication, Sensing, and Modern ML](concepts/signal-processing-bridges-to-communication-sensing-and-modern-ml.qmd)
+
+The module now has a complete seven-page first-pass spine. Together these pages introduce:
+
+- signals as time- or index-dependent objects
+- systems as mappings from input signals to output signals
+- linear time invariance as the load-bearing structural assumption
+- convolution as the core representation of LTI behavior
+- the frequency-domain viewpoint
+- frequency response as the spectral signature of an LTI system
+- sampling as the bridge from continuous-time signals to discrete-time data
+- aliasing as spectral overlap under insufficient sampling
+- reconstruction and anti-alias filtering as the load-bearing continuous-discrete interface
+- noise models as probabilistic structure rather than vague corruption
+- MMSE and LMMSE as explicit estimation objectives
+- Wiener filtering as the spectral linear-estimation bridge from noisy data to filtered recovery
+- hidden states as latent trajectories behind observations
+- filtering and smoothing as different sequential inference tasks
+- Kalman and forward-backward viewpoints as the first reusable tools for hidden-state estimation
+- inverse problems as recovery from transformed measurements rather than direct observations
+- deconvolution as the canonical blur-inversion problem
+- regularization as the main stability tool for ill-posed recovery
+- the shared operator-plus-noise backbone behind communication, sensing, and modern ML
+- the difference between decoding, estimation, reconstruction, and learned representation goals
+
+## How To Use This Module
+
+The best first-pass path is:
+
+1. start with [Signals, Convolution, and Linear Time-Invariant Systems](concepts/signals-convolution-and-linear-time-invariant-systems.qmd)
+2. continue to [Fourier Analysis, Frequency Response, and Spectral Views](concepts/fourier-analysis-frequency-response-and-spectral-views.qmd)
+3. then read [Sampling, Aliasing, and Reconstruction](concepts/sampling-aliasing-and-reconstruction.qmd)
+4. then read [Noise Models, Wiener Filtering, and MMSE Estimation](concepts/noise-models-wiener-filtering-and-mmse-estimation.qmd)
+5. then read [State Estimation, Smoothing, and Hidden-State Inference](concepts/state-estimation-smoothing-and-hidden-state-inference.qmd)
+6. then read [Inverse Problems, Deconvolution, and Regularized Recovery](concepts/inverse-problems-deconvolution-and-regularized-recovery.qmd)
+7. finish with [Signal Processing Bridges to Communication, Sensing, and Modern ML](concepts/signal-processing-bridges-to-communication-sensing-and-modern-ml.qmd)
+8. keep [Numerical Methods](../numerical-methods/index.qmd) nearby when discretization or computation questions arise
+9. keep [Information Theory](../information-theory/index.qmd) nearby for communication and coding intuition
+10. keep [Control and Dynamics](../control-and-dynamics/index.qmd) nearby for state-space and filtering bridges
+11. keep [Probability](../../foundation/probability/index.qmd) nearby as the module moves from deterministic signals into random signals and estimation
+
+The design goal is to make signal and systems language feel natural before the module branches into spectral views, sampling, filtering, and inverse problems.
+
+## Core Concepts
+
+- [Signals, Convolution, and Linear Time-Invariant Systems](concepts/signals-convolution-and-linear-time-invariant-systems.qmd): the first page that explains signals versus systems, why LTI structure matters, and how convolution turns an impulse response into a full input-output rule.
+- [Fourier Analysis, Frequency Response, and Spectral Views](concepts/fourier-analysis-frequency-response-and-spectral-views.qmd): the second page that shifts LTI analysis into the spectral domain and explains why frequency response matters.
+- [Sampling, Aliasing, and Reconstruction](concepts/sampling-aliasing-and-reconstruction.qmd): the third page that explains how continuous-time signals become discrete-time data, when aliasing appears, and why bandlimits and anti-alias filtering matter.
+- [Noise Models, Wiener Filtering, and MMSE Estimation](concepts/noise-models-wiener-filtering-and-mmse-estimation.qmd): the fourth page that explains random signal models, least-square estimation, and frequency-domain linear denoising.
+- [State Estimation, Smoothing, and Hidden-State Inference](concepts/state-estimation-smoothing-and-hidden-state-inference.qmd): the fifth page that explains hidden-state models, filtering, smoothing, and the first-pass Kalman/HMM inference story.
+- [Inverse Problems, Deconvolution, and Regularized Recovery](concepts/inverse-problems-deconvolution-and-regularized-recovery.qmd): the sixth page that explains unstable inversion, deconvolution, and why regularization is the load-bearing recovery tool.
+- [Signal Processing Bridges to Communication, Sensing, and Modern ML](concepts/signal-processing-bridges-to-communication-sensing-and-modern-ml.qmd): the closing bridge page that shows how the same signal-processing objects reappear across channels, sensors, and learned systems.
+
+## After This First Pass
+
+The strongest adjacent next moves are:
+
+- [Information Theory](../information-theory/index.qmd)
+- [Control and Dynamics](../control-and-dynamics/index.qmd)
+- [Stochastic Control and Dynamic Programming](../stochastic-control-and-dynamic-programming/index.qmd)
+- [Numerical Methods](../numerical-methods/index.qmd)
+- [Applications: Machine Learning](../../../applications/machine-learning/index.qmd)
+
+## Applications
+
+### Communication And Sensing
+
+Signals and systems are the mathematical backbone of communication channels, sensors, imaging pipelines, and measurement systems.
+
+### Filtering And Estimation
+
+Once signals become noisy, the same language turns into denoising, filtering, prediction, and state estimation.
+
+### Modern ML And Representation Pipelines
+
+Convolution, spectral views, inverse problems, and noise models now reappear in sequence models, imaging, diffusion, and representation learning.
+
+## Go Deeper By Topic
+
+The strongest adjacent live pages are:
+
+- [Information Theory](../information-theory/index.qmd)
+- [Control and Dynamics](../control-and-dynamics/index.qmd)
+- [Stochastic Control and Dynamic Programming](../stochastic-control-and-dynamic-programming/index.qmd)
+- [Numerical Methods](../numerical-methods/index.qmd)
+- [Probability](../../foundation/probability/index.qmd)
+
+## Optional Deeper Reading After First Pass
+
+- [MIT 6.003: Signals and Systems lecture notes](https://ocw.mit.edu/courses/6-003-signals-and-systems-fall-2011/pages/lecture-notes/) - official lecture-note index spanning signals, convolution, frequency response, and system analysis. Checked `2026-04-25`.
+- [MIT 6.003 convolution lecture](https://ocw.mit.edu/courses/6-003-signals-and-systems-fall-2011/resources/mit6_003f11_lec08/) - official notes page for convolution and LTI systems. Checked `2026-04-25`.
+- [MIT 6.003 frequency response lecture](https://ocw.mit.edu/courses/6-003-signals-and-systems-fall-2011/resources/mit6_003f11_lec09/) - official notes page for the spectral view of LTI systems. Checked `2026-04-25`.
+- [MIT 6.003 Lecture 21: Sampling](https://ocw.mit.edu/courses/6-003-signals-and-systems-fall-2011/12e6e5d7567fca2e993ef8563fef5a60_MIT6_003F11_lec21.pdf) - official MIT lecture PDF on aliasing, anti-alias filtering, and reconstruction. Checked `2026-04-25`.
+- [MIT 6.011 bandlimited signals notes](https://ocw.mit.edu/courses/6-011-signals-systems-and-inference-spring-2018/resources/mit6_011s18band-sign/) - official MIT notes on the bandlimited-signal viewpoint behind sampling and interpolation. Checked `2026-04-25`.
+- [MIT 6.011 Lecture 20: Wiener Filtering](https://ocw.mit.edu/courses/6-011-signals-systems-and-inference-spring-2018/resources/mit6_011s18lec20/) - official MIT notes on Wiener filtering for noisy stationary signals. Checked `2026-04-25`.
+- [MIT 6.438 Lecture 13: Kalman Filtering and Smoothing](https://ocw.mit.edu/courses/6-438-algorithms-for-inference-fall-2014/6a29d3d38474e9c62b746fa646899552_MIT6_438F14_Lec13.pdf) - official MIT notes connecting Gaussian HMMs, Kalman filtering, and smoothing. Checked `2026-04-25`.
+- [MIT 18.085 Lecture 35: Convolution Equations: Deconvolution](https://ocw.mit.edu/courses/18-085-computational-science-and-engineering-i-fall-2008/resources/lecture-35-convolution-equations-deconvolution/) - official MIT lecture resource on deconvolution as inverse recovery. Checked `2026-04-25`.
+- [Stanford EE367 course page](https://web.stanford.edu/class/ee367/) - official Stanford course page covering inverse problems and deconvolution in computational imaging. Checked `2026-04-25`.
+- [Stanford EE278 course overview](https://web.stanford.edu/class/ee278/) - official Stanford page explicitly listing MMSE estimation, Wiener filtering, and Kalman filtering. Checked `2026-04-25`.
+- [Stanford EE278 course plan](https://web.stanford.edu/class/ee278/syllabus.html) - official Stanford lecture plan including recursive estimation and Kalman filtering. Checked `2026-04-25`.
+- [Stanford EE102A course outline](https://web.stanford.edu/~pauly/ee102a/CourseOutline.html) - official course outline emphasizing signals, convolution, Fourier analysis, sampling, and examples from communication and imaging. Checked `2026-04-25`.
+- [Stanford EE102A notes page](https://web.stanford.edu/class/ee102a/Notes.html) - official note index including the convolution lecture in the course sequence. Checked `2026-04-25`.
+- [Stanford EE102A bulletin](https://22-23.bulletin.stanford.edu/courses/2031051) - official Stanford bulletin entry for signal processing and linear systems. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [MIT 6.003: Signals and Systems lecture notes](https://ocw.mit.edu/courses/6-003-signals-and-systems-fall-2011/pages/lecture-notes/) - `First pass` - official note index for the full signals-and-systems arc. Checked `2026-04-25`.
+- [MIT 6.003 convolution lecture](https://ocw.mit.edu/courses/6-003-signals-and-systems-fall-2011/resources/mit6_003f11_lec08/) - `First pass` - official notes page for convolution and LTI thinking. Checked `2026-04-25`.
+- [MIT 6.003 frequency response lecture](https://ocw.mit.edu/courses/6-003-signals-and-systems-fall-2011/resources/mit6_003f11_lec09/) - `First pass` - official notes page for frequency response and spectral analysis. Checked `2026-04-25`.
+- [MIT 6.003 Lecture 21: Sampling](https://ocw.mit.edu/courses/6-003-signals-and-systems-fall-2011/12e6e5d7567fca2e993ef8563fef5a60_MIT6_003F11_lec21.pdf) - `First pass` - official MIT lecture PDF on spectral replication, aliasing, and reconstruction. Checked `2026-04-25`.
+- [MIT 6.011 bandlimited signals notes](https://ocw.mit.edu/courses/6-011-signals-systems-and-inference-spring-2018/resources/mit6_011s18band-sign/) - `First pass` - official notes on bandlimited signals and interpolation. Checked `2026-04-25`.
+- [MIT 6.011 Lecture 20: Wiener Filtering](https://ocw.mit.edu/courses/6-011-signals-systems-and-inference-spring-2018/resources/mit6_011s18lec20/) - `First pass` - official MIT notes on Wiener filtering and estimation under noise. Checked `2026-04-25`.
+- [MIT 6.438 Lecture 13: Kalman Filtering and Smoothing](https://ocw.mit.edu/courses/6-438-algorithms-for-inference-fall-2014/6a29d3d38474e9c62b746fa646899552_MIT6_438F14_Lec13.pdf) - `First pass` - official MIT notes on hidden-state inference for linear-Gaussian models. Checked `2026-04-25`.
+- [MIT 18.085 Lecture 35: Convolution Equations: Deconvolution](https://ocw.mit.edu/courses/18-085-computational-science-and-engineering-i-fall-2008/resources/lecture-35-convolution-equations-deconvolution/) - `First pass` - official MIT lecture resource on deconvolution and inverse recovery. Checked `2026-04-25`.
+- [Stanford EE367 course page](https://web.stanford.edu/class/ee367/) - `First pass` - official Stanford computational imaging page for deconvolution and inverse problems. Checked `2026-04-25`.
+- [Stanford EE278 course overview](https://web.stanford.edu/class/ee278/) - `First pass` - official Stanford course page for probabilistic signal estimation topics. Checked `2026-04-25`.
+- [Stanford EE278 course plan](https://web.stanford.edu/class/ee278/syllabus.html) - `First pass` - official Stanford lecture plan for recursive estimation and Kalman filtering. Checked `2026-04-25`.
+- [Stanford EE102A course outline](https://web.stanford.edu/~pauly/ee102a/CourseOutline.html) - `First pass` - official outline for signals, convolution, Fourier analysis, and sampling. Checked `2026-04-25`.
+- [Stanford EE102A notes page](https://web.stanford.edu/class/ee102a/Notes.html) - `First pass` - official note index for the course's lecture sequence. Checked `2026-04-25`.
+- [Stanford EE102A bulletin](https://22-23.bulletin.stanford.edu/courses/2031051) - `Second pass` - official Stanford bulletin entry summarizing the signal-processing and linear-systems syllabus. Checked `2026-04-25`.

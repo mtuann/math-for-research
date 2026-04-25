@@ -1,0 +1,373 @@
+---
+title: "Noise Models, Wiener Filtering, and MMSE Estimation"
+description: "How random signal models, mean-square error, orthogonality, and Wiener filtering turn noisy observations into principled estimators."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: signal-processing-and-estimation
+prerequisites:
+  - /topics/advanced/signal-processing-and-estimation/concepts/sampling-aliasing-and-reconstruction.qmd
+  - /topics/foundation/probability/index.qmd
+  - /topics/foundation/statistics/index.qmd
+learning-goals:
+  - "Explain why random signal and noise models are useful in signal processing."
+  - "State the meanings of MSE, MMSE, and LMMSE at a first-pass level."
+  - "Use the orthogonality principle as the core geometric idea behind least-square estimation."
+  - "Interpret Wiener filtering as frequency-dependent linear MMSE estimation for random processes."
+applications:
+  - signal-and-communication
+  - engineering-systems
+  - machine-learning
+keywords:
+  - noise
+  - MMSE
+  - LMMSE
+  - Wiener filter
+  - power spectral density
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/signal-processing-and-estimation/index.qmd
+  - /topics/advanced/signal-processing-and-estimation/concepts/sampling-aliasing-and-reconstruction.qmd
+  - /topics/advanced/control-and-dynamics/concepts/estimation-kalman-filtering-and-the-separation-principle.qmd
+  - /topics/advanced/stochastic-control-and-dynamic-programming/concepts/stochastic-linear-systems-lqg-and-the-separation-principle.qmd
+  - /topics/foundation/probability/index.qmd
+  - /topics/foundation/statistics/index.qmd
+stable-sources:
+  - "MIT 6.011 Signals, Systems and Inference"
+  - "Stanford EE278 Probability and Statistical Inference"
+  - "Stanford EE102A Signal Processing and Linear Systems I"
+current-sources:
+  - "MIT 6.011 readings page"
+  - "MIT 6.011 Lecture 13 MMSE and LMMSE Estimation"
+  - "MIT 6.011 Lecture 14 LMMSE Estimation, Orthogonality"
+  - "MIT 6.011 Lecture 16 LTI Filtering of WSS Processes"
+  - "MIT 6.011 Lecture 20 Wiener Filtering"
+  - "Stanford EE278 course overview"
+  - "Stanford EE278 course outline"
+---
+
+## Role
+
+This is the fourth page of the `Signal Processing and Estimation` module.
+
+Its job is to move from deterministic signals and sampling into noisy observations and principled estimation.
+
+The earlier pages said:
+
+- systems transform signals
+- frequency views explain filters
+- sampling explains analog-to-digital conversion
+
+This page adds:
+
+- signals and noise are often modeled probabilistically
+- estimation quality can be measured by mean-square error
+- Wiener filtering is the spectral linear-estimation version of that idea
+
+## First-Pass Promise
+
+Read this page after [Sampling, Aliasing, and Reconstruction](sampling-aliasing-and-reconstruction.qmd).
+
+If you stop here, you should still understand:
+
+- why random noise models are useful
+- what `MSE`, `MMSE`, and `LMMSE` mean
+- why orthogonality is the core least-squares geometry
+- why Wiener filtering balances signal power against noise power by frequency
+
+## Why It Matters
+
+Real measurements are almost never clean.
+
+They are corrupted by:
+
+- sensor noise
+- channel noise
+- blur plus measurement error
+- finite-resolution acquisition
+- interference from other sources
+
+So signal processing needs more than deterministic convolution and sampling.
+
+It needs a language for:
+
+- modeling uncertainty
+- defining what a “good estimate” means
+- designing filters that recover useful structure without amplifying noise too aggressively
+
+This is the point where signal processing starts to overlap strongly with statistics, estimation, control, and modern ML.
+
+## Prerequisite Recall
+
+- probability provides expectations, variances, covariance, and conditional expectation
+- statistics already introduced mean-square loss and estimation error
+- Fourier and spectral viewpoints tell us how signal energy can be distributed across frequencies
+- `LTI` systems provide the natural class of filters we can use for denoising or recovery
+
+## Intuition
+
+### Noise Is A Model, Not Just A Nuisance Word
+
+When we write
+
+$$
+y = x + v,
+$$
+
+we are usually not claiming every fluctuation is literally random in a metaphysical sense.
+
+We are choosing a probabilistic model that lets us reason about uncertainty and average error.
+
+### Mean-Square Error Measures Typical Estimation Quality
+
+If `\hat{x}` is an estimate of `x`, then the mean-square error
+
+$$
+\mathbb{E}[(x-\hat{x})^2]
+$$
+
+measures expected squared discrepancy.
+
+It penalizes large mistakes more heavily than small ones and interacts cleanly with linear algebra and orthogonality.
+
+### MMSE And LMMSE Are Not The Same Object
+
+`MMSE` means:
+
+- choose the estimator with smallest mean-square error among all measurable estimators
+
+`LMMSE` means:
+
+- restrict attention to estimators that are linear in the observations
+
+So `LMMSE` is usually easier to compute, but it is a restricted problem.
+
+In Gaussian settings, that restricted problem often matches the full `MMSE` problem.
+
+### Orthogonality Is The Geometry Behind Least Squares
+
+The first-pass geometry is:
+
+- the estimation error should be orthogonal to the information used to form the estimate
+
+That is the signal-processing version of projection in Hilbert space.
+
+### Wiener Filtering Is Frequency-Wise Linear Estimation
+
+For wide-sense stationary random processes, the frequency domain often decouples the estimation problem.
+
+At first pass, Wiener filtering says:
+
+- trust frequencies where signal power dominates noise
+- shrink frequencies where noise power dominates signal
+
+So Wiener filtering is not just “smooth the data.”
+
+It is a structured spectral tradeoff between fidelity and denoising.
+
+## Formal Core
+
+::: {#def-random-signal}
+## Definition: Random Signal Model
+
+A random signal model treats the signal of interest, the noise, or both as random variables or random processes with specified first- and second-order structure.
+:::
+
+At first pass, this usually means:
+
+- means
+- variances
+- covariances
+- sometimes power spectral densities
+
+::: {#def-mse}
+## Definition: Mean-Square Error
+
+For an estimate `\hat{x}` of a random quantity `x`, the mean-square error is
+
+$$
+\operatorname{MSE}(\hat{x}) = \mathbb{E}\big[(x-\hat{x})^2\big].
+$$
+:::
+
+Vector versions use squared norm error.
+
+::: {#def-mmse}
+## Definition: MMSE Estimator
+
+An MMSE estimator minimizes mean-square error over all admissible estimators based on the observation.
+:::
+
+At first pass, the load-bearing fact is:
+
+$$
+\hat{x}_{\mathrm{MMSE}} = \mathbb{E}[x \mid y].
+$$
+
+::: {#def-lmmse}
+## Definition: LMMSE Estimator
+
+An LMMSE estimator minimizes mean-square error among estimators that are linear functions of the observation.
+:::
+
+This is usually easier to compute because it depends only on second-order statistics.
+
+::: {#thm-orthogonality}
+## Theorem Idea: Orthogonality Principle
+
+For least-square optimal estimation, the estimation error is orthogonal to the space generated by the data used to form the estimate.
+:::
+
+At first pass, this is the projection rule that produces normal equations.
+
+::: {#def-wss}
+## Definition: Wide-Sense Stationarity
+
+A random process is wide-sense stationary if its mean is constant and its autocovariance depends only on time difference, not absolute time.
+:::
+
+This makes spectral analysis and `LTI` filtering especially clean.
+
+::: {#thm-wiener}
+## Theorem Idea: Wiener Filtering
+
+In a stationary linear-estimation setting, the Wiener filter is the linear filter that minimizes mean-square error between the desired signal and the filter output.
+:::
+
+For the classic additive model `y = x + v` with uncorrelated signal and noise, the noncausal Wiener filter has the first-pass spectral form
+
+$$
+H(\omega) = \frac{S_{xx}(\omega)}{S_{xx}(\omega) + S_{vv}(\omega)},
+$$
+
+where `S_{xx}` and `S_{vv}` are the signal and noise power spectral densities.
+
+The interpretation is immediate:
+
+- near `1` where signal dominates
+- near `0` where noise dominates
+
+## Worked Example
+
+Suppose the observation is
+
+$$
+y = x + v,
+$$
+
+where:
+
+- `x` has mean `0` and variance `\sigma_x^2`
+- `v` has mean `0` and variance `\sigma_v^2`
+- `x` and `v` are uncorrelated
+
+Look for the best linear estimator of the form
+
+$$
+\hat{x} = a y.
+$$
+
+The mean-square error is
+
+$$
+\mathbb{E}\big[(x-a(x+v))^2\big]
+= (1-a)^2 \sigma_x^2 + a^2 \sigma_v^2.
+$$
+
+Minimizing over `a` gives
+
+$$
+a^\star = \frac{\sigma_x^2}{\sigma_x^2 + \sigma_v^2}.
+$$
+
+So
+
+$$
+\hat{x}_{\mathrm{LMMSE}} =
+\frac{\sigma_x^2}{\sigma_x^2 + \sigma_v^2} y.
+$$
+
+This has the exact shape we want:
+
+- if signal variance is much larger than noise variance, trust the measurement more
+- if noise variance is much larger, shrink the measurement heavily
+
+The Wiener filter is the frequency-dependent process version of this same tradeoff.
+
+## Computation Lens
+
+When you meet a noisy-signal estimation problem, ask:
+
+1. what is random here: the signal, the noise, or both?
+2. what loss is being minimized?
+3. is the target full `MMSE`, linear `LMMSE`, or a causal filtering problem?
+4. are we working with scalar variables, vectors, or stationary processes?
+5. is the useful structure in covariance or in the power spectral density?
+
+These questions tell you whether the right tool is conditional expectation, normal equations, Wiener filtering, or later-state estimation tools like Kalman filtering.
+
+## Application Lens
+
+### Communications
+
+Receivers constantly estimate signals buried in channel noise and interference.
+
+### Imaging And Sensing
+
+Denoising and deblurring problems often trade sharp recovery against noise amplification, which is exactly the terrain Wiener filtering was built for.
+
+### Sequential Estimation
+
+The static and stationary ideas here become the bridge to state estimation and Kalman filtering on the next branch of the module tree.
+
+## Stop Here For First Pass
+
+If you stop here, retain these five ideas:
+
+- random signal models let us reason about noise systematically
+- `MMSE` is the best estimator overall under squared loss
+- `LMMSE` is the best estimator within the linear class
+- orthogonality is the core geometry behind least-square estimation
+- Wiener filtering is frequency-dependent linear MMSE estimation for stationary signal-plus-noise models
+
+## Go Deeper
+
+The strongest next page is:
+
+- [State Estimation, Smoothing, and Hidden-State Inference](state-estimation-smoothing-and-hidden-state-inference.qmd)
+
+The strongest adjacent live pages are:
+
+- [Signal Processing and Estimation](../index.qmd)
+- [Sampling, Aliasing, and Reconstruction](sampling-aliasing-and-reconstruction.qmd)
+- [State Estimation, Smoothing, and Hidden-State Inference](state-estimation-smoothing-and-hidden-state-inference.qmd)
+- [Control and Dynamics: Estimation, Kalman Filtering, and the Separation Principle](../../control-and-dynamics/concepts/estimation-kalman-filtering-and-the-separation-principle.qmd)
+- [Stochastic Control and Dynamic Programming: Stochastic Linear Systems, LQG, and the Separation Principle](../../stochastic-control-and-dynamic-programming/concepts/stochastic-linear-systems-lqg-and-the-separation-principle.qmd)
+- [Probability](../../../foundation/probability/index.qmd)
+- [Statistics](../../../foundation/statistics/index.qmd)
+
+## Optional Deeper Reading After First Pass
+
+- [MIT 6.011 readings page](https://ocw.mit.edu/courses/6-011-signals-systems-and-inference-spring-2018/pages/readings/) - official MIT reading map showing the arc from MMSE and LMMSE estimation to WSS processes and Wiener filtering. Checked `2026-04-25`.
+- [MIT 6.011 Lecture 13: MMSE and LMMSE Estimation](https://ocw.mit.edu/courses/6-011-signals-systems-and-inference-spring-2018/resources/mit6_011s18lec13/) - official lecture notes on the vector and projection view of MMSE and LMMSE estimation. Checked `2026-04-25`.
+- [MIT 6.011 Lecture 14: LMMSE Estimation, Orthogonality](https://ocw.mit.edu/courses/6-011-signals-systems-and-inference-spring-2018/resources/mit6_011s18lec14/) - official lecture notes for orthogonality and normal-equation structure. Checked `2026-04-25`.
+- [MIT 6.011 Lecture 16: LTI Filtering of WSS Processes](https://ocw.mit.edu/courses/6-011-signals-systems-and-inference-spring-2018/resources/mit6_011s18lec16/) - official lecture notes on stationary processes and filtering structure. Checked `2026-04-25`.
+- [MIT 6.011 Lecture 20: Wiener Filtering](https://ocw.mit.edu/courses/6-011-signals-systems-and-inference-spring-2018/resources/mit6_011s18lec20/) - official lecture notes dedicated to Wiener filtering. Checked `2026-04-25`.
+- [Stanford EE278 course overview](https://web.stanford.edu/class/ee278/) - official Stanford course home explicitly listing MMSE estimation, Wiener filtering, and Kalman filtering in the current course scope. Checked `2026-04-25`.
+- [Stanford EE278 course outline](https://web.stanford.edu/class/ee278/syllabus.html) - official outline showing MSE estimation, random processes, power spectral density, and Wiener filtering in sequence. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [MIT 6.011 readings page](https://ocw.mit.edu/courses/6-011-signals-systems-and-inference-spring-2018/pages/readings/) - `First pass` - official topic map for MMSE, WSS processes, and Wiener filtering. Checked `2026-04-25`.
+- [MIT 6.011 Lecture 13: MMSE and LMMSE Estimation](https://ocw.mit.edu/courses/6-011-signals-systems-and-inference-spring-2018/resources/mit6_011s18lec13/) - `First pass` - official lecture notes on projection and least-square estimation geometry. Checked `2026-04-25`.
+- [MIT 6.011 Lecture 14: LMMSE Estimation, Orthogonality](https://ocw.mit.edu/courses/6-011-signals-systems-and-inference-spring-2018/resources/mit6_011s18lec14/) - `First pass` - official lecture notes on orthogonality and normal equations. Checked `2026-04-25`.
+- [MIT 6.011 Lecture 16: LTI Filtering of WSS Processes](https://ocw.mit.edu/courses/6-011-signals-systems-and-inference-spring-2018/resources/mit6_011s18lec16/) - `First pass` - official notes on the random-process and filtering bridge. Checked `2026-04-25`.
+- [MIT 6.011 Lecture 20: Wiener Filtering](https://ocw.mit.edu/courses/6-011-signals-systems-and-inference-spring-2018/resources/mit6_011s18lec20/) - `First pass` - official lecture notes on Wiener filter construction and interpretation. Checked `2026-04-25`.
+- [Stanford EE278 course overview](https://web.stanford.edu/class/ee278/) - `First pass` - official Stanford course page connecting MMSE estimation, Wiener filtering, and Kalman filtering. Checked `2026-04-25`.
+- [Stanford EE278 course outline](https://web.stanford.edu/class/ee278/syllabus.html) - `Second pass` - official outline for the estimation, random-process, PSD, and Wiener-filtering sequence. Checked `2026-04-25`.
