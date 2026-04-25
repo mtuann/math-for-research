@@ -1,0 +1,347 @@
+---
+title: "Reading Trails"
+description: "How to build a staged sequence of topic pages, bridge pages, and papers so that research reading has a clear next step."
+page-type: paper-lab
+status: published
+update-status: monitor
+level: research
+topic: theorem-reading
+prerequisites:
+  - /paper-lab/how-to-read-a-paper.qmd
+  - /paper-lab/theorem-decoder.qmd
+  - /paper-lab/notation-translation.qmd
+  - /paper-lab/dependency-maps.qmd
+learning-goals:
+  - "Build a short reading trail from a research goal rather than from a random paper list."
+  - "Separate first-pass prerequisites from second-pass papers."
+  - "Choose a trail length that matches your current background and patience."
+  - "Use site pages and outside papers together without getting lost."
+applications:
+  - theory-paper-reading
+  - machine-learning-theory
+  - optimization
+  - randomized-linear-algebra
+keywords:
+  - reading trail
+  - paper sequence
+  - prerequisites
+  - research workflow
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: quarterly
+date-modified: last-modified
+draft: false
+stable-sources:
+  - "How to Read a Paper"
+  - "Theorem Decoder"
+  - "Dependency Maps"
+current-sources:
+  - "Stanford CS114"
+  - "Stanford CS167 paper-reading guide"
+  - "Stanford CS229 / CS229T course descriptions"
+---
+
+## Why This Page
+
+Many readers do not actually need "more papers."
+
+They need a `better sequence`.
+
+If you jump directly from a topic page to a random recent paper, one of two things often happens:
+
+- the paper is too hard because the prerequisites are missing
+- the paper is readable, but it is not the right paper for your current question
+
+Reading trails fix that problem.
+
+A reading trail is a short, goal-directed sequence such as:
+
+1. one or two prerequisite topic pages
+2. one bridge page or application page
+3. one starter paper or paper lab
+4. one current follow-up direction
+
+That gives the reader a path instead of a pile.
+
+## Reading Trails At A Glance
+
+- `Type`: site-wide workflow for sequencing site pages and outside papers
+- `Setting`: readers who know what they want to learn, but not what to read first
+- `Main claim`: a short reading trail is usually more effective than a long bibliography
+- `Why it matters`: sequencing is part of understanding, not an afterthought
+
+## What A Good Trail Does
+
+A strong trail should:
+
+- start from a real goal
+- keep the first pass short
+- expose one central mathematical idea
+- end with a paper that is challenging but not impossible
+- make the next step obvious
+
+The trail should answer:
+
+- what should I read first?
+- what can I skip for now?
+- what paper becomes readable after these prerequisites?
+- what current direction should I look at after the starter paper?
+
+## Trail Lengths
+
+Use one of three sizes.
+
+### Micro trail
+
+Use when you want to understand one paper or one theorem family fast.
+
+Format:
+
+1. one concept page
+2. one bridge page
+3. one paper lab or paper
+
+### Standard trail
+
+Use when you want a serious start in one research direction.
+
+Format:
+
+1. two or three concept pages
+2. one proof or application page if needed
+3. one bridge page
+4. one paper lab
+5. one current follow-up
+
+### Deep trail
+
+Use when you want a month-scale track toward a subfield.
+
+Format:
+
+1. core topic module
+2. bridge pages
+3. one or two paper labs
+4. one survey or course reading list
+5. current papers or venue threads
+
+## Trail-Building Workflow
+
+### 1. Start from a question, not a field name
+
+Bad starting point:
+
+- "I want to read machine learning theory."
+
+Better starting point:
+
+- "I want to understand why generalization bounds look the way they do."
+- "I want to understand spectral methods behind GNN papers."
+- "I want to read papers on sketching for least squares."
+
+Concrete questions produce better trails.
+
+### 2. Pick the central mathematical bottleneck
+
+Every useful trail usually has one bottleneck:
+
+- projection geometry
+- concentration
+- convexity
+- Jacobians and Hessians
+- notation around empirical risk and generalization
+
+If you do not identify the bottleneck, the trail becomes too broad.
+
+### 3. Choose one bridge page
+
+A bridge page translates math into the research area.
+
+Examples from this site:
+
+- [Optimization for Machine Learning](../applications/machine-learning/optimization-for-machine-learning.qmd)
+- [Generalization, Overfitting, and Validation](../applications/machine-learning/generalization-overfitting-and-validation.qmd)
+- [Backpropagation and Computation Graphs](../applications/machine-learning/backpropagation-and-computation-graphs.qmd)
+
+### 4. Choose one starter paper, not five
+
+The first paper should be:
+
+- central enough to matter
+- readable enough to survive first contact
+- rich enough to point forward
+
+One strong starter paper is usually better than five partially read ones.
+
+### 5. End with a forward pointer
+
+A good trail should not end in ambiguity.
+
+Finish with one of:
+
+- a recent follow-up paper
+- a survey
+- a course reading list
+- a neighboring trail
+
+## Worked Example 1: Least Squares to Sketching
+
+Suppose your goal is:
+
+`I want to read modern papers on randomized sketching for least squares.`
+
+### Micro trail
+
+1. [Orthogonality and Least Squares](../topics/foundation/linear-algebra/concepts/orthogonality-and-least-squares.qmd)
+2. [SVD and Low-Rank Approximation](../topics/foundation/linear-algebra/concepts/svd-and-low-rank-approximation.qmd)
+3. [Paper Lab: Randomized Sketching for Least Squares](../topics/foundation/linear-algebra/paper-lab/randomized-sketching-for-least-squares.qmd)
+
+### Why this trail works
+
+- first page gives the geometry
+- second page gives the subspace viewpoint
+- paper lab connects both to current large-scale regression
+
+### Natural next step
+
+Read the current follow-up listed inside the paper lab rather than jumping to an unrelated random-sketching paper.
+
+## Worked Example 2: Optimization to ML Theory
+
+Suppose your goal is:
+
+`I want to understand why optimization theorems matter for machine learning papers.`
+
+### Standard trail
+
+1. [Convex Functions and Subgradients](../topics/advanced/optimization/concepts/convex-functions-and-subgradients.qmd)
+2. [Unconstrained First-Order Methods](../topics/advanced/optimization/concepts/unconstrained-first-order-methods.qmd)
+3. [Optimization for Machine Learning](../applications/machine-learning/optimization-for-machine-learning.qmd)
+4. [Regularization, Implicit Bias, and Model Complexity](../applications/machine-learning/regularization-implicit-bias-and-model-complexity.qmd)
+5. [Stanford CS229T Course Description](https://bulletin.stanford.edu/courses/2136161)
+
+### Why this trail works
+
+- first two pages make the theorem language readable
+- the application pages translate optimization into ML questions
+- the course description shows the broader theory territory that follows
+
+## Worked Example 3: From Representation Geometry to Transformers
+
+Suppose your goal is:
+
+`I want to understand how linear algebra ideas show up in transformer papers.`
+
+### Standard trail
+
+1. [Vectors and Linear Combinations](../topics/foundation/linear-algebra/concepts/vectors-and-linear-combinations.qmd)
+2. [Matrices and Linear Maps](../topics/foundation/linear-algebra/concepts/matrices-and-linear-maps.qmd)
+3. [Attention, Softmax, and Weighted Mixtures](../applications/machine-learning/attention-softmax-and-weighted-mixtures.qmd)
+4. [Backpropagation and Computation Graphs](../applications/machine-learning/backpropagation-and-computation-graphs.qmd)
+5. [In-Context Learning and Linearization](../applications/machine-learning/in-context-learning-and-linearization.qmd)
+
+### Why this trail works
+
+- the linear algebra pages explain the operator viewpoint
+- the bridge page explains attention as weighted mixtures
+- the later pages connect that intuition to deeper transformer behavior
+
+## Trail Patterns That Work Well
+
+### Theory-first trail
+
+Use when the main barrier is mathematics.
+
+Pattern:
+
+- concept pages
+- one proof or paper lab
+- one follow-up source
+
+### Application-first trail
+
+Use when the main barrier is motivation.
+
+Pattern:
+
+- bridge page
+- concept pages only as needed
+- one anchor paper
+
+### Literature-entry trail
+
+Use when you already know the math but not the paper landscape.
+
+Pattern:
+
+- one paper lab
+- one survey or course page
+- one recent paper
+
+## Common Failure Modes
+
+### Trail too long
+
+If the trail has ten pages before the first paper, it is probably too long.
+
+### Too many branches
+
+A trail should feel like a path, not a tree.
+
+If every step says "or read one of these five things," the trail is no longer doing its job.
+
+### Wrong starter paper
+
+Do not begin with the most famous or most recent paper by default.
+
+Begin with the paper that best matches your current prerequisites.
+
+### No stopping rule
+
+Readers need to know when to pause and actually read.
+
+A trail should always tell you where the first real paper begins.
+
+## How This Connects To The Rest Of The Site
+
+Reading trails are where several site pieces come together:
+
+- [Theorem Decoder](theorem-decoder.qmd) helps with one theorem
+- [Notation Translation](notation-translation.qmd) helps with symbol density
+- [Dependency Maps](dependency-maps.qmd) helps with lemma and citation structure
+- the trail helps you decide `what to read next`
+
+That is why this page belongs in `Paper Lab` rather than in a single topic module.
+
+## What To Reproduce
+
+A strong reading-trail exercise is:
+
+1. write one research question you care about
+2. name the main math bottleneck
+3. choose two site pages
+4. choose one bridge page
+5. choose one starter paper or paper lab
+6. choose one current follow-up source
+7. justify why the order makes sense
+
+If you can do that, then your reading is being guided by purpose rather than by random paper exposure.
+
+## What Has Changed Since Publication
+
+Paper reading today often requires more curation than it did before:
+
+- many areas move faster
+- supplementary material is larger
+- vocabulary shifts quickly across subfields
+- theory, systems, and empirical papers mix more often
+
+That is one reason course pages and reading guides remain useful current sources. They often encode good sequencing decisions even when individual papers change.
+
+## Resource Kit
+
+- [CS114/214: Selected Readings of CS Research](https://web.stanford.edu/class/cs114/) - `First pass` - strong example of sequencing papers with introductory context rather than throwing readers directly into technical sections. Checked `2026-04-25`.
+- [CS167 Technical Paper Reading Guide](https://cs.stanford.edu/~rishig/courses/ref/paper-reading-technical.pdf) - `Second pass` - especially strong on non-linear reading order and literature dependencies. Checked `2026-04-25`.
+- [CS229 Course Information](https://cs229.stanford.edu/2023_index.html) - `Second pass` - good example of how a broad field can be broken into readable thematic tracks. Checked `2026-04-25`.
+- [CS229T Course Description](https://bulletin.stanford.edu/courses/2136161) - `Paper bridge` - useful current signal for what a modern ML theory trail eventually opens into. Checked `2026-04-25`.

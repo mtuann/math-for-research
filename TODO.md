@@ -17,7 +17,7 @@ Use it to track:
 
 ## Current Snapshot
 
-- `150` `.qmd` pages currently exist
+- `154` `.qmd` pages currently exist
 - `45` concept-topic pages currently exist
 - strongest subjects so far: `Linear Algebra`, `Probability`, `Proofs`, `Logic`, `Statistics`, `Single-Variable Calculus`, `Multivariable Calculus`, `Optimization`
 - strongest public-facing bridge so far: `Applications > Machine Learning`
@@ -82,10 +82,10 @@ Use it to track:
 
 - [x] `Paper Lab index`
 - [x] `How to read a paper`
-- [ ] `Theorem decoder`
-- [ ] `Notation translation`
-- [ ] `Dependency maps`
-- [ ] `Reading trails`
+- [x] `Theorem decoder`
+- [x] `Notation translation`
+- [x] `Dependency maps`
+- [x] `Reading trails`
 
 ### Research
 
@@ -353,12 +353,13 @@ These are the topics that should eventually become canonical examples for future
 
 Near-term highest-value content steps:
 
-1. [ ] `Commit and push calculus bridge batch`
-2. [ ] `Paper Lab: theorem decoder`
-3. [ ] `Render and visually QA single-variable + multivariable calculus locally`
-4. [ ] `Curate Library: books and courses`
-5. [ ] `Render and visually QA the optimization module locally`
-6. [ ] `Sweep review the full optimization module`
+1. [ ] `Paper Lab: notation translation`
+1. [ ] `Render and visually QA single-variable + multivariable calculus locally`
+2. [ ] `Curate Library: books and courses`
+3. [ ] `Render and visually QA the optimization module locally`
+4. [ ] `Sweep review the full optimization module`
+5. [ ] `Curate Library: papers`
+6. [ ] `Build Research: theorem families`
 
 ## Work Outside Topic Content
 

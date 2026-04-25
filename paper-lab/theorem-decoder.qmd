@@ -1,0 +1,330 @@
+---
+title: "Theorem Decoder"
+description: "A guided workflow for unpacking a theorem-heavy paper into objects, assumptions, claim shape, proof dependencies, and evidence."
+page-type: paper-lab
+status: published
+update-status: monitor
+level: research
+topic: theorem-reading
+prerequisites:
+  - /paper-lab/how-to-read-a-paper.qmd
+  - /topics/foundation/proofs/concepts/proof-writing-clinic.qmd
+  - /topics/foundation/logic/concepts/translation-between-english-and-symbols.qmd
+learning-goals:
+  - "Turn a dense theorem statement into a short plain-English summary."
+  - "Separate objects, assumptions, conclusion, and quantifier structure."
+  - "Classify what kind of theorem is being claimed."
+  - "Map a theorem to prerequisite math and to the surrounding evidence."
+applications:
+  - theory-paper-reading
+  - machine-learning-theory
+  - optimization
+keywords:
+  - theorem reading
+  - assumptions
+  - notation
+  - proof dependencies
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: quarterly
+date-modified: last-modified
+draft: false
+stable-sources:
+  - "How to Read a Paper"
+  - "Stanford CS103 Guide to Proofs on Discrete Structures"
+  - "MIT Mathematics for Computer Science"
+current-sources:
+  - "NeurIPS Paper Checklist"
+  - "NeurIPS Reviewer Guidelines"
+  - "Stanford CS114 reading packet"
+---
+
+## Why This Page
+
+Use this page when you reach a theorem-heavy paper and the first serious result feels denser than the abstract.
+
+The goal is not to understand every proof line immediately. The goal is to turn a theorem into a small number of readable questions:
+
+- what mathematical objects are in play?
+- what assumptions are actually active?
+- what kind of claim is this?
+- what background pages do I need before a deep read?
+- what evidence in the paper supports the theorem's role?
+
+That move is often the difference between "this paper is impossible" and "I know exactly what I need to learn next."
+
+## Decoder At A Glance
+
+- `Type`: site-wide reading workflow for theorem-heavy papers
+- `Setting`: math, CS, AI, optimization, and statistics papers with formal results
+- `Main claim`: dense theorems become readable once you separate `objects`, `assumptions`, `claim shape`, and `dependencies`
+- `Why it matters`: theorem reading is a prerequisite for serious paper reading, not a separate advanced hobby
+
+## Reading Plan
+
+Use a three-pass decoder.
+
+### First pass
+
+Do not chase the proof yet.
+
+Instead, mark:
+
+1. the mathematical objects
+2. the assumptions
+3. the conclusion
+4. the theorem shape
+
+At the end of the first pass, you should be able to say what the theorem is about in one or two sentences.
+
+### Second pass
+
+Build a compact theorem sheet:
+
+- notation table
+- hidden quantifiers made explicit
+- plain-English rewrite
+- list of prerequisite math pages
+
+This is where a theorem stops feeling like symbol soup and starts feeling like a structured statement.
+
+### Third pass
+
+Only now ask:
+
+- what is the proof strategy?
+- which lemmas are load-bearing?
+- what parts of the paper are theorem evidence versus empirical evidence?
+
+## Theorem Decoder Workflow
+
+For each important theorem, answer these seven questions.
+
+### 1. What are the objects?
+
+List every mathematical object with its type.
+
+Examples:
+
+- `$A \in \mathbb{R}^{m \times n}$`: matrix
+- `$x^\star \in \mathbb{R}^n$`: optimal vector
+- `$f : \mathbb{R}^n \to \mathbb{R}$`: scalar-valued function
+- `$X_1, \dots, X_n$`: random variables
+
+If you cannot type every object, you are not ready to read the proof.
+
+### 2. What are the quantifiers and scope?
+
+Ask what is universal, what is existential, and what is probabilistic.
+
+Common hidden structure:
+
+- `for every` parameter choice
+- `there exists` an optimizer, estimator, or certificate
+- `with probability at least 1-\delta`
+- `for all sufficiently large n`
+
+Quantifier mistakes are one of the most common reasons a theorem is misread.
+
+### 3. What are the assumptions?
+
+Separate assumptions from definitions and from conclusions.
+
+Typical assumptions include:
+
+- smoothness
+- convexity
+- independence
+- boundedness
+- rank conditions
+- data model assumptions
+- algorithm setup such as step size or initialization
+
+When a theorem feels too strong, the missing story is usually in the assumptions.
+
+### 4. What kind of claim is this?
+
+Most research theorems fall into a small set of shapes:
+
+- `existence / uniqueness`
+- `equivalence / characterization`
+- `error or approximation bound`
+- `convergence rate`
+- `high-probability guarantee`
+- `lower bound / impossibility result`
+
+Name the shape early. It tells you what the theorem is trying to do.
+
+### 5. What is the actual output?
+
+Many readers think they know the theorem after reading the symbols, but still do not know what quantity is being controlled.
+
+Ask:
+
+- is the theorem controlling objective gap, parameter error, prediction error, sample complexity, or probability of failure?
+- is the result asymptotic or finite-sample?
+- is the guarantee uniform over a class, or for one fixed object?
+
+### 6. What does the proof probably need?
+
+Before reading the proof, guess the proof tools.
+
+Examples:
+
+- convexity + smoothness + telescoping
+- projection geometry + orthogonality
+- concentration inequality + union bound
+- compactness + continuity
+- Taylor expansion + Hessian control
+
+This is how you build a dependency map instead of reading blindly.
+
+### 7. What evidence surrounds the theorem?
+
+In a theory-heavy paper, theorem-level evidence is not the same thing as empirical evidence.
+
+Distinguish:
+
+- the theorem and proof
+- simulations or experiments
+- ablations or robustness checks
+- examples showing sharpness or failure outside assumptions
+
+This matters because many papers use experiments to illustrate a theorem, not to prove it.
+
+## Worked Example
+
+Consider the theorem:
+
+> Let $f : \mathbb{R}^n \to \mathbb{R}$ be differentiable, $\mu$-strongly convex, and $L$-smooth, and let $x^\star$ be its unique minimizer. If gradient descent is run with step size $1/L$, then
+> $$
+> f(x_k) - f(x^\star) \le \left(1-\frac{\mu}{L}\right)^k \bigl(f(x_0)-f(x^\star)\bigr).
+> $$
+
+This is a good decoder example because it is short, modern, and full of hidden structure.
+
+### Step 1: Objects
+
+- `$f : \mathbb{R}^n \to \mathbb{R}$`: objective function
+- `$x^\star$`: minimizer of the objective
+- `$x_k$`: iterate after `k` gradient steps
+- `$\mu$`: strong-convexity parameter
+- `$L$`: smoothness parameter
+
+### Step 2: Assumptions
+
+The theorem is not about arbitrary differentiable functions.
+
+It assumes:
+
+- differentiability
+- strong convexity
+- smoothness
+- a specific step size: `$1/L$`
+
+If any of these fail, the rate need not hold.
+
+### Step 3: Claim Shape
+
+This is a `linear convergence rate` theorem.
+
+It does not say gradient descent finds the exact optimum in finitely many steps. It says the objective gap shrinks geometrically.
+
+### Step 4: Plain-English Rewrite
+
+For a well-behaved convex objective, gradient descent with a standard step size reduces the optimization error by a fixed multiplicative factor each iteration.
+
+That is the sentence you should be able to say before reading the proof.
+
+### Step 5: Output Quantity
+
+The theorem controls:
+
+- `objective suboptimality` `$f(x_k)-f(x^\star)$`
+
+It does **not** directly control:
+
+- distance `$\|x_k-x^\star\|$`
+- test accuracy
+- robustness under data shift
+
+Those may require separate theorems.
+
+### Step 6: Dependency Map
+
+To read the proof well, you likely need:
+
+- [Convex Functions and Subgradients](../topics/advanced/optimization/concepts/convex-functions-and-subgradients.qmd)
+- [Unconstrained First-Order Methods](../topics/advanced/optimization/concepts/unconstrained-first-order-methods.qmd)
+- [Taylor Expansion](../topics/foundation/single-variable-calculus/concepts/taylor-expansion.qmd)
+- [Jacobians and Hessians](../topics/foundation/multivariable-calculus/concepts/jacobians-and-hessians.qmd)
+
+This is the theorem decoder's main practical value: it tells you what to learn before deep proof reading.
+
+## Common Theorem Shapes
+
+| Shape | What to look for | Common failure mode |
+| --- | --- | --- |
+| `Existence / uniqueness` | object exists, or one object is the only solution | reader confuses existence with algorithmic computability |
+| `Characterization / equivalence` | two formulations mean the same thing | reader proves one direction and assumes the other |
+| `Convergence rate` | iterates or errors shrink with `k`, `n`, or time | reader misses what metric is converging |
+| `High-probability bound` | event holds with probability at least `1-\delta` | reader forgets what randomness is being quantified |
+| `Approximation / error bound` | output is close to target up to a bound | reader misses which norm or loss is used |
+| `Lower bound / impossibility` | no method can beat a threshold under assumptions | reader treats the lower bound as only an algorithm weakness |
+
+## Claim And Evidence Audit
+
+When a paper has theorems and experiments, ask how the pieces line up.
+
+Use this quick audit:
+
+1. `Theorem claim`
+   What exact statement is proved?
+
+2. `Proof evidence`
+   Which lemmas or prior results support it?
+
+3. `Empirical evidence`
+   What behavior do experiments illustrate or stress-test?
+
+4. `Gap`
+   What is *not* proved, even if plots look persuasive?
+
+This is where [Claim-Evidence Matrix](../publication/claim-evidence-matrix.qmd) becomes useful. The theorem decoder tells you what the theorem means; the matrix tells you whether the paper's evidence really matches the headline claim.
+
+## What To Reproduce
+
+A strong theorem-decoder exercise is:
+
+1. pick one theorem from a current paper
+2. rewrite it in plain English
+3. make a notation table
+4. list assumptions separately from definitions
+5. classify the theorem shape
+6. list the three prerequisite math tools the proof probably uses
+7. write one sentence on what experiments do and do not validate
+
+If you can do that well, then you are ready to read the proof seriously.
+
+## What Has Changed Since Publication
+
+Older paper-reading advice is still excellent, but current conference culture makes theorem decoding even more important.
+
+Recent expectations, especially in ML venues, push authors and reviewers to be more explicit about:
+
+- full assumption sets
+- complete proofs
+- which claims are theoretical versus empirical
+- where limitations and scope boundaries sit
+
+That is why this page uses both classic reading advice and current venue guidance. In 2026, a good theorem reader should be able to audit not only the mathematics, but also the paper's `claim -> proof -> experiment` alignment.
+
+## Resource Kit
+
+- [How to Read a Paper](https://web.stanford.edu/class/cs114/reading-keshav.pdf) - `First pass` - still the cleanest short guide to staged paper reading. Checked `2026-04-25`.
+- [How to Read a Research Paper](https://web.stanford.edu/class/cs114/reading-mitzenmacher.pdf) - `Second pass` - useful current Stanford reading note on moving from skim to creative critique. Checked `2026-04-25`.
+- [Stanford CS103 Guide to Proofs on Discrete Structures](https://web.stanford.edu/class/archive/cs/cs103/cs103.1234/guide_to_proofs_on_discrete_structures) - `Second pass` - strong reference for quantifiers, theorem structure, and proof decomposition. Checked `2026-04-25`.
+- [MIT Mathematics for Computer Science: Introduction and Proofs](https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-fall-2010/resources/lecture-1-introduction-and-proofs/) - `Second pass` - useful when theorem statements are blocked by logic, proof style, or notation. Checked `2026-04-25`.
+- [NeurIPS Paper Checklist](https://neurips.cc/public/guides/PaperChecklist) - `Paper bridge` - current venue guidance on assumptions, proofs, and claim boundaries. Checked `2026-04-25`.
+- [NeurIPS Reviewer Guidelines](https://neurips.cc/Conferences/2019/PaperInformation/ReviewerGuidelines) - `Paper bridge` - still useful for understanding how theory claims and evidence are evaluated. Checked `2026-04-25`.

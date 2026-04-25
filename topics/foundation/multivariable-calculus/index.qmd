@@ -90,7 +90,7 @@ The full six-page first-pass multivariable calculus spine is now live:
 5. [Multiple Integrals](concepts/multiple-integrals.qmd)
 6. [Vector Fields and Divergence / Curl](concepts/vector-fields-and-divergence-curl.qmd)
 
-The first-pass multivariable spine is now complete. The next natural site-level move is either `commit and push the calculus bridge batch` or shift into `Paper Lab` and research-reading infrastructure.
+The first-pass multivariable spine is now complete. The next natural site-level move is either to deepen `Paper Lab` with pages like `Notation translation` and `Dependency maps`, or to render and visually QA the new calculus modules locally.
 
 ## Navigation Rule
 

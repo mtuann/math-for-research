@@ -17,4 +17,15 @@ A good paper guide should help you:
 ## First Page
 
 - [How to Read a Paper](how-to-read-a-paper.qmd)
+- [Theorem Decoder](theorem-decoder.qmd)
+- [Notation Translation](notation-translation.qmd)
+- [Dependency Maps](dependency-maps.qmd)
+- [Reading Trails](reading-trails.qmd)
 
+## Core Skills In This Section
+
+- `How to Read a Paper`: staged reading before you sink time into notation and proof details
+- `Theorem Decoder`: how to unpack objects, assumptions, claim shape, and dependencies in a theorem-heavy paper
+- `Notation Translation`: how to turn dense symbols into typed objects, roles, and plain-English statements
+- `Dependency Maps`: how to choose a reading order and separate topic prerequisites from lemma and citation structure
+- `Reading Trails`: how to turn one research goal into a short, readable sequence of pages and papers

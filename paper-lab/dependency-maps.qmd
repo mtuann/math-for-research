@@ -1,0 +1,377 @@
+---
+title: "Dependency Maps"
+description: "How to map theorem prerequisites, paper-local lemma structure, and outside literature dependencies before deep reading."
+page-type: paper-lab
+status: published
+update-status: monitor
+level: research
+topic: theorem-reading
+prerequisites:
+  - /paper-lab/how-to-read-a-paper.qmd
+  - /paper-lab/theorem-decoder.qmd
+  - /paper-lab/notation-translation.qmd
+learning-goals:
+  - "Separate topic prerequisites from paper-local proof dependencies."
+  - "Build a small dependency map before committing to a deep read."
+  - "Distinguish load-bearing lemmas from background references."
+  - "Choose a productive reading order for theorem-heavy papers."
+applications:
+  - theory-paper-reading
+  - machine-learning-theory
+  - optimization
+  - randomized-linear-algebra
+keywords:
+  - dependency map
+  - lemmas
+  - theorem reading
+  - reading order
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: quarterly
+date-modified: last-modified
+draft: false
+stable-sources:
+  - "How to Read a Paper"
+  - "Theorem Decoder"
+  - "MIT Mathematics for Computer Science"
+current-sources:
+  - "Stanford CS167 paper-reading guide"
+  - "Stanford CS114"
+  - "NeurIPS paper checklist"
+---
+
+## Why This Page
+
+When a paper feels impossible, the problem is often not the theorem itself.
+
+The problem is that the paper silently assumes a graph of dependencies you have not mapped yet.
+
+That graph usually has three layers:
+
+- `topic prerequisites`: the math you should already know
+- `paper-local dependencies`: which lemmas or propositions support which theorem
+- `outside dependencies`: cited results the paper imports from earlier literature
+
+If you flatten those three layers together, reading becomes painful. If you separate them, the paper becomes navigable.
+
+## Dependency Mapping At A Glance
+
+- `Type`: site-wide workflow for planning a deep theorem read
+- `Setting`: theorem-heavy papers with multiple lemmas, references, and proof sketches
+- `Main claim`: a small dependency map usually saves more time than reading theorems in page order
+- `Why it matters`: theorem statements are often readable long before every proof detail is
+
+## Reading Plan
+
+Use a three-level map.
+
+### Level 1: topic prerequisites
+
+Ask which site topics you need before the paper is worth reading deeply.
+
+Examples:
+
+- orthogonality and least squares
+- concentration inequalities
+- convexity and smoothness
+- Jacobians and Hessians
+
+### Level 2: paper-local proof structure
+
+Ask which results inside the paper are load-bearing.
+
+Typical pattern:
+
+- theorem depends on lemma A and proposition B
+- lemma A depends on a concentration tool
+- proposition B depends on a geometric identity
+
+### Level 3: outside literature
+
+Ask what the paper imports rather than reproves.
+
+Examples:
+
+- "By a standard matrix Bernstein inequality"
+- "Applying a known generalization bound"
+- "Using the Johnson-Lindenstrauss lemma"
+
+These are not always worth reading immediately. Some are just background references; others are the real bottleneck.
+
+## The Dependency-Mapping Workflow
+
+### 1. Start from the theorem, not page 1
+
+Find the first theorem or proposition you actually care about.
+
+Before reading the proof, write:
+
+- the theorem number
+- the exact claim type
+- the objects it controls
+- one sentence on why you care
+
+This makes the dependency map goal-directed.
+
+### 2. Separate internal and external dependencies
+
+Make two lists:
+
+- `inside the paper`
+- `outside the paper`
+
+Internal dependencies are often:
+
+- lemmas
+- propositions
+- definitions
+- proof sketches
+
+External dependencies are often:
+
+- standard inequalities
+- cited prior theorems
+- previously known algorithms or reductions
+
+You do not want to chase every citation immediately.
+
+### 3. Mark load-bearing nodes
+
+Not every lemma deserves equal attention.
+
+A node is load-bearing if removing it would make the main theorem unreadable.
+
+Typical load-bearing nodes:
+
+- the one lemma that converts assumptions into geometry
+- the one proposition that establishes concentration or stability
+- the one reduction that turns the problem into a familiar setting
+
+Minor algebraic cleanup lemmas are usually not load-bearing.
+
+### 4. Build a minimal reading order
+
+A useful reading order is rarely the paper's literal order.
+
+Often the best sequence is:
+
+1. theorem statement
+2. definitions used in that theorem
+3. one or two load-bearing lemmas
+4. proof sketch or intuition paragraph
+5. only then the full proof
+
+This is especially helpful when appendices contain the technical details.
+
+### 5. Distinguish math prerequisites from notation prerequisites
+
+Sometimes you do know the mathematics, but not the notation.
+
+That means the blocker is not the theorem's dependency graph. It is a notation translation problem.
+
+Use [Notation Translation](notation-translation.qmd) for that case.
+
+### 6. Decide what to postpone
+
+A good dependency map includes explicit postponement.
+
+Examples:
+
+- "I will trust matrix Bernstein for now and come back if it becomes load-bearing."
+- "I do not need the appendix proof until I understand the theorem statement and the experiment section."
+
+That is not laziness. It is a reading strategy.
+
+## Three Dependency Layers
+
+### Topic prerequisites
+
+These live outside the paper and usually map to course or site pages.
+
+Examples:
+
+- [Orthogonality and Least Squares](../topics/foundation/linear-algebra/concepts/orthogonality-and-least-squares.qmd)
+- [Concentration and Common Inequalities](../topics/foundation/probability/concepts/concentration-and-common-inequalities.qmd)
+- [Convex Functions and Subgradients](../topics/advanced/optimization/concepts/convex-functions-and-subgradients.qmd)
+
+### Paper-local dependencies
+
+These are theorems, lemmas, definitions, and constructions inside the paper itself.
+
+This is the layer where you ask:
+
+- which theorem depends on which lemma?
+- where is the real proof bottleneck?
+- what can I safely skim on a first pass?
+
+### Literature dependencies
+
+These are imported results from other papers, books, or standard toolkits.
+
+Examples:
+
+- Johnson-Lindenstrauss
+- matrix Bernstein
+- VC or Rademacher bounds
+- standard convex duality facts
+
+This layer matters because some papers are readable only if you know which cited tools are standard and which ones are worth chasing.
+
+## Worked Example
+
+Suppose you are reading a sketching paper whose main result says:
+
+> A sketched least-squares estimator preserves residual quality under assumptions on the sketch size and embedding geometry.
+
+Here is a useful dependency map.
+
+### Step 1: Topic prerequisites
+
+- least-squares projection geometry
+- SVD and subspace preservation
+- concentration language
+
+On this site, that suggests:
+
+- [Orthogonality and Least Squares](../topics/foundation/linear-algebra/concepts/orthogonality-and-least-squares.qmd)
+- [SVD and Low-Rank Approximation](../topics/foundation/linear-algebra/concepts/svd-and-low-rank-approximation.qmd)
+- [Concentration and Common Inequalities](../topics/foundation/probability/concepts/concentration-and-common-inequalities.qmd)
+
+### Step 2: Paper-local dependencies
+
+The main theorem may depend on:
+
+- a lemma proving subspace embedding
+- a proposition relating embedding quality to least-squares residual preservation
+- a definition of residual efficiency
+
+This is the internal map you should draw first.
+
+### Step 3: Literature dependencies
+
+The embedding lemma may cite:
+
+- Johnson-Lindenstrauss
+- a standard random matrix concentration fact
+
+You may not need those sources immediately. First ask whether the paper already states the imported result in a usable form.
+
+### Step 4: Reading order
+
+A productive order might be:
+
+1. main theorem
+2. definition of residual efficiency
+3. proposition connecting embedding to least-squares geometry
+4. subspace-embedding lemma
+5. only then the appendix proof
+
+That is much better than reading the whole paper linearly.
+
+## Simple Map Template
+
+Use a note block like this:
+
+```text
+Main target:
+  Theorem 2 (residual guarantee for sketched least squares)
+
+Topic prerequisites:
+  - orthogonality and least squares
+  - SVD / subspace geometry
+  - concentration inequalities
+
+Paper-local dependencies:
+  - Definition 1 (residual efficiency)
+  - Proposition 1 (embedding -> residual preservation)
+  - Lemma 3 (subspace embedding)
+
+Outside dependencies:
+  - Johnson-Lindenstrauss
+  - matrix concentration bound
+
+Postpone for now:
+  - appendix proof of Lemma 3
+```
+
+This kind of note is often enough to unblock your first real read.
+
+## Common Failure Modes
+
+### Chasing every citation too early
+
+This is one of the easiest ways to get lost.
+
+A dependency map should tell you which outside references are:
+
+- background only
+- useful but postponable
+- truly blocking
+
+### Treating appendices as optional by default
+
+Sometimes the appendix is optional. Sometimes the appendix contains the real theorem logic.
+
+The dependency map helps you decide which one is true.
+
+### Confusing proof order with learning order
+
+Authors often present results in an order that is polished for the paper, not optimal for your understanding.
+
+Your reading order can be different.
+
+### Mixing notation trouble with concept trouble
+
+If a result looks hard because of symbols, fix notation first.
+
+If it still looks hard after that, then the issue is probably mathematical dependency, not symbol density.
+
+## Claim And Evidence Audit
+
+Dependency maps help with more than proofs.
+
+They also help you see how the paper's theorem-level claims and experiment-level claims connect.
+
+Ask:
+
+1. which theorem supports which part of the story?
+2. which experiment illustrates the theorem's regime?
+3. which empirical claims rely on more than the theorem alone?
+
+This is where [Theorem Decoder](theorem-decoder.qmd) and [Claim-Evidence Matrix](../publication/claim-evidence-matrix.qmd) naturally connect.
+
+## What To Reproduce
+
+A strong dependency-mapping exercise is:
+
+1. choose one theorem-heavy paper
+2. pick the main theorem you care about
+3. list three topic prerequisites
+4. list the paper-local lemmas it depends on
+5. list two external results it cites
+6. decide what can be postponed
+7. write the reading order you will actually follow
+
+If you can do that in ten minutes, deep reading gets much smoother.
+
+## What Has Changed Since Publication
+
+Classic paper-reading advice still works, but current papers often have:
+
+- longer appendices
+- more supplementary proofs
+- more imported technical machinery
+- more separation between theorem statements, proof sketches, and implementation details
+
+That makes dependency mapping more valuable now than it used to be.
+
+Modern venue guidance also encourages explicit assumptions and fuller proofs, but it does not remove the need for readers to plan their route through the material.
+
+## Resource Kit
+
+- [How to Read a Paper](https://web.stanford.edu/class/cs114/reading-keshav.pdf) - `First pass` - strong general reading framework before building a theorem-specific map. Checked `2026-04-25`.
+- [How to Read a Research Paper](https://web.stanford.edu/class/cs114/reading-mitzenmacher.pdf) - `Second pass` - useful for deciding what deserves deeper critique after a structural skim. Checked `2026-04-25`.
+- [CS167 Technical Paper Reading Guide](https://cs.stanford.edu/~rishig/courses/ref/paper-reading-technical.pdf) - `Second pass` - especially helpful on reading theorem statements and tracking logical dependencies in technical papers. Checked `2026-04-25`.
+- [MIT Mathematics for Computer Science Readings](https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-fall-2010/pages/readings/) - `Second pass` - good official entry to the MCS notes and proof-pattern chapters when you need a cleaner view of lemmas, corollaries, and proof structure. Checked `2026-04-25`.
+- [NeurIPS Paper Checklist](https://neurips.cc/public/guides/PaperChecklist) - `Paper bridge` - current venue guidance reinforcing explicit assumptions and complete proofs. Checked `2026-04-25`.
