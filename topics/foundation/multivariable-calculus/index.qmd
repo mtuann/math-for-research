@@ -1,0 +1,178 @@
+---
+title: "Multivariable Calculus"
+description: "How local change, approximation, integration, and constraints work when functions depend on several variables at once."
+page-type: module-overview
+status: published
+update-status: current
+level: foundation
+topic: multivariable-calculus
+prerequisites:
+  - /topics/foundation/linear-algebra/index.qmd
+  - /topics/foundation/single-variable-calculus/index.qmd
+learning-goals:
+  - "Understand the internal study order of a first multivariable calculus pass."
+  - "See how partial derivatives, gradients, chain rule, and curvature fit together."
+  - "Connect multivariable calculus to optimization, probability, and modern ML intuition."
+applications:
+  - optimization
+  - machine-learning
+  - engineering
+keywords:
+  - multivariable calculus
+  - partial derivatives
+  - gradient
+  - Jacobian
+  - Hessian
+  - chain rule
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+stable-sources:
+  - "MIT 18.02SC Multivariable Calculus"
+  - "OpenStax Calculus Volume 3"
+  - "Paul's Online Math Notes"
+current-sources:
+  - "MIT OCW multivariable calculus syllabus and unit pages"
+  - "OpenStax Calculus Volume 3 web edition"
+---
+
+## Why This Module Matters
+
+Single-variable calculus teaches local change when there is one input.
+
+Multivariable calculus asks what happens when there are many coordinates, many directions of motion, and many ways to vary the system.
+
+That is the setting for most real problems in CS, AI, and engineering:
+
+- a loss depends on many parameters
+- a model depends on many features
+- a physical state depends on space coordinates and time
+- a density depends on several variables at once
+- constraints and objectives interact in high-dimensional spaces
+
+This module is the bridge that makes gradients, Jacobians, Hessians, and constrained local models feel natural instead of abrupt.
+
+::: {.meta-strip}
+::: {.meta-box}
+**Prerequisites**
+Single-variable calculus first. Linear algebra first. Both matter here.
+:::
+::: {.meta-box}
+**Unlocks**
+Optimization, probability densities, dynamical systems, modern ML math
+:::
+::: {.meta-box}
+**Research Use**
+Reading gradient-based arguments, local models, curvature claims, and multivariable approximations in papers
+:::
+:::
+
+## First Pass Through This Module
+
+The intended first-pass order is:
+
+1. [Partial Derivatives and Gradients](concepts/partial-derivatives-and-gradients.qmd)
+2. [Chain Rule and Linearization](concepts/chain-rule-and-linearization.qmd)
+3. [Jacobians and Hessians](concepts/jacobians-and-hessians.qmd)
+4. [Constrained Optimization](concepts/constrained-optimization.qmd)
+5. [Multiple Integrals](concepts/multiple-integrals.qmd)
+6. [Vector Fields and Divergence / Curl](concepts/vector-fields-and-divergence-curl.qmd)
+
+The full six-page first-pass multivariable calculus spine is now live:
+
+1. [Partial Derivatives and Gradients](concepts/partial-derivatives-and-gradients.qmd)
+2. [Chain Rule and Linearization](concepts/chain-rule-and-linearization.qmd)
+3. [Jacobians and Hessians](concepts/jacobians-and-hessians.qmd)
+4. [Constrained Optimization](concepts/constrained-optimization.qmd)
+5. [Multiple Integrals](concepts/multiple-integrals.qmd)
+6. [Vector Fields and Divergence / Curl](concepts/vector-fields-and-divergence-curl.qmd)
+
+The first-pass multivariable spine is now complete. The next natural site-level move is either `commit and push the calculus bridge batch` or shift into `Paper Lab` and research-reading infrastructure.
+
+## Navigation Rule
+
+The global sidebar shows only the multivariable calculus `spine`:
+
+- the module overview
+- the core concept pages in study order
+
+Each concept page should be strong enough for first-pass learning on its own. Any future proof, application, lab, or paper-lab pages should feel optional rather than required.
+
+## Core Concepts
+
+- [Partial Derivatives and Gradients](concepts/partial-derivatives-and-gradients.qmd): introduces coordinate-wise rates of change, directional sensitivity, and the gradient as the vector of steepest local increase.
+- [Chain Rule and Linearization](concepts/chain-rule-and-linearization.qmd): explains how local effects compose through multistage maps and how differentiable functions become local linear maps.
+- [Jacobians and Hessians](concepts/jacobians-and-hessians.qmd): turns multivariable derivatives into matrix language for transformation and curvature.
+- [Constrained Optimization](concepts/constrained-optimization.qmd): gives the calculus-side bridge into Lagrange multipliers before the full optimization module.
+- [Multiple Integrals](concepts/multiple-integrals.qmd): turns accumulation into several variables, including density, mass, probability, and volume viewpoints.
+- [Vector Fields and Divergence / Curl](concepts/vector-fields-and-divergence-curl.qmd): gives the field-view used in geometry, engineering, PDE intuition, and later vector-calculus theorems.
+
+## Proof Patterns In This Module
+
+- `One coordinate at a time`: partial derivatives isolate one direction while holding the others fixed.
+- `Best local linear model`: multivariable differentiability means a linear map approximates the function nearby.
+- `Geometry of level sets`: gradients point normal to level surfaces and encode local direction of fastest increase.
+
+## Applications
+
+### Optimization And Machine Learning
+
+The language of gradient descent, backpropagation, Jacobians, Hessians, and constrained updates lives here. This module is the real mathematical bridge between first calculus and the optimization/ML layer already on the site.
+
+### Probability, Geometry, And Engineering Models
+
+Multivariable densities, coordinate transforms, surfaces, fields, and local sensitivity analysis all depend on the same multivariable tools. This is where calculus starts to look like the language of high-dimensional systems rather than only of curves.
+
+## Go Deeper By Topic
+
+Start with [Partial Derivatives and Gradients](concepts/partial-derivatives-and-gradients.qmd).
+
+If that page feels slippery, revisit:
+
+- [Derivatives and Local Approximation](../single-variable-calculus/concepts/derivatives-and-local-approximation.qmd)
+- [Taylor Expansion](../single-variable-calculus/concepts/taylor-expansion.qmd)
+- [Linear Algebra](../linear-algebra/index.qmd)
+
+## Optional Deep Dives After First Pass
+
+The strongest official deeper references for this module are:
+
+- [MIT 18.02SC Multivariable Calculus](https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/pages/syllabus/) - official multivariable course backbone from partial derivatives through integration and vector calculus. Checked `2026-04-25`.
+- [OpenStax Calculus Volume 3](https://openstax.org/books/calculus-volume-3/pages/index) - free text with clean sections on partial derivatives, gradient, multiple integration, and vector calculus. Checked `2026-04-25`.
+- [Paul's Online Math Notes: Calculus III](https://tutorial.math.lamar.edu/Classes/CalcIII/CalcIII.aspx) - useful practice-heavy companion for repair and worked examples. Checked `2026-04-25`.
+
+## Study Order
+
+The intended first pass is the six-step sequence above.
+
+Right now the live on-site path starts with:
+
+1. [Partial Derivatives and Gradients](concepts/partial-derivatives-and-gradients.qmd)
+2. [Chain Rule and Linearization](concepts/chain-rule-and-linearization.qmd)
+3. [Jacobians and Hessians](concepts/jacobians-and-hessians.qmd)
+4. [Constrained Optimization](concepts/constrained-optimization.qmd)
+5. [Multiple Integrals](concepts/multiple-integrals.qmd)
+6. [Vector Fields and Divergence / Curl](concepts/vector-fields-and-divergence-curl.qmd)
+
+You are ready to move beyond the first-pass multivariable module when you can:
+
+- explain what a partial derivative means
+- compute simple partial derivatives
+- interpret the gradient as a local direction of steepest increase
+- connect level sets with gradient geometry
+- explain why chain rule is composition of local effects
+- write a first multivariable linearization at a point
+- explain why the Jacobian is a local linear map and why the Hessian captures curvature
+- explain why constrained extrema obey tangency logic rather than unconstrained critical-point logic
+- explain why a double or triple integral is accumulation over a region rather than just a repeated symbol pattern
+- explain how divergence and curl diagnose different local behaviors of a vector field
+
+## Sources and Further Reading
+
+- [MIT 18.02SC Multivariable Calculus](https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/pages/syllabus/) - `First pass` - official MIT course sequence for the whole multivariable arc. Checked `2026-04-25`.
+- [OpenStax Calculus Volume 3](https://openstax.org/books/calculus-volume-3/pages/index) - `Second pass` - full free text covering partial derivatives, gradients, multiple integrals, and vector calculus. Checked `2026-04-25`.
+- [Paul's Online Math Notes: Calculus III](https://tutorial.math.lamar.edu/Classes/CalcIII/CalcIII.aspx) - `Second pass` - worked-example companion for many-variable practice and repair. Checked `2026-04-25`.
+- [MIT 18.02SC Partial Derivatives Unit](https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/pages/2.-partial-derivatives/) - `Paper bridge` - compact official entry into the first multivariable derivative layer. Checked `2026-04-25`.

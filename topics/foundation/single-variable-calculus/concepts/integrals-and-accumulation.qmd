@@ -1,0 +1,282 @@
+---
+title: "Integrals and Accumulation"
+description: "How Riemann-sum intuition becomes the definite integral, why integrals measure accumulated change, and how the Fundamental Theorem reconnects integrals with derivatives."
+page-type: concept
+status: published
+update-status: current
+level: foundation
+topic: single-variable-calculus
+prerequisites:
+  - /topics/foundation/single-variable-calculus/concepts/derivatives-and-local-approximation.qmd
+learning-goals:
+  - "Explain the definite integral as a limit of accumulated small contributions."
+  - "Interpret the integral as net accumulation, not only geometric area."
+  - "Use the Fundamental Theorem of Calculus at a first-pass level."
+  - "Distinguish definite integrals from antiderivatives."
+applications:
+  - optimization
+  - scientific-computing
+  - engineering
+keywords:
+  - definite integral
+  - accumulation
+  - Riemann sum
+  - Fundamental Theorem of Calculus
+  - net change
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/foundation/single-variable-calculus/index.qmd
+  - /topics/foundation/single-variable-calculus/concepts/derivatives-and-local-approximation.qmd
+  - /topics/advanced/optimization/index.qmd
+stable-sources:
+  - "MIT 18.01SC Single Variable Calculus"
+  - "OpenStax Calculus Volume 1"
+  - "Paul's Online Math Notes"
+current-sources:
+  - "MIT definite integral unit"
+  - "OpenStax definite integral and FTC sections"
+---
+
+## Role
+
+This page is the accumulation half of first calculus.
+
+Its job is to explain how many small local contributions add up into one global quantity, and how integration reconnects to differentiation through the Fundamental Theorem of Calculus.
+
+## First-Pass Promise
+
+Read this page after [Derivatives and Local Approximation](derivatives-and-local-approximation.qmd).
+
+If you stop here, you should still understand:
+
+- why a definite integral is a limit of sums
+- why an integral measures accumulated change, not only area
+- how to read $\int_a^b f(x)\,dx$ as one number attached to an interval
+- why derivatives and integrals are linked by the Fundamental Theorem of Calculus
+
+## Why It Matters
+
+Derivatives tell you about local change.
+
+Integrals answer the reverse-looking question:
+
+`if I know the small local contributions along an interval, what total quantity do they build up to?`
+
+That viewpoint is everywhere:
+
+- velocity accumulates into displacement
+- marginal cost accumulates into total cost
+- power accumulates into energy
+- density accumulates into mass or probability
+- gradient-based methods implicitly reason about accumulated local effects along trajectories
+
+So the integral is not just a geometric trick. It is the first general language for turning local information into global totals.
+
+## Prerequisite Recall
+
+- a derivative is the first local linear description of change
+- limits turn many small-step approximations into exact quantities
+- average rate of change summarizes an interval, while the derivative describes a point
+
+## Intuition
+
+Suppose a quantity changes over time with rate $r(t)$.
+
+Over a small time step $\Delta t$, the change is approximately
+
+$$
+r(t_i)\Delta t.
+$$
+
+Add these across many small subintervals:
+
+$$
+r(t_1)\Delta t + r(t_2)\Delta t + \cdots + r(t_n)\Delta t.
+$$
+
+That is a Riemann-sum picture: total accumulation is approximated by summing many tiny `rate × width` contributions.
+
+As the partition gets finer, this approximation can converge to an exact number. That limit is the definite integral.
+
+This is why the integral should be read first as:
+
+`accumulated contribution across an interval`
+
+and only second as area in special geometric cases.
+
+## Formal Core
+
+::: {#def-definite-integral}
+## Definite Integral
+
+If the limit exists, the definite integral of $f$ from $a$ to $b$ is
+
+$$
+\int_a^b f(x)\,dx
+= \lim_{n\to\infty}\sum_{i=1}^n f(x_i^*)\Delta x.
+$$
+
+This is the limit of Riemann sums formed by partitioning the interval $[a,b]$ into small pieces and sampling the function on each piece.
+
+The result is a **number**, not a new function.
+:::
+
+::: {#def-net-change}
+## Net Accumulation
+
+When $f$ represents a rate of change, the integral
+
+$$
+\int_a^b f(x)\,dx
+$$
+
+represents the net accumulated change from $a$ to $b$.
+
+If parts of the graph lie below the axis, those contributions count negatively. So the definite integral records signed accumulation, not only unsigned area.
+:::
+
+::: {#prp-ftc}
+## Fundamental Theorem Of Calculus
+
+At a first-pass level, the key message is:
+
+- derivatives describe local change
+- integrals add local change across an interval
+- the two operations are tightly linked
+
+If $F'(x)=f(x)$, then
+
+$$
+\int_a^b f(x)\,dx = F(b)-F(a).
+$$
+
+So a definite integral can often be evaluated by finding an antiderivative and taking an endpoint difference.
+:::
+
+::: {#prp-definite-vs-indefinite}
+## Definite Versus Indefinite Integral
+
+- A **definite integral** such as $\int_a^b f(x)\,dx$ is a number.
+- An **indefinite integral** such as $\int f(x)\,dx$ refers to a family of antiderivatives.
+
+These are related by the Fundamental Theorem, but they are not the same object.
+:::
+
+## Worked Example
+
+Suppose the velocity of a particle is
+
+$$
+v(t)=2t+1
+$$
+
+for $0 \le t \le 3$.
+
+We want the net displacement from $t=0$ to $t=3$.
+
+The accumulation viewpoint says:
+
+$$
+\text{displacement} = \int_0^3 (2t+1)\,dt.
+$$
+
+Find an antiderivative:
+
+$$
+F(t)=t^2+t.
+$$
+
+Then apply the Fundamental Theorem:
+
+$$
+\int_0^3 (2t+1)\,dt = F(3)-F(0) = (9+3)-0 = 12.
+$$
+
+So the particle’s net displacement is $12$ units.
+
+What does this mean conceptually?
+
+- the derivative-style quantity was velocity
+- the integral turned that local rate into total accumulated motion
+- the final answer is one number for the whole interval
+
+That is the basic derivative-to-integral pipeline.
+
+## Computation Lens
+
+A practical first-pass workflow for integration problems is:
+
+1. identify what is being accumulated
+2. decide the interval over which the accumulation happens
+3. write the definite integral using the relevant rate or density
+4. interpret signs carefully if values can go below zero
+5. use the Fundamental Theorem when an antiderivative is available
+
+This keeps the integral connected to meaning instead of reducing it to symbol pushing.
+
+## Application Lens
+
+In later optimization and ML pages, accumulation ideas show up in more abstract forms:
+
+- losses are aggregated across data points
+- continuous-time dynamics accumulate local updates into trajectories
+- probability densities integrate to total mass $1$
+- expectations are weighted accumulations
+
+Even before multivariable calculus, this page teaches the core habit:
+
+`when many small local effects combine, integration is the natural global language.`
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- why a definite integral is a limit of sums
+- why integrals represent net accumulation
+- how $\int_a^b f(x)\,dx$ differs from $\int f(x)\,dx$
+- why the Fundamental Theorem reconnects derivatives and integrals
+
+then this page has done its main job.
+
+## Go Deeper
+
+The strongest next steps after this page are:
+
+1. [Sequences and Series](sequences-and-series.qmd), because infinite processes and convergence are the next major calculus idea
+2. [Probability](../../probability/index.qmd), if you want to see accumulation become expectation and total probability
+3. [Optimization](../../../advanced/optimization/index.qmd), if you want to see how local update rules become pathwise or objective-level reasoning
+
+## Optional Paper Bridge
+
+- [MIT 18.01SC: The Definite Integral and its Applications](https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-3-the-definite-integral-and-its-applications/) - `First pass` - official MIT unit connecting definite integrals, Riemann sums, and the Fundamental Theorem. Checked `2026-04-25`.
+- [OpenStax Calculus Volume 1: The Definite Integral](https://openstax.org/books/calculus-volume-1/pages/5-2-the-definite-integral) - `Second pass` - free text section on integral definition, notation, and net area. Checked `2026-04-25`.
+- [OpenStax Calculus Volume 1: The Fundamental Theorem of Calculus](https://openstax.org/books/calculus-volume-1/pages/5-3-the-fundamental-theorem-of-calculus) - `Second pass` - direct bridge between antiderivatives and definite integrals. Checked `2026-04-25`.
+- [Paul's Online Math Notes: Definition of the Definite Integral](https://tutorial.math.lamar.edu/Classes/CalcI/DefnofDefiniteIntegral.aspx) - `Paper bridge` - practice-heavy explanation of Riemann-sum intuition and net change. Checked `2026-04-25`.
+
+## Optional After First Pass
+
+If you want more practice before moving on:
+
+- take a rate function and write the corresponding accumulation integral
+- compare signed accumulation with geometric area when a graph dips below the axis
+- explain in words why endpoint subtraction works in the Fundamental Theorem
+
+## Common Mistakes
+
+- treating the definite integral as just another antiderivative symbol
+- forgetting that negative values contribute negatively to net accumulation
+- writing an integral without saying what is being accumulated
+- confusing geometric area with signed integral value
+- using the Fundamental Theorem mechanically without interpreting the interval
+
+## Sources and Further Reading
+
+- [MIT 18.01SC: The Definite Integral and its Applications](https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-3-the-definite-integral-and-its-applications/) - `First pass` - official MIT sequence for definite integrals and the first FTC layer. Checked `2026-04-25`.
+- [OpenStax Calculus Volume 1: The Definite Integral](https://openstax.org/books/calculus-volume-1/pages/5-2-the-definite-integral) - `Second pass` - free text section on definition, notation, and interpretation. Checked `2026-04-25`.
+- [OpenStax Calculus Volume 1: The Fundamental Theorem of Calculus](https://openstax.org/books/calculus-volume-1/pages/5-3-the-fundamental-theorem-of-calculus) - `Second pass` - free text section on evaluation through antiderivatives. Checked `2026-04-25`.
+- [Paul's Online Math Notes: Definition of the Definite Integral](https://tutorial.math.lamar.edu/Classes/CalcI/DefnofDefiniteIntegral.aspx) - `Second pass` - worked-example companion for accumulation and net change. Checked `2026-04-25`.

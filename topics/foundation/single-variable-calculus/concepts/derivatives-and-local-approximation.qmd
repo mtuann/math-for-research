@@ -1,0 +1,294 @@
+---
+title: "Derivatives and Local Approximation"
+description: "How average change becomes instantaneous change, why the derivative is the slope of the tangent line, and how derivatives create the first local linear model."
+page-type: concept
+status: published
+update-status: current
+level: foundation
+topic: single-variable-calculus
+prerequisites:
+  - /topics/foundation/single-variable-calculus/concepts/limits-and-continuity.qmd
+learning-goals:
+  - "Explain the derivative as the limit of average rates of change."
+  - "Interpret the derivative as tangent slope and instantaneous rate of change."
+  - "Build the local linear approximation of a differentiable function near a point."
+  - "Explain why differentiability is stronger than continuity."
+applications:
+  - optimization
+  - machine-learning
+  - engineering
+keywords:
+  - derivative
+  - tangent line
+  - rate of change
+  - local linear approximation
+  - differentiability
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/foundation/single-variable-calculus/index.qmd
+  - /topics/foundation/single-variable-calculus/concepts/limits-and-continuity.qmd
+  - /topics/advanced/optimization/index.qmd
+  - /applications/machine-learning/backpropagation-and-computation-graphs.qmd
+stable-sources:
+  - "MIT 18.01SC Single Variable Calculus"
+  - "OpenStax Calculus Volume 1"
+  - "Paul's Online Math Notes"
+current-sources:
+  - "MIT introduction to derivatives"
+  - "MIT linear approximation notes"
+---
+
+## Role
+
+This page is the first real tool page of single-variable calculus.
+
+Its job is to turn the limit ideas from the previous page into a quantity you can compute and interpret: the derivative.
+
+## First-Pass Promise
+
+Read this page after [Limits and Continuity](limits-and-continuity.qmd).
+
+If you stop here, you should still understand:
+
+- why the derivative is a limit of average rates of change
+- how tangent slope and instantaneous rate of change describe the same idea
+- why the derivative gives a local linear model
+- why differentiable is stronger than continuous
+
+## Why It Matters
+
+A limit tells you what happens as inputs get close.
+
+A derivative tells you what the function is doing **right now** at a point.
+
+That shift is enormous. It gives you:
+
+- instantaneous velocity instead of average velocity over an interval
+- tangent slope instead of secant slope between two points
+- local sensitivity instead of only before/after comparison
+- the first approximation formula that later grows into gradients, Jacobians, Hessians, and optimization algorithms
+
+Without derivatives, later optimization pages look like recipes. With derivatives, you can see why a local linear model is the first thing any solver tries to exploit.
+
+## Prerequisite Recall
+
+- limits describe nearby behavior, not just the value at a point
+- continuity means the limit and the function value agree
+- algebraic simplification is often needed before a limit becomes computable
+
+## Intuition
+
+Suppose you know the value of a function at two nearby inputs, $a$ and $a+h$.
+
+The average rate of change over that interval is
+
+$$
+\frac{f(a+h)-f(a)}{h}.
+$$
+
+That is the slope of the secant line joining the two points.
+
+Now shrink the interval. If these secant slopes settle toward a stable value as $h \to 0$, that limiting slope is the derivative at $a$.
+
+So the derivative is the answer to:
+
+`what linear behavior best matches the function at an infinitesimally small scale near this point?`
+
+That is why tangent slope, instantaneous rate of change, and local linear approximation are all different faces of the same idea.
+
+## Formal Core
+
+::: {#def-average-rate}
+## Average Rate Of Change
+
+For a function $f$ on an interval from $a$ to $b$ with $a \ne b$, the average rate of change is
+
+$$
+\frac{f(b)-f(a)}{b-a}.
+$$
+
+This is the slope of the secant line through the two graph points $(a, f(a))$ and $(b, f(b))$.
+:::
+
+::: {#def-derivative}
+## Derivative At A Point
+
+The derivative of $f$ at $a$ is
+
+$$
+f'(a) = \lim_{h \to 0} \frac{f(a+h)-f(a)}{h},
+$$
+
+provided the limit exists.
+
+Equivalent notation includes
+
+$$
+\lim_{x \to a} \frac{f(x)-f(a)}{x-a}.
+$$
+
+This number is:
+
+- the slope of the tangent line at $x=a$
+- the instantaneous rate of change of $f$ at $a$
+- the coefficient of the best first local linear approximation
+:::
+
+::: {#prp-diff-implies-cont}
+## Differentiability Implies Continuity
+
+If $f$ is differentiable at $a$, then $f$ is continuous at $a$.
+
+So differentiability is a stronger condition than continuity.
+
+The converse is false: a function can be continuous at a point but still fail to be differentiable there.
+:::
+
+::: {#prp-local-linear}
+## Local Linear Approximation
+
+If $f$ is differentiable at $a$, then near $a$ the function is approximated by
+
+$$
+L(x) = f(a) + f'(a)(x-a).
+$$
+
+This is the linearization of $f$ at $a$.
+
+It says that at a small enough scale, a differentiable function behaves like a line whose slope is the derivative.
+:::
+
+## Worked Example
+
+Let
+
+$$
+f(x)=x^2.
+$$
+
+We will find the derivative at $a=3$ directly from the definition, then build the local approximation there.
+
+Start with the difference quotient:
+
+$$
+\frac{f(3+h)-f(3)}{h}
+= \frac{(3+h)^2-9}{h}.
+$$
+
+Expand:
+
+$$
+\frac{9+6h+h^2-9}{h}
+= \frac{6h+h^2}{h}
+= 6+h.
+$$
+
+Now take the limit as $h \to 0$:
+
+$$
+f'(3)=\lim_{h \to 0}(6+h)=6.
+$$
+
+So the tangent slope at $x=3$ is $6$.
+
+The local linear approximation at $a=3$ is therefore
+
+$$
+L(x)=f(3)+f'(3)(x-3)=9+6(x-3).
+$$
+
+Use this to estimate $f(3.02)$:
+
+$$
+L(3.02)=9+6(0.02)=9.12.
+$$
+
+The exact value is
+
+$$
+(3.02)^2 = 9.1204,
+$$
+
+so the linear approximation is already quite close.
+
+That is the key calculus insight: a derivative does not only give a number. It gives the first useful approximation model near the point.
+
+## Computation Lens
+
+A practical first-pass workflow for derivative problems is:
+
+1. compute an average rate of change first if the context is physical or geometric
+2. rewrite the derivative as a limit of difference quotients
+3. simplify algebraically before taking the limit
+4. interpret the resulting derivative as both a slope and a local sensitivity
+5. if you only need a nearby estimate, build the linear approximation
+
+This is the first place calculus stops being only about exact values and starts becoming about useful local models.
+
+## Application Lens
+
+Optimization methods later rely on the same derivative idea:
+
+- if the derivative is positive, the function is locally increasing
+- if the derivative is negative, the function is locally decreasing
+- if the derivative is near zero, the local linear signal is weak and a stationary point may be nearby
+
+In ML, the multivariable version of this becomes the gradient. In backpropagation, the chain rule propagates these local linear effects through a computation graph. So this page is small in scope, but it is foundational for much of the site’s later content.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- the difference between average rate of change and instantaneous rate of change
+- why the derivative is a limit of secant slopes
+- how to write the linear approximation $L(x)=f(a)+f'(a)(x-a)$
+- why differentiability implies continuity
+
+then this page has done its main job.
+
+## Go Deeper
+
+The strongest next steps after this page are:
+
+1. [Integrals and Accumulation](integrals-and-accumulation.qmd), because it is the other major half of first calculus
+2. [Optimization](../../../advanced/optimization/index.qmd), to see how derivative information becomes algorithms and certificates
+3. [Backpropagation and Computation Graphs](../../../../applications/machine-learning/backpropagation-and-computation-graphs.qmd), for the many-variable version of local linear propagation
+
+## Optional Paper Bridge
+
+- [MIT 18.01SC Session 1: Introduction to Derivatives](https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/1.-differentiation/part-a-definition-and-basic-rules/session-1-introduction-to-derivatives/) - `First pass` - official MIT introduction emphasizing secant-to-tangent thinking. Checked `2026-04-25`.
+- [MIT 18.01SC Linear Approximation Notes](https://live.ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/94a15969d6c72a07f8966fb2e594661d_MIT18_01SCF10_Ses23c.pdf) - `Second pass` - compact official note set connecting derivative information to local modeling. Checked `2026-04-25`.
+- [OpenStax Calculus Volume 1: Defining the Derivative](https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative) - `Second pass` - free text section with tangent and rate interpretations. Checked `2026-04-25`.
+- [OpenStax Calculus Volume 1: Linear Approximations and Differentials](https://openstax.org/books/calculus-volume-1/pages/4-2-linear-approximations-and-differentials) - `Paper bridge` - useful bridge from derivative computation to approximation and error thinking. Checked `2026-04-25`.
+- [Paul's Online Math Notes: Interpretation of the Derivative](https://tutorial.math.lamar.edu/Classes/CalcI/DerivativeInterp.aspx) - `Second pass` - practice-heavy reinforcement for interpretation. Checked `2026-04-25`.
+- [Paul's Online Math Notes: Linear Approximations](https://tutorial.math.lamar.edu/Classes/CalcI/LinearApproximations.aspx) - `Second pass` - extra worked examples for using derivatives as local models. Checked `2026-04-25`.
+
+## Optional After First Pass
+
+If you want more practice before moving on:
+
+- compute a derivative from the definition for a simple polynomial
+- compare average velocity on an interval with instantaneous velocity at one endpoint
+- use a linear approximation to estimate a nearby square root, reciprocal, or polynomial value
+
+## Common Mistakes
+
+- confusing average rate of change with the derivative
+- thinking the tangent line must touch the graph only once
+- using a linear approximation too far from the expansion point
+- assuming continuity automatically implies differentiability
+- treating the derivative as only a formula trick rather than a local model
+
+## Sources and Further Reading
+
+- [MIT 18.01SC Session 1: Introduction to Derivatives](https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/1.-differentiation/part-a-definition-and-basic-rules/session-1-introduction-to-derivatives/) - `First pass` - strong official introduction to secants, tangents, and the derivative definition. Checked `2026-04-25`.
+- [MIT 18.01SC Linear Approximation Notes](https://live.ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/94a15969d6c72a07f8966fb2e594661d_MIT18_01SCF10_Ses23c.pdf) - `Second pass` - compact official note set on linear approximation. Checked `2026-04-25`.
+- [OpenStax Calculus Volume 1: Defining the Derivative](https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative) - `Second pass` - free text section on definition, tangent lines, and rates of change. Checked `2026-04-25`.
+- [OpenStax Calculus Volume 1: Linear Approximations and Differentials](https://openstax.org/books/calculus-volume-1/pages/4-2-linear-approximations-and-differentials) - `Second pass` - free text section on linearization and differentials. Checked `2026-04-25`.
+- [Paul's Online Math Notes: Interpretation of the Derivative](https://tutorial.math.lamar.edu/Classes/CalcI/DerivativeInterp.aspx) - `Second pass` - worked-example companion for derivative meaning. Checked `2026-04-25`.
+- [Paul's Online Math Notes: Linear Approximations](https://tutorial.math.lamar.edu/Classes/CalcI/LinearApproximations.aspx) - `Second pass` - worked-example companion for local modeling. Checked `2026-04-25`.

@@ -74,6 +74,23 @@ website:
               - topics/foundation/logic/concepts/predicate-logic.qmd
               - topics/foundation/logic/concepts/sets-functions-and-relations.qmd
               - topics/foundation/logic/concepts/translation-between-english-and-symbols.qmd
+          - section: "Single-Variable Calculus"
+            contents:
+              - topics/foundation/single-variable-calculus/index.qmd
+              - topics/foundation/single-variable-calculus/concepts/limits-and-continuity.qmd
+              - topics/foundation/single-variable-calculus/concepts/derivatives-and-local-approximation.qmd
+              - topics/foundation/single-variable-calculus/concepts/integrals-and-accumulation.qmd
+              - topics/foundation/single-variable-calculus/concepts/sequences-and-series.qmd
+              - topics/foundation/single-variable-calculus/concepts/taylor-expansion.qmd
+          - section: "Multivariable Calculus"
+            contents:
+              - topics/foundation/multivariable-calculus/index.qmd
+              - topics/foundation/multivariable-calculus/concepts/partial-derivatives-and-gradients.qmd
+              - topics/foundation/multivariable-calculus/concepts/chain-rule-and-linearization.qmd
+              - topics/foundation/multivariable-calculus/concepts/jacobians-and-hessians.qmd
+              - topics/foundation/multivariable-calculus/concepts/constrained-optimization.qmd
+              - topics/foundation/multivariable-calculus/concepts/multiple-integrals.qmd
+              - topics/foundation/multivariable-calculus/concepts/vector-fields-and-divergence-curl.qmd
           - section: "Linear Algebra"
             contents:
               - topics/foundation/linear-algebra/index.qmd

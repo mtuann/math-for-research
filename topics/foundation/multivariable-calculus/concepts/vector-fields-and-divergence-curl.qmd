@@ -1,0 +1,326 @@
+---
+title: "Vector Fields and Divergence / Curl"
+description: "How vector fields assign a direction and magnitude at each point, how divergence measures local outflow, and how curl measures local rotational tendency."
+page-type: concept
+status: published
+update-status: current
+level: foundation
+topic: multivariable-calculus
+prerequisites:
+  - /topics/foundation/multivariable-calculus/concepts/multiple-integrals.qmd
+learning-goals:
+  - "Explain what a vector field is in two or three dimensions."
+  - "Interpret divergence as a scalar measure of local outflow."
+  - "Interpret curl as a measure of local rotational tendency."
+  - "Connect vector-field language to later flux, conservative fields, and theorem-based vector calculus."
+applications:
+  - engineering
+  - physics
+  - machine-learning
+keywords:
+  - vector field
+  - divergence
+  - curl
+  - conservative field
+  - flow
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/foundation/multivariable-calculus/index.qmd
+  - /topics/foundation/multivariable-calculus/concepts/multiple-integrals.qmd
+  - /topics/foundation/probability/index.qmd
+stable-sources:
+  - "MIT 18.02SC Multivariable Calculus"
+  - "OpenStax Calculus Volume 3"
+  - "Paul's Online Math Notes"
+current-sources:
+  - "MIT vector field sessions and recitations"
+  - "OpenStax vector field and divergence/curl sections"
+---
+
+## Role
+
+This page is the field-view capstone of the multivariable calculus module.
+
+Its job is to shift perspective from scalar-valued functions on regions to vector-valued fields on regions, then introduce the two first local diagnostic operators on such fields: divergence and curl.
+
+## First-Pass Promise
+
+Read this page after [Multiple Integrals](multiple-integrals.qmd).
+
+If you stop here, you should still understand:
+
+- what a vector field is
+- what divergence measures locally
+- what curl measures locally
+- why vector fields form the bridge to later flux, conservative-field, and theorem-based vector calculus
+
+## Why It Matters
+
+Up to now, much of the module has focused on scalar functions:
+
+- objective functions
+- density functions
+- height functions
+- scalar fields whose gradients and Hessians describe local behavior
+
+But many physical and mathematical systems are naturally vector-valued:
+
+- velocity fields in fluids
+- force fields
+- electric and magnetic fields
+- gradient fields of scalar objectives
+
+To reason about such systems, you need language for:
+
+- where the field is pointing
+- whether it is flowing outward or inward
+- whether it tends to circulate
+
+That is what vector fields, divergence, and curl provide.
+
+## Prerequisite Recall
+
+- gradients attach a vector to each point of a scalar field
+- multiple integrals already prepared the idea of accumulation over regions
+- Jacobian thinking already showed that derivative information can be matrix- or vector-valued
+
+## Intuition
+
+A vector field assigns a vector to each point of a region.
+
+So instead of a scalar height sitting above each point, you have an arrow at each point.
+
+Two local questions become especially natural:
+
+1. `Is the field tending to flow outward from this point or inward toward it?`
+   That is the role of divergence.
+
+2. `Is the field tending to rotate around this point?`
+   That is the role of curl.
+
+These are genuinely different diagnostics.
+
+For example:
+
+- a pure outward radial field can have positive divergence and zero curl
+- a pure rotational swirl can have zero divergence and nonzero curl
+
+So divergence is not “how big the field is,” and curl is not “how bent the field looks.” They measure specific local behaviors.
+
+## Formal Core
+
+::: {#def-vectorfield}
+## Vector Field
+
+A vector field in $\mathbb{R}^2$ has the form
+
+$$
+\mathbf{F}(x,y)=\langle P(x,y),Q(x,y)\rangle,
+$$
+
+and in $\mathbb{R}^3$ has the form
+
+$$
+\mathbf{F}(x,y,z)=\langle P(x,y,z),Q(x,y,z),R(x,y,z)\rangle.
+$$
+
+It assigns a vector to each point in its domain.
+:::
+
+::: {#def-div}
+## Divergence
+
+For a vector field $\mathbf{F}=\langle P,Q,R\rangle$ in $\mathbb{R}^3$,
+
+$$
+\operatorname{div}\mathbf{F}
+=
+\frac{\partial P}{\partial x}
++
+\frac{\partial Q}{\partial y}
++
+\frac{\partial R}{\partial z}.
+$$
+
+In $\mathbb{R}^2$, for $\mathbf{F}=\langle P,Q\rangle$,
+
+$$
+\operatorname{div}\mathbf{F}
+=
+\frac{\partial P}{\partial x}
++
+\frac{\partial Q}{\partial y}.
+$$
+
+Divergence is a scalar field measuring local source/sink tendency.
+:::
+
+::: {#def-curl}
+## Curl
+
+For a vector field $\mathbf{F}=\langle P,Q,R\rangle$ in $\mathbb{R}^3$,
+
+$$
+\operatorname{curl}\mathbf{F}
+=
+\nabla \times \mathbf{F}.
+$$
+
+It is another vector field measuring local rotational tendency.
+
+In $\mathbb{R}^2$, for $\mathbf{F}=\langle P,Q\rangle$, the scalar quantity
+
+$$
+\frac{\partial Q}{\partial x}
+-
+\frac{\partial P}{\partial y}
+$$
+
+plays the analogous role for planar rotation.
+:::
+
+::: {#prp-conservative}
+## Conservative Field Intuition
+
+At a first-pass level, if a vector field is the gradient of some scalar potential,
+
+$$
+\mathbf{F}=\nabla \phi,
+$$
+
+then it is called a gradient or conservative field.
+
+Under suitable domain assumptions, vanishing curl is a key diagnostic for this behavior.
+
+This page only introduces that idea; the full theorem layer comes later.
+:::
+
+## Worked Example
+
+Consider the planar vector field
+
+$$
+\mathbf{F}(x,y)=\langle -y,\;x\rangle.
+$$
+
+This field rotates around the origin.
+
+Compute its divergence:
+
+$$
+\operatorname{div}\mathbf{F}
+=
+\frac{\partial(-y)}{\partial x}
++
+\frac{\partial x}{\partial y}
+=0+0=0.
+$$
+
+So there is no local source or sink effect.
+
+Now compute the planar curl scalar:
+
+$$
+\frac{\partial Q}{\partial x}
+-
+\frac{\partial P}{\partial y}
+=
+\frac{\partial x}{\partial x}
+-
+\frac{\partial(-y)}{\partial y}
+=1-(-1)=2.
+$$
+
+So the field has positive rotational tendency.
+
+This is the clean contrast:
+
+- divergence tells us there is no local outflow/inflow
+- curl tells us there is local rotation
+
+Now compare that mentally with the radial field
+
+$$
+\mathbf{G}(x,y)=\langle x,y\rangle,
+$$
+
+which has positive divergence and zero curl. The two notions are genuinely different.
+
+## Computation Lens
+
+A practical first-pass workflow for vector-field questions is:
+
+1. decide whether the field is scalar-valued or vector-valued
+2. write the components clearly
+3. compute divergence if you care about source/sink behavior
+4. compute curl if you care about local rotation
+5. interpret the result geometrically before moving to any theorem-based conclusion
+
+This prevents the common mistake of turning divergence and curl into pure symbol manipulation.
+
+## Application Lens
+
+This page opens several later doors:
+
+- in engineering and physics, divergence and curl describe fluid flow and field behavior
+- in optimization, gradient fields are the first conservative fields many readers meet
+- in PDE and advanced analysis, divergence and curl become part of structural equations
+- in probability and transport viewpoints, flow fields and local conservation laws use the same language
+
+So even if your main interest is AI/ML, this page broadens the geometric intuition of multivariable calculus in a way that later continuous-model papers often assume.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- what a vector field is
+- how divergence differs from curl
+- why divergence is scalar and curl is rotational information
+- why a swirl field and a radial field behave differently
+
+then this page has done its main job.
+
+## Go Deeper
+
+The strongest next steps after this page are:
+
+1. [Optimization](../../../advanced/optimization/index.qmd), if you want to return to the scalar-objective side with stronger geometric intuition
+2. `Paper Lab: theorem decoder`, if you want to shift from math-building into theory-reading workflow
+3. later vector-calculus theorem layers such as Green, Stokes, and the divergence theorem, if the site grows deeper in continuous mathematics
+
+## Optional Paper Bridge
+
+- [MIT 18.02SC Session 56: Vector Fields](https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/pages/3.-double-integrals-and-line-integrals-in-the-plane/part-b-vector-fields-and-line-integrals/session-56-vector-fields/) - `First pass` - official MIT introduction to vector fields. Checked `2026-04-25`.
+- [MIT 18.02SC Session 79: Vector Fields in Space](https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/pages/4.-triple-integrals-and-surface-integrals-in-3-space/part-b-flux-and-the-divergence-theorem/session-79-vector-fields-in-space/) - `Second pass` - official extension of field intuition into 3-space. Checked `2026-04-25`.
+- [OpenStax Calculus Volume 3: Vector Fields](https://openstax.org/books/calculus-volume-3/pages/6-1-vector-fields) - `Second pass` - free text section on what a vector field is and how to read it. Checked `2026-04-25`.
+- [OpenStax Calculus Volume 3: Divergence and Curl](https://openstax.org/books/calculus-volume-3/pages/6-5-divergence-and-curl) - `Second pass` - free text section on the two core local operators. Checked `2026-04-25`.
+- [Paul's Online Math Notes: Curl and Divergence](https://tutorial.math.lamar.edu/Classes/CalcIII/CurlDivergence.aspx) - `Paper bridge` - worked-example companion for first computations and interpretation. Checked `2026-04-25`.
+
+## Optional After First Pass
+
+If you want more practice before moving on:
+
+- sketch a swirl field and a radial field and compare their divergence/curl
+- compute divergence and curl for a few simple polynomial vector fields
+- ask whether a field looks more like outward flow, inward flow, or local rotation
+
+## Common Mistakes
+
+- confusing a scalar field with a vector field
+- thinking divergence measures the size of the field rather than local outflow
+- thinking curl means “the arrows curve” rather than local rotational tendency
+- jumping to “conservative” conclusions without checking domain assumptions
+- computing formulas without interpreting what the result says locally
+
+## Sources and Further Reading
+
+- [MIT 18.02SC Session 56: Vector Fields](https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/pages/3.-double-integrals-and-line-integrals-in-the-plane/part-b-vector-fields-and-line-integrals/session-56-vector-fields/) - `First pass` - official MIT introduction to planar vector fields. Checked `2026-04-25`.
+- [MIT 18.02SC Session 79: Vector Fields in Space](https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/pages/4.-triple-integrals-and-surface-integrals-in-3-space/part-b-flux-and-the-divergence-theorem/session-79-vector-fields-in-space/) - `Second pass` - official 3D field intuition. Checked `2026-04-25`.
+- [OpenStax Calculus Volume 3: Vector Fields](https://openstax.org/books/calculus-volume-3/pages/6-1-vector-fields) - `Second pass` - free text section for the base field concept. Checked `2026-04-25`.
+- [OpenStax Calculus Volume 3: Divergence and Curl](https://openstax.org/books/calculus-volume-3/pages/6-5-divergence-and-curl) - `Second pass` - free text section for first divergence/curl computations. Checked `2026-04-25`.
+- [Paul's Online Math Notes: Curl and Divergence](https://tutorial.math.lamar.edu/Classes/CalcIII/CurlDivergence.aspx) - `Second pass` - worked-example practice companion. Checked `2026-04-25`.

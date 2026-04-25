@@ -1,0 +1,292 @@
+---
+title: "Constrained Optimization"
+description: "How local extrema change under constraints, why Lagrange multipliers arise from tangency of level sets, and how constraint geometry bridges multivariable calculus to full optimization."
+page-type: concept
+status: published
+update-status: current
+level: foundation
+topic: multivariable-calculus
+prerequisites:
+  - /topics/foundation/multivariable-calculus/concepts/jacobians-and-hessians.qmd
+learning-goals:
+  - "Explain why constrained extrema differ from unconstrained extrema."
+  - "Interpret the Lagrange multiplier condition geometrically."
+  - "Solve a basic constrained optimization problem with one smooth equality constraint."
+  - "Connect Lagrange-multiplier thinking to later optimization topics."
+applications:
+  - optimization
+  - machine-learning
+  - engineering
+keywords:
+  - constrained optimization
+  - Lagrange multipliers
+  - constraint geometry
+  - extrema
+  - multivariable calculus
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/foundation/multivariable-calculus/index.qmd
+  - /topics/foundation/multivariable-calculus/concepts/jacobians-and-hessians.qmd
+  - /topics/advanced/optimization/concepts/constrained-optimization-kkt-and-lagrangians.qmd
+  - /topics/advanced/optimization/index.qmd
+stable-sources:
+  - "MIT 18.02SC Multivariable Calculus"
+  - "OpenStax Calculus Volume 3"
+  - "Paul's Online Math Notes"
+current-sources:
+  - "MIT Lagrange multiplier notes and recitations"
+  - "OpenStax Lagrange multiplier section"
+---
+
+## Role
+
+This page is the constraint-geometry page of multivariable calculus.
+
+Its job is to explain why optimization under a constraint is different from unconstrained optimization, and why Lagrange multipliers are really a statement about tangent geometry rather than a formal trick.
+
+## First-Pass Promise
+
+Read this page after [Jacobians and Hessians](jacobians-and-hessians.qmd).
+
+If you stop here, you should still understand:
+
+- why constrained extrema need different logic from unconstrained extrema
+- why $\nabla f$ and $\nabla g$ become parallel at a constrained extremum
+- how to solve a basic one-constraint Lagrange multiplier problem
+- how this page leads naturally into the deeper optimization module
+
+## Why It Matters
+
+In unconstrained optimization, a local optimum often appears where the gradient vanishes.
+
+But with a constraint, you are not allowed to move in every direction. You can only move along the constraint surface.
+
+That changes the logic:
+
+- the full gradient of the objective may not be zero
+- what matters is whether any **allowed** direction improves the objective
+- geometry of tangency becomes central
+
+This is the first place where multivariable calculus really starts to look like optimization.
+
+It matters directly because:
+
+- engineering design problems often optimize under fixed resource or geometry constraints
+- ML objectives sometimes include normalization or explicit equality constraints
+- later KKT conditions are built on exactly this constrained first-order picture
+
+## Prerequisite Recall
+
+- gradients are normal to level sets
+- linearization gives the first-order local model near a point
+- Hessian language explains curvature, but first-order geometry already determines the basic Lagrange condition
+
+## Intuition
+
+Suppose you want to optimize $f(x,y)$ subject to a constraint
+
+$$
+g(x,y)=c.
+$$
+
+The constraint is a curve. Along that curve, the function $f$ may increase or decrease.
+
+At a constrained optimum, the level curve of $f$ just touches the constraint curve instead of cutting across it. That means the two curves are tangent there.
+
+Since gradients are normal to level curves, the normals must be parallel:
+
+$$
+\nabla f = \lambda \nabla g.
+$$
+
+That is the whole geometric content of the Lagrange multiplier condition.
+
+So the multiplier method is not a mysterious algebra trick. It is a way of encoding tangency of the objective level set and the constraint set.
+
+## Formal Core
+
+::: {#def-constrained-extremum}
+## Constrained Extremum
+
+A constrained extremum of $f$ subject to $g(x,y)=c$ is a point on the constraint set where $f$ is locally maximal or minimal among nearby points that also satisfy the constraint.
+
+This is different from an unconstrained extremum because movement is restricted to the constraint set.
+:::
+
+::: {#prp-lagrange}
+## Lagrange Multiplier Condition
+
+If $f$ has a local constrained extremum at a point on the smooth constraint $g(x,y)=c$, and $\nabla g \ne 0$ there, then
+
+$$
+\nabla f = \lambda \nabla g
+$$
+
+for some scalar $\lambda$.
+
+This says the two gradients are parallel.
+:::
+
+::: {#prp-meaning-lambda}
+## Meaning Of The Multiplier
+
+At a first-pass level, $\lambda$ measures how the objective is aligned with the constraint normal direction.
+
+Later in optimization, multipliers gain richer interpretations as sensitivities and dual variables, but here the core idea is geometric proportionality.
+:::
+
+## Worked Example
+
+Find the maximum and minimum of
+
+$$
+f(x,y)=x^2+y^2
+$$
+
+subject to
+
+$$
+x+y=1.
+$$
+
+First write the constraint as
+
+$$
+g(x,y)=x+y.
+$$
+
+Then
+
+$$
+\nabla f=(2x,2y),
+\qquad
+\nabla g=(1,1).
+$$
+
+The Lagrange condition is
+
+$$
+(2x,2y)=\lambda(1,1).
+$$
+
+So
+
+$$
+2x=\lambda,\qquad 2y=\lambda,
+$$
+
+which implies
+
+$$
+x=y.
+$$
+
+Combine this with the constraint $x+y=1$:
+
+$$
+2x=1 \quad \Rightarrow \quad x=y=\frac12.
+$$
+
+So the only critical candidate is
+
+$$
+\left(\frac12,\frac12\right).
+$$
+
+Its value is
+
+$$
+f\left(\frac12,\frac12\right)=\frac14+\frac14=\frac12.
+$$
+
+This is the constrained minimum.
+
+Why is there no constrained maximum?
+
+Because on the line $x+y=1$, the points can go arbitrarily far from the origin in opposite directions, making $x^2+y^2$ arbitrarily large. So the objective has no constrained maximum on this unbounded constraint set.
+
+This example is useful because it shows both pieces of the method:
+
+- solve the gradient-proportionality system
+- still reason globally about the actual constraint set
+
+## Computation Lens
+
+A practical first-pass workflow for one smooth equality constraint is:
+
+1. write the objective $f$ and constraint $g=c$
+2. compute $\nabla f$ and $\nabla g$
+3. solve
+   $$
+   \nabla f = \lambda \nabla g
+   $$
+   together with the constraint equation
+4. evaluate the objective at the candidate points
+5. check whether the geometry of the constraint allows a max, a min, both, or neither
+
+This keeps the method grounded in meaning rather than only algebraic elimination.
+
+## Application Lens
+
+This page is the clean bridge into the optimization module:
+
+- here, the story is geometric tangency and constrained local extrema
+- later, the optimization module extends this into Lagrangians, KKT conditions, inequalities, duality, and algorithms
+
+So if the optimization module feels abstract, this page should be the place where the first constrained idea becomes intuitive.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- why constrained extrema are different from unconstrained ones
+- why $\nabla f$ and $\nabla g$ become parallel
+- how to solve a simple one-constraint Lagrange multiplier problem
+- why candidate points still need interpretation in the geometry of the constraint set
+
+then this page has done its main job.
+
+## Go Deeper
+
+The strongest next steps after this page are:
+
+1. [Multiple Integrals](multiple-integrals.qmd), because that is the other major multivariable branch before vector-calculus depth
+2. [Constrained Optimization, KKT, and Lagrangians](../../../advanced/optimization/concepts/constrained-optimization-kkt-and-lagrangians.qmd), to see the full optimization-side generalization
+3. [Optimization](../../../advanced/optimization/index.qmd), to see constrained geometry become certificates, multipliers, and algorithms
+
+## Optional Paper Bridge
+
+- [OpenStax Calculus Volume 3: Lagrange Multipliers](https://openstax.org/books/calculus-volume-3/pages/4-8-lagrange-multipliers) - `First pass` - strong official section for the basic constrained-extremum method. Checked `2026-04-25`.
+- [MIT Lagrange Multipliers (Two Variables)](https://ocw.mit.edu/ans7870/18/18.02/f07/tools/LagrangeMultipliersTwoVariables.html) - `Second pass` - official MIT geometry-first resource emphasizing contour tangency. Checked `2026-04-25`.
+- [MIT 18.02SC Notes on Lagrange Multipliers](https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/d97c53ed0a6734b4bc266478fe6423c1_MIT18_02SC_notes_21.pdf) - `Second pass` - compact official notes showing why the method works. Checked `2026-04-25`.
+- [MIT 18.02SC Recitation 29: Lagrange Multipliers](https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/51faec58ad34a33972a4762912862daa_MIT18_02SCF10Rec_29_300k.pdf) - `Second pass` - official worked examples in three variables. Checked `2026-04-25`.
+- [Paul's Online Math Notes: Lagrange Multipliers](https://tutorial.math.lamar.edu/classes/calciii/LagrangeMultipliers.aspx) - `Paper bridge` - worked-example companion for repetition and constraint-set reasoning. Checked `2026-04-25`.
+
+## Optional After First Pass
+
+If you want more practice before moving on:
+
+- solve one optimization problem on a circle or line constraint
+- draw the objective level curves and the constraint curve to see the tangency
+- ask whether the constraint set is bounded enough to guarantee both max and min
+
+## Common Mistakes
+
+- setting $\nabla f=0$ as if the problem were unconstrained
+- forgetting to include the constraint equation after writing $\nabla f=\lambda\nabla g$
+- solving only the algebra and not checking the geometry of the constraint set
+- assuming every candidate automatically gives both a max and a min
+- treating the multiplier as magic instead of as a tangency condition
+
+## Sources and Further Reading
+
+- [OpenStax Calculus Volume 3: Lagrange Multipliers](https://openstax.org/books/calculus-volume-3/pages/4-8-lagrange-multipliers) - `First pass` - official first-pass exposition of the method. Checked `2026-04-25`.
+- [MIT Lagrange Multipliers (Two Variables)](https://ocw.mit.edu/ans7870/18/18.02/f07/tools/LagrangeMultipliersTwoVariables.html) - `Second pass` - geometry-first MIT resource. Checked `2026-04-25`.
+- [MIT 18.02SC Notes on Lagrange Multipliers](https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/d97c53ed0a6734b4bc266478fe6423c1_MIT18_02SC_notes_21.pdf) - `Second pass` - concise official notes for the method and its intuition. Checked `2026-04-25`.
+- [MIT 18.02SC Recitation 29: Lagrange Multipliers](https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/51faec58ad34a33972a4762912862daa_MIT18_02SCF10Rec_29_300k.pdf) - `Second pass` - official worked examples. Checked `2026-04-25`.
+- [Paul's Online Math Notes: Lagrange Multipliers](https://tutorial.math.lamar.edu/classes/calciii/LagrangeMultipliers.aspx) - `Second pass` - accessible worked examples and practice. Checked `2026-04-25`.

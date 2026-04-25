@@ -1,0 +1,170 @@
+---
+title: "Single-Variable Calculus"
+description: "How limits, continuity, derivatives, integrals, and approximation turn one-variable change into the language behind optimization, modeling, and analysis."
+page-type: module-overview
+status: published
+update-status: current
+level: foundation
+topic: single-variable-calculus
+prerequisites:
+  - "Algebra: functions, equations, exponentials, logarithms, and basic graph reading"
+learning-goals:
+  - "Understand the internal study order of a first single-variable calculus pass."
+  - "See how limits, continuity, derivatives, integrals, and approximation fit together."
+  - "Connect one-variable calculus to optimization, modeling, and later multivariable thinking."
+applications:
+  - optimization
+  - engineering
+  - scientific-computing
+keywords:
+  - calculus
+  - limits
+  - continuity
+  - derivatives
+  - integrals
+  - Taylor expansion
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+stable-sources:
+  - "MIT 18.01SC Single Variable Calculus"
+  - "OpenStax Calculus Volume 1"
+  - "Paul's Online Math Notes"
+current-sources:
+  - "MIT OpenCourseWare syllabus and lecture notes"
+  - "OpenStax Calculus Volume 1 web edition"
+---
+
+## Why This Module Matters
+
+Single-variable calculus is where the vague idea of `change` becomes precise enough to compute with.
+
+It answers questions like:
+
+- what does it mean for a function to approach a value
+- when does a small input change produce a small output change
+- how do we measure instantaneous change
+- how do we accumulate change over an interval
+- when is a local approximation trustworthy
+
+Those ideas matter far beyond calculus class. Derivatives become the first version of gradients. Integrals become the first version of accumulation, averaging, and continuous models. Taylor expansion becomes the first bridge from exact formulas to approximation and algorithmic thinking.
+
+This module is also a structural prerequisite for later parts of the site. Without it, optimization feels too magical, multivariable calculus feels abrupt, and analysis has no real runway.
+
+::: {.meta-strip}
+::: {.meta-box}
+**Prerequisites**
+Algebra first: functions, equations, graph reading, exponentials, logarithms, and basic trigonometric comfort.
+:::
+::: {.meta-box}
+**Unlocks**
+Optimization, multivariable calculus, differential equations, analysis
+:::
+::: {.meta-box}
+**Research Use**
+Reading objectives, rates, approximations, asymptotics, and local-model arguments more fluently
+:::
+:::
+
+## First Pass Through This Module
+
+The intended first-pass order is:
+
+1. [Limits and Continuity](concepts/limits-and-continuity.qmd)
+2. [Derivatives and Local Approximation](concepts/derivatives-and-local-approximation.qmd)
+3. [Integrals and Accumulation](concepts/integrals-and-accumulation.qmd)
+4. [Sequences and Series](concepts/sequences-and-series.qmd)
+5. [Taylor Expansion](concepts/taylor-expansion.qmd)
+
+The full five-page first-pass single-variable calculus spine is now live:
+
+1. [Limits and Continuity](concepts/limits-and-continuity.qmd)
+2. [Derivatives and Local Approximation](concepts/derivatives-and-local-approximation.qmd)
+3. [Integrals and Accumulation](concepts/integrals-and-accumulation.qmd)
+4. [Sequences and Series](concepts/sequences-and-series.qmd)
+5. [Taylor Expansion](concepts/taylor-expansion.qmd)
+
+The next natural build should be `Partial derivatives and gradients`, because the calculus foundation is now ready to open the multivariable bridge into optimization and ML.
+
+## Navigation Rule
+
+The global sidebar shows only the single-variable calculus `spine`:
+
+- the module overview
+- the core concept pages in study order
+
+Each concept page should be strong enough for first-pass learning on its own. Any future proof, application, lab, or paper-lab pages should feel optional rather than required.
+
+## Core Concepts
+
+- [Limits and Continuity](concepts/limits-and-continuity.qmd): teaches what it means for a function to approach a value and when continuity does or does not hold at a point.
+- [Derivatives and Local Approximation](concepts/derivatives-and-local-approximation.qmd): turns change-over-an-interval into instantaneous change and the first local linear model.
+- [Integrals and Accumulation](concepts/integrals-and-accumulation.qmd): turns local quantities into accumulated effect and the first global accumulation model.
+- [Sequences and Series](concepts/sequences-and-series.qmd): explains convergence, partial sums, geometric series, and why infinite processes can still stabilize.
+- [Taylor Expansion](concepts/taylor-expansion.qmd): makes polynomial approximation explicit and prepares later numerical, optimization, and asymptotic thinking.
+
+## Proof Patterns In This Module
+
+- `Approach without touching`: the value at the point and the value being approached are conceptually different.
+- `Continuity as compatibility`: continuity at a point means limit and function value agree there.
+- `Approximation before exactness`: many later tools begin by replacing a hard function with a simpler local model.
+
+## Applications
+
+### Optimization And Modeling
+
+Before there are gradients in many variables, there are derivatives in one variable. This module gives the first precise language for rates, local improvement, curvature intuition, and approximation. Those ideas later reappear in gradient descent, line search, and sensitivity reasoning.
+
+### Engineering And Scientific Interpretation
+
+Position, velocity, acceleration, accumulated work, marginal cost, signal change, and response curves all begin naturally in one-variable calculus before being generalized.
+
+## Go Deeper By Topic
+
+Start with [Limits and Continuity](concepts/limits-and-continuity.qmd).
+
+If that page feels shaky, slow down and make sure you can:
+
+- read graphs and domains clearly
+- distinguish substitution from limiting behavior
+- explain why a hole, jump, or blow-up are different kinds of discontinuity
+
+## Optional Deep Dives After First Pass
+
+The strongest official deeper references for this module are:
+
+- [MIT 18.01SC Single Variable Calculus](https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/syllabus) - clean official course arc from limits to integration and approximation. Checked `2026-04-25`.
+- [OpenStax Calculus Volume 1](https://openstax.org/books/calculus-volume-1/pages/index) - broad free text that works well as a structured second pass. Checked `2026-04-25`.
+- [Paul's Online Math Notes: Calculus I](https://tutorial.math.lamar.edu/) - useful practice-heavy companion when you need more examples and repair work. Checked `2026-04-25`.
+
+## Study Order
+
+The intended first pass is the five-step sequence above.
+
+Right now the live on-site path starts with:
+
+1. [Limits and Continuity](concepts/limits-and-continuity.qmd)
+2. [Derivatives and Local Approximation](concepts/derivatives-and-local-approximation.qmd)
+3. [Integrals and Accumulation](concepts/integrals-and-accumulation.qmd)
+4. [Sequences and Series](concepts/sequences-and-series.qmd)
+5. [Taylor Expansion](concepts/taylor-expansion.qmd)
+
+You are ready to move to the next page when you can:
+
+- explain the difference between a function value and a limit
+- interpret the derivative as an instantaneous rate of change
+- compute a simple derivative from the definition
+- use a tangent-line approximation near a point
+- explain a definite integral as accumulated change over an interval
+- explain a series through its partial sums
+- explain why derivatives determine Taylor coefficients
+
+## Sources and Further Reading
+
+- [MIT 18.01SC Single Variable Calculus](https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/syllabus) - `First pass` - strong official course sequence for the whole one-variable calculus arc. Checked `2026-04-25`.
+- [OpenStax Calculus Volume 1](https://openstax.org/books/calculus-volume-1/pages/index) - `Second pass` - full free text with clean sections on limits, continuity, derivatives, and integration. Checked `2026-04-25`.
+- [Paul's Online Math Notes: Calculus I](https://tutorial.math.lamar.edu/) - `Second pass` - useful practice-oriented companion when you want many worked examples. Checked `2026-04-25`.
+- [MIT 18.01 Lecture Notes](https://www.ocw.mit.edu/courses/18-01-single-variable-calculus-fall-2006/resources/lecture-notes/) - `Paper bridge` - useful when you want a compact lecture-note style presentation rather than a textbook pass. Checked `2026-04-25`.

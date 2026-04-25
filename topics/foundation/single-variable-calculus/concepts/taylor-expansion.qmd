@@ -1,0 +1,285 @@
+---
+title: "Taylor Expansion"
+description: "How derivatives determine a local polynomial model, why Maclaurin series are Taylor expansions centered at zero, and how remainder intuition tells you when the approximation is trustworthy."
+page-type: concept
+status: published
+update-status: current
+level: foundation
+topic: single-variable-calculus
+prerequisites:
+  - /topics/foundation/single-variable-calculus/concepts/sequences-and-series.qmd
+learning-goals:
+  - "Explain why derivatives determine the coefficients of a local polynomial approximation."
+  - "Write the first few Taylor or Maclaurin terms for a familiar function."
+  - "Interpret Taylor approximation as a controllable local model rather than a formal symbol game."
+  - "State the role of the remainder at a first-pass level."
+applications:
+  - optimization
+  - numerical-methods
+  - machine-learning
+keywords:
+  - Taylor expansion
+  - Taylor polynomial
+  - Maclaurin series
+  - local approximation
+  - remainder
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/foundation/single-variable-calculus/index.qmd
+  - /topics/foundation/single-variable-calculus/concepts/derivatives-and-local-approximation.qmd
+  - /topics/foundation/single-variable-calculus/concepts/sequences-and-series.qmd
+  - /topics/advanced/optimization/index.qmd
+stable-sources:
+  - "MIT 18.01SC Taylor series"
+  - "OpenStax Calculus Volume 2"
+  - "Paul's Online Math Notes"
+current-sources:
+  - "MIT introduction to Taylor series notes"
+  - "OpenStax Taylor and Maclaurin sections"
+---
+
+## Role
+
+This page is the approximation capstone of the single-variable calculus module.
+
+Its job is to show how derivatives and convergence come together in one of the most useful ideas in all of applied mathematics: replacing a complicated function by a local polynomial that matches its behavior near a point.
+
+## First-Pass Promise
+
+Read this page after [Sequences and Series](sequences-and-series.qmd).
+
+If you stop here, you should still understand:
+
+- why Taylor coefficients are determined by derivatives
+- what a Taylor polynomial is approximating
+- why Maclaurin series are just Taylor expansions centered at zero
+- why a remainder term matters when deciding whether the approximation is trustworthy
+
+## Why It Matters
+
+Taylor expansion is where several earlier ideas finally lock together:
+
+- limits made local behavior precise
+- derivatives measured local change
+- linearization gave the first local model
+- sequences and series explained how an infinite process can converge
+
+Now Taylor expansion upgrades the local linear model into a local polynomial model.
+
+That matters everywhere:
+
+- optimization uses quadratic models and curvature ideas
+- numerical methods use low-order expansions to estimate error and build algorithms
+- probability uses exponential and logarithmic approximations constantly
+- ML and scientific computing rely on small-perturbation reasoning all the time
+
+Without Taylor expansion, later approximation arguments can feel like clever tricks. With it, they become organized local modeling.
+
+## Prerequisite Recall
+
+- the derivative gives the first local linear approximation
+- a series is defined through the convergence of its partial sums
+- convergence matters because a formal infinite expression is only useful if it actually approximates the function on some region
+
+## Intuition
+
+Suppose you want a polynomial that behaves like $f(x)$ near $x=a$.
+
+You would like it to match:
+
+- the function value at $a$
+- the slope at $a$
+- the curvature information at $a$
+- maybe even higher-order local behavior
+
+That leads naturally to a polynomial of the form
+
+$$
+P_n(x)=c_0+c_1(x-a)+c_2(x-a)^2+\cdots+c_n(x-a)^n.
+$$
+
+How should the coefficients be chosen?
+
+Differentiate and evaluate at $x=a$. The powers collapse one by one, and the coefficients get forced by the derivatives of $f$ at $a$.
+
+So Taylor expansion is not arbitrary symbolism. It is the unique local polynomial matching as many derivatives as possible at the center point.
+
+## Formal Core
+
+::: {#def-taylor-polynomial}
+## Taylor Polynomial
+
+The degree-$n$ Taylor polynomial of $f$ about $x=a$ is
+
+$$
+T_n(x)=f(a)+f'(a)(x-a)+\frac{f''(a)}{2!}(x-a)^2+\cdots+\frac{f^{(n)}(a)}{n!}(x-a)^n.
+$$
+
+It is built so that the function and polynomial agree in value and in the first $n$ derivatives at $x=a$.
+:::
+
+::: {#def-maclaurin}
+## Maclaurin Expansion
+
+A Maclaurin expansion is the special case of a Taylor expansion centered at $a=0$:
+
+$$
+T_n(x)=f(0)+f'(0)x+\frac{f''(0)}{2!}x^2+\cdots+\frac{f^{(n)}(0)}{n!}x^n.
+$$
+
+So Maclaurin is not a different idea. It is just Taylor-at-zero.
+:::
+
+::: {#prp-remainder}
+## Remainder Intuition
+
+The Taylor polynomial gives an approximation, not automatically an exact identity.
+
+The error is the remainder:
+
+$$
+R_n(x)=f(x)-T_n(x).
+$$
+
+At a first-pass level, the practical question is:
+
+`is the remainder small enough on the region I care about?`
+
+That is what decides whether the approximation is useful.
+:::
+
+::: {#prp-why-derivatives}
+## Why Derivatives Determine The Coefficients
+
+Because the polynomial is written in powers of $(x-a)$, evaluating derivatives at $x=a$ peels off one coefficient at a time:
+
+- $T_n(a)=f(a)$ forces the constant term
+- $T_n'(a)=f'(a)$ forces the linear term
+- $T_n''(a)=f''(a)$ forces the quadratic term
+- and so on
+
+That is why the factorial denominators appear naturally.
+:::
+
+## Worked Example
+
+Let
+
+$$
+f(x)=e^x.
+$$
+
+We will build its Maclaurin expansion up to degree $3$.
+
+All derivatives of $e^x$ are again $e^x$, so at $x=0$:
+
+$$
+f(0)=1,\quad f'(0)=1,\quad f''(0)=1,\quad f^{(3)}(0)=1.
+$$
+
+Therefore the degree-$3$ Maclaurin polynomial is
+
+$$
+T_3(x)=1+x+\frac{x^2}{2!}+\frac{x^3}{3!}.
+$$
+
+Use it to approximate $e^{0.1}$:
+
+$$
+T_3(0.1)=1+0.1+\frac{0.1^2}{2}+\frac{0.1^3}{6}
+=1+0.1+0.005+0.000166\overline{6}
+=1.105166\overline{6}.
+$$
+
+The exact value is about
+
+$$
+e^{0.1}\approx 1.105170\ldots
+$$
+
+So the third-degree polynomial is already very accurate near zero.
+
+This is the main practical message:
+
+- the polynomial is simpler than the original function
+- the approximation is local
+- the remainder gets small when the point is close enough to the center and the function behaves nicely
+
+## Computation Lens
+
+A practical first-pass workflow for Taylor expansion is:
+
+1. choose the center point $a$
+2. compute enough derivatives of $f$
+3. evaluate those derivatives at the center
+4. assemble the Taylor polynomial with factorial denominators
+5. use the polynomial only near the center unless you have a good reason to trust the remainder farther away
+
+This turns Taylor expansion into a controlled modeling tool rather than memorized formulas.
+
+## Application Lens
+
+Taylor expansions reappear constantly later on the site:
+
+- optimization uses first- and second-order models of objectives
+- Newton-style reasoning comes from quadratic approximation
+- asymptotic analysis uses small-parameter expansions
+- exponential, logarithmic, and softmax-style approximations appear in ML and probabilistic modeling
+
+So this page is not just the end of a calculus chapter. It is one of the main bridges from core math into approximation-based thinking across AI, CS, and engineering.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- why derivatives determine Taylor coefficients
+- the difference between a Taylor polynomial and the original function
+- why Maclaurin is the $a=0$ case
+- why remainder control matters
+
+then this page has done its main job.
+
+## Go Deeper
+
+The strongest next steps after this page are:
+
+1. `Partial derivatives and gradients`, because Taylor-style local modeling is even more powerful in several variables
+2. [Optimization](../../../advanced/optimization/index.qmd), to see linear and quadratic local models become algorithms and certificates
+3. [Backpropagation and Computation Graphs](../../../../applications/machine-learning/backpropagation-and-computation-graphs.qmd), for the multivariable chain-rule side of local approximation
+
+## Optional Paper Bridge
+
+- [MIT 18.01SC Session 98: Taylor's Series](https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-5-exploring-the-infinite/part-b-taylor-series/session-98-taylors-series/) - `First pass` - official MIT introduction to Taylor-series thinking. Checked `2026-04-25`.
+- [MIT Introduction to Taylor Series Notes](https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/1f7a71d62dea7f3b637daedb410854a0_MIT18_01SCF10_Ses98a.pdf) - `Second pass` - compact official notes for building and interpreting Taylor expansions. Checked `2026-04-25`.
+- [OpenStax Calculus Volume 2: Taylor and Maclaurin Series](https://openstax.org/books/calculus-volume-2/pages/6-3-taylor-and-maclaurin-series) - `Second pass` - free text section on Taylor coefficients, series, and remainder ideas. Checked `2026-04-25`.
+- [OpenStax Calculus Volume 2: Working with Taylor Series](https://openstax.org/books/calculus-volume-2/pages/6-4-working-with-taylor-series) - `Paper bridge` - useful bridge from the basic formula to practical approximation work. Checked `2026-04-25`.
+- [Paul's Online Math Notes: Taylor Series](https://tutorial.math.lamar.edu/Classes/CalcII/TaylorSeries.aspx) - `Second pass` - practice-heavy companion with many worked examples. Checked `2026-04-25`.
+
+## Optional After First Pass
+
+If you want more practice before moving on:
+
+- build the Maclaurin polynomial of $\sin x$ or $\cos x$ up to a few terms
+- compare linear and quadratic approximations of the same function near the center
+- ask how far from the center the approximation still seems trustworthy
+
+## Common Mistakes
+
+- treating a Taylor series as automatically equal to the function everywhere
+- forgetting that the approximation is local
+- dropping factorial denominators
+- mixing up Taylor polynomial and Taylor series
+- using a centered-at-zero formula when the expansion point is not zero
+
+## Sources and Further Reading
+
+- [MIT 18.01SC Session 98: Taylor's Series](https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-5-exploring-the-infinite/part-b-taylor-series/session-98-taylors-series/) - `First pass` - official MIT entry point for Taylor expansions. Checked `2026-04-25`.
+- [MIT Introduction to Taylor Series Notes](https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/1f7a71d62dea7f3b637daedb410854a0_MIT18_01SCF10_Ses98a.pdf) - `Second pass` - concise official notes on Taylor coefficients and examples. Checked `2026-04-25`.
+- [OpenStax Calculus Volume 2: Taylor and Maclaurin Series](https://openstax.org/books/calculus-volume-2/pages/6-3-taylor-and-maclaurin-series) - `Second pass` - free text section on Taylor and Maclaurin formulas. Checked `2026-04-25`.
+- [OpenStax Calculus Volume 2: Working with Taylor Series](https://openstax.org/books/calculus-volume-2/pages/6-4-working-with-taylor-series) - `Second pass` - free text section on using Taylor approximations in practice. Checked `2026-04-25`.
+- [Paul's Online Math Notes: Taylor Series](https://tutorial.math.lamar.edu/Classes/CalcII/TaylorSeries.aspx) - `Second pass` - worked-example companion for Taylor practice and repair. Checked `2026-04-25`.

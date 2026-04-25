@@ -1,0 +1,326 @@
+---
+title: "Chain Rule and Linearization"
+description: "How local changes compose through multistage maps, why the chain rule is a matrix rule in disguise, and how multivariable functions are approximated by linear maps near a point."
+page-type: concept
+status: published
+update-status: current
+level: foundation
+topic: multivariable-calculus
+prerequisites:
+  - /topics/foundation/multivariable-calculus/concepts/partial-derivatives-and-gradients.qmd
+learning-goals:
+  - "Explain the multivariable chain rule as composition of local effects."
+  - "Use the chain rule for simple nested functions of several variables."
+  - "Interpret linearization as the best local linear map near a point."
+  - "Connect chain rule and linearization to backpropagation and optimization."
+applications:
+  - optimization
+  - machine-learning
+  - engineering
+keywords:
+  - chain rule
+  - linearization
+  - tangent plane
+  - total differential
+  - local linear map
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/foundation/multivariable-calculus/index.qmd
+  - /topics/foundation/multivariable-calculus/concepts/partial-derivatives-and-gradients.qmd
+  - /topics/foundation/single-variable-calculus/concepts/taylor-expansion.qmd
+  - /topics/advanced/optimization/index.qmd
+  - /applications/machine-learning/backpropagation-and-computation-graphs.qmd
+stable-sources:
+  - "MIT 18.02SC Multivariable Calculus"
+  - "OpenStax Calculus Volume 3"
+  - "Paul's Online Math Notes"
+current-sources:
+  - "MIT chain rule and total differential materials"
+  - "OpenStax chain rule section"
+---
+
+## Role
+
+This page is the composition page of multivariable calculus.
+
+Its job is to explain how local changes propagate through nested maps, and why the right multivariable local approximation is a linear map rather than just a scalar slope.
+
+## First-Pass Promise
+
+Read this page after [Partial Derivatives and Gradients](partial-derivatives-and-gradients.qmd).
+
+If you stop here, you should still understand:
+
+- why the multivariable chain rule sums contributions along dependency paths
+- how local linearization generalizes tangent-line approximation
+- why Jacobian-style thinking is already hiding inside ordinary chain-rule calculations
+- why this page is the mathematical core behind backpropagation
+
+## Why It Matters
+
+A multivariable model is almost never a single formula in one layer.
+
+Usually it is built from pieces:
+
+- inputs feed intermediate variables
+- intermediate variables feed a loss or objective
+- local changes flow through the whole composition
+
+That is exactly what the chain rule describes.
+
+The other key idea is linearization. Near a point, a differentiable multivariable function behaves like a linear map plus a small error. This is the several-variable upgrade of tangent-line approximation.
+
+These two ideas are central because:
+
+- optimization uses local linear and quadratic models
+- ML uses backpropagation, which is repeated chain-rule bookkeeping
+- engineering sensitivity analysis depends on how perturbations propagate through systems
+
+## Prerequisite Recall
+
+- partial derivatives measure local change in coordinate directions
+- the gradient packages first-order local information into one vector
+- one-variable Taylor and linear approximation already taught that smooth functions look simpler at a small enough scale
+
+## Intuition
+
+Suppose
+
+$$
+z = f(x,y), \qquad x = g(u,v), \qquad y = h(u,v).
+$$
+
+Then $z$ depends on $u$ and $v$ only through the intermediate variables $x$ and $y$.
+
+If you nudge $u$, that perturbation changes $x$ and $y$, and those changes then affect $z$.
+
+So the total change in $z$ from changing $u$ is the sum of:
+
+- `effect of x on z` times `effect of u on x`
+- `effect of y on z` times `effect of u on y`
+
+That is the chain rule.
+
+Linearization says that near a point, all of this complicated behavior is approximated by one linear map. So the chain rule is really the rule for composing local linear approximations.
+
+## Formal Core
+
+::: {#def-chain-rule}
+## Chain Rule For Two Independent Variables
+
+If
+
+$$
+z=f(x,y), \qquad x=g(u,v), \qquad y=h(u,v),
+$$
+
+then $z$ is a function of $(u,v)$, and
+
+$$
+\frac{\partial z}{\partial u}
+=
+\frac{\partial z}{\partial x}\frac{\partial x}{\partial u}
++
+\frac{\partial z}{\partial y}\frac{\partial y}{\partial u},
+$$
+
+$$
+\frac{\partial z}{\partial v}
+=
+\frac{\partial z}{\partial x}\frac{\partial x}{\partial v}
++
+\frac{\partial z}{\partial y}\frac{\partial y}{\partial v}.
+$$
+
+The rule says: follow each dependency path and add the resulting contributions.
+:::
+
+::: {#def-linearization}
+## Linearization
+
+If $f(x,y)$ is differentiable at $(a,b)$, then near that point
+
+$$
+f(x,y)\approx f(a,b)+f_x(a,b)(x-a)+f_y(a,b)(y-b).
+$$
+
+This is the multivariable linearization of $f$ at $(a,b)$.
+
+It is the several-variable analog of the tangent-line approximation from one-variable calculus.
+:::
+
+::: {#prp-tangent-plane}
+## Tangent Plane View
+
+For a surface $z=f(x,y)$, the linearization can be viewed as the tangent plane:
+
+$$
+z \approx f(a,b)+f_x(a,b)(x-a)+f_y(a,b)(y-b).
+$$
+
+So first-order multivariable approximation is geometric as well as algebraic.
+:::
+
+::: {#prp-chain-as-linear}
+## Chain Rule As Composition Of Local Linear Maps
+
+At a first-pass level, the cleanest idea is:
+
+- each differentiable map is locally linear
+- composing the maps means composing those local linear approximations
+- the chain rule is the coordinate formula for that composition
+
+This is why the matrix form of the chain rule later becomes so natural.
+:::
+
+## Worked Example
+
+Let
+
+$$
+z = f(x,y)=x^2+y^2,
+\qquad
+x=u+v,
+\qquad
+y=u-v.
+$$
+
+We want $\partial z/\partial u$ and the linearization of $z(u,v)$ at $(u,v)=(1,0)$.
+
+First compute the needed derivatives:
+
+$$
+\frac{\partial z}{\partial x}=2x,
+\qquad
+\frac{\partial z}{\partial y}=2y,
+$$
+
+$$
+\frac{\partial x}{\partial u}=1,
+\qquad
+\frac{\partial y}{\partial u}=1.
+$$
+
+So by the chain rule,
+
+$$
+\frac{\partial z}{\partial u}
+=
+\frac{\partial z}{\partial x}\frac{\partial x}{\partial u}
++
+\frac{\partial z}{\partial y}\frac{\partial y}{\partial u}
+=2x+2y.
+$$
+
+Substitute $x=u+v$ and $y=u-v$:
+
+$$
+\frac{\partial z}{\partial u}=2(u+v)+2(u-v)=4u.
+$$
+
+Likewise,
+
+$$
+\frac{\partial z}{\partial v}=4v.
+$$
+
+At $(u,v)=(1,0)$, the value of $z$ is
+
+$$
+z=(1+0)^2+(1-0)^2=2.
+$$
+
+The gradient in $(u,v)$ coordinates there is
+
+$$
+\nabla z(1,0)=(4,0).
+$$
+
+So the linearization at $(1,0)$ is
+
+$$
+L(u,v)=2+4(u-1)+0(v-0)=4u-2.
+$$
+
+This example shows the two main ideas together:
+
+- the chain rule rewrites local sensitivity through intermediate variables
+- linearization turns that first-order information into a usable local model
+
+## Computation Lens
+
+A practical first-pass workflow for chain rule and linearization is:
+
+1. draw the dependency structure: which variables depend on which
+2. compute local derivatives one layer at a time
+3. multiply along dependency paths and add contributions
+4. after you have first-order data at a point, write the linearization
+5. interpret the approximation locally, not globally
+
+This is the cleanest route from symbolic formulas to backprop-style thinking.
+
+## Application Lens
+
+This page is one of the most important bridges on the whole site.
+
+- in optimization, line search and local models depend on linearization
+- in ML, backpropagation is repeated chain rule through a computation graph
+- in sensitivity analysis, the question is exactly how perturbations propagate through composed maps
+
+So if the previous page taught you what the gradient is, this page teaches you how gradients move through systems.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- why the chain rule adds contributions from multiple dependency paths
+- how to compute a simple multivariable chain-rule example
+- what the linearization formula means geometrically
+- why linearization is the multivariable tangent approximation
+
+then this page has done its main job.
+
+## Go Deeper
+
+The strongest next steps after this page are:
+
+1. [Jacobians and Hessians](jacobians-and-hessians.qmd), because the linear-map and second-order viewpoints become explicit there
+2. [Optimization](../../../advanced/optimization/index.qmd), to see local models become gradient-based algorithms and constrained reasoning
+3. [Backpropagation and Computation Graphs](../../../../applications/machine-learning/backpropagation-and-computation-graphs.qmd), to see chain-rule bookkeeping in modern ML language
+
+## Optional Paper Bridge
+
+- [MIT 18.02SC Syllabus](https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/pages/syllabus/) - `First pass` - official MIT overview explicitly listing chain rule, total differentials, and linear approximation as core outcomes. Checked `2026-04-25`.
+- [MIT 18.02SC Recitation: The Chain Rule with More Variables](https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/9c1ce0e28ad2ba291d5492ee7a9ea174_MIT18_02SCF10Rec_25_300k.pdf) - `Second pass` - compact official material emphasizing dependency-graph intuition. Checked `2026-04-25`.
+- [OpenStax Calculus Volume 3: The Chain Rule](https://openstax.org/books/calculus-volume-3/pages/4-5-the-chain-rule) - `Second pass` - free text section on the generalized multivariable chain rule. Checked `2026-04-25`.
+- [Paul's Online Math Notes: Chain Rule](https://tutorial.math.lamar.edu/Classes/CalcIII/ChainRule.aspx) - `Second pass` - worked-example companion for multivariable chain-rule practice. Checked `2026-04-25`.
+- [Paul's Online Math Notes: Tangent Planes and Linear Approximations](https://tutorial.math.lamar.edu/Classes/CalcIII/TangentPlanes.aspx) - `Paper bridge` - practice-heavy bridge from formulas to local linear approximation. Checked `2026-04-25`.
+
+## Optional After First Pass
+
+If you want more practice before moving on:
+
+- draw a dependency graph for a nested function before differentiating
+- compare a one-variable tangent line with a two-variable tangent plane
+- compute a linearization and test how accurate it is near and far from the base point
+
+## Common Mistakes
+
+- differentiating the outer function but forgetting how inner variables depend on the base variables
+- multiplying along one path and forgetting other dependency paths
+- treating linearization as globally accurate rather than local
+- confusing gradient information in one coordinate system with gradient information after a change of variables
+- writing a tangent plane without evaluating derivatives at the base point
+
+## Sources and Further Reading
+
+- [MIT 18.02SC Syllabus](https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/pages/syllabus/) - `First pass` - official MIT course outcomes showing where chain rule and linear approximation sit in the module. Checked `2026-04-25`.
+- [MIT 18.02SC Recitation: The Chain Rule with More Variables](https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/9c1ce0e28ad2ba291d5492ee7a9ea174_MIT18_02SCF10Rec_25_300k.pdf) - `Second pass` - concise official chain-rule material with dependency-graph intuition. Checked `2026-04-25`.
+- [OpenStax Calculus Volume 3: The Chain Rule](https://openstax.org/books/calculus-volume-3/pages/4-5-the-chain-rule) - `Second pass` - free text section on chain rule in several variables. Checked `2026-04-25`.
+- [Paul's Online Math Notes: Chain Rule](https://tutorial.math.lamar.edu/Classes/CalcIII/ChainRule.aspx) - `Second pass` - worked examples for multivariable chain-rule structure. Checked `2026-04-25`.
+- [Paul's Online Math Notes: Tangent Planes and Linear Approximations](https://tutorial.math.lamar.edu/Classes/CalcIII/TangentPlanes.aspx) - `Second pass` - worked examples for tangent planes and local linear models. Checked `2026-04-25`.

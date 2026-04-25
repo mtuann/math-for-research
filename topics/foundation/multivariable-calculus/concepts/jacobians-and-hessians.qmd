@@ -1,0 +1,320 @@
+---
+title: "Jacobians and Hessians"
+description: "How first-order local behavior becomes a matrix through the Jacobian, how second-order curvature becomes a matrix through the Hessian, and why both matter for optimization and approximation."
+page-type: concept
+status: published
+update-status: current
+level: foundation
+topic: multivariable-calculus
+prerequisites:
+  - /topics/foundation/multivariable-calculus/concepts/chain-rule-and-linearization.qmd
+learning-goals:
+  - "Explain the Jacobian as the matrix of the best local linear map."
+  - "Explain the Hessian as the matrix of second-order curvature information for a scalar function."
+  - "Use Jacobian and Hessian language in simple examples."
+  - "Connect Jacobians and Hessians to optimization, change of variables, and sensitivity analysis."
+applications:
+  - optimization
+  - machine-learning
+  - engineering
+keywords:
+  - Jacobian
+  - Hessian
+  - linearization
+  - curvature
+  - multivariable calculus
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/foundation/multivariable-calculus/index.qmd
+  - /topics/foundation/multivariable-calculus/concepts/chain-rule-and-linearization.qmd
+  - /topics/advanced/optimization/index.qmd
+  - /applications/machine-learning/backpropagation-and-computation-graphs.qmd
+stable-sources:
+  - "MIT 18.02SC Multivariable Calculus"
+  - "OpenStax Calculus Volume 3"
+  - "Paul's Online Math Notes"
+current-sources:
+  - "MIT recitations with Jacobian examples"
+  - "OpenStax tangent-plane and gradient materials"
+---
+
+## Role
+
+This page is the matrix-language page of multivariable calculus.
+
+Its job is to make the local linear-map and local curvature viewpoints explicit, so that first-order and second-order reasoning stop looking like disconnected formulas.
+
+## First-Pass Promise
+
+Read this page after [Chain Rule and Linearization](chain-rule-and-linearization.qmd).
+
+If you stop here, you should still understand:
+
+- why the Jacobian is the matrix form of first-order local behavior
+- why the Hessian packages second derivatives into one curvature object
+- how Jacobian and Hessian viewpoints organize optimization and approximation
+- why these matrices matter more than any one partial derivative on its own
+
+## Why It Matters
+
+Once you accept that a differentiable multivariable function is locally a linear map, the natural question is:
+
+`what matrix represents that map?`
+
+That answer is the Jacobian.
+
+Then the next question is:
+
+`how does that first-order linear model itself change from point to point?`
+
+That is where second derivatives and the Hessian enter.
+
+These two matrices matter because:
+
+- Jacobians control local sensitivity, coordinate changes, and multistage derivatives
+- Hessians control curvature, local quadratic models, and second-order optimization intuition
+- together they make multivariable calculus look like a clean conversation between calculus and linear algebra
+
+## Prerequisite Recall
+
+- linearization says a differentiable map is locally linear
+- the chain rule says these local linear maps compose
+- gradients capture first-order information for scalar-valued functions
+
+## Intuition
+
+For a map
+
+$$
+F:\mathbb{R}^n \to \mathbb{R}^m,
+$$
+
+the Jacobian is the matrix that best describes the local input-output transformation near a point.
+
+So if you make a small change $\Delta x$, the output changes approximately by
+
+$$
+F(x+\Delta x)\approx F(x)+J_F(x)\,\Delta x.
+$$
+
+That is the multivariable analog of the derivative formula in one variable.
+
+For a scalar-valued function $f$, the Hessian collects all second partial derivatives:
+
+$$
+H_f(x)=
+\begin{bmatrix}
+\frac{\partial^2 f}{\partial x_1^2} & \cdots & \frac{\partial^2 f}{\partial x_1\partial x_n} \\
+\vdots & \ddots & \vdots \\
+\frac{\partial^2 f}{\partial x_n\partial x_1} & \cdots & \frac{\partial^2 f}{\partial x_n^2}
+\end{bmatrix}.
+$$
+
+This matrix tells you how the gradient itself changes, which is why it captures curvature.
+
+## Formal Core
+
+::: {#def-jacobian}
+## Jacobian Matrix
+
+If
+
+$$
+F(x_1,\dots,x_n)=
+\begin{bmatrix}
+f_1(x_1,\dots,x_n) \\
+\vdots \\
+f_m(x_1,\dots,x_n)
+\end{bmatrix},
+$$
+
+then the Jacobian matrix of $F$ is
+
+$$
+J_F(x)=
+\begin{bmatrix}
+\frac{\partial f_1}{\partial x_1} & \cdots & \frac{\partial f_1}{\partial x_n} \\
+\vdots & \ddots & \vdots \\
+\frac{\partial f_m}{\partial x_1} & \cdots & \frac{\partial f_m}{\partial x_n}
+\end{bmatrix}.
+$$
+
+It is the matrix of first partial derivatives for the vector-valued map.
+:::
+
+::: {#prp-jacobian-linearization}
+## Jacobian As Linearization Matrix
+
+At a differentiable point $a$,
+
+$$
+F(a+h)\approx F(a)+J_F(a)\,h.
+$$
+
+So the Jacobian is the matrix representation of the best first-order local linear map.
+:::
+
+::: {#def-hessian}
+## Hessian Matrix
+
+For a scalar-valued function $f:\mathbb{R}^n\to\mathbb{R}$, the Hessian is the matrix of second partial derivatives:
+
+$$
+H_f(x)=
+\left[
+\frac{\partial^2 f}{\partial x_i\partial x_j}
+\right]_{i,j=1}^n.
+$$
+
+When mixed partial derivatives agree, the Hessian is symmetric.
+:::
+
+::: {#prp-hessian-curvature}
+## Hessian And Curvature
+
+The Hessian describes how the gradient changes and therefore how the local first-order model bends.
+
+That is why second-order optimization, local maxima/minima tests, and quadratic approximation all depend on the Hessian.
+:::
+
+## Worked Example
+
+Consider the map
+
+$$
+F(x,y)=
+\begin{bmatrix}
+x^2+y \\
+xy
+\end{bmatrix}.
+$$
+
+Its Jacobian is
+
+$$
+J_F(x,y)=
+\begin{bmatrix}
+2x & 1 \\
+y & x
+\end{bmatrix}.
+$$
+
+At the point $(1,2)$, this becomes
+
+$$
+J_F(1,2)=
+\begin{bmatrix}
+2 & 1 \\
+2 & 1
+\end{bmatrix}.
+$$
+
+This matrix is the local linear map sending small input perturbations $(\Delta x,\Delta y)$ to approximate output perturbations.
+
+Now consider the scalar function
+
+$$
+f(x,y)=x^2+3xy+y^2.
+$$
+
+Its gradient is
+
+$$
+\nabla f(x,y)=
+\begin{bmatrix}
+2x+3y \\
+3x+2y
+\end{bmatrix}.
+$$
+
+Its Hessian is
+
+$$
+H_f(x,y)=
+\begin{bmatrix}
+2 & 3 \\
+3 & 2
+\end{bmatrix}.
+$$
+
+Notice that the Hessian is constant here. That means the quadratic curvature structure of this function is the same everywhere.
+
+This is exactly why quadratic models are so important in optimization: their Hessians capture the whole second-order story in one matrix.
+
+## Computation Lens
+
+A practical first-pass workflow is:
+
+1. if the function is vector-valued, think `Jacobian`
+2. if the function is scalar-valued and you care about curvature, think `Hessian`
+3. compute partial derivatives row by row for a Jacobian
+4. compute second partial derivatives entry by entry for a Hessian
+5. interpret the matrix, not just the individual entries
+
+That last point matters most. The real object is the map or curvature encoded by the matrix.
+
+## Application Lens
+
+These matrices show up all over the later site:
+
+- Jacobians appear in backpropagation, sensitivity analysis, and change of variables
+- Hessians appear in second-order optimization, curvature reasoning, and local minima tests
+- optimization papers often talk about conditioning, curvature, or smoothness in language that is really Hessian language under the hood
+
+So this page is where multivariable calculus starts to feel fully compatible with linear algebra and optimization.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- why the Jacobian is the matrix of first-order local behavior
+- why the Hessian packages second-order information
+- why Jacobian matters for composed maps
+- why Hessian matters for curvature and optimization
+
+then this page has done its main job.
+
+## Go Deeper
+
+The strongest next steps after this page are:
+
+1. [Constrained Optimization](constrained-optimization.qmd), because local gradient and Hessian information become actionable under constraints
+2. [Optimization](../../../advanced/optimization/index.qmd), to see first-order and second-order models become algorithms and certificates
+3. [Backpropagation and Computation Graphs](../../../../applications/machine-learning/backpropagation-and-computation-graphs.qmd), to see Jacobian-style composition reasoning in ML form
+
+## Optional Paper Bridge
+
+- [MIT 18.02SC Syllabus](https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/pages/syllabus/) - `First pass` - official MIT overview linking gradient, linear approximation, and change-of-variables ideas in one course arc. Checked `2026-04-25`.
+- [MIT 18.02SC Recitation 37](https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/0b5e096d0aa3d8b6e4f8aa348967ae49_MIT18_02SCF10Rec_37_300k.pdf) - `Second pass` - official Jacobian-focused recitation material. Checked `2026-04-25`.
+- [MIT 18.02SC Recitation 38](https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/d242a71addf333a7052ac13d7d365656_MIT18_02SCF10Rec_38_300k.pdf) - `Second pass` - additional official Jacobian examples. Checked `2026-04-25`.
+- [OpenStax Calculus Volume 3: Chapter 4 Introduction](https://openstax.org/books/calculus-volume-3/pages/4-introduction) - `Paper bridge` - useful free bridge tying partials, linear approximations, chain rule, and optimization-style extrema together. Checked `2026-04-25`.
+- [Paul's Online Math Notes: Hessian](https://tutorial.math.lamar.edu/Classes/CalcIII/MoreExtrema.aspx) - `Second pass` - worked-example companion for second-derivative and Hessian-style interpretation. Checked `2026-04-25`.
+
+## Optional After First Pass
+
+If you want more practice before moving on:
+
+- write the Jacobian of a two-output function and evaluate it at a point
+- write the Hessian of a quadratic and interpret what its entries say
+- compare a gradient vector with the Jacobian of a scalar-valued map
+
+## Common Mistakes
+
+- using the gradient where a full Jacobian is needed
+- treating the Jacobian as only a table of derivatives instead of a linear map
+- forgetting that Hessian is only for scalar-valued functions in this common setup
+- reading Hessian entries without asking what they say about the whole quadratic form
+- mixing coordinate formulas with geometric meaning and losing both
+
+## Sources and Further Reading
+
+- [MIT 18.02SC Syllabus](https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/pages/syllabus/) - `First pass` - official MIT overview for the multivariable arc that leads naturally to Jacobian-style thinking. Checked `2026-04-25`.
+- [MIT 18.02SC Recitation 37](https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/0b5e096d0aa3d8b6e4f8aa348967ae49_MIT18_02SCF10Rec_37_300k.pdf) - `Second pass` - official Jacobian-focused examples. Checked `2026-04-25`.
+- [MIT 18.02SC Recitation 38](https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/d242a71addf333a7052ac13d7d365656_MIT18_02SCF10Rec_38_300k.pdf) - `Second pass` - official continuation examples for Jacobian reasoning. Checked `2026-04-25`.
+- [OpenStax Calculus Volume 3: Chapter 4 Introduction](https://openstax.org/books/calculus-volume-3/pages/4-introduction) - `Second pass` - free overview tying tangent planes, chain rule, and extrema together. Checked `2026-04-25`.
+- [Paul's Online Math Notes: More Extrema](https://tutorial.math.lamar.edu/Classes/CalcIII/MoreExtrema.aspx) - `Second pass` - accessible worked-example companion for Hessian-style second-order reasoning. Checked `2026-04-25`.

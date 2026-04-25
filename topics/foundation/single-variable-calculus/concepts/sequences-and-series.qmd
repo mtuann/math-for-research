@@ -1,0 +1,309 @@
+---
+title: "Sequences and Series"
+description: "How infinite lists and infinite sums can converge, why partial sums are the real object behind a series, and how geometric and benchmark examples build convergence intuition."
+page-type: concept
+status: published
+update-status: current
+level: foundation
+topic: single-variable-calculus
+prerequisites:
+  - /topics/foundation/single-variable-calculus/concepts/integrals-and-accumulation.qmd
+learning-goals:
+  - "Explain what it means for a sequence to converge or diverge."
+  - "Define an infinite series through its sequence of partial sums."
+  - "Recognize geometric series and state when they converge."
+  - "Use basic benchmark reasoning to distinguish convergent from divergent examples."
+applications:
+  - analysis
+  - numerical-methods
+  - machine-learning
+keywords:
+  - sequence
+  - series
+  - convergence
+  - partial sums
+  - geometric series
+  - divergence test
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/foundation/single-variable-calculus/index.qmd
+  - /topics/foundation/single-variable-calculus/concepts/integrals-and-accumulation.qmd
+  - /topics/advanced/optimization/index.qmd
+stable-sources:
+  - "MIT 18.01 lecture notes"
+  - "OpenStax Calculus Volume 2"
+  - "Paul's Online Math Notes"
+current-sources:
+  - "MIT OCW lecture notes archive"
+  - "OpenStax sequences and infinite series sections"
+---
+
+## Role
+
+This page is the convergence page of the single-variable calculus module.
+
+Its job is to explain how an infinite process can still have a finite limit, and why infinite sums must be understood through their partial sums rather than by naive term-by-term intuition.
+
+## First-Pass Promise
+
+Read this page after [Integrals and Accumulation](integrals-and-accumulation.qmd).
+
+If you stop here, you should still understand:
+
+- what it means for a sequence to converge
+- why an infinite series is really a sequence of partial sums
+- when a geometric series converges
+- why terms going to zero are necessary but not sufficient for series convergence
+
+## Why It Matters
+
+Calculus does not stop with finite intervals and finite sums.
+
+Sooner or later, we want to ask:
+
+- what happens after infinitely many steps
+- whether repeated approximation stabilizes
+- whether an infinite correction process settles to a finite value
+- when a local expansion can be trusted as a global computational tool
+
+That is the world of sequences and series.
+
+This page matters because later topics like Taylor expansion, numerical methods, error analysis, and asymptotic reasoning all depend on convergence language. Without it, infinite processes look mystical instead of structured.
+
+## Prerequisite Recall
+
+- limits describe what values approach, not just what formulas say at a finite stage
+- integrals already used one infinite-process idea: a limit of finer and finer sums
+- local approximations become useful globally only when the approximation process converges in a controlled way
+
+## Intuition
+
+A sequence is an ordered list:
+
+$$
+a_1, a_2, a_3, \dots
+$$
+
+To say the sequence converges to $L$ means the later terms eventually stay as close to $L$ as we want.
+
+A series is more subtle. The expression
+
+$$
+\sum_{n=1}^{\infty} a_n
+$$
+
+is not a giant “simultaneous sum.” It is defined through the sequence of partial sums:
+
+$$
+s_1 = a_1,\quad s_2 = a_1+a_2,\quad s_3 = a_1+a_2+a_3,\dots
+$$
+
+So every series question is secretly a sequence question:
+
+`do the partial sums converge?`
+
+That shift is the central conceptual move of this page.
+
+## Formal Core
+
+::: {#def-sequence-limit}
+## Convergence Of A Sequence
+
+A sequence $\{a_n\}$ converges to $L$ if
+
+$$
+\lim_{n \to \infty} a_n = L.
+$$
+
+If no such finite limit exists, the sequence diverges.
+:::
+
+::: {#def-series}
+## Infinite Series And Partial Sums
+
+Given terms $a_1, a_2, a_3, \dots$, define the partial sums
+
+$$
+s_N = \sum_{n=1}^{N} a_n.
+$$
+
+Then the infinite series
+
+$$
+\sum_{n=1}^{\infty} a_n
+$$
+
+converges if the sequence $\{s_N\}$ converges to a finite limit.
+
+So a series is defined through the limit of its partial sums.
+:::
+
+::: {#prp-geometric}
+## Geometric Series
+
+For a geometric series
+
+$$
+\sum_{n=0}^{\infty} ar^n,
+$$
+
+the series converges exactly when $|r|<1$, and then
+
+$$
+\sum_{n=0}^{\infty} ar^n = \frac{a}{1-r}.
+$$
+
+If $|r| \ge 1$, the geometric series diverges.
+:::
+
+::: {#prp-nth-term}
+## Necessary Divergence Test
+
+If
+
+$$
+\sum_{n=1}^{\infty} a_n
+$$
+
+converges, then necessarily
+
+$$
+a_n \to 0.
+$$
+
+But the converse is false: terms going to zero do **not** guarantee that the series converges.
+:::
+
+## Worked Example
+
+Consider the geometric series
+
+$$
+\sum_{n=0}^{\infty} \left(\frac{1}{2}\right)^n
+= 1 + \frac{1}{2} + \frac{1}{4} + \frac{1}{8} + \cdots
+$$
+
+Its partial sums are
+
+$$
+s_N = 1 + \frac{1}{2} + \frac{1}{4} + \cdots + \left(\frac{1}{2}\right)^N.
+$$
+
+Using the finite geometric-sum formula,
+
+$$
+s_N = \frac{1-(1/2)^{N+1}}{1-1/2} = 2\left(1-\left(\frac{1}{2}\right)^{N+1}\right).
+$$
+
+Now let $N \to \infty$.
+
+Because
+
+$$
+\left(\frac{1}{2}\right)^{N+1} \to 0,
+$$
+
+the partial sums converge to
+
+$$
+\lim_{N\to\infty} s_N = 2.
+$$
+
+So
+
+$$
+\sum_{n=0}^{\infty} \left(\frac{1}{2}\right)^n = 2.
+$$
+
+This example matters because it shows what convergence of a series really means:
+
+- not that infinitely many terms were “finished”
+- but that the partial sums stabilize to a finite number
+
+Now contrast that with the harmonic series
+
+$$
+\sum_{n=1}^{\infty} \frac{1}{n}.
+$$
+
+Its terms do go to zero, but the series still diverges. So `term goes to zero` is only a necessary condition, not a sufficient one.
+
+## Computation Lens
+
+A practical first-pass workflow for sequences and series is:
+
+1. if it is a sequence, ask whether the terms approach a finite limit
+2. if it is a series, immediately switch attention to the partial sums
+3. look first for geometric structure or a standard benchmark
+4. use the divergence test early: if $a_n \not\to 0$, the series must diverge
+5. remember that convergence is a behavior question, not just a formula-recognition question
+
+This is enough to keep the first encounter with infinite sums conceptually clean.
+
+## Application Lens
+
+Later in the site, series intuition reappears in several places:
+
+- Taylor expansions build functions out of infinitely many polynomial terms
+- numerical methods use truncation of infinite processes
+- optimization and learning theory often use convergent update sequences
+- error bounds depend on whether remaining terms shrink fast enough
+
+So this page is the first place where `infinite process` becomes a mathematically disciplined idea rather than a metaphor.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- what it means for a sequence to converge
+- why a series is really a sequence of partial sums
+- when a geometric series converges
+- why $a_n \to 0$ does not by itself prove convergence
+
+then this page has done its main job.
+
+## Go Deeper
+
+The strongest next steps after this page are:
+
+1. [Taylor Expansion](taylor-expansion.qmd), because it turns convergence into a function-approximation tool
+2. [Optimization](../../../advanced/optimization/index.qmd), if you want to see iterates and convergence rates in algorithmic form
+3. [Probability](../../probability/index.qmd), if you want to see convergence language reappear in LLN, CLT, and stochastic limits
+
+## Optional Paper Bridge
+
+- [MIT 18.01 Lecture Notes Archive](https://ocw.mit.edu/courses/18-01-single-variable-calculus-fall-2006/resources/lecture-notes/) - `First pass` - official MIT archive including the infinite series and convergence notes. Checked `2026-04-25`.
+- [OpenStax Calculus Volume 2: Sequences](https://openstax.org/books/calculus-volume-2/pages/5-1-sequences) - `Second pass` - free text section on sequence convergence, boundedness, and monotonicity. Checked `2026-04-25`.
+- [OpenStax Calculus Volume 2: Infinite Series](https://openstax.org/books/calculus-volume-2/pages/5-2-infinite-series) - `Second pass` - free text section defining infinite series through partial sums. Checked `2026-04-25`.
+- [Paul's Online Math Notes: Sequences](https://tutorial.math.lamar.edu/classes/calcii/sequences.aspx) - `Second pass` - practice-heavy companion for convergence examples. Checked `2026-04-25`.
+- [Paul's Online Math Notes: Series - The Basics](https://tutorial.math.lamar.edu/classes/calcii/series_basics.aspx) - `Paper bridge` - useful worked-example bridge for partial sums and benchmark series. Checked `2026-04-25`.
+
+## Optional After First Pass
+
+If you want more practice before moving on:
+
+- take a sequence and decide whether the terms stabilize
+- compute the first few partial sums of a series before asking for the infinite answer
+- compare a geometric series with ratio $1/2$ to one with ratio $2$
+- explain why the harmonic series is a warning example against naive intuition
+
+## Common Mistakes
+
+- treating a series like a sequence of terms instead of a sequence of partial sums
+- assuming $a_n \to 0$ is enough for convergence
+- mixing up the finite geometric-sum formula with the infinite geometric-series formula
+- thinking convergence means “eventually equal” instead of “eventually arbitrarily close”
+- using a benchmark example without checking that the structure is actually comparable
+
+## Sources and Further Reading
+
+- [MIT 18.01 Lecture Notes Archive](https://ocw.mit.edu/courses/18-01-single-variable-calculus-fall-2006/resources/lecture-notes/) - `First pass` - official MIT notes archive containing the infinite series and convergence unit. Checked `2026-04-25`.
+- [OpenStax Calculus Volume 2: Sequences](https://openstax.org/books/calculus-volume-2/pages/5-1-sequences) - `Second pass` - free text section on sequence convergence and boundedness. Checked `2026-04-25`.
+- [OpenStax Calculus Volume 2: Infinite Series](https://openstax.org/books/calculus-volume-2/pages/5-2-infinite-series) - `Second pass` - free text section on series and partial sums. Checked `2026-04-25`.
+- [Paul's Online Math Notes: Sequences](https://tutorial.math.lamar.edu/classes/calcii/sequences.aspx) - `Second pass` - accessible examples and repair practice for sequence limits. Checked `2026-04-25`.
+- [Paul's Online Math Notes: Series - The Basics](https://tutorial.math.lamar.edu/classes/calcii/series_basics.aspx) - `Second pass` - accessible worked examples for basic series reasoning. Checked `2026-04-25`.

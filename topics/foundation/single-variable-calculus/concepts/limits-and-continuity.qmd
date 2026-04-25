@@ -1,0 +1,276 @@
+---
+title: "Limits and Continuity"
+description: "How to think precisely about approaching behavior, evaluate basic limits, and test whether a function is continuous at a point or over an interval."
+page-type: concept
+status: published
+update-status: current
+level: foundation
+topic: single-variable-calculus
+prerequisites:
+  - /topics/foundation/single-variable-calculus/index.qmd
+learning-goals:
+  - "Explain the difference between a function value and a limit."
+  - "Compute basic limits using substitution, algebraic simplification, and one-sided reasoning."
+  - "State the definition of continuity at a point and apply the three-part continuity test."
+  - "Recognize removable, jump, and infinite discontinuities."
+applications:
+  - optimization
+  - analysis
+  - engineering
+keywords:
+  - limits
+  - continuity
+  - one-sided limits
+  - discontinuity
+  - calculus
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/foundation/single-variable-calculus/index.qmd
+  - /topics/advanced/optimization/index.qmd
+stable-sources:
+  - "MIT 18.01SC Single Variable Calculus"
+  - "OpenStax Calculus Volume 1"
+  - "Paul's Online Math Notes"
+current-sources:
+  - "MIT continuity notes"
+  - "OpenStax continuity section"
+---
+
+## Role
+
+This page is the entry point to single-variable calculus.
+
+Its job is to make `approach` precise enough that derivatives, continuity arguments, and local approximation stop feeling like tricks.
+
+## First-Pass Promise
+
+Read this page first in the single-variable calculus module.
+
+If you stop here, you should still understand:
+
+- why a limit is about nearby behavior, not just the value at the point
+- how one-sided limits control piecewise and boundary behavior
+- how to test continuity at a point
+- what the common discontinuity types actually mean
+
+## Why It Matters
+
+Calculus starts with a simple but subtle question:
+
+`what happens to f(x) when x gets close to a value?`
+
+That question sits under almost everything that comes later.
+
+- derivatives are defined as limits of difference quotients
+- continuity is the minimal promise that small input changes do not create arbitrary output jumps
+- optimization methods assume objectives change in interpretable local ways
+- numerical approximations depend on whether local behavior is smooth, singular, or unstable
+
+If limits stay fuzzy, later calculus turns into rule memorization. If limits become clear, many later formulas start to feel inevitable.
+
+## Prerequisite Recall
+
+- a function assigns outputs to inputs in its domain
+- the graph, formula, and domain all matter
+- algebraic simplification can change how a formula looks without changing nearby behavior away from excluded points
+
+## Intuition
+
+A limit asks about the behavior of the outputs as the inputs move close to a target value.
+
+The crucial idea is:
+
+`the limit cares about what happens near the point, not necessarily at the point itself.`
+
+So these are different questions:
+
+- what is $f(a)$
+- what is $\lim_{x \to a} f(x)$
+
+They may agree. They may disagree. One may exist while the other does not.
+
+That difference is exactly why holes, jumps, and vertical blow-ups matter so much in calculus.
+
+Continuity is the happy case where nothing pathological happens: the function is defined at the point, the limit exists, and the two match.
+
+## Formal Core
+
+::: {#def-limit-point}
+## Limit At A Point
+
+We write
+
+$$
+\lim_{x \to a} f(x) = L
+$$
+
+to mean that when $x$ gets arbitrarily close to $a$ from nearby values in the domain, the outputs $f(x)$ get arbitrarily close to $L$.
+
+This statement is about nearby behavior. It does not require that $x=a$ be used during the approach.
+:::
+
+::: {#def-one-sided}
+## One-Sided Limits
+
+The left-hand limit
+
+$$
+\lim_{x \to a^-} f(x)
+$$
+
+tracks approach from values smaller than $a$.
+
+The right-hand limit
+
+$$
+\lim_{x \to a^+} f(x)
+$$
+
+tracks approach from values larger than $a$.
+
+A two-sided limit exists exactly when both one-sided limits exist and are equal.
+:::
+
+::: {#def-continuity}
+## Continuity At A Point
+
+A function $f$ is continuous at $a$ when all three conditions hold:
+
+1. $f(a)$ is defined
+2. $\lim_{x \to a} f(x)$ exists
+3. $\lim_{x \to a} f(x) = f(a)$
+
+So continuity is the statement that the limiting behavior and the actual function value agree.
+:::
+
+::: {#prp-common-continuity}
+## Common Continuity Rules
+
+For first-pass calculus, the most important facts are:
+
+- polynomials are continuous everywhere
+- rational functions are continuous wherever the denominator is nonzero
+- sums, products, and compositions of continuous functions stay continuous where defined
+
+These rules let you evaluate many limits by direct substitution, but only when continuity is already justified.
+:::
+
+## Worked Example
+
+Consider
+
+$$
+f(x) =
+\begin{cases}
+\dfrac{x^2-1}{x-1}, & x \ne 1 \\
+3, & x = 1
+\end{cases}
+$$
+
+For $x \ne 1$, the expression simplifies to
+
+$$
+\frac{x^2-1}{x-1} = \frac{(x-1)(x+1)}{x-1} = x+1.
+$$
+
+So near $x=1$, the graph behaves like the line $x+1$, even though the original formula is undefined there before the piecewise repair.
+
+Therefore
+
+$$
+\lim_{x \to 1} f(x) = \lim_{x \to 1} (x+1) = 2.
+$$
+
+But the actual function value is
+
+$$
+f(1)=3.
+$$
+
+So:
+
+- the limit exists
+- the function is defined at $1$
+- but the limit does not equal the function value
+
+Hence $f$ is **not** continuous at $x=1$.
+
+This is a removable discontinuity. If we redefine the point value to be $f(1)=2$, the nearby behavior and point value would match, and the function would become continuous there.
+
+## Computation Lens
+
+A practical first-pass workflow for limits and continuity is:
+
+1. check whether direct substitution is valid by continuity
+2. if substitution gives an indeterminate-looking form such as `0/0`, simplify algebraically if possible
+3. if the function is piecewise or has a boundary, compute left-hand and right-hand limits separately
+4. once the limit is known, compare it to the actual function value if the question is about continuity
+5. classify any failure as removable, jump, or infinite when possible
+
+This workflow is simple, but it prevents many early calculus mistakes.
+
+## Application Lens
+
+In later optimization and ML pages, people often talk about `local change`, `gradient information`, or `smooth objectives`. Limits and continuity are the first layer beneath all of that.
+
+- if continuity fails badly, local approximation can break
+- if one-sided behavior disagrees, optimization near a boundary becomes more subtle
+- if a function blows up, numerical methods may become unstable
+
+Even before multivariable calculus appears, this page teaches the habit of asking:
+
+`what does the function do near the point, and is that behavior compatible with the model I want to use next?`
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- the difference between $f(a)$ and $\lim_{x \to a} f(x)$
+- why equal one-sided limits are required for a two-sided limit
+- the three-part continuity test
+- the meaning of removable, jump, and infinite discontinuities
+
+then this page has done its main job.
+
+## Go Deeper
+
+The strongest next steps after this page are:
+
+1. [Derivatives and Local Approximation](derivatives-and-local-approximation.qmd), because derivatives are built directly from limit ideas
+2. [Optimization](../../../advanced/optimization/index.qmd), if you want to see where continuity and local behavior become solver assumptions
+3. [Backpropagation and Computation Graphs](../../../../applications/machine-learning/backpropagation-and-computation-graphs.qmd), if you want a later ML-facing reason the chain-rule side of calculus matters
+
+## Optional Paper Bridge
+
+- [MIT 18.01SC Single Variable Calculus Syllabus](https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/syllabus) - `First pass` - official course arc showing how limits and continuity anchor the rest of calculus. Checked `2026-04-25`.
+- [MIT 18.01SC Continuity Notes](https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/98249dc379f2f104980eb24a9e7a3ad8_MIT18_01SCF10_Ses4b.pdf) - `Second pass` - compact official note set for continuity and nearby behavior. Checked `2026-04-25`.
+- [OpenStax Calculus Volume 1: Continuity](https://openstax.org/books/calculus-volume-1/pages/2-4-continuity) - `Second pass` - strong free section with continuity tests and discontinuity types. Checked `2026-04-25`.
+- [Paul's Online Math Notes: Limits and Continuity](https://tutorial.math.lamar.edu/classes/calci/limitsintro.aspx) - `Paper bridge` - useful practice-heavy bridge when you want many examples before moving on to derivatives. Checked `2026-04-25`.
+
+## Optional After First Pass
+
+If you want more practice before moving on:
+
+- sketch a graph with a hole and decide whether the limit exists there
+- build a piecewise function with unequal one-sided limits and classify the discontinuity
+- take a rational function and determine where direct substitution is valid versus where simplification is needed
+
+## Common Mistakes
+
+- confusing the point value with the limit
+- using direct substitution when continuity has not been justified
+- forgetting to compare left-hand and right-hand behavior for piecewise functions
+- saying a limit does not exist just because the function is undefined at the point
+- treating every discontinuity as the same kind of failure
+
+## Sources and Further Reading
+
+- [MIT 18.01SC Single Variable Calculus Syllabus](https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/syllabus) - `First pass` - official MIT course overview showing how limits and continuity support the whole single-variable sequence. Checked `2026-04-25`.
+- [MIT 18.01SC Continuity Notes](https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/98249dc379f2f104980eb24a9e7a3ad8_MIT18_01SCF10_Ses4b.pdf) - `Second pass` - concise official notes for continuity and computation practice. Checked `2026-04-25`.
+- [OpenStax Calculus Volume 1: Continuity](https://openstax.org/books/calculus-volume-1/pages/2-4-continuity) - `Second pass` - free textbook section on continuity tests and discontinuities. Checked `2026-04-25`.
+- [Paul's Online Math Notes: Limits and Continuity](https://tutorial.math.lamar.edu/classes/calci/limitsintro.aspx) - `Second pass` - accessible worked-example companion for repair and repetition. Checked `2026-04-25`.

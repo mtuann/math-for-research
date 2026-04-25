@@ -17,9 +17,9 @@ Use it to track:
 
 ## Current Snapshot
 
-- `137` `.qmd` pages currently exist
-- `34` concept-topic pages currently exist
-- strongest subjects so far: `Linear Algebra`, `Probability`, `Proofs`, `Logic`, `Statistics`, `Optimization`
+- `150` `.qmd` pages currently exist
+- `45` concept-topic pages currently exist
+- strongest subjects so far: `Linear Algebra`, `Probability`, `Proofs`, `Logic`, `Statistics`, `Single-Variable Calculus`, `Multivariable Calculus`, `Optimization`
 - strongest public-facing bridge so far: `Applications > Machine Learning`
 - non-topic sections already scaffolded: `Start Here`, `Roadmaps`, `Applications`, `Paper Lab`, `Research`, `Publication`, `Library`, `Notes`
 
@@ -162,11 +162,12 @@ Use it to track:
 
 ### Single-Variable Calculus
 
-- [ ] `Limits and continuity`
-- [ ] `Derivatives and local approximation`
-- [ ] `Integrals and accumulation`
-- [ ] `Sequences and series`
-- [ ] `Taylor expansion`
+- [x] `Single-variable calculus index`
+- [x] `Limits and continuity`
+- [x] `Derivatives and local approximation`
+- [x] `Integrals and accumulation`
+- [x] `Sequences and series`
+- [x] `Taylor expansion`
 
 ### Linear Algebra
 
@@ -203,12 +204,13 @@ These are not required before the main spine is public, but they are the next hi
 
 ### Multivariable Calculus
 
-- [ ] `Partial derivatives and gradients`
-- [ ] `Jacobians and Hessians`
-- [ ] `Chain rule and linearization`
-- [ ] `Multiple integrals`
-- [ ] `Constrained optimization`
-- [ ] `Vector fields and divergence / curl`
+- [x] `Multivariable calculus index`
+- [x] `Partial derivatives and gradients`
+- [x] `Chain rule and linearization`
+- [x] `Jacobians and Hessians`
+- [x] `Constrained optimization`
+- [x] `Multiple integrals`
+- [x] `Vector fields and divergence / curl`
 
 ### ODEs
 
@@ -330,8 +332,17 @@ These are the topics that should eventually become canonical examples for future
 - [~] `Maximum likelihood and Bayesian basics`
 - [~] `Regression and classification basics`
 - [~] `Experimental design and model evaluation`
-- [ ] `Partial derivatives and gradients`
-- [ ] `Jacobians and Hessians`
+- [~] `Limits and continuity`
+- [~] `Derivatives and local approximation`
+- [~] `Integrals and accumulation`
+- [~] `Sequences and series`
+- [~] `Taylor expansion`
+- [~] `Partial derivatives and gradients`
+- [~] `Chain rule and linearization`
+- [~] `Jacobians and Hessians`
+- [~] `Constrained optimization`
+- [~] `Multiple integrals`
+- [~] `Vector fields and divergence / curl`
 - [~] `Convex sets and separation`
 - [~] `Convex functions and subgradients`
 - [~] `Unconstrained first-order methods`
@@ -342,9 +353,9 @@ These are the topics that should eventually become canonical examples for future
 
 Near-term highest-value content steps:
 
-1. [ ] `Paper Lab: theorem decoder`
-2. [ ] `Single-variable calculus module: limits and continuity`
-3. [ ] `Single-variable calculus module: derivatives and local approximation`
+1. [ ] `Commit and push calculus bridge batch`
+2. [ ] `Paper Lab: theorem decoder`
+3. [ ] `Render and visually QA single-variable + multivariable calculus locally`
 4. [ ] `Curate Library: books and courses`
 5. [ ] `Render and visually QA the optimization module locally`
 6. [ ] `Sweep review the full optimization module`
