@@ -89,13 +89,13 @@ The intended first-pass spine for this module is:
 6. [Algorithmic Stability and Regularization](concepts/algorithmic-stability-and-regularization.qmd)
 7. [Generalization in Modern Regimes](concepts/generalization-in-modern-regimes.qmd)
 
-The current live opening is pages `1-7`, which completes the first-pass spine from the learning setup through classical guarantees, data-dependent capacity, stability, and finally the modern interpolation-era picture.
+This seven-page first-pass spine is now complete, covering the path from the learning setup through classical guarantees, data-dependent capacity, stability, and finally the modern interpolation-era picture.
 
 ## How To Use This Module
 
 Read the module in spine order.
 
-For now, that means:
+The default reading path is:
 
 1. start with [ERM, Population Risk, and Hypothesis Classes](concepts/erm-population-risk-and-hypothesis-classes.qmd)
 2. continue to [PAC Learning, Sample Complexity, and the Learning Setup](concepts/pac-learning-sample-complexity-and-the-learning-setup.qmd)
@@ -136,7 +136,7 @@ The module is also the cleanest bridge into papers about implicit bias, overpara
 
 ## Go Deeper By Topic
 
-The current live starting points are:
+The main starting path is:
 
 1. [ERM, Population Risk, and Hypothesis Classes](concepts/erm-population-risk-and-hypothesis-classes.qmd)
 2. [PAC Learning, Sample Complexity, and the Learning Setup](concepts/pac-learning-sample-complexity-and-the-learning-setup.qmd)
