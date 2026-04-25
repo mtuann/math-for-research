@@ -1,0 +1,308 @@
+---
+title: "Lasso and Compressed Sensing Basics"
+description: "How l1 regularization turns sparsity into a convex estimator, why soft-thresholding is the first key picture, and how compressed sensing links sparse recovery to measurement geometry."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: high-dimensional-statistics
+prerequisites:
+  - /topics/advanced/high-dimensional-statistics/concepts/sparsity-and-regularization.qmd
+  - /topics/advanced/optimization/index.qmd
+  - /topics/advanced/matrix-analysis/index.qmd
+learning-goals:
+  - "Define the lasso and interpret it as l1-regularized least squares."
+  - "Understand why l1 penalties promote sparse solutions."
+  - "Connect compressed sensing to sparse recovery from few linear measurements."
+  - "Recognize that recovery, support identification, and prediction are distinct goals."
+applications:
+  - sparse-recovery
+  - high-dimensional-regression
+  - machine-learning-theory
+keywords:
+  - lasso
+  - compressed sensing
+  - l1 regularization
+  - soft thresholding
+  - sparse recovery
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/high-dimensional-statistics/index.qmd
+  - /topics/advanced/high-dimensional-statistics/concepts/sparsity-and-regularization.qmd
+  - /topics/advanced/optimization/index.qmd
+  - /topics/advanced/high-dimensional-probability/index.qmd
+stable-sources:
+  - "Stanford STATS 305B LASSO notes"
+  - "Stanford STATS 202 high-dimensional regression notes"
+  - "Berkeley EECS 208 course site"
+current-sources:
+  - "Stanford STATS 305B LASSO"
+  - "Stanford STATS 202 high-dimensional regression"
+  - "Berkeley high-dimensional regression lasso notes"
+  - "Berkeley EECS 208"
+---
+
+## Role
+
+This is the second page of the `High-Dimensional Statistics` module.
+
+The first page explained why high-dimensional estimation needs structure.
+
+This page shows the first flagship estimator that turns that idea into a concrete method:
+
+`lasso uses an l1 penalty to prefer sparse solutions`
+
+It also introduces compressed sensing as the sparse-recovery version of the same story.
+
+## First-Pass Promise
+
+Read this page after `Sparsity and Regularization`.
+
+If you stop here, you should still understand:
+
+- what the lasso optimization problem is
+- why l1 regularization promotes sparsity
+- why compressed sensing is a sparse recovery problem from few measurements
+- why geometry of the design or sensing matrix matters as much as the penalty
+
+## Why It Matters
+
+Sparsity by itself is only an assumption.
+
+Lasso is the first major estimator that makes that assumption operational in a convex optimization problem.
+
+Compressed sensing pushes the same idea further:
+
+- take very few linear measurements
+- assume the signal is sparse
+- recover the signal anyway
+
+These topics matter because they are the canonical examples of how high-dimensional statistics works:
+
+- underdetermined problem
+- structural assumption
+- convex regularization
+- geometry plus concentration
+- theorem that explains when recovery is possible
+
+## Prerequisite Recall
+
+- high-dimensional problems are ill-posed without extra structure
+- regularization encodes structure through penalties or constraints
+- operator and spectral language help describe the geometry of the design matrix
+- concentration controls how random designs behave
+
+## Intuition
+
+### Why l1 Instead Of l0
+
+The most direct sparse objective would count nonzero coordinates, but that leads to hard combinatorial optimization.
+
+The l1 norm is the convex relaxation that still pushes many coordinates toward zero.
+
+That is why lasso is both statistically meaningful and computationally tractable.
+
+### Shrinkage And Sparsity
+
+Lasso does two things at once:
+
+- shrinks coefficient magnitudes
+- sets some coordinates exactly to zero
+
+This is why it is different from ridge regression, which shrinks but typically does not create exact zeros.
+
+### Compressed Sensing View
+
+Compressed sensing asks whether a sparse vector can be recovered from far fewer measurements than ambient dimension would usually suggest.
+
+The answer depends not only on sparsity, but also on whether the sensing matrix preserves enough information about sparse directions.
+
+## Formal Core
+
+::: {#def-lasso}
+## Definition: Lasso
+
+The lasso estimator solves
+
+$$
+\widehat{\beta}
+\in
+\arg\min_{\beta \in \mathbb R^p}
+\left\{
+\frac{1}{2n}\|y-X\beta\|_2^2 + \lambda \|\beta\|_1
+\right\}.
+$$
+:::
+
+This is the standard first-pass sparse regularization problem.
+
+::: {#def-basis-pursuit}
+## Definition: Basis Pursuit / Sparse Recovery Form
+
+In noiseless compressed sensing, a basic sparse recovery problem is
+
+$$
+\min_{\beta \in \mathbb R^p}\|\beta\|_1
+\quad\text{subject to}\quad
+X\beta = y.
+$$
+:::
+
+This is the constraint version of the same l1 idea.
+
+::: {#thm-l1-geometry}
+## Theorem Idea: l1 Geometry Promotes Sparse Solutions
+
+The l1 penalty encourages solutions to lie on coordinate-aligned corners, which is why it can produce exact zeros in the estimated vector.
+:::
+
+This is the first geometric picture to remember.
+
+::: {#thm-soft-threshold}
+## Theorem Idea: Under Orthonormal Design, Lasso Is Soft-Thresholding
+
+If the design is orthonormal in the sense that
+
+$$
+\frac{1}{n}X^\top X = I,
+$$
+
+then the lasso solution acts coordinatewise by soft-thresholding the unregularized coefficient scores.
+:::
+
+This is the cleanest first-pass explanation of shrinkage plus sparsity.
+
+::: {#thm-recovery-idea}
+## Theorem Idea: Sparse Recovery Needs Geometry, Not Just Sparsity
+
+Lasso and compressed sensing succeed when the design or sensing matrix has enough geometric regularity on sparse vectors.
+
+Typical later conditions include:
+
+- restricted eigenvalues
+- coherence bounds
+- RIP-type assumptions
+:::
+
+This is why sparse recovery theorems are about both the signal and the matrix.
+
+::: {#thm-goals-differ}
+## Theorem Idea: Prediction, Estimation, and Support Recovery Are Different Goals
+
+A method can predict well without perfectly identifying the true support, and it can estimate coefficients reasonably well without exact sign recovery.
+:::
+
+This distinction prevents many common overclaims.
+
+## Worked Example
+
+Suppose the design is orthonormal so that lasso decouples coordinatewise.
+
+Let the unregularized coefficient scores be
+
+$$
+z = (2.4,\; 0.8,\; -1.3)
+$$
+
+and take penalty level
+
+$$
+\lambda = 1.
+$$
+
+Then soft-thresholding gives
+
+$$
+\widehat{\beta}_j
+=
+\operatorname{sign}(z_j)\big(|z_j|-\lambda\big)_+.
+$$
+
+So
+
+$$
+\widehat{\beta}
+=
+(1.4,\;0,\;-0.3).
+$$
+
+This one-step picture already shows the main lasso behavior:
+
+- large coordinates survive but are shrunk
+- small coordinates get set exactly to zero
+- the estimator prefers a sparse explanation over a purely data-fitting one
+
+Compressed sensing keeps the same spirit, but now the matrix is underdetermined and recovery depends on whether sparse vectors remain distinguishable after measurement.
+
+## Computation Lens
+
+When you see a sparse estimator, ask:
+
+1. is the penalty or constraint actually sparsity-inducing?
+2. what matrix geometry is the theorem using?
+3. is the guarantee about prediction, coefficient error, or support recovery?
+4. is the estimator solving a noisy regression problem or a sparse linear inverse problem?
+
+Those questions usually tell you whether you are reading a lasso theorem, a compressed sensing theorem, or a different regularized estimator entirely.
+
+## Application Lens
+
+### Sparse Regression
+
+Lasso is the canonical convex estimator for large-feature regression problems where only a small subset of predictors is expected to matter.
+
+### Compressed Sensing
+
+Sparse signals in imaging, sensing, and inverse problems can often be recovered from surprisingly few linear measurements when the sensing matrix has good geometry.
+
+### Modern ML
+
+Even when modern models are not literally lasso, the central ideas remain: structural bias, convex or implicit regularization, and the distinction between fit and recoverable signal.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- what lasso optimizes
+- why l1 penalties can create exact zeros
+- why compressed sensing is not just “do regression with fewer samples”
+- why matrix geometry matters for recovery
+
+then this page has done its job.
+
+## Go Deeper
+
+After this page, the next natural step is:
+
+- [Design Geometry: Restricted Eigenvalues, Coherence, and RIP](design-geometry-restricted-eigenvalues-coherence-and-rip.qmd)
+
+The strongest adjacent live pages right now are:
+
+- [Sparsity and Regularization](sparsity-and-regularization.qmd)
+- [Design Geometry: Restricted Eigenvalues, Coherence, and RIP](design-geometry-restricted-eigenvalues-coherence-and-rip.qmd)
+- [High-Dimensional Regression](high-dimensional-regression.qmd)
+- [Optimization](../../optimization/index.qmd)
+- [Matrix Analysis](../../matrix-analysis/index.qmd)
+- [High-Dimensional Probability](../../high-dimensional-probability/index.qmd)
+- [Regularization, Implicit Bias, and Model Complexity](../../../../applications/machine-learning/regularization-implicit-bias-and-model-complexity.qmd)
+
+## Optional Deeper Reading After First Pass
+
+The strongest current references connected to this page are:
+
+- [Stanford STATS 305B: LASSO](https://web.stanford.edu/class/stats305b/notes/LASSO_I.html) - official notes for the estimator, geometry, and KKT viewpoint. Checked `2026-04-25`.
+- [Stanford STATS 202: High-dimensional regression](https://web.stanford.edu/class/stats202/notes/Model-selection/High-dimensional.html) - official notes for the p >> n regime and interpretation limits of sparse estimators. Checked `2026-04-25`.
+- [Berkeley high-dimensional regression: lasso](https://www.stat.berkeley.edu/~ryantibs/statlearn-s24/lectures/lasso.pdf) - official lecture notes focused directly on lasso in high-dimensional regression. Checked `2026-04-25`.
+- [Berkeley EECS 208](https://pages.github.berkeley.edu/UCB-EECS208/course_site/) - official course site connecting compressed sensing, geometry, and recovery theory. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [Stanford STATS 305B: LASSO](https://web.stanford.edu/class/stats305b/notes/LASSO_I.html) - `First pass` - official notes on lasso, sparsity-inducing penalties, and optimization structure. Checked `2026-04-25`.
+- [Stanford STATS 202: High-dimensional regression](https://web.stanford.edu/class/stats202/notes/Model-selection/High-dimensional.html) - `First pass` - official notes for the high-dimensional regression setting and what sparse estimators can and cannot promise. Checked `2026-04-25`.
+- [Berkeley high-dimensional regression: lasso](https://www.stat.berkeley.edu/~ryantibs/statlearn-s24/lectures/lasso.pdf) - `Second pass` - official lecture notes with a focused high-dimensional lasso treatment. Checked `2026-04-25`.
+- [Berkeley EECS 208](https://pages.github.berkeley.edu/UCB-EECS208/course_site/) - `Second pass` - official course site for compressed sensing, sparse recovery, and geometric signal models. Checked `2026-04-25`.

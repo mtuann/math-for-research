@@ -1,0 +1,296 @@
+---
+title: "Sparsity and Regularization"
+description: "Why high-dimensional estimation is ill-posed without structure, and how sparsity and regularization turn impossible large-feature problems into controlled statistical questions."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: high-dimensional-statistics
+prerequisites:
+  - /topics/foundation/statistics/index.qmd
+  - /topics/advanced/optimization/index.qmd
+  - /topics/advanced/high-dimensional-probability/index.qmd
+  - /topics/advanced/matrix-analysis/index.qmd
+learning-goals:
+  - "Understand why p >> n problems are underdetermined without extra structure."
+  - "Define sparsity and explain why it is a useful statistical assumption."
+  - "Interpret regularization as a way to encode structure and stabilize estimation."
+  - "Recognize the geometric and probabilistic ingredients that later high-dimensional guarantees need."
+applications:
+  - high-dimensional-regression
+  - sparse-recovery
+  - machine-learning-theory
+keywords:
+  - sparsity
+  - regularization
+  - p greater than n
+  - lasso
+  - shrinkage
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/high-dimensional-statistics/index.qmd
+  - /topics/advanced/optimization/index.qmd
+  - /topics/advanced/high-dimensional-probability/index.qmd
+  - /applications/machine-learning/regularization-implicit-bias-and-model-complexity.qmd
+stable-sources:
+  - "Stanford STATS 202 high-dimensional regression notes"
+  - "Stanford STATS 305B LASSO notes"
+  - "Berkeley EECS 208 course site"
+current-sources:
+  - "Stanford STATS 202 high-dimensional regression"
+  - "Stanford STATS 305B LASSO"
+  - "Berkeley EECS 208"
+  - "CMU 36-709 syllabus"
+---
+
+## Role
+
+This is the first page of the `High-Dimensional Statistics` module.
+
+Its job is to explain why high-dimensional estimation breaks classical intuition and why structure, especially sparsity, becomes the first serious remedy.
+
+The core shift is:
+
+`when parameters outnumber samples, estimation needs assumptions stronger than "fit the data well"`
+
+## First-Pass Promise
+
+Read this page first in the module.
+
+If you stop here, you should still understand:
+
+- why problems with $p \gg n$ are underdetermined
+- what sparsity means and why it is useful
+- why regularization is both a statistical and optimization device
+- why later theorems need design geometry, concentration, and structural assumptions together
+
+## Why It Matters
+
+In ordinary regression with many more samples than features, least squares often has a clear target and a unique solution.
+
+In high-dimensional regimes, that picture breaks:
+
+- many parameter vectors can fit the data equally well
+- estimation can become unstable
+- training error stops being a reliable guide
+- interpretation of coefficients becomes harder
+- uncertainty statements become delicate
+
+So high-dimensional statistics asks:
+
+- what structure should we assume?
+- how do we encode that structure?
+- what rates or guarantees follow from it?
+
+Sparsity is the first major answer:
+
+`only a small number of coordinates matter, or most coordinates are weak enough that a sparse approximation is meaningful`
+
+## Prerequisite Recall
+
+- regression and estimation from the statistics module
+- bias-variance and regularization from the statistics and ML bridge pages
+- optimization language for penalized objectives
+- matrix and operator language for design geometry and covariance structure
+- concentration language for random-design control
+
+## Intuition
+
+### Why p Greater Than n Is Different
+
+If there are more unknown coefficients than independent data constraints, exact fitting is often easy.
+
+But exact fitting is not the same as meaningful recovery.
+
+So the problem becomes ill-posed unless we add extra structure.
+
+### Sparsity As Structural Compression
+
+Sparsity says that only a small set of coordinates is truly active, or that the signal can be approximated well by a sparse vector.
+
+This reduces the effective complexity of the parameter space even when ambient dimension is huge.
+
+### Regularization As Encoded Preference
+
+Regularization adds a penalty or constraint that biases the estimator toward simpler or more structured solutions.
+
+At first pass, regularization serves three roles:
+
+- it stabilizes the optimization problem
+- it encodes structural beliefs
+- it trades exact fit for recoverable structure
+
+## Formal Core
+
+::: {#def-high-dimensional-regime}
+## Definition: High-Dimensional Regime
+
+At a first pass, a problem is in the `high-dimensional regime` when the ambient parameter dimension $p$ is comparable to or larger than the sample size $n$.
+:::
+
+This does not automatically make the problem impossible, but it means classical low-dimensional intuition is no longer enough.
+
+::: {#def-sparsity}
+## Definition: Sparsity
+
+A vector $\beta \in \mathbb R^p$ is `s-sparse` if it has at most $s$ nonzero coordinates.
+:::
+
+Later pages will relax this to approximate sparsity, but exact sparsity is the cleanest first-pass picture.
+
+::: {#def-regularized-estimator}
+## Definition: Regularized Estimator
+
+A regularized estimator solves an optimization problem of the form
+
+$$
+\widehat{\beta}
+\in
+\arg\min_{\beta}
+\big\{\mathcal L(\beta) + \lambda \mathcal P(\beta)\big\},
+$$
+
+where $\mathcal L$ is a data-fit term and $\mathcal P$ is a penalty encoding preferred structure.
+:::
+
+The penalty might encourage:
+
+- small norm
+- sparsity
+- smoothness
+- low rank
+
+depending on the problem.
+
+::: {#thm-illposedness-idea}
+## Theorem Idea: Without Structure, High-Dimensional Estimation Is Ill-Posed
+
+When $p>n$, many estimation problems admit multiple parameter vectors that fit the observed data equally well.
+:::
+
+So fitting alone cannot identify the target. Structure is what makes the problem statistically meaningful.
+
+::: {#thm-sparsity-regularization-idea}
+## Theorem Idea: Sparsity Plus Regularization Creates Recoverable Problems
+
+If the true signal is sparse or approximately sparse, and if the design has enough geometric regularity, then regularized estimators can recover the signal or predict well even when $p \gg n$.
+:::
+
+This is the organizing principle behind lasso, compressed sensing, and much of modern high-dimensional regression.
+
+## Worked Example
+
+Consider linear regression
+
+$$
+y = X\beta + \varepsilon
+$$
+
+with $X \in \mathbb R^{n \times p}$ and $p>n$.
+
+If we ignore noise and try to solve
+
+$$
+X\beta = y,
+$$
+
+there are often infinitely many solutions.
+
+So zero training error by itself does not identify the coefficient vector.
+
+Now suppose we believe that only a small number of coordinates of $\beta$ matter.
+
+Then a sparse solution becomes preferable to an arbitrary exact fit.
+
+A regularized estimator makes that preference explicit:
+
+$$
+\widehat{\beta}
+\in
+\arg\min_{\beta}
+\Big\{
+\frac{1}{n}\|y-X\beta\|_2^2 + \lambda \mathcal P(\beta)
+\Big\}.
+$$
+
+The point is not only to fit the data.
+
+The point is to select a solution that is statistically interpretable and stable enough to hope for recovery or prediction guarantees.
+
+This is the first high-dimensional lesson:
+
+- data fit alone is too weak
+- structure chooses among many fits
+- regularization is how that structure enters the estimator
+
+## Computation Lens
+
+When you see a high-dimensional estimator, ask:
+
+1. what makes the problem ill-posed without extra assumptions?
+2. what structure is being assumed: sparsity, approximate sparsity, low rank, or something else?
+3. how is that structure encoded: constraint, penalty, or algorithmic bias?
+4. what is the theorem trying to guarantee: prediction, recovery, support identification, or inference?
+
+Those questions usually reveal what the estimator is actually optimized for.
+
+## Application Lens
+
+### Sparse Regression
+
+Genomics, text models, and many feature-rich prediction settings naturally push toward sparse or approximately sparse models.
+
+### Compressed Sensing And Recovery
+
+Recovery from limited linear measurements becomes possible only because sparsity sharply reduces the effective search space.
+
+### Modern ML Theory
+
+Regularization, shrinkage, and structural bias also appear in overparameterized ML settings, even when the exact estimator is not classical lasso.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- why $p \gg n$ makes naive estimation ill-posed
+- why sparsity is a meaningful structural assumption
+- why regularization is more than just an optimization trick
+- why later theorems need structure, geometry, and concentration together
+
+then this page has done its job.
+
+## Go Deeper
+
+After this page, the next natural step is:
+
+- [Lasso and Compressed Sensing Basics](lasso-and-compressed-sensing-basics.qmd)
+
+The strongest adjacent live pages right now are:
+
+- [Lasso and Compressed Sensing Basics](lasso-and-compressed-sensing-basics.qmd)
+- [Optimization](../../optimization/index.qmd)
+- [Matrix Analysis](../../matrix-analysis/index.qmd)
+- [High-Dimensional Probability](../../high-dimensional-probability/index.qmd)
+- [Regularization, Implicit Bias, and Model Complexity](../../../../applications/machine-learning/regularization-implicit-bias-and-model-complexity.qmd)
+- [Generalization in Modern Regimes](../../learning-theory/concepts/generalization-in-modern-regimes.qmd)
+
+## Optional Deeper Reading After First Pass
+
+The strongest current references connected to this page are:
+
+- [Stanford STATS 202: High-dimensional regression](https://web.stanford.edu/class/stats202/notes/Model-selection/High-dimensional.html) - official notes for why p >> n changes regression and interpretation. Checked `2026-04-25`.
+- [Stanford STATS 305B: LASSO](https://web.stanford.edu/class/stats305b/notes/LASSO_I.html) - official notes for how sparsity-inducing penalties enter the estimator. Checked `2026-04-25`.
+- [Berkeley EECS 208](https://pages.github.berkeley.edu/UCB-EECS208/course_site/) - official course site connecting sparsity, geometry, and recovery. Checked `2026-04-25`.
+- [CMU 36-709 syllabus](https://www.stat.cmu.edu/~siva/teaching/709current/syllabus.pdf) - official advanced-statistics syllabus showing how non-asymptotic tools feed into high-dimensional analysis. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [Stanford STATS 202: High-dimensional regression](https://web.stanford.edu/class/stats202/notes/Model-selection/High-dimensional.html) - `First pass` - official notes for the p >> n regime, regularization, and interpretation pitfalls. Checked `2026-04-25`.
+- [Stanford STATS 305B: LASSO](https://web.stanford.edu/class/stats305b/notes/LASSO_I.html) - `First pass` - official notes on lasso and sparsity-inducing penalties. Checked `2026-04-25`.
+- [Berkeley EECS 208](https://pages.github.berkeley.edu/UCB-EECS208/course_site/) - `Second pass` - official course site for sparse recovery, geometry, and high-dimensional data analysis. Checked `2026-04-25`.
+- [CMU 36-709 syllabus](https://www.stat.cmu.edu/~siva/teaching/709current/syllabus.pdf) - `Second pass` - official syllabus for broader non-asymptotic theoretical-statistics context. Checked `2026-04-25`.

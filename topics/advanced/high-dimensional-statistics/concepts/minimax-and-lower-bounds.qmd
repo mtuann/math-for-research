@@ -1,0 +1,314 @@
+---
+title: "Minimax and Lower Bounds"
+description: "What rates are fundamentally achievable in high-dimensional estimation, and how lower bounds explain when upper bounds are already near-optimal."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: high-dimensional-statistics
+prerequisites:
+  - /topics/advanced/high-dimensional-statistics/concepts/covariance-pca-and-spectral-estimation-in-high-dimension.qmd
+  - /topics/advanced/high-dimensional-probability/index.qmd
+  - /topics/advanced/learning-theory/index.qmd
+learning-goals:
+  - "Understand minimax risk as a worst-case benchmark over a model class."
+  - "See why lower bounds explain what no estimator can beat."
+  - "Recognize the first-pass roles of Le Cam and Fano style arguments."
+  - "Interpret matching upper and lower bounds as evidence that a rate is essentially optimal."
+applications:
+  - minimax-theory
+  - high-dimensional-statistics
+  - lower-bounds
+keywords:
+  - minimax risk
+  - lower bounds
+  - Fano
+  - Le Cam
+  - statistical limits
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/high-dimensional-statistics/index.qmd
+  - /topics/advanced/high-dimensional-statistics/concepts/high-dimensional-regression.qmd
+  - /topics/advanced/high-dimensional-statistics/concepts/covariance-pca-and-spectral-estimation-in-high-dimension.qmd
+  - /topics/advanced/learning-theory/concepts/uniform-convergence-and-generalization-bounds.qmd
+  - /topics/advanced/high-dimensional-probability/index.qmd
+stable-sources:
+  - "Stanford statistics and information theory notes"
+  - "Stanford Stats 300A minimax notes"
+  - "CMU advanced statistical theory course page"
+current-sources:
+  - "Stanford Stats 311 lecture notes"
+  - "Stanford Stats 300A Session 6"
+  - "Stanford EE378C course page"
+  - "CMU 36-709 course page"
+---
+
+## Role
+
+This is the sixth page of the `High-Dimensional Statistics` module.
+
+The previous pages built estimators and rates for sparse regression, covariance estimation, and PCA-like spectral estimation.
+
+This page asks a more structural question:
+
+`are those rates actually good, or could some cleverer estimator do much better?`
+
+That is the role of minimax theory.
+
+## First-Pass Promise
+
+Read this page after `Covariance, PCA, and Spectral Estimation in High Dimension`.
+
+If you stop here, you should still understand:
+
+- minimax risk as a worst-case benchmark over a model class
+- why lower bounds are statements about what no estimator can beat
+- why Le Cam and Fano methods compare many hard-to-distinguish data-generating models
+- why matching upper and lower bounds mean a rate is basically the right one
+
+## Why It Matters
+
+Once you see an estimator with a theorem, the next natural question is:
+
+`is this rate a feature of the estimator, or a feature of the problem itself?`
+
+Minimax theory answers that.
+
+It separates:
+
+- `algorithmic success`: this estimator works this well
+- `problem difficulty`: no estimator can do substantially better over the whole class
+
+That distinction matters a lot in high-dimensional statistics, where rates depend on:
+
+- sparsity
+- ambient dimension
+- sample size
+- noise level
+- geometry of the model class
+
+Without lower bounds, it is easy to confuse a merely decent estimator with a rate-optimal one.
+
+## Prerequisite Recall
+
+- sparse regression introduced typical upper-rate shapes such as `s log p / n`
+- covariance and PCA introduced spectral estimation and operator-norm losses
+- high-dimensional probability supplies the concentration tools for upper bounds
+- learning theory already used the idea of comparing what an algorithm achieves to what the problem allows
+
+## Intuition
+
+### Minimax Is a Worst-Case Benchmark
+
+If an estimator is denoted by $\widehat \theta$ and the unknown parameter belongs to a class $\Theta$, then each true parameter value gives a risk.
+
+Minimax theory asks for the smallest possible worst-case risk over that whole class.
+
+So minimax is not:
+
+- average-case over easy instances
+- best-case behavior
+- performance on one favorite theorem example
+
+It is the strongest reasonable benchmark for the whole model family.
+
+### Lower Bounds Use Hard Families
+
+To prove a lower bound, you build a collection of parameters that are:
+
+- well separated in the target quantity you want to estimate
+- statistically hard to tell apart from data
+
+That is the key tension.
+
+If two models are too easy to distinguish, the lower bound is weak.
+
+If they are too close in the target quantity, the lower bound is also weak.
+
+Good lower-bound arguments balance separation with indistinguishability.
+
+### Matching Rates Are the Goal
+
+An upper bound says:
+
+`here is what some estimator can achieve`
+
+A lower bound says:
+
+`no estimator can do better than this scale over the whole class`
+
+When those match up to constants or mild logarithmic factors, we usually say the rate is essentially optimal.
+
+## Formal Core
+
+::: {#def-minimax-risk}
+## Definition: Minimax Risk
+
+For a parameter class $\Theta$, loss $\ell$, and estimators $\widehat\theta$, the minimax risk is
+
+$$
+\inf_{\widehat\theta}\sup_{\theta \in \Theta}\mathbb E_\theta[\ell(\widehat\theta,\theta)].
+$$
+:::
+
+This is the smallest worst-case risk achievable over the class.
+
+::: {#thm-upper-lower}
+## Theorem Idea: Upper and Lower Bounds Play Different Roles
+
+An upper bound exhibits one estimator whose risk is small.
+
+A lower bound shows that every estimator must have risk at least a certain scale.
+:::
+
+When the scales match, the problem is understood much more sharply.
+
+::: {#thm-lecam-fano}
+## Theorem Idea: Lower Bounds Come from Indistinguishable Alternatives
+
+Two standard first-pass routes are:
+
+- `Le Cam style`: compare a small number of carefully chosen alternatives
+- `Fano style`: compare a larger packing of alternatives and use information bounds
+:::
+
+Both methods exploit the same logic:
+
+- parameters are separated in the quantity of interest
+- induced data distributions are still hard to distinguish
+
+::: {#thm-sparse-minimax}
+## Theorem Idea: Sparse High-Dimensional Problems Carry Logarithmic Complexity Costs
+
+For sparse classes, minimax lower bounds often involve the same structural terms that appear in upper bounds, such as
+
+$$
+\frac{s \log(p/s)}{n}
+$$
+
+or related square-root forms, depending on the loss and model.
+:::
+
+The exact statement depends on the problem class, but the first-pass message is that the `log p` price is often not an artifact of a particular proof technique.
+
+::: {#thm-structure-needed}
+## Theorem Idea: Lower Bounds Justify Structural Assumptions
+
+When lower bounds show that estimation is impossible without structure, they explain why assumptions such as sparsity, low rank, or eigengaps are not decorative.
+:::
+
+They are what make recovery statistically possible in the first place.
+
+## Worked Example
+
+Suppose a sparse-regression theorem gives an upper bound with scale
+
+$$
+\frac{s \log p}{n}.
+$$
+
+Now take
+
+- `s = 10`
+- `p = 10,000`
+- `n = 400`
+
+Then
+
+$$
+\log(p/s) = \log(1000) \approx 6.9
+$$
+
+so a first-pass lower-bound scale of
+
+$$
+\frac{s \log(p/s)}{n}
+$$
+
+looks like
+
+$$
+\frac{10 \cdot 6.9}{400} \approx 0.17.
+$$
+
+If the upper bound from an explicit estimator is on the same order, then the conclusion is not:
+
+`this estimator is perfect`
+
+The conclusion is:
+
+`this rate is probably a property of the problem, not just of the estimator`
+
+That is the minimax point of view in one line.
+
+## Computation Lens
+
+When you read a lower-bound theorem, ask:
+
+1. what is the parameter class?
+2. what loss is being lower bounded?
+3. what family of hard alternatives is being constructed?
+4. what quantity makes the models hard to distinguish: KL, TV, or another divergence?
+
+Those four questions usually reveal the real architecture of the proof.
+
+## Application Lens
+
+### Sparse Regression
+
+Lower bounds explain why lasso-type rates are often close to optimal over sparse classes, and why the remaining work is about assumptions, constants, computation, or adaptivity rather than miracle rate improvements.
+
+### Covariance and PCA
+
+In spectral estimation problems, lower bounds clarify when unstable eigenspaces or noisy covariance estimation are inevitable rather than just artifacts of a naive method.
+
+### ML Theory and Model Design
+
+Lower bounds are also design tools. They tell you which targets are unrealistic and which assumptions are carrying the real statistical burden.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- what minimax risk measures
+- why lower bounds are statements about impossibility
+- why Le Cam and Fano are really about hard-to-distinguish alternatives
+- why matching upper and lower rates mean you understand the problem better
+
+then this page has done its job.
+
+## Go Deeper
+
+After this page, the next natural step is:
+
+- [Inference in High Dimension](inference-in-high-dimension.qmd)
+
+The strongest adjacent live pages right now are:
+
+- [High-Dimensional Regression](high-dimensional-regression.qmd)
+- [Covariance, PCA, and Spectral Estimation in High Dimension](covariance-pca-and-spectral-estimation-in-high-dimension.qmd)
+- [Inference in High Dimension](inference-in-high-dimension.qmd)
+- [Uniform Convergence and Generalization Bounds](../../learning-theory/concepts/uniform-convergence-and-generalization-bounds.qmd)
+- [Rademacher Complexity and Data-Dependent Capacity](../../learning-theory/concepts/rademacher-complexity-and-data-dependent-capacity.qmd)
+- [High-Dimensional Probability](../../high-dimensional-probability/index.qmd)
+
+## Optional Deeper Reading After First Pass
+
+The strongest current references connected to this page are:
+
+- [Stanford Stats 311 lecture notes](https://web.stanford.edu/class/stats311/lecture-notes.pdf) - official notes with a dedicated chapter on minimax lower bounds via Le Cam, Fano, and Assouad. Checked `2026-04-25`.
+- [Stanford Stats 300A Session 6](https://web.stanford.edu/class/stats300a/Sessions/Session6.pdf) - official notes connecting information-theoretic lower bounds to a sparse regression example. Checked `2026-04-25`.
+- [Stanford EE378C](https://web.stanford.edu/class/ee378c/) - official course page for information-theoretic lower bounds in data science. Checked `2026-04-25`.
+- [CMU 36-709 course page](https://www.stat.cmu.edu/~siva/teaching/709/) - official course page showing minimax lower bounds inside a broader advanced-theoretical-statistics track. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [Stanford Stats 311 lecture notes](https://web.stanford.edu/class/stats311/lecture-notes.pdf) - `First pass` - official notes for the minimax framework and the Le Cam, Fano, and Assouad methods. Checked `2026-04-25`.
+- [Stanford Stats 300A Session 6](https://web.stanford.edu/class/stats300a/Sessions/Session6.pdf) - `First pass` - official notes using lower-bound ideas on sparse regression and matching-rate intuition. Checked `2026-04-25`.
+- [Stanford EE378C](https://web.stanford.edu/class/ee378c/) - `Second pass` - official course page for a wider lower-bounds toolkit across statistics, ML, and optimization. Checked `2026-04-25`.
+- [CMU 36-709 course page](https://www.stat.cmu.edu/~siva/teaching/709/) - `Second pass` - official course page linking minimax lower bounds to covariance estimation, sparse estimation, and nonparametric theory. Checked `2026-04-25`.

@@ -17,8 +17,8 @@ Use it to track:
 
 ## Current Snapshot
 
-- `185` `.qmd` pages currently exist
-- `68` concept-topic pages currently exist
+- `193` `.qmd` pages currently exist
+- `75` concept-topic pages currently exist
 - strongest subjects so far: `Linear Algebra`, `Probability`, `Proofs`, `Logic`, `Statistics`, `Single-Variable Calculus`, `Multivariable Calculus`, `Optimization`, `Real Analysis`
 - strongest public-facing bridge so far: `Applications > Machine Learning`
 - non-topic sections already scaffolded: `Start Here`, `Roadmaps`, `Applications`, `Paper Lab`, `Research`, `Publication`, `Library`, `Notes`
@@ -300,11 +300,14 @@ These are not required before the main spine is public, but they are the next hi
 
 ### High-Dimensional Statistics
 
-- [ ] `Sparsity and regularization`
-- [ ] `Lasso and compressed sensing basics`
-- [ ] `High-dimensional regression`
-- [ ] `Minimax and lower bounds`
-- [ ] `Inference in high dimension`
+- [x] `High-Dimensional Statistics index`
+- [x] `Sparsity and regularization`
+- [x] `Lasso and compressed sensing basics`
+- [x] `Design geometry: restricted eigenvalues, coherence, and RIP`
+- [x] `High-dimensional regression`
+- [x] `Covariance, PCA, and spectral estimation in high dimension`
+- [x] `Minimax and lower bounds`
+- [x] `Inference in high dimension`
 
 ### Information Theory
 

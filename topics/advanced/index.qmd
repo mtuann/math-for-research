@@ -21,6 +21,7 @@ The advanced track is where the site moves into:
 - [Matrix Analysis](matrix-analysis/index.qmd)
 - [Learning Theory](learning-theory/index.qmd)
 - [High-Dimensional Probability](high-dimensional-probability/index.qmd)
+- [High-Dimensional Statistics](high-dimensional-statistics/index.qmd)
 
 ## Real Analysis
 
@@ -93,7 +94,23 @@ Its current live opening is:
 
 This module is where the site shifts from scalar probability intuition to non-asymptotic control of maxima, norms, random vectors, and random matrices.
 
+## High-Dimensional Statistics
+
+[High-Dimensional Statistics](high-dimensional-statistics/index.qmd) is the statistical layer that sits directly on top of high-dimensional probability, matrix analysis, and optimization.
+
+Its current live opening is:
+
+- [Sparsity and Regularization](high-dimensional-statistics/concepts/sparsity-and-regularization.qmd)
+- [Lasso and Compressed Sensing Basics](high-dimensional-statistics/concepts/lasso-and-compressed-sensing-basics.qmd)
+- [Design Geometry: Restricted Eigenvalues, Coherence, and RIP](high-dimensional-statistics/concepts/design-geometry-restricted-eigenvalues-coherence-and-rip.qmd)
+- [High-Dimensional Regression](high-dimensional-statistics/concepts/high-dimensional-regression.qmd)
+- [Covariance, PCA, and Spectral Estimation in High Dimension](high-dimensional-statistics/concepts/covariance-pca-and-spectral-estimation-in-high-dimension.qmd)
+- [Minimax and Lower Bounds](high-dimensional-statistics/concepts/minimax-and-lower-bounds.qmd)
+- [Inference in High Dimension](high-dimensional-statistics/concepts/inference-in-high-dimension.qmd)
+
+This module is where the site turns `p >> n`, sparse structure, shrinkage, and recoverability into explicit statistical objects instead of vague intuitions about “many features.”
+
 ## Planned Next Advanced Modules
 
 - `Numerical Methods`
-- `High-Dimensional Statistics`
+- `Information Theory`

@@ -66,9 +66,9 @@ Use this as the default order.
 10. [Learning Theory](../topics/advanced/learning-theory/index.qmd)
 11. [Matrix Analysis](../topics/advanced/matrix-analysis/index.qmd)
 12. [High-Dimensional Probability](../topics/advanced/high-dimensional-probability/index.qmd)
-13. `High-Dimensional Statistics`
+13. [High-Dimensional Statistics](../topics/advanced/high-dimensional-statistics/index.qmd)
 
-The first twelve stages are now at least open on the site through [High-Dimensional Probability](../topics/advanced/high-dimensional-probability/index.qmd), with [Matrix Analysis](../topics/advanced/matrix-analysis/index.qmd) now providing the missing operator-level bridge before the high-dimensional theory layers. That is already enough to begin reading the cleaner end of ML-facing math pages right now.
+The first thirteen stages are now live on the site through [High-Dimensional Statistics](../topics/advanced/high-dimensional-statistics/index.qmd), with [Matrix Analysis](../topics/advanced/matrix-analysis/index.qmd) and [High-Dimensional Probability](../topics/advanced/high-dimensional-probability/index.qmd) now feeding directly into a complete first-pass high-dimensional-statistics module. That is already enough to begin reading the cleaner end of ML-facing theory pages right now.
 
 ## Why This Order Works
 
@@ -257,10 +257,10 @@ A good current sequence is:
 
 ## Common Next Theory Directions
 
-After the current foundations, calculus bridge, optimization path, learning-theory spine, [Matrix Analysis](../topics/advanced/matrix-analysis/index.qmd), and the opening [High-Dimensional Probability](../topics/advanced/high-dimensional-probability/index.qmd) route, the next big theory modules with the best payoff are:
+After the current foundations, calculus bridge, optimization path, learning-theory spine, [Matrix Analysis](../topics/advanced/matrix-analysis/index.qmd), [High-Dimensional Probability](../topics/advanced/high-dimensional-probability/index.qmd), and the full [High-Dimensional Statistics](../topics/advanced/high-dimensional-statistics/index.qmd) module, the next big theory modules with the best payoff are:
 
-- `High-Dimensional Statistics`
 - `Numerical Methods`
+- `Information Theory`
 
 ## Sources and Further Reading
 

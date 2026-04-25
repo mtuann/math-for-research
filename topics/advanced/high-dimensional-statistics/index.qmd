@@ -1,0 +1,170 @@
+---
+title: "High-Dimensional Statistics"
+description: "Sparsity, regularization, high-dimensional regression, covariance estimation, minimax limits, and inference when the ambient dimension is large relative to sample size."
+page-type: module-overview
+status: published
+update-status: current
+level: advanced
+topic: high-dimensional-statistics
+prerequisites:
+  - /topics/foundation/statistics/index.qmd
+  - /topics/advanced/optimization/index.qmd
+  - /topics/advanced/matrix-analysis/index.qmd
+  - /topics/advanced/high-dimensional-probability/index.qmd
+learning-goals:
+  - "Understand why high-dimensional statistics needs structural assumptions such as sparsity and low complexity."
+  - "Know the intended first-pass order for the high-dimensional-statistics module."
+  - "Connect regularization, geometry, random matrices, and statistical guarantees in the p >> n regime."
+applications:
+  - machine-learning-theory
+  - high-dimensional-regression
+  - sparse-recovery
+keywords:
+  - high-dimensional statistics
+  - sparsity
+  - lasso
+  - compressed sensing
+  - minimax
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+stable-sources:
+  - "Stanford high-dimensional statistics research page"
+  - "Stanford STATS 202 high-dimensional regression notes"
+  - "Berkeley EECS 208 course site"
+current-sources:
+  - "Stanford high-dimensional statistics page"
+  - "Stanford STATS 202 notes"
+  - "Stanford STATS 305B LASSO notes"
+  - "Berkeley EECS 208 course site"
+  - "CMU 36-709 syllabus"
+---
+
+## Why This Module Matters
+
+Classical statistics usually imagines that sample size is comfortably larger than the number of parameters.
+
+High-dimensional statistics studies the regime where that intuition breaks:
+
+- the number of features can be comparable to or much larger than sample size
+- naive least squares can become non-unique or unstable
+- recovery becomes possible only with additional structure
+- guarantees depend on geometry, concentration, and regularization all at once
+
+That is why modern papers keep talking about:
+
+- sparsity
+- shrinkage
+- restricted eigenvalues
+- random design
+- minimax lower bounds
+- inference after selection or regularization
+
+This module is the bridge from ordinary estimation language to the research-facing world of `p >> n`, sparse recovery, and high-dimensional inference.
+
+::: {.meta-strip}
+::: {.meta-box}
+**Prerequisites**
+[Statistics](../../foundation/statistics/index.qmd) should come first. [Optimization](../optimization/index.qmd) matters because many estimators are posed as penalized optimization problems. [Matrix Analysis](../matrix-analysis/index.qmd) and [High-Dimensional Probability](../high-dimensional-probability/index.qmd) become important as soon as spectral control, random design, and concentration enter the story.
+:::
+::: {.meta-box}
+**Unlocks**
+Sparse regression, compressed sensing, covariance estimation, minimax arguments, post-selection and debiased inference
+:::
+::: {.meta-box}
+**Research Use**
+Reading papers on lasso, high-dimensional regression, sparse recovery, covariance/PCA, uncertainty in large-feature regimes, and modern statistical limits
+:::
+:::
+
+## First Pass Through This Module
+
+The intended first-pass spine for this module is:
+
+1. [Sparsity and Regularization](concepts/sparsity-and-regularization.qmd)
+2. [Lasso and Compressed Sensing Basics](concepts/lasso-and-compressed-sensing-basics.qmd)
+3. [Design Geometry: Restricted Eigenvalues, Coherence, and RIP](concepts/design-geometry-restricted-eigenvalues-coherence-and-rip.qmd)
+4. [High-Dimensional Regression](concepts/high-dimensional-regression.qmd)
+5. [Covariance, PCA, and Spectral Estimation in High Dimension](concepts/covariance-pca-and-spectral-estimation-in-high-dimension.qmd)
+6. [Minimax and Lower Bounds](concepts/minimax-and-lower-bounds.qmd)
+7. [Inference in High Dimension](concepts/inference-in-high-dimension.qmd)
+
+The module now opens with a complete seven-page first-pass spine, moving from ill-posedness and regularization to sparse estimators, then to the geometry conditions that make sparse theorems work, and then onward to regression rates, covariance/PCA, minimax limits, and inference after selection or shrinkage.
+
+## How To Use This Module
+
+Read this module in spine order.
+
+For a clean first pass, that means:
+
+1. start with [Sparsity and Regularization](concepts/sparsity-and-regularization.qmd)
+2. continue to [Lasso and Compressed Sensing Basics](concepts/lasso-and-compressed-sensing-basics.qmd)
+3. continue to [Design Geometry: Restricted Eigenvalues, Coherence, and RIP](concepts/design-geometry-restricted-eigenvalues-coherence-and-rip.qmd)
+4. continue to [High-Dimensional Regression](concepts/high-dimensional-regression.qmd)
+5. continue to [Covariance, PCA, and Spectral Estimation in High Dimension](concepts/covariance-pca-and-spectral-estimation-in-high-dimension.qmd)
+6. continue to [Minimax and Lower Bounds](concepts/minimax-and-lower-bounds.qmd)
+7. continue to [Inference in High Dimension](concepts/inference-in-high-dimension.qmd)
+8. then use nearby live pages in [Statistics](../../foundation/statistics/index.qmd), [Optimization](../optimization/index.qmd), [Learning Theory](../learning-theory/index.qmd), [Matrix Analysis](../matrix-analysis/index.qmd), and [High-Dimensional Probability](../high-dimensional-probability/index.qmd) whenever a page talks about concentration, operator control, or estimation geometry
+
+This module should stay focused on the structural ideas that make estimation possible in large-feature regimes, rather than trying to become a full statistical-learning textbook.
+
+## Core Concepts
+
+- [Sparsity and Regularization](concepts/sparsity-and-regularization.qmd): the opening page that explains why high-dimensional problems are ill-posed without structural assumptions and why regularization is the first remedy.
+- [Lasso and Compressed Sensing Basics](concepts/lasso-and-compressed-sensing-basics.qmd): the page that turns sparsity into concrete convex estimators and sparse recovery guarantees.
+- [Design Geometry: Restricted Eigenvalues, Coherence, and RIP](concepts/design-geometry-restricted-eigenvalues-coherence-and-rip.qmd): the page that explains which matrix-geometry conditions sparse-recovery theorems are really asking for.
+- [High-Dimensional Regression](concepts/high-dimensional-regression.qmd): the page that connects prediction error, estimation error, support recovery, and random-design geometry.
+- [Covariance, PCA, and Spectral Estimation in High Dimension](concepts/covariance-pca-and-spectral-estimation-in-high-dimension.qmd): the page that turns covariance and PCA into explicit random-matrix and eigenspace-estimation problems.
+- [Minimax and Lower Bounds](concepts/minimax-and-lower-bounds.qmd): the page that explains what rates are fundamentally possible and what no method can beat over a model class.
+- [Inference in High Dimension](concepts/inference-in-high-dimension.qmd): the page that explains why confidence intervals and p-values become delicate after selection or regularization, and how debiasing or selective inference try to repair that.
+
+## Proof Patterns In This Module
+
+- `Structure defeats ill-posedness`: identify which assumption makes recovery or estimation possible.
+- `Geometry plus concentration`: combine random design control with matrix or norm inequalities.
+- `Upper bound versus lower bound`: separate what an estimator achieves from what the problem fundamentally allows.
+
+## Applications
+
+### Sparse Regression And Recovery
+
+Many modern regression problems only become statistically meaningful when the model is sparse, approximately sparse, or otherwise low-complexity.
+
+### Spectral Estimation
+
+Covariance estimation, PCA, and related matrix problems depend on the same operator and concentration language already built elsewhere on the site.
+
+### ML Theory And Modern Regimes
+
+High-dimensional statistics gives concrete versions of questions that also appear in ML theory: overparameterization, shrinkage, stability, bias, variance, and recoverability.
+
+## Go Deeper By Topic
+
+The strongest adjacent live pages right now are:
+
+- [Statistics](../../foundation/statistics/index.qmd)
+- [Optimization](../optimization/index.qmd)
+- [Learning Theory](../learning-theory/index.qmd)
+- [High-Dimensional Probability](../high-dimensional-probability/index.qmd)
+- [Regularization, Implicit Bias, and Model Complexity](../../../applications/machine-learning/regularization-implicit-bias-and-model-complexity.qmd)
+
+## Optional Deeper Reading After First Pass
+
+The strongest current references connected to this module are:
+
+- [Stanford high-dimensional statistics](https://statistics.stanford.edu/research/high-dimensional-statistics) - official current research page showing the field and its main themes. Checked `2026-04-25`.
+- [Stanford STATS 202: High-dimensional regression](https://web.stanford.edu/class/stats202/notes/Model-selection/High-dimensional.html) - official notes for the p >> n regime and regularization viewpoint. Checked `2026-04-25`.
+- [Stanford STATS 305B: LASSO](https://web.stanford.edu/class/stats305b/notes/LASSO_I.html) - official notes for lasso and sparsity-inducing penalties. Checked `2026-04-25`.
+- [Berkeley EECS 208](https://pages.github.berkeley.edu/UCB-EECS208/course_site/) - official course site for high-dimensional signal and data analysis. Checked `2026-04-25`.
+- [CMU 36-709 syllabus](https://www.stat.cmu.edu/~siva/teaching/709current/syllabus.pdf) - official syllabus for advanced non-asymptotic theoretical statistics. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [Stanford high-dimensional statistics](https://statistics.stanford.edu/research/high-dimensional-statistics) - `First pass` - official current page showing the field and its main research themes. Checked `2026-04-25`.
+- [Stanford STATS 202: High-dimensional regression](https://web.stanford.edu/class/stats202/notes/Model-selection/High-dimensional.html) - `First pass` - official notes for the p >> n mindset, regularization, and interpretation issues. Checked `2026-04-25`.
+- [Stanford STATS 305B: LASSO](https://web.stanford.edu/class/stats305b/notes/LASSO_I.html) - `First pass` - official notes on lasso, penalties, and sparse estimation. Checked `2026-04-25`.
+- [Berkeley EECS 208](https://pages.github.berkeley.edu/UCB-EECS208/course_site/) - `Second pass` - official course site connecting high-dimensional geometry, recovery, and applications. Checked `2026-04-25`.
+- [CMU 36-709 syllabus](https://www.stat.cmu.edu/~siva/teaching/709current/syllabus.pdf) - `Second pass` - official syllabus showing a broader advanced theoretical-statistics route into the area. Checked `2026-04-25`.

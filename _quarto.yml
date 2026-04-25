@@ -162,6 +162,16 @@ website:
               - topics/advanced/high-dimensional-probability/concepts/random-matrices-and-spectral-concentration.qmd
               - topics/advanced/high-dimensional-probability/concepts/high-dimensional-phenomena.qmd
               - topics/advanced/high-dimensional-probability/concepts/high-dimensional-probability-for-learning-theory-and-modern-ml.qmd
+          - section: "High-Dimensional Statistics"
+            contents:
+              - topics/advanced/high-dimensional-statistics/index.qmd
+              - topics/advanced/high-dimensional-statistics/concepts/sparsity-and-regularization.qmd
+              - topics/advanced/high-dimensional-statistics/concepts/lasso-and-compressed-sensing-basics.qmd
+              - topics/advanced/high-dimensional-statistics/concepts/design-geometry-restricted-eigenvalues-coherence-and-rip.qmd
+              - topics/advanced/high-dimensional-statistics/concepts/high-dimensional-regression.qmd
+              - topics/advanced/high-dimensional-statistics/concepts/covariance-pca-and-spectral-estimation-in-high-dimension.qmd
+              - topics/advanced/high-dimensional-statistics/concepts/minimax-and-lower-bounds.qmd
+              - topics/advanced/high-dimensional-statistics/concepts/inference-in-high-dimension.qmd
       - section: "Research Workflow"
         contents:
           - applications/index.qmd

@@ -1,0 +1,285 @@
+---
+title: "Inference in High Dimension"
+description: "Why confidence intervals, p-values, and uncertainty statements become delicate after selection or regularization, and the first-pass ideas behind debiasing and selective inference."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: high-dimensional-statistics
+prerequisites:
+  - /topics/advanced/high-dimensional-statistics/concepts/minimax-and-lower-bounds.qmd
+  - /topics/foundation/statistics/concepts/confidence-intervals-and-hypothesis-testing.qmd
+  - /topics/advanced/optimization/index.qmd
+learning-goals:
+  - "Understand why classical least-squares inference breaks after selection or regularization."
+  - "Recognize the difference between predictive success and valid uncertainty quantification."
+  - "See the first-pass roles of debiased estimators and selective inference."
+  - "Understand why inferential targets in high dimension are often low-dimensional or conditional."
+applications:
+  - high-dimensional-inference
+  - debiased-lasso
+  - selective-inference
+keywords:
+  - high-dimensional inference
+  - debiasing
+  - selective inference
+  - confidence intervals
+  - p-values
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/high-dimensional-statistics/index.qmd
+  - /topics/advanced/high-dimensional-statistics/concepts/high-dimensional-regression.qmd
+  - /topics/advanced/high-dimensional-statistics/concepts/minimax-and-lower-bounds.qmd
+  - /topics/foundation/statistics/concepts/confidence-intervals-and-hypothesis-testing.qmd
+  - /topics/advanced/learning-theory/concepts/algorithmic-stability-and-regularization.qmd
+stable-sources:
+  - "Stanford STATS 202 high-dimensional regression notes"
+  - "CMU 36-709 Lecture 14"
+  - "Stanford confidence intervals and hypothesis testing for high-dimensional regression"
+current-sources:
+  - "Stanford STATS 202 high-dimensional regression"
+  - "CMU 36-709 Lecture 14"
+  - "Stanford high-dimensional regression inference page"
+  - "Stanford Stats 364 conditional inference notes"
+---
+
+## Role
+
+This is the seventh page of the `High-Dimensional Statistics` module.
+
+The previous pages built estimators, rates, covariance/PCA viewpoints, and minimax lower bounds.
+
+This page asks the final first-pass question:
+
+`after regularization or selection, what can we still say with confidence about uncertainty?`
+
+That is the entry point to high-dimensional inference.
+
+## First-Pass Promise
+
+Read this page after `Minimax and Lower Bounds`.
+
+If you stop here, you should still understand:
+
+- why classical regression inference does not automatically survive selection or regularization
+- why lasso estimates are useful for prediction or support recovery but biased for direct inference
+- why debiasing tries to recover approximately centered, normal coordinates
+- why selective inference changes the target by conditioning on the selection event
+
+## Why It Matters
+
+In classical regression, confidence intervals and p-values are tied to estimators with well-understood sampling distributions.
+
+In high dimensions, many common pipelines do something different:
+
+- select variables
+- shrink coefficients
+- regularize an optimization problem
+- then apply classical inferential formulas as if the model had been fixed in advance
+
+That shortcut is dangerous.
+
+The same data have been used both:
+
+- to choose a model or sparse representation
+- and to quantify uncertainty inside that chosen model
+
+So high-dimensional inference is not just “do the old t-test after lasso.”
+
+It is a distinct theory problem.
+
+## Prerequisite Recall
+
+- classical confidence intervals assume a stable target and a tractable estimator distribution
+- lasso improves estimation and selection by shrinking coefficients, which introduces bias
+- minimax theory tells us uncertainty targets can themselves be fundamentally hard
+- optimization and KKT conditions help explain where lasso bias comes from
+
+## Intuition
+
+### Prediction Is Not Inference
+
+A model can predict well and still give unreliable uncertainty statements about individual coefficients.
+
+That is because prediction asks:
+
+`does X beta-hat produce good outputs?`
+
+Inference asks:
+
+`how uncertain are we about a specific target parameter?`
+
+Those are different goals.
+
+### Why Naive Post-Selection Inference Fails
+
+If a variable is selected because it looked strong in the sample, then treating it afterward as if it had been chosen in advance ignores the randomness of the selection step.
+
+This makes intervals too optimistic and p-values too small.
+
+### Two First-Pass Responses
+
+Two common first-pass strategies are:
+
+- `debiasing / desparsifying`: correct a regularized estimator so individual coordinates behave more like centered asymptotically normal quantities
+- `selective inference`: condition on the fact that a particular model or active set was selected, and do inference for a conditional target
+
+These do not answer exactly the same question.
+
+That is one of the central conceptual lessons of the area.
+
+## Formal Core
+
+::: {#def-inferential-target}
+## Definition: Inferential Target
+
+In high-dimensional inference, the first question is:
+
+`what parameter are we trying to make a statement about?`
+:::
+
+Typical targets include:
+
+- one coefficient
+- one linear functional
+- a low-dimensional subset of coordinates
+- a parameter defined conditional on selection
+
+The target must be specified before the interval or test can be interpreted.
+
+::: {#thm-naive-invalid}
+## Theorem Idea: Naive Post-Selection Least-Squares Inference Is Invalid
+
+If one uses the same data to select variables and then runs ordinary least-squares inference as though that selected model were fixed in advance, the resulting confidence intervals and p-values generally do not have their nominal guarantees.
+:::
+
+This is one of the main first-pass warnings of the subject.
+
+::: {#thm-debias}
+## Theorem Idea: Debiasing Tries to Restore Approximate Normality
+
+A debiased or desparsified estimator starts with a regularized estimate such as the lasso and adds a correction term designed to reduce its bias.
+:::
+
+At first pass, the shape is
+
+$$
+\widetilde\beta
+=
+\widehat\beta
++
+\text{correction term}.
+$$
+
+Under suitable assumptions, individual coordinates of $\widetilde\beta$ can behave approximately like centered normal quantities, which then supports confidence intervals and tests for low-dimensional targets.
+
+::: {#thm-selective}
+## Theorem Idea: Selective Inference Changes the Conditioning and Often the Target
+
+Selective inference conditions on the event that a given model or active set was selected, and then performs inference relative to that conditional world.
+:::
+
+This can produce valid post-selection inference, but the resulting target is not always the same as the unconditional population coefficient one may have started with.
+
+::: {#thm-inference-harder}
+## Theorem Idea: Inference Is Harder Than Prediction
+
+Prediction error can often be small even when honest uncertainty quantification is delicate or impossible without stronger assumptions.
+:::
+
+That is why valid high-dimensional inference usually needs more structure than point prediction alone.
+
+## Worked Example
+
+Suppose a lasso fit selects variables `j = 3, 8, 15` from a problem with `p = 5000` and `n = 200`.
+
+A naive workflow is:
+
+1. run lasso on the full data
+2. keep those three variables
+3. run ordinary least squares on the same data
+4. report classical confidence intervals for those three coefficients
+
+The problem is that step `3` pretends the model `{3,8,15}` was fixed in advance.
+
+But it was chosen because the same sample made those variables look special.
+
+So the reported intervals ignore model-selection randomness.
+
+A first-pass fix is not:
+
+`just trust the OLS formulas anyway`
+
+It is to change the inferential procedure:
+
+- either debias the penalized estimator and target a low-dimensional coordinate
+- or condition on the selection event and do selective inference
+
+The details are advanced, but the conceptual repair is already visible here.
+
+## Computation Lens
+
+When you read a high-dimensional inference result, ask:
+
+1. what is the target parameter?
+2. is the method debiasing, sample splitting, selective inference, or something else?
+3. what assumptions are needed on sparsity, noise, and the design covariance?
+4. is the guarantee marginal, simultaneous, or conditional on selection?
+
+Those questions usually tell you what the interval or p-value really means.
+
+## Application Lens
+
+### Scientific Variable Claims
+
+In genomics, neuroscience, and social science, people often want uncertainty on individual features. High-dimensional inference explains why sparse selection alone is not enough to justify those claims.
+
+### Post-Regularization ML Interpretability
+
+Regularized models are often treated as interpretable because they are sparse. This page is the caution that interpretability and valid uncertainty are separate achievements.
+
+### Multiple Testing and Large-Scale Discovery
+
+Many modern problems involve many possible signals at once. High-dimensional inference is one of the bridges from sparse estimation to large-scale testing, false discovery control, and uncertainty after selection.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- why post-selection OLS inference is generally invalid
+- why lasso bias is a direct obstacle to coefficient-wise inference
+- why debiasing and selective inference are different responses
+- why valid uncertainty quantification needs a carefully specified target
+
+then this page has done its job.
+
+## Go Deeper
+
+After this page, the strongest adjacent live pages are:
+
+- [High-Dimensional Regression](high-dimensional-regression.qmd)
+- [Minimax and Lower Bounds](minimax-and-lower-bounds.qmd)
+- [Confidence Intervals and Hypothesis Testing](../../../foundation/statistics/concepts/confidence-intervals-and-hypothesis-testing.qmd)
+- [Algorithmic Stability and Regularization](../../learning-theory/concepts/algorithmic-stability-and-regularization.qmd)
+- [Regularization, Implicit Bias, and Model Complexity](../../../../applications/machine-learning/regularization-implicit-bias-and-model-complexity.qmd)
+
+## Optional Deeper Reading After First Pass
+
+The strongest current references connected to this page are:
+
+- [Stanford STATS 202: High-dimensional regression](https://web.stanford.edu/class/stats202/notes/Model-selection/High-dimensional.html) - official notes with a clear warning about inference when `p > n`. Checked `2026-04-25`.
+- [CMU 36-709 Lecture 14](https://stat.cmu.edu/~siva/teaching/709/lec14.pdf) - official lecture notes covering debiasing, the inferential goal, and the need to correct lasso bias. Checked `2026-04-25`.
+- [Stanford: Confidence Intervals and Hypothesis Testing for High-Dimensional Regression](https://web.stanford.edu/~montanar/sslasso/) - official project page explaining a debiasing-based route to confidence intervals and p-values. Checked `2026-04-25`.
+- [Stanford Stats 364: Conditional inference II](https://web.stanford.edu/class/stats364/notebooks/Conditional-II.html) - official notes showing the conditional/selective-inference viewpoint after lasso selection. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [Stanford STATS 202: High-dimensional regression](https://web.stanford.edu/class/stats202/notes/Model-selection/High-dimensional.html) - `First pass` - official notes for why classical inference breaks in the `p > n` setting. Checked `2026-04-25`.
+- [CMU 36-709 Lecture 14](https://stat.cmu.edu/~siva/teaching/709/lec14.pdf) - `First pass` - official lecture notes for debiasing, low-dimensional inferential targets, and the bias-variance tradeoff. Checked `2026-04-25`.
+- [Stanford: Confidence Intervals and Hypothesis Testing for High-Dimensional Regression](https://web.stanford.edu/~montanar/sslasso/) - `Second pass` - official Stanford page for one influential debiasing route to coefficient-wise inference. Checked `2026-04-25`.
+- [Stanford Stats 364: Conditional inference II](https://web.stanford.edu/class/stats364/notebooks/Conditional-II.html) - `Second pass` - official notes for the conditional/selective-inference viewpoint after model selection. Checked `2026-04-25`.

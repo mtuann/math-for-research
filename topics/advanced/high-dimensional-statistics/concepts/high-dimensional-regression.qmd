@@ -1,0 +1,321 @@
+---
+title: "High-Dimensional Regression"
+description: "Prediction, estimation, and support recovery in sparse regression when p is large relative to n, and why random design geometry controls the quality of lasso-type guarantees."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: high-dimensional-statistics
+prerequisites:
+  - /topics/advanced/high-dimensional-statistics/concepts/design-geometry-restricted-eigenvalues-coherence-and-rip.qmd
+  - /topics/advanced/high-dimensional-probability/index.qmd
+  - /topics/advanced/matrix-analysis/index.qmd
+learning-goals:
+  - "Distinguish prediction error, estimation error, and support recovery in high-dimensional regression."
+  - "Understand why random design geometry is central to lasso-type guarantees."
+  - "Recognize the typical s log p over n scaling in first-pass high-dimensional regression bounds."
+  - "See why stronger conclusions require stronger assumptions."
+applications:
+  - high-dimensional-regression
+  - sparse-recovery
+  - machine-learning-theory
+keywords:
+  - high-dimensional regression
+  - lasso rates
+  - prediction error
+  - support recovery
+  - restricted eigenvalue
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/high-dimensional-statistics/index.qmd
+  - /topics/advanced/high-dimensional-statistics/concepts/lasso-and-compressed-sensing-basics.qmd
+  - /topics/advanced/high-dimensional-probability/index.qmd
+  - /topics/advanced/learning-theory/concepts/generalization-in-modern-regimes.qmd
+stable-sources:
+  - "Stanford STATS 202 high-dimensional regression notes"
+  - "Stanford STATS 305B LASSO notes"
+  - "Berkeley high-dimensional regression lasso notes"
+current-sources:
+  - "Stanford STATS 202 high-dimensional regression"
+  - "Stanford STATS 305B LASSO"
+  - "Berkeley high-dimensional regression lasso notes"
+  - "CMU 36-709 course page"
+---
+
+## Role
+
+This is the fourth page of the `High-Dimensional Statistics` module.
+
+The previous page explained the design-geometry conditions that sparse regression theorems rely on.
+
+This page asks the next natural question:
+
+`what can high-dimensional regression actually guarantee, and under what assumptions?`
+
+That is where the module moves from estimator definitions to rate statements.
+
+## First-Pass Promise
+
+Read this page after `Design Geometry: Restricted Eigenvalues, Coherence, and RIP`.
+
+If you stop here, you should still understand:
+
+- the difference between prediction error, coefficient estimation error, and support recovery
+- why sparse high-dimensional regression rates usually involve `s log p / n`
+- why design geometry matters as much as sparsity itself
+- why exact support recovery is a stronger and more fragile goal than good prediction
+
+## Why It Matters
+
+After seeing lasso, it is tempting to ask only:
+
+`does it recover the true sparse vector?`
+
+But high-dimensional regression separates several goals:
+
+- predict well on new design points
+- estimate the coefficient vector well
+- identify the correct active variables
+- get the signs exactly right
+
+These are not equivalent.
+
+A method can predict well without recovering the exact support, and it can estimate coefficients reasonably well without perfect sign recovery.
+
+That distinction is one of the core habits of high-dimensional statistics.
+
+## Prerequisite Recall
+
+- lasso turns sparsity into a convex estimator
+- compressed sensing emphasizes sparse recovery from few measurements
+- high-dimensional probability supplies the concentration tools behind random-design bounds
+- matrix analysis supplies the operator and geometric language used in design conditions
+
+## Intuition
+
+### One Estimator, Several Error Notions
+
+In low-dimensional regression, people often slide between good fit, good coefficients, and good interpretation.
+
+In high dimensions, those come apart much more sharply.
+
+So every theorem should be read by first asking:
+
+`what loss is being controlled?`
+
+### Why s Log p Appears
+
+If the true signal is `s`-sparse, then the effective complexity depends much more on `s` than on ambient dimension `p`.
+
+But the estimator still has to search through many possible coordinates, so a logarithmic price in `p` often remains.
+
+That is why first-pass rates often look like:
+
+$$
+\frac{s \log p}{n}
+$$
+
+or its square-root version.
+
+### Why Geometry Matters
+
+Even with sparsity, the design matrix can be badly aligned.
+
+Highly collinear predictors can make some sparse directions hard to distinguish from others.
+
+So useful theorems need both:
+
+- a sparse target
+- a design matrix that behaves well on sparse vectors
+
+## Formal Core
+
+::: {#def-highdim-model}
+## Definition: High-Dimensional Sparse Regression Model
+
+At first pass, the model is
+
+$$
+y = X\beta^\star + \varepsilon
+$$
+
+with
+
+- $X \in \mathbb R^{n \times p}$
+- $p$ possibly much larger than $n$
+- $\beta^\star$ sparse or approximately sparse
+:::
+
+::: {#def-error-types}
+## Definition: Three Main Error Goals
+
+In high-dimensional regression, common goals are:
+
+- `prediction error`: how well $X\widehat\beta$ approximates $X\beta^\star$
+- `estimation error`: how well $\widehat\beta$ approximates $\beta^\star$
+- `support recovery`: whether the nonzero coordinates are identified correctly
+:::
+
+These should not be conflated.
+
+::: {#thm-rate-idea}
+## Theorem Idea: Sparse High-Dimensional Regression Rates Depend On s, log p, and n
+
+Under sparsity, regularization, and suitable design conditions, lasso-type estimators often satisfy first-pass bounds with scale
+
+$$
+\frac{s \log p}{n}
+$$
+
+for prediction-type error and
+
+$$
+\sqrt{\frac{s \log p}{n}}
+$$
+
+for coefficient-error quantities.
+:::
+
+The exact norm and constants depend on the theorem, but this is the main scaling picture to remember.
+
+::: {#thm-design-geometry}
+## Theorem Idea: Good Rates Need Good Design Geometry
+
+Sparse regression guarantees require the design to behave reasonably on sparse directions.
+
+Typical later conditions include:
+
+- restricted eigenvalue conditions
+- compatibility conditions
+- coherence or RIP-type conditions
+:::
+
+Without some such condition, sparse estimation can become unstable or non-identifiable.
+
+::: {#thm-support-stronger}
+## Theorem Idea: Support Recovery Is Stronger Than Prediction
+
+Exact support or sign recovery typically needs stronger assumptions than prediction or coefficient error control.
+:::
+
+This is why the strongest recovery theorems are also the most fragile.
+
+## Worked Example
+
+Suppose:
+
+- the true coefficient vector is `s = 10` sparse
+- the ambient dimension is `p = 10,000`
+- the sample size is `n = 400`
+
+Then
+
+$$
+\log p \approx \log(10^4) \approx 9.2.
+$$
+
+So the first-pass prediction scale
+
+$$
+\frac{s \log p}{n}
+$$
+
+looks like
+
+$$
+\frac{10 \cdot 9.2}{400} \approx 0.23.
+$$
+
+And the corresponding coefficient-scale quantity
+
+$$
+\sqrt{\frac{s \log p}{n}}
+$$
+
+is roughly
+
+$$
+\sqrt{0.23} \approx 0.48.
+$$
+
+The numbers themselves are not the theorem.
+
+The point is the structure of the rate:
+
+- sparsity helps through `s`
+- high dimension still costs `log p`
+- more samples help through `n`
+
+This is the basic arithmetic behind many first-pass high-dimensional regression bounds.
+
+## Computation Lens
+
+When you read a regression guarantee, ask:
+
+1. what error notion is being bounded?
+2. what sparsity or approximate sparsity assumption is being made?
+3. what design geometry condition is required?
+4. is the theorem for fixed design, random design, or both?
+
+Those four questions usually reveal what the bound is really saying.
+
+## Application Lens
+
+### Genomics and Text Regression
+
+Large-feature regimes are common when predictors represent genes, words, tokens, or interactions. Sparse regression is the first tool people reach for, but interpretation must stay tied to the theorem's actual target.
+
+### Causal or Scientific Feature Screening
+
+Support recovery questions are appealing in science, but they are also the most assumption-sensitive. High-dimensional regression helps explain when variable selection claims are credible and when they are not.
+
+### ML Theory Bridge
+
+This page is also a bridge back to modern ML: many overparameterized or feature-rich models raise the same questions about shrinkage, stability, recoverability, and geometry.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- why prediction, estimation, and support recovery are different goals
+- why `s log p / n` is the first rate shape to remember
+- why design geometry matters for sparse regression
+- why exact variable recovery is harder than good prediction
+
+then this page has done its job.
+
+## Go Deeper
+
+After this page, the next natural step is:
+
+- [Covariance, PCA, and Spectral Estimation in High Dimension](covariance-pca-and-spectral-estimation-in-high-dimension.qmd)
+
+The strongest adjacent live pages right now are:
+
+- [Lasso and Compressed Sensing Basics](lasso-and-compressed-sensing-basics.qmd)
+- [Covariance, PCA, and Spectral Estimation in High Dimension](covariance-pca-and-spectral-estimation-in-high-dimension.qmd)
+- [High-Dimensional Probability](../../high-dimensional-probability/index.qmd)
+- [Matrix Analysis](../../matrix-analysis/index.qmd)
+- [Generalization in Modern Regimes](../../learning-theory/concepts/generalization-in-modern-regimes.qmd)
+- [Regularization, Implicit Bias, and Model Complexity](../../../../applications/machine-learning/regularization-implicit-bias-and-model-complexity.qmd)
+
+## Optional Deeper Reading After First Pass
+
+The strongest current references connected to this page are:
+
+- [Stanford STATS 202: High-dimensional regression](https://web.stanford.edu/class/stats202/notes/Model-selection/High-dimensional.html) - official notes for the core regression viewpoint in the p >> n regime. Checked `2026-04-25`.
+- [Stanford STATS 305B: LASSO](https://web.stanford.edu/class/stats305b/notes/LASSO_I.html) - official notes for estimator structure and recovery caveats. Checked `2026-04-25`.
+- [Berkeley high-dimensional regression: lasso](https://www.stat.berkeley.edu/~ryantibs/statlearn-s24/lectures/lasso.pdf) - official notes that make the regression-rate viewpoint concrete. Checked `2026-04-25`.
+- [CMU 36-709 course page](https://www.stat.cmu.edu/~siva/teaching/709/) - official course page for advanced non-asymptotic theoretical statistics. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [Stanford STATS 202: High-dimensional regression](https://web.stanford.edu/class/stats202/notes/Model-selection/High-dimensional.html) - `First pass` - official notes for the p >> n setting, interpretation issues, and why sparse regression differs from classical regression. Checked `2026-04-25`.
+- [Stanford STATS 305B: LASSO](https://web.stanford.edu/class/stats305b/notes/LASSO_I.html) - `First pass` - official notes for lasso structure, KKT thinking, and sparse regression methodology. Checked `2026-04-25`.
+- [Berkeley high-dimensional regression: lasso](https://www.stat.berkeley.edu/~ryantibs/statlearn-s24/lectures/lasso.pdf) - `Second pass` - official lecture notes with a direct high-dimensional regression and lasso treatment. Checked `2026-04-25`.
+- [CMU 36-709 course page](https://www.stat.cmu.edu/~siva/teaching/709/) - `Second pass` - official page for a broader advanced-theoretical-statistics route into the same style of arguments. Checked `2026-04-25`.
