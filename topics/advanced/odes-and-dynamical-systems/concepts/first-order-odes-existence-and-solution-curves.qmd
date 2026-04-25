@@ -1,0 +1,354 @@
+---
+title: "First-Order ODEs, Existence, and Solution Curves"
+description: "How a first-order differential equation becomes an initial-value problem, a direction field, and a unique local trajectory when the right regularity assumptions hold."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: odes-and-dynamical-systems
+prerequisites:
+  - /topics/foundation/single-variable-calculus/index.qmd
+  - /topics/foundation/multivariable-calculus/index.qmd
+learning-goals:
+  - "Explain what a first-order ODE and an initial-value problem are."
+  - "Interpret direction fields and solution curves as geometric objects."
+  - "Understand the first-pass role of existence and uniqueness assumptions."
+  - "Recognize equilibria and long-time behavior in simple autonomous equations."
+applications:
+  - scientific-computing
+  - engineering-systems
+  - control-and-dynamics
+keywords:
+  - first-order ODE
+  - initial value problem
+  - direction field
+  - existence and uniqueness
+  - equilibrium
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/odes-and-dynamical-systems/index.qmd
+  - /topics/advanced/numerical-methods/concepts/time-stepping-for-odes-and-stability.qmd
+  - /topics/foundation/multivariable-calculus/concepts/vector-fields-and-divergence-curl.qmd
+  - /topics/advanced/real-analysis/concepts/fixed-point-implicit-and-inverse-function-ideas.qmd
+stable-sources:
+  - "MIT 18.03 Differential Equations"
+  - "MIT 18.03SC first-order differential equations"
+  - "Stanford ENGR155A Ordinary Differential Equations for Engineers"
+  - "Stanford MATH63CM Modern Mathematics: Continuous Methods"
+current-sources:
+  - "MIT 18.03 lecture notes page"
+  - "MIT 18.03 lecture 1 direction fields and existence-uniqueness"
+  - "MIT 18.03SC Unit I first-order differential equations"
+  - "MIT ES.1803 existence and uniqueness theorem"
+  - "Stanford ENGR155A bulletin"
+  - "Stanford MATH63CM bulletin"
+---
+
+## Role
+
+This is the first page of the `ODEs and Dynamical Systems` module.
+
+Its job is to turn the phrase
+
+`the derivative is specified`
+
+into a more useful picture:
+
+`an initial condition picks out a trajectory, and existence/uniqueness tells us when that trajectory is actually well-defined`
+
+## First-Pass Promise
+
+Read this page first in the module.
+
+If you stop here, you should still understand:
+
+- what a first-order ODE and an initial-value problem are
+- what direction fields and solution curves represent
+- why existence and uniqueness are different issues
+- why equilibria and autonomous equations already encode long-time behavior
+
+## Why It Matters
+
+A first-order ODE is the most basic mathematical object for continuous-time change.
+
+It appears in:
+
+- population growth and decay
+- charging and discharging circuits
+- chemical kinetics
+- gradient flow and continuous-time optimization
+- control, robotics, and trajectory tracking
+- probability-flow and reverse-time viewpoints in modern ML
+
+What makes ODEs powerful is that they combine three lenses at once:
+
+- `analytic`: sometimes we can solve them in formulas
+- `geometric`: we can look at direction fields and trajectories
+- `qualitative`: we can reason about equilibria, monotonicity, and long-time behavior even without closed-form solutions
+
+This opening page focuses on that geometric and qualitative start.
+
+## Prerequisite Recall
+
+- a derivative gives local rate of change
+- an initial condition picks one member of a family of antiderivatives or trajectories
+- vector fields and local linearization from multivariable calculus help turn slope data into geometry
+- numerical methods can approximate trajectories, but approximation is not the same thing as exact existence
+
+## Intuition
+
+### A Differential Equation Is A Local Rule
+
+A first-order ODE has the form
+
+$$
+y'(t)=f(t,y(t)).
+$$
+
+It does not directly give the whole curve.
+
+Instead, it tells us what slope the curve should have at each state-time point `(t,y)`.
+
+### An Initial Value Problem Picks One Trajectory
+
+Without an initial condition, we usually have many possible solution curves.
+
+An initial value problem adds
+
+$$
+y(t_0)=y_0,
+$$
+
+which asks for the trajectory that passes through `(t_0,y_0)`.
+
+### Direction Fields Turn Algebra Into Geometry
+
+If we draw a small line segment with slope `f(t,y)` at each point `(t,y)`, we get a direction field.
+
+A solution curve is then a curve tangent to those line elements everywhere.
+
+That is the first big shift in viewpoint:
+
+`an ODE is not only an equation to solve; it is a geometry of allowed motion`
+
+### Existence And Uniqueness Are Not Automatic
+
+A rule for slope does not automatically guarantee a well-defined trajectory.
+
+We have to ask:
+
+- does a solution exist near the initial point?
+- if it exists, is it the only one?
+
+Those are theorem-level questions.
+
+### Autonomous Equations Already Show Dynamics
+
+When the equation has the form
+
+$$
+y'=g(y),
+$$
+
+the slope depends only on the state, not explicitly on time.
+
+Then equilibria satisfy `g(y_*)=0`, and the sign of `g(y)` often already tells us whether trajectories move toward or away from those states.
+
+## Formal Core
+
+::: {#def-first-order-ode}
+## Definition: First-Order ODE
+
+A first-order ordinary differential equation is an equation of the form
+
+$$
+y'(t)=f(t,y(t)),
+$$
+
+where the unknown is a scalar-valued function `y(t)`.
+:::
+
+::: {#def-ivp}
+## Definition: Initial-Value Problem
+
+An initial-value problem adds a starting condition
+
+$$
+y(t_0)=y_0
+$$
+
+to the differential equation.
+:::
+
+The goal is to find a function `y(t)` that both satisfies the differential equation and passes through the prescribed initial point.
+
+::: {#def-solution-curve}
+## Definition: Solution Curve
+
+A solution curve is a differentiable function whose derivative matches the rule of the ODE on an interval and which satisfies any imposed initial condition.
+:::
+
+::: {#def-autonomous}
+## Definition: Autonomous Equation And Equilibrium
+
+An autonomous first-order ODE has the form
+
+$$
+y'=g(y).
+$$
+
+A value `y_*` is an equilibrium if `g(y_*)=0`, because then the constant function `y(t)\equiv y_*` is a solution.
+:::
+
+::: {#thm-existence-uniqueness}
+## Theorem Idea: Existence And Uniqueness
+
+For a first-order IVP
+
+$$
+y'=f(t,y), \qquad y(t_0)=y_0,
+$$
+
+continuity of `f` near `(t_0,y_0)` gives local existence, and stronger regularity in the `y` variable such as a local Lipschitz condition gives local uniqueness.
+:::
+
+At first pass, the main lesson is:
+
+- continuity supports `a solution exists`
+- stronger regularity supports `the initial point determines only one local solution`
+
+This is why the same slope picture can sometimes look harmless while uniqueness still fails.
+
+::: {#thm-no-crossing}
+## Theorem Idea: Uniqueness Prevents Crossing
+
+If uniqueness holds for an IVP, two distinct solution curves cannot pass through the same point `(t_0,y_0)`.
+:::
+
+That theorem is the reason phase-line and direction-field arguments are often so powerful even before explicit formulas appear.
+
+## A Small Worked Example
+
+Consider the autonomous equation
+
+$$
+y'=y(1-y),
+\qquad
+y(0)=\frac12.
+$$
+
+### Step 1: Find Equilibria
+
+Equilibria solve
+
+$$
+y(1-y)=0,
+$$
+
+so the equilibrium states are
+
+$$
+y_*=0
+\qquad\text{and}\qquad
+y_*=1.
+$$
+
+### Step 2: Read The Sign Of The Derivative
+
+If `0<y<1`, then `y(1-y)>0`, so solutions increase.
+
+If `y>1`, then `y(1-y)<0`, so solutions decrease.
+
+If `y<0`, then `y(1-y)<0`, so solutions keep decreasing.
+
+### Step 3: Use Uniqueness Qualitatively
+
+The initial value `y(0)=1/2` starts between the two equilibria.
+
+Since the derivative is positive there, the solution moves upward.
+
+If uniqueness holds, the trajectory cannot cross the equilibrium `y=1`, because crossing would mean the same state is reached by two different solution curves: the nonconstant one and the constant equilibrium curve.
+
+So even without solving explicitly, we can conclude:
+
+- the solution stays between `0` and `1`
+- it increases over time
+- it approaches the stable equilibrium `y=1`
+
+That is already a dynamical conclusion, not just an algebraic one.
+
+## Computation Lens
+
+A first-order IVP is the exact object behind numerical stepping methods.
+
+When a solver uses Euler or Runge-Kutta updates, it is not inventing a new problem. It is approximating the exact trajectory of an IVP.
+
+That is why this page and [Time-Stepping for ODEs and Stability](../../numerical-methods/concepts/time-stepping-for-odes-and-stability.qmd) belong together:
+
+- this page asks whether a trajectory exists and what it qualitatively does
+- the numerical page asks how a machine approximates that trajectory and when repeated stepping is stable
+
+## Application Lens
+
+### Population And Resource Models
+
+Autonomous first-order equations already capture growth, decay, carrying capacity, and threshold behavior.
+
+### Circuits, Relaxation, And Response
+
+Simple first-order linear ODEs describe charging, discharging, and approach to equilibrium.
+
+### Continuous-Time ML And Control
+
+Gradient flow, probability-flow ODEs, and some tracking models are all first read as differential equations before they are discretized into algorithms.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- what an initial-value problem is
+- what direction fields and solution curves represent
+- why existence and uniqueness are separate statements
+- why equilibria and sign analysis already say something about long-time behavior
+
+then this page has done its job.
+
+## Go Deeper
+
+After this page, the next natural directions are:
+
+- [Second-Order Systems, State Variables, and Reduction to First Order](second-order-systems-state-variables-and-reduction-to-first-order.qmd)
+- [Time-Stepping for ODEs and Stability](../../numerical-methods/concepts/time-stepping-for-odes-and-stability.qmd) if you want the numerical bridge immediately
+
+The strongest adjacent live pages right now are:
+
+- [ODEs and Dynamical Systems](../index.qmd)
+- [Second-Order Systems, State Variables, and Reduction to First Order](second-order-systems-state-variables-and-reduction-to-first-order.qmd)
+- [Time-Stepping for ODEs and Stability](../../numerical-methods/concepts/time-stepping-for-odes-and-stability.qmd)
+- [Vector Fields and Divergence / Curl](../../../foundation/multivariable-calculus/concepts/vector-fields-and-divergence-curl.qmd)
+- [Fixed-Point, Implicit, and Inverse Function Ideas](../../real-analysis/concepts/fixed-point-implicit-and-inverse-function-ideas.qmd)
+
+## Optional Deeper Reading After First Pass
+
+The strongest current references connected to this page are:
+
+- [MIT 18.03 lecture notes page](https://ocw.mit.edu/courses/18-03-differential-equations-spring-2010/pages/lecture-notes/) - official lecture-note index covering first-order equations, direction fields, and existence/uniqueness. Checked `2026-04-25`.
+- [MIT 18.03 lecture 1: Direction fields, existence and uniqueness of solutions](https://ocw.mit.edu/courses/18-03-differential-equations-spring-2010/resources/mit18_03s10_c01/) - official first lecture page for the geometric opening of ODEs. Checked `2026-04-25`.
+- [MIT 18.03SC Unit I: First Order Differential Equations](https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-i-first-order-differential-equations/) - official unit page tying together separable, linear, and autonomous first-order models. Checked `2026-04-25`.
+- [MIT ES.1803: Existence and Uniqueness Theorem](https://ocw.mit.edu/courses/es-1803-differential-equations-spring-2024/mites_1803_s24_exist_uniq.pdf) - official current notes on the theorem behind local well-posedness. Checked `2026-04-25`.
+- [Stanford ENGR155A bulletin](https://bulletin.stanford.edu/courses/1043152) - official engineering ODE course description connecting first-order, second-order, and numerical methods. Checked `2026-04-25`.
+- [Stanford MATH63CM bulletin](https://bulletin.stanford.edu/courses/1172621) - official proof-based ODE course description emphasizing existence, uniqueness, linear systems, and stability. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [MIT 18.03 lecture notes page](https://ocw.mit.edu/courses/18-03-differential-equations-spring-2010/pages/lecture-notes/) - `First pass` - official note index for the standard first-order ODE opening. Checked `2026-04-25`.
+- [MIT 18.03 lecture 1: Direction fields, existence and uniqueness of solutions](https://ocw.mit.edu/courses/18-03-differential-equations-spring-2010/resources/mit18_03s10_c01/) - `First pass` - official lecture page for the geometric and theorem-level opening lens. Checked `2026-04-25`.
+- [MIT 18.03SC Unit I: First Order Differential Equations](https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-i-first-order-differential-equations/) - `First pass` - official unit page tying together the main first-order model families. Checked `2026-04-25`.
+- [MIT ES.1803: Existence and Uniqueness Theorem](https://ocw.mit.edu/courses/es-1803-differential-equations-spring-2024/mites_1803_s24_exist_uniq.pdf) - `Second pass` - official current notes for the theorem behind local existence and uniqueness. Checked `2026-04-25`.
+- [Stanford ENGR155A bulletin](https://bulletin.stanford.edu/courses/1043152) - `Second pass` - official course description linking analytic and numerical ODE viewpoints. Checked `2026-04-25`.
+- [Stanford MATH63CM bulletin](https://bulletin.stanford.edu/courses/1172621) - `Second pass` - official proof-based ODE course description with stronger stability and theorem emphasis. Checked `2026-04-25`.

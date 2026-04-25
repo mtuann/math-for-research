@@ -323,6 +323,8 @@ then this page has done its job.
 The strongest adjacent pages are:
 
 - [Numerical Methods](../index.qmd)
+- [ODEs and Dynamical Systems](../../odes-and-dynamical-systems/index.qmd)
+- [Discretization, Time-Stepping, and the Bridge to Control](../../odes-and-dynamical-systems/concepts/discretization-time-stepping-and-the-bridge-to-control.qmd)
 - [Approximation, Differentiation, Integration, and Error Control](approximation-differentiation-integration-and-error-control.qmd)
 - [Optimization](../../optimization/index.qmd)
 - [Multivariable Calculus](../../../foundation/multivariable-calculus/index.qmd)

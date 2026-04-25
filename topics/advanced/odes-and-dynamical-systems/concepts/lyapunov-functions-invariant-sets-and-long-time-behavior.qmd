@@ -1,0 +1,370 @@
+---
+title: "Lyapunov Functions, Invariant Sets, and Long-Time Behavior"
+description: "How energy-like scalar functions, invariant regions, and invariance principles let us prove nonlinear stability and reason about what trajectories do for long times."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: odes-and-dynamical-systems
+prerequisites:
+  - /topics/advanced/odes-and-dynamical-systems/concepts/phase-portraits-equilibria-and-local-stability.qmd
+  - /topics/foundation/multivariable-calculus/concepts/jacobians-and-hessians.qmd
+learning-goals:
+  - "Explain the first-pass idea of a Lyapunov function as an energy-like certificate for stability."
+  - "Recognize positively invariant sets and why they matter for long-time behavior."
+  - "Understand why nonincreasing Lyapunov functions lead naturally to invariant-set reasoning."
+  - "Use a simple Lyapunov argument to justify asymptotic stability beyond linearization alone."
+applications:
+  - control-and-dynamics
+  - engineering-systems
+  - scientific-computing
+keywords:
+  - Lyapunov function
+  - invariant set
+  - asymptotic stability
+  - LaSalle
+  - long-time behavior
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/odes-and-dynamical-systems/index.qmd
+  - /topics/advanced/odes-and-dynamical-systems/concepts/phase-portraits-equilibria-and-local-stability.qmd
+  - /topics/advanced/numerical-methods/concepts/time-stepping-for-odes-and-stability.qmd
+  - /topics/advanced/real-analysis/concepts/fixed-point-implicit-and-inverse-function-ideas.qmd
+  - /topics/foundation/multivariable-calculus/concepts/jacobians-and-hessians.qmd
+stable-sources:
+  - "MIT 18.03 Differential Equations"
+  - "MIT 18.03SC differential equations"
+  - "MIT 18.385J Nonlinear Dynamics and Chaos"
+  - "Stanford ENGR209A Analysis and Control of Nonlinear Systems"
+current-sources:
+  - "MIT 18.03SC Unit IV first-order systems"
+  - "MIT 18.03SC nonlinear systems"
+  - "MIT 18.03SC definition of stability"
+  - "MIT 18.03SC limit cycles and chaos"
+  - "MIT 18.385J syllabus"
+  - "Stanford ENGR209A bulletin"
+---
+
+## Role
+
+This is the fifth page of the `ODEs and Dynamical Systems` module.
+
+Its job is to go one step beyond local linearization:
+
+`use a scalar certificate to trap trajectories, prove stability, and reason about what can happen as time goes to infinity`
+
+## First-Pass Promise
+
+Read this page after [Phase Portraits, Equilibria, and Local Stability](phase-portraits-equilibria-and-local-stability.qmd).
+
+If you stop here, you should still understand:
+
+- why Lyapunov functions are energy-like stability certificates
+- what a positively invariant set is
+- why `\dot V \le 0` is useful even when it is not strictly negative everywhere
+- how invariant-set reasoning helps explain long-time behavior
+
+## Why It Matters
+
+Linearization is the first local tool near an equilibrium, but it has limits.
+
+It can fail to decide borderline cases, and it does not automatically give global information.
+
+What we often want instead is a quantity that behaves monotonically along trajectories.
+
+If a scalar function `V(y)` decreases over time, then it becomes hard for trajectories to:
+
+- run away to infinity inside a bounded sublevel set
+- keep crossing level sets in arbitrary ways
+- oscillate freely unless some invariant structure allows it
+
+This is why Lyapunov functions matter. They turn stability into a question about the sign of one derivative along the flow.
+
+That viewpoint is central in:
+
+- nonlinear control
+- mechanical and dissipative systems
+- gradient-flow and optimization dynamics
+- stability proofs for algorithms and learning dynamics
+- long-time behavior arguments when explicit solutions are unavailable
+
+## Prerequisite Recall
+
+- phase portraits and equilibria organize qualitative behavior in autonomous systems
+- Jacobian linearization gives a first local test near hyperbolic equilibria
+- level sets of a scalar function are geometric regions in state space
+- uniqueness prevents trajectories from crossing through the same state
+
+## Intuition
+
+### A Lyapunov Function Is An Energy-Like Quantity
+
+For an autonomous system
+
+$$
+y' = f(y),
+$$
+
+a Lyapunov function is a scalar `V(y)` chosen so that `V` is small near the equilibrium and does not increase along trajectories.
+
+The first-pass picture is:
+
+`V measures stored energy or distance-like potential, and the dynamics push the state downhill`
+
+### Decreasing Level Sets Trap Motion
+
+If `V` decreases along trajectories, then a solution that starts inside a sublevel set
+
+$$
+\{y: V(y)\le c\}
+$$
+
+cannot climb back out through the boundary where `V=c`.
+
+That is why invariant sets appear immediately in Lyapunov arguments.
+
+### Strict Decrease Is Strong, But Nonincrease Is Already Useful
+
+If `\dot V < 0` away from the equilibrium, we usually get asymptotic stability quite directly.
+
+But often we only have
+
+$$
+\dot V \le 0.
+$$
+
+That still tells us the trajectory cannot keep increasing `V`, but it does not by itself say where the trajectory finally goes.
+
+### Invariant Sets Explain The Remaining Freedom
+
+If `\dot V = 0` on a whole set, then long-time behavior can only live inside the part of that set that is actually invariant under the dynamics.
+
+That is the first-pass idea behind LaSalle-type reasoning:
+
+`find the place where the Lyapunov decrease stops, then ask which motions can really stay there forever`
+
+## Formal Core
+
+::: {#def-lyapunov}
+## Definition: Lyapunov Function Near An Equilibrium
+
+Let `y_*` be an equilibrium of
+
+$$
+y' = f(y).
+$$
+
+A first-pass Lyapunov function is a scalar function `V(y)` such that:
+
+- `V(y_*)=0`
+- `V(y)>0` for nearby `y\ne y_*`
+- the derivative of `V` along trajectories is nonpositive near `y_*`
+:::
+
+The derivative along trajectories is
+
+$$
+\dot V(y)=\nabla V(y)\cdot f(y).
+$$
+
+::: {#def-invariant}
+## Definition: Positively Invariant Set
+
+A set `S` is positively invariant if every trajectory that starts in `S` stays in `S` for all future time for which the solution exists.
+:::
+
+Sublevel sets of a decreasing Lyapunov function are the main first-pass examples.
+
+::: {#thm-lyapunov-direct}
+## Theorem Idea: Lyapunov's Direct Method
+
+If there is a Lyapunov function `V` near an equilibrium `y_*` with
+
+$$
+\dot V(y)\le 0,
+$$
+
+then `y_*` is stable.
+
+If in addition
+
+$$
+\dot V(y)<0
+$$
+
+for nearby `y\ne y_*`, then `y_*` is asymptotically stable.
+:::
+
+At first pass, the key lesson is that stability can be proved without solving the ODE explicitly.
+
+::: {#thm-lasalle}
+## Theorem Idea: LaSalle-Type Invariance Principle
+
+If `V` is nonincreasing on a bounded positively invariant region, then long-time behavior is pushed toward the largest invariant subset of the set where
+
+$$
+\dot V = 0.
+$$
+:::
+
+This is the main bridge from Lyapunov decrease to long-time behavior.
+
+## A Small Worked Example
+
+Consider the nonlinear system
+
+$$
+\begin{aligned}
+x' &= y,\\
+y' &= -x - y - x^3.
+\end{aligned}
+$$
+
+The origin `(0,0)` is an equilibrium.
+
+### Step 1: Choose A Natural Lyapunov Function
+
+Take
+
+$$
+V(x,y)=\frac12 x^2+\frac12 y^2+\frac14 x^4.
+$$
+
+This function is nonnegative and vanishes only at the origin.
+
+It looks like an energy:
+
+- quadratic terms measure ordinary size
+- the quartic term matches the nonlinear restoring force `x^3`
+
+### Step 2: Differentiate Along Trajectories
+
+Using the chain rule,
+
+$$
+\dot V
+= x x' + y y' + x^3 x'.
+$$
+
+Substitute the dynamics:
+
+$$
+\dot V
+= x y + y(-x-y-x^3) + x^3 y
+= -y^2.
+$$
+
+So
+
+$$
+\dot V \le 0.
+$$
+
+### Step 3: Read The Consequences
+
+This tells us:
+
+- `V` never increases along trajectories
+- sublevel sets of `V` are positively invariant
+- the dynamics are dissipative rather than energy-preserving
+
+But `\dot V = 0` whenever `y=0`, not only at the origin, so strict Lyapunov decrease is not available.
+
+### Step 4: Use Invariant-Set Reasoning
+
+Inside the set `\{(x,y): \dot V = 0\}` we have `y=0`.
+
+To stay there for all future time, we also need
+
+$$
+y' = -x - x^3 = 0,
+$$
+
+which forces `x=0`.
+
+So the largest invariant subset of `\{\dot V = 0\}` is just the origin.
+
+That is the first-pass LaSalle conclusion:
+
+- trajectories cannot wander forever inside a larger zero-dissipation set
+- the only state they can remain in forever is `(0,0)`
+
+So the origin is asymptotically stable.
+
+## Computation Lens
+
+Simulation can suggest that a trajectory spirals inward, but a Lyapunov argument explains why that behavior is structurally forced.
+
+This matters computationally because:
+
+- numerics can hide or exaggerate long-time behavior
+- invariant regions tell us what qualitative behavior a solver should respect
+- dissipative systems are often judged by whether the numerical method preserves the expected decay pattern
+
+This is why [Time-Stepping for ODEs and Stability](../../numerical-methods/concepts/time-stepping-for-odes-and-stability.qmd) is an important companion page.
+
+## Application Lens
+
+### Nonlinear Control
+
+Lyapunov functions are the standard language for proving that an equilibrium or tracking error is stable without solving the closed-loop dynamics.
+
+### Mechanics And Dissipation
+
+Energy functions and damping terms naturally produce Lyapunov-style arguments for decay toward equilibrium.
+
+### Optimization And Learning Dynamics
+
+Gradient flow, dissipative dynamics, and some convergence proofs are easiest to read through a decreasing scalar functional.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- what a Lyapunov function is trying to certify
+- what a positively invariant set is
+- why `\dot V \le 0` already gives useful information
+- why long-time behavior is tied to the invariant part of `\{\dot V=0\}`
+
+then this page has done its job.
+
+## Go Deeper
+
+After this page, the next natural step is:
+
+- [Discretization, Time-Stepping, and the Bridge to Control](discretization-time-stepping-and-the-bridge-to-control.qmd)
+
+The strongest adjacent pages are:
+
+- [ODEs and Dynamical Systems](../index.qmd)
+- [Phase Portraits, Equilibria, and Local Stability](phase-portraits-equilibria-and-local-stability.qmd)
+- [Discretization, Time-Stepping, and the Bridge to Control](discretization-time-stepping-and-the-bridge-to-control.qmd)
+- [Time-Stepping for ODEs and Stability](../../numerical-methods/concepts/time-stepping-for-odes-and-stability.qmd)
+- [Fixed-Point, Implicit, and Inverse Function Ideas](../../real-analysis/concepts/fixed-point-implicit-and-inverse-function-ideas.qmd)
+- [Jacobians and Hessians](../../../foundation/multivariable-calculus/concepts/jacobians-and-hessians.qmd)
+
+## Optional Deeper Reading After First Pass
+
+The strongest current references connected to this page are:
+
+- [MIT 18.03SC Unit IV: First-order Systems](https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-iv-first-order-systems/) - official systems unit placing phase portraits, nonlinear systems, and stability in one arc. Checked `2026-04-25`.
+- [MIT 18.03SC Definition of Stability](https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/resources/definition-of-stability/) - official course resource focused on the basic stability vocabulary. Checked `2026-04-25`.
+- [MIT 18.03SC Limitations of the Linear: Limit Cycles and Chaos](https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-iv-first-order-systems/limitations-of-the-linear-limit-cycles-and-chaos/) - official page showing why local linear thinking eventually has to give way to stronger nonlinear tools. Checked `2026-04-25`.
+- [MIT 18.385J Nonlinear Dynamics and Chaos syllabus](https://ocw.mit.edu/courses/18-385j-nonlinear-dynamics-and-chaos-fall-2014/pages/syllabus/) - official nonlinear-dynamics course page that situates phase-plane and long-time-behavior topics in a broader dynamical-systems arc. Checked `2026-04-25`.
+- [Stanford ENGR209A bulletin](https://bulletin.stanford.edu/courses/1043471) - official course description explicitly naming phase-plane methods and Lyapunov stability theory. Checked `2026-04-25`.
+- [Stanford ENGR155A bulletin](https://bulletin.stanford.edu/courses/1043152) - official engineering ODE course description connecting systems, stability, and numerical analysis. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [MIT 18.03SC Unit IV: First-order Systems](https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-iv-first-order-systems/) - `First pass` - official systems unit that anchors the whole phase-portrait and stability story. Checked `2026-04-25`.
+- [MIT 18.03SC Definition of Stability](https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/resources/definition-of-stability/) - `First pass` - official resource for the basic stability vocabulary. Checked `2026-04-25`.
+- [MIT 18.03SC Nonlinear Systems](https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-iv-first-order-systems/nonlinear-systems/) - `First pass` - official introduction to nonlinear autonomous systems and geometric reasoning in the phase plane. Checked `2026-04-25`.
+- [MIT 18.03SC Limitations of the Linear: Limit Cycles and Chaos](https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-iv-first-order-systems/limitations-of-the-linear-limit-cycles-and-chaos/) - `Second pass` - official page for what happens when local linear intuition is not the whole story. Checked `2026-04-25`.
+- [MIT 18.385J Nonlinear Dynamics and Chaos syllabus](https://ocw.mit.edu/courses/18-385j-nonlinear-dynamics-and-chaos-fall-2014/pages/syllabus/) - `Second pass` - official nonlinear-dynamics course page connecting phase-plane analysis, limit cycles, and long-time behavior. Checked `2026-04-25`.
+- [Stanford ENGR209A bulletin](https://bulletin.stanford.edu/courses/1043471) - `Second pass` - official nonlinear-systems course description explicitly naming Lyapunov stability theory. Checked `2026-04-25`.
+- [Stanford ENGR155A bulletin](https://bulletin.stanford.edu/courses/1043152) - `Second pass` - official engineering ODE course description linking systems, stability, and numerical methods. Checked `2026-04-25`.

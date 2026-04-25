@@ -1,0 +1,360 @@
+---
+title: "Research Bridges: Reverse-Time SDEs, Probability-Flow ODEs, Flow Matching, and Control"
+description: "How the ODE and dynamical-systems language of vector fields, flow maps, stability, and control reappears in modern generative modeling through reverse-time SDEs, probability-flow ODEs, and flow matching."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: odes-and-dynamical-systems
+prerequisites:
+  - /topics/advanced/odes-and-dynamical-systems/concepts/discretization-time-stepping-and-the-bridge-to-control.qmd
+learning-goals:
+  - "Explain why reverse-time SDEs, probability-flow ODEs, and flow matching reuse the same vector-field language as dynamical systems."
+  - "Distinguish the stochastic reverse-time SDE view from the deterministic probability-flow ODE view."
+  - "Recognize flow matching as learning a transport velocity field rather than reversing a noising process."
+  - "Understand what the control analogy clarifies and where it should not be overextended."
+applications:
+  - machine-learning
+  - control-and-dynamics
+  - generative-modeling
+keywords:
+  - reverse-time SDE
+  - probability-flow ODE
+  - flow matching
+  - control
+  - vector field
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/odes-and-dynamical-systems/index.qmd
+  - /topics/advanced/odes-and-dynamical-systems/concepts/discretization-time-stepping-and-the-bridge-to-control.qmd
+  - /applications/machine-learning/score-matching-and-the-sde-view-of-diffusion.qmd
+  - /applications/machine-learning/flow-matching-and-transport-views-of-generation.qmd
+  - /applications/machine-learning/diffusion-models-and-denoising.qmd
+stable-sources:
+  - "Stanford CME296 Diffusion and Large Vision Models"
+  - "Stanford EE363 Linear Dynamical Systems"
+  - "Song et al. score-based SDE paper"
+  - "Lipman et al. flow matching paper"
+stable-source-dates:
+  - "2026-04-25"
+current-sources:
+  - "Stanford CME296 bulletin"
+  - "Stanford EE363 bulletin"
+  - "Song et al. 2021 score-based SDE paper"
+  - "Flow Matching for Generative Modeling"
+  - "Stochastic Interpolants JMLR"
+  - "Stanford ENGR209A bulletin"
+---
+
+## Role
+
+This is an optional research bridge in the `ODEs and Dynamical Systems` module.
+
+Its job is to show why modern ML papers keep reusing the same continuous-time language:
+
+`state, vector field, trajectory, flow map, stability, control`
+
+even when the application is generative modeling instead of a physical dynamical system.
+
+## First-Pass Promise
+
+Read this page after [Discretization, Time-Stepping, and the Bridge to Control](discretization-time-stepping-and-the-bridge-to-control.qmd).
+
+If you stop here, you should still understand:
+
+- why reverse-time SDEs and probability-flow ODEs are both continuous-time generative dynamics
+- why flow matching is a vector-field-learning story
+- why ODE and control language clarifies these models
+- where the analogy to classical control is useful and where it is only partial
+
+## Why It Matters
+
+By the time you reach modern papers on diffusion, score models, flow matching, or continuous-depth learning, the notation often looks like this:
+
+$$
+dx_t = f(x_t,t)\,dt + g(t)\,dW_t,
+\qquad
+\frac{dx_t}{dt}=v(x_t,t),
+\qquad
+x_{k+1}=\Psi_h(x_k,u_k).
+$$
+
+At first glance, these may seem like separate worlds:
+
+- stochastic diffusion
+- deterministic transport
+- numerical ODE integration
+- sampled-data control
+
+But from the ODE viewpoint, they are all about evolving state in time under a field.
+
+This matters because it gives you a reusable reading strategy:
+
+- identify the state
+- identify the field or drift
+- decide whether the evolution is stochastic or deterministic
+- ask what quantity is preserved, dissipated, or controlled
+- ask what discretization or solver actually produces samples
+
+That is often the difference between being lost in notation and actually seeing the structure of a paper.
+
+## Prerequisite Recall
+
+- an ODE induces a flow map over time
+- discretization turns a continuous flow into an iterated update rule
+- Lyapunov-style reasoning studies what decreases or stays invariant along trajectories
+- a controlled system adds an input that changes the state evolution rule
+- the ML bridge pages already explained the basic stories of [Score Matching and the SDE View of Diffusion](../../../../applications/machine-learning/score-matching-and-the-sde-view-of-diffusion.qmd) and [Flow Matching and Transport Views of Generation](../../../../applications/machine-learning/flow-matching-and-transport-views-of-generation.qmd)
+
+## Intuition
+
+### Reverse-Time SDEs Are Stochastic Dynamics Guided By A Learned Field
+
+In score-based diffusion, the forward process adds noise and turns data into something simpler.
+
+The reverse process is then described by a reverse-time SDE whose drift uses a learned score field.
+
+So the model is not memorizing outputs directly. It is learning a field that guides stochastic state evolution backward toward data.
+
+### Probability-Flow ODEs Replace Stochastic Reverse Motion With Deterministic Flow
+
+The same score model also induces a deterministic ODE with the same one-time marginals as the reverse SDE.
+
+That is the probability-flow ODE viewpoint:
+
+`replace stochastic reverse dynamics by a deterministic continuous flow that transports the same distributions`
+
+This makes the generative story look even more like classical ODE evolution.
+
+### Flow Matching Learns Velocity Fields Directly
+
+Flow matching goes one step further in ODE language.
+
+Instead of starting from a diffusion and then deriving a reverse dynamic, it directly learns a time-dependent velocity field that transports source samples to data.
+
+So the organizing object is not a denoising rule but a transport vector field.
+
+### Control Is The Right Analogy, But Only Up To A Point
+
+The control lens helps because many of the questions are familiar:
+
+- what is the state
+- what law moves it
+- what inputs or fields are applied over time
+- what discretization is actually implemented
+- how do errors accumulate under repeated stepping
+
+But generative modeling is not classical feedback control in disguise.
+
+Usually:
+
+- there is no external controller stabilizing an observed plant in real time
+- the learned field is part of the model itself
+- the objective is distribution transport or sampling quality, not regulation to a reference trajectory
+
+So the right mindset is:
+
+`control provides mathematical language and intuition, not a literal one-to-one identification`
+
+## Formal Core
+
+::: {#def-reverse-sde}
+## Definition: Reverse-Time SDE View
+
+A reverse-time SDE is a stochastic state evolution rule run backward in time, typically written in the form
+
+$$
+dx = b(x,t)\,dt + \sigma(t)\,d\bar W_t,
+$$
+
+where the drift `b` depends on a learned score field.
+:::
+
+The essential point is that the generative process is still a dynamical law on state space, but now with stochastic forcing.
+
+::: {#def-probflow}
+## Definition: Probability-Flow ODE
+
+A probability-flow ODE is a deterministic ODE whose time marginals match those of a corresponding diffusion model:
+
+$$
+\frac{dx}{dt}=v(x,t).
+$$
+:::
+
+This gives a transport-style description of the same distribution evolution.
+
+::: {#def-flow-matching}
+## Definition: Flow Matching
+
+Flow matching learns a time-dependent velocity field `v_\theta(x,t)` so that integrating
+
+$$
+\frac{dx}{dt}=v_\theta(x,t)
+$$
+
+transports a simple source distribution toward the data distribution along a chosen probability path.
+:::
+
+::: {#thm-bridge}
+## Theorem Idea: Same Distributions, Different Dynamic Realizations
+
+In the score-based setting, the reverse-time SDE and the probability-flow ODE can induce the same time-dependent probability marginals even though one evolution is stochastic and the other is deterministic.
+:::
+
+At first pass, the lesson is:
+
+- one mathematical object describes sample paths
+- another describes the evolution of distributions
+- a paper may switch between these viewpoints depending on what it wants to prove or compute
+
+::: {#thm-control-lens}
+## Theorem Idea: Discretization Turns Learned Continuous Dynamics Into Update Rules
+
+Whether the continuous-time model is an SDE or an ODE, actual sampling or control implementation eventually uses a discrete solver or update rule.
+:::
+
+So the ODE module's discretization page is not side context. It is part of the real computational story.
+
+## A Small Worked Example
+
+Here is a deliberately stripped-down comparison table for one state variable `x_t`.
+
+### Reverse-Time SDE Lens
+
+We write
+
+$$
+dx_t = b(x_t,t)\,dt + \sigma(t)\,d\bar W_t.
+$$
+
+Interpretation:
+
+- `b(x_t,t)` is the learned drift pushing samples toward data-like regions
+- `\sigma(t)\,d\bar W_t` keeps the evolution stochastic
+- sampling requires simulating noisy dynamics backward in time
+
+### Probability-Flow ODE Lens
+
+We write
+
+$$
+\frac{dx_t}{dt}=v(x_t,t).
+$$
+
+Interpretation:
+
+- the randomness is moved to the initial condition
+- the subsequent evolution is deterministic
+- sampling becomes ODE integration
+
+### Flow-Matching Lens
+
+We again write
+
+$$
+\frac{dx_t}{dt}=v_\theta(x_t,t),
+$$
+
+but now the field is learned directly from a transport objective rather than derived from reversing a diffusion.
+
+Interpretation:
+
+- choose a probability path from source to data
+- supervise the velocity field along that path
+- generate by solving the learned ODE
+
+### Control Lens
+
+A classical sampled control update looks like
+
+$$
+x_{k+1}=\Psi_h(x_k,u_k).
+$$
+
+The analogy is:
+
+- the learned field plays a role similar to a time-dependent law shaping the evolution
+- the solver turns continuous dynamics into a discrete update chain
+
+The non-analogy is:
+
+- in generative modeling, the goal is usually to transport distributions, not regulate a plant around an operating point
+
+## Computation Lens
+
+The most useful computational question is often not
+
+`is this paper using ODEs or SDEs?`
+
+but rather
+
+`what object is actually being integrated, and what discretization error matters?`
+
+For example:
+
+- reverse-time SDE samplers involve stochastic integration choices
+- probability-flow ODE samplers involve deterministic solver choices
+- flow-matching models often emphasize trajectory geometry because straighter paths can reduce solver cost
+
+So the solver is part of the model story, not only an implementation detail.
+
+## Application Lens
+
+### Diffusion And Score-Based Generative Modeling
+
+The reverse-time SDE and probability-flow ODE views explain why diffusion papers talk about drift, noise schedules, trajectories, and solvers.
+
+### Flow Matching And Transport
+
+Flow matching makes the ODE viewpoint explicit: learn a velocity field and integrate it.
+
+### Control And Dynamical-Systems Thinking
+
+Control contributes the language of state evolution, held inputs, stability intuition, and discretization-aware implementation, even when the application target is not a physical plant.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- why reverse-time SDEs and probability-flow ODEs are two continuous-time views of generation
+- why flow matching is a learned vector-field story
+- why discretization remains central in all of them
+- why the control analogy is helpful but partial
+
+then this page has done its job.
+
+## Go Deeper
+
+After this page, the strongest adjacent pages are:
+
+- [ODEs and Dynamical Systems](../index.qmd)
+- [Discretization, Time-Stepping, and the Bridge to Control](discretization-time-stepping-and-the-bridge-to-control.qmd)
+- [Time-Stepping for ODEs and Stability](../../numerical-methods/concepts/time-stepping-for-odes-and-stability.qmd)
+- [Score Matching and the SDE View of Diffusion](../../../../applications/machine-learning/score-matching-and-the-sde-view-of-diffusion.qmd)
+- [Flow Matching and Transport Views of Generation](../../../../applications/machine-learning/flow-matching-and-transport-views-of-generation.qmd)
+
+## Optional Deeper Reading After First Pass
+
+The strongest current references connected to this page are:
+
+- [Stanford CME296 bulletin](https://bulletin.stanford.edu/courses/2276231) - official Stanford course listing that explicitly groups diffusion, score matching, and flow matching in one modern generative curriculum. Checked `2026-04-25`.
+- [Score-Based Generative Modeling through Stochastic Differential Equations](https://arxiv.org/abs/2011.13456) - primary source for the reverse-time SDE and probability-flow ODE viewpoints. Checked `2026-04-25`.
+- [Flow Matching for Generative Modeling](https://openreview.net/forum?id=PqvMRDCJT9t) - primary source for learning transport vector fields directly. Checked `2026-04-25`.
+- [Stochastic Interpolants: A Unifying Framework for Flows and Diffusions](https://www.jmlr.org/papers/v26/23-1605.html) - current JMLR source that unifies transport and diffusion-style paths in one framework. Checked `2026-04-25`.
+- [Stanford EE363 bulletin](https://bulletin.stanford.edu/courses/2273941) - official linear-dynamical-systems course description linking state evolution, control, and estimation. Checked `2026-04-25`.
+- [Stanford ENGR209A bulletin](https://bulletin.stanford.edu/courses/1043471) - official nonlinear-systems course description that keeps the stability and control lens visible. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [Stanford CME296 bulletin](https://bulletin.stanford.edu/courses/2276231) - `First pass` - official Stanford course listing that places diffusion, score matching, and flow matching in one continuous-time ML arc. Checked `2026-04-25`.
+- [Score-Based Generative Modeling through Stochastic Differential Equations](https://arxiv.org/abs/2011.13456) - `First pass` - primary source for reverse-time SDEs and the probability-flow ODE. Checked `2026-04-25`.
+- [Flow Matching for Generative Modeling](https://openreview.net/forum?id=PqvMRDCJT9t) - `First pass` - primary source for the direct vector-field-learning viewpoint. Checked `2026-04-25`.
+- [Stochastic Interpolants: A Unifying Framework for Flows and Diffusions](https://www.jmlr.org/papers/v26/23-1605.html) - `Second pass` - current unifying framework for deterministic and stochastic bridges between distributions. Checked `2026-04-25`.
+- [Stanford EE363 bulletin](https://bulletin.stanford.edu/courses/2273941) - `Second pass` - official course description linking state evolution, control, estimation, and discretization-aware thinking. Checked `2026-04-25`.
+- [Stanford ENGR209A bulletin](https://bulletin.stanford.edu/courses/1043471) - `Second pass` - official nonlinear-systems course description that keeps Lyapunov and control language in view. Checked `2026-04-25`.

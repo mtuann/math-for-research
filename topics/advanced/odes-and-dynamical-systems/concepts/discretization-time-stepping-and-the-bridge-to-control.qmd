@@ -1,0 +1,420 @@
+---
+title: "Discretization, Time-Stepping, and the Bridge to Control"
+description: "How continuous-time dynamics become step-by-step update maps, how numerical time stepping approximates exact flow maps, and why this is the natural bridge from ODEs to sampled-data control."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: odes-and-dynamical-systems
+prerequisites:
+  - /topics/advanced/odes-and-dynamical-systems/concepts/lyapunov-functions-invariant-sets-and-long-time-behavior.qmd
+  - /topics/advanced/odes-and-dynamical-systems/concepts/linear-systems-matrix-exponentials-and-modes.qmd
+  - /topics/advanced/numerical-methods/concepts/time-stepping-for-odes-and-stability.qmd
+learning-goals:
+  - "Explain how a continuous-time ODE induces an exact one-step flow map."
+  - "Distinguish exact discretization from numerical time-stepping approximation."
+  - "Understand the sampled-data form of controlled systems with held inputs."
+  - "Explain why continuous-time stability and discrete-time stability are related but not identical."
+applications:
+  - control-and-dynamics
+  - scientific-computing
+  - engineering-systems
+keywords:
+  - discretization
+  - time stepping
+  - sampled-data control
+  - flow map
+  - zero-order hold
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/odes-and-dynamical-systems/index.qmd
+  - /topics/advanced/odes-and-dynamical-systems/concepts/lyapunov-functions-invariant-sets-and-long-time-behavior.qmd
+  - /topics/advanced/odes-and-dynamical-systems/concepts/linear-systems-matrix-exponentials-and-modes.qmd
+  - /topics/advanced/numerical-methods/concepts/time-stepping-for-odes-and-stability.qmd
+  - /topics/advanced/numerical-methods/index.qmd
+stable-sources:
+  - "MIT 18.03SC differential equations"
+  - "MIT 18.086 Mathematical Methods for Engineers II"
+  - "Stanford EE263 Introduction to Linear Dynamical Systems"
+  - "Stanford EE363 Linear Dynamical Systems"
+current-sources:
+  - "MIT 18.03SC Unit IV first-order systems"
+  - "MIT 18.03SC matrix exponentials"
+  - "MIT 18.086 lecture 1 difference methods for ODEs"
+  - "Stanford EE263 bulletin"
+  - "Stanford EE363 bulletin"
+  - "Stanford ENGR155A bulletin"
+---
+
+## Role
+
+This is the sixth page of the `ODEs and Dynamical Systems` module.
+
+Its job is to turn the continuous-time story into the language of updates:
+
+`a trajectory over one time interval becomes a map from the current state to the next state`
+
+That is the bridge both to numerical simulation and to digital control.
+
+## First-Pass Promise
+
+Read this page after [Lyapunov Functions, Invariant Sets, and Long-Time Behavior](lyapunov-functions-invariant-sets-and-long-time-behavior.qmd), together with [Time-Stepping for ODEs and Stability](../../numerical-methods/concepts/time-stepping-for-odes-and-stability.qmd).
+
+If you stop here, you should still understand:
+
+- how an ODE induces an exact step-to-step flow map
+- how numerical time stepping approximates that map
+- how sampled inputs turn continuous-time control into a discrete update law
+- why continuous-time stability and discrete-time stability are related but not identical
+
+## Why It Matters
+
+Continuous-time models are written as differential equations, but computers and digital controllers act in steps.
+
+So one of the most important translations in applied mathematics is:
+
+$$
+\text{continuous law of change}
+\quad\longrightarrow\quad
+\text{discrete state update}.
+$$
+
+This translation matters because:
+
+- simulation evaluates the state only at finitely many times
+- digital controllers sample sensors and update actuators on a clock
+- optimization and estimation routines often run on discrete models even when the physical system is continuous
+- stability can look different after discretization if the step size is too large or the scheme is a poor approximation
+
+This page is where the ODE module meets both `Numerical Methods` and the later `Control` layer.
+
+## Prerequisite Recall
+
+- linear systems evolve by the matrix exponential `e^{tA}`
+- time stepping approximates a continuous trajectory by repeated local updates
+- Lyapunov and stability arguments care about long-time behavior, not only one local derivative
+- a state-space model is organized around the current state and what rule moves it forward
+
+## Intuition
+
+### Every ODE Has An Exact One-Step Map
+
+For a differential equation
+
+$$
+x' = f(x),
+$$
+
+starting from a state `x_k` and waiting one time interval `h` produces a new state.
+
+That means the continuous dynamics induce an exact map
+
+$$
+x_{k+1} = \Phi_h(x_k).
+$$
+
+This map is not an approximation. It is the true flow sampled every `h` units of time.
+
+### Numerical Methods Build Approximate Step Maps
+
+A numerical method replaces the exact sampled flow `\Phi_h` by a computable update `\Psi_h`.
+
+So the basic numerical question is:
+
+`how well does the approximate step map mimic the exact one?`
+
+### Inputs Turn ODEs Into Controlled Update Laws
+
+For a controlled system
+
+$$
+x' = f(x,u),
+$$
+
+the next state depends not only on the current state but also on the input applied during the step.
+
+If the input is held constant over each interval, then every time step becomes a state-update rule involving both `x_k` and `u_k`.
+
+### Discretization Is Where Control Becomes Digital
+
+The physical system lives in continuous time, but the controller often sees:
+
+- a sampled state
+- a chosen input for the next interval
+- an update map that predicts the next sampled state
+
+This is the core sampled-data bridge.
+
+### Stability Can Change Under Discretization
+
+A continuous-time system may be stable, but an explicit numerical scheme with a large step size can still create an unstable update rule.
+
+So the right first-pass lesson is:
+
+`discretization is not harmless bookkeeping; it changes the dynamical object we are actually iterating`
+
+## Formal Core
+
+::: {#def-flow-map}
+## Definition: Exact Flow Map
+
+For an autonomous ODE
+
+$$
+x' = f(x),
+$$
+
+the exact time-`h` flow map `\Phi_h` sends an initial state `x_k` to the true state reached after time `h`:
+
+$$
+x_{k+1}=\Phi_h(x_k).
+$$
+:::
+
+::: {#def-discretization}
+## Definition: One-Step Discretization
+
+A one-step discretization replaces the exact flow map by a computable update rule
+
+$$
+x_{k+1}=\Psi_h(x_k).
+$$
+
+For controlled systems, the update depends on the input as well:
+
+$$
+x_{k+1}=\Psi_h(x_k,u_k).
+$$
+:::
+
+::: {#def-sampled-data}
+## Definition: Sampled-Data / Zero-Order-Hold Input
+
+For a controlled ODE
+
+$$
+x' = f(x,u),
+$$
+
+a zero-order-hold input means the control is held constant on each interval:
+
+$$
+u(t)=u_k,\qquad t\in [kh,(k+1)h).
+$$
+:::
+
+This is the simplest and most common bridge from continuous-time models to digital control.
+
+::: {#thm-exact-lti-discretization}
+## Theorem Idea: Exact Discretization Of An LTI System
+
+For the linear time-invariant controlled system
+
+$$
+x' = Ax + Bu,
+$$
+
+with `u(t)=u_k` on `[kh,(k+1)h)`, the sampled states satisfy
+
+$$
+x_{k+1}=e^{hA}x_k+\Gamma_h u_k,
+$$
+
+where
+
+$$
+\Gamma_h=\int_0^h e^{(h-\tau)A}B\,d\tau.
+$$
+:::
+
+This is the exact discrete-time model induced by the continuous dynamics under held inputs.
+
+::: {#thm-forward-euler-bridge}
+## Theorem Idea: Forward Euler Gives The Simplest Approximate Control Update
+
+Applying forward Euler to
+
+$$
+x' = Ax + Bu
+$$
+
+gives
+
+$$
+x_{k+1}=(I+hA)x_k + hBu_k.
+$$
+:::
+
+This is computationally simple, but it is only an approximation to the exact sampled-data model.
+
+## A Small Worked Example
+
+Consider the scalar controlled system
+
+$$
+x' = -2x + u.
+$$
+
+Assume the input is held constant on each interval:
+
+$$
+u(t)=u_k,\qquad t\in [kh,(k+1)h).
+$$
+
+### Step 1: Write The Exact Sampled Update
+
+The homogeneous part decays like `e^{-2t}`, so the exact one-step sampled model is
+
+$$
+x_{k+1}=e^{-2h}x_k + \frac{1-e^{-2h}}{2}\,u_k.
+$$
+
+This is the true discrete-time system seen at sampling times.
+
+### Step 2: Write The Forward-Euler Update
+
+Forward Euler gives
+
+$$
+x_{k+1}=x_k+h(-2x_k+u_k)
+=(1-2h)x_k + h u_k.
+$$
+
+### Step 3: Compare Stability When `u_k=0`
+
+For the continuous-time system with zero input,
+
+$$
+x'=-2x,
+$$
+
+the origin is asymptotically stable.
+
+For the exact sampled system, the multiplier is
+
+$$
+e^{-2h},
+$$
+
+which always satisfies `|e^{-2h}|<1` for every `h>0`.
+
+So the exact sampled model is stable for any positive sampling interval.
+
+For forward Euler, the multiplier is
+
+$$
+1-2h.
+$$
+
+This is stable only when
+
+$$
+|1-2h|<1,
+$$
+
+which means
+
+$$
+0<h<1.
+$$
+
+So a continuous-time stable system can produce an unstable explicit update if the step is too large.
+
+### Step 4: Read The Control Meaning
+
+The state update is now in the form
+
+$$
+x_{k+1}=a_h x_k + b_h u_k.
+$$
+
+That is exactly the language of discrete-time control:
+
+- current state `x_k`
+- chosen control input `u_k`
+- predicted next state `x_{k+1}`
+
+## Computation Lens
+
+This page is where three different notions finally need to be separated:
+
+- the continuous model itself
+- the exact sampled flow map
+- the numerical method used to approximate that map
+
+In practice, that means asking:
+
+1. is `h` a physical sampling interval, a solver step size, or both?
+2. am I simulating the exact sampled model or only approximating it?
+3. does my discrete update preserve the qualitative behavior the continuous system should have?
+4. if I design a controller on the discrete model, how sensitive is that design to the discretization choice?
+
+These are the questions that turn ODEs into engineering systems.
+
+## Application Lens
+
+### Digital Control
+
+Modern controllers usually measure, compute, and actuate at discrete times, so sampled-data models are the practical bridge from continuous physics to real implementation.
+
+### Simulation And Estimation
+
+Kalman-style filtering, model predictive control, and simulation pipelines all depend on getting the state-update map right enough for repeated use.
+
+### Continuous-Time ML
+
+Neural ODEs, probability-flow ODEs, and continuous-time optimization views only become computable after choosing a discretization and stepping rule.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- what the exact flow map `\Phi_h` means
+- how a numerical update differs from the exact sampled dynamics
+- how held inputs produce a discrete-time controlled model
+- why continuous-time stability does not automatically guarantee stability of an explicit discretization
+
+then this page has done its job.
+
+## Go Deeper
+
+After this page, the next natural steps are:
+
+- [Time-Stepping for ODEs and Stability](../../numerical-methods/concepts/time-stepping-for-odes-and-stability.qmd)
+- [Research Bridges: Reverse-Time SDEs, Probability-Flow ODEs, Flow Matching, and Control](research-bridges-reverse-time-sdes-probability-flow-odes-flow-matching-and-control.qmd)
+- `State-Space Models`
+- `Controllability and Observability`
+
+The strongest adjacent pages are:
+
+- [ODEs and Dynamical Systems](../index.qmd)
+- [Lyapunov Functions, Invariant Sets, and Long-Time Behavior](lyapunov-functions-invariant-sets-and-long-time-behavior.qmd)
+- [Linear Systems, Matrix Exponentials, and Modes](linear-systems-matrix-exponentials-and-modes.qmd)
+- [Research Bridges: Reverse-Time SDEs, Probability-Flow ODEs, Flow Matching, and Control](research-bridges-reverse-time-sdes-probability-flow-odes-flow-matching-and-control.qmd)
+- [Numerical Methods](../../numerical-methods/index.qmd)
+- [Time-Stepping for ODEs and Stability](../../numerical-methods/concepts/time-stepping-for-odes-and-stability.qmd)
+
+## Optional Deeper Reading After First Pass
+
+The strongest current references connected to this page are:
+
+- [MIT 18.03SC Unit IV: First-order Systems](https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-iv-first-order-systems/) - official systems unit connecting matrix methods, phase portraits, and state evolution. Checked `2026-04-25`.
+- [MIT 18.03SC Matrix Exponentials](https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-iv-first-order-systems/matrix-exponentials/) - official page for the exact linear-system evolution map and variation-of-parameters viewpoint. Checked `2026-04-25`.
+- [MIT 18.086 Lecture 1: Difference Methods for Ordinary Differential Equations](https://ocw.mit.edu/courses/18-086-mathematical-methods-for-engineers-ii-spring-2006/resources/lecture-1-difference-methods-for-ordinary-differential-equations/) - official MIT lecture resource for turning continuous ODEs into stepwise updates. Checked `2026-04-25`.
+- [Stanford EE263 bulletin](https://bulletin.stanford.edu/courses/1038991) - official course description connecting matrix exponentials, stability, control, reachability, and observability. Checked `2026-04-25`.
+- [Stanford EE363 bulletin](https://bulletin.stanford.edu/courses/2273941) - official course description for the more advanced linear-dynamical-systems and control-facing arc. Checked `2026-04-25`.
+- [Stanford ENGR155A bulletin](https://bulletin.stanford.edu/courses/1043152) - official ODE course description connecting analytic methods, numerical methods, and engineering models. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [MIT 18.03SC Unit IV: First-order Systems](https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-iv-first-order-systems/) - `First pass` - official systems unit anchoring the state-space and sampled-evolution viewpoint. Checked `2026-04-25`.
+- [MIT 18.03SC Matrix Exponentials](https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-iv-first-order-systems/matrix-exponentials/) - `First pass` - official page for the exact evolution operator of linear systems. Checked `2026-04-25`.
+- [MIT 18.086 Lecture 1: Difference Methods for Ordinary Differential Equations](https://ocw.mit.edu/courses/18-086-mathematical-methods-for-engineers-ii-spring-2006/resources/lecture-1-difference-methods-for-ordinary-differential-equations/) - `First pass` - official MIT lecture resource for the finite-difference and update-rule viewpoint on ODEs. Checked `2026-04-25`.
+- [Stanford EE263 bulletin](https://bulletin.stanford.edu/courses/1038991) - `Second pass` - official course description linking linear dynamical systems to reachability, observability, and control. Checked `2026-04-25`.
+- [Stanford EE363 bulletin](https://bulletin.stanford.edu/courses/2273941) - `Second pass` - official advanced linear-systems course description linking matrix exponential, state transfer, and control. Checked `2026-04-25`.
+- [Stanford ENGR155A bulletin](https://bulletin.stanford.edu/courses/1043152) - `Second pass` - official engineering ODE course description linking analytic ODE methods with numerical stepping. Checked `2026-04-25`.

@@ -19,6 +19,7 @@ The advanced track is where the site moves into:
 - [Real Analysis](real-analysis/index.qmd)
 - [Optimization](optimization/index.qmd)
 - [Numerical Methods](numerical-methods/index.qmd)
+- [ODEs and Dynamical Systems](odes-and-dynamical-systems/index.qmd)
 - [Matrix Analysis](matrix-analysis/index.qmd)
 - [Learning Theory](learning-theory/index.qmd)
 - [High-Dimensional Probability](high-dimensional-probability/index.qmd)
@@ -65,6 +66,23 @@ Its current study route is:
 - [Time-Stepping for ODEs and Stability](numerical-methods/concepts/time-stepping-for-odes-and-stability.qmd) - optional extension toward ODEs and simulation
 
 This module is where the site turns exact linear-algebra, calculus, and optimization objects into actual computations that live in floating point and must be judged by conditioning, stability, and error.
+
+## ODEs and Dynamical Systems
+
+[ODEs and Dynamical Systems](odes-and-dynamical-systems/index.qmd) is the continuous-time bridge from local rules for change to trajectories, equilibria, and stability.
+
+Its current live route is:
+
+- [First-Order ODEs, Existence, and Solution Curves](odes-and-dynamical-systems/concepts/first-order-odes-existence-and-solution-curves.qmd)
+- [Second-Order Systems, State Variables, and Reduction to First Order](odes-and-dynamical-systems/concepts/second-order-systems-state-variables-and-reduction-to-first-order.qmd)
+- [Linear Systems, Matrix Exponentials, and Modes](odes-and-dynamical-systems/concepts/linear-systems-matrix-exponentials-and-modes.qmd)
+- [Phase Portraits, Equilibria, and Local Stability](odes-and-dynamical-systems/concepts/phase-portraits-equilibria-and-local-stability.qmd)
+- [Lyapunov Functions, Invariant Sets, and Long-Time Behavior](odes-and-dynamical-systems/concepts/lyapunov-functions-invariant-sets-and-long-time-behavior.qmd)
+- [Discretization, Time-Stepping, and the Bridge to Control](odes-and-dynamical-systems/concepts/discretization-time-stepping-and-the-bridge-to-control.qmd)
+- [Time-Stepping for ODEs and Stability](numerical-methods/concepts/time-stepping-for-odes-and-stability.qmd) - adjacent numerical bridge
+- [Research Bridges: Reverse-Time SDEs, Probability-Flow ODEs, Flow Matching, and Control](odes-and-dynamical-systems/concepts/research-bridges-reverse-time-sdes-probability-flow-odes-flow-matching-and-control.qmd) - optional research bridge into continuous-time ML
+
+This module is where the site turns derivatives into actual continuous-time models, qualitative dynamics, and the language needed for later control and simulation.
 
 ## Matrix Analysis
 
@@ -130,4 +148,3 @@ This module is where the site turns `p >> n`, sparse structure, shrinkage, and r
 ## Planned Next Advanced Modules
 
 - `Information Theory`
-- `ODEs and Dynamical Systems`

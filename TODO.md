@@ -17,8 +17,8 @@ Use it to track:
 
 ## Current Snapshot
 
-- `201` `.qmd` pages currently exist
-- `82` concept-topic pages currently exist
+- `209` `.qmd` pages currently exist
+- `90` concept-topic pages currently exist
 - strongest subjects so far: `Linear Algebra`, `Probability`, `Proofs`, `Logic`, `Statistics`, `Single-Variable Calculus`, `Multivariable Calculus`, `Optimization`, `Real Analysis`
 - strongest public-facing bridge so far: `Applications > Machine Learning`
 - non-topic sections already scaffolded: `Start Here`, `Roadmaps`, `Applications`, `Paper Lab`, `Research`, `Publication`, `Library`, `Notes`
@@ -212,13 +212,17 @@ These are not required before the main spine is public, but they are the next hi
 - [x] `Multiple integrals`
 - [x] `Vector fields and divergence / curl`
 
-### ODEs
+### ODEs and Dynamical Systems
 
-- [ ] `First-order ODEs`
-- [ ] `Second-order linear ODEs`
-- [ ] `Linear systems`
-- [ ] `Phase portraits and stability`
-- [ ] `Matrix exponential intuition`
+- [x] `ODEs and Dynamical Systems index`
+- [x] `First-order ODEs`
+- [x] `Second-order linear ODEs`
+- [x] `Linear systems`
+- [x] `Phase portraits and stability`
+- [x] `Lyapunov functions and invariant sets`
+- [x] `Discretization and time stepping bridge`
+- [x] `Research bridges: reverse-time SDEs, probability-flow ODEs, flow matching, and control`
+- [x] `Matrix exponential intuition`
 
 ### Probability
 

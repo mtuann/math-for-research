@@ -1,0 +1,367 @@
+---
+title: "Linear Systems, Matrix Exponentials, and Modes"
+description: "How first-order linear systems evolve through matrices, why the matrix exponential is the exact continuous-time evolution operator, and how eigenvectors reveal the modes that grow, decay, or oscillate."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: odes-and-dynamical-systems
+prerequisites:
+  - /topics/advanced/odes-and-dynamical-systems/concepts/second-order-systems-state-variables-and-reduction-to-first-order.qmd
+  - /topics/foundation/linear-algebra/concepts/eigenvalues-and-diagonalization.qmd
+learning-goals:
+  - "Explain what a linear time-invariant system y' = Ay is."
+  - "Understand the matrix exponential as the exact evolution map for y' = Ay."
+  - "Recognize eigenvectors and eigenvalues as dynamical modes."
+  - "Connect modal structure to growth, decay, oscillation, and coupling."
+applications:
+  - engineering-systems
+  - control-and-dynamics
+  - scientific-computing
+keywords:
+  - linear systems
+  - matrix exponential
+  - modes
+  - eigenvalues
+  - state space
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/odes-and-dynamical-systems/index.qmd
+  - /topics/advanced/odes-and-dynamical-systems/concepts/second-order-systems-state-variables-and-reduction-to-first-order.qmd
+  - /topics/advanced/numerical-methods/concepts/eigenvalue-and-svd-computation.qmd
+  - /topics/foundation/linear-algebra/concepts/eigenvalues-and-diagonalization.qmd
+  - /topics/advanced/matrix-analysis/concepts/spectral-inequalities-and-variational-principles.qmd
+stable-sources:
+  - "MIT 18.03 Differential Equations"
+  - "MIT 18.03SC differential equations"
+  - "Stanford ENGR155A Ordinary Differential Equations for Engineers"
+  - "Stanford MATH63CM Modern Mathematics: Continuous Methods"
+current-sources:
+  - "MIT 18.03SC Unit IV first-order systems"
+  - "MIT 18.03SC linear systems introduction"
+  - "MIT 18.03SC matrix exponentials"
+  - "MIT 18.03SC matrix methods eigenvalues and normal modes"
+  - "Stanford ENGR155A bulletin"
+  - "Stanford MATH63CM bulletin"
+---
+
+## Role
+
+This is the third page of the `ODEs and Dynamical Systems` module.
+
+Its job is to show how the state-space rewrite from the previous page becomes a genuine linear-algebra story:
+
+`matrix multiplication gives the local rule, and the matrix exponential gives the exact flow`
+
+## First-Pass Promise
+
+Read this page after [Second-Order Systems, State Variables, and Reduction to First Order](second-order-systems-state-variables-and-reduction-to-first-order.qmd).
+
+If you stop here, you should still understand:
+
+- what a linear time-invariant system `y' = Ay` is
+- why `e^{tA}` is the exact continuous-time evolution operator
+- how eigenvectors and eigenvalues become dynamical modes
+- why coupling can often be understood by changing coordinates to modal variables
+
+## Why It Matters
+
+Once a model is written in state-space form, linear systems are the first major tractable class.
+
+They appear in:
+
+- oscillators and coupled mechanical systems
+- circuits and filters
+- local models near equilibria
+- control and state estimation
+- numerical time stepping and stability analysis
+- diffusion, flow, and continuous-depth models in ML
+
+The key step is to stop thinking only in coordinates and start thinking in operators:
+
+- the matrix `A` tells us the local rule for change
+- the matrix exponential `e^{tA}` tells us the exact finite-time evolution
+- eigenvectors tell us the preferred directions of motion
+- eigenvalues tell us whether those directions grow, decay, or oscillate
+
+This is where linear algebra becomes dynamics instead of only static transformation.
+
+## Prerequisite Recall
+
+- the previous page rewrote second-order equations as first-order state-space systems
+- eigenvalues and eigenvectors describe invariant directions of a matrix
+- diagonalization is useful when a matrix has enough independent eigenvectors
+- numerical methods later approximate flows of systems, but here we are describing the exact linear flow
+
+## Intuition
+
+### A Linear System Evolves A Whole State Vector
+
+A linear time-invariant system has the form
+
+$$
+y'(t)=Ay(t),
+$$
+
+where `y(t)` is a vector and `A` is a constant matrix.
+
+The derivative of the whole state is determined by multiplying the current state by `A`.
+
+### The Matrix Exponential Is The Right Exact Analogue Of `e^{\\lambda t}`
+
+For the scalar equation
+
+$$
+x'=\lambda x,
+$$
+
+the solution is
+
+$$
+x(t)=e^{\lambda t}x(0).
+$$
+
+The matrix exponential is the system version of that formula:
+
+$$
+y(t)=e^{tA}y(0).
+$$
+
+### Modes Decompose Complicated Motion Into Simpler Pieces
+
+If `v` is an eigenvector of `A` with eigenvalue `\lambda`, then motion started exactly in the direction `v` stays in that direction and evolves like
+
+$$
+e^{\lambda t}v.
+$$
+
+That is a mode.
+
+So each eigenpair gives a basic pattern:
+
+- real negative eigenvalue: decay
+- real positive eigenvalue: growth
+- purely imaginary or complex eigenvalues: oscillation or rotation
+
+### Coupling Often Looks Harder Than It Is
+
+In the original coordinates, variables may appear strongly coupled.
+
+But if we move to modal coordinates, the dynamics often decouple or nearly decouple.
+
+That is why eigenvectors matter dynamically, not just algebraically.
+
+## Formal Core
+
+::: {#def-linear-system}
+## Definition: Linear Time-Invariant System
+
+A linear time-invariant first-order system has the form
+
+$$
+y'(t)=Ay(t)+r(t),
+$$
+
+where `A` is a constant matrix and `r(t)` is a forcing term.
+:::
+
+The homogeneous case is
+
+$$
+y'(t)=Ay(t).
+$$
+
+::: {#def-matrix-exponential}
+## Definition: Matrix Exponential
+
+For a square matrix `A`, the matrix exponential is defined by the power series
+
+$$
+e^{tA} = I + tA + \frac{t^2}{2!}A^2 + \frac{t^3}{3!}A^3 + \cdots
+$$
+:::
+
+This is the system-level version of the scalar exponential.
+
+::: {#thm-homogeneous-linear}
+## Theorem Idea: Exact Solution Of A Homogeneous Linear System
+
+For
+
+$$
+y'(t)=Ay(t), \qquad y(0)=y_0,
+$$
+
+the exact solution is
+
+$$
+y(t)=e^{tA}y_0.
+$$
+:::
+
+This is the load-bearing fact behind linear systems.
+
+::: {#thm-mode}
+## Theorem Idea: Eigenvectors Produce Modes
+
+If
+
+$$
+Av=\lambda v,
+$$
+
+then
+
+$$
+y(t)=e^{\lambda t}v
+$$
+
+is a solution of the homogeneous system `y' = Ay`.
+:::
+
+So eigenvectors define invariant directions and eigenvalues define the time behavior along those directions.
+
+::: {#thm-diagonalizable}
+## Theorem Idea: Diagonalization Turns Coupled Dynamics Into Modal Dynamics
+
+If `A = V\Lambda V^{-1}` is diagonalizable, then
+
+$$
+e^{tA}=V e^{t\Lambda} V^{-1},
+$$
+
+and the system can be understood by evolving each modal coordinate separately.
+:::
+
+This is why modal decomposition is one of the cleanest first lenses for linear systems.
+
+## A Small Worked Example
+
+Consider the system
+
+$$
+y'(t)=
+\begin{bmatrix}
+0 & 1 \\
+-2 & -3
+\end{bmatrix}
+y(t).
+$$
+
+This is exactly the state-space form of the second-order equation
+
+$$
+x''+3x'+2x=0.
+$$
+
+### Step 1: Find The Eigenvalues
+
+The characteristic polynomial is
+
+$$
+\lambda^2 + 3\lambda + 2 = (\lambda+1)(\lambda+2),
+$$
+
+so the eigenvalues are
+
+$$
+\lambda_1=-1,\qquad \lambda_2=-2.
+$$
+
+### Step 2: Read The Modes
+
+Each eigenvalue gives a decaying exponential mode:
+
+- one decays like `e^{-t}`
+- the other decays like `e^{-2t}`
+
+So every solution is a combination of two decaying modes.
+
+### Step 3: Read The Qualitative Dynamics
+
+Because both eigenvalues are negative:
+
+- trajectories move toward the origin
+- there is no sustained oscillation
+- one mode decays faster than the other, so long-time behavior is eventually dominated by the slower mode `e^{-t}`
+
+Even without writing the full closed-form solution, the modal picture already tells us what the system does.
+
+## Computation Lens
+
+The matrix exponential is the exact finite-time flow of a linear system.
+
+Numerical solvers such as Euler, Runge-Kutta, or exponential integrators are trying to approximate that exact flow.
+
+This is why linear systems are such a useful benchmark:
+
+- exact evolution is available in principle through `e^{tA}`
+- numerical methods can be compared against that exact linear benchmark
+- spectral structure of `A` controls stiffness, transient decay, and long-time behavior
+
+This page therefore sits directly between exact dynamics and [Time-Stepping for ODEs and Stability](../../numerical-methods/concepts/time-stepping-for-odes-and-stability.qmd).
+
+## Application Lens
+
+### Oscillators And Coupled Systems
+
+Mass-spring and circuit models become matrix systems once several state variables evolve together.
+
+### Control And State-Space Models
+
+Modern control begins with linear systems because modal structure, reachability, and stability are easiest to analyze there.
+
+### Continuous-Time ML
+
+Linear flows are the simplest continuous-depth models, and they also provide the local template used to analyze nonlinear systems near equilibria.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- what a linear system `y' = Ay` is
+- why `e^{tA}` is the exact evolution operator
+- why eigenvectors are modes
+- why eigenvalues determine growth, decay, and oscillation
+
+then this page has done its job.
+
+## Go Deeper
+
+After this page, the next natural step is:
+
+- [Phase Portraits, Equilibria, and Local Stability](phase-portraits-equilibria-and-local-stability.qmd)
+
+The strongest adjacent pages are:
+
+- [ODEs and Dynamical Systems](../index.qmd)
+- [Second-Order Systems, State Variables, and Reduction to First Order](second-order-systems-state-variables-and-reduction-to-first-order.qmd)
+- [Phase Portraits, Equilibria, and Local Stability](phase-portraits-equilibria-and-local-stability.qmd)
+- [Time-Stepping for ODEs and Stability](../../numerical-methods/concepts/time-stepping-for-odes-and-stability.qmd)
+- [Eigenvalues and Diagonalization](../../../foundation/linear-algebra/concepts/eigenvalues-and-diagonalization.qmd)
+- [Eigenvalue and SVD Computation](../../numerical-methods/concepts/eigenvalue-and-svd-computation.qmd)
+
+## Optional Deeper Reading After First Pass
+
+The strongest current references connected to this page are:
+
+- [MIT 18.03SC Unit IV: First-order Systems](https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-iv-first-order-systems/) - official unit page covering linear systems, phase portraits, matrix methods, and linearization. Checked `2026-04-25`.
+- [MIT 18.03SC Linear Systems Introduction](https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-iv-first-order-systems/linear-systems-introduction/) - official introduction to first-order linear systems and matrix notation. Checked `2026-04-25`.
+- [MIT 18.03SC Matrix Exponentials](https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-iv-first-order-systems/matrix-exponentials/) - official course page for the matrix exponential and exact evolution of linear systems. Checked `2026-04-25`.
+- [MIT 18.03SC Matrix Methods: Eigenvalues and Normal Modes](https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-iv-first-order-systems/matrix-methods-eigenvalues-and-normal-modes/) - official course page tying eigenvalues directly to modal behavior. Checked `2026-04-25`.
+- [Stanford ENGR155A bulletin](https://bulletin.stanford.edu/courses/1043152) - official engineering ODE course description connecting second-order equations, systems, and numerical methods. Checked `2026-04-25`.
+- [Stanford MATH63CM bulletin](https://bulletin.stanford.edu/courses/1172621) - official proof-based ODE course description emphasizing linear systems and asymptotic behavior. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [MIT 18.03SC Unit IV: First-order Systems](https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-iv-first-order-systems/) - `First pass` - official system-level ODE unit showing how linear systems sit inside the larger dynamics story. Checked `2026-04-25`.
+- [MIT 18.03SC Linear Systems Introduction](https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-iv-first-order-systems/linear-systems-introduction/) - `First pass` - official introduction to state-space linear systems. Checked `2026-04-25`.
+- [MIT 18.03SC Matrix Exponentials](https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-iv-first-order-systems/matrix-exponentials/) - `First pass` - official course page for the exact evolution operator of linear systems. Checked `2026-04-25`.
+- [MIT 18.03SC Matrix Methods: Eigenvalues and Normal Modes](https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-iv-first-order-systems/matrix-methods-eigenvalues-and-normal-modes/) - `First pass` - official page tying eigenvectors and eigenvalues to modal structure. Checked `2026-04-25`.
+- [Stanford ENGR155A bulletin](https://bulletin.stanford.edu/courses/1043152) - `Second pass` - official engineering course description linking second-order equations, systems, and numerics. Checked `2026-04-25`.
+- [Stanford MATH63CM bulletin](https://bulletin.stanford.edu/courses/1172621) - `Second pass` - official proof-based course description emphasizing linear systems and stability. Checked `2026-04-25`.

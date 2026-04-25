@@ -1,0 +1,370 @@
+---
+title: "Phase Portraits, Equilibria, and Local Stability"
+description: "How autonomous systems are read geometrically in the phase plane, why equilibria organize nearby motion, and how linearization gives the first local stability test."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: odes-and-dynamical-systems
+prerequisites:
+  - /topics/advanced/odes-and-dynamical-systems/concepts/linear-systems-matrix-exponentials-and-modes.qmd
+  - /topics/foundation/multivariable-calculus/concepts/jacobians-and-hessians.qmd
+learning-goals:
+  - "Explain what a phase portrait represents for an autonomous system."
+  - "Identify equilibria and interpret local behavior near them."
+  - "Use the Jacobian linearization as a first local stability test."
+  - "Recognize sinks, sources, saddles, and centers as local geometric types."
+applications:
+  - control-and-dynamics
+  - engineering-systems
+  - scientific-computing
+keywords:
+  - phase portrait
+  - equilibrium
+  - local stability
+  - linearization
+  - Jacobian
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/odes-and-dynamical-systems/index.qmd
+  - /topics/advanced/odes-and-dynamical-systems/concepts/linear-systems-matrix-exponentials-and-modes.qmd
+  - /topics/foundation/multivariable-calculus/concepts/jacobians-and-hessians.qmd
+  - /topics/advanced/real-analysis/concepts/fixed-point-implicit-and-inverse-function-ideas.qmd
+  - /topics/advanced/numerical-methods/concepts/time-stepping-for-odes-and-stability.qmd
+stable-sources:
+  - "MIT 18.03 Differential Equations"
+  - "MIT 18.03SC differential equations"
+  - "Stanford ENGR155A Ordinary Differential Equations for Engineers"
+  - "Stanford MATH63CM Modern Mathematics: Continuous Methods"
+current-sources:
+  - "MIT 18.03SC Unit IV first-order systems"
+  - "MIT 18.03SC nonlinear systems"
+  - "MIT 18.03SC linearization near critical points"
+  - "MIT 18.03SC linear systems introduction"
+  - "Stanford ENGR155A bulletin"
+  - "Stanford MATH63CM bulletin"
+---
+
+## Role
+
+This is the fourth page of the `ODEs and Dynamical Systems` module.
+
+Its job is to move from exact linear systems into the geometric reading of nonlinear autonomous systems:
+
+`draw the flow, find the equilibria, and use linearization to understand what nearby trajectories do`
+
+## First-Pass Promise
+
+Read this page after [Linear Systems, Matrix Exponentials, and Modes](linear-systems-matrix-exponentials-and-modes.qmd).
+
+If you stop here, you should still understand:
+
+- what a phase portrait represents
+- why equilibria are the first points to inspect
+- how the Jacobian linearization gives a first local stability test
+- what sinks, sources, saddles, and centers mean geometrically
+
+## Why It Matters
+
+Closed-form solutions are rare once systems become nonlinear.
+
+But we can still learn a lot from geometry.
+
+For an autonomous system
+
+$$
+y' = f(y),
+$$
+
+the key questions are:
+
+- where are the equilibria
+- which directions does the vector field point
+- which trajectories move toward or away from an equilibrium
+- when does local behavior look approximately linear
+
+This is why phase portraits matter. They turn differential equations into pictures of possible motion.
+
+That viewpoint is essential in:
+
+- mechanics and oscillators
+- predator-prey and population models
+- control and feedback systems
+- local dynamics near operating points
+- continuous-time ML and flow-based models
+
+## Prerequisite Recall
+
+- the previous page explained how linear systems are organized by modes and eigenvalues
+- an autonomous system has no explicit time dependence in the right-hand side
+- the Jacobian matrix is the best local linear map for a vector-valued function
+- uniqueness prevents two distinct trajectories from crossing through the same state
+
+## Intuition
+
+### The Phase Plane Tracks State, Not Time On The Horizontal Axis
+
+For a two-dimensional autonomous system
+
+$$
+\begin{aligned}
+x' &= f(x,y),\\
+y' &= g(x,y),
+\end{aligned}
+$$
+
+the phase plane is the `(x,y)` state plane.
+
+Each point is a state, and the vector field tells us which way the trajectory moves from there.
+
+### Equilibria Are The First Landmarks
+
+An equilibrium is a state where the vector field vanishes.
+
+If a trajectory starts there, it stays there.
+
+Even more importantly, nearby trajectories are often organized by what the system does around those points.
+
+### Linearization Is The First Local Approximation
+
+Near an equilibrium `y_*`, the nonlinear system can often be approximated by
+
+$$
+u' = J_f(y_*)u,
+$$
+
+where `J_f(y_*)` is the Jacobian matrix.
+
+That means the linear systems page becomes a local tool for nonlinear systems.
+
+### Geometric Types Come From Eigenvalues
+
+For a planar linearized system:
+
+- both eigenvalues with negative real parts suggest a local sink
+- both with positive real parts suggest a local source
+- mixed signs suggest a saddle
+- purely imaginary eigenvalues are a borderline case where linearization alone is not always decisive
+
+This is why local stability is really a blend of geometry and linear algebra.
+
+## Formal Core
+
+::: {#def-phase-portrait}
+## Definition: Phase Portrait
+
+A phase portrait is the collection of trajectories, or at least a qualitative sketch of them, in state space for an autonomous system.
+:::
+
+It shows how states move, not how coordinates vary directly with time on a graph.
+
+::: {#def-equilibrium}
+## Definition: Equilibrium
+
+For an autonomous system
+
+$$
+y' = f(y),
+$$
+
+an equilibrium `y_*` satisfies
+
+$$
+f(y_*)=0.
+$$
+:::
+
+::: {#def-local-stability}
+## Definition: Local Stability
+
+An equilibrium is locally stable if trajectories that start sufficiently close stay close for future time, and asymptotically stable if they also converge to the equilibrium.
+:::
+
+::: {#thm-linearization}
+## Theorem Idea: Linearization Near An Equilibrium
+
+If `f` is differentiable and `y_*` is an equilibrium, then near `y_*` the system
+
+$$
+y' = f(y)
+$$
+
+is approximated by the linear system
+
+$$
+u' = J_f(y_*)u,
+\qquad
+u = y-y_*.
+$$
+:::
+
+At first pass, the main lesson is:
+
+- the Jacobian is the local linear dynamical rule
+- the eigenvalues of that Jacobian give the first local classification
+
+::: {#thm-hyperbolic}
+## Theorem Idea: Hyperbolic Equilibria Are Classified By The Linearization
+
+If the Jacobian at an equilibrium has no eigenvalues with zero real part, then the linearized system gives the correct first local type: sink, source, or saddle.
+:::
+
+This is the safe first-pass regime.
+
+Borderline cases such as centers or zero-real-part eigenvalues need extra care.
+
+## A Small Worked Example
+
+Consider the nonlinear system
+
+$$
+\begin{aligned}
+x' &= y,\\
+y' &= -x - 0.3y + x^2.
+\end{aligned}
+$$
+
+### Step 1: Find The Equilibria
+
+At equilibrium we need
+
+$$
+y=0,
+\qquad
+-x + x^2 = 0.
+$$
+
+So
+
+$$
+x(x-1)=0,
+$$
+
+and the equilibria are
+
+$$
+(0,0)\quad\text{and}\quad (1,0).
+$$
+
+### Step 2: Compute The Jacobian
+
+The Jacobian is
+
+$$
+J_f(x,y)=
+\begin{bmatrix}
+0 & 1\\
+-1+2x & -0.3
+\end{bmatrix}.
+$$
+
+At `(0,0)` we get
+
+$$
+J_f(0,0)=
+\begin{bmatrix}
+0 & 1\\
+-1 & -0.3
+\end{bmatrix}.
+$$
+
+This has eigenvalues with negative real part, so the origin is locally attracting: a spiral sink.
+
+At `(1,0)` we get
+
+$$
+J_f(1,0)=
+\begin{bmatrix}
+0 & 1\\
+1 & -0.3
+\end{bmatrix}.
+$$
+
+This has eigenvalues of opposite sign, so `(1,0)` is a saddle.
+
+### Step 3: Read The Local Phase Portrait
+
+Without solving the nonlinear system explicitly, we already know:
+
+- trajectories near `(0,0)` spiral inward
+- trajectories near `(1,0)` are repelled in one direction and attracted in another
+- the phase portrait must reflect both a locally attracting equilibrium and a saddle geometry
+
+That is exactly the kind of information phase portraits are built to show.
+
+## Computation Lens
+
+A phase portrait is the exact qualitative object. Numerical solvers only approximate trajectories that live inside it.
+
+So when we simulate a nonlinear system:
+
+- equilibria tell us what structures should appear
+- linearization predicts local behavior near those points
+- time stepping must be interpreted against that qualitative backdrop
+
+This is why [Time-Stepping for ODEs and Stability](../../numerical-methods/concepts/time-stepping-for-odes-and-stability.qmd) and phase portraits complement each other instead of competing.
+
+## Application Lens
+
+### Mechanics And Oscillation
+
+Damped oscillators, pendula, and coupled mechanical systems are naturally read in the phase plane.
+
+### Control And Operating Points
+
+Control theory often studies systems near an equilibrium or operating point, where linearization is the first approximation.
+
+### Continuous-Time ML
+
+Flow-based models, neural ODEs, and optimization dynamics are often interpreted through fixed points, local attraction, and stability language.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- what a phase portrait is
+- how to find equilibria
+- why the Jacobian linearization is the first local test
+- what sink, source, and saddle mean geometrically
+
+then this page has done its job.
+
+## Go Deeper
+
+After this page, the next natural step is:
+
+- [Lyapunov Functions, Invariant Sets, and Long-Time Behavior](lyapunov-functions-invariant-sets-and-long-time-behavior.qmd)
+
+The strongest adjacent pages are:
+
+- [ODEs and Dynamical Systems](../index.qmd)
+- [Linear Systems, Matrix Exponentials, and Modes](linear-systems-matrix-exponentials-and-modes.qmd)
+- [Second-Order Systems, State Variables, and Reduction to First Order](second-order-systems-state-variables-and-reduction-to-first-order.qmd)
+- [Lyapunov Functions, Invariant Sets, and Long-Time Behavior](lyapunov-functions-invariant-sets-and-long-time-behavior.qmd)
+- [Jacobians and Hessians](../../../foundation/multivariable-calculus/concepts/jacobians-and-hessians.qmd)
+- [Time-Stepping for ODEs and Stability](../../numerical-methods/concepts/time-stepping-for-odes-and-stability.qmd)
+
+## Optional Deeper Reading After First Pass
+
+The strongest current references connected to this page are:
+
+- [MIT 18.03SC Unit IV: First-order Systems](https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-iv-first-order-systems/) - official unit page covering phase portraits, nonlinear systems, and linearization. Checked `2026-04-25`.
+- [MIT 18.03SC Nonlinear Systems](https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-iv-first-order-systems/nonlinear-systems/) - official page introducing autonomous nonlinear systems and the phase plane. Checked `2026-04-25`.
+- [MIT 18.03SC Linearization Near Critical Points](https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-iv-first-order-systems/linearization-near-critical-points/) - official page for the linearization bridge from nonlinear to linear local behavior. Checked `2026-04-25`.
+- [MIT 18.03SC Linear Systems Introduction](https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-iv-first-order-systems/linear-systems-introduction/) - official page for the state-space and phase-portrait setup. Checked `2026-04-25`.
+- [Stanford ENGR155A bulletin](https://bulletin.stanford.edu/courses/1043152) - official engineering ODE course description connecting systems, stability, and numerical methods. Checked `2026-04-25`.
+- [Stanford MATH63CM bulletin](https://bulletin.stanford.edu/courses/1172621) - official proof-based ODE course description emphasizing behavior near equilibrium points and stability. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [MIT 18.03SC Unit IV: First-order Systems](https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-iv-first-order-systems/) - `First pass` - official systems unit placing phase portraits and linearization in one arc. Checked `2026-04-25`.
+- [MIT 18.03SC Nonlinear Systems](https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-iv-first-order-systems/nonlinear-systems/) - `First pass` - official introduction to phase-plane thinking for nonlinear autonomous systems. Checked `2026-04-25`.
+- [MIT 18.03SC Linearization Near Critical Points](https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-iv-first-order-systems/linearization-near-critical-points/) - `First pass` - official local-stability bridge from nonlinear systems to Jacobian analysis. Checked `2026-04-25`.
+- [MIT 18.03SC Linear Systems Introduction](https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-iv-first-order-systems/linear-systems-introduction/) - `Second pass` - official state-space setup that supports reading phase portraits correctly. Checked `2026-04-25`.
+- [Stanford ENGR155A bulletin](https://bulletin.stanford.edu/courses/1043152) - `Second pass` - official engineering course description linking systems, stability, and numerical methods. Checked `2026-04-25`.
+- [Stanford MATH63CM bulletin](https://bulletin.stanford.edu/courses/1172621) - `Second pass` - official proof-based course description emphasizing equilibrium behavior and stability. Checked `2026-04-25`.

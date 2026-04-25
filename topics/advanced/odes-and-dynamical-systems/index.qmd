@@ -1,0 +1,259 @@
+---
+title: "ODEs and Dynamical Systems"
+description: "How differential equations turn local rules for change into trajectories, equilibria, stability questions, and continuous-time models across science, engineering, and modern ML."
+page-type: module-overview
+status: published
+update-status: current
+level: advanced
+topic: odes-and-dynamical-systems
+prerequisites:
+  - /topics/foundation/single-variable-calculus/index.qmd
+  - /topics/foundation/multivariable-calculus/index.qmd
+  - /topics/foundation/linear-algebra/index.qmd
+learning-goals:
+  - "Understand why ODEs and dynamical systems are the continuous-time bridge from calculus to trajectories, equilibria, and stability."
+  - "Know the intended first-pass order for the ODEs-and-dynamical-systems module."
+  - "Connect differential equations to numerical simulation, control, and continuous-time ML language."
+applications:
+  - scientific-computing
+  - engineering-systems
+  - control-and-dynamics
+keywords:
+  - ODE
+  - dynamical systems
+  - trajectories
+  - stability
+  - phase portrait
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+stable-sources:
+  - "MIT 18.03 Differential Equations"
+  - "MIT 18.03SC Differential Equations"
+  - "Stanford ENGR155A Ordinary Differential Equations for Engineers"
+  - "Stanford MATH63CM Modern Mathematics: Continuous Methods"
+current-sources:
+  - "MIT 18.03 syllabus"
+  - "MIT 18.03SC Unit I first-order differential equations"
+  - "MIT 18.03SC Unit II second-order equations"
+  - "MIT 18.03SC Unit IV first-order systems"
+  - "MIT 18.03SC matrix exponentials"
+  - "MIT 18.03SC nonlinear systems"
+  - "MIT 18.03SC linearization near critical points"
+  - "MIT 18.03SC definition of stability"
+  - "MIT 18.03SC limit cycles and chaos"
+  - "MIT 18.385J syllabus"
+  - "MIT 18.086 lecture 1 difference methods for ODEs"
+  - "MIT 18.03 lecture 1 direction fields and existence-uniqueness"
+  - "Stanford EE263 bulletin"
+  - "Stanford EE363 bulletin"
+  - "Stanford ENGR209A bulletin"
+  - "Stanford ENGR155A bulletin"
+  - "Stanford MATH63CM bulletin"
+---
+
+## Why This Module Matters
+
+Differential equations are where local rules for change become global behavior over time.
+
+Instead of asking only
+
+- what is the derivative
+- what is the integral
+- what is the matrix
+
+we ask:
+
+- what trajectory follows from this law of change
+- what happens near equilibrium
+- which modes grow, decay, or oscillate
+- when do nearby initial conditions stay close
+- when does a model remain stable under repeated evolution
+
+This module is the continuous-time bridge from calculus and linear algebra to dynamics, simulation, control, and a large part of scientific modeling.
+
+::: {.meta-strip}
+::: {.meta-box}
+**Prerequisites**
+[Single-Variable Calculus](../../foundation/single-variable-calculus/index.qmd), [Multivariable Calculus](../../foundation/multivariable-calculus/index.qmd), and [Linear Algebra](../../foundation/linear-algebra/index.qmd) should come first. [Numerical Methods](../numerical-methods/index.qmd) becomes especially useful once the module reaches discretization and simulation.
+:::
+::: {.meta-box}
+**Unlocks**
+Control, scientific computing, stability analysis, continuous-time modeling, diffusion and flow viewpoints
+:::
+::: {.meta-box}
+**Research Use**
+Reading papers that talk about trajectories, flows, equilibria, stability, reverse-time dynamics, continuous-depth models, or solver behavior
+:::
+:::
+
+## First Pass Through This Module
+
+The intended first-pass spine for this module is:
+
+1. [First-Order ODEs, Existence, and Solution Curves](concepts/first-order-odes-existence-and-solution-curves.qmd)
+2. [Second-Order Systems, State Variables, and Reduction to First Order](concepts/second-order-systems-state-variables-and-reduction-to-first-order.qmd)
+3. [Linear Systems, Matrix Exponentials, and Modes](concepts/linear-systems-matrix-exponentials-and-modes.qmd)
+4. [Phase Portraits, Equilibria, and Local Stability](concepts/phase-portraits-equilibria-and-local-stability.qmd)
+5. [Lyapunov Functions, Invariant Sets, and Long-Time Behavior](concepts/lyapunov-functions-invariant-sets-and-long-time-behavior.qmd)
+6. [Discretization, Time-Stepping, and the Bridge to Control](concepts/discretization-time-stepping-and-the-bridge-to-control.qmd)
+
+The full six-page first-pass spine is live now. The opening page turns differential equations into geometric objects such as direction fields and solution curves, the second page explains why state-space form is the right bridge from oscillation models to systems language, the third page turns that state-space form into linear-algebraic evolution through matrices and modes, the fourth page uses phase portraits and linearization to read local nonlinear behavior, the fifth page adds Lyapunov and invariant-set reasoning for nonlinear stability and long-time behavior, and the sixth page turns continuous trajectories into sampled update maps for simulation and control.
+
+## How To Use This Module
+
+Read this module as the continuous-time partner to [Numerical Methods](../numerical-methods/index.qmd).
+
+The current best path is:
+
+1. start with [First-Order ODEs, Existence, and Solution Curves](concepts/first-order-odes-existence-and-solution-curves.qmd)
+2. continue to [Second-Order Systems, State Variables, and Reduction to First Order](concepts/second-order-systems-state-variables-and-reduction-to-first-order.qmd)
+3. continue to [Linear Systems, Matrix Exponentials, and Modes](concepts/linear-systems-matrix-exponentials-and-modes.qmd)
+4. continue to [Phase Portraits, Equilibria, and Local Stability](concepts/phase-portraits-equilibria-and-local-stability.qmd)
+5. continue to [Lyapunov Functions, Invariant Sets, and Long-Time Behavior](concepts/lyapunov-functions-invariant-sets-and-long-time-behavior.qmd)
+6. continue to [Discretization, Time-Stepping, and the Bridge to Control](concepts/discretization-time-stepping-and-the-bridge-to-control.qmd)
+7. pair it with [Time-Stepping for ODEs and Stability](../numerical-methods/concepts/time-stepping-for-odes-and-stability.qmd) if you want the computational partner in more detail
+8. use [Vector Fields and Divergence / Curl](../../foundation/multivariable-calculus/concepts/vector-fields-and-divergence-curl.qmd) as geometry support when needed
+9. use [Fixed-Point, Implicit, and Inverse Function Ideas](../real-analysis/concepts/fixed-point-implicit-and-inverse-function-ideas.qmd) later when the module becomes more theorem-heavy
+
+The design goal is simple: understand trajectories and stability before trying to absorb every solving trick.
+
+## Research Bridge
+
+After the six-page first pass, the strongest live extension is:
+
+- [Research Bridges: Reverse-Time SDEs, Probability-Flow ODEs, Flow Matching, and Control](concepts/research-bridges-reverse-time-sdes-probability-flow-odes-flow-matching-and-control.qmd)
+
+That page is there to help you read modern continuous-time ML papers without confusing:
+
+- stochastic reverse dynamics
+- deterministic transport dynamics
+- numerical discretization
+- control language used as analogy rather than identity
+
+## Core Concepts
+
+- [First-Order ODEs, Existence, and Solution Curves](concepts/first-order-odes-existence-and-solution-curves.qmd): the opening page that turns a derivative law into an initial-value problem, direction field, and solution trajectory.
+- [Second-Order Systems, State Variables, and Reduction to First Order](concepts/second-order-systems-state-variables-and-reduction-to-first-order.qmd): the page that turns oscillation and forcing models into state-space language.
+- [Linear Systems, Matrix Exponentials, and Modes](concepts/linear-systems-matrix-exponentials-and-modes.qmd): the page where linear algebra becomes exact continuous-time evolution through `e^{tA}` and modal decomposition.
+- [Phase Portraits, Equilibria, and Local Stability](concepts/phase-portraits-equilibria-and-local-stability.qmd): the page where geometry and Jacobian linearization become the main lens for local nonlinear behavior.
+- [Lyapunov Functions, Invariant Sets, and Long-Time Behavior](concepts/lyapunov-functions-invariant-sets-and-long-time-behavior.qmd): the page where stability stops being only linearization.
+- [Discretization, Time-Stepping, and the Bridge to Control](concepts/discretization-time-stepping-and-the-bridge-to-control.qmd): the page where exact dynamics, sampled updates, and control language meet.
+
+After the first pass, the main live research bridge is:
+
+- [Research Bridges: Reverse-Time SDEs, Probability-Flow ODEs, Flow Matching, and Control](concepts/research-bridges-reverse-time-sdes-probability-flow-odes-flow-matching-and-control.qmd)
+
+## Proof Patterns In This Module
+
+- `Local rule to global curve`: a derivative law becomes a trajectory after initial data and existence logic are added.
+- `Uniqueness blocks crossing`: when uniqueness holds, solution curves cannot pass through the same state-time point in two different ways.
+- `Linearization explains nearby behavior`: hard nonlinear motion is often first read through an easier linear surrogate near equilibrium.
+- `Lyapunov decrease constrains motion`: a scalar quantity that cannot increase turns geometry into a stability certificate.
+- `Flow becomes update map`: sampling or approximation turns continuous evolution into an iterated state transition rule.
+
+## Applications
+
+### Scientific And Engineering Models
+
+ODEs appear in mechanics, circuits, population models, chemical kinetics, and many reduced-order models of larger systems.
+
+### Control And Stability
+
+State-space models, feedback, and long-time behavior all depend on the language of trajectories, equilibria, and stability.
+
+### Continuous-Time ML
+
+Diffusion, flow matching, gradient flow, neural ODEs, and reverse-time dynamics all borrow the same continuous-time vocabulary.
+
+## Go Deeper By Topic
+
+The current opening route is:
+
+1. [First-Order ODEs, Existence, and Solution Curves](concepts/first-order-odes-existence-and-solution-curves.qmd)
+2. [Second-Order Systems, State Variables, and Reduction to First Order](concepts/second-order-systems-state-variables-and-reduction-to-first-order.qmd)
+3. [Linear Systems, Matrix Exponentials, and Modes](concepts/linear-systems-matrix-exponentials-and-modes.qmd)
+4. [Phase Portraits, Equilibria, and Local Stability](concepts/phase-portraits-equilibria-and-local-stability.qmd)
+5. [Lyapunov Functions, Invariant Sets, and Long-Time Behavior](concepts/lyapunov-functions-invariant-sets-and-long-time-behavior.qmd)
+6. [Discretization, Time-Stepping, and the Bridge to Control](concepts/discretization-time-stepping-and-the-bridge-to-control.qmd)
+7. [Time-Stepping for ODEs and Stability](../numerical-methods/concepts/time-stepping-for-odes-and-stability.qmd) if you want the numerical bridge immediately
+8. [Research Bridges: Reverse-Time SDEs, Probability-Flow ODEs, Flow Matching, and Control](concepts/research-bridges-reverse-time-sdes-probability-flow-odes-flow-matching-and-control.qmd) if you want the modern ML / control crossover
+
+The strongest adjacent pages are:
+
+- [Numerical Methods](../numerical-methods/index.qmd)
+- [Second-Order Systems, State Variables, and Reduction to First Order](concepts/second-order-systems-state-variables-and-reduction-to-first-order.qmd)
+- [Linear Systems, Matrix Exponentials, and Modes](concepts/linear-systems-matrix-exponentials-and-modes.qmd)
+- [Phase Portraits, Equilibria, and Local Stability](concepts/phase-portraits-equilibria-and-local-stability.qmd)
+- [Lyapunov Functions, Invariant Sets, and Long-Time Behavior](concepts/lyapunov-functions-invariant-sets-and-long-time-behavior.qmd)
+- [Discretization, Time-Stepping, and the Bridge to Control](concepts/discretization-time-stepping-and-the-bridge-to-control.qmd)
+- [Time-Stepping for ODEs and Stability](../numerical-methods/concepts/time-stepping-for-odes-and-stability.qmd)
+- [Research Bridges: Reverse-Time SDEs, Probability-Flow ODEs, Flow Matching, and Control](concepts/research-bridges-reverse-time-sdes-probability-flow-odes-flow-matching-and-control.qmd)
+- [Vector Fields and Divergence / Curl](../../foundation/multivariable-calculus/concepts/vector-fields-and-divergence-curl.qmd)
+- [Fixed-Point, Implicit, and Inverse Function Ideas](../real-analysis/concepts/fixed-point-implicit-and-inverse-function-ideas.qmd)
+
+## Optional Deeper Reading After First Pass
+
+The strongest current references connected to this module are:
+
+- [MIT 18.03: Differential Equations](https://ocw.mit.edu/courses/18-03-differential-equations-spring-2010/pages/syllabus) - official course page for the standard MIT ODE sequence from first-order equations to systems. Checked `2026-04-25`.
+- [MIT 18.03SC Unit I: First Order Differential Equations](https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-i-first-order-differential-equations/) - official course unit organized around direction fields, first-order models, and qualitative behavior. Checked `2026-04-25`.
+- [MIT 18.03SC Unit II: Second Order Constant Coefficient Linear Equations](https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-ii-second-order-constant-coefficient-linear-equations/) - official course unit organized around oscillation, damping, and forced response. Checked `2026-04-25`.
+- [MIT 18.03SC Unit IV: First-order Systems](https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-iv-first-order-systems/) - official course unit for linear systems, phase portraits, matrix methods, and matrix exponentials. Checked `2026-04-25`.
+- [MIT 18.03SC Matrix Exponentials](https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-iv-first-order-systems/matrix-exponentials/) - official course page for exact linear-system evolution through `e^{tA}`. Checked `2026-04-25`.
+- [MIT 18.03SC Linearization Near Critical Points](https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-iv-first-order-systems/linearization-near-critical-points/) - official course page for the local-stability bridge from nonlinear systems to Jacobian analysis. Checked `2026-04-25`.
+- [MIT 18.03SC Definition of Stability](https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/resources/definition-of-stability/) - official course resource for basic stability vocabulary. Checked `2026-04-25`.
+- [MIT 18.03SC Limitations of the Linear: Limit Cycles and Chaos](https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-iv-first-order-systems/limitations-of-the-linear-limit-cycles-and-chaos/) - official page showing where nonlinear long-time behavior goes beyond local linearization. Checked `2026-04-25`.
+- [MIT 18.086 Lecture 1: Difference Methods for Ordinary Differential Equations](https://ocw.mit.edu/courses/18-086-mathematical-methods-for-engineers-ii-spring-2006/resources/lecture-1-difference-methods-for-ordinary-differential-equations/) - official MIT lecture resource for the update-rule viewpoint on ODEs. Checked `2026-04-25`.
+- [Stanford CME296 bulletin](https://bulletin.stanford.edu/courses/2276231) - official course listing that explicitly groups diffusion, score matching, and flow matching in one continuous-time ML arc. Checked `2026-04-25`.
+- [Stanford EE263 bulletin](https://bulletin.stanford.edu/courses/1038991) - official course description connecting matrix exponentials, stability, and control language. Checked `2026-04-25`.
+- [Stanford EE363 bulletin](https://bulletin.stanford.edu/courses/2273941) - official advanced linear-dynamical-systems course description linking state evolution to control and estimation. Checked `2026-04-25`.
+- [Stanford ENGR209A bulletin](https://bulletin.stanford.edu/courses/1043471) - official nonlinear-systems course description explicitly naming Lyapunov stability theory. Checked `2026-04-25`.
+- [Stanford ENGR155A bulletin](https://bulletin.stanford.edu/courses/1043152) - official course description connecting analytic and numerical ODE methods in an engineering-facing way. Checked `2026-04-25`.
+- [Stanford MATH63CM bulletin](https://bulletin.stanford.edu/courses/1172621) - official proof-based ODE course description connecting existence, uniqueness, linear systems, and stability. Checked `2026-04-25`.
+
+## Study Order
+
+For the current module state, read:
+
+1. [First-Order ODEs, Existence, and Solution Curves](concepts/first-order-odes-existence-and-solution-curves.qmd)
+2. [Second-Order Systems, State Variables, and Reduction to First Order](concepts/second-order-systems-state-variables-and-reduction-to-first-order.qmd)
+3. [Linear Systems, Matrix Exponentials, and Modes](concepts/linear-systems-matrix-exponentials-and-modes.qmd)
+4. [Phase Portraits, Equilibria, and Local Stability](concepts/phase-portraits-equilibria-and-local-stability.qmd)
+5. [Lyapunov Functions, Invariant Sets, and Long-Time Behavior](concepts/lyapunov-functions-invariant-sets-and-long-time-behavior.qmd)
+6. [Discretization, Time-Stepping, and the Bridge to Control](concepts/discretization-time-stepping-and-the-bridge-to-control.qmd)
+7. [Time-Stepping for ODEs and Stability](../numerical-methods/concepts/time-stepping-for-odes-and-stability.qmd) if you want the computational partner right away
+
+before trying to reason casually about trajectories, equilibria, or stability elsewhere on the site.
+
+You are ready to move deeper into this module when you can:
+
+- explain what an initial-value problem is
+- explain what a direction field and a solution curve each represent
+- explain why existence and uniqueness are not the same statement
+- distinguish autonomous equations from general time-dependent ones
+- explain why equilibria matter even before solving an equation in closed form
+- explain why a decreasing Lyapunov function acts like a stability certificate
+- explain how a continuous-time ODE becomes a discrete state-update rule
+- explain why time stepping is a numerical approximation to a continuous flow, not the flow itself
+
+## Sources and Further Reading
+
+- [MIT 18.03: Differential Equations](https://ocw.mit.edu/courses/18-03-differential-equations-spring-2010/pages/syllabus) - `First pass` - official ODE course page showing the standard arc from first-order equations to systems and applications. Checked `2026-04-25`.
+- [MIT 18.03SC Unit I: First Order Differential Equations](https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-i-first-order-differential-equations/) - `First pass` - official unit page for the first-order geometric and analytic ODE story. Checked `2026-04-25`.
+- [MIT 18.03SC Unit II: Second Order Constant Coefficient Linear Equations](https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-ii-second-order-constant-coefficient-linear-equations/) - `First pass` - official unit page for oscillation, damping, and second-order response. Checked `2026-04-25`.
+- [MIT 18.03SC Unit IV: First-order Systems](https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-iv-first-order-systems/) - `First pass` - official systems unit for matrix methods, phase portraits, and matrix exponentials. Checked `2026-04-25`.
+- [MIT 18.03SC Matrix Exponentials](https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-iv-first-order-systems/matrix-exponentials/) - `First pass` - official page for the exact continuous-time evolution operator of linear systems. Checked `2026-04-25`.
+- [MIT 18.03SC Linearization Near Critical Points](https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-iv-first-order-systems/linearization-near-critical-points/) - `First pass` - official page for the local-stability bridge from nonlinear systems to linearization. Checked `2026-04-25`.
+- [MIT 18.03SC Definition of Stability](https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/resources/definition-of-stability/) - `First pass` - official resource for the basic stability vocabulary used later by Lyapunov-style arguments. Checked `2026-04-25`.
+- [MIT 18.03SC Limitations of the Linear: Limit Cycles and Chaos](https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-iv-first-order-systems/limitations-of-the-linear-limit-cycles-and-chaos/) - `Second pass` - official page for how long-time nonlinear behavior can exceed what linearization alone explains. Checked `2026-04-25`.
+- [MIT 18.086 Lecture 1: Difference Methods for Ordinary Differential Equations](https://ocw.mit.edu/courses/18-086-mathematical-methods-for-engineers-ii-spring-2006/resources/lecture-1-difference-methods-for-ordinary-differential-equations/) - `Second pass` - official MIT lecture resource for discretizing ODEs into update rules. Checked `2026-04-25`.
+- [Stanford CME296 bulletin](https://bulletin.stanford.edu/courses/2276231) - `Second pass` - official Stanford course listing placing diffusion and flow matching in one continuous-time ML curriculum. Checked `2026-04-25`.
+- [Stanford EE263 bulletin](https://bulletin.stanford.edu/courses/1038991) - `Second pass` - official course description linking linear dynamical systems to reachability, observability, and control. Checked `2026-04-25`.
+- [Stanford EE363 bulletin](https://bulletin.stanford.edu/courses/2273941) - `Second pass` - official advanced linear-systems course description linking matrix exponential, state transfer, and control. Checked `2026-04-25`.
+- [Stanford ENGR209A bulletin](https://bulletin.stanford.edu/courses/1043471) - `Second pass` - official nonlinear-systems course description explicitly naming Lyapunov stability theory. Checked `2026-04-25`.
+- [Stanford ENGR155A bulletin](https://bulletin.stanford.edu/courses/1043152) - `Second pass` - official engineering ODE course description connecting first-order, second-order, systems, and numerical methods. Checked `2026-04-25`.
+- [Stanford MATH63CM bulletin](https://bulletin.stanford.edu/courses/1172621) - `Second pass` - official proof-based ODE course description emphasizing existence, uniqueness, linear systems, and stability. Checked `2026-04-25`.

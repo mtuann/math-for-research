@@ -145,6 +145,16 @@ website:
               - topics/advanced/numerical-methods/concepts/eigenvalue-and-svd-computation.qmd
               - topics/advanced/numerical-methods/concepts/approximation-differentiation-integration-and-error-control.qmd
               - topics/advanced/numerical-methods/concepts/time-stepping-for-odes-and-stability.qmd
+          - section: "ODEs and Dynamical Systems"
+            contents:
+              - topics/advanced/odes-and-dynamical-systems/index.qmd
+              - topics/advanced/odes-and-dynamical-systems/concepts/first-order-odes-existence-and-solution-curves.qmd
+              - topics/advanced/odes-and-dynamical-systems/concepts/second-order-systems-state-variables-and-reduction-to-first-order.qmd
+              - topics/advanced/odes-and-dynamical-systems/concepts/linear-systems-matrix-exponentials-and-modes.qmd
+              - topics/advanced/odes-and-dynamical-systems/concepts/phase-portraits-equilibria-and-local-stability.qmd
+              - topics/advanced/odes-and-dynamical-systems/concepts/lyapunov-functions-invariant-sets-and-long-time-behavior.qmd
+              - topics/advanced/odes-and-dynamical-systems/concepts/discretization-time-stepping-and-the-bridge-to-control.qmd
+              - topics/advanced/odes-and-dynamical-systems/concepts/research-bridges-reverse-time-sdes-probability-flow-odes-flow-matching-and-control.qmd
           - section: "Matrix Analysis"
             contents:
               - topics/advanced/matrix-analysis/index.qmd
