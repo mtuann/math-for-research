@@ -1,0 +1,348 @@
+---
+title: "Time-Stepping for ODEs and Stability"
+description: "How ordinary differential equations become update rules on a time grid, why explicit and implicit methods behave differently on decaying dynamics, and why stability matters over many steps rather than only at one local approximation."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: numerical-methods
+prerequisites:
+  - /topics/foundation/single-variable-calculus/index.qmd
+  - /topics/advanced/numerical-methods/concepts/approximation-differentiation-integration-and-error-control.qmd
+learning-goals:
+  - "Explain why solving an ODE numerically means choosing a time-stepping rule on a grid."
+  - "Recognize the difference between local truncation error and long-time stability."
+  - "Understand the basic contrast between explicit Euler and implicit Euler."
+  - "Explain stiffness as a situation where stability, not only accuracy, controls step-size choice."
+applications:
+  - scientific-computing
+  - engineering-systems
+  - control-and-dynamics
+keywords:
+  - ODE
+  - time stepping
+  - Euler method
+  - stability
+  - stiffness
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/numerical-methods/index.qmd
+  - /topics/foundation/single-variable-calculus/index.qmd
+  - /topics/advanced/optimization/index.qmd
+  - /topics/advanced/numerical-methods/concepts/approximation-differentiation-integration-and-error-control.qmd
+stable-sources:
+  - "MIT 18.335J Introduction to Numerical Methods"
+  - "MIT 18.086 difference methods for ODEs"
+  - "Stanford CME108 scientific computing"
+current-sources:
+  - "MIT 18.335J resource index"
+  - "MIT 18.086 lecture 1 difference methods for ODEs"
+  - "MIT 2.086 stiff equations lecture"
+  - "Stanford CME108 syllabus pdf"
+  - "Stanford CS137 syllabus"
+  - "Stanford CME108 bulletin"
+---
+
+## Role
+
+This is an optional extension page in the `Numerical Methods` module.
+
+Its job is to show how the approximation viewpoint from the previous page turns into actual time-marching algorithms for differential equations, and why repeated stepping introduces a new concern:
+
+`a method can look locally reasonable and still behave badly over many steps`
+
+## First-Pass Promise
+
+Read this page after [Approximation, Differentiation, Integration, and Error Control](approximation-differentiation-integration-and-error-control.qmd).
+
+If you stop here, you should still understand:
+
+- why numerical ODE solving means replacing continuous time by discrete steps
+- why local truncation error is not the whole story
+- how explicit and implicit Euler differ
+- why stiffness makes stability dominate step-size choice
+
+## Why It Matters
+
+Many continuous models are written as ODEs:
+
+- mechanical systems
+- circuits and controls
+- chemical kinetics
+- population models
+- gradient-flow and continuous-time optimization viewpoints
+
+To compute with them, we replace the exact trajectory by values on a time grid:
+
+$$
+t_0,\ t_1,\ t_2,\dots
+$$
+
+and build update rules that move from one time level to the next.
+
+That creates a new type of numerical question.
+
+For linear solves or quadrature, we usually focus on the quality of one approximation.
+
+For ODEs, we must also ask:
+
+- what happens after many repeated steps?
+- does the method amplify harmless numerical noise?
+- does the method respect decay that the true solution should have?
+
+That is why stability is central.
+
+## Prerequisite Recall
+
+- finite-difference ideas replace derivatives by local formulas
+- truncation error measures how much a finite formula misses the exact continuous object
+- adaptive error control balances computational cost against approximation quality
+
+## Intuition
+
+### Time Stepping As Repeated Approximation
+
+For an ODE
+
+$$
+y'(t)=f(t,y(t)),
+$$
+
+a one-step method turns the derivative information into an update from `y_n` to `y_{n+1}`.
+
+So the method is not only approximating one derivative. It is composing the same approximation over and over.
+
+### Explicit Euler
+
+The simplest idea uses the slope at the current point:
+
+$$
+y_{n+1}=y_n+h f(t_n,y_n).
+$$
+
+This is cheap and intuitive, but stability can force the step size `h` to be small.
+
+### Implicit Euler
+
+Another idea uses the slope at the next time level:
+
+$$
+y_{n+1}=y_n+h f(t_{n+1},y_{n+1}).
+$$
+
+Now each step is more expensive because we must solve an equation for `y_{n+1}`, but the method is often much more stable.
+
+### Stiffness
+
+Some ODEs contain rapidly decaying modes that do not matter much to the long-term shape of the solution, but they still force explicit methods to take tiny steps for stability.
+
+That is the first-pass intuition for stiffness:
+
+`the dynamics are easy to describe qualitatively, but hard to step through explicitly without very small h`
+
+## Formal Core
+
+::: {#def-onestep}
+## Definition: One-Step Time-Stepping Method
+
+A one-step method updates the approximate solution by a rule of the form
+
+$$
+y_{n+1}=\Phi_h(t_n,y_n).
+$$
+:::
+
+The step size `h` controls both the cost and the approximation quality.
+
+::: {#def-forward-euler}
+## Definition: Explicit Euler
+
+For
+
+$$
+y'(t)=f(t,y(t)),
+$$
+
+explicit Euler uses
+
+$$
+y_{n+1}=y_n+h f(t_n,y_n).
+$$
+:::
+
+::: {#def-backward-euler}
+## Definition: Implicit Euler
+
+Implicit Euler uses
+
+$$
+y_{n+1}=y_n+h f(t_{n+1},y_{n+1}).
+$$
+:::
+
+This usually requires solving a nonlinear or linear equation at each step.
+
+::: {#def-lte}
+## Definition: Local Truncation Error
+
+The local truncation error measures the one-step defect obtained by inserting the exact solution into the numerical update rule.
+:::
+
+This is the local accuracy story, but repeated stepping means we also need a stability story.
+
+::: {#thm-test-eqn}
+## Theorem Idea: Stability Is Read Through The Test Equation
+
+A standard first-pass stability lens studies the scalar test equation
+
+$$
+y'=\lambda y.
+$$
+
+Applying a method gives an update
+
+$$
+y_{n+1}=R(h\lambda)\,y_n,
+$$
+
+where `R` is the method's stability function.
+:::
+
+The method is stable for that step size when repeated multiplication by `R(h\lambda)` does not create the wrong long-time behavior.
+
+For explicit Euler,
+
+$$
+R(z)=1+z.
+$$
+
+For implicit Euler,
+
+$$
+R(z)=\frac{1}{1-z}.
+$$
+
+## A Small Worked Example
+
+Consider the decaying ODE
+
+$$
+y'=-10y,
+\qquad
+y(0)=1.
+$$
+
+The exact solution is
+
+$$
+y(t)=e^{-10t},
+$$
+
+so the true behavior is monotone decay.
+
+### Explicit Euler
+
+Explicit Euler gives
+
+$$
+y_{n+1}=(1-10h)y_n.
+$$
+
+To keep the magnitude from growing, we need
+
+$$
+|1-10h|<1,
+$$
+
+which means
+
+$$
+0<h<0.2.
+$$
+
+So even for a very simple decaying problem, stability already restricts the step size.
+
+### Implicit Euler
+
+Implicit Euler gives
+
+$$
+y_{n+1}=\frac{1}{1+10h}y_n.
+$$
+
+For every `h>0`, this factor has magnitude less than `1`, so the method keeps the decaying behavior for any positive step size.
+
+This example is the first-pass stability lesson:
+
+- explicit Euler is cheap but conditionally stable
+- implicit Euler is more expensive per step but much more stable for decaying modes
+
+## Computation Lens
+
+When you face a time-stepping problem, ask:
+
+1. is the main bottleneck accuracy or stability?
+2. if I halve the step size, do I gain real accuracy or am I only paying a stability tax?
+3. does the method need to preserve decay, boundedness, or some qualitative structure of the true solution?
+4. is the equation stiff enough that an implicit method is the more honest computational model?
+
+Those questions usually matter more than memorizing a list of named schemes.
+
+## Application Lens
+
+### Simulation And Engineering
+
+Physical simulation often depends on whether the method tracks the right long-time behavior, not only whether one step is locally accurate.
+
+### Control And Dynamics
+
+State evolution, feedback models, and discretized continuous-time systems all rely on time stepping and stability language.
+
+### Optimization And Continuous-Time Views
+
+Gradient flows and dynamical-system interpretations of optimization become computational only after choosing a time discretization, and different discretizations behave differently.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- why ODE solvers are repeated local approximations
+- why stability is a separate concern from local truncation error
+- why explicit and implicit Euler behave differently on decaying dynamics
+- why stiffness is the reason some problems force tiny explicit time steps
+
+then this page has done its job.
+
+## Go Deeper
+
+The strongest adjacent pages are:
+
+- [Numerical Methods](../index.qmd)
+- [Approximation, Differentiation, Integration, and Error Control](approximation-differentiation-integration-and-error-control.qmd)
+- [Optimization](../../optimization/index.qmd)
+- [Multivariable Calculus](../../../foundation/multivariable-calculus/index.qmd)
+
+## Optional Deeper Reading After First Pass
+
+The strongest current references connected to this page are:
+
+- [MIT 18.335J resource index](https://ocw.mit.edu/courses/18-335j-introduction-to-numerical-methods-spring-2019/pages/resource-index) - official MIT course resource map showing numerical methods for ODEs as a central lecture block. Checked `2026-04-25`.
+- [MIT 18.086 lecture 1 difference methods for ODEs](https://ocw.mit.edu/courses/18-086-mathematical-methods-for-engineers-ii-spring-2006/resources/lecture-1-difference-methods-for-ordinary-differential-equations/) - official MIT lecture resource for the basic difference-method and stability viewpoint. Checked `2026-04-25`.
+- [MIT 2.086 stiff equations lecture](https://ocw.mit.edu/courses/2-086-numerical-computation-for-mechanical-engineers-spring-2013/resources/mit2_086s13_lecture16/) - official MIT lecture page focused on stiff ODEs. Checked `2026-04-25`.
+- [Stanford CME108 syllabus pdf](https://cme108.stanford.edu/syllabus.pdf) - official syllabus showing ODE time stepping as a natural continuation of the approximation toolkit. Checked `2026-04-25`.
+- [Stanford CS137 syllabus](https://web.stanford.edu/class/cs137/syllabus.html) - official current scientific-computing syllabus linking quadrature and ODE methods in one numerical arc. Checked `2026-04-25`.
+- [Stanford CME108 bulletin](https://bulletin.stanford.edu/courses/1056641) - official course description placing ODEs inside the broader scientific-computing curriculum. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [MIT 18.335J resource index](https://ocw.mit.edu/courses/18-335j-introduction-to-numerical-methods-spring-2019/pages/resource-index) - `First pass` - official MIT course map for the ODE-methods block. Checked `2026-04-25`.
+- [MIT 18.086 lecture 1 difference methods for ODEs](https://ocw.mit.edu/courses/18-086-mathematical-methods-for-engineers-ii-spring-2006/resources/lecture-1-difference-methods-for-ordinary-differential-equations/) - `First pass` - official MIT lecture resource for difference methods and stability ideas. Checked `2026-04-25`.
+- [MIT 2.086 stiff equations lecture](https://ocw.mit.edu/courses/2-086-numerical-computation-for-mechanical-engineers-spring-2013/resources/mit2_086s13_lecture16/) - `First pass` - official MIT lecture page focused on stiff ODE intuition. Checked `2026-04-25`.
+- [Stanford CME108 syllabus pdf](https://cme108.stanford.edu/syllabus.pdf) - `Second pass` - official syllabus placing time stepping inside a larger scientific-computing toolkit. Checked `2026-04-25`.
+- [Stanford CS137 syllabus](https://web.stanford.edu/class/cs137/syllabus.html) - `Second pass` - official current syllabus linking numerical integration and ODE methods. Checked `2026-04-25`.
+- [Stanford CME108 bulletin](https://bulletin.stanford.edu/courses/1056641) - `Second pass` - official course description connecting ODE methods to the broader scientific-computing curriculum. Checked `2026-04-25`.

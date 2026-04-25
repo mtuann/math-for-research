@@ -1,0 +1,318 @@
+---
+title: "Floating-Point, Conditioning, and Backward Error"
+description: "How finite-precision arithmetic changes exact mathematics, why conditioning measures problem sensitivity, and why backward error is the right first language for trusting computed answers."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: numerical-methods
+prerequisites:
+  - /topics/foundation/linear-algebra/index.qmd
+  - /topics/foundation/single-variable-calculus/index.qmd
+learning-goals:
+  - "Explain why floating-point arithmetic approximates real arithmetic rather than reproducing it."
+  - "Distinguish forward error, backward error, and residual."
+  - "Explain the difference between conditioning of a problem and stability of an algorithm."
+  - "Use the slogan backward stable plus well-conditioned implies small forward error correctly."
+applications:
+  - scientific-computing
+  - optimization
+  - high-dimensional-statistics
+keywords:
+  - floating point
+  - conditioning
+  - backward error
+  - forward error
+  - stability
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/numerical-methods/index.qmd
+  - /topics/advanced/matrix-analysis/concepts/perturbation-and-stability.qmd
+  - /topics/advanced/optimization/index.qmd
+  - /topics/advanced/high-dimensional-statistics/index.qmd
+stable-sources:
+  - "MIT 18.335J floating-point lecture"
+  - "Cornell CS4220 Numerical Analysis"
+  - "Stanford MATH114 floating point notes"
+current-sources:
+  - "MIT 18.335J lecture 2 page"
+  - "Cornell CS4220 forward/backward error and conditioning"
+  - "Cornell CS4220 backward error in Gaussian elimination"
+  - "Stanford floating point lecture notes"
+---
+
+## Role
+
+This is the first page of the `Numerical Methods` module.
+
+Its job is to replace the vague belief
+
+`the computer computes the math`
+
+with the more useful picture
+
+`the computer solves a nearby finite-precision problem, and we need conditioning to know whether that is good enough`
+
+## First-Pass Promise
+
+Read this page first in the module.
+
+If you stop here, you should still understand:
+
+- why floating-point numbers only approximate real numbers
+- what forward error and backward error are measuring
+- why conditioning belongs to the problem and stability belongs to the algorithm
+- why backward stability is powerful but not magic
+
+## Why It Matters
+
+Modern mathematical computing is built on finite precision.
+
+That matters in:
+
+- solving linear systems
+- least squares and regularized regression
+- PCA and spectral estimation
+- optimization methods and Hessian calculations
+- numerical differentiation, integration, and ODE solvers
+
+Many computational failures are not caused by a wildly bad algorithm.
+
+They happen because:
+
+- the problem is ill-conditioned
+- cancellation destroys relative accuracy
+- a small residual is mistaken for a small actual error
+- finite precision is treated as an implementation detail instead of part of the mathematics
+
+This page gives the opening vocabulary for avoiding those mistakes.
+
+## Prerequisite Recall
+
+- computers store only finitely many numbers
+- linear algebra uses norms to measure perturbations
+- calculus turns small input perturbations into output perturbations through local sensitivity
+
+## Intuition
+
+### Floating Point Is A Finite Model Of The Reals
+
+Most real numbers do not have exact finite machine representations.
+
+So before any algorithm starts, the data is already being approximated.
+
+That means numerical analysis is never only about algebraic formulas. It is also about representation.
+
+### Forward Error Versus Backward Error
+
+Suppose the exact mathematical problem is
+
+$$
+y=f(x)
+$$
+
+and the algorithm returns $\hat y$.
+
+The forward question is:
+
+`how far is \hat y from the true answer y?`
+
+The backward question is:
+
+`for what nearby input \hat x does the computed answer equal the exact answer f(\hat x)?`
+
+Backward error is often easier to control because many reliable algorithms behave like exact solvers for slightly perturbed data.
+
+### Conditioning Versus Stability
+
+These are different ideas:
+
+- conditioning asks whether the problem itself is sensitive to perturbations
+- stability asks whether the algorithm introduces only small perturbations
+
+A stable algorithm can still give a poor forward answer if the underlying problem is ill-conditioned.
+
+## Formal Core
+
+::: {#def-machine-epsilon}
+## Definition: Machine Epsilon
+
+`Machine epsilon` $\varepsilon_{\mathrm{mach}}$ is the characteristic relative scale of floating-point roundoff.
+:::
+
+In first-pass analysis, many normalized floating-point operations are modeled as
+
+$$
+\operatorname{fl}(z)=z(1+\delta),
+\qquad |\delta|\le \varepsilon_{\mathrm{mach}}.
+$$
+
+This is a model, not a theorem about every possible exceptional case, but it is the right opening language for roundoff analysis.
+
+::: {#def-forward-backward}
+## Definition: Forward And Backward Error
+
+For an exact problem $y=f(x)$ and computed answer $\hat y$:
+
+- the forward error measures the difference between $\hat y$ and $f(x)$
+- the backward error measures how much the input must be perturbed so that $\hat y=f(\hat x)$ for some nearby $\hat x$
+:::
+
+Forward error speaks in output space. Backward error speaks in input space.
+
+::: {#def-conditioning}
+## Definition: Conditioning
+
+Conditioning measures how much small input perturbations can change the exact output of a problem.
+:::
+
+For a differentiable scalar problem, a standard local relative condition number is
+
+$$
+\kappa_f(x)=\left|\frac{x f'(x)}{f(x)}\right|,
+$$
+
+when the expression makes sense.
+
+Large $\kappa_f(x)$ means the problem is locally sensitive.
+
+::: {#thm-backward-stability}
+## Theorem Idea: Backward Stable Plus Well-Conditioned Implies Small Forward Error
+
+If an algorithm is backward stable and the problem is well-conditioned near the input, then the forward error is small to first order.
+:::
+
+This is the central slogan of first-pass numerical analysis.
+
+It is powerful because it separates two jobs:
+
+- analyze the problem sensitivity
+- analyze whether the algorithm solves a nearby problem accurately
+
+## A Small Worked Example
+
+Consider the scalar problem
+
+$$
+f(x)=x-1.
+$$
+
+At
+
+$$
+x=1.000001,
+$$
+
+the exact answer is
+
+$$
+f(x)=10^{-6}.
+$$
+
+Now perturb the input slightly:
+
+$$
+\hat x = 1.00000101.
+$$
+
+Then
+
+$$
+f(\hat x)=1.01\times 10^{-6}.
+$$
+
+So the absolute input perturbation is only about `10^{-8}`, but the relative output change is about `1%`.
+
+Why?
+
+Because near `x=1`, subtraction is sensitive in relative terms:
+
+$$
+\kappa_f(x)=\left|\frac{x}{x-1}\right|.
+$$
+
+At $x=1.000001$, this is about `10^6`.
+
+So even a tiny backward perturbation can create a noticeably larger forward relative error.
+
+This is the basic cancellation story:
+
+- the algorithm may be solving a nearby problem
+- but the nearby problem may already have a meaningfully different answer
+
+## Computation Lens
+
+When you see a computed answer, ask in this order:
+
+1. what is the exact mathematical problem?
+2. what perturbation to the data would explain the computed answer?
+3. is the problem well-conditioned enough that such a perturbation is harmless?
+4. is the reported residual actually measuring the quantity I care about?
+
+That checklist is often more useful than inspecting code line by line.
+
+## Application Lens
+
+### Linear Systems And Least Squares
+
+For solving
+
+$$
+Ax=b,
+$$
+
+the condition number of `A` predicts how much data or roundoff perturbations can affect the solution. This is why residuals, conditioning, and backward stability appear together in linear-solver analysis.
+
+### Optimization And Hessians
+
+Ill-conditioned Hessians slow first-order methods, destabilize Newton-type steps, and make small numerical errors more consequential.
+
+### Statistics And ML
+
+In high-dimensional regression, covariance estimation, and PCA, poor conditioning is often part of the real statistical difficulty, not only a computational nuisance.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- why floating-point arithmetic is only approximate
+- what forward error and backward error are measuring
+- why conditioning and stability are not the same thing
+- why a backward-stable algorithm can still have large forward error on an ill-conditioned problem
+
+then this page has done its job.
+
+## Go Deeper
+
+After this page, the next natural step is:
+
+- [Numerical Linear Systems and Factorizations](numerical-linear-systems-and-factorizations.qmd)
+
+The strongest adjacent pages are:
+
+- [Numerical Linear Systems and Factorizations](numerical-linear-systems-and-factorizations.qmd)
+- [Numerical Methods](../index.qmd)
+- [Perturbation and Stability](../../matrix-analysis/concepts/perturbation-and-stability.qmd)
+- [Optimization](../../optimization/index.qmd)
+- [High-Dimensional Statistics](../../high-dimensional-statistics/index.qmd)
+
+## Optional Deeper Reading After First Pass
+
+The strongest current references connected to this page are:
+
+- [MIT 18.335J Lecture 2: Floating-Point Arithmetic, the IEEE Standard](https://ocw.mit.edu/courses/18-335j-introduction-to-numerical-methods-spring-2019/resources/mit18_335js19_lec2/) - official MIT OCW lecture page for floating-point arithmetic and its modeling assumptions. Checked `2026-04-25`.
+- [Cornell CS4220: Forward and backward error and conditioning](https://www.cs.cornell.edu/courses/cs4220/2026sp/lec/2026-01-30.html) - official current notes with a clean first-pass framing of forward error, backward error, and condition numbers. Checked `2026-04-25`.
+- [Cornell CS4220: Backward error in Gaussian elimination](https://www.cs.cornell.edu/courses/cs4220/2026sp/lec/2026-02-11.html) - official current notes showing how backward error enters actual linear-system algorithms. Checked `2026-04-25`.
+- [Stanford floating point lecture notes](https://web.stanford.edu/class/math114/lecture_notes/floating_point_notes.pdf) - official lecture notes for the representation side of floating point and roundoff. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [MIT 18.335J Lecture 2: Floating-Point Arithmetic, the IEEE Standard](https://ocw.mit.edu/courses/18-335j-introduction-to-numerical-methods-spring-2019/resources/mit18_335js19_lec2/) - `First pass` - official MIT OCW lecture page for the floating-point model behind later stability arguments. Checked `2026-04-25`.
+- [Cornell CS4220: Forward and backward error and conditioning](https://www.cs.cornell.edu/courses/cs4220/2026sp/lec/2026-01-30.html) - `First pass` - official current notes defining the basic language of numerical error and sensitivity. Checked `2026-04-25`.
+- [Cornell CS4220: Backward error in Gaussian elimination](https://www.cs.cornell.edu/courses/cs4220/2026sp/lec/2026-02-11.html) - `Second pass` - official current notes showing how backward stability is used in real matrix algorithms. Checked `2026-04-25`.
+- [Stanford floating point lecture notes](https://web.stanford.edu/class/math114/lecture_notes/floating_point_notes.pdf) - `Second pass` - official notes for the finite-representation side of floating-point arithmetic. Checked `2026-04-25`.

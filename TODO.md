@@ -17,8 +17,8 @@ Use it to track:
 
 ## Current Snapshot
 
-- `193` `.qmd` pages currently exist
-- `75` concept-topic pages currently exist
+- `201` `.qmd` pages currently exist
+- `82` concept-topic pages currently exist
 - strongest subjects so far: `Linear Algebra`, `Probability`, `Proofs`, `Logic`, `Statistics`, `Single-Variable Calculus`, `Multivariable Calculus`, `Optimization`, `Real Analysis`
 - strongest public-facing bridge so far: `Applications > Machine Learning`
 - non-topic sections already scaffolded: `Start Here`, `Roadmaps`, `Applications`, `Paper Lab`, `Research`, `Publication`, `Library`, `Notes`
@@ -262,11 +262,14 @@ These are not required before the main spine is public, but they are the next hi
 
 ### Numerical Methods
 
-- [ ] `Floating-point and conditioning`
-- [ ] `Numerical linear systems`
-- [ ] `Iterative methods`
-- [ ] `Numerical least squares`
-- [ ] `Approximation and error`
+- [x] `Numerical Methods index`
+- [x] `Floating-point, conditioning, and backward error`
+- [x] `Numerical linear systems and factorizations`
+- [x] `Iterative methods and preconditioning`
+- [x] `Numerical least squares and regularization`
+- [x] `Eigenvalue and SVD computation`
+- [x] `Approximation, differentiation, integration, and error control`
+- [x] `Time-stepping for ODEs and stability`
 
 ### Matrix Analysis
 

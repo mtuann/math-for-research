@@ -18,6 +18,7 @@ The advanced track is where the site moves into:
 
 - [Real Analysis](real-analysis/index.qmd)
 - [Optimization](optimization/index.qmd)
+- [Numerical Methods](numerical-methods/index.qmd)
 - [Matrix Analysis](matrix-analysis/index.qmd)
 - [Learning Theory](learning-theory/index.qmd)
 - [High-Dimensional Probability](high-dimensional-probability/index.qmd)
@@ -48,6 +49,22 @@ This module is where the site makes limits, continuity, compactness, and theorem
 - [Duality and Certificates](optimization/concepts/duality-and-certificates.qmd)
 
 It is the natural bridge from the foundation stack into convexity, duality, certificates, first-order methods, and research-facing mathematical modeling.
+
+## Numerical Methods
+
+[Numerical Methods](numerical-methods/index.qmd) is the computation bridge from exact mathematics to finite-precision algorithms.
+
+Its current study route is:
+
+- [Floating-Point, Conditioning, and Backward Error](numerical-methods/concepts/floating-point-conditioning-and-backward-error.qmd)
+- [Numerical Linear Systems and Factorizations](numerical-methods/concepts/numerical-linear-systems-and-factorizations.qmd)
+- [Iterative Methods and Preconditioning](numerical-methods/concepts/iterative-methods-and-preconditioning.qmd)
+- [Numerical Least Squares and Regularization](numerical-methods/concepts/numerical-least-squares-and-regularization.qmd)
+- [Eigenvalue and SVD Computation](numerical-methods/concepts/eigenvalue-and-svd-computation.qmd)
+- [Approximation, Differentiation, Integration, and Error Control](numerical-methods/concepts/approximation-differentiation-integration-and-error-control.qmd)
+- [Time-Stepping for ODEs and Stability](numerical-methods/concepts/time-stepping-for-odes-and-stability.qmd) - optional extension toward ODEs and simulation
+
+This module is where the site turns exact linear-algebra, calculus, and optimization objects into actual computations that live in floating point and must be judged by conditioning, stability, and error.
 
 ## Matrix Analysis
 
@@ -112,5 +129,5 @@ This module is where the site turns `p >> n`, sparse structure, shrinkage, and r
 
 ## Planned Next Advanced Modules
 
-- `Numerical Methods`
 - `Information Theory`
+- `ODEs and Dynamical Systems`

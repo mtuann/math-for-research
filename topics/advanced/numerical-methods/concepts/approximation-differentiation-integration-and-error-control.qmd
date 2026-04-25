@@ -1,0 +1,303 @@
+---
+title: "Approximation, Differentiation, Integration, and Error Control"
+description: "How interpolation, finite differences, and quadrature all fit one numerical pattern: replace a hard continuous object by a simpler approximation, then reason explicitly about truncation, roundoff, and adaptive error control."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: numerical-methods
+prerequisites:
+  - /topics/foundation/single-variable-calculus/index.qmd
+  - /topics/advanced/numerical-methods/concepts/floating-point-conditioning-and-backward-error.qmd
+learning-goals:
+  - "Explain interpolation, numerical differentiation, and quadrature as approximation problems."
+  - "Recognize truncation or discretization error as distinct from roundoff error."
+  - "Understand why smaller step size does not improve accuracy forever."
+  - "Interpret adaptive error control as balancing competing error sources against cost."
+applications:
+  - scientific-computing
+  - engineering-systems
+  - optimization
+keywords:
+  - interpolation
+  - numerical differentiation
+  - quadrature
+  - truncation error
+  - error control
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/numerical-methods/index.qmd
+  - /topics/foundation/single-variable-calculus/concepts/taylor-expansion.qmd
+  - /topics/foundation/multivariable-calculus/concepts/multiple-integrals.qmd
+  - /topics/advanced/optimization/index.qmd
+stable-sources:
+  - "Stanford CME108 syllabus"
+  - "MIT 2.086 numerical differentiation notes"
+  - "MIT 10.34 numerical integration lecture"
+current-sources:
+  - "Stanford CME108 syllabus pdf"
+  - "Stanford CS137 syllabus"
+  - "MIT 2.086 differentiation pdf"
+  - "MIT 10.34 numerical integration lecture"
+  - "Cornell CS4210 course page"
+  - "Stanford CME108 bulletin"
+---
+
+## Role
+
+This is the sixth page of the `Numerical Methods` module.
+
+Its job is to show that interpolation, numerical differentiation, and numerical integration all share the same numerical pattern:
+
+`replace a hard continuous object by an easier approximation, then manage the resulting error`
+
+## First-Pass Promise
+
+Read this page after [Eigenvalue and SVD Computation](eigenvalue-and-svd-computation.qmd).
+
+If you stop here, you should still understand:
+
+- why interpolation, finite differences, and quadrature are all approximation schemes
+- why truncation error is different from roundoff error
+- why making the step size smaller does not always improve the answer
+- why adaptive error control is really a strategy for spending computation where it matters most
+
+## Why It Matters
+
+A huge fraction of numerical work is not about solving a linear system exactly.
+
+It is about replacing an intractable continuous object by a simpler discrete one:
+
+- replace a function by an interpolating polynomial
+- replace a derivative by a finite difference
+- replace an integral by a weighted sum
+
+This always creates approximation error.
+
+So the key questions become:
+
+- what approximation family should we use?
+- how quickly does the error shrink as the mesh or step size changes?
+- when does roundoff start to compete with truncation error?
+- how do we choose computational effort intelligently?
+
+This is the core error-control viewpoint behind practical scientific computing.
+
+## Prerequisite Recall
+
+- Taylor expansion gives local polynomial approximations and remainder intuition
+- floating-point arithmetic introduces roundoff at scale `\varepsilon_{\mathrm{mach}}`
+- earlier pages in this module separated conditioning from algorithmic stability
+
+## Intuition
+
+### Interpolation
+
+Interpolation replaces a complicated function by an easier surrogate that matches the function at selected points.
+
+The hope is that:
+
+- the surrogate is cheap to evaluate or integrate
+- the mismatch between surrogate and true function is controlled
+
+### Numerical Differentiation
+
+Differentiation is sensitive because it magnifies small perturbations.
+
+Finite-difference formulas use nearby function values to approximate a derivative, but they mix two errors:
+
+- truncation error from replacing the derivative by a formula of finite order
+- roundoff error from subtracting nearly equal numbers
+
+### Numerical Integration
+
+Quadrature replaces an integral by a weighted sum of function values.
+
+The approximation improves when the rule matches the local function behavior well, but it still depends on step size, smoothness, and error accumulation.
+
+### Why Error Control Matters
+
+There is almost always a tradeoff:
+
+- coarse discretization gives large truncation error
+- excessively tiny steps can amplify roundoff or waste work
+
+Good numerical computation is about choosing a scale where the total error is acceptable for the cost.
+
+## Formal Core
+
+::: {#def-interpolation}
+## Definition: Interpolation
+
+Interpolation chooses an approximating function `p(x)` so that
+
+$$
+p(x_i)=f(x_i)
+$$
+
+at selected nodes `x_i`.
+:::
+
+The approximation problem is then to understand how well `p` represents `f` away from the nodes.
+
+::: {#def-finite-diff}
+## Definition: Finite-Difference Approximation
+
+A basic forward-difference approximation to `f'(x)` is
+
+$$
+\frac{f(x+h)-f(x)}{h}.
+$$
+:::
+
+By Taylor expansion, this has first-order truncation error in `h` when `f` is sufficiently smooth.
+
+::: {#def-quadrature}
+## Definition: Quadrature Rule
+
+A quadrature rule approximates an integral by a weighted sum
+
+$$
+\int_a^b f(x)\,dx \approx \sum_{j=1}^m w_j f(x_j).
+$$
+:::
+
+The nodes `x_j` and weights `w_j` encode the approximation scheme.
+
+::: {#thm-error-split}
+## Theorem Idea: Total Numerical Error Often Splits Into Competing Pieces
+
+In many approximation schemes, total error can be understood as a combination of:
+
+- truncation or discretization error
+- roundoff error
+:::
+
+The useful step size is often the one that balances those contributions rather than minimizing either one alone.
+
+::: {#thm-adaptive}
+## Theorem Idea: Adaptive Error Control Uses Local Difficulty
+
+Adaptive methods refine the grid or step size more where the function or solution is hard to approximate and less where it is easy.
+:::
+
+This is why adaptive methods often outperform uniform refinement at the same cost.
+
+## A Small Worked Example
+
+Take
+
+$$
+f(x)=e^x
+$$
+
+and approximate `f'(0)` using the forward difference:
+
+$$
+\frac{f(h)-f(0)}{h}
+=
+\frac{e^h-1}{h}.
+$$
+
+Using Taylor expansion,
+
+$$
+e^h = 1+h+\frac{h^2}{2}+O(h^3),
+$$
+
+so
+
+$$
+\frac{e^h-1}{h}
+=
+1+\frac{h}{2}+O(h^2).
+$$
+
+The exact derivative is `f'(0)=1`, so the truncation error is about `h/2` for small `h`.
+
+This suggests smaller `h` is better.
+
+But on a machine, if `h` becomes extremely small, the subtraction
+
+$$
+e^h-1
+$$
+
+can lose relative accuracy through cancellation, and roundoff begins to matter.
+
+So the best practical `h` is not “as small as possible.” It is the scale where truncation and roundoff are reasonably balanced.
+
+## Computation Lens
+
+When you face an approximation scheme, ask:
+
+1. what continuous object am I replacing?
+2. what is the leading truncation or discretization error term?
+3. how does roundoff enter the formula?
+4. should I refine uniformly, or would adaptive refinement spend work more intelligently?
+
+Those questions usually matter more than memorizing a menu of formulas.
+
+## Application Lens
+
+### Scientific Computing
+
+Interpolation, differentiation, and quadrature are the building blocks behind simulation, data fitting, and time-stepping pipelines.
+
+### Optimization
+
+Finite-difference derivatives, local polynomial models, and error-controlled line-search or trust-region subroutines all rely on approximation language.
+
+### Engineering Systems
+
+Practical computation in mechanics, controls, and signal-processing pipelines depends on deciding how much approximation error is acceptable and where to refine.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- why these topics are all approximation problems
+- why truncation error and roundoff error are different
+- why step size should not be shrunk blindly
+- why adaptive error control is about allocating computational effort intelligently
+
+then this page has done its job.
+
+## Go Deeper
+
+After this page, the next natural extension is:
+
+- [Time-Stepping for ODEs and Stability](time-stepping-for-odes-and-stability.qmd)
+
+The strongest adjacent pages are:
+
+- [Numerical Methods](../index.qmd)
+- [Time-Stepping for ODEs and Stability](time-stepping-for-odes-and-stability.qmd)
+- [Taylor Expansion](../../../foundation/single-variable-calculus/concepts/taylor-expansion.qmd)
+- [Optimization](../../optimization/index.qmd)
+- [Multiple Integrals](../../../foundation/multivariable-calculus/concepts/multiple-integrals.qmd)
+
+## Optional Deeper Reading After First Pass
+
+The strongest current references connected to this page are:
+
+- [Stanford CME108 syllabus pdf](https://cme108.stanford.edu/syllabus.pdf) - official syllabus covering interpolation, quadrature, and adaptive numerical thinking in one scientific-computing track. Checked `2026-04-25`.
+- [Stanford CS137 syllabus](https://web.stanford.edu/class/cs137/syllabus.html) - official current scientific-computing syllabus with interpolation, numerical differentiation, and composite quadrature. Checked `2026-04-25`.
+- [MIT 2.086 differentiation pdf](https://ocw.mit.edu/courses/2-086-numerical-computation-for-mechanical-engineers-fall-2014/d25e9d10e9cd4bd5dcc66422dedc0ada_MIT2_086F14_Nutshell_Diff.pdf) - official MIT notes for finite-difference approximation and its error analysis. Checked `2026-04-25`.
+- [MIT 10.34 numerical integration lecture](https://ocw.mit.edu/courses/10-34-numerical-methods-applied-to-chemical-engineering-fall-2015/1d690d228d4051aa73175b567ef61c9a_MIT10_34F15_Lec16.pdf) - official MIT lecture notes for quadrature from interpolation and error viewpoints. Checked `2026-04-25`.
+- [Cornell CS4210 course page](https://www.cs.cornell.edu/courses/cs4210/2014fa/) - official Cornell course page for the complementary numerical-analysis half focused on error analysis, approximation, interpolation, and integration. Checked `2026-04-25`.
+- [Stanford CME108 bulletin](https://bulletin.stanford.edu/courses/1056641) - official course description linking these approximation topics to the broader scientific-computing curriculum. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [Stanford CME108 syllabus pdf](https://cme108.stanford.edu/syllabus.pdf) - `First pass` - official syllabus covering interpolation, differentiation, quadrature, and approximation-aware computation. Checked `2026-04-25`.
+- [Stanford CS137 syllabus](https://web.stanford.edu/class/cs137/syllabus.html) - `First pass` - official current scientific-computing syllabus with interpolation, numerical differentiation, and composite quadrature. Checked `2026-04-25`.
+- [MIT 2.086 differentiation pdf](https://ocw.mit.edu/courses/2-086-numerical-computation-for-mechanical-engineers-fall-2014/d25e9d10e9cd4bd5dcc66422dedc0ada_MIT2_086F14_Nutshell_Diff.pdf) - `First pass` - official MIT notes for finite-difference approximation and error analysis. Checked `2026-04-25`.
+- [MIT 10.34 numerical integration lecture](https://ocw.mit.edu/courses/10-34-numerical-methods-applied-to-chemical-engineering-fall-2015/1d690d228d4051aa73175b567ef61c9a_MIT10_34F15_Lec16.pdf) - `First pass` - official MIT lecture notes for interpolation-based quadrature and integration error. Checked `2026-04-25`.
+- [Cornell CS4210 course page](https://www.cs.cornell.edu/courses/cs4210/2014fa/) - `Second pass` - official Cornell course page for the approximation/interpolation/integration half of the numerical-analysis sequence. Checked `2026-04-25`.
+- [Stanford CME108 bulletin](https://bulletin.stanford.edu/courses/1056641) - `Second pass` - official course description placing these tools inside a broader scientific-computing sequence. Checked `2026-04-25`.

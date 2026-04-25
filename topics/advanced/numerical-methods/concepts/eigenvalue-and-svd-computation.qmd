@@ -1,0 +1,327 @@
+---
+title: "Eigenvalue and SVD Computation"
+description: "How spectral problems become numerical algorithms, why eigenvalue computation is usually iterative, and why the SVD is the stable computational lens behind low-rank approximation, PCA, and least squares."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: numerical-methods
+prerequisites:
+  - /topics/advanced/numerical-methods/concepts/numerical-linear-systems-and-factorizations.qmd
+learning-goals:
+  - "Explain why eigenvalue and singular-value problems are usually solved iteratively."
+  - "Understand the core idea behind power iteration, subspace or orthogonal iteration, and QR iteration."
+  - "Recognize why the SVD is a central numerical tool for low-rank structure and least squares."
+  - "See why spectral gap and conditioning influence the quality and speed of computation."
+applications:
+  - scientific-computing
+  - matrix-analysis
+  - high-dimensional-statistics
+keywords:
+  - eigenvalues
+  - SVD
+  - power method
+  - QR iteration
+  - low rank
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/numerical-methods/index.qmd
+  - /topics/advanced/numerical-methods/concepts/numerical-least-squares-and-regularization.qmd
+  - /topics/advanced/matrix-analysis/index.qmd
+  - /topics/advanced/high-dimensional-statistics/concepts/covariance-pca-and-spectral-estimation-in-high-dimension.qmd
+  - /topics/foundation/linear-algebra/concepts/eigenvalues-and-diagonalization.qmd
+stable-sources:
+  - "Cornell CS4220 Numerical Analysis"
+  - "MIT 18.065 matrix methods"
+  - "Stanford CS137 scientific computing syllabus"
+current-sources:
+  - "Cornell CS4220 eigenvalue schedule"
+  - "Cornell CS4220 beyond linear solves"
+  - "Cornell CS4220 QR iteration"
+  - "MIT 18.065 computing eigenvalues and singular values"
+  - "Cornell numerical methods for data science eigenvalues"
+  - "Stanford CS137 syllabus"
+---
+
+## Role
+
+This is the fifth page of the `Numerical Methods` module.
+
+Its job is to explain why spectral decompositions are not only formulas from linear algebra, but numerical targets that require their own algorithms, convergence ideas, and error intuition.
+
+## First-Pass Promise
+
+Read this page after [Numerical Least Squares and Regularization](numerical-least-squares-and-regularization.qmd).
+
+If you stop here, you should still understand:
+
+- why eigenvalue and singular-value computations are usually iterative
+- what power iteration, orthogonal or subspace iteration, and QR iteration are trying to do
+- why SVD is the key computational lens for low-rank structure
+- why spectral gap matters for convergence and stability
+
+## Why It Matters
+
+Eigenvalues and singular values appear across the whole site:
+
+- PCA and covariance estimation
+- low-rank approximation
+- spectral clustering
+- stability of iterative methods
+- Hessian and curvature analysis
+- matrix conditioning and perturbation theory
+
+But unlike solving a small symbolic characteristic polynomial, realistic spectral computation has to deal with:
+
+- large matrices
+- structured or sparse matrices
+- partial spectra rather than all eigenpairs
+- sensitivity of eigenvectors
+- the need for stable low-rank approximations rather than exact decompositions on paper
+
+That is why numerical linear algebra treats spectral computation as an algorithmic subject in its own right.
+
+## Prerequisite Recall
+
+- matrix factorizations such as QR and Cholesky already appeared in earlier pages
+- the least-squares page used SVD as a lens for weak directions and ill-posedness
+- matrix analysis already introduced operator norms, PSD structure, and perturbation language
+
+## Intuition
+
+### Why Eigenvalue Computation Is Different
+
+For linear systems, we often have a clear right-hand side and a factorization route.
+
+For eigenvalue problems, the unknown is part of the equation:
+
+$$
+Av=\lambda v.
+$$
+
+That makes the problem nonlinear, even though `A` is linear.
+
+### Power Iteration
+
+If one eigenvalue dominates in magnitude, repeated multiplication by `A` tends to amplify its eigenvector direction.
+
+That is the core intuition behind power iteration:
+
+`keep multiplying, renormalizing, and let the dominant direction emerge`
+
+### From One Vector To A Whole Invariant Subspace
+
+When one direction is not enough, orthogonal or subspace iteration tracks several directions at once.
+
+This is the bridge from simple repeated multiplication to more serious spectral algorithms.
+
+### QR Iteration
+
+QR iteration is the workhorse idea for dense eigenvalue computation.
+
+It repeatedly applies orthogonal changes of basis in a way that drives the matrix toward a form where the eigenvalues become visible.
+
+### Why SVD Is So Central
+
+The SVD is numerically valuable because it organizes a matrix into orthogonal directions and nonnegative singular values.
+
+That makes it the natural computational tool for:
+
+- low-rank approximation
+- least squares
+- PCA
+- rank-revealing analysis
+
+## Formal Core
+
+::: {#def-eig}
+## Definition: Eigenvalue Problem
+
+The eigenvalue problem asks for nonzero vectors `v` and scalars `\lambda` such that
+
+$$
+Av=\lambda v.
+$$
+:::
+
+The computational task is often not to recover everything, but to find the dominant eigenvalues or a stable invariant subspace.
+
+::: {#def-power}
+## Definition: Power Iteration
+
+Starting from a vector `x^{(0)}`, power iteration repeatedly computes
+
+$$
+x^{(k+1)}=\frac{Ax^{(k)}}{\|Ax^{(k)}\|}.
+$$
+:::
+
+When there is a unique dominant eigenvalue in magnitude and the start has a component in its direction, the iterates tend toward the dominant eigenvector direction.
+
+::: {#thm-gap}
+## Theorem Idea: Spectral Gap Controls Convergence Intuition
+
+The separation between the dominant eigenvalue and the next competing eigenvalue strongly influences how quickly power-style methods settle into the leading invariant direction.
+:::
+
+So spectral computation is not only about eigenvalues themselves, but about how separated they are.
+
+::: {#def-svd}
+## Definition: Singular Value Decomposition
+
+The singular value decomposition writes
+
+$$
+A=U\Sigma V^T,
+$$
+
+where `U` and `V` are orthogonal and `\Sigma` has nonnegative diagonal entries.
+:::
+
+The singular values are the square roots of the eigenvalues of `A^TA`.
+
+::: {#thm-low-rank}
+## Theorem Idea: Truncated SVD Gives Best Low-Rank Approximation
+
+Keeping only the largest singular values yields the best rank-`k` approximation in both spectral and Frobenius norm.
+:::
+
+That is why the SVD is the computational backbone of low-rank modeling.
+
+::: {#thm-qr-iter}
+## Theorem Idea: QR Iteration Turns Orthogonal Similarity Into Spectral Information
+
+QR iteration repeatedly factors and recombines a matrix in a way that preserves eigenvalues while driving the matrix toward a simpler nearly triangular form.
+:::
+
+This is the core dense-matrix eigenvalue workhorse.
+
+## A Small Worked Example
+
+Consider
+
+$$
+A=
+\begin{bmatrix}
+3 & 0 \\
+0 & 1
+\end{bmatrix}.
+$$
+
+Start power iteration from
+
+$$
+x^{(0)}=
+\begin{bmatrix}
+1 \\
+1
+\end{bmatrix}.
+$$
+
+After one multiplication,
+
+$$
+Ax^{(0)}=
+\begin{bmatrix}
+3 \\
+1
+\end{bmatrix}.
+$$
+
+After another,
+
+$$
+A^2x^{(0)}=
+\begin{bmatrix}
+9 \\
+1
+\end{bmatrix}.
+$$
+
+The first coordinate keeps dominating more strongly because `3` grows faster than `1`.
+
+So after normalization, the iterates move toward the dominant eigenvector direction
+
+$$
+\begin{bmatrix}
+1 \\
+0
+\end{bmatrix}.
+$$
+
+The important lesson is not that this example is hard. It is that the algorithm is exploiting repeated amplification of the dominant direction, and the speed depends on the gap between `3` and `1`.
+
+## Computation Lens
+
+When you face a spectral computation, ask:
+
+1. do I need all eigenvalues or only the leading few?
+2. is the matrix dense, sparse, symmetric, or positive semidefinite?
+3. is the useful object really the eigen-decomposition, or is the SVD the safer viewpoint?
+4. is there a spectral gap large enough to support fast convergence of simple iterations?
+
+Those questions usually matter more than the symbolic decomposition formula.
+
+## Application Lens
+
+### PCA And High-Dimensional Statistics
+
+Principal components are spectral objects, so numerical PCA is really about stable singular-value or eigenvalue computation.
+
+### Low-Rank Approximation
+
+Compression, denoising, embeddings, and matrix completion all rely on singular values and their truncated approximations.
+
+### Optimization And Dynamics
+
+Curvature, stability, and dominant modes are often spectral questions, which is why iterative spectral algorithms show up throughout applied math.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- why spectral computation is usually iterative
+- what power iteration is exploiting
+- why spectral gap matters
+- why SVD is the computational workhorse for low-rank structure and many least-squares problems
+
+then this page has done its job.
+
+## Go Deeper
+
+After this page, the next natural step is:
+
+- [Approximation, Differentiation, Integration, and Error Control](approximation-differentiation-integration-and-error-control.qmd)
+
+The strongest adjacent pages are:
+
+- [Numerical Least Squares and Regularization](numerical-least-squares-and-regularization.qmd)
+- [Approximation, Differentiation, Integration, and Error Control](approximation-differentiation-integration-and-error-control.qmd)
+- [Matrix Analysis](../../matrix-analysis/index.qmd)
+- [Covariance, PCA, and Spectral Estimation in High Dimension](../../high-dimensional-statistics/concepts/covariance-pca-and-spectral-estimation-in-high-dimension.qmd)
+- [Eigenvalues and Diagonalization](../../../foundation/linear-algebra/concepts/eigenvalues-and-diagonalization.qmd)
+
+## Optional Deeper Reading After First Pass
+
+The strongest current references connected to this page are:
+
+- [Cornell CS4220 schedule](https://www.cs.cornell.edu/courses/CS4220/2026sp/schedule.html) - official current schedule showing the eigenvalue-theory and QR-iteration block. Checked `2026-04-25`.
+- [Cornell CS4220: Beyond linear solves](https://www.cs.cornell.edu/courses/cs4220/2026sp/lec/2026-02-13.html) - official current notes showing how factorization ideas extend beyond linear solves. Checked `2026-04-25`.
+- [Cornell CS4220: From power methods to QR iteration](https://www.cs.cornell.edu/courses/cs4220/2026sp/lec/2026-03-06.html) - official current notes for the core iterative eigenvalue storyline. Checked `2026-04-25`.
+- [MIT 18.065: Computing Eigenvalues and Singular Values](https://ocw.mit.edu/courses/18-065-matrix-methods-in-data-analysis-signal-processing-and-machine-learning-spring-2018/resources/lecture-12-computing-eigenvalues-and-singular-values/) - official lecture page explicitly focused on numerical spectral computation. Checked `2026-04-25`.
+- [Cornell Numerical Methods for Data Science: Eigenvalue Problems and the SVD](https://www.cs.cornell.edu/~bindel/nmds/02-NLA/03-Eigenvalues.html) - official notes connecting eigenvalue iterations, QR ideas, and SVD in one place. Checked `2026-04-25`.
+- [Stanford CS137 syllabus](https://web.stanford.edu/class/cs137/syllabus.html) - official current syllabus showing eigenvalue problems as a distinct scientific-computing topic after least squares. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [Cornell CS4220 schedule](https://www.cs.cornell.edu/courses/CS4220/2026sp/schedule.html) - `First pass` - official current course schedule for the eigenvalue and QR-iteration block. Checked `2026-04-25`.
+- [Cornell CS4220: Beyond linear solves](https://www.cs.cornell.edu/courses/cs4220/2026sp/lec/2026-02-13.html) - `First pass` - official notes for the transition from direct solves toward broader spectral computation. Checked `2026-04-25`.
+- [Cornell CS4220: From power methods to QR iteration](https://www.cs.cornell.edu/courses/cs4220/2026sp/lec/2026-03-06.html) - `First pass` - official current notes for the power-to-QR eigenvalue story. Checked `2026-04-25`.
+- [MIT 18.065: Computing Eigenvalues and Singular Values](https://ocw.mit.edu/courses/18-065-matrix-methods-in-data-analysis-signal-processing-and-machine-learning-spring-2018/resources/lecture-12-computing-eigenvalues-and-singular-values/) - `First pass` - official lecture page focused exactly on numerical eigenvalue and SVD computation. Checked `2026-04-25`.
+- [Cornell Numerical Methods for Data Science: Eigenvalue Problems and the SVD](https://www.cs.cornell.edu/~bindel/nmds/02-NLA/03-Eigenvalues.html) - `Second pass` - official notes combining iterative eigenvalue methods and SVD intuition. Checked `2026-04-25`.
+- [Stanford CS137 syllabus](https://web.stanford.edu/class/cs137/syllabus.html) - `Second pass` - official current syllabus placing spectral computation into the larger scientific-computing sequence. Checked `2026-04-25`.

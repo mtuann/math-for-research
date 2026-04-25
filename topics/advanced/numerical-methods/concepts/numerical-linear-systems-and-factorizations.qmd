@@ -1,0 +1,386 @@
+---
+title: "Numerical Linear Systems and Factorizations"
+description: "How solving Ax=b becomes a factorization problem in practice, why LU, QR, and Cholesky are different tools for different structure, and why explicit matrix inversion is usually the wrong computational viewpoint."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: numerical-methods
+prerequisites:
+  - /topics/foundation/linear-algebra/index.qmd
+  - /topics/advanced/numerical-methods/concepts/floating-point-conditioning-and-backward-error.qmd
+learning-goals:
+  - "Explain why numerical linear systems are usually solved by factorization rather than by forming A inverse."
+  - "Recognize the roles of LU, QR, and Cholesky factorizations."
+  - "Connect pivoting, orthogonality, and positive definiteness to solver choice."
+  - "See why residuals, conditioning, and structure all matter in practical linear solves."
+applications:
+  - scientific-computing
+  - optimization
+  - high-dimensional-statistics
+keywords:
+  - linear systems
+  - LU factorization
+  - QR factorization
+  - Cholesky
+  - pivoting
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/numerical-methods/index.qmd
+  - /topics/advanced/numerical-methods/concepts/floating-point-conditioning-and-backward-error.qmd
+  - /topics/advanced/matrix-analysis/index.qmd
+  - /topics/advanced/optimization/index.qmd
+stable-sources:
+  - "MIT 18.335J Introduction to Numerical Methods"
+  - "Cornell CS4220 Numerical Analysis"
+  - "Stanford CS137 scientific computing syllabus"
+current-sources:
+  - "MIT 18.335J syllabus"
+  - "MIT 18.335J resource index"
+  - "Cornell CS4220 Gaussian elimination"
+  - "Cornell CS4220 blocked LU and Cholesky"
+  - "Cornell CS4220 QR and orthogonalization"
+  - "Stanford CS137 syllabus"
+---
+
+## Role
+
+This is the second page of the `Numerical Methods` module.
+
+Its job is to turn the abstract equation
+
+$$
+Ax=b
+$$
+
+into the computational question
+
+`what structure should I factor, and how should I solve with that factorization?`
+
+## First-Pass Promise
+
+Read this page after [Floating-Point, Conditioning, and Backward Error](floating-point-conditioning-and-backward-error.qmd).
+
+If you stop here, you should still understand:
+
+- why direct linear solves are usually factorization-based
+- when LU, QR, and Cholesky are the right first tools
+- why pivoting and orthogonality matter numerically
+- why residual, conditioning, and matrix structure all affect whether a solve is trustworthy
+
+## Why It Matters
+
+Linear systems appear everywhere:
+
+- Newton and quasi-Newton steps in optimization
+- least squares and regression
+- covariance and kernel methods
+- PDE and ODE discretizations
+- Kalman filtering, control, and inverse problems
+
+In exact algebra, it is tempting to think
+
+$$
+x=A^{-1}b.
+$$
+
+In numerical computation, that is usually the wrong mental model.
+
+What we actually do is:
+
+- exploit matrix structure
+- factor once
+- solve triangular or orthogonal subproblems
+- reuse the factorization across multiple right-hand sides
+
+That is both faster and usually more stable.
+
+## Prerequisite Recall
+
+- triangular systems can be solved by forward or backward substitution
+- orthogonal matrices preserve Euclidean norm
+- positive definite matrices have special spectral structure
+- the previous page introduced backward error, conditioning, and residual thinking
+
+## Intuition
+
+### Never Start With The Inverse
+
+For computation, the useful question is not
+
+`what is A inverse?`
+
+but
+
+`what structured decomposition lets me solve with A reliably?`
+
+Factoring once and solving many times is the standard workflow.
+
+### Different Structure Suggests Different Factorizations
+
+There is no single universal factorization viewpoint.
+
+- general square systems often suggest LU with pivoting
+- orthogonality-sensitive problems suggest QR
+- symmetric positive definite systems suggest Cholesky
+
+The right factorization reflects the geometry of the matrix.
+
+### Residual Is Useful But Not Everything
+
+A small residual
+
+$$
+r=b-A\hat x
+$$
+
+is good news, but it is not the whole story.
+
+If `A` is ill-conditioned, a small residual can still coexist with a noticeably wrong solution.
+
+So solver quality always has to be read together with conditioning.
+
+## Formal Core
+
+::: {#def-residual}
+## Definition: Residual
+
+For an approximate solution $\hat x$ to $Ax=b$, the residual is
+
+$$
+r=b-A\hat x.
+$$
+:::
+
+The residual measures how well the computed vector satisfies the original equation, not directly how close $\hat x$ is to the true solution.
+
+::: {#def-lu}
+## Definition: LU With Pivoting
+
+An LU factorization with row pivoting has the form
+
+$$
+PA=LU,
+$$
+
+where $P$ is a permutation matrix, $L$ is unit lower triangular, and $U$ is upper triangular.
+:::
+
+Pivoting is introduced to avoid unstable elimination steps and to make the factorization usable in floating point.
+
+::: {#thm-lu-solve}
+## Theorem Idea: Factor Then Solve
+
+If
+
+$$
+PA=LU,
+$$
+
+then solving $Ax=b$ reduces to:
+
+1. solve $Ly=Pb$
+2. solve $Ux=y$
+:::
+
+This is the basic direct-solve pattern.
+
+::: {#def-qr}
+## Definition: QR Factorization
+
+A QR factorization writes a matrix as
+
+$$
+A=QR,
+$$
+
+where $Q$ has orthonormal columns and $R$ is upper triangular.
+:::
+
+Orthogonality makes QR especially attractive when norm preservation matters, which is why it is central for least squares and many stable matrix algorithms.
+
+::: {#def-cholesky}
+## Definition: Cholesky Factorization
+
+If $A$ is symmetric positive definite, the Cholesky factorization writes
+
+$$
+A=R^TR
+$$
+
+with $R$ upper triangular and nonsingular.
+:::
+
+This is the structure-exploiting factorization for SPD systems.
+
+::: {#thm-structure-choice}
+## Theorem Idea: Structure Changes The Numerical Tool
+
+General matrices, orthogonality-sensitive problems, and SPD matrices naturally lead to different factorizations:
+
+- LU for general square solves
+- QR when orthogonality is the right geometry
+- Cholesky when positive definiteness is available
+:::
+
+The point is not memorizing names. The point is learning to match matrix structure to computational structure.
+
+## A Small Worked Example
+
+Consider
+
+$$
+A=
+\begin{bmatrix}
+2 & 1 \\
+4 & 3
+\end{bmatrix},
+\qquad
+b=
+\begin{bmatrix}
+1 \\
+2
+\end{bmatrix}.
+$$
+
+An LU factorization without pivoting is
+
+$$
+A=
+\begin{bmatrix}
+1 & 0 \\
+2 & 1
+\end{bmatrix}
+\begin{bmatrix}
+2 & 1 \\
+0 & 1
+\end{bmatrix}
+=LU.
+$$
+
+To solve $Ax=b$, first solve
+
+$$
+Ly=b.
+$$
+
+This gives
+
+$$
+y_1=1,
+\qquad
+2y_1+y_2=2,
+$$
+
+so
+
+$$
+y=
+\begin{bmatrix}
+1 \\
+0
+\end{bmatrix}.
+$$
+
+Then solve
+
+$$
+Ux=y.
+$$
+
+That gives
+
+$$
+x_2=0,
+\qquad
+2x_1+x_2=1,
+$$
+
+so
+
+$$
+x=
+\begin{bmatrix}
+1/2 \\
+0
+\end{bmatrix}.
+$$
+
+The key computational point is not the arithmetic itself.
+
+It is that once the factorization is available, solving for one or many right-hand sides becomes a sequence of cheap triangular solves.
+
+## Computation Lens
+
+When you face a linear-system computation, ask:
+
+1. what structure does the matrix have?
+2. is this a one-off solve or many solves with the same matrix?
+3. do I care mostly about a square solve, least squares, or SPD structure?
+4. is the matrix well-conditioned enough that a small residual will actually imply a useful answer?
+
+Those questions usually matter more than the symbolic formula for the inverse.
+
+## Application Lens
+
+### Optimization
+
+Newton-type steps, constrained methods, and quadratic models repeatedly solve linear systems, often with Hessian or KKT structure.
+
+### Statistics And Machine Learning
+
+Least squares, ridge regression, covariance problems, kernels, and spectral estimation all rely on linear solves or factorization-based primitives.
+
+### Scientific Computing
+
+Large simulations and inverse problems often spend most of their time inside linear-system solves, so factorization choice becomes part of the mathematics, not only part of the code.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- why numerical solvers usually avoid forming an explicit inverse
+- why LU, QR, and Cholesky correspond to different structural situations
+- why pivoting and orthogonality matter numerically
+- why residual alone is not enough without conditioning
+
+then this page has done its job.
+
+## Go Deeper
+
+After this page, the next natural step is:
+
+- [Iterative Methods and Preconditioning](iterative-methods-and-preconditioning.qmd)
+
+The strongest adjacent pages are:
+
+- [Floating-Point, Conditioning, and Backward Error](floating-point-conditioning-and-backward-error.qmd)
+- [Iterative Methods and Preconditioning](iterative-methods-and-preconditioning.qmd)
+- [Matrix Analysis](../../matrix-analysis/index.qmd)
+- [Optimization](../../optimization/index.qmd)
+- [High-Dimensional Statistics](../../high-dimensional-statistics/index.qmd)
+
+## Optional Deeper Reading After First Pass
+
+The strongest current references connected to this page are:
+
+- [MIT 18.335J syllabus](https://ocw.mit.edu/courses/18-335j-introduction-to-numerical-methods-spring-2019/pages/syllabus) - official MIT description of the numerical-linear-algebra scope: linear systems, QR/SVD, and stability. Checked `2026-04-25`.
+- [MIT 18.335J resource index](https://ocw.mit.edu/courses/18-335j-introduction-to-numerical-methods-spring-2019/pages/resource-index/) - official course resource index showing the factorization and orthogonalization components of the course. Checked `2026-04-25`.
+- [Cornell CS4220: Gaussian elimination](https://www.cs.cornell.edu/courses/cs4220/2026sp/lec/2026-02-06.html) - official current notes for direct solves and triangular-substitution structure. Checked `2026-04-25`.
+- [Cornell CS4220: Blocked LU and Cholesky](https://www.cs.cornell.edu/courses/cs4220/2026sp/lec/2026-02-09.html) - official current notes for LU and Cholesky from a matrix-computations viewpoint. Checked `2026-04-25`.
+- [Cornell CS4220: QR and orthogonalization](https://www.cs.cornell.edu/courses/cs4220/2026sp/lec/2026-02-23.html) - official current notes for the orthogonalization route into QR. Checked `2026-04-25`.
+- [Stanford CS137 syllabus](https://web.stanford.edu/class/cs137/syllabus.html) - official current syllabus showing the standard scientific-computing progression from floating point to linear systems, factorization, pivoting, and error analysis. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [MIT 18.335J syllabus](https://ocw.mit.edu/courses/18-335j-introduction-to-numerical-methods-spring-2019/pages/syllabus) - `First pass` - official MIT course description for numerical linear algebra, QR/SVD, and stability. Checked `2026-04-25`.
+- [MIT 18.335J resource index](https://ocw.mit.edu/courses/18-335j-introduction-to-numerical-methods-spring-2019/pages/resource-index/) - `First pass` - official resource map for the factorization and orthogonalization parts of the course. Checked `2026-04-25`.
+- [Cornell CS4220: Gaussian elimination](https://www.cs.cornell.edu/courses/cs4220/2026sp/lec/2026-02-06.html) - `First pass` - official current notes for the LU-based direct-solve viewpoint. Checked `2026-04-25`.
+- [Cornell CS4220: Blocked LU and Cholesky](https://www.cs.cornell.edu/courses/cs4220/2026sp/lec/2026-02-09.html) - `First pass` - official current notes for factorization structure in direct methods. Checked `2026-04-25`.
+- [Cornell CS4220: QR and orthogonalization](https://www.cs.cornell.edu/courses/cs4220/2026sp/lec/2026-02-23.html) - `Second pass` - official current notes for the orthogonal route through QR. Checked `2026-04-25`.
+- [Stanford CS137 syllabus](https://web.stanford.edu/class/cs137/syllabus.html) - `Second pass` - official current syllabus showing how factorization, pivoting, and error analysis fit into an introductory scientific-computing sequence. Checked `2026-04-25`.

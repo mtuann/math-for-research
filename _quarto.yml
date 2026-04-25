@@ -135,6 +135,16 @@ website:
               - topics/advanced/optimization/concepts/constrained-optimization-kkt-and-lagrangians.qmd
               - topics/advanced/optimization/concepts/unconstrained-first-order-methods.qmd
               - topics/advanced/optimization/concepts/duality-and-certificates.qmd
+          - section: "Numerical Methods"
+            contents:
+              - topics/advanced/numerical-methods/index.qmd
+              - topics/advanced/numerical-methods/concepts/floating-point-conditioning-and-backward-error.qmd
+              - topics/advanced/numerical-methods/concepts/numerical-linear-systems-and-factorizations.qmd
+              - topics/advanced/numerical-methods/concepts/iterative-methods-and-preconditioning.qmd
+              - topics/advanced/numerical-methods/concepts/numerical-least-squares-and-regularization.qmd
+              - topics/advanced/numerical-methods/concepts/eigenvalue-and-svd-computation.qmd
+              - topics/advanced/numerical-methods/concepts/approximation-differentiation-integration-and-error-control.qmd
+              - topics/advanced/numerical-methods/concepts/time-stepping-for-odes-and-stability.qmd
           - section: "Matrix Analysis"
             contents:
               - topics/advanced/matrix-analysis/index.qmd

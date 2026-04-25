@@ -1,0 +1,353 @@
+---
+title: "Numerical Least Squares and Regularization"
+description: "How overdetermined fitting problems become projection problems, why QR and SVD are safer computational viewpoints than blindly squaring the condition number through normal equations, and how regularization stabilizes ill-posed least-squares problems."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: numerical-methods
+prerequisites:
+  - /topics/advanced/numerical-methods/concepts/numerical-linear-systems-and-factorizations.qmd
+learning-goals:
+  - "Explain least squares as a projection or residual-minimization problem."
+  - "Recognize why QR and SVD are the main numerical tools for least squares."
+  - "Understand why normal equations can amplify conditioning problems."
+  - "Explain Tikhonov or ridge-style regularization as a way to stabilize ill-posed least-squares problems."
+applications:
+  - scientific-computing
+  - optimization
+  - high-dimensional-statistics
+keywords:
+  - least squares
+  - QR
+  - SVD
+  - regularization
+  - Tikhonov
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/numerical-methods/index.qmd
+  - /topics/advanced/numerical-methods/concepts/iterative-methods-and-preconditioning.qmd
+  - /topics/advanced/high-dimensional-statistics/concepts/sparsity-and-regularization.qmd
+  - /topics/advanced/optimization/index.qmd
+  - /topics/foundation/statistics/concepts/regression-and-classification-basics.qmd
+stable-sources:
+  - "Cornell CS4220 Numerical Analysis"
+  - "MIT 18.335J Introduction to Numerical Methods"
+  - "Stanford CS137 scientific computing syllabus"
+current-sources:
+  - "Cornell CS4220 least squares and regularization"
+  - "Cornell CS4220 schedule"
+  - "MIT 18.085 least squares lecture"
+  - "Cornell CS6210 least squares notes"
+  - "Stanford CS137 syllabus"
+  - "MIT 18.335J resource index"
+---
+
+## Role
+
+This is the fourth page of the `Numerical Methods` module.
+
+Its job is to explain how fitting problems of the form
+
+$$
+\min_x \|Ax-b\|_2
+$$
+
+turn into projection and factorization problems, and why regularization becomes necessary when the fitting problem is ill-conditioned or ill-posed.
+
+## First-Pass Promise
+
+Read this page after [Iterative Methods and Preconditioning](iterative-methods-and-preconditioning.qmd).
+
+If you stop here, you should still understand:
+
+- why least squares is about minimizing residual norm, not solving `Ax=b` exactly
+- why QR and SVD are the right main computational viewpoints
+- why normal equations can make conditioning worse
+- why regularization stabilizes least-squares problems with weak or ambiguous information
+
+## Why It Matters
+
+Least squares is one of the central computational forms in modern applied math.
+
+It appears in:
+
+- linear regression
+- data fitting and inverse problems
+- overdetermined models from experiments
+- local quadratic approximations in optimization
+- many statistical and machine-learning pipelines
+
+But the computational story is not just:
+
+`write down the normal equations and solve`
+
+That route can be fragile when the columns of `A` are nearly dependent or the data is noisy.
+
+Numerical methods asks better questions:
+
+- what geometry does the residual minimization problem have?
+- what factorization preserves that geometry best?
+- how bad is the conditioning?
+- when should we regularize instead of chasing an unstable exact fit?
+
+## Prerequisite Recall
+
+- QR factorization is the orthogonality-friendly factorization from the previous linear-systems page
+- SVD gives a spectral view of matrix action and near-rank-deficiency
+- conditioning explains why small perturbations can create large changes in the fitted coefficients
+- regularization already appeared elsewhere on the site as a structural or stabilizing idea
+
+## Intuition
+
+### Least Squares As Projection
+
+If the system is overdetermined, the vector `b` usually does not lie exactly in the column space of `A`.
+
+So instead of solving `Ax=b` exactly, we look for the point `Ax` in the column space that is closest to `b`.
+
+That is why least squares is a projection problem.
+
+### Why QR Is Better Than Blindly Squaring The Problem
+
+The normal equations are
+
+$$
+A^TAx=A^Tb.
+$$
+
+They are mathematically correct, but numerically they can be dangerous because the condition number is effectively squared.
+
+QR avoids that by keeping the geometry orthogonal instead of collapsing it into `A^TA`.
+
+### Why SVD Matters
+
+SVD shows which directions in the data are strong and which are weak.
+
+Small singular values correspond to directions where coefficient estimates become unstable.
+
+That is the numerical heart of ill-posedness in least squares.
+
+### Why Regularization Enters
+
+If many coefficient vectors fit almost equally well, then small perturbations in the data can cause large swings in the solution.
+
+Regularization says:
+
+`do not only fit the data; also prefer solutions with controlled size or structure`
+
+This trades a little bias for a lot of stability.
+
+## Formal Core
+
+::: {#def-ls}
+## Definition: Linear Least Squares
+
+Given `A \in \mathbb R^{m\times n}` and `b \in \mathbb R^m`, the least-squares problem is
+
+$$
+\min_x \|Ax-b\|_2^2.
+$$
+:::
+
+The goal is to minimize residual norm, not necessarily to make the residual zero.
+
+::: {#thm-projection}
+## Theorem Idea: Least Squares Means Orthogonal Projection
+
+At a least-squares solution, the residual is orthogonal to the column space of `A`.
+
+Equivalently,
+
+$$
+A^T(Ax-b)=0.
+$$
+:::
+
+These are the normal equations.
+
+::: {#thm-normal-eq}
+## Theorem Idea: Normal Equations Are Exact But Can Be Numerically Risky
+
+The normal equations reduce least squares to a square linear system in `A^TA`, but this can worsen conditioning because
+
+$$
+\kappa(A^TA)\approx \kappa(A)^2
+$$
+
+in the Euclidean setting.
+:::
+
+So the normal equations are often a poor first computational method when conditioning is already a concern.
+
+::: {#def-qr-ls}
+## Definition: QR View Of Least Squares
+
+If
+
+$$
+A=QR
+$$
+
+with `Q` having orthonormal columns, then the least-squares problem becomes
+
+$$
+\min_x \|Rx-Q^Tb\|_2.
+$$
+:::
+
+This is why QR is a standard stable route for dense least-squares problems.
+
+::: {#def-tikhonov}
+## Definition: Tikhonov Or Ridge Regularization
+
+A standard regularized least-squares problem is
+
+$$
+\min_x \|Ax-b\|_2^2 + \lambda \|x\|_2^2,
+$$
+
+where `\lambda > 0` controls the strength of regularization.
+:::
+
+Regularization damps unstable directions and prefers smaller-norm solutions.
+
+## A Small Worked Example
+
+Consider
+
+$$
+A=
+\begin{bmatrix}
+1 \\
+2 \\
+3
+\end{bmatrix},
+\qquad
+b=
+\begin{bmatrix}
+1 \\
+2 \\
+2
+\end{bmatrix}.
+$$
+
+This is an overdetermined system: one parameter, three equations.
+
+We seek the scalar `x` minimizing
+
+$$
+\|Ax-b\|_2^2
+=
+(x-1)^2+(2x-2)^2+(3x-2)^2.
+$$
+
+The normal equation is
+
+$$
+A^TAx=A^Tb.
+$$
+
+Here,
+
+$$
+A^TA = 1^2+2^2+3^2 = 14,
+\qquad
+A^Tb = 1\cdot 1 + 2\cdot 2 + 3\cdot 2 = 11.
+$$
+
+So the least-squares solution is
+
+$$
+x=\frac{11}{14}.
+$$
+
+The fitted vector is
+
+$$
+Ax=
+\begin{bmatrix}
+11/14 \\
+22/14 \\
+33/14
+\end{bmatrix},
+$$
+
+which is the projection of `b` onto the line spanned by the column of `A`.
+
+Now imagine the columns of `A` were nearly dependent in a multivariate problem. Then small perturbations in `b` or `A` could move the coefficient vector much more dramatically, even if the fitted residual stays small. That is the setting where QR, SVD, and regularization become essential rather than optional.
+
+## Computation Lens
+
+When you face a least-squares problem, ask:
+
+1. is this problem well-conditioned, or are the columns nearly dependent?
+2. should I think in terms of projection geometry, QR, or SVD rather than normal equations?
+3. do I care about a stable coefficient vector, a good prediction fit, or both?
+4. is regularization stabilizing an ambiguous problem, or encoding real prior structure I want to keep?
+
+Those questions usually matter more than whether the objective function looks simple on paper.
+
+## Application Lens
+
+### Statistics And Regression
+
+Least squares is the computational core behind linear regression, but numerical conditioning decides whether coefficient estimates are trustworthy.
+
+### Inverse Problems
+
+Many inverse problems are least-squares problems with weak information in some directions, which is exactly why regularization becomes central.
+
+### Optimization
+
+Quadratic models, Gauss-Newton methods, and many local approximation schemes repeatedly solve least-squares subproblems.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- why least squares is a projection problem
+- why QR or SVD is usually a better numerical viewpoint than blindly using normal equations
+- why weak singular directions create instability
+- why regularization trades a little bias for a more stable and meaningful solution
+
+then this page has done its job.
+
+## Go Deeper
+
+After this page, the next natural step is:
+
+- [Eigenvalue and SVD Computation](eigenvalue-and-svd-computation.qmd)
+
+The strongest adjacent pages are:
+
+- [Iterative Methods and Preconditioning](iterative-methods-and-preconditioning.qmd)
+- [Eigenvalue and SVD Computation](eigenvalue-and-svd-computation.qmd)
+- [High-Dimensional Statistics](../../high-dimensional-statistics/index.qmd)
+- [Optimization](../../optimization/index.qmd)
+- [Regression and Classification Basics](../../../foundation/statistics/concepts/regression-and-classification-basics.qmd)
+
+## Optional Deeper Reading After First Pass
+
+The strongest current references connected to this page are:
+
+- [Cornell CS4220: least squares and regularization](https://www.cs.cornell.edu/courses/cs4220/2026sp/lec/2026-02-25.html) - official current notes on ill-posedness and regularization in least squares. Checked `2026-04-25`.
+- [Cornell CS4220 schedule](https://www.cs.cornell.edu/courses/CS4220/2026sp/schedule.html) - official current schedule showing the least-squares to regularization progression. Checked `2026-04-25`.
+- [MIT 18.085 least squares lecture](https://ocw.mit.edu/courses/18-085-computational-science-and-engineering-i-summer-2020/cb1b3358b208b0ac473cb608a927f509_MIT18_085Summer20_lec_w3.pdf) - official MIT lecture notes with QR-based least-squares computation. Checked `2026-04-25`.
+- [Cornell CS6210 least squares notes](https://www.cs.cornell.edu/courses/cs6210/2025fa/lec/2025-09-24.html) - official current matrix-computations notes connecting least squares, residual geometry, and factorization choices. Checked `2026-04-25`.
+- [Stanford CS137 syllabus](https://web.stanford.edu/class/cs137/syllabus.html) - official current syllabus showing the standard numerical route through linear least squares, SVD, and regularization. Checked `2026-04-25`.
+- [MIT 18.335J resource index](https://ocw.mit.edu/courses/18-335j-introduction-to-numerical-methods-spring-2019/pages/resource-index) - official MIT course resource map showing linear regression and generalized SVD as part of the numerical-methods storyline. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [Cornell CS4220: least squares and regularization](https://www.cs.cornell.edu/courses/cs4220/2026sp/lec/2026-02-25.html) - `First pass` - official current notes on ill-posedness and regularization in least squares. Checked `2026-04-25`.
+- [Cornell CS4220 schedule](https://www.cs.cornell.edu/courses/CS4220/2026sp/schedule.html) - `First pass` - official current schedule placing least squares and regularization in the core numerical-analysis progression. Checked `2026-04-25`.
+- [MIT 18.085 least squares lecture](https://ocw.mit.edu/courses/18-085-computational-science-and-engineering-i-summer-2020/cb1b3358b208b0ac473cb608a927f509_MIT18_085Summer20_lec_w3.pdf) - `First pass` - official MIT lecture notes for QR-based least-squares computation. Checked `2026-04-25`.
+- [Cornell CS6210 least squares notes](https://www.cs.cornell.edu/courses/cs6210/2025fa/lec/2025-09-24.html) - `Second pass` - official current notes connecting least squares to matrix-computation and statistical viewpoints. Checked `2026-04-25`.
+- [Stanford CS137 syllabus](https://web.stanford.edu/class/cs137/syllabus.html) - `Second pass` - official current syllabus connecting linear least squares, SVD, and regularization inside a scientific-computing sequence. Checked `2026-04-25`.
+- [MIT 18.335J resource index](https://ocw.mit.edu/courses/18-335j-introduction-to-numerical-methods-spring-2019/pages/resource-index) - `Second pass` - official resource map showing least squares and generalized SVD as part of the course arc. Checked `2026-04-25`.

@@ -1,0 +1,214 @@
+---
+title: "Numerical Methods"
+description: "How exact mathematical objects turn into finite-precision computations, and how conditioning, stability, and error analysis decide whether those computations can be trusted."
+page-type: module-overview
+status: published
+update-status: current
+level: advanced
+topic: numerical-methods
+prerequisites:
+  - /topics/foundation/linear-algebra/index.qmd
+  - /topics/foundation/single-variable-calculus/index.qmd
+learning-goals:
+  - "Understand why numerical methods need a language for floating point, conditioning, and stability."
+  - "Know the intended first-pass order for the numerical-methods module."
+  - "Connect matrix computations, approximation, and error control to the rest of the site's advanced stack."
+applications:
+  - scientific-computing
+  - optimization
+  - engineering-systems
+keywords:
+  - numerical methods
+  - floating point
+  - conditioning
+  - stability
+  - scientific computing
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+stable-sources:
+  - "MIT 18.335J Introduction to Numerical Methods"
+  - "Cornell CS4220 Numerical Analysis"
+  - "Stanford CME108 scientific computing"
+current-sources:
+  - "MIT 18.335J course page"
+  - "Cornell CS4220 introduction"
+  - "Stanford CME108 bulletin"
+---
+
+## Why This Module Matters
+
+Pure mathematics usually presents objects as exact:
+
+- a matrix is exactly `A`
+- a solution is exactly `x`
+- a derivative is exactly `f'(x)`
+- an eigenvalue is exactly `\lambda`
+
+Numerical methods asks what survives when those objects are computed on an actual machine.
+
+That shift changes the questions.
+
+Now we care about:
+
+- floating-point approximation
+- cancellation and roundoff
+- conditioning of the underlying problem
+- stability of the algorithm
+- approximation error versus discretization error
+- whether an answer is accurate enough for the use case, not merely symbolic
+
+This module is the bridge from exact mathematical language to trustworthy computation.
+
+::: {.meta-strip}
+::: {.meta-box}
+**Prerequisites**
+[Linear Algebra](../../foundation/linear-algebra/index.qmd) and [Single-Variable Calculus](../../foundation/single-variable-calculus/index.qmd) should come first. [Multivariable Calculus](../../foundation/multivariable-calculus/index.qmd), [Optimization](../optimization/index.qmd), and [Matrix Analysis](../matrix-analysis/index.qmd) make the later pages much more useful, but they are not required to start the opening page.
+:::
+::: {.meta-box}
+**Unlocks**
+Scientific computing, solver literacy, error analysis, numerical linear algebra, stability language for ODEs and control
+:::
+::: {.meta-box}
+**Research Use**
+Reading papers that discuss conditioning, backward stability, iterative solvers, approximation error, discretization, or computational tradeoffs
+:::
+:::
+
+## First Pass Through This Module
+
+The intended first-pass spine for this module is:
+
+1. [Floating-Point, Conditioning, and Backward Error](concepts/floating-point-conditioning-and-backward-error.qmd)
+2. [Numerical Linear Systems and Factorizations](concepts/numerical-linear-systems-and-factorizations.qmd)
+3. [Iterative Methods and Preconditioning](concepts/iterative-methods-and-preconditioning.qmd)
+4. [Numerical Least Squares and Regularization](concepts/numerical-least-squares-and-regularization.qmd)
+5. [Eigenvalue and SVD Computation](concepts/eigenvalue-and-svd-computation.qmd)
+6. [Approximation, Differentiation, Integration, and Error Control](concepts/approximation-differentiation-integration-and-error-control.qmd)
+
+This six-page first-pass spine is now complete. Together, it covers numerical error language, direct and iterative linear-system methods, least squares, regularization, spectral computation, and the approximation viewpoint behind differentiation, integration, and practical error control.
+
+One optional extension page pushes the module toward dynamics and simulation:
+
+- [Time-Stepping for ODEs and Stability](concepts/time-stepping-for-odes-and-stability.qmd)
+
+## How To Use This Module
+
+Read this module as a computation layer rather than as a replacement for exact math.
+
+The default reading path is:
+
+1. start with [Floating-Point, Conditioning, and Backward Error](concepts/floating-point-conditioning-and-backward-error.qmd)
+2. continue to [Numerical Linear Systems and Factorizations](concepts/numerical-linear-systems-and-factorizations.qmd)
+3. continue to [Iterative Methods and Preconditioning](concepts/iterative-methods-and-preconditioning.qmd)
+4. continue to [Numerical Least Squares and Regularization](concepts/numerical-least-squares-and-regularization.qmd)
+5. continue to [Eigenvalue and SVD Computation](concepts/eigenvalue-and-svd-computation.qmd)
+6. continue to [Approximation, Differentiation, Integration, and Error Control](concepts/approximation-differentiation-integration-and-error-control.qmd)
+7. if you want the ODE and simulation bridge, continue to [Time-Stepping for ODEs and Stability](concepts/time-stepping-for-odes-and-stability.qmd)
+8. use nearby live pages in [Optimization](../optimization/index.qmd), [Matrix Analysis](../matrix-analysis/index.qmd), and [High-Dimensional Statistics](../high-dimensional-statistics/index.qmd) whenever a page talks about conditioning, spectra, or estimation error
+
+The module should stay focused on a compact first-pass toolkit:
+
+- finite precision
+- conditioning and stability
+- core linear algebra computations
+- approximation and error control
+
+## Core Concepts
+
+- [Floating-Point, Conditioning, and Backward Error](concepts/floating-point-conditioning-and-backward-error.qmd): the opening page that explains finite precision, forward versus backward viewpoints, and why conditioning multiplies numerical trouble.
+- [Numerical Linear Systems and Factorizations](concepts/numerical-linear-systems-and-factorizations.qmd): the page where exact linear algebra becomes LU, QR, and Cholesky computation.
+- [Iterative Methods and Preconditioning](concepts/iterative-methods-and-preconditioning.qmd): the page where direct factorization gives way to stationary iterations, Krylov intuition, and preconditioning.
+- [Numerical Least Squares and Regularization](concepts/numerical-least-squares-and-regularization.qmd): the bridge from overdetermined fitting problems to projection methods, QR/SVD computation, and Tikhonov-style stabilization.
+- [Eigenvalue and SVD Computation](concepts/eigenvalue-and-svd-computation.qmd): the page where eigenvalues and singular values stop being only exact decompositions and become numerical targets with their own iterative algorithms.
+- [Approximation, Differentiation, Integration, and Error Control](concepts/approximation-differentiation-integration-and-error-control.qmd): the page where interpolation, finite differences, quadrature, and adaptive error control turn approximation into an explicit numerical design problem.
+- [Time-Stepping for ODEs and Stability](concepts/time-stepping-for-odes-and-stability.qmd): the optional extension page that turns local approximation ideas into explicit and implicit ODE solvers, stability regions, and stiffness intuition.
+
+## Proof Patterns In This Module
+
+- `Backward-error view`: reinterpret a computed answer as the exact answer to a nearby problem.
+- `Conditioning amplifies perturbations`: separate the sensitivity of the problem from the quality of the algorithm.
+- `Error decomposition`: split total error into approximation, roundoff, and iteration or discretization pieces.
+
+## Applications
+
+### Scientific Computing
+
+This is the module where exact mathematics becomes implementable computation with accuracy and cost tradeoffs.
+
+### Optimization And Statistics
+
+Least squares, Hessian methods, covariance estimation, and spectral algorithms all depend on conditioning and solver behavior.
+
+### Engineering And Dynamics
+
+Later ODE, control, and simulation pages need numerical stability language, not only exact differential-equation theory.
+
+## Go Deeper By Topic
+
+The main starting path is:
+
+1. [Floating-Point, Conditioning, and Backward Error](concepts/floating-point-conditioning-and-backward-error.qmd)
+2. [Numerical Linear Systems and Factorizations](concepts/numerical-linear-systems-and-factorizations.qmd)
+3. [Iterative Methods and Preconditioning](concepts/iterative-methods-and-preconditioning.qmd)
+4. [Numerical Least Squares and Regularization](concepts/numerical-least-squares-and-regularization.qmd)
+5. [Eigenvalue and SVD Computation](concepts/eigenvalue-and-svd-computation.qmd)
+6. [Approximation, Differentiation, Integration, and Error Control](concepts/approximation-differentiation-integration-and-error-control.qmd)
+
+If you want the bridge from numerical methods into ODEs, dynamics, or control, the next live page is:
+
+7. [Time-Stepping for ODEs and Stability](concepts/time-stepping-for-odes-and-stability.qmd)
+
+The strongest adjacent pages are:
+
+- [Optimization](../optimization/index.qmd)
+- [Matrix Analysis](../matrix-analysis/index.qmd)
+- [High-Dimensional Statistics](../high-dimensional-statistics/index.qmd)
+- [Multivariable Calculus](../../foundation/multivariable-calculus/index.qmd)
+
+## Optional Deeper Reading After First Pass
+
+The strongest current references connected to this module are:
+
+- [MIT 18.335J: Introduction to Numerical Methods](https://ocw.mit.edu/courses/18-335j-introduction-to-numerical-methods-spring-2019/) - official current MIT OCW course page covering floating point, conditioning, stability, and core numerical linear algebra. Checked `2026-04-25`.
+- [Cornell CS4220: Numerical Analysis](https://www.cs.cornell.edu/courses/cs4220/2026sp/lec/2026-01-21.html) - official current course introduction describing the scientific-computing viewpoint of solving continuous-math problems fast enough and accurately enough. Checked `2026-04-25`.
+- [Stanford CME108 bulletin](https://bulletin.stanford.edu/courses/1056641) - current official course description showing a numerical-methods path that connects error analysis, linear systems, optimization, and ODEs. Checked `2026-04-25`.
+
+## Study Order
+
+For the current module state, read:
+
+1. [Floating-Point, Conditioning, and Backward Error](concepts/floating-point-conditioning-and-backward-error.qmd)
+2. [Numerical Linear Systems and Factorizations](concepts/numerical-linear-systems-and-factorizations.qmd)
+3. [Iterative Methods and Preconditioning](concepts/iterative-methods-and-preconditioning.qmd)
+4. [Numerical Least Squares and Regularization](concepts/numerical-least-squares-and-regularization.qmd)
+5. [Eigenvalue and SVD Computation](concepts/eigenvalue-and-svd-computation.qmd)
+6. [Approximation, Differentiation, Integration, and Error Control](concepts/approximation-differentiation-integration-and-error-control.qmd)
+
+and then, if you are heading toward simulation or ODEs,
+
+7. [Time-Stepping for ODEs and Stability](concepts/time-stepping-for-odes-and-stability.qmd)
+
+before trying to reason casually about solver output, residuals, or floating-point implementations elsewhere on the site.
+
+You are ready to move deeper into this module when you can:
+
+- explain why finite precision is a modeling issue, not only a programming nuisance
+- distinguish forward error, backward error, and residual
+- explain why conditioning belongs to the problem while stability belongs to the algorithm
+- explain why a backward-stable algorithm can still produce a poor forward answer on an ill-conditioned problem
+- explain why numerical linear systems are usually solved through factorizations rather than through an explicit matrix inverse
+- explain why iterative methods become attractive for large sparse systems and why preconditioning changes convergence behavior
+- explain why least squares should usually be computed through QR or SVD thinking rather than by blindly forming normal equations
+- explain why eigenvalue and singular-value computations need dedicated iterative ideas rather than just symbolic decomposition formulas
+- explain how truncation or discretization error joins roundoff error in differentiation, integration, and interpolation
+- explain why time stepping for ODEs adds a new concern: stability over many steps, not only local approximation at one step
+
+## Sources and Further Reading
+
+- [MIT 18.335J: Introduction to Numerical Methods](https://ocw.mit.edu/courses/18-335j-introduction-to-numerical-methods-spring-2019/) - `First pass` - official current numerical-methods course page with the right opening emphasis on accuracy and efficiency. Checked `2026-04-25`.
+- [Cornell CS4220: Numerical Analysis](https://www.cs.cornell.edu/courses/cs4220/2026sp/lec/2026-01-21.html) - `First pass` - official current course introduction with a clean scientific-computing framing. Checked `2026-04-25`.
+- [Stanford CME108 bulletin](https://bulletin.stanford.edu/courses/1056641) - `Second pass` - official course description showing how the module naturally grows into interpolation, integration, optimization, and ODEs. Checked `2026-04-25`.
