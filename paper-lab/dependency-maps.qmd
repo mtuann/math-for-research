@@ -32,12 +32,10 @@ review-cadence: quarterly
 date-modified: last-modified
 draft: false
 stable-sources:
-  - "How to Read a Paper"
-  - "Theorem Decoder"
+  - "Stanford CS114 reading packet"
+  - "Stanford CS167 paper-reading guide"
   - "MIT Mathematics for Computer Science"
 current-sources:
-  - "Stanford CS167 paper-reading guide"
-  - "Stanford CS114"
   - "NeurIPS paper checklist"
 ---
 

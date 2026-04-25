@@ -33,13 +33,11 @@ review-cadence: quarterly
 date-modified: last-modified
 draft: false
 stable-sources:
-  - "How to Read a Paper"
-  - "Theorem Decoder"
-  - "Dependency Maps"
-current-sources:
   - "Stanford CS114"
   - "Stanford CS167 paper-reading guide"
-  - "Stanford CS229 / CS229T course descriptions"
+  - "CS229 course information"
+current-sources:
+  - "Stanford CS229T course description"
 ---
 
 ## Why This Page

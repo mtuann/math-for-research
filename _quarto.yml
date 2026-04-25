@@ -133,8 +133,8 @@ website:
           - applications/machine-learning/index.qmd
           - paper-lab/index.qmd
           - paper-lab/how-to-read-a-paper.qmd
-          - paper-lab/theorem-decoder.qmd
           - paper-lab/notation-translation.qmd
+          - paper-lab/theorem-decoder.qmd
           - paper-lab/dependency-maps.qmd
           - paper-lab/reading-trails.qmd
           - research/index.qmd

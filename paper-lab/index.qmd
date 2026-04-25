@@ -1,8 +1,45 @@
 ---
 title: "Paper Lab"
+description: "A research-reading workflow section for decoding notation, theorems, dependencies, and reading order before diving into theory-heavy papers."
+page-type: module-overview
+status: published
+update-status: current
+level: research
+topic: paper-reading
+prerequisites:
+  - /topics/foundation/proofs/index.qmd
+  - /topics/foundation/logic/index.qmd
+learning-goals:
+  - "Understand the recommended first-pass order through the Paper Lab section."
+  - "Know when to branch into notation, theorem, dependency, or trail-building workflows."
+  - "Connect site topic pages to paper-reading as a reusable skill."
+applications:
+  - theory-paper-reading
+  - machine-learning-theory
+  - optimization
+  - statistics
+keywords:
+  - paper reading
+  - theorem reading
+  - notation
+  - dependencies
+  - reading trails
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: quarterly
+date-modified: last-modified
+draft: false
+stable-sources:
+  - "Stanford CS114 reading packet"
+  - "Stanford CS167 technical paper-reading guide"
+  - "MIT Mathematics for Computer Science"
+current-sources:
+  - "Stanford CS114 course page"
+  - "NeurIPS Paper Checklist"
 ---
 
-## What Paper Lab Does
+## Why This Section Matters
 
 Paper Lab is where the site teaches research reading as a skill.
 
@@ -14,18 +51,46 @@ A good paper guide should help you:
 - separate core claims from supporting details
 - connect proofs to experiments and applications
 
-## First Page
+The point is not to build a giant paper list. The point is to make hard papers readable by giving you a repeatable workflow.
 
-- [How to Read a Paper](how-to-read-a-paper.qmd)
-- [Theorem Decoder](theorem-decoder.qmd)
-- [Notation Translation](notation-translation.qmd)
-- [Dependency Maps](dependency-maps.qmd)
-- [Reading Trails](reading-trails.qmd)
+## Recommended First-Pass Order
+
+Use this order:
+
+1. [How to Read a Paper](how-to-read-a-paper.qmd)
+2. [Notation Translation](notation-translation.qmd)
+3. [Theorem Decoder](theorem-decoder.qmd)
+4. [Dependency Maps](dependency-maps.qmd)
+5. [Reading Trails](reading-trails.qmd)
+
+That order is deliberate:
+
+- start with the global workflow
+- fix notation before you attempt dense theorem parsing
+- decode theorem structure once the symbols are under control
+- map dependencies before full proof reading
+- build reading trails only after you know how to choose the next page or paper on purpose
+
+## When To Open Which Page
+
+- `How to Read a Paper`: use first, before spending real time on any paper
+- `Notation Translation`: open when symbols are the blocker
+- `Theorem Decoder`: open when a theorem statement is the blocker
+- `Dependency Maps`: open when the paper has too many lemmas, citations, or appendices
+- `Reading Trails`: open when you know the topic you want, but not the reading sequence
 
 ## Core Skills In This Section
 
 - `How to Read a Paper`: staged reading before you sink time into notation and proof details
-- `Theorem Decoder`: how to unpack objects, assumptions, claim shape, and dependencies in a theorem-heavy paper
 - `Notation Translation`: how to turn dense symbols into typed objects, roles, and plain-English statements
+- `Theorem Decoder`: how to unpack objects, assumptions, claim shape, and theorem-level evidence
 - `Dependency Maps`: how to choose a reading order and separate topic prerequisites from lemma and citation structure
 - `Reading Trails`: how to turn one research goal into a short, readable sequence of pages and papers
+
+## Sources and Further Reading
+
+- [CS114/214: Selected Readings of CS Research](https://web.stanford.edu/class/cs114/) - `First pass` - strong model for organizing a paper-reading workflow around staged exposure. Checked `2026-04-25`.
+- [How to Read a Paper](https://web.stanford.edu/class/cs114/reading-keshav.pdf) - `First pass` - the clearest short reading workflow for deciding what deserves deeper attention. Checked `2026-04-25`.
+- [CS167 Technical Paper Reading Guide](https://cs.stanford.edu/~rishig/courses/ref/paper-reading-technical.pdf) - `Second pass` - especially useful for theorem-heavy and implementation-heavy technical papers. Checked `2026-04-25`.
+- [MIT Mathematics for Computer Science Readings](https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-fall-2010/pages/readings/) - `Second pass` - useful when your reading bottleneck is logic, proof structure, or theorem style rather than the paper topic itself. Checked `2026-04-25`.
+- [NeurIPS Paper Checklist](https://neurips.cc/public/guides/PaperChecklist) - `Paper bridge` - current venue-side reminder that assumptions, proofs, and scope boundaries need to be read explicitly. Checked `2026-04-25`.

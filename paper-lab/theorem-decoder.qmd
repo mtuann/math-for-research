@@ -8,6 +8,7 @@ level: research
 topic: theorem-reading
 prerequisites:
   - /paper-lab/how-to-read-a-paper.qmd
+  - /paper-lab/notation-translation.qmd
   - /topics/foundation/proofs/concepts/proof-writing-clinic.qmd
   - /topics/foundation/logic/concepts/translation-between-english-and-symbols.qmd
 learning-goals:
@@ -31,12 +32,10 @@ review-cadence: quarterly
 date-modified: last-modified
 draft: false
 stable-sources:
-  - "How to Read a Paper"
   - "Stanford CS103 Guide to Proofs on Discrete Structures"
   - "MIT Mathematics for Computer Science"
 current-sources:
   - "NeurIPS Paper Checklist"
-  - "NeurIPS Reviewer Guidelines"
   - "Stanford CS114 reading packet"
 ---
 
@@ -327,4 +326,4 @@ That is why this page uses both classic reading advice and current venue guidanc
 - [Stanford CS103 Guide to Proofs on Discrete Structures](https://web.stanford.edu/class/archive/cs/cs103/cs103.1234/guide_to_proofs_on_discrete_structures) - `Second pass` - strong reference for quantifiers, theorem structure, and proof decomposition. Checked `2026-04-25`.
 - [MIT Mathematics for Computer Science: Introduction and Proofs](https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-fall-2010/resources/lecture-1-introduction-and-proofs/) - `Second pass` - useful when theorem statements are blocked by logic, proof style, or notation. Checked `2026-04-25`.
 - [NeurIPS Paper Checklist](https://neurips.cc/public/guides/PaperChecklist) - `Paper bridge` - current venue guidance on assumptions, proofs, and claim boundaries. Checked `2026-04-25`.
-- [NeurIPS Reviewer Guidelines](https://neurips.cc/Conferences/2019/PaperInformation/ReviewerGuidelines) - `Paper bridge` - still useful for understanding how theory claims and evidence are evaluated. Checked `2026-04-25`.
+- [NeurIPS Reviewer Guidelines](https://neurips.cc/Conferences/2019/PaperInformation/ReviewerGuidelines) - `Second pass` - older but still useful context for how theory claims and evidence are evaluated. Checked `2026-04-25`.

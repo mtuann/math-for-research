@@ -1,15 +1,118 @@
 ---
 title: "How to Read a Paper"
+description: "A first-pass workflow for deciding what to skim, what to decode, and when a paper deserves deep proof reading."
+page-type: paper-lab
+status: published
+update-status: current
+level: research
+topic: paper-reading
+prerequisites:
+  - /topics/foundation/proofs/index.qmd
+  - /topics/foundation/logic/index.qmd
+learning-goals:
+  - "Use a staged first-pass workflow before deep reading."
+  - "Know when to branch to notation, theorem, or dependency workflows."
+  - "Separate theorem evidence from empirical evidence at a first-pass level."
+  - "Decide whether a paper deserves deeper reading now or later."
+applications:
+  - theory-paper-reading
+  - machine-learning-theory
+  - optimization
+  - statistics
+keywords:
+  - paper reading
+  - reading workflow
+  - theorem reading
+  - literature navigation
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: quarterly
+date-modified: last-modified
+draft: false
+related-pages:
+  - /paper-lab/index.qmd
+  - /paper-lab/notation-translation.qmd
+  - /paper-lab/theorem-decoder.qmd
+  - /paper-lab/dependency-maps.qmd
+  - /paper-lab/reading-trails.qmd
+stable-sources:
+  - "Stanford CS114 reading packet"
+  - "Stanford CS167 technical paper-reading guide"
+  - "MIT Mathematics for Computer Science"
+current-sources:
+  - "Stanford CS114 course page"
+  - "NeurIPS Paper Checklist"
 ---
 
-## A Simple Reading Workflow
+## Why This Page Matters
+
+Most readers lose time on papers because they go deep too early.
+
+They start chasing a proof before they know:
+
+- whether the paper is even worth a deep read
+- whether the real blocker is notation, theorem structure, or missing prerequisites
+- whether the main claim is theoretical, empirical, or mixed
+
+This page gives the first-pass workflow for making that decision on purpose.
+
+## First-Pass Workflow
 
 Use this order:
 
 1. `skim for structure`
-2. `map the claims`
-3. `trace the dependencies`
-4. `decide what deserves deep proof reading`
+2. `map the main claims`
+3. `separate theorem evidence from empirical evidence`
+4. `identify the real blocker`
+5. `decide whether to read deeply now, later, or not at all`
+
+## Core Workflow
+
+### 1. Skim for structure
+
+Before reading any proof carefully, identify:
+
+- the problem the paper is addressing
+- the section structure
+- where the main theorem or main empirical result lives
+- whether the heavy details are in the main body or appendices
+
+The goal of this pass is orientation, not mastery.
+
+### 2. Map the main claims
+
+Ask what the paper is actually claiming.
+
+Typical claim buckets:
+
+- `theoretical`: theorem, bound, guarantee, impossibility, characterization
+- `empirical`: benchmark gains, ablations, robustness behavior
+- `algorithmic`: method design, runtime, optimization behavior
+- `mixed`: theorem plus experiments that illustrate or stress-test a regime
+
+If you cannot name the paper's core claim type, you are not ready for deep reading yet.
+
+### 3. Identify the first blocker
+
+At this point, decide what is blocking understanding most:
+
+- dense symbols -> [Notation Translation](notation-translation.qmd)
+- dense theorem statements -> [Theorem Decoder](theorem-decoder.qmd)
+- too many lemmas, citations, or appendices -> [Dependency Maps](dependency-maps.qmd)
+- no clear next sequence of pages/papers -> [Reading Trails](reading-trails.qmd)
+
+This branching step is what turns Paper Lab into a workflow instead of a loose set of pages.
+
+### 4. Decide whether to read deeply now
+
+A paper deserves deep reading now if:
+
+- the main question matters to your current trail
+- the core claim is readable after one of the branch workflows
+- the missing prerequisites are small enough to repair
+
+Otherwise, postpone it deliberately instead of half-reading it.
 
 ## What To Mark Up
 
@@ -20,7 +123,38 @@ While reading, highlight:
 - the notation you do not recognize
 - the paper’s evidence for each major claim
 
-## What To Avoid
+## Worked Example
 
-Do not spend thirty minutes chasing a symbol before you know whether the paper is even worth a deep read.
+Suppose you open a paper and see:
 
+- one theorem in the introduction
+- six appendices
+- unfamiliar notation in the first displayed equation
+- experiments that appear before the proof details
+
+A good first-pass reaction is:
+
+1. skim the abstract, introduction, and theorem statement
+2. decide whether the main claim is theoretical or mixed
+3. notice that notation is already blocking the theorem
+4. open [Notation Translation](notation-translation.qmd) before decoding the theorem
+5. then open [Theorem Decoder](theorem-decoder.qmd) if the statement is still dense
+6. only after that decide whether appendix proofs are worth deep time now
+
+That is much better than jumping straight into Appendix C.
+
+## Common Failure Modes
+
+- reading linearly from page 1 to the appendix without deciding what matters
+- spending thirty minutes chasing a symbol before deciding whether the paper deserves deep reading
+- treating theorem statements and experiments as the same kind of evidence
+- assuming the first hard-looking theorem is automatically the right place to start
+- postponing every hard part until the reading session collapses into skimming
+
+## Sources and Further Reading
+
+- [How to Read a Paper](https://web.stanford.edu/class/cs114/reading-keshav.pdf) - `First pass` - still the best short staged-reading workflow. Checked `2026-04-25`.
+- [How to Read a Research Paper](https://web.stanford.edu/class/cs114/reading-mitzenmacher.pdf) - `Second pass` - useful for moving from structure to critique and synthesis. Checked `2026-04-25`.
+- [CS167 Technical Paper Reading Guide](https://cs.stanford.edu/~rishig/courses/ref/paper-reading-technical.pdf) - `Second pass` - especially useful when papers mix theory, experiments, and implementation details. Checked `2026-04-25`.
+- [MIT Mathematics for Computer Science: Introduction and Proofs](https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-fall-2010/resources/lecture-1-introduction-and-proofs/) - `Second pass` - useful when the blocker is proof structure rather than paper context. Checked `2026-04-25`.
+- [NeurIPS Paper Checklist](https://neurips.cc/public/guides/PaperChecklist) - `Paper bridge` - current venue-side reminder to read assumptions, limitations, and evidence boundaries explicitly. Checked `2026-04-25`.

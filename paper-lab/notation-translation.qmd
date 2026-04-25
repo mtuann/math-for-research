@@ -8,7 +8,6 @@ level: research
 topic: theorem-reading
 prerequisites:
   - /paper-lab/how-to-read-a-paper.qmd
-  - /paper-lab/theorem-decoder.qmd
   - /topics/foundation/logic/concepts/translation-between-english-and-symbols.qmd
   - /start-here/notation-and-symbols.qmd
 learning-goals:
@@ -33,12 +32,10 @@ review-cadence: quarterly
 date-modified: last-modified
 draft: false
 stable-sources:
-  - "How to Read a Paper"
-  - "Translation Between English and Symbols"
   - "Stanford CS103 first-order translation checklist"
-current-sources:
   - "MIT 6.1200J problem set 1"
-  - "Stanford WIM guidance"
+  - "Stanford Mathematics WIM guidance"
+current-sources:
   - "NeurIPS paper checklist"
 ---
 
