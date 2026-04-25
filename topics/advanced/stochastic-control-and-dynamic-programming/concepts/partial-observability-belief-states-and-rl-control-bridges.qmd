@@ -1,0 +1,326 @@
+---
+title: "Partial Observability, Belief States, and RL/Control Bridges"
+description: "How hidden state turns sequential decision-making into belief-state planning, why POMDPs extend MDPs, and where control and RL meet in partially observed settings."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: stochastic-control-and-dynamic-programming
+prerequisites:
+  - /topics/advanced/stochastic-control-and-dynamic-programming/concepts/value-iteration-policy-iteration-and-approximate-dynamic-programming.qmd
+  - /topics/advanced/control-and-dynamics/concepts/estimation-kalman-filtering-and-the-separation-principle.qmd
+  - /topics/foundation/probability/index.qmd
+  - /topics/foundation/statistics/index.qmd
+learning-goals:
+  - "Explain why partial observability replaces state-based planning with belief-based planning."
+  - "Describe a POMDP at a first-pass level through hidden state, observation, action, and belief update."
+  - "Interpret the belief state as a sufficient information state for decision-making."
+  - "Recognize where classical control, approximate planning, and reinforcement learning meet in partially observed problems."
+applications:
+  - control-and-dynamics
+  - engineering-systems
+  - machine-learning-theory
+keywords:
+  - partial observability
+  - belief state
+  - POMDP
+  - filtering
+  - reinforcement learning
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/stochastic-control-and-dynamic-programming/index.qmd
+  - /topics/advanced/stochastic-control-and-dynamic-programming/concepts/stochastic-linear-systems-lqg-and-the-separation-principle.qmd
+  - /topics/advanced/stochastic-control-and-dynamic-programming/concepts/continuous-time-stochastic-control-and-hamilton-jacobi-bellman-intuition.qmd
+  - /topics/advanced/control-and-dynamics/concepts/estimation-kalman-filtering-and-the-separation-principle.qmd
+  - /topics/advanced/control-and-dynamics/concepts/learning-based-control-system-identification-and-rl-bridges.qmd
+  - /topics/foundation/probability/index.qmd
+stable-sources:
+  - "Stanford AA228 Decision Making Under Uncertainty"
+  - "Stanford SISL Decision Making Under Uncertainty text"
+  - "Stanford POMDP slides"
+current-sources:
+  - "Stanford AA228 course page"
+  - "Stanford AA228 solutions state uncertainty"
+  - "Stanford SISL decision making under uncertainty text"
+  - "Stanford POMDP slides"
+  - "Stanford MS&E 235A course page"
+---
+
+## Role
+
+This is the seventh page of the `Stochastic Control and Dynamic Programming` module.
+
+Its job is to explain what changes when the controller does not directly observe the state.
+
+That is the missing final step in the first-pass spine:
+
+- first we planned with known states
+- then we handled stochastic dynamics
+- now we handle hidden state and noisy observations
+
+This is where `MDP` reasoning becomes `POMDP` reasoning.
+
+## First-Pass Promise
+
+Read this page after [Stochastic Linear Systems, LQG, and the Separation Principle](stochastic-linear-systems-lqg-and-the-separation-principle.qmd).
+
+If you already read [Continuous-Time Stochastic Control and Hamilton-Jacobi-Bellman Intuition](continuous-time-stochastic-control-and-hamilton-jacobi-bellman-intuition.qmd), that helps, but it is not a hard prerequisite for the hidden-state story.
+
+If you stop here, you should still understand:
+
+- why partial observability changes the decision problem
+- what a belief state is
+- why belief states restore a Markov-style planning viewpoint
+- where control and RL meet in partially observed systems
+
+## Why It Matters
+
+Many decision systems do not reveal the true state directly.
+
+We may only see:
+
+- noisy sensor readings
+- delayed outputs
+- partial measurements
+- proxies rather than the latent variable we care about
+
+So choosing actions from the raw observation alone can be fundamentally insufficient.
+
+The system may look ambiguous:
+
+- the same observation can correspond to different hidden states
+- different hidden states may require different actions
+
+The right object is then not the hidden state itself, because we do not know it.
+
+It is the belief about the hidden state.
+
+That belief becomes the new information state for planning.
+
+## Prerequisite Recall
+
+- in an MDP, the current state is enough to summarize all relevant past information
+- Kalman filtering already showed one structured example where noisy observations are turned into a state estimate
+- stochastic control introduced value functions and Bellman-style planning under uncertainty
+- probability and statistics matter because beliefs are conditional distributions updated by evidence
+
+## Intuition
+
+### Observation Is Not State
+
+In a partially observed problem, the controller receives an observation `o_t`, not the hidden state `s_t`.
+
+So the immediate question is:
+
+`what should the agent remember from the past in order to act well now?`
+
+The answer is not usually the last observation by itself.
+
+### The Belief State Summarizes What We Know
+
+A belief state is the conditional distribution of the hidden state given everything observed so far.
+
+At first pass, read it as:
+
+`the current posterior over the hidden state`
+
+So instead of planning in the original state space, we plan in a space of beliefs.
+
+### Belief Dynamics Restore A Markov Story
+
+This is the key structural idea.
+
+Although the hidden state is not observed, the belief state evolves by a recursive update using:
+
+- previous belief
+- chosen action
+- new observation
+
+That means the belief state itself is Markov.
+
+So the partially observed problem can be recast as a fully observed decision problem on belief space.
+
+### This Is Where Control Meets RL Most Directly
+
+In classical control, the bridge is:
+
+- estimate hidden state
+- act using that estimate
+
+In RL and planning, the bridge is:
+
+- maintain a belief or latent state
+- optimize future behavior from that information state
+
+Both are trying to solve the same problem:
+
+`act well when the true state is not directly available`
+
+## Formal Core
+
+::: {#def-pomdp}
+## Definition: POMDP
+
+A partially observed Markov decision process includes:
+
+- a hidden state `S_t`
+- an action `A_t`
+- a state transition law
+- an observation `O_t`
+- an observation law conditioned on the hidden state
+- a reward or cost rule
+:::
+
+The hidden state drives the system, but the decision-maker only sees observations.
+
+::: {#def-belief-state}
+## Definition: Belief State
+
+The belief state `b_t` is the conditional distribution of `S_t` given the action-observation history up to time `t`.
+:::
+
+At first pass, it is enough to remember:
+
+`belief = posterior over hidden state`
+
+::: {#thm-belief-update}
+## Theorem Idea: Belief Update
+
+Given the previous belief, the chosen action, and the new observation, the next belief is determined by a Bayesian filtering update.
+:::
+
+So the belief evolves recursively, just like a state estimate.
+
+::: {#thm-belief-mdp}
+## Theorem Idea: Belief-State Reduction
+
+The partially observed problem can be rewritten as a fully observed control problem on the belief state.
+:::
+
+That is the structural reason dynamic programming still applies.
+
+::: {#thm-belief-bellman}
+## Theorem Idea: Bellman Equation On Belief Space
+
+If we treat the belief `b` as the state, then the optimal value function satisfies a Bellman equation over beliefs:
+
+$$
+V(b)=\min_a \left\{ c(b,a) + \mathbb{E}[V(b') \mid b,a] \right\}
+$$
+
+or the reward-maximizing analog.
+:::
+
+At first pass, the point is not the exact formula.
+
+It is that Bellman reasoning survives, but now on a harder state space: the space of distributions.
+
+## Worked Example
+
+Imagine a robot moving in a corridor with two hidden locations:
+
+- `Left`
+- `Right`
+
+It can:
+
+- move
+- observe a noisy beacon
+
+Suppose the beacon reading is imperfect:
+
+- the same reading may occur in both locations
+- but with different probabilities
+
+If the robot only uses the latest reading, it may oscillate or make inconsistent choices.
+
+If instead it keeps a belief
+
+$$
+b_t(\text{Left}),\quad b_t(\text{Right}),
+$$
+
+then each action and observation update that belief.
+
+Planning can now use:
+
+- immediate action cost
+- expected future cost under the updated belief
+
+So the robot is not planning over the true hidden location directly.
+
+It is planning over its current uncertainty about location.
+
+That is the first-pass heart of POMDP reasoning.
+
+## Computation Lens
+
+When you meet a partially observed decision problem, ask:
+
+1. what is hidden?
+2. what is actually observed?
+3. what belief or filtered estimate summarizes the useful past?
+4. is the method doing exact belief updates, approximate filtering, or learned latent-state tracking?
+5. is the control or RL method planning in the original state space, the belief space, or a learned surrogate?
+
+Those questions usually reveal whether a paper is doing classical POMDP reasoning, structured filtering and control, or modern approximate RL.
+
+## Application Lens
+
+### Robotics And Navigation
+
+Robots rarely know their exact state. They infer it from noisy sensors and must act under uncertainty about position, velocity, or map structure.
+
+### Operations And Hidden Regimes
+
+Queueing, diagnosis, and maintenance problems often involve latent system modes that are only indirectly observed.
+
+### RL And Sequential Inference
+
+Many RL problems are effectively partially observed, so memory, filtering, latent-state estimation, and belief tracking become central rather than optional.
+
+## Stop Here For First Pass
+
+If you stop here, retain these five ideas:
+
+- partial observability means the controller does not directly know the true state
+- the right replacement object is the belief state
+- the belief state is a posterior distribution updated from actions and observations
+- belief states restore a Markov planning viewpoint
+- this is a core meeting point of filtering, control, planning, and RL
+
+## Go Deeper
+
+The strongest adjacent live pages are:
+
+- [Stochastic Control and Dynamic Programming](../index.qmd)
+- [Stochastic Linear Systems, LQG, and the Separation Principle](stochastic-linear-systems-lqg-and-the-separation-principle.qmd)
+- [Estimation, Kalman Filtering, and the Separation Principle](../../control-and-dynamics/concepts/estimation-kalman-filtering-and-the-separation-principle.qmd)
+- [Learning-Based Control, System Identification, and RL Bridges](../../control-and-dynamics/concepts/learning-based-control-system-identification-and-rl-bridges.qmd)
+- [Probability](../../../foundation/probability/index.qmd)
+
+The strongest downstream bridges are:
+
+- [Applications > Machine Learning](../../../../applications/machine-learning/index.qmd)
+- [Information Theory](../../information-theory/index.qmd)
+
+## Optional Deeper Reading After First Pass
+
+- [Stanford AA228 / CS238](https://aa228.stanford.edu/) - official current course page for decision making under uncertainty with MDP, POMDP, and RL-facing framing. Checked `2026-04-25`.
+- [AA228/CS238 solutions: State Uncertainty](https://aa228.stanford.edu/solutions/) - official course material with direct explanations of POMDPs, belief states, and belief updates. Checked `2026-04-25`.
+- [Decision Making Under Uncertainty text](https://web.stanford.edu/group/sisl/public/dmu.pdf) - official Stanford-hosted text with explicit sections on POMDPs, belief-state MDPs, and belief updating. Checked `2026-04-25`.
+- [POMDP slides](https://web.stanford.edu/~mykel/pomdps.pdf) - official Stanford-hosted slides focused directly on POMDPs and belief states. Checked `2026-04-25`.
+- [Stanford MS&E 235A / EE 283: Markov Decision Processes](https://web.stanford.edu/class/msande235a/index.html) - official current course page for the broader MDP and dynamic-programming arc. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [Stanford AA228 / CS238](https://aa228.stanford.edu/) - `First pass` - official current decision-making-under-uncertainty course page with POMDP and RL-facing framing. Checked `2026-04-25`.
+- [AA228/CS238 solutions: State Uncertainty](https://aa228.stanford.edu/solutions/) - `First pass` - official course material with direct belief-state and belief-update explanations. Checked `2026-04-25`.
+- [Decision Making Under Uncertainty text](https://web.stanford.edu/group/sisl/public/dmu.pdf) - `First pass` - official Stanford-hosted text with explicit POMDP and belief-state sections. Checked `2026-04-25`.
+- [POMDP slides](https://web.stanford.edu/~mykel/pomdps.pdf) - `First pass` - official Stanford-hosted slides focused directly on partial observability and belief states. Checked `2026-04-25`.
+- [Stanford MS&E 235A / EE 283: Markov Decision Processes](https://web.stanford.edu/class/msande235a/index.html) - `Second pass` - official current course page for the broader MDP and dynamic-programming context. Checked `2026-04-25`.

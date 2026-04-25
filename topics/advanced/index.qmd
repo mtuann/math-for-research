@@ -10,6 +10,7 @@ The advanced track is where the site moves into:
 - optimization
 - numerical methods
 - control and dynamics
+- stochastic control and dynamic programming
 - matrix analysis
 - learning theory
 - high-dimensional probability
@@ -23,6 +24,7 @@ The advanced track is where the site moves into:
 - [Numerical Methods](numerical-methods/index.qmd)
 - [ODEs and Dynamical Systems](odes-and-dynamical-systems/index.qmd)
 - [Control and Dynamics](control-and-dynamics/index.qmd)
+- [Stochastic Control and Dynamic Programming](stochastic-control-and-dynamic-programming/index.qmd)
 - [Matrix Analysis](matrix-analysis/index.qmd)
 - [Learning Theory](learning-theory/index.qmd)
 - [High-Dimensional Probability](high-dimensional-probability/index.qmd)
@@ -109,6 +111,22 @@ Closest companion pages:
 
 This module is where the site turns trajectories into systems with actuation, sensing, feedback, and optimization over behavior.
 
+## Stochastic Control and Dynamic Programming
+
+[Stochastic Control and Dynamic Programming](stochastic-control-and-dynamic-programming/index.qmd) is the uncertainty-aware bridge from control and probability into sequential decision-making.
+
+Its current first-pass spine is:
+
+- [Controlled Markov Models, Policies, and Cost Functionals](stochastic-control-and-dynamic-programming/concepts/controlled-markov-models-policies-and-cost-functionals.qmd)
+- [Finite-Horizon Dynamic Programming and Backward Induction](stochastic-control-and-dynamic-programming/concepts/finite-horizon-dynamic-programming-and-backward-induction.qmd)
+- [Infinite-Horizon Value Functions, Bellman Equations, and Contractions](stochastic-control-and-dynamic-programming/concepts/infinite-horizon-value-functions-bellman-equations-and-contractions.qmd)
+- [Value Iteration, Policy Iteration, and Approximate Dynamic Programming](stochastic-control-and-dynamic-programming/concepts/value-iteration-policy-iteration-and-approximate-dynamic-programming.qmd)
+- [Stochastic Linear Systems, LQG, and the Separation Principle](stochastic-control-and-dynamic-programming/concepts/stochastic-linear-systems-lqg-and-the-separation-principle.qmd)
+- [Continuous-Time Stochastic Control and Hamilton-Jacobi-Bellman Intuition](stochastic-control-and-dynamic-programming/concepts/continuous-time-stochastic-control-and-hamilton-jacobi-bellman-intuition.qmd)
+- [Partial Observability, Belief States, and RL/Control Bridges](stochastic-control-and-dynamic-programming/concepts/partial-observability-belief-states-and-rl-control-bridges.qmd)
+
+This module is where the site turns sequential choices under uncertainty into explicit objects like policies, transition laws, cost-to-go structure, belief states, and planning under hidden information.
+
 ## Matrix Analysis
 
 [Matrix Analysis](matrix-analysis/index.qmd) is the operator-level bridge between linear algebra and modern theory-facing math.
@@ -188,4 +206,4 @@ This module is where the site turns entropy, divergence, coding cost, and commun
 
 ## Planned Next Advanced Modules
 
-- `Stochastic Control and Dynamic Programming`
+- `Signal Processing and Estimation`

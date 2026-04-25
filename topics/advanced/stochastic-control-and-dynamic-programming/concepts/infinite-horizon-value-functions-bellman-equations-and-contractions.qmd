@@ -1,0 +1,344 @@
+---
+title: "Infinite-Horizon Value Functions, Bellman Equations, and Contractions"
+description: "How discounted infinite-horizon control problems turn Bellman equations into fixed-point problems with contraction structure."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: stochastic-control-and-dynamic-programming
+prerequisites:
+  - /topics/advanced/stochastic-control-and-dynamic-programming/concepts/finite-horizon-dynamic-programming-and-backward-induction.qmd
+  - /topics/foundation/probability/index.qmd
+  - /topics/advanced/optimization/index.qmd
+learning-goals:
+  - "Define discounted infinite-horizon value functions for policies and for the optimal control problem."
+  - "Write the Bellman optimality equation for a discounted Markov decision problem."
+  - "Explain why the Bellman operator is a contraction when the discount factor is less than 1."
+  - "Interpret optimal stationary policies as greedy with respect to the fixed-point value function."
+applications:
+  - control-and-dynamics
+  - engineering-systems
+  - machine-learning-theory
+keywords:
+  - infinite horizon
+  - Bellman equation
+  - contraction mapping
+  - discounted cost
+  - value function
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/stochastic-control-and-dynamic-programming/index.qmd
+  - /topics/advanced/stochastic-control-and-dynamic-programming/concepts/finite-horizon-dynamic-programming-and-backward-induction.qmd
+  - /topics/advanced/control-and-dynamics/index.qmd
+  - /topics/advanced/information-theory/index.qmd
+  - /topics/foundation/probability/index.qmd
+stable-sources:
+  - "MIT 6.231 Dynamic Programming and Stochastic Control"
+  - "Stanford MS&E 235A Markov Decision Processes"
+  - "Stanford AA228 Decision Making Under Uncertainty"
+current-sources:
+  - "MIT 6.231 lecture slides"
+  - "MIT 6.231 lecture 3"
+  - "Stanford MS&E 235A course page"
+  - "Stanford MS&E 235A notes index"
+  - "Stanford MS&E 235A lecture 4"
+  - "Stanford AA228 course page"
+---
+
+## Role
+
+This is the third page of the `Stochastic Control and Dynamic Programming` module.
+
+Its job is to make one major shift:
+
+- finite horizon solved by backward induction
+- infinite horizon solved by a fixed-point equation
+
+This is where Bellman recursion stops being just a stage-by-stage algorithm and becomes an operator equation on value functions.
+
+## First-Pass Promise
+
+Read this page after [Finite-Horizon Dynamic Programming and Backward Induction](finite-horizon-dynamic-programming-and-backward-induction.qmd).
+
+If you stop here, you should still understand:
+
+- what changes when the horizon is infinite
+- why discounted value functions stay finite
+- what the Bellman optimality equation means
+- why contraction is the key theorem idea behind uniqueness and iteration
+
+## Why It Matters
+
+Many real decision problems do not have a clean terminal time.
+
+They repeat:
+
+- every day
+- every control cycle
+- every customer arrival
+- every environment step in RL
+
+So there is no final stage where we can start a backward recursion.
+
+Instead, the environment is often stationary:
+
+- same state space
+- same action space
+- same transition law
+- same one-step cost rule
+
+That means the problem at the next step looks like the same problem again.
+
+So the unknown object is no longer a sequence of functions `J_0^*,J_1^*,...,J_T^*`.
+
+It is one value function that must be consistent with itself under one-step optimization and future continuation.
+
+That consistency condition is the Bellman equation.
+
+## Prerequisite Recall
+
+- in finite horizon, the value function at time `t` summarizes the optimal future cost from `(t,s)`
+- Bellman recursion replaces a long policy search with repeated one-step optimization plus expected future value
+- expectation matters because one action induces a distribution over next states
+- a discount factor `\gamma` with `0<\gamma<1` shrinks the effect of far-future costs
+
+## Intuition
+
+### The Horizon No Longer Tells Us Where To Start
+
+For a finite-horizon problem, the terminal time gave us an anchor.
+
+For an infinite-horizon problem, there is no last step.
+
+So we cannot solve by going backward from the end.
+
+### Discounting Keeps The Future Under Control
+
+If future costs are discounted by `\gamma^t`, then events very far ahead matter less and less.
+
+At first pass, this does two useful things:
+
+- it keeps the total value finite under bounded one-step costs
+- it makes the Bellman update pull two candidate value functions closer together
+
+That second point is where contraction comes from.
+
+### The Same Problem Reappears After One Step
+
+In a stationary discounted problem, once we move one step ahead, we face the same kind of optimization problem again.
+
+So the future can be summarized by the same value function `V^*`, not by a different function for each time index.
+
+### Bellman Now Means Fixed Point
+
+The Bellman update takes a candidate value function and produces a refined one.
+
+The correct optimal value function is the one that is unchanged by this update.
+
+That is why infinite-horizon dynamic programming is naturally a fixed-point problem.
+
+### Contraction Explains Why Iteration Works
+
+If the Bellman operator shrinks sup-norm distance by a factor at most `\gamma`, then:
+
+- there is a unique fixed point
+- repeated Bellman updates converge to it
+
+This is the mathematical backbone behind value iteration.
+
+## Formal Core
+
+At first pass, work with a discounted infinite-horizon cost-minimization problem.
+
+::: {#def-policy-value}
+## Definition: Infinite-Horizon Policy Value
+
+For a policy `\pi`, define
+
+$$
+V^\pi(s)=\mathbb{E}^\pi\!\left[\sum_{t=0}^\infty \gamma^t g(S_t,A_t,S_{t+1}) \,\middle|\, S_0=s\right],
+$$
+
+where `0<\gamma<1`.
+:::
+
+This is the expected discounted total future cost when the current state is `s`.
+
+::: {#def-optimal-value}
+## Definition: Optimal Value Function
+
+The optimal value function is
+
+$$
+V^*(s)=\inf_\pi V^\pi(s).
+$$
+:::
+
+It records the best achievable expected discounted cost from each state.
+
+::: {#thm-bellman-optimality}
+## Theorem Idea: Bellman Optimality Equation
+
+For a discounted stationary control problem,
+
+$$
+V^*(s)=\min_{a\in A(s)} \mathbb{E}\!\left[g(s,a,S') + \gamma V^*(S') \mid S=s, A=a\right].
+$$
+:::
+
+This equation says:
+
+- choose the action that minimizes
+- immediate expected cost
+- plus discounted optimal future value
+
+::: {#def-bellman-operator}
+## Definition: Bellman Operator
+
+Define the Bellman optimality operator `T` by
+
+$$
+(TV)(s)=\min_{a\in A(s)} \mathbb{E}\!\left[g(s,a,S') + \gamma V(S') \mid S=s, A=a\right].
+$$
+:::
+
+Then the Bellman equation is just
+
+$$
+V^*=TV^*.
+$$
+
+::: {#thm-contraction}
+## Theorem Idea: Contraction
+
+If one-step costs are bounded and `0<\gamma<1`, then `T` is a contraction in the sup norm:
+
+$$
+\|TV-TW\|_\infty \le \gamma \|V-W\|_\infty.
+$$
+:::
+
+At first pass, the meaning is more important than the proof:
+
+- Bellman updates cannot separate two candidate value functions by more than a factor `\gamma`
+- repeated updates become more and more stable
+
+::: {#thm-unique-fixed-point}
+## Theorem Idea: Uniqueness And Greedy Policy Extraction
+
+Because `T` is a contraction, it has a unique fixed point `V^*`. Any policy that chooses an action attaining the minimum in the Bellman equation is optimal.
+:::
+
+## Worked Example
+
+Consider a simple discounted machine-maintenance problem with states:
+
+- `G` = machine is good
+- `B` = machine is bad
+
+Suppose:
+
+- in state `G`, the only action is to keep running
+- in state `B`, choose either `repair` or `wait`
+- discount factor is `\gamma`
+
+Costs and transitions:
+
+- from `G`, current cost is `0`, and the next state is `G` with probability `0.8` and `B` with probability `0.2`
+- from `B`, action `repair` costs `4` and moves to `G`
+- from `B`, action `wait` costs `1` and keeps the machine in `B`
+
+Then the Bellman equations are
+
+$$
+V^*(G)=\gamma\left(0.8V^*(G)+0.2V^*(B)\right),
+$$
+
+and
+
+$$
+V^*(B)=\min\left\{4+\gamma V^*(G),\ 1+\gamma V^*(B)\right\}.
+$$
+
+The main first-pass lesson is not solving the algebra perfectly.
+
+It is seeing the structure:
+
+- one equation per state
+- each equation compares one-step action choices
+- future consequences re-enter only through the same unknown value function
+
+This is the infinite-horizon Bellman viewpoint in miniature.
+
+## Computation Lens
+
+When you meet an infinite-horizon Bellman problem, ask:
+
+1. is the problem discounted, average-cost, or something else?
+2. what is the state?
+3. what is the one-step cost?
+4. what operator maps one candidate value function to the next?
+5. what theorem guarantees this operator is well behaved?
+
+For first-pass work, discounted problems with bounded costs are the cleanest because contraction gives a full stability story.
+
+## Application Lens
+
+### Repeated Decision Problems
+
+Inventory control, maintenance, queueing, and online service systems often look stationary and effectively infinite-horizon.
+
+### RL Foundations
+
+Discounted MDPs are the standard mathematical backbone for value functions, Bellman equations, and many RL algorithms.
+
+### Planning Under Uncertainty
+
+The fixed-point viewpoint is what makes long-run stochastic planning computationally meaningful rather than combinatorially impossible.
+
+## Stop Here For First Pass
+
+If you stop here, retain these five ideas:
+
+- finite horizon gives a sequence of value functions; infinite horizon often gives one stationary value function
+- discounting makes long-run cost finite and mathematically stable
+- the Bellman equation says optimal value must equal one-step optimal cost plus discounted future value
+- the Bellman operator is the right object, not just the equation written once
+- contraction is the theorem idea that explains uniqueness and convergence of iteration
+
+## Go Deeper
+
+The strongest next page is:
+
+- [Value Iteration, Policy Iteration, and Approximate Dynamic Programming](value-iteration-policy-iteration-and-approximate-dynamic-programming.qmd)
+
+The strongest adjacent live pages are:
+
+- [Stochastic Control and Dynamic Programming](../index.qmd)
+- [Finite-Horizon Dynamic Programming and Backward Induction](finite-horizon-dynamic-programming-and-backward-induction.qmd)
+- [Value Iteration, Policy Iteration, and Approximate Dynamic Programming](value-iteration-policy-iteration-and-approximate-dynamic-programming.qmd)
+- [Control and Dynamics](../../control-and-dynamics/index.qmd)
+- [Information Theory](../../information-theory/index.qmd)
+- [Probability](../../../foundation/probability/index.qmd)
+
+## Optional Deeper Reading After First Pass
+
+- [MIT 6.231: Dynamic Programming and Stochastic Control](https://ocw.mit.edu/courses/6-231-dynamic-programming-and-stochastic-control-fall-2015/pages/lecture-notes/) - official lecture-slide index for finite and infinite-horizon dynamic programming. Checked `2026-04-25`.
+- [MIT 6.231 lecture 3](https://ocw.mit.edu/courses/6-231-dynamic-programming-and-stochastic-control-fall-2015/resources/mit6_231f15_lec3/) - official notes page covering discounted infinite-horizon dynamic programming. Checked `2026-04-25`.
+- [Stanford MS&E 235A notes index](https://web.stanford.edu/class/msande235a/notes.html) - official notes index for MDP formulation, Bellman equations, and value-iteration foundations. Checked `2026-04-25`.
+- [Stanford MS&E 235A lecture 4](https://web.stanford.edu/class/msande235a/files/lectures/lecture04.pdf) - official current notes for discounted dynamic programming and Bellman fixed-point reasoning. Checked `2026-04-25`.
+- [Stanford AA228 / CS238](https://aa228.stanford.edu/) - official current course page connecting MDP value functions to planning and RL. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [MIT 6.231: Dynamic Programming and Stochastic Control](https://ocw.mit.edu/courses/6-231-dynamic-programming-and-stochastic-control-fall-2015/pages/lecture-notes/) - `First pass` - official lecture-slide index for the stochastic-control and dynamic-programming arc. Checked `2026-04-25`.
+- [MIT 6.231 lecture 3](https://ocw.mit.edu/courses/6-231-dynamic-programming-and-stochastic-control-fall-2015/resources/mit6_231f15_lec3/) - `First pass` - official notes page for discounted infinite-horizon Bellman equations and contraction-style reasoning. Checked `2026-04-25`.
+- [Stanford MS&E 235A / EE 283: Markov Decision Processes](https://web.stanford.edu/class/msande235a/index.html) - `First pass` - official current course page for stochastic decision-making and dynamic programming. Checked `2026-04-25`.
+- [Stanford MS&E 235A notes index](https://web.stanford.edu/class/msande235a/notes.html) - `First pass` - official notes index for the course's finite-horizon and infinite-horizon development. Checked `2026-04-25`.
+- [Stanford MS&E 235A lecture 4](https://web.stanford.edu/class/msande235a/files/lectures/lecture04.pdf) - `First pass` - official current notes for discounted value functions and Bellman fixed points. Checked `2026-04-25`.
+- [Stanford AA228 / CS238](https://aa228.stanford.edu/) - `Second pass` - official current decision-making-under-uncertainty course page with planning and RL-facing framing. Checked `2026-04-25`.

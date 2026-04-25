@@ -1,0 +1,187 @@
+---
+title: "Stochastic Control and Dynamic Programming"
+description: "How controlled Markov models, Bellman equations, dynamic programming, and stochastic optimal control connect sequential decision-making to control, information, and reinforcement learning."
+page-type: module-overview
+status: published
+update-status: current
+level: advanced
+topic: stochastic-control-and-dynamic-programming
+prerequisites:
+  - /topics/advanced/control-and-dynamics/index.qmd
+  - /topics/foundation/probability/index.qmd
+  - /topics/advanced/optimization/index.qmd
+learning-goals:
+  - "Understand why stochastic control organizes sequential decision-making around states, actions, transition laws, and value functions."
+  - "Know the intended first-pass order for the stochastic-control-and-dynamic-programming module."
+  - "Connect control, probability, information, and reinforcement learning through Bellman-style reasoning."
+applications:
+  - control-and-dynamics
+  - engineering-systems
+  - machine-learning-theory
+keywords:
+  - stochastic control
+  - dynamic programming
+  - Markov decision process
+  - Bellman equation
+  - reinforcement learning
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+stable-sources:
+  - "MIT 6.231 Dynamic Programming and Stochastic Control"
+  - "Stanford MS&E 235A Markov Decision Processes"
+  - "Stanford AA228 Decision Making Under Uncertainty"
+current-sources:
+  - "MIT 6.231 lecture slides"
+  - "Stanford MS&E 235A course page"
+  - "Stanford MS&E 235A lecture 1"
+  - "Stanford MS&E 235A lecture 3"
+  - "Stanford AA228 course page"
+---
+
+## Why This Module Matters
+
+Control and dynamics already gave the site:
+
+- state-space models
+- feedback
+- estimation
+- optimal control for structured linear systems
+
+But many sequential decision problems are noisier and more abstract than that.
+
+They ask:
+
+- what if the next state is random?
+- what if decisions are made repeatedly under uncertainty?
+- what if value must be computed recursively over time?
+- what if the language of control and the language of RL are really describing the same underlying objects?
+
+This module is where those questions get one clean answer.
+
+It is the bridge from deterministic or structured control into Markov decision processes, Bellman equations, stochastic optimal control, and RL-facing sequential decision-making.
+
+::: {.meta-strip}
+::: {.meta-box}
+**Prerequisites**
+[Control and Dynamics](../control-and-dynamics/index.qmd) should come first. [Probability](../../foundation/probability/index.qmd) matters because randomness lives in transition laws and observations. [Optimization](../optimization/index.qmd) helps because policies, value functions, and cost-to-go objects are optimization objects.
+:::
+::: {.meta-box}
+**Unlocks**
+Dynamic programming, MDPs, value iteration, policy iteration, stochastic optimal control, POMDP intuition, RL bridges
+:::
+::: {.meta-box}
+**Research Use**
+Reading papers or courses on stochastic control, sequential decision-making, planning under uncertainty, approximate dynamic programming, and reinforcement learning
+:::
+:::
+
+## First Pass Through This Module
+
+The intended first-pass spine for this module is:
+
+1. [Controlled Markov Models, Policies, and Cost Functionals](concepts/controlled-markov-models-policies-and-cost-functionals.qmd)
+2. [Finite-Horizon Dynamic Programming and Backward Induction](concepts/finite-horizon-dynamic-programming-and-backward-induction.qmd)
+3. [Infinite-Horizon Value Functions, Bellman Equations, and Contractions](concepts/infinite-horizon-value-functions-bellman-equations-and-contractions.qmd)
+4. [Value Iteration, Policy Iteration, and Approximate Dynamic Programming](concepts/value-iteration-policy-iteration-and-approximate-dynamic-programming.qmd)
+5. [Stochastic Linear Systems, LQG, and the Separation Principle](concepts/stochastic-linear-systems-lqg-and-the-separation-principle.qmd)
+6. [Continuous-Time Stochastic Control and Hamilton-Jacobi-Bellman Intuition](concepts/continuous-time-stochastic-control-and-hamilton-jacobi-bellman-intuition.qmd)
+7. [Partial Observability, Belief States, and RL/Control Bridges](concepts/partial-observability-belief-states-and-rl-control-bridges.qmd)
+
+The module has a full seven-page first-pass spine. Together these pages introduce:
+
+- the MDP viewpoint itself: state, action, transition law, policy, reward or cost
+- the principle of optimality
+- the Bellman recursion
+- backward induction as the first dynamic-programming algorithm
+- infinite-horizon value functions
+- Bellman fixed points and contraction intuition
+- value iteration and policy iteration as the first exact algorithmic layer
+- approximate dynamic programming as the bridge to larger-scale problems
+- the structured linear-Gaussian route where dynamic programming closes into Riccati and Kalman objects
+- the continuous-time route where Bellman reasoning becomes an HJB equation
+- the partially observed route where planning happens over beliefs instead of directly observed state
+
+## How To Use This Module
+
+The best first-pass path is:
+
+1. start with [Controlled Markov Models, Policies, and Cost Functionals](concepts/controlled-markov-models-policies-and-cost-functionals.qmd)
+2. continue to [Finite-Horizon Dynamic Programming and Backward Induction](concepts/finite-horizon-dynamic-programming-and-backward-induction.qmd)
+3. move to [Infinite-Horizon Value Functions, Bellman Equations, and Contractions](concepts/infinite-horizon-value-functions-bellman-equations-and-contractions.qmd)
+4. continue to [Value Iteration, Policy Iteration, and Approximate Dynamic Programming](concepts/value-iteration-policy-iteration-and-approximate-dynamic-programming.qmd)
+5. continue to [Stochastic Linear Systems, LQG, and the Separation Principle](concepts/stochastic-linear-systems-lqg-and-the-separation-principle.qmd)
+6. continue to [Continuous-Time Stochastic Control and Hamilton-Jacobi-Bellman Intuition](concepts/continuous-time-stochastic-control-and-hamilton-jacobi-bellman-intuition.qmd)
+7. finish with [Partial Observability, Belief States, and RL/Control Bridges](concepts/partial-observability-belief-states-and-rl-control-bridges.qmd)
+8. keep [Control and Dynamics](../control-and-dynamics/index.qmd) nearby so the stochastic version stays connected to state-space intuition
+9. keep [Probability](../../foundation/probability/index.qmd) nearby whenever transition laws, expectation, or conditional randomness need re-grounding
+10. use [Information Theory](../information-theory/index.qmd) as a nearby payoff zone once the module reaches uncertainty, partial observability, or communication constraints
+11. use [Applications > Machine Learning](../../../applications/machine-learning/index.qmd) as the downstream bridge into RL-flavored sequential decision-making
+
+The design goal is to make Bellman-style sequential reasoning feel natural before the module branches into finite-horizon DP, infinite-horizon fixed points, stochastic linear control, and RL bridges.
+
+## Core Concepts
+
+- [Controlled Markov Models, Policies, and Cost Functionals](concepts/controlled-markov-models-policies-and-cost-functionals.qmd): the opening page that explains the MDP viewpoint, how actions shape stochastic transitions, and how objectives turn trajectories into optimization problems.
+- [Finite-Horizon Dynamic Programming and Backward Induction](concepts/finite-horizon-dynamic-programming-and-backward-induction.qmd): the second page that explains Bellman recursion, principle of optimality, and the basic backward algorithm.
+- [Infinite-Horizon Value Functions, Bellman Equations, and Contractions](concepts/infinite-horizon-value-functions-bellman-equations-and-contractions.qmd): the third page that shifts Bellman recursion into fixed-point language and explains why contraction matters.
+- [Value Iteration, Policy Iteration, and Approximate Dynamic Programming](concepts/value-iteration-policy-iteration-and-approximate-dynamic-programming.qmd): the fourth page that turns Bellman fixed points into exact algorithms and then into the approximation bridge.
+- [Stochastic Linear Systems, LQG, and the Separation Principle](concepts/stochastic-linear-systems-lqg-and-the-separation-principle.qmd): the fifth page that shows the structured linear-Gaussian case where stochastic dynamic programming reconnects to LQR and Kalman filtering.
+- [Continuous-Time Stochastic Control and Hamilton-Jacobi-Bellman Intuition](concepts/continuous-time-stochastic-control-and-hamilton-jacobi-bellman-intuition.qmd): the sixth page that turns Bellman reasoning into a continuous-time value-function PDE with drift and diffusion terms.
+- [Partial Observability, Belief States, and RL/Control Bridges](concepts/partial-observability-belief-states-and-rl-control-bridges.qmd): the seventh page that explains how hidden state forces belief-state planning and creates the cleanest bridge from stochastic control into POMDPs and RL.
+
+## After First Pass
+
+Once this first-pass spine feels comfortable, the strongest next directions are:
+
+- exact and approximate POMDP algorithms
+- risk-sensitive and robust stochastic control
+- decentralized and distributed control under uncertainty
+- modern RL papers that hide Bellman and filtering structure under learned function approximation
+
+## Applications
+
+### Sequential Decision-Making
+
+This is the native language for repeated decisions under uncertainty.
+
+### Control Under Uncertainty
+
+The module extends deterministic and linear control into stochastic systems, random disturbances, and observation-limited settings.
+
+### RL And Planning
+
+Modern RL keeps rediscovering the same core objects through policies, value functions, Bellman recursions, exploration, and approximate planning.
+
+## Go Deeper By Topic
+
+The strongest adjacent live pages are:
+
+- [Control and Dynamics](../control-and-dynamics/index.qmd)
+- [Learning-Based Control, System Identification, and RL Bridges](../control-and-dynamics/concepts/learning-based-control-system-identification-and-rl-bridges.qmd)
+- [Information Theory](../information-theory/index.qmd)
+- [Probability](../../foundation/probability/index.qmd)
+- [Optimization](../optimization/index.qmd)
+
+## Optional Deeper Reading After First Pass
+
+The strongest current references connected to this module are:
+
+- [MIT 6.231: Dynamic Programming and Stochastic Control](https://ocw.mit.edu/courses/6-231-dynamic-programming-and-stochastic-control-fall-2015/pages/lecture-notes/) - official lecture-slide index spanning finite-horizon DP, stochastic shortest path, value iteration, policy iteration, and approximate dynamic programming. Checked `2026-04-25`.
+- [Stanford MS&E 235A / EE 283: Markov Decision Processes](https://web.stanford.edu/class/msande235a/index.html) - official current course page for sequential decision under uncertainty with MDP modeling and algorithms. Checked `2026-04-25`.
+- [Stanford MS&E 235A lecture 1](https://web.stanford.edu/class/msande235a/files/lectures/lecture01.pdf) - official current notes for MDP specification, transition probabilities, and examples. Checked `2026-04-25`.
+- [Stanford MS&E 235A lecture 3](https://web.stanford.edu/class/msande235a/files/lectures/lecture03.pdf) - official current notes for reward functions and decision objectives. Checked `2026-04-25`.
+- [Stanford EE365: Stochastic Control](https://web.stanford.edu/class/ee365/) - official course page for Bellman-style stochastic control, continuous-time formulations, and structured optimal control. Checked `2026-04-25`.
+- [Stanford AA228 / CS238](https://aa228.stanford.edu/) - official current course page for decision making under uncertainty, dynamic programming, and POMDP/RL-facing applications. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [MIT 6.231: Dynamic Programming and Stochastic Control](https://ocw.mit.edu/courses/6-231-dynamic-programming-and-stochastic-control-fall-2015/pages/lecture-notes/) - `First pass` - official lecture-slide index for the full stochastic-control and dynamic-programming arc. Checked `2026-04-25`.
+- [Stanford MS&E 235A / EE 283: Markov Decision Processes](https://web.stanford.edu/class/msande235a/index.html) - `First pass` - official current course page emphasizing formulation, objectives, and algorithms for MDPs. Checked `2026-04-25`.
+- [Stanford MS&E 235A lecture 1](https://web.stanford.edu/class/msande235a/files/lectures/lecture01.pdf) - `First pass` - official current notes for MDP specification and transition-law thinking. Checked `2026-04-25`.
+- [Stanford MS&E 235A lecture 3](https://web.stanford.edu/class/msande235a/files/lectures/lecture03.pdf) - `First pass` - official current notes for reward and objective design. Checked `2026-04-25`.
+- [Stanford EE365: Stochastic Control](https://web.stanford.edu/class/ee365/) - `Second pass` - official course page for continuous-time and structured stochastic-control viewpoints. Checked `2026-04-25`.
+- [Stanford AA228 / CS238](https://aa228.stanford.edu/) - `Second pass` - official current decision-making-under-uncertainty course page with applications and computational framing. Checked `2026-04-25`.

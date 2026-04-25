@@ -17,8 +17,8 @@ Use it to track:
 
 ## Current Snapshot
 
-- `225` `.qmd` pages currently exist
-- `103` concept-topic pages currently exist
+- `233` `.qmd` pages currently exist
+- `110` concept-topic pages currently exist
 - strongest subjects so far: `Linear Algebra`, `Probability`, `Proofs`, `Logic`, `Statistics`, `Single-Variable Calculus`, `Multivariable Calculus`, `Optimization`, `Real Analysis`
 - strongest public-facing bridge so far: `Applications > Machine Learning`
 - non-topic sections already scaffolded: `Start Here`, `Roadmaps`, `Applications`, `Paper Lab`, `Research`, `Publication`, `Library`, `Notes`
@@ -337,6 +337,17 @@ These are not required before the main spine is public, but they are the next hi
 - [x] `Estimation, Kalman filtering, and the separation principle`
 - [x] `Model predictive control and constraint handling`
 - [x] `Learning-based control, system identification, and RL bridges`
+
+### Stochastic Control and Dynamic Programming
+
+- [x] `Stochastic Control and Dynamic Programming index`
+- [x] `Controlled Markov models, policies, and cost functionals`
+- [x] `Finite-horizon dynamic programming and backward induction`
+- [x] `Infinite-horizon value functions, Bellman equations, and contractions`
+- [x] `Value iteration, policy iteration, and approximate dynamic programming`
+- [x] `Stochastic linear systems, LQG, and the separation principle`
+- [x] `Continuous-time stochastic control and Hamilton-Jacobi-Bellman intuition`
+- [x] `Partial observability, belief states, and RL/control bridges`
 
 ## Gold-Standard Topic Targets
 

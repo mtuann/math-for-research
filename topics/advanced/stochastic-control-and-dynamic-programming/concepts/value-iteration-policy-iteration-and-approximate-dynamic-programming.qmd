@@ -1,0 +1,335 @@
+---
+title: "Value Iteration, Policy Iteration, and Approximate Dynamic Programming"
+description: "How Bellman fixed points become practical algorithms through value iteration, policy iteration, and approximation."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: stochastic-control-and-dynamic-programming
+prerequisites:
+  - /topics/advanced/stochastic-control-and-dynamic-programming/concepts/infinite-horizon-value-functions-bellman-equations-and-contractions.qmd
+  - /topics/foundation/probability/index.qmd
+  - /topics/advanced/optimization/index.qmd
+learning-goals:
+  - "Explain value iteration as repeated Bellman updates toward the optimal value function."
+  - "Explain policy iteration as alternating policy evaluation and policy improvement."
+  - "Compare value iteration and policy iteration at a first-pass algorithmic level."
+  - "Interpret approximate dynamic programming as what changes when exact value functions are too large to store or compute."
+applications:
+  - control-and-dynamics
+  - engineering-systems
+  - machine-learning-theory
+keywords:
+  - value iteration
+  - policy iteration
+  - approximate dynamic programming
+  - Bellman operator
+  - reinforcement learning
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/stochastic-control-and-dynamic-programming/index.qmd
+  - /topics/advanced/stochastic-control-and-dynamic-programming/concepts/infinite-horizon-value-functions-bellman-equations-and-contractions.qmd
+  - /topics/advanced/control-and-dynamics/index.qmd
+  - /topics/advanced/information-theory/index.qmd
+  - /topics/foundation/probability/index.qmd
+stable-sources:
+  - "MIT 6.231 Dynamic Programming and Stochastic Control"
+  - "Stanford MS&E 235A Markov Decision Processes"
+  - "Stanford AA228 Decision Making Under Uncertainty"
+current-sources:
+  - "MIT 6.231 lecture slides"
+  - "MIT 6.231 lecture 4"
+  - "MIT 6.231 lecture 5"
+  - "Stanford MS&E 235A lecture 5"
+  - "Stanford MS&E 235A lecture 6"
+  - "Stanford AA228 course page"
+---
+
+## Role
+
+This is the fourth page of the `Stochastic Control and Dynamic Programming` module.
+
+Its job is to answer the next natural question after Bellman fixed points:
+
+- if the optimal value is defined by a fixed-point equation, how do we compute it?
+
+This is where the module turns the Bellman equation into actual algorithms.
+
+## First-Pass Promise
+
+Read this page after [Infinite-Horizon Value Functions, Bellman Equations, and Contractions](infinite-horizon-value-functions-bellman-equations-and-contractions.qmd).
+
+If you stop here, you should still understand:
+
+- what value iteration does
+- what policy iteration does
+- why both algorithms are rooted in Bellman structure
+- why approximation becomes unavoidable in large state spaces
+
+## Why It Matters
+
+The Bellman equation is elegant, but by itself it is only a characterization.
+
+It tells us what the optimal value function must satisfy.
+
+It does not yet tell us how to find that object at scale.
+
+This page introduces the two classic algorithmic answers:
+
+- `value iteration`: repeatedly apply the Bellman operator
+- `policy iteration`: alternate between evaluating a policy and improving it
+
+Then it makes one more step that matters for modern practice:
+
+- when the state space is large or continuous, exact dynamic programming becomes impossible
+- so we approximate value functions, policies, or Bellman updates
+
+That is the entry point to approximate dynamic programming and many RL methods.
+
+## Prerequisite Recall
+
+- the Bellman optimality operator `T` maps one candidate value function to another
+- under discounted infinite-horizon assumptions, `T` is a contraction
+- the optimal value function `V^*` is the unique fixed point of `T`
+- a greedy action with respect to `V^*` is optimal
+
+## Intuition
+
+### Value Iteration Repeats The Bellman Update
+
+If the Bellman operator has a unique fixed point and shrinks errors, then a simple idea becomes natural:
+
+- start with any guess `V_0`
+- apply `T`
+- apply `T` again
+- keep going
+
+The contraction theorem says these repeated updates move toward `V^*`.
+
+### Policy Iteration Solves Easier Problems Along The Way
+
+Instead of updating the value function directly, policy iteration keeps a current policy `\pi` and alternates:
+
+- evaluate how good that policy is
+- improve it by acting greedily with respect to its value
+
+So the algorithm climbs through policies rather than only through value guesses.
+
+### Value Iteration Is Cheap Per Step, Policy Iteration Is Stronger Per Round
+
+At first pass, the tradeoff is:
+
+- value iteration: simpler update, often many iterations
+- policy iteration: heavier iteration, often more aggressive improvement
+
+The point is not that one always dominates.
+
+The point is that both are natural consequences of Bellman structure.
+
+### Approximation Starts When Exact Storage Breaks
+
+Exact value tables make sense for small finite state spaces.
+
+But large or continuous systems force a different question:
+
+- what if we cannot store one exact number for every state?
+
+Then we approximate:
+
+- value functions with features or function classes
+- policies with parameterized rules
+- Bellman updates by sampling or projection
+
+That is approximate dynamic programming at first pass.
+
+## Formal Core
+
+For a discounted infinite-horizon problem, let `T` be the Bellman optimality operator.
+
+::: {#def-value-iteration}
+## Definition: Value Iteration
+
+Given an initial guess `V_0`, define
+
+$$
+V_{k+1}=T V_k.
+$$
+:::
+
+This is the simplest Bellman-based algorithm.
+
+::: {#thm-value-iteration}
+## Theorem Idea: Value Iteration Converges
+
+Because `T` is a contraction,
+
+$$
+\|V_k - V^*\|_\infty \to 0
+$$
+
+as `k \to \infty`.
+:::
+
+At first pass, read this as:
+
+- every Bellman update improves the global value guess
+- discounting prevents error from being amplified
+
+::: {#def-policy-evaluation}
+## Definition Idea: Policy Evaluation
+
+For a fixed policy `\pi`, its value function `V^\pi` satisfies a policy-specific Bellman equation:
+
+$$
+V^\pi = T^\pi V^\pi,
+$$
+
+where `T^\pi` means: follow policy `\pi` instead of minimizing over actions.
+:::
+
+::: {#def-policy-improvement}
+## Definition Idea: Policy Improvement
+
+Given a value function estimate `V`, define a new policy by choosing an action greedy with respect to
+
+$$
+\mathbb{E}[g(s,a,S')+\gamma V(S')].
+$$
+:::
+
+So improvement means: use the current value estimate to choose better actions.
+
+::: {#thm-policy-iteration}
+## Theorem Idea: Policy Iteration
+
+Policy iteration alternates:
+
+1. evaluate the current policy
+2. improve it greedily
+
+Under the standard discounted finite-state setup, this process converges to an optimal policy.
+:::
+
+::: {#thm-approximate-dp}
+## Theorem Idea: Approximate Dynamic Programming
+
+When exact value functions or exact Bellman updates are too expensive, we replace them by approximations:
+
+- truncated computation
+- sampled expectations
+- restricted function classes
+- projected or parameterized value updates
+:::
+
+At first pass, the key lesson is simple:
+
+`approximate dynamic programming begins where exact Bellman computation stops fitting the problem size`
+
+## Worked Example
+
+Reuse the discounted two-state maintenance example with states `G` and `B`.
+
+Suppose we start value iteration with
+
+$$
+V_0(G)=0,\qquad V_0(B)=0.
+$$
+
+Then the first Bellman update gives:
+
+- for `G`, the value stays near `0` because immediate cost is `0`
+- for `B`, the update compares:
+  - `repair`: cost `4 + \gamma V_0(G)=4`
+  - `wait`: cost `1 + \gamma V_0(B)=1`
+
+So after one step, `V_1(B)` prefers `wait`.
+
+After more iterations, the future cost of remaining in `B` starts to accumulate through the updated `V_k(B)`, and eventually repair may become more attractive.
+
+This is the algorithmic point:
+
+- early iterations see only short-horizon consequences
+- later iterations fold in longer-horizon consequences
+
+Policy iteration on the same example would instead:
+
+1. start from a candidate policy, say “always wait in `B`”
+2. evaluate that policy exactly or by solving its policy equation
+3. improve the policy by checking whether `repair` becomes better anywhere
+
+So value iteration updates values directly, while policy iteration moves through complete policies.
+
+## Computation Lens
+
+When you meet a dynamic-programming algorithm, ask:
+
+1. what object is being updated: values, policies, or both?
+2. is the Bellman update exact or approximate?
+3. what is expensive here: expectation, maximization or minimization, or storage?
+4. is the state space small enough for tables, or does it force approximation?
+5. what theorem explains convergence: contraction, monotonic improvement, or only an approximate guarantee?
+
+Those questions usually reveal whether you are looking at classical DP, approximate DP, or an RL-style variant.
+
+## Application Lens
+
+### Planning In Small Finite Models
+
+Value iteration and policy iteration are the canonical exact algorithms for finite discounted MDPs.
+
+### Control And Operations
+
+Queueing, inventory, maintenance, and stochastic scheduling often reduce to repeated Bellman computations of exactly this kind.
+
+### RL And Approximation
+
+Modern RL often reuses the same Bellman logic but replaces exact expectations, exact models, or exact value representations with sampling and approximation.
+
+## Stop Here For First Pass
+
+If you stop here, retain these five ideas:
+
+- value iteration means repeated Bellman updates toward the optimal fixed point
+- policy iteration alternates policy evaluation and policy improvement
+- both algorithms are direct consequences of Bellman structure
+- value iteration is usually simpler per update, policy iteration usually stronger per round
+- approximate dynamic programming begins when exact tables or exact Bellman updates become too expensive
+
+## Go Deeper
+
+The strongest next page is:
+
+- [Stochastic Linear Systems, LQG, and the Separation Principle](stochastic-linear-systems-lqg-and-the-separation-principle.qmd)
+
+The strongest adjacent live pages are:
+
+- [Stochastic Control and Dynamic Programming](../index.qmd)
+- [Infinite-Horizon Value Functions, Bellman Equations, and Contractions](infinite-horizon-value-functions-bellman-equations-and-contractions.qmd)
+- [Stochastic Linear Systems, LQG, and the Separation Principle](stochastic-linear-systems-lqg-and-the-separation-principle.qmd)
+- [Control and Dynamics](../../control-and-dynamics/index.qmd)
+- [Information Theory](../../information-theory/index.qmd)
+- [Probability](../../../foundation/probability/index.qmd)
+
+## Optional Deeper Reading After First Pass
+
+- [MIT 6.231: Dynamic Programming and Stochastic Control](https://ocw.mit.edu/courses/6-231-dynamic-programming-and-stochastic-control-fall-2015/pages/lecture-notes/) - official lecture-slide index covering value iteration, policy iteration, and approximate dynamic programming. Checked `2026-04-25`.
+- [MIT 6.231 lecture 4](https://ocw.mit.edu/courses/6-231-dynamic-programming-and-stochastic-control-fall-2015/resources/mit6_231f15_lec4/) - official notes page for value iteration and related infinite-horizon algorithms. Checked `2026-04-25`.
+- [MIT 6.231 lecture 5](https://ocw.mit.edu/courses/6-231-dynamic-programming-and-stochastic-control-fall-2015/resources/mit6_231f15_lec5/) - official notes page for policy iteration and approximate dynamic programming directions. Checked `2026-04-25`.
+- [Stanford MS&E 235A lecture 5](https://web.stanford.edu/class/msande235a/files/lectures/lecture05.pdf) - official current notes for computational dynamic-programming algorithms in MDPs. Checked `2026-04-25`.
+- [Stanford MS&E 235A lecture 6](https://web.stanford.edu/class/msande235a/files/lectures/lecture06.pdf) - official current notes continuing algorithmic MDP methods. Checked `2026-04-25`.
+- [Stanford AA228 / CS238](https://aa228.stanford.edu/) - official current course page connecting exact DP ideas to planning and RL. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [MIT 6.231: Dynamic Programming and Stochastic Control](https://ocw.mit.edu/courses/6-231-dynamic-programming-and-stochastic-control-fall-2015/pages/lecture-notes/) - `First pass` - official slide index for the stochastic-control and dynamic-programming arc. Checked `2026-04-25`.
+- [MIT 6.231 lecture 4](https://ocw.mit.edu/courses/6-231-dynamic-programming-and-stochastic-control-fall-2015/resources/mit6_231f15_lec4/) - `First pass` - official notes page for value iteration and discounted infinite-horizon computation. Checked `2026-04-25`.
+- [MIT 6.231 lecture 5](https://ocw.mit.edu/courses/6-231-dynamic-programming-and-stochastic-control-fall-2015/resources/mit6_231f15_lec5/) - `First pass` - official notes page for policy iteration and approximate-dynamic-programming directions. Checked `2026-04-25`.
+- [Stanford MS&E 235A / EE 283: Markov Decision Processes](https://web.stanford.edu/class/msande235a/index.html) - `First pass` - official current course page for stochastic decision-making and dynamic programming. Checked `2026-04-25`.
+- [Stanford MS&E 235A lecture 5](https://web.stanford.edu/class/msande235a/files/lectures/lecture05.pdf) - `First pass` - official current notes for computational MDP algorithms. Checked `2026-04-25`.
+- [Stanford MS&E 235A lecture 6](https://web.stanford.edu/class/msande235a/files/lectures/lecture06.pdf) - `First pass` - official current notes continuing the algorithmic MDP thread. Checked `2026-04-25`.
+- [Stanford AA228 / CS238](https://aa228.stanford.edu/) - `Second pass` - official current course page with planning and RL-facing framing. Checked `2026-04-25`.

@@ -1,0 +1,349 @@
+---
+title: "Stochastic Linear Systems, LQG, and the Separation Principle"
+description: "How stochastic linear dynamics, quadratic cost, Gaussian noise, and state estimation meet in the linear-quadratic-Gaussian control problem."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: stochastic-control-and-dynamic-programming
+prerequisites:
+  - /topics/advanced/stochastic-control-and-dynamic-programming/concepts/value-iteration-policy-iteration-and-approximate-dynamic-programming.qmd
+  - /topics/advanced/control-and-dynamics/concepts/linear-quadratic-regulation-and-riccati-intuition.qmd
+  - /topics/advanced/control-and-dynamics/concepts/estimation-kalman-filtering-and-the-separation-principle.qmd
+  - /topics/foundation/probability/index.qmd
+learning-goals:
+  - "Describe a stochastic linear state-space model with process and measurement noise."
+  - "Explain why quadratic cost and Gaussian noise produce the LQG structure."
+  - "Recognize that full-state stochastic LQ control keeps the LQR feedback form."
+  - "Explain the separation principle in the LQG setting as Kalman estimation plus LQR control."
+applications:
+  - control-and-dynamics
+  - engineering-systems
+  - machine-learning-theory
+keywords:
+  - stochastic linear systems
+  - LQG
+  - separation principle
+  - Kalman filter
+  - stochastic optimal control
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/stochastic-control-and-dynamic-programming/index.qmd
+  - /topics/advanced/stochastic-control-and-dynamic-programming/concepts/value-iteration-policy-iteration-and-approximate-dynamic-programming.qmd
+  - /topics/advanced/control-and-dynamics/concepts/linear-quadratic-regulation-and-riccati-intuition.qmd
+  - /topics/advanced/control-and-dynamics/concepts/estimation-kalman-filtering-and-the-separation-principle.qmd
+  - /topics/foundation/probability/index.qmd
+stable-sources:
+  - "MIT 16.323 Principles of Optimal Control"
+  - "MIT 16.30 Feedback Control Systems"
+  - "Stanford EE363 Linear Dynamical Systems"
+  - "Stanford AA273 State Estimation and Filtering for Robotic Perception"
+current-sources:
+  - "MIT 16.323 estimators observers"
+  - "MIT 16.323 lecture 13"
+  - "MIT 16.323 lecture 14"
+  - "Stanford EE363 bulletin"
+  - "Stanford AA273 bulletin"
+  - "Stanford AA203 bulletin"
+---
+
+## Role
+
+This is the fifth page of the `Stochastic Control and Dynamic Programming` module.
+
+Its job is to show what stochastic control looks like in the most important structured case:
+
+- linear dynamics
+- quadratic cost
+- Gaussian noise
+
+This is the page where abstract Bellman ideas meet the concrete `LQR + Kalman` story from control.
+
+## First-Pass Promise
+
+Read this page after [Value Iteration, Policy Iteration, and Approximate Dynamic Programming](value-iteration-policy-iteration-and-approximate-dynamic-programming.qmd).
+
+If you stop here, you should still understand:
+
+- what makes a stochastic linear system different from a deterministic one
+- why `LQG` is the natural stochastic extension of `LQR`
+- why the optimal law keeps a linear-feedback shape
+- what the separation principle means in this stochastic-control setting
+
+## Why It Matters
+
+So far the module has treated sequential decision-making at a fairly abstract MDP level.
+
+That is powerful, but many important systems are far more structured:
+
+- physical systems evolve linearly after state augmentation or local modeling
+- disturbances enter as random noise
+- sensors are noisy
+- performance is measured by quadratic penalties
+
+This structure is special because it gives much more than generic dynamic programming usually gives.
+
+It gives:
+
+- linear state estimators
+- linear feedback laws
+- Riccati equations instead of arbitrary value-function tables
+- a clean split between estimation and control
+
+That package is `LQG`.
+
+## Prerequisite Recall
+
+- `LQR` solved deterministic linear-quadratic control with feedback `u=-Kx`
+- the Kalman filter produced optimal linear-Gaussian state estimates
+- Bellman equations characterize optimal sequential decisions through value functions
+- quadratic costs and Gaussian noise interact well with linear models because means and covariances remain tractable
+
+## Intuition
+
+### Additive Noise Changes Trajectories, But Not The Whole Problem Shape
+
+A stochastic linear system has the form
+
+$$
+x_{k+1}=Ax_k+Bu_k+w_k,
+$$
+
+so even with the same control action, the next state is random.
+
+But the evolution is still linear in the current state and control.
+
+So the problem is noisy, not structurally arbitrary.
+
+### Quadratic Cost Keeps The Objective Compatible With Linear Dynamics
+
+If the stage cost is quadratic in state and control, then the value function remains quadratic in the structured solution.
+
+That means the Bellman step closes within a manageable family of functions, instead of exploding into an arbitrary shape.
+
+### Gaussian Noise Makes Conditional Estimation Clean
+
+When process and measurement noise are Gaussian, the conditional state estimate is summarized by:
+
+- its mean
+- its covariance
+
+That is why Kalman filtering fits perfectly here.
+
+### LQG = LQR With Hidden State And Gaussian Noise
+
+At first pass, `LQG` means:
+
+- use `LQR` logic for optimal control
+- use `Kalman` logic for state estimation
+- combine them through the separation principle
+
+So instead of
+
+$$
+u_k=-Kx_k,
+$$
+
+we use
+
+$$
+u_k=-K\hat x_k,
+$$
+
+where `\hat x_k` is the Kalman state estimate.
+
+## Formal Core
+
+::: {#def-stochastic-linear-system}
+## Definition: Stochastic Linear State-Space Model
+
+At a first pass, use the discrete-time model
+
+$$
+x_{k+1}=Ax_k+Bu_k+w_k,
+\qquad
+y_k=Cx_k+v_k,
+$$
+
+where:
+
+- `w_k` is process noise
+- `v_k` is measurement noise
+:::
+
+In the standard LQG setup, these noises are taken to be zero-mean Gaussian with known covariances.
+
+::: {#def-lqg-cost}
+## Definition: Quadratic Performance Objective
+
+The control objective is to minimize an expected cost such as
+
+$$
+\mathbb{E}\!\left[\sum_{k=0}^{T-1}\left(x_k^TQx_k+u_k^TRu_k\right)+x_T^TQ_fx_T\right]
+$$
+
+or its infinite-horizon discounted or average-cost analog.
+:::
+
+This is the stochastic analog of the quadratic objectives from `LQR`.
+
+::: {#thm-stochastic-lq}
+## Theorem Idea: Full-State Stochastic LQ Control
+
+If the full state `x_k` is observed and the dynamics are linear with additive zero-mean noise, then the optimal control law still has the same linear state-feedback form as in `LQR`.
+:::
+
+At first pass, the idea is:
+
+- additive noise changes the expected cost
+- but it does not destroy the linear-feedback structure of the optimizer
+
+::: {#def-lqg}
+## Definition Idea: LQG
+
+`LQG` stands for `linear-quadratic-Gaussian`:
+
+- linear dynamics
+- quadratic cost
+- Gaussian process and measurement noise
+:::
+
+::: {#thm-separation-lqg}
+## Theorem Idea: Separation Principle In LQG
+
+In the standard linear-quadratic-Gaussian setting, the optimal partially observed controller is obtained by:
+
+1. estimate the state using the Kalman filter
+2. apply the optimal `LQR` feedback law to the estimate
+:::
+
+So the controller has the form
+
+$$
+u_k=-K\hat x_k.
+$$
+
+::: {#thm-lqg-value}
+## Theorem Idea: Structured Dynamic Programming
+
+The Bellman equation for this structured problem closes on quadratic value functions, so the dynamic-programming problem reduces to matrix recursions of Riccati type rather than arbitrary value-function tables.
+:::
+
+That is the main computational miracle of the model.
+
+## Worked Example
+
+Consider the scalar system
+
+$$
+x_{k+1}=ax_k+bu_k+w_k,
+\qquad
+y_k=x_k+v_k,
+$$
+
+with:
+
+- process noise `w_k`
+- measurement noise `v_k`
+- quadratic stage cost `q x_k^2 + r u_k^2`
+
+If the true state were directly observed, the optimal law would be an `LQR` feedback
+
+$$
+u_k=-Kx_k.
+$$
+
+But now the controller sees only `y_k`, not `x_k`.
+
+So the pipeline becomes:
+
+1. use the model and measurements to form the state estimate `\hat x_k`
+2. apply the same control structure to the estimate:
+
+$$
+u_k=-K\hat x_k
+$$
+
+The first-pass lesson is not the exact scalar formula for `K`.
+
+It is the architecture:
+
+- noise enters the dynamics and sensors
+- estimation handles uncertainty about state
+- control handles the tradeoff between regulation and effort
+- the two pieces compose cleanly in LQG
+
+## Computation Lens
+
+When you meet an `LQG` problem, ask:
+
+1. what part is the state-estimation problem?
+2. what part is the optimal-control problem?
+3. where does Gaussian noise enter: process, measurement, or both?
+4. is the state fully observed or only estimated?
+5. which objects are now matrices or covariances instead of general value tables?
+
+Those questions usually reveal whether the problem should be read as generic stochastic DP or as a structured Riccati-and-Kalman problem.
+
+## Application Lens
+
+### Tracking And Navigation
+
+Robotics, navigation, and aerospace systems often combine noisy sensing with regulation or tracking objectives in exactly this linear-Gaussian style.
+
+### Systems With Disturbances
+
+Process noise is the natural first model for uncertainty in actuation, environment, or unmodeled disturbances.
+
+### Bridge To Modern Sequential Decision-Making
+
+Even when modern methods use nonlinear models or learned components, `LQG` remains the clean baseline for how estimation and control fit together under uncertainty.
+
+## Stop Here For First Pass
+
+If you stop here, retain these five ideas:
+
+- stochastic linear systems add randomness to otherwise linear state-space evolution
+- `LQG` is the structured meeting point of linear dynamics, quadratic cost, and Gaussian noise
+- with full-state observation, stochastic linear-quadratic control still keeps the `LQR` feedback shape
+- with partial observation, Kalman estimation supplies the state estimate
+- the separation principle says optimal estimation and optimal control compose cleanly in the standard `LQG` setting
+
+## Go Deeper
+
+The strongest next page is:
+
+- [Continuous-Time Stochastic Control and Hamilton-Jacobi-Bellman Intuition](continuous-time-stochastic-control-and-hamilton-jacobi-bellman-intuition.qmd)
+
+The strongest adjacent live pages are:
+
+- [Stochastic Control and Dynamic Programming](../index.qmd)
+- [Value Iteration, Policy Iteration, and Approximate Dynamic Programming](value-iteration-policy-iteration-and-approximate-dynamic-programming.qmd)
+- [Continuous-Time Stochastic Control and Hamilton-Jacobi-Bellman Intuition](continuous-time-stochastic-control-and-hamilton-jacobi-bellman-intuition.qmd)
+- [Linear Quadratic Regulation and Riccati Intuition](../../control-and-dynamics/concepts/linear-quadratic-regulation-and-riccati-intuition.qmd)
+- [Estimation, Kalman Filtering, and the Separation Principle](../../control-and-dynamics/concepts/estimation-kalman-filtering-and-the-separation-principle.qmd)
+- [Probability](../../../foundation/probability/index.qmd)
+
+## Optional Deeper Reading After First Pass
+
+- [MIT 16.323 lecture 11: Estimators/Observers](https://ocw.mit.edu/courses/16-323-principles-of-optimal-control-spring-2008/resources/lec11/) - official notes page for state estimation and observer structure feeding into the LQG story. Checked `2026-04-25`.
+- [MIT 16.323 lecture 13](https://ocw.mit.edu/courses/16-323-principles-of-optimal-control-spring-2008/resources/lec13/) - official notes page for linear quadratic Gaussian control and separation ideas. Checked `2026-04-25`.
+- [MIT 16.323 lecture 14](https://ocw.mit.edu/courses/16-323-principles-of-optimal-control-spring-2008/resources/lec14/) - official notes page continuing stochastic optimal control and structured design. Checked `2026-04-25`.
+- [Stanford EE363 bulletin](https://bulletin.stanford.edu/courses/2273941) - official current course listing for linear dynamical systems. Checked `2026-04-25`.
+- [Stanford AA273 bulletin](https://bulletin.stanford.edu/courses/2179261) - official current course listing for state estimation and filtering. Checked `2026-04-25`.
+- [Stanford AA203 bulletin](https://22-23.bulletin.stanford.edu/courses/2136621) - official control bulletin that helps connect optimal-control framing back to structured feedback design. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [MIT 16.323 lecture 11: Estimators/Observers](https://ocw.mit.edu/courses/16-323-principles-of-optimal-control-spring-2008/resources/lec11/) - `First pass` - official notes page for estimator structure that feeds into LQG. Checked `2026-04-25`.
+- [MIT 16.323 lecture 13](https://ocw.mit.edu/courses/16-323-principles-of-optimal-control-spring-2008/resources/lec13/) - `First pass` - official notes page for linear-quadratic-Gaussian control and separation ideas. Checked `2026-04-25`.
+- [MIT 16.323 lecture 14](https://ocw.mit.edu/courses/16-323-principles-of-optimal-control-spring-2008/resources/lec14/) - `First pass` - official notes page continuing stochastic optimal-control structure. Checked `2026-04-25`.
+- [MIT 16.323 lecture notes index](https://ocw.mit.edu/courses/16-323-principles-of-optimal-control-spring-2008/pages/lecture-notes/) - `First pass` - official lecture-note index for optimal control and stochastic extensions. Checked `2026-04-25`.
+- [Stanford EE363 bulletin](https://bulletin.stanford.edu/courses/2273941) - `Second pass` - official current course listing for linear dynamical systems. Checked `2026-04-25`.
+- [Stanford AA273 bulletin](https://bulletin.stanford.edu/courses/2179261) - `Second pass` - official current course listing for estimation and filtering. Checked `2026-04-25`.
+- [Stanford AA203 bulletin](https://22-23.bulletin.stanford.edu/courses/2136621) - `Second pass` - official control bulletin connecting optimal-control design back to systems framing. Checked `2026-04-25`.

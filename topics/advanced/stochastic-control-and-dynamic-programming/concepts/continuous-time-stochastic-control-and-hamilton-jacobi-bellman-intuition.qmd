@@ -1,0 +1,355 @@
+---
+title: "Continuous-Time Stochastic Control and Hamilton-Jacobi-Bellman Intuition"
+description: "How Bellman reasoning turns continuous-time stochastic control into a value-function PDE with drift, diffusion, and optimization terms."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: stochastic-control-and-dynamic-programming
+prerequisites:
+  - /topics/advanced/stochastic-control-and-dynamic-programming/concepts/stochastic-linear-systems-lqg-and-the-separation-principle.qmd
+  - /topics/advanced/odes-and-dynamical-systems/index.qmd
+  - /topics/foundation/probability/index.qmd
+  - /topics/advanced/real-analysis/index.qmd
+learning-goals:
+  - "Describe a continuous-time controlled diffusion model at a first-pass level."
+  - "Explain how dynamic programming in continuous time leads to the Hamilton-Jacobi-Bellman equation."
+  - "Interpret the drift term, diffusion term, and control minimization inside the HJB equation."
+  - "Recognize HJB as the continuous-time analog of the Bellman equation."
+applications:
+  - control-and-dynamics
+  - engineering-systems
+  - machine-learning-theory
+keywords:
+  - stochastic control
+  - HJB
+  - Hamilton-Jacobi-Bellman
+  - controlled diffusion
+  - value function
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/stochastic-control-and-dynamic-programming/index.qmd
+  - /topics/advanced/stochastic-control-and-dynamic-programming/concepts/stochastic-linear-systems-lqg-and-the-separation-principle.qmd
+  - /topics/advanced/odes-and-dynamical-systems/index.qmd
+  - /topics/advanced/control-and-dynamics/index.qmd
+  - /topics/advanced/real-analysis/index.qmd
+stable-sources:
+  - "MIT 16.323 Principles of Optimal Control"
+  - "Stanford EE365 Stochastic Control"
+  - "Stanford AA203 Optimal and Learning-Based Control"
+current-sources:
+  - "MIT 16.323 lecture notes index"
+  - "MIT 16.323 lecture 4"
+  - "Stanford EE365 course page"
+  - "Stanford EE365 lectures page"
+  - "Stanford EE365 linear quadratic stochastic control notes"
+---
+
+## Role
+
+This is the sixth page of the `Stochastic Control and Dynamic Programming` module.
+
+Its job is to show what Bellman reasoning becomes in continuous time.
+
+In discrete time, dynamic programming gave:
+
+- Bellman recursions
+- value iteration
+- policy iteration
+
+In continuous time, the same logic turns into a partial differential equation for the value function.
+
+That equation is the Hamilton-Jacobi-Bellman equation.
+
+## First-Pass Promise
+
+Read this page after [Stochastic Linear Systems, LQG, and the Separation Principle](stochastic-linear-systems-lqg-and-the-separation-principle.qmd).
+
+If you stop here, you should still understand:
+
+- what a continuous-time stochastic control model looks like
+- why the value function now depends on time and state continuously
+- why Bellman reasoning becomes an HJB equation
+- what the drift term, diffusion term, and minimization mean
+
+## Why It Matters
+
+Discrete-time MDPs are mathematically clean, but many systems are naturally continuous:
+
+- motion
+- diffusion
+- finance-style uncertainty
+- controlled physical processes
+- continuous-time generative and transport models
+
+In those settings, it is awkward to think only in terms of time-step-by-time-step tables.
+
+Instead, we ask for a value function `V(t,x)` that tells us:
+
+`if the current time is t and the state is x, what is the best achievable expected future cost?`
+
+The dynamic-programming principle still applies.
+
+But because time is continuous, the one-step Bellman update is replaced by a local-in-time expansion.
+
+That is why the outcome is not a recursion but a PDE.
+
+## Prerequisite Recall
+
+- Bellman equations summarize optimal future cost through value functions
+- in stochastic linear systems, noise enters through random disturbances and may still preserve strong structure
+- ODEs and dynamical systems already gave the language of flow, drift, and continuous-time evolution
+- real analysis matters here because the value function is treated through limits, derivatives, and PDE-style reasoning
+
+## Intuition
+
+### Continuous Time Means Infinitesimal Bellman Updates
+
+In discrete time, Bellman compares:
+
+- immediate cost over one step
+- plus future value at the next state
+
+In continuous time, the time step becomes very small.
+
+So Bellman reasoning becomes:
+
+- immediate cost over an interval of length `dt`
+- plus future value after an infinitesimal state change
+
+That is why derivatives appear.
+
+### Drift Tells Us The Deterministic Local Motion
+
+If the state obeys a controlled diffusion
+
+$$
+dX_t = f(X_t,u_t,t)\,dt + \sigma(X_t,u_t,t)\,dW_t,
+$$
+
+then `f` is the local drift.
+
+It is the deterministic directional part of the motion.
+
+### Diffusion Adds A Second-Order Effect
+
+Noise does not only perturb trajectories.
+
+At the value-function level, it creates a second-order term.
+
+That is why the HJB equation contains not only first derivatives like `\nabla V`, but also second derivatives through the Hessian.
+
+### HJB Is Bellman In PDE Form
+
+At first pass, the HJB equation is simply:
+
+`Bellman equation + continuous time + stochastic local expansion`
+
+So the equation packages:
+
+- running cost
+- best control choice
+- deterministic drift effect
+- diffusion effect
+
+all in one place.
+
+## Formal Core
+
+::: {#def-controlled-diffusion}
+## Definition: Controlled Diffusion
+
+At a first pass, a continuous-time stochastic control model can be written as
+
+$$
+dX_t = f(X_t,u_t,t)\,dt + \sigma(X_t,u_t,t)\,dW_t,
+$$
+
+where:
+
+- `X_t` is the state
+- `u_t` is the control
+- `W_t` is Brownian motion
+:::
+
+This is the continuous-time stochastic analog of a controlled state-space system.
+
+::: {#def-ct-value}
+## Definition: Continuous-Time Value Function
+
+For horizon `T`, define
+
+$$
+V(t,x)=\inf_u \mathbb{E}\!\left[\int_t^T \ell(X_s,u_s,s)\,ds + g(X_T)\,\middle|\, X_t=x\right].
+$$
+:::
+
+This value function records the best expected future cost starting from time `t` and state `x`.
+
+::: {#thm-dpp}
+## Theorem Idea: Dynamic Programming Principle
+
+For a very short time increment `h>0`, the value at `(t,x)` equals:
+
+- the best expected cost accumulated over `[t,t+h]`
+- plus the optimal continuation value starting from the random state at time `t+h`
+:::
+
+This is the continuous-time form of the same principle of optimality used earlier in the module.
+
+::: {#thm-hjb}
+## Theorem Idea: Hamilton-Jacobi-Bellman Equation
+
+Under smoothness assumptions, the value function satisfies
+
+$$
+-\partial_t V(t,x)
+=
+\inf_u \left\{
+\ell(x,u,t)
+\nabla V(t,x)\cdot f(x,u,t)
+\frac{1}{2}\operatorname{tr}\!\left(\sigma(x,u,t)\sigma(x,u,t)^T \nabla^2 V(t,x)\right)
+\right\},
+$$
+
+with terminal condition
+
+$$
+V(T,x)=g(x).
+$$
+:::
+
+At first pass, read the terms as:
+
+- `\ell`: running cost
+- `\nabla V \cdot f`: how deterministic drift changes future value
+- `\frac12 \operatorname{tr}(\sigma \sigma^T \nabla^2 V)`: how diffusion changes future value
+- `\inf_u`: choose the best local control action
+
+::: {#thm-ct-bellman}
+## Theorem Idea: HJB Is The Continuous-Time Bellman Equation
+
+The HJB equation plays the same conceptual role in continuous time that the Bellman equation plays in discrete time:
+
+- it characterizes the optimal value function
+- and a control that attains the minimization is the candidate optimal feedback law
+:::
+
+## Worked Example
+
+Consider the scalar controlled diffusion
+
+$$
+dX_t = u_t\,dt + \sigma\,dW_t,
+$$
+
+with running cost
+
+$$
+\ell(x,u)=\frac12 u^2
+$$
+
+and terminal cost
+
+$$
+g(x)=\frac12 qx^2.
+$$
+
+Then the HJB equation has the first-pass form
+
+$$
+-V_t(t,x)
+
+=
+\inf_u \left\{
+\frac12 u^2 + V_x(t,x)\,u + \frac{\sigma^2}{2}V_{xx}(t,x)
+\right\}.
+$$
+
+The point of the example is not to solve the PDE fully.
+
+It is to see the three ingredients clearly:
+
+- `\frac12 u^2`: control effort cost
+- `V_x u`: drift-controlled first-order effect
+- `\frac{\sigma^2}{2}V_{xx}`: noise-induced second-order effect
+
+If you minimize the bracket with respect to `u`, you get the candidate rule
+
+$$
+u^\ast = -V_x(t,x).
+$$
+
+That is the continuous-time analog of “act greedily with respect to the value function.”
+
+## Computation Lens
+
+When you meet an HJB-style statement, ask:
+
+1. what are the state, control, drift, and diffusion?
+2. what is the running cost and what is the terminal cost?
+3. is the value function finite-horizon `V(t,x)` or stationary `V(x)`?
+4. where is the first-order drift term?
+5. where is the second-order diffusion term?
+
+Those questions usually make the PDE readable even if the full analysis is hard.
+
+## Application Lens
+
+### Continuous-Time Optimal Control
+
+HJB is the natural value-function language for continuous-time decision-making under uncertainty.
+
+### Finance, Diffusions, And Sequential Optimization
+
+Many stochastic optimization problems on diffusions are best understood through controlled SDEs and HJB equations.
+
+### Bridge To Modern ML
+
+Continuous-time generative models, transport dynamics, and some control-flavored learning problems reuse the same vocabulary of drift, diffusion, and value-based reasoning.
+
+## Stop Here For First Pass
+
+If you stop here, retain these five ideas:
+
+- a continuous-time stochastic control problem is naturally modeled by a controlled diffusion
+- the value function becomes a function of continuous time and state
+- the dynamic-programming principle still holds, but locally in time
+- the HJB equation is the continuous-time Bellman equation
+- noise produces the second-order diffusion term in the value-function PDE
+
+## Go Deeper
+
+The strongest next page is:
+
+- [Partial Observability, Belief States, and RL/Control Bridges](partial-observability-belief-states-and-rl-control-bridges.qmd)
+
+The strongest adjacent live pages are:
+
+- [Stochastic Control and Dynamic Programming](../index.qmd)
+- [Stochastic Linear Systems, LQG, and the Separation Principle](stochastic-linear-systems-lqg-and-the-separation-principle.qmd)
+- [Partial Observability, Belief States, and RL/Control Bridges](partial-observability-belief-states-and-rl-control-bridges.qmd)
+- [ODEs and Dynamical Systems](../../odes-and-dynamical-systems/index.qmd)
+- [Research Bridges: Reverse-Time SDEs, Probability-Flow ODEs, Flow Matching, and Control](../../odes-and-dynamical-systems/concepts/research-bridges-reverse-time-sdes-probability-flow-odes-flow-matching-and-control.qmd)
+- [Control and Dynamics](../../control-and-dynamics/index.qmd)
+
+## Optional Deeper Reading After First Pass
+
+- [MIT 16.323 lecture notes index](https://ocw.mit.edu/courses/16-323-principles-of-optimal-control-spring-2008/pages/lecture-notes/) - official lecture-note index for optimal control and HJB-style derivations. Checked `2026-04-25`.
+- [MIT 16.323 lecture 4](https://ocw.mit.edu/courses/16-323-principles-of-optimal-control-spring-2008/resources/lec4/) - official notes page for the Hamilton-Jacobi-Bellman equation. Checked `2026-04-25`.
+- [Stanford EE365: Stochastic Control](https://web.stanford.edu/class/ee365/) - official course page for Bellman-style sequential decision-making and stochastic control. Checked `2026-04-25`.
+- [Stanford EE365 lecture slides](https://web.stanford.edu/class/ee365/lectures.html) - official slide index for the course. Checked `2026-04-25`.
+- [Stanford EE365 linear quadratic stochastic control notes](https://web.stanford.edu/class/ee365/lectures/lq.pdf) - official lecture notes connecting stochastic control structure to value-function reasoning. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [MIT 16.323 lecture notes index](https://ocw.mit.edu/courses/16-323-principles-of-optimal-control-spring-2008/pages/lecture-notes/) - `First pass` - official lecture-note index for optimal control and dynamic-programming derivations. Checked `2026-04-25`.
+- [MIT 16.323 lecture 4](https://ocw.mit.edu/courses/16-323-principles-of-optimal-control-spring-2008/resources/lec4/) - `First pass` - official notes page for the Hamilton-Jacobi-Bellman equation. Checked `2026-04-25`.
+- [Stanford EE365: Stochastic Control](https://web.stanford.edu/class/ee365/) - `First pass` - official course page for stochastic control and Bellman-style methods. Checked `2026-04-25`.
+- [Stanford EE365 lecture slides](https://web.stanford.edu/class/ee365/lectures.html) - `First pass` - official slide index for the course. Checked `2026-04-25`.
+- [Stanford EE365 linear quadratic stochastic control notes](https://web.stanford.edu/class/ee365/lectures/lq.pdf) - `Second pass` - official lecture notes connecting stochastic control structure back to value-function ideas. Checked `2026-04-25`.

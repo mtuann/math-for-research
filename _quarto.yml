@@ -212,6 +212,16 @@ website:
               - topics/advanced/information-theory/concepts/rate-distortion-and-representation-tradeoffs.qmd
               - topics/advanced/information-theory/concepts/variational-objectives-elbo-and-information-bounds.qmd
               - topics/advanced/information-theory/concepts/information-theoretic-lower-bounds-in-statistics-learning-and-communication.qmd
+          - section: "Stochastic Control and Dynamic Programming"
+            contents:
+              - topics/advanced/stochastic-control-and-dynamic-programming/index.qmd
+              - topics/advanced/stochastic-control-and-dynamic-programming/concepts/controlled-markov-models-policies-and-cost-functionals.qmd
+              - topics/advanced/stochastic-control-and-dynamic-programming/concepts/finite-horizon-dynamic-programming-and-backward-induction.qmd
+              - topics/advanced/stochastic-control-and-dynamic-programming/concepts/infinite-horizon-value-functions-bellman-equations-and-contractions.qmd
+              - topics/advanced/stochastic-control-and-dynamic-programming/concepts/value-iteration-policy-iteration-and-approximate-dynamic-programming.qmd
+              - topics/advanced/stochastic-control-and-dynamic-programming/concepts/stochastic-linear-systems-lqg-and-the-separation-principle.qmd
+              - topics/advanced/stochastic-control-and-dynamic-programming/concepts/continuous-time-stochastic-control-and-hamilton-jacobi-bellman-intuition.qmd
+              - topics/advanced/stochastic-control-and-dynamic-programming/concepts/partial-observability-belief-states-and-rl-control-bridges.qmd
       - section: "Research Workflow"
         contents:
           - applications/index.qmd

@@ -1,0 +1,301 @@
+---
+title: "Finite-Horizon Dynamic Programming and Backward Induction"
+description: "How the principle of optimality turns a finite-horizon stochastic control problem into Bellman recursions solved backward in time."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: stochastic-control-and-dynamic-programming
+prerequisites:
+  - /topics/advanced/stochastic-control-and-dynamic-programming/concepts/controlled-markov-models-policies-and-cost-functionals.qmd
+  - /topics/foundation/probability/index.qmd
+  - /topics/advanced/optimization/index.qmd
+learning-goals:
+  - "State the principle of optimality for a finite-horizon decision problem."
+  - "Write the Bellman recursion for finite-horizon cost-to-go functions."
+  - "Explain backward induction as dynamic programming over time."
+  - "Interpret optimal policies as greedy with respect to the next cost-to-go layer."
+applications:
+  - control-and-dynamics
+  - engineering-systems
+  - machine-learning-theory
+keywords:
+  - dynamic programming
+  - Bellman recursion
+  - backward induction
+  - finite horizon
+  - value function
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/stochastic-control-and-dynamic-programming/index.qmd
+  - /topics/advanced/stochastic-control-and-dynamic-programming/concepts/controlled-markov-models-policies-and-cost-functionals.qmd
+  - /topics/advanced/control-and-dynamics/index.qmd
+  - /topics/advanced/information-theory/index.qmd
+  - /topics/foundation/probability/index.qmd
+stable-sources:
+  - "MIT 6.231 Dynamic Programming and Stochastic Control"
+  - "Stanford MS&E 235A Markov Decision Processes"
+  - "Stanford AA228 Decision Making Under Uncertainty"
+current-sources:
+  - "MIT 6.231 lecture slides"
+  - "MIT 6.231 lecture 2"
+  - "Stanford MS&E 235A course page"
+  - "Stanford MS&E 235A notes index"
+  - "Stanford AA228 course page"
+---
+
+## Role
+
+This is the second page of the `Stochastic Control and Dynamic Programming` module.
+
+Its job is to explain the first core algorithmic idea of the field:
+
+- break a sequential decision problem into stages
+- define a value or cost-to-go function at each remaining time
+- solve from the end backward
+
+This is the point where the MDP model becomes a computable optimization procedure.
+
+## First-Pass Promise
+
+Read this page after [Controlled Markov Models, Policies, and Cost Functionals](controlled-markov-models-policies-and-cost-functionals.qmd).
+
+If you stop here, you should still understand:
+
+- what the principle of optimality says
+- why finite-horizon problems are solved backward in time
+- what a Bellman recursion is
+- how an optimal policy is extracted from value functions
+
+## Why It Matters
+
+A sequential decision problem may look impossible at first:
+
+- many time steps
+- many possible actions
+- future randomness
+- future decisions depending on future states
+
+Brute force would try to optimize over all full policies at once.
+
+Dynamic programming says there is a better way.
+
+At a first pass:
+
+- define the best future performance starting from a given state and time
+- treat that future performance as a number attached to the state
+- optimize the current action using that number
+- recurse backward until the first decision
+
+This is the idea behind Bellman recursions, backward induction, and eventually value iteration and many RL algorithms.
+
+## Prerequisite Recall
+
+- an MDP specifies states, actions, a transition law, and a reward or cost objective
+- a policy induces a stochastic trajectory
+- a finite horizon means there are only `T` stages before a terminal time
+- expectation is needed because one action leads to a distribution over next states rather than one deterministic next state
+
+## Intuition
+
+### The Last Decision Is The Easiest
+
+Suppose there is only one decision left before the terminal time.
+
+Then the problem is simple:
+
+- evaluate each action
+- include the immediate cost and terminal effect
+- pick the best one
+
+So the end of the horizon is easy.
+
+### Use The Future Solution To Solve The Present
+
+Now suppose you know the optimal cost of all states at time `t+1`.
+
+Then at time `t`, you can evaluate each action by combining:
+
+- current stage cost
+- expected optimal future cost after the transition
+
+That turns the current step into a one-step optimization problem.
+
+### This Is The Principle Of Optimality
+
+The point is not that the future disappears.
+
+It is that the future can be summarized by the next value function.
+
+So the optimal decision now depends on the next state only through its optimal future value.
+
+### Backward Induction Is Dynamic Programming Over Time
+
+Because the terminal time is easiest, we start there and move backward:
+
+- terminal condition first
+- then time `T-1`
+- then time `T-2`
+- and so on until time `0`
+
+That is why finite-horizon dynamic programming is naturally a backward algorithm.
+
+## Formal Core
+
+For a first pass, use a finite-horizon cost-minimization problem with horizon `T`.
+
+::: {#def-cost-to-go}
+## Definition: Cost-to-Go Function
+
+Let `J_t^*(s)` denote the optimal expected future cost from time `t` onward if the current state is `s`.
+:::
+
+This function summarizes the whole remaining problem from the point `(t,s)`.
+
+::: {#thm-principle-optimality}
+## Theorem Idea: Principle of Optimality
+
+If a policy is optimal from time `t` onward, then after the first decision is made and the next state is realized, the remaining decisions must form an optimal policy for the resulting subproblem.
+:::
+
+At a first pass, read this as:
+
+`an optimal strategy must remain optimal on every tail subproblem it creates`
+
+::: {#thm-fh-bellman}
+## Theorem Idea: Finite-Horizon Bellman Recursion
+
+With terminal cost `g_T`, the optimal cost-to-go satisfies
+
+$$
+J_T^*(s)=g_T(s),
+$$
+
+and for `t=T-1,T-2,\dots,0`,
+
+$$
+J_t^*(s)=\min_{a\in A(s)} \mathbb{E}\!\left[g_t(s,a,S_{t+1}) + J_{t+1}^*(S_{t+1}) \mid S_t=s, A_t=a\right].
+$$
+:::
+
+This is the Bellman recursion for the finite-horizon problem.
+
+If the problem is reward-maximizing, the `\min` becomes `\max`.
+
+::: {#thm-policy-extraction}
+## Theorem Idea: Policy Extraction
+
+An optimal action at time `t` and state `s` is any action that attains the minimum in the Bellman recursion.
+:::
+
+So once the value functions are known, the optimal policy is recovered one stage at a time.
+
+## Worked Example
+
+Consider a two-stage queue-control problem.
+
+State:
+
+- `S_t` = current queue length
+
+Action:
+
+- `A_t` in `{slow, fast}`
+
+Costs:
+
+- immediate congestion cost proportional to queue length
+- extra control cost if `fast` is used
+- terminal cost equal to the final queue length
+
+Backward induction works like this:
+
+1. start at time `T` with terminal cost `J_T^*(s)=s`
+2. compute `J_{T-1}^*(s)` by comparing:
+   - slow service: lower control cost, worse expected next queue
+   - fast service: higher control cost, better expected next queue
+3. once `J_{T-1}^*` is known, compute `J_{T-2}^*` the same way using the already-computed future values
+
+What matters at first pass is the pattern:
+
+- the terminal rule is explicit
+- the penultimate step uses the terminal rule
+- the earlier step uses the penultimate rule
+
+So the full sequential problem is solved by a chain of one-step optimizations.
+
+## Computation Lens
+
+When you see a finite-horizon Bellman problem, ask:
+
+1. what is the state?
+2. what is the terminal cost or reward?
+3. what quantity is being stored in the value function: total cost, discounted reward, or something else?
+4. what expectation is being taken over?
+5. once `J_{t+1}^*` is known, what one-step optimization remains at time `t`?
+
+Those questions usually make the recursion readable immediately.
+
+## Application Lens
+
+### Planning With A Deadline
+
+Many operations problems have natural horizons: inventory over a season, queue control over a shift, mission planning over a finite window.
+
+### Control Over A Finite Task
+
+Trajectory optimization, finite-horizon LQR, and MPC all reuse this same backward-cost-to-go logic, though sometimes in more structured or constrained forms.
+
+### RL Foundations
+
+Even when modern RL uses approximation or sampling, the underlying Bellman idea often begins with the finite-horizon dynamic-programming picture.
+
+## Stop Here For First Pass
+
+If you stop here, retain these five ideas:
+
+- finite-horizon sequential problems are naturally solved from the end backward
+- the value function summarizes the optimal future from a given state and time
+- the principle of optimality justifies solving tail subproblems recursively
+- the Bellman recursion is a one-step optimization plus expected future value
+- an optimal policy is extracted from the action that attains the Bellman minimum or maximum
+
+That is enough to read most first-pass finite-horizon dynamic-programming statements without getting lost.
+
+## Go Deeper
+
+The next natural step in this module is:
+
+- [Infinite-Horizon Value Functions, Bellman Equations, and Contractions](infinite-horizon-value-functions-bellman-equations-and-contractions.qmd)
+
+The strongest adjacent live pages are:
+
+- [Stochastic Control and Dynamic Programming](../index.qmd)
+- [Controlled Markov Models, Policies, and Cost Functionals](controlled-markov-models-policies-and-cost-functionals.qmd)
+- [Infinite-Horizon Value Functions, Bellman Equations, and Contractions](infinite-horizon-value-functions-bellman-equations-and-contractions.qmd)
+- [Control and Dynamics](../../control-and-dynamics/index.qmd)
+- [Information Theory](../../information-theory/index.qmd)
+- [Probability](../../../foundation/probability/index.qmd)
+
+## Optional Deeper Reading After First Pass
+
+If you want a stronger second pass on the same ideas, use:
+
+- [MIT 6.231: Dynamic Programming and Stochastic Control](https://ocw.mit.edu/courses/6-231-dynamic-programming-and-stochastic-control-fall-2015/pages/lecture-notes/) for the full official lecture-slide arc from finite-horizon DP into infinite-horizon and approximate methods. Checked `2026-04-25`.
+- [MIT 6.231 lecture 2](https://ocw.mit.edu/courses/6-231-dynamic-programming-and-stochastic-control-fall-2015/resources/mit6_231f15_lec2/) for the principle of optimality, the basic problem, and the general DP algorithm. Checked `2026-04-25`.
+- [Stanford MS&E 235A notes index](https://web.stanford.edu/class/msande235a/notes.html) for the current official sequence of lecture notes in an MDP course. Checked `2026-04-25`.
+- [Stanford MS&E 235A / EE 283: Markov Decision Processes](https://web.stanford.edu/class/msande235a/index.html) for a current official course page that connects modeling and algorithms. Checked `2026-04-25`.
+- [Stanford AA228 / CS238](https://aa228.stanford.edu/) for a current computational route into dynamic programming and planning under uncertainty. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [MIT 6.231: Dynamic Programming and Stochastic Control](https://ocw.mit.edu/courses/6-231-dynamic-programming-and-stochastic-control-fall-2015/pages/lecture-notes/) - `First pass` - official slide index for the whole DP and stochastic-control arc. Checked `2026-04-25`.
+- [MIT 6.231 lecture 2](https://ocw.mit.edu/courses/6-231-dynamic-programming-and-stochastic-control-fall-2015/resources/mit6_231f15_lec2/) - `First pass` - official resource for the principle of optimality and the basic dynamic-programming algorithm. Checked `2026-04-25`.
+- [Stanford MS&E 235A notes index](https://web.stanford.edu/class/msande235a/notes.html) - `First pass` - official current note index for a full MDP course. Checked `2026-04-25`.
+- [Stanford MS&E 235A / EE 283: Markov Decision Processes](https://web.stanford.edu/class/msande235a/index.html) - `First pass` - official current course page for sequential decision under uncertainty. Checked `2026-04-25`.
+- [Stanford AA228 / CS238](https://aa228.stanford.edu/) - `Second pass` - official current course page for computational planning and decision making under uncertainty. Checked `2026-04-25`.

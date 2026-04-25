@@ -1,0 +1,307 @@
+---
+title: "Controlled Markov Models, Policies, and Cost Functionals"
+description: "How Markov decision processes model sequential decision-making under uncertainty through states, actions, transition laws, policies, and objectives."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: stochastic-control-and-dynamic-programming
+prerequisites:
+  - /topics/advanced/control-and-dynamics/index.qmd
+  - /topics/foundation/probability/index.qmd
+  - /topics/foundation/linear-algebra/index.qmd
+learning-goals:
+  - "Define the core ingredients of a controlled Markov model or MDP."
+  - "Explain what a policy is and how it induces stochastic trajectories."
+  - "Interpret reward or cost functionals over time."
+  - "Connect the MDP viewpoint to control, planning, and reinforcement learning."
+applications:
+  - control-and-dynamics
+  - engineering-systems
+  - machine-learning-theory
+keywords:
+  - Markov decision process
+  - policy
+  - transition law
+  - reward
+  - cost functional
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/stochastic-control-and-dynamic-programming/index.qmd
+  - /topics/advanced/control-and-dynamics/index.qmd
+  - /topics/advanced/control-and-dynamics/concepts/learning-based-control-system-identification-and-rl-bridges.qmd
+  - /topics/foundation/probability/index.qmd
+  - /topics/advanced/information-theory/index.qmd
+stable-sources:
+  - "MIT 6.231 Dynamic Programming and Stochastic Control"
+  - "Stanford MS&E 235A Markov Decision Processes"
+  - "Stanford AA228 Decision Making Under Uncertainty"
+current-sources:
+  - "MIT 6.231 lecture slides"
+  - "Stanford MS&E 235A course page"
+  - "Stanford MS&E 235A lecture 1"
+  - "Stanford MS&E 235A lecture 3"
+  - "Stanford AA228 course page"
+---
+
+## Role
+
+This is the first page of the `Stochastic Control and Dynamic Programming` module.
+
+Its job is to introduce the basic object that the rest of the module studies:
+
+- a state that evolves over time
+- actions that influence that evolution
+- randomness in the transition
+- a policy that chooses actions
+- a cumulative objective that scores the resulting trajectory
+
+This is the point where control, planning, and reinforcement learning all start talking about the same mathematical object.
+
+## First-Pass Promise
+
+Read this page first in the module.
+
+If you stop here, you should still understand:
+
+- what an MDP or controlled Markov model is
+- what a policy is
+- what it means for the state process to be Markov
+- how sequential objectives are written as reward or cost functionals
+
+## Why It Matters
+
+In static optimization, you choose one variable and optimize one objective.
+
+In sequential decision-making, the problem is harder:
+
+- decisions happen over time
+- the future depends on both your actions and randomness
+- the current choice affects what options you will face later
+
+That is why the right object is no longer a single optimization variable.
+
+It is a controlled stochastic process.
+
+At a first pass:
+
+- the `state` summarizes the information needed to make the next decision
+- the `action` changes the distribution of the next state
+- the `policy` tells us what action to choose
+- the `objective` scores the entire path, not only one step
+
+This viewpoint is the load-bearing abstraction behind stochastic control, dynamic programming, and a large part of RL.
+
+## Prerequisite Recall
+
+- from [Control and Dynamics](../../control-and-dynamics/index.qmd), a state captures the memory the future still needs from the past
+- from [Probability](../../../foundation/probability/index.qmd), conditional distributions describe what randomness remains after conditioning on current information
+- from optimization, a decision rule becomes meaningful only after an objective is fixed
+
+## Intuition
+
+### The Markov State Is A Sufficient Memory
+
+The Markov idea is not that the past does not matter.
+
+It is that the state has been chosen so that the relevant effect of the past is already encoded.
+
+So once the current state and action are known, the distribution of the next state no longer needs the whole earlier history.
+
+### Actions Shape Distributions, Not Just Deterministic Updates
+
+In deterministic control, an action may map one state to one next state.
+
+In stochastic control, an action usually changes a transition law.
+
+So choosing an action means choosing among probability distributions over what might happen next.
+
+### A Policy Is A Rule, Not A One-Time Choice
+
+A policy is not a single action chosen once.
+
+It is a rule for choosing actions across time, possibly as a function of the current state and time index.
+
+That is why sequential decision-making is inherently more structured than one-shot optimization.
+
+### The Objective Lives On Whole Trajectories
+
+We do not usually care only about one reward at one time.
+
+Instead we care about things like:
+
+- total reward over a horizon
+- discounted sum of future rewards
+- average long-run cost
+- probability of failure before termination
+
+So the object to optimize is a trajectory-level functional induced by the policy.
+
+## Formal Core
+
+For a first pass, think of a discrete-time controlled Markov model.
+
+::: {#def-mdp}
+## Definition Idea: Controlled Markov Model / MDP
+
+A Markov decision process is typically specified by:
+
+- a state space `S`
+- an action space `A`
+- a transition law `P(s'|s,a)`
+- a reward or cost function
+- sometimes an initial-state distribution and a horizon or discount factor
+:::
+
+The central Markov property is:
+
+`once the current state and action are known, the next-state distribution depends on nothing else from the past`
+
+::: {#def-policy}
+## Definition: Policy
+
+A policy is a rule that maps currently available information to an action.
+
+At a first pass, the most common object is a state-feedback policy:
+
+$$
+a_t = \pi_t(s_t)
+$$
+
+for finite horizon, or
+
+$$
+a_t = \pi(s_t)
+$$
+
+for a stationary policy.
+:::
+
+::: {#def-trajectory-objective}
+## Definition Idea: Cost Functional
+
+A common finite-horizon objective is
+
+$$
+J^\pi = \mathbb{E}\left[\sum_{t=0}^{T-1} c_t(S_t,A_t) + c_T(S_T)\right].
+$$
+
+A common reward version replaces `c_t` with rewards `r_t` and asks for maximization instead.
+:::
+
+This is the basic object that later Bellman recursions will optimize.
+
+::: {#thm-policy-induces-process}
+## Theorem Idea: A Policy Induces A Controlled Stochastic Process
+
+Once a policy `\pi` is fixed, the controlled model induces a probability law on trajectories
+
+$$
+(S_0,A_0,S_1,A_1,\dots).
+$$
+:::
+
+So the policy is what converts the abstract model into an actual stochastic system with a measurable objective value.
+
+## Worked Example
+
+Consider a queue with current length `S_t`.
+
+At each time:
+
+- a new customer arrives with some probability
+- the controller chooses `A_t` in `{slow, fast}`
+- the fast mode serves more aggressively but may incur larger operating cost
+
+This is a controlled Markov model because:
+
+- the state is the current queue length
+- the action is the chosen service mode
+- the next-state distribution depends on arrival randomness and service success
+- a cost might combine queue length and service effort
+
+A natural policy question is:
+
+`when should we switch from slow service to fast service?`
+
+That already has the shape of a real stochastic control problem:
+
+- current congestion matters
+- actions change the transition probabilities
+- one-step choices trade future congestion against current cost
+
+## Computation Lens
+
+When you see a sequential decision problem, ask:
+
+1. what is the state, and does it really capture the needed memory?
+2. what choices are actions versus what enters as random disturbance?
+3. what class of policies is being optimized over?
+4. is the objective finite-horizon, discounted, average-cost, or stopping-based?
+5. if the policy were fixed, what stochastic process would it induce?
+
+Those questions usually reveal the real mathematical skeleton of the problem.
+
+## Application Lens
+
+### Control Under Uncertainty
+
+This is the stochastic extension of state-space control: actions steer a system whose next state is random.
+
+### Planning And Operations
+
+Inventory, queues, pricing, resource allocation, and maintenance all fit naturally into the same template.
+
+### RL
+
+RL often starts from the same MDP object, but then shifts attention toward learning good policies from data, samples, or interaction rather than assuming the full model is known.
+
+## Stop Here For First Pass
+
+If you stop here, retain these five ideas:
+
+- an MDP is a controlled stochastic state process
+- the Markov state is a sufficient summary of the past for predicting the next step under the current action
+- a policy is a decision rule over time, not a one-shot choice
+- the action changes the transition law, not only the immediate reward
+- the objective is a trajectory-level reward or cost functional
+
+That is enough to read later Bellman and dynamic-programming pages without getting lost in notation.
+
+## Go Deeper
+
+The next natural step in this module is:
+
+- [Finite-Horizon Dynamic Programming and Backward Induction](finite-horizon-dynamic-programming-and-backward-induction.qmd)
+
+The strongest adjacent live pages are:
+
+- [Stochastic Control and Dynamic Programming](../index.qmd)
+- [Finite-Horizon Dynamic Programming and Backward Induction](finite-horizon-dynamic-programming-and-backward-induction.qmd)
+- [Control and Dynamics](../../control-and-dynamics/index.qmd)
+- [Learning-Based Control, System Identification, and RL Bridges](../../control-and-dynamics/concepts/learning-based-control-system-identification-and-rl-bridges.qmd)
+- [Probability](../../../foundation/probability/index.qmd)
+- [Information Theory](../../information-theory/index.qmd)
+
+## Optional Deeper Reading After First Pass
+
+If you want a stronger second pass on the same ideas, use:
+
+- [MIT 6.231: Dynamic Programming and Stochastic Control](https://ocw.mit.edu/courses/6-231-dynamic-programming-and-stochastic-control-fall-2015/pages/lecture-notes/) for the broad official lecture-slide arc from modeling to algorithms. Checked `2026-04-25`.
+- [Stanford MS&E 235A / EE 283: Markov Decision Processes](https://web.stanford.edu/class/msande235a/index.html) for a current official course page centered exactly on MDP formulation and solution. Checked `2026-04-25`.
+- [Stanford MS&E 235A lecture 1](https://web.stanford.edu/class/msande235a/files/lectures/lecture01.pdf) for a focused current note on MDP specification and transition probabilities. Checked `2026-04-25`.
+- [Stanford MS&E 235A lecture 3](https://web.stanford.edu/class/msande235a/files/lectures/lecture03.pdf) for a focused current note on reward functions and decision objectives. Checked `2026-04-25`.
+- [Stanford AA228 / CS238](https://aa228.stanford.edu/) for a current computational decision-making-under-uncertainty route with MDP, POMDP, and RL applications. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [MIT 6.231: Dynamic Programming and Stochastic Control](https://ocw.mit.edu/courses/6-231-dynamic-programming-and-stochastic-control-fall-2015/pages/lecture-notes/) - `First pass` - official lecture-slide index for the modeling and dynamic-programming backbone of the field. Checked `2026-04-25`.
+- [Stanford MS&E 235A / EE 283: Markov Decision Processes](https://web.stanford.edu/class/msande235a/index.html) - `First pass` - official current course page for the MDP viewpoint and its role in sequential decision-making. Checked `2026-04-25`.
+- [Stanford MS&E 235A lecture 1](https://web.stanford.edu/class/msande235a/files/lectures/lecture01.pdf) - `First pass` - official current note for transition-law specification and the MDP tuple. Checked `2026-04-25`.
+- [Stanford MS&E 235A lecture 3](https://web.stanford.edu/class/msande235a/files/lectures/lecture03.pdf) - `First pass` - official current note for rewards, utility, and objective specification. Checked `2026-04-25`.
+- [Stanford AA228 / CS238](https://aa228.stanford.edu/) - `Second pass` - official current course page connecting MDPs to broader decision-making under uncertainty and RL applications. Checked `2026-04-25`.
