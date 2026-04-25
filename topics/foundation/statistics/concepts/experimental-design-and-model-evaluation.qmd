@@ -1,0 +1,290 @@
+---
+title: "Experimental Design and Model Evaluation"
+description: "How randomization, controls, blocking, train/validation/test splits, cross-validation, and task-appropriate metrics determine whether a statistical or ML result can actually be trusted."
+page-type: concept
+status: published
+update-status: current
+level: foundation
+topic: statistics
+prerequisites:
+  - /topics/foundation/statistics/concepts/confidence-intervals-and-hypothesis-testing.qmd
+  - /topics/foundation/statistics/concepts/regression-and-classification-basics.qmd
+learning-goals:
+  - "Explain why experimental design decisions affect what conclusions are valid."
+  - "Distinguish training, validation, and test roles in model evaluation."
+  - "Describe cross-validation and when it is used."
+  - "Choose evaluation metrics that match the task and error costs."
+applications:
+  - experimentation
+  - machine-learning
+  - data-analysis
+keywords:
+  - experimental design
+  - randomization
+  - blocking
+  - train test split
+  - cross validation
+  - evaluation metrics
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/foundation/statistics/index.qmd
+  - /topics/foundation/statistics/concepts/confidence-intervals-and-hypothesis-testing.qmd
+  - /topics/foundation/statistics/concepts/regression-and-classification-basics.qmd
+stable-sources:
+  - "NIST Experimental Design"
+  - "Penn State STAT 509 Randomization"
+  - "Penn State STAT 508 Lesson 3"
+current-sources:
+  - "Google ML Crash Course classification metrics"
+---
+
+## Role
+
+This page is the capstone of the first-pass statistics module.
+
+Its job is to answer the practical question behind almost every table, figure, or benchmark claim: `can I trust this result, and if so, what exactly does it support?`
+
+## First-Pass Promise
+
+Read this page after `Regression and Classification Basics`.
+
+If you stop here, you should still understand:
+
+- why design choices such as randomization and controls matter before analysis
+- why training, validation, and test data must play different roles
+- what cross-validation is trying to estimate
+- why model quality depends on the evaluation metric, not just on one score
+
+## Why It Matters
+
+Weak experimental design can make strong models look convincing for the wrong reasons.
+
+Typical failure modes are:
+
+- no real control group or comparison baseline
+- no randomization, so treatment groups differ before the intervention
+- leakage from test data into model selection
+- tuning decisions made on the same data used for final evaluation
+- reporting only one convenient metric that hides the actual error costs
+
+This is exactly where a lot of research mistakes happen. A model can be mathematically sophisticated and still be evaluated badly. A benchmark can look clean while the data split, randomization, or metric choice quietly invalidates the conclusion.
+
+## Prerequisite Recall
+
+- confidence intervals and tests tell you how to reason about uncertainty once a design and model are in place
+- regression and classification have different error notions and different evaluation needs
+- overfitting means good training performance does not guarantee good future performance
+
+## Intuition
+
+There are really two questions here:
+
+1. `Was the data collection or experiment structured to support a fair comparison?`
+2. `Was the model evaluated on data that were genuinely new to the fitting process?`
+
+The first question is about experimental design.
+
+The second is about model evaluation.
+
+For design, the big ideas are:
+
+- `control`: compare against something meaningful
+- `randomization`: reduce systematic allocation bias
+- `blocking`: control important sources of variation
+
+For evaluation, the big ideas are:
+
+- `training`: fit the model
+- `validation`: choose model settings
+- `test`: estimate final predictive performance
+
+If you mix these roles together, the reported performance becomes too optimistic.
+
+## Formal Core
+
+::: {#def-design}
+## Experimental Design Basics
+
+In a designed experiment, we deliberately vary one or more factors and measure one or more responses.
+
+Core first-pass design principles are:
+
+- `control`: compare against an appropriate baseline or reference condition
+- `randomization`: assign treatments in a way that reduces systematic bias
+- `blocking`: group similar experimental units so nuisance variation is controlled rather than left to distort the comparison
+:::
+
+::: {#def-splits}
+## Training, Validation, and Test Roles
+
+For predictive modeling:
+
+- `training set`: used to fit model parameters
+- `validation set`: used to choose models, tuning parameters, or thresholds
+- `test set`: used only once for final assessment
+
+If the test set influences modeling choices, it stops being an honest estimate of future predictive performance.
+:::
+
+::: {#prp-cv-metrics}
+## Cross-Validation and Metrics
+
+Cross-validation estimates predictive performance by repeatedly splitting the data into training and evaluation folds.
+
+A good evaluation metric must match the task:
+
+- regression: RMSE, MAE, residual patterns
+- classification: accuracy, precision, recall, false positive rate, confusion matrix, threshold-sensitive metrics
+
+No single metric is universally “best.” The right metric depends on what kind of mistake matters in the application.
+:::
+
+## Worked Example
+
+Suppose a team wants to compare two recommendation models, `A` and `B`, on click-through rate and downstream purchase behavior.
+
+### Poor Design
+
+They do the following:
+
+- run model `A` in week 1
+- run model `B` in week 2
+- report that `B` has a higher click-through rate
+
+Why is this weak?
+
+- traffic may differ between weeks
+- seasonality or product launches may have changed user behavior
+- the comparison is confounded with time
+
+So even if the summary statistic is computed correctly, the design does not isolate the model effect.
+
+### Better Design
+
+A stronger first-pass design would:
+
+- randomize users or sessions to `A` or `B`
+- keep both models active in the same time window
+- track the same primary response for both groups
+- predefine the evaluation metric and decision rule
+
+If important user strata differ a lot, the team might also block by region or device class to reduce nuisance variation.
+
+### Model Evaluation Side
+
+Now suppose the team is fitting a classifier for purchase prediction.
+
+A clean predictive workflow is:
+
+1. fit candidate models on training data
+2. choose thresholds or hyperparameters on validation data
+3. evaluate final precision/recall or other metrics once on held-out test data
+
+If they repeatedly tune on the test set after seeing the score, the final test performance is no longer a trustworthy estimate of out-of-sample behavior.
+
+### Metric Choice
+
+Suppose purchases are rare.
+
+Then raw accuracy can be misleading. A model that predicts “no purchase” for almost everyone may look accurate while being useless.
+
+In that case, metrics such as recall, precision, false positive rate, or a confusion-matrix view are often more informative than accuracy alone.
+
+So the full lesson is:
+
+- design tells you whether the comparison is fair
+- evaluation tells you whether the predictive claim is honest
+- metrics tell you whether the reported performance matches the actual task cost
+
+## Computation Lens
+
+A practical first-pass checklist is:
+
+1. identify the experimental unit
+2. identify the treatment, factor, or model comparison
+3. specify whether there is randomization or blocking
+4. separate training, validation, and test roles clearly
+5. decide which metric matches the decision cost
+6. check whether any leakage or post-hoc retuning contaminated the final result
+7. report both the metric and the uncertainty or variation when possible
+
+This is often more useful than adding a fancier model.
+
+## Application Lens
+
+This page is directly relevant to:
+
+- A/B tests and product experiments
+- benchmark comparisons in ML papers
+- repeated-seed model reporting
+- evaluation on imbalanced classification tasks
+- engineering experiments with nuisance variation such as hardware, batch, or site effects
+
+In all of these settings, the design and evaluation protocol are part of the scientific claim, not just surrounding logistics.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- why randomization and controls matter
+- why training, validation, and test sets must be separated
+- what cross-validation is trying to estimate
+- why metric choice depends on task structure and cost
+
+then this page has done its main job.
+
+## Go Deeper
+
+The most useful next steps after this page are:
+
+1. [Applications](../../../../applications/index.qmd), to connect these evaluation ideas to the broader applied side of the site
+2. [Regression and Classification Basics](regression-and-classification-basics.qmd) if you want to revisit task-specific metrics and output types
+3. [Confidence Intervals and Hypothesis Testing](confidence-intervals-and-hypothesis-testing.qmd) if you want the inferential side of uncertainty around effects and comparisons
+
+## Optional Paper Bridge
+
+- [NIST Experimental Design](https://itl.nist.gov/div898/handbook/pri/section1/pri11.htm) - `First pass` - official NIST introduction to what DOE is and why planning the experiment matters before data collection. Checked `2026-04-24`.
+- [Penn State STAT 509 Randomization](https://online.stat.psu.edu/stat509/lesson/8/8.1) - `Second pass` - official clinical-trials perspective on why randomization helps and what it does not solve by itself. Checked `2026-04-24`.
+- [Penn State STAT 508 Lesson 3](https://online.stat.psu.edu/stat508/Lesson03) - `Second pass` - official lesson covering holdout splits, three-way splits, and cross-validation for predictive performance. Checked `2026-04-24`.
+- [Google ML Crash Course: Accuracy, Precision, Recall](https://developers.google.com/machine-learning/crash-course/classification/accuracy-precision-recall) - `Second pass` - concise official source for choosing classification metrics when error costs and class imbalance matter. Checked `2026-04-24`.
+
+## Optional After First Pass
+
+If you want more practice before moving on:
+
+- inspect one ML paper and identify its training, validation, and test protocol
+- rewrite a weak benchmark comparison into a better randomized or blocked design
+- ask whether the chosen metric really matches the application cost of false positives and false negatives
+
+## Common Mistakes
+
+- evaluating on the same data used for tuning
+- reporting only accuracy on an imbalanced classification task
+- confusing randomization with a cure for every bias
+- ignoring nuisance variation that should have been blocked or controlled
+- treating the test set as one more place to iterate on model design
+
+## Exercises
+
+1. Why is comparing model `A` in one week and model `B` in the next week usually weaker than randomizing both in the same period?
+2. In one sentence, explain the role of a validation set.
+3. Give one example where precision matters more than recall, and one where recall matters more than precision.
+
+## Sources and Further Reading
+
+- [NIST Experimental Design](https://itl.nist.gov/div898/handbook/pri/section1/pri11.htm) - `First pass` - official explanation of factors, responses, and why experiment planning is essential. Checked `2026-04-24`.
+- [Penn State STAT 509 Randomization](https://online.stat.psu.edu/stat509/lesson/8/8.1) - `First pass` - official treatment of randomization and bias control from the clinical-trials viewpoint. Checked `2026-04-24`.
+- [Penn State STAT 508 Lesson 3](https://online.stat.psu.edu/stat508/Lesson03) - `Second pass` - official lesson on train/validation/test splits and cross-validation for predictive performance. Checked `2026-04-24`.
+- [Google ML Crash Course: Accuracy, Precision, Recall](https://developers.google.com/machine-learning/crash-course/classification/accuracy-precision-recall) - `Second pass` - official practical guide to metric choice under imbalance and asymmetric costs. Checked `2026-04-24`.
+
+Sources checked online on `2026-04-24`:
+
+- NIST Experimental Design
+- Penn State STAT 509 Randomization
+- Penn State STAT 508 Lesson 3
+- Google ML Crash Course classification metrics

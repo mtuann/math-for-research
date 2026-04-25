@@ -1,0 +1,313 @@
+---
+title: "Estimation and Bias-Variance"
+description: "How sample-based estimators target population parameters, how bias and variance measure different kinds of estimation error, and why mean squared error balances them."
+page-type: concept
+status: published
+update-status: current
+level: foundation
+topic: statistics
+prerequisites:
+  - /topics/foundation/statistics/concepts/descriptive-statistics-and-data-models.qmd
+  - /topics/foundation/probability/concepts/expectation-variance-covariance.qmd
+learning-goals:
+  - "Define estimator, estimate, and parameter clearly."
+  - "Compute the bias and variance of simple estimators."
+  - "Explain the bias-variance tradeoff through mean squared error."
+  - "Connect estimation error to real evaluation and modeling choices."
+applications:
+  - inference
+  - experimentation
+  - machine-learning
+keywords:
+  - estimator
+  - bias
+  - variance
+  - mean squared error
+  - sampling
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/foundation/statistics/index.qmd
+  - /topics/foundation/statistics/concepts/descriptive-statistics-and-data-models.qmd
+  - /topics/foundation/probability/concepts/expectation-variance-covariance.qmd
+stable-sources:
+  - "Penn State STAT 500 Lesson 5"
+  - "Penn State STAT 415 Lesson 1"
+  - "MIT 6.041SC Lecture 23"
+current-sources:
+  - "MIT 18.05 Introduction to Statistics"
+---
+
+## Role
+
+This page is the first real inference page in the statistics module.
+
+Its job is to explain how we turn data into a rule for estimating an unknown population quantity, and how we judge whether that rule is good.
+
+## First-Pass Promise
+
+Read this page after `Descriptive Statistics and Data Models`.
+
+If you stop here, you should still understand:
+
+- what an estimator is and how it differs from an estimate
+- what bias and variance measure
+- why low variance alone is not enough
+- why mean squared error is the simplest way to balance bias and variance
+
+## Why It Matters
+
+Statistics is not just about computing a sample mean and moving on.
+
+The real question is: if you used the same estimation procedure on many fresh samples, how would it behave?
+
+That matters immediately in practice:
+
+- a benchmark average can fluctuate a lot across random seeds
+- a heavily regularized model can become stable but systematically off-target
+- a summary statistic can look precise while still being biased by the data-collection process
+- an estimator can be unbiased but so noisy that it is not actually useful
+
+Bias and variance give names to two different failure modes. Once you can separate them, statistical arguments become much clearer.
+
+## Prerequisite Recall
+
+- a `parameter` is a population quantity you want to learn about
+- a `statistic` is a quantity computed from a sample
+- expectation describes average behavior across repeated sampling
+- variance measures how much a random quantity fluctuates
+
+## Intuition
+
+An estimator is a rule.
+
+It takes in data and outputs a guess for an unknown parameter. If the data change, the output changes too, so the estimator itself is a random quantity before the sample is observed.
+
+That immediately creates two natural questions:
+
+1. `On average, does the estimator point at the right target?`
+2. `How much does the estimator jump around from sample to sample?`
+
+The first question is about `bias`. The second is about `variance`.
+
+Those are not the same problem. You can make an estimator extremely stable by always reporting the same number, but then its bias may be awful. You can also make an estimator unbiased but very noisy. Good estimation is about balancing both.
+
+## Formal Core
+
+::: {#def-estimator}
+## Estimator and Estimate
+
+Let $\theta$ be an unknown population parameter.
+
+An `estimator` of $\theta$ is a statistic
+$$
+\hat{\theta} = T(X_1,\dots,X_n)
+$$
+computed from the sample.
+
+After the data are observed, the realized numerical value of $\hat{\theta}$ is called the `estimate`.
+:::
+
+::: {#def-bias}
+## Bias and Variance
+
+The `bias` of an estimator $\hat{\theta}$ for parameter $\theta$ is
+$$
+\operatorname{Bias}(\hat{\theta}) = \mathbb{E}[\hat{\theta}] - \theta.
+$$
+
+The estimator is `unbiased` if
+$$
+\mathbb{E}[\hat{\theta}] = \theta.
+$$
+
+Its `variance` is
+$$
+\operatorname{Var}(\hat{\theta}),
+$$
+which measures how much the estimator changes across repeated samples.
+:::
+
+::: {#prp-mse}
+## Mean Squared Error Decomposition
+
+For scalar parameter estimation, the mean squared error is
+$$
+\operatorname{MSE}(\hat{\theta}) = \mathbb{E}\big[(\hat{\theta}-\theta)^2\big].
+$$
+
+It decomposes as
+$$
+\operatorname{MSE}(\hat{\theta}) = \operatorname{Var}(\hat{\theta}) + \operatorname{Bias}(\hat{\theta})^2.
+$$
+
+This identity makes the bias-variance tradeoff precise: reducing one term can increase the other.
+:::
+
+## Worked Example
+
+Suppose $X_1,\dots,X_n$ are independent Bernoulli$(p)$ observations, where $p$ is the unknown success probability.
+
+A natural estimator of $p$ is the sample proportion
+$$
+\hat{p}=\bar{X}=\frac{1}{n}\sum_{i=1}^n X_i.
+$$
+
+### Bias of $\hat{p}$
+
+Because $\mathbb{E}[X_i]=p$,
+$$
+\mathbb{E}[\hat{p}]
+=
+\mathbb{E}\left[\frac{1}{n}\sum_{i=1}^n X_i\right]
+=
+\frac{1}{n}\sum_{i=1}^n \mathbb{E}[X_i]
+=
+\frac{1}{n}(np)
+=
+p.
+$$
+
+So $\hat{p}$ is unbiased.
+
+### Variance of $\hat{p}$
+
+Because the $X_i$ are independent and each has variance $p(1-p)$,
+$$
+\operatorname{Var}(\hat{p})
+=
+\operatorname{Var}\left(\frac{1}{n}\sum_{i=1}^n X_i\right)
+=
+\frac{1}{n^2}\sum_{i=1}^n \operatorname{Var}(X_i)
+=
+\frac{1}{n^2}(np(1-p))
+=
+\frac{p(1-p)}{n}.
+$$
+
+So repeated samples center correctly around $p$, and the spread shrinks as $n$ grows.
+
+### A Biased but More Stable Competitor
+
+Now consider
+$$
+\tilde{p} = \frac{\hat{p}+1/2}{2}.
+$$
+
+Then
+$$
+\mathbb{E}[\tilde{p}]
+=
+\frac{\mathbb{E}[\hat{p}] + 1/2}{2}
+=
+\frac{p+1/2}{2},
+$$
+so $\tilde{p}$ is generally biased.
+
+But its variance is
+$$
+\operatorname{Var}(\tilde{p})
+=
+\operatorname{Var}\left(\frac{\hat{p}+1/2}{2}\right)
+=
+\frac{1}{4}\operatorname{Var}(\hat{p})
+=
+\frac{p(1-p)}{4n},
+$$
+which is smaller than the variance of $\hat{p}$.
+
+This is the tradeoff in one line:
+
+- $\hat{p}$ has zero bias and larger variance
+- $\tilde{p}$ has nonzero bias and smaller variance
+
+The better choice depends on the full mean squared error and the context, not on one slogan like “always prefer unbiased estimators.”
+
+## Computation Lens
+
+When you meet an estimator, a strong first checklist is:
+
+1. identify the parameter $\theta$
+2. write the estimator as an explicit function of the sample
+3. compute or approximate $\mathbb{E}[\hat{\theta}]$
+4. compute or approximate $\operatorname{Var}(\hat{\theta})$
+5. combine them through MSE if you need an overall error metric
+6. ask what changes as sample size $n$ grows
+
+This is especially useful in ML and simulation settings, where repeated runs naturally expose both bias and variability.
+
+## Application Lens
+
+Bias-variance language appears in several nearby forms:
+
+- in classical statistics, when comparing point estimators
+- in regression and prediction, where more flexible models can reduce bias but increase variance
+- in experimental evaluation, where a summary across seeds may be unbiased but too noisy to support a strong claim
+- in regularized methods, where intentional bias is often introduced to reduce instability
+
+So this page is not just about introductory formulas. It is the first clean version of a tradeoff that keeps returning later in model selection, learning theory, and empirical science.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- what an estimator is
+- why an estimator is random before the data are fixed
+- what bias and variance each measure
+- why MSE combines them into one error notion
+
+then this page has done its main job.
+
+## Go Deeper
+
+The most useful next steps after this page are:
+
+1. [Maximum Likelihood and Bayesian Basics](maximum-likelihood-and-bayesian-basics.qmd), to see two major estimator design philosophies
+2. [Confidence Intervals and Hypothesis Testing](confidence-intervals-and-hypothesis-testing.qmd), to move from point estimation to uncertainty statements
+3. [Law of Large Numbers and CLT](../../probability/concepts/law-of-large-numbers-and-clt.qmd) if you want the probability-side story behind estimator stabilization
+
+## Optional Paper Bridge
+
+- [Penn State STAT 500 Lesson 5: Confidence Intervals](https://online.stat.psu.edu/stat500/Lesson05.html) - `First pass` - strong official open lesson on how estimation turns into practical inference for means and proportions. Checked `2026-04-24`.
+- [Penn State STAT 415 Lesson 1: Point Estimation](https://online.stat.psu.edu/stat415/lesson/1) - `Second pass` - official math-stat treatment of estimators, bias, and unbiasedness. Checked `2026-04-24`.
+- [MIT 6.041SC Lecture 23](https://ocw.mit.edu/courses/6-041sc-probabilistic-systems-analysis-and-applied-probability-fall-2013/80b5040ad0f093971949cae3f7db6d26_MIT6_041SCF13_lec23_300k.pdf) - `Paper bridge` - official MIT notes that show bias-variance and MSE as design criteria for estimators. Checked `2026-04-24`.
+
+## Optional After First Pass
+
+If you want more practice before moving on:
+
+- compare two estimators of the same parameter and ask which has smaller variance
+- construct a deliberately biased estimator and compute its bias
+- ask whether a model evaluation procedure is noisy, biased, or both
+
+## Common Mistakes
+
+- confusing an estimator with its realized estimate
+- treating “unbiased” as automatically meaning “best”
+- looking only at variance and ignoring systematic error
+- forgetting that bias and variance are properties across repeated sampling, not just one dataset
+- using bias-variance language in prediction without first understanding it for point estimation
+
+## Exercises
+
+1. Let $X_1,\dots,X_n$ be i.i.d. with mean $\mu$. Show that $\bar{X}$ is an unbiased estimator of $\mu$.
+2. Suppose an estimator always returns the constant value $7$ for parameter $\theta$. What are its variance and bias?
+3. In words, explain why a slightly biased estimator can still have lower mean squared error than an unbiased one.
+
+## Sources and Further Reading
+
+- [Penn State STAT 500 Lesson 5: Confidence Intervals](https://online.stat.psu.edu/stat500/Lesson05.html) - `First pass` - official applied-statistics bridge from sample summaries to estimation and inference. Checked `2026-04-24`.
+- [Penn State STAT 415 Lesson 1: Point Estimation](https://online.stat.psu.edu/stat415/lesson/1) - `First pass` - official source with a clear mathematical treatment of point estimators and unbiasedness. Checked `2026-04-24`.
+- [MIT 18.05 Introduction to Statistics](https://ocw.mit.edu/courses/18-05-introduction-to-probability-and-statistics-spring-2022/mit18_05_s22_statistics.pdf) - `Second pass` - official MIT reading on the move from probability models to parameter inference. Checked `2026-04-24`.
+- [MIT 6.041SC Lecture 23](https://ocw.mit.edu/courses/6-041sc-probabilistic-systems-analysis-and-applied-probability-fall-2013/80b5040ad0f093971949cae3f7db6d26_MIT6_041SCF13_lec23_300k.pdf) - `Paper bridge` - official MIT notes emphasizing estimator quality through bias, variance, and MSE. Checked `2026-04-24`.
+
+Sources checked online on `2026-04-24`:
+
+- Penn State STAT 500 Lesson 5
+- Penn State STAT 415 Lesson 1
+- MIT 18.05 Introduction to Statistics
+- MIT 6.041SC Lecture 23

@@ -1,0 +1,310 @@
+---
+title: "Regression and Classification Basics"
+description: "How supervised statistical modeling splits into regression for quantitative responses and classification for categorical responses, and how both turn predictors into useful predictions with different loss and evaluation ideas."
+page-type: concept
+status: published
+update-status: current
+level: foundation
+topic: statistics
+prerequisites:
+  - /topics/foundation/statistics/concepts/descriptive-statistics-and-data-models.qmd
+  - /topics/foundation/statistics/concepts/confidence-intervals-and-hypothesis-testing.qmd
+learning-goals:
+  - "Distinguish regression from classification by the type of response variable."
+  - "Explain the role of predictors, fitted functions, and residual or classification error."
+  - "Understand least squares and logistic-style probabilistic classification at a first-pass level."
+  - "Connect statistical modeling to ML evaluation and decision rules."
+applications:
+  - machine-learning
+  - prediction
+  - experimentation
+keywords:
+  - regression
+  - classification
+  - supervised learning
+  - least squares
+  - logistic regression
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/foundation/statistics/index.qmd
+  - /topics/foundation/statistics/concepts/descriptive-statistics-and-data-models.qmd
+  - /topics/foundation/statistics/concepts/confidence-intervals-and-hypothesis-testing.qmd
+stable-sources:
+  - "Penn State STAT 508 Lesson 1"
+  - "Penn State STAT 508 Lesson 10"
+  - "MIT 18.05 Linear Regression"
+current-sources:
+  - "Penn State STAT 501 course notes"
+---
+
+## Role
+
+This page is the first modeling page in the statistics module.
+
+Its job is to show how statistical inference grows into supervised prediction: when the response is quantitative, we do regression; when the response is categorical, we do classification.
+
+## First-Pass Promise
+
+Read this page after `Confidence Intervals and Hypothesis Testing`.
+
+If you stop here, you should still understand:
+
+- the structural difference between regression and classification
+- what predictors, responses, and fitted functions are doing
+- why least squares is natural for regression
+- why classification is about estimated class probabilities and decision rules, not just labels
+
+## Why It Matters
+
+A huge amount of modern applied statistics and ML is just this distinction repeated in richer settings.
+
+Typical questions look like:
+
+- `Regression`: predict a real-valued quantity like latency, energy use, temperature, score, or cost
+- `Classification`: predict a category like spam/not spam, disease/no disease, fail/pass, or class label
+
+Once you see that response-type split clearly, many methods become easier to place:
+
+- linear regression, ridge, and least squares live on the regression side
+- logistic regression, discriminant analysis, and nearest-neighbor classification live on the classification side
+
+This page is meant to make that landscape legible before the methods get more elaborate.
+
+## Prerequisite Recall
+
+- a dataset has observational units, predictors, and sometimes a response variable
+- confidence intervals and tests quantify uncertainty about parameters or effects
+- likelihood and Bayesian methods are two ways to fit or reason about statistical models
+
+## Intuition
+
+Supervised modeling starts with paired information:
+
+$$
+(x_i, y_i) \quad \text{or} \quad (x_i, g_i).
+$$
+
+The predictor vector $x_i$ contains the observed features or covariates.
+
+The response can take two different forms:
+
+- `quantitative`: a real-valued outcome such as time, price, or score
+- `categorical`: a label such as yes/no or one of several classes
+
+That one distinction drives the rest:
+
+- in regression, we care about how close the numerical predictions are
+- in classification, we care about assigning the right label or at least high probability to the right class
+
+So the modeling question is not “which algorithm do I like?” It is first:
+
+`what type of response am I trying to predict?`
+
+## Formal Core
+
+::: {#def-supervised}
+## Supervised Learning Setup
+
+In supervised learning, we observe training data with predictors and responses:
+$$
+\{(x_i, y_i)\}_{i=1}^n
+\qquad \text{or} \qquad
+\{(x_i, g_i)\}_{i=1}^n.
+$$
+
+The goal is to build a fitted rule that predicts the response from the predictors.
+:::
+
+::: {#def-reg-class}
+## Regression Versus Classification
+
+- `Regression`: the response $Y$ is quantitative, and we model or predict a numerical value
+- `Classification`: the response $G$ is categorical, and we predict a class label or class probabilities
+
+This is the main first-pass distinction in supervised statistical modeling.
+:::
+
+::: {#prp-basic-models}
+## Basic Modeling Rules
+
+Two first-pass models to remember are:
+
+- linear regression for a quantitative response:
+  $$
+  Y \approx \beta_0 + \beta_1 X_1 + \cdots + \beta_p X_p + \varepsilon
+  $$
+- logistic-style classification for a binary response:
+  $$
+  \Pr(G=1 \mid X=x) =
+  \frac{1}{1+\exp\big(-(\beta_0+\beta_1x_1+\cdots+\beta_p x_p)\big)}
+  $$
+
+In regression, least squares is a natural fitting criterion.
+
+In classification, estimated class probabilities are turned into labels by a decision rule such as choosing the larger posterior probability.
+:::
+
+## Worked Example
+
+Suppose a team collects data on app sessions.
+
+For each session they record:
+
+- `x`: session length in minutes
+- `y`: number of dollars spent in the session
+- `g`: whether the user made a purchase (`1`) or not (`0`)
+
+The same predictors can support two different tasks.
+
+### Regression View
+
+If the goal is to predict dollars spent, the response is quantitative, so this is a regression problem.
+
+A simple linear model might be
+$$
+\widehat{y} = \beta_0 + \beta_1 x.
+$$
+
+If the fitted line is
+$$
+\widehat{y} = -1 + 0.8x,
+$$
+then for a 10-minute session the predicted spend is
+$$
+-1 + 0.8(10) = 7.
+$$
+
+The residual for a session is
+$$
+e_i = y_i - \widehat{y}_i,
+$$
+which tells us how far the observed value is from the prediction.
+
+Least squares chooses the coefficients to make the total squared residual error
+$$
+\sum_{i=1}^n (y_i - \widehat{y}_i)^2
+$$
+as small as possible.
+
+### Classification View
+
+If the goal is instead to predict whether a purchase happens, the response is categorical, so this is a classification problem.
+
+A logistic-style model might estimate
+$$
+\Pr(G=1 \mid x)
+=
+\frac{1}{1+\exp(-(-2 + 0.3x))}.
+$$
+
+At $x=10$ minutes, this gives
+$$
+\Pr(G=1 \mid x=10)
+=
+\frac{1}{1+\exp(-1)}
+\approx 0.731.
+$$
+
+If we use the usual 0.5 cutoff, the prediction is class `1`: purchase.
+
+So the same predictor variable supports two different statistical tasks:
+
+- predict `how much` -> regression
+- predict `which class` -> classification
+
+That is the core structural lesson.
+
+## Computation Lens
+
+A practical first-pass workflow is:
+
+1. identify whether the response is quantitative or categorical
+2. separate predictors from the response
+3. choose a model family matched to the response type
+4. fit the model
+5. examine an appropriate error notion
+
+Common first-pass error summaries are:
+
+- regression: residuals, squared error, mean squared error
+- classification: misclassification rate, confusion matrix, estimated class probabilities
+
+This is also where train/test splitting or validation starts to matter, because a good fit on training data does not automatically mean good predictive performance.
+
+## Application Lens
+
+This page is a direct bridge into ML:
+
+- regression appears in forecasting, score prediction, calibration, and control-oriented modeling
+- classification appears in detection, triage, recommendation, diagnosis, moderation, and document labeling
+- logistic regression is both a classical statistics tool and a very standard ML baseline
+- least-squares regression is both a statistics method and a building block for optimization and linear modeling
+
+So this is one of the places where the line between “statistics” and “machine learning” becomes very thin.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- how regression differs from classification
+- why the type of response variable determines the task
+- why least squares is natural in regression
+- why classification should often be thought of through probabilities and decision rules
+
+then this page has done its main job.
+
+## Go Deeper
+
+The most useful next steps after this page are:
+
+1. [Experimental Design and Model Evaluation](experimental-design-and-model-evaluation.qmd), to learn how to assess predictive performance responsibly
+2. [Confidence Intervals and Hypothesis Testing](confidence-intervals-and-hypothesis-testing.qmd) if you want to connect fitted model parameters to interval/test reasoning
+3. [Maximum Likelihood and Bayesian Basics](maximum-likelihood-and-bayesian-basics.qmd) if you want to see logistic regression and probabilistic modeling through a likelihood lens
+
+## Optional Paper Bridge
+
+- [Penn State STAT 508 Lesson 1: Introduction to Data Mining](https://online.stat.psu.edu/stat508/Lesson01.html) - `First pass` - clear official introduction to supervised learning and the regression/classification split. Checked `2026-04-24`.
+- [MIT 18.05 Linear Regression](https://ocw.mit.edu/courses/18-05-introduction-to-probability-and-statistics-spring-2022/mit18_05_s22_statistics.pdf) - `First pass` - official MIT notes on least-squares regression and model assumptions. Checked `2026-04-24`.
+- [Penn State STAT 508 Lesson 10: Classification](https://online.stat.psu.edu/stat508/Lesson10) - `Second pass` - official source for logistic regression and classification error ideas. Checked `2026-04-24`.
+- [Penn State STAT 501 course notes](https://online.stat.psu.edu/stat501/) - `Second pass` - strong official bridge from basic fitted lines to broader regression workflow and diagnostics. Checked `2026-04-24`.
+
+## Optional After First Pass
+
+If you want more practice before moving on:
+
+- take one dataset idea and ask whether the response makes it a regression or classification task
+- write down one possible loss or error notion for each task
+- compare predicting a probability with predicting a final hard class label
+
+## Common Mistakes
+
+- choosing the method before identifying the response type
+- treating classification labels as if they were ordinary numeric outcomes
+- using only training error to judge model quality
+- ignoring predicted probabilities in classification and looking only at hard labels
+- forgetting that regression assumptions and classification decision rules are different objects
+
+## Exercises
+
+1. A model predicts house price from square footage and neighborhood features. Is this regression or classification? Why?
+2. A model predicts whether an email is spam or not. Is this regression or classification? What is the natural response type?
+3. In one sentence, explain why least squares makes sense for regression but not for a yes/no class label as the final task.
+
+## Sources and Further Reading
+
+- [Penn State STAT 508 Lesson 1: Introduction to Data Mining](https://online.stat.psu.edu/stat508/Lesson01.html) - `First pass` - official introduction to regression versus classification and supervised learning language. Checked `2026-04-24`.
+- [MIT 18.05 Linear Regression](https://ocw.mit.edu/courses/18-05-introduction-to-probability-and-statistics-spring-2022/mit18_05_s22_statistics.pdf) - `First pass` - official MIT treatment of least-squares regression and regression assumptions. Checked `2026-04-24`.
+- [Penn State STAT 508 Lesson 10: Classification](https://online.stat.psu.edu/stat508/Lesson10) - `Second pass` - official lesson on classification, logistic regression, and classification error. Checked `2026-04-24`.
+- [Penn State STAT 501 course notes](https://online.stat.psu.edu/stat501/) - `Second pass` - official regression-methods notes that make the transition from toy lines to real modeling workflow. Checked `2026-04-24`.
+
+Sources checked online on `2026-04-24`:
+
+- Penn State STAT 508 Lesson 1
+- MIT 18.05 Linear Regression
+- Penn State STAT 508 Lesson 10
+- Penn State STAT 501 course notes

@@ -1,0 +1,320 @@
+---
+title: "Confidence Intervals and Hypothesis Testing"
+description: "How confidence intervals summarize estimation uncertainty, how hypothesis tests turn data into decision procedures, and how the two are related in common two-sided settings."
+page-type: concept
+status: published
+update-status: current
+level: foundation
+topic: statistics
+prerequisites:
+  - /topics/foundation/statistics/concepts/estimation-and-bias-variance.qmd
+  - /topics/foundation/statistics/concepts/maximum-likelihood-and-bayesian-basics.qmd
+learning-goals:
+  - "Interpret a confidence interval correctly."
+  - "Set up null and alternative hypotheses and explain p-values."
+  - "Distinguish statistical significance from practical importance."
+  - "Explain the relation between two-sided confidence intervals and hypothesis tests."
+applications:
+  - inference
+  - experimentation
+  - machine-learning
+keywords:
+  - confidence interval
+  - hypothesis testing
+  - p-value
+  - significance level
+  - margin of error
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/foundation/statistics/index.qmd
+  - /topics/foundation/statistics/concepts/estimation-and-bias-variance.qmd
+  - /topics/foundation/statistics/concepts/maximum-likelihood-and-bayesian-basics.qmd
+stable-sources:
+  - "Penn State STAT 500 Lesson 5"
+  - "Penn State STAT 500 Lesson 6"
+  - "Penn State STAT 200 Section 6.6"
+current-sources:
+  - "MIT 18.05 Introduction to Statistics"
+---
+
+## Role
+
+This page is the bridge from point estimation to formal statistical decisions.
+
+Its job is to explain two closely related tools: confidence intervals, which summarize uncertainty around an estimate, and hypothesis tests, which decide whether the observed data are sufficiently incompatible with a null claim.
+
+## First-Pass Promise
+
+Read this page after `Maximum Likelihood and Bayesian Basics`.
+
+If you stop here, you should still understand:
+
+- what a confidence interval is and how to interpret it correctly
+- what a null hypothesis, alternative hypothesis, significance level, and p-value are
+- why failing to reject is not the same as proving the null
+- how a two-sided hypothesis test lines up with a corresponding confidence interval
+
+## Why It Matters
+
+A huge amount of published quantitative work is really built from these two ideas.
+
+They appear whenever someone reports:
+
+- an error bar
+- a margin of error
+- a p-value
+- “statistically significant”
+- “not significantly different”
+- a confidence band or uncertainty interval
+
+If you do not understand what these mean, it becomes very easy to overread tables and plots:
+
+- a narrow interval can be mistaken for certainty
+- a small p-value can be mistaken for a large or important effect
+- a non-significant result can be mistaken for evidence of no effect
+- a confidence interval can be misread as a posterior probability statement
+
+This page is meant to make those errors much harder.
+
+## Prerequisite Recall
+
+- an estimator is a random quantity before the data are observed
+- bias and variance describe repeated-sampling behavior of estimators
+- a likelihood or model tells us how data would behave under parameter values or hypotheses
+
+## Intuition
+
+Confidence intervals and hypothesis tests answer related but different questions.
+
+A `confidence interval` asks:
+
+`which parameter values remain reasonably compatible with the data?`
+
+A `hypothesis test` asks:
+
+`if a specific null claim were true, would these data look too surprising?`
+
+So the interval is a range-style summary, while the test is a decision-style procedure.
+
+They are often taught separately, but they live in the same repeated-sampling world. In common two-sided settings, the connection is especially clean:
+
+- if the hypothesized value lies outside the $(1-\alpha)$ confidence interval, reject the corresponding two-sided null at level $\alpha$
+- if it lies inside, fail to reject
+
+That relationship helps keep the tools conceptually unified instead of feeling like two unrelated rituals.
+
+## Formal Core
+
+::: {#def-ci}
+## Confidence Interval
+
+A $(1-\alpha)$ confidence interval for parameter $\theta$ is a random interval
+$$
+[L(X), U(X)]
+$$
+constructed from the sample such that, under the repeated-sampling interpretation,
+$$
+\mathbb{P}\big(\theta \in [L(X), U(X)]\big) \approx 1-\alpha
+$$
+for the interval-generating procedure, or exactly $1-\alpha$ in special exact constructions.
+
+After the data are observed, the interval becomes a fixed numerical range.
+:::
+
+::: {#def-test}
+## Hypothesis Test
+
+A hypothesis test begins with:
+
+- a null hypothesis $H_0$
+- an alternative hypothesis $H_A$
+- a significance level $\alpha$
+
+The test uses the sample to compute a test statistic and then a p-value or rejection rule.
+
+The `p-value` is the probability, assuming $H_0$ is true, of obtaining data at least as extreme as what was observed in the direction of $H_A$.
+:::
+
+::: {#prp-relation}
+## Confidence Intervals and Two-Sided Tests
+
+In many standard one-parameter settings, a two-sided level-$\alpha$ test of
+$$
+H_0:\theta=\theta_0
+\qquad \text{vs.} \qquad
+H_A:\theta\neq\theta_0
+$$
+rejects exactly when $\theta_0$ lies outside the corresponding $(1-\alpha)$ confidence interval.
+
+This relation does not mean intervals and tests are identical, but it does mean they often summarize the same information in different forms.
+:::
+
+## Worked Example
+
+Suppose a product team wants to estimate the fraction $p$ of users who click a new recommendation module.
+
+They observe $n=100$ users and see $x=62$ clicks, so
+$$
+\hat{p}=\frac{62}{100}=0.62.
+$$
+
+### Confidence Interval
+
+Using the usual large-sample standard error,
+$$
+\operatorname{SE}(\hat{p}) \approx \sqrt{\frac{\hat{p}(1-\hat{p})}{n}}
+=
+\sqrt{\frac{0.62\cdot 0.38}{100}}
+\approx 0.0485.
+$$
+
+A rough 95% confidence interval is
+$$
+\hat{p} \pm 1.96\cdot \operatorname{SE}(\hat{p})
+$$
+so
+$$
+0.62 \pm 1.96(0.0485)
+\approx
+0.62 \pm 0.095.
+$$
+
+That gives the interval
+$$
+(0.525,\;0.715).
+$$
+
+This means the interval-building procedure has 95% repeated-sampling coverage under its assumptions. It does **not** mean there is a 95% posterior probability that $p$ lies inside this already computed interval.
+
+### Hypothesis Test
+
+Now test
+$$
+H_0:p=0.5
+\qquad \text{vs.} \qquad
+H_A:p\neq 0.5.
+$$
+
+Under $H_0$, the standard error is
+$$
+\sqrt{\frac{0.5(1-0.5)}{100}} = 0.05.
+$$
+
+The z-statistic is
+$$
+z = \frac{0.62-0.5}{0.05}=2.4.
+$$
+
+A two-sided p-value for $z=2.4$ is about
+$$
+0.016.
+$$
+
+So at significance level $\alpha=0.05$, we reject $H_0$.
+
+### Relationship
+
+Notice that the hypothesized value $0.5$ does not lie in the 95% confidence interval
+$$
+(0.525,\;0.715).
+$$
+
+That matches the two-sided test decision at level $0.05$.
+
+This is the main structural point:
+
+- interval view: values near $0.62$ remain plausible
+- test view: the specific null value $0.5$ is too far away to remain compatible at level $0.05$
+
+## Computation Lens
+
+A good workflow for standard one-parameter inference is:
+
+1. identify the parameter of interest
+2. write the estimator and its standard error
+3. choose a confidence level or significance level
+4. check assumptions or conditions
+5. compute either:
+   - an interval, if the question is estimation-focused
+   - a p-value or rejection decision, if the question is claim-focused
+6. translate the numerical result back into the original scientific or engineering question
+
+This last step matters a lot. A correct z-score with a bad interpretation is still a bad conclusion.
+
+## Application Lens
+
+In research practice, confidence intervals and tests help with:
+
+- reporting uncertainty around benchmark differences
+- judging whether an observed effect could be explained by sampling noise
+- deciding whether a claimed improvement is both statistically and practically meaningful
+- turning repeated-seed or repeated-run variation into a visible uncertainty summary
+
+This is also where many paper-reading mistakes happen. A tiny p-value is not the same thing as a big effect, and a wide interval is often more informative than a bare “significant / not significant” label.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- how to interpret a confidence interval correctly
+- what a p-value means
+- why “fail to reject” is weaker than “accept”
+- why a two-sided test and a matching confidence interval often agree
+
+then this page has done its main job.
+
+## Go Deeper
+
+The most useful next steps after this page are:
+
+1. [Regression and Classification Basics](regression-and-classification-basics.qmd), where intervals and tests attach to fitted models and parameters
+2. [Estimation and Bias-Variance](estimation-and-bias-variance.qmd) if you want to revisit repeated-sampling behavior behind interval width
+3. [Maximum Likelihood and Bayesian Basics](maximum-likelihood-and-bayesian-basics.qmd) if you want to contrast frequentist intervals/tests with posterior summaries
+
+## Optional Paper Bridge
+
+- [Penn State STAT 500 Lesson 5: Confidence Intervals](https://online.stat.psu.edu/stat500/Lesson05.html) - `First pass` - official open lesson covering the structure and interpretation of confidence intervals. Checked `2026-04-24`.
+- [Penn State STAT 500 Lesson 6: Hypothesis Testing](https://online.stat.psu.edu/stat500/Lesson06) - `First pass` - official open lesson on test setup, p-values, decisions, and the CI/test relationship. Checked `2026-04-24`.
+- [Penn State STAT 200 Section 6.6: Confidence Intervals & Hypothesis Testing](https://online.stat.psu.edu/stat200/lesson/6/6.6) - `Second pass` - concise official reinforcement of when to use intervals versus tests. Checked `2026-04-24`.
+- [MIT 18.05 Introduction to Statistics](https://ocw.mit.edu/courses/18-05-introduction-to-probability-and-statistics-spring-2022/mit18_05_s22_statistics.pdf) - `Second pass` - official MIT notes with examples of confidence intervals, tests, and common interpretation pitfalls. Checked `2026-04-24`.
+
+## Optional After First Pass
+
+If you want more practice before moving on:
+
+- take one reported interval from a paper and rewrite its correct repeated-sampling interpretation
+- compare a confidence interval with a p-value for the same parameter question
+- ask whether a statistically significant result is also practically important in context
+
+## Common Mistakes
+
+- saying the parameter has a 95% chance of lying in the computed confidence interval
+- reading the p-value as the probability that the null hypothesis is true
+- treating non-significance as proof of no effect
+- confusing statistical significance with practical importance
+- forgetting that CI/test equivalence is mainly for matching two-sided settings under the same assumptions
+
+## Exercises
+
+1. A 95% confidence interval for a population proportion is $(0.41, 0.53)$. What does this tell you about testing $H_0:p=0.5$ versus $H_A:p\neq0.5$ at level $0.05$?
+2. In one sentence, define a p-value without saying “probability the null is true.”
+3. Explain why a very large sample can make a tiny effect statistically significant.
+
+## Sources and Further Reading
+
+- [Penn State STAT 500 Lesson 5: Confidence Intervals](https://online.stat.psu.edu/stat500/Lesson05.html) - `First pass` - official applied-statistics lesson on interval construction and interpretation. Checked `2026-04-24`.
+- [Penn State STAT 500 Lesson 6: Hypothesis Testing](https://online.stat.psu.edu/stat500/Lesson06) - `First pass` - official lesson on test setup, p-values, and decision rules. Checked `2026-04-24`.
+- [Penn State STAT 200 Section 6.6: Confidence Intervals & Hypothesis Testing](https://online.stat.psu.edu/stat200/lesson/6/6.6) - `Second pass` - compact official bridge between interval and testing viewpoints. Checked `2026-04-24`.
+- [MIT 18.05 Introduction to Statistics](https://ocw.mit.edu/courses/18-05-introduction-to-probability-and-statistics-spring-2022/mit18_05_s22_statistics.pdf) - `Second pass` - official MIT notes with good examples and cautionary interpretation points. Checked `2026-04-24`.
+
+Sources checked online on `2026-04-24`:
+
+- Penn State STAT 500 Lesson 5
+- Penn State STAT 500 Lesson 6
+- Penn State STAT 200 Section 6.6
+- MIT 18.05 Introduction to Statistics

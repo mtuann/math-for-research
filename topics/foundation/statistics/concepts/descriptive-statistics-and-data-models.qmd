@@ -214,7 +214,7 @@ then this page has done its main job.
 
 The most useful next steps after this page are:
 
-1. `Estimation and Bias-Variance` once it is built, to understand how sample summaries target population quantities
+1. [Estimation and Bias-Variance](estimation-and-bias-variance.qmd), to understand how sample summaries target population quantities
 2. [Expectation, Variance, Covariance](../../probability/concepts/expectation-variance-covariance.qmd) if you want the probability-side view of average and spread
 3. [Sample Spaces, Events, and Conditioning](../../probability/concepts/sample-spaces-events-conditioning.qmd) if you want to revisit how data collection and conditioning interact
 

@@ -58,13 +58,13 @@ Benchmarking, uncertainty reporting, study design, result interpretation
 ## First Pass Through This Module
 
 1. [Descriptive Statistics and Data Models](concepts/descriptive-statistics-and-data-models.qmd)
-2. `Estimation and Bias-Variance` (planned)
-3. `Maximum Likelihood and Bayesian Basics` (planned)
-4. `Confidence Intervals and Hypothesis Testing` (planned)
-5. `Regression and Classification Basics` (planned)
-6. `Experimental Design and Model Evaluation` (planned)
+2. [Estimation and Bias-Variance](concepts/estimation-and-bias-variance.qmd)
+3. [Maximum Likelihood and Bayesian Basics](concepts/maximum-likelihood-and-bayesian-basics.qmd)
+4. [Confidence Intervals and Hypothesis Testing](concepts/confidence-intervals-and-hypothesis-testing.qmd)
+5. [Regression and Classification Basics](concepts/regression-and-classification-basics.qmd)
+6. [Experimental Design and Model Evaluation](concepts/experimental-design-and-model-evaluation.qmd)
 
-Right now, the first page is live and the rest of the sequence is the intended statistics spine.
+The full six-page first-pass statistics spine is now live.
 
 ## Navigation Rule
 
@@ -78,11 +78,11 @@ Each concept page should be strong enough for first-pass learning on its own. An
 ## Core Concepts
 
 - [Descriptive Statistics and Data Models](concepts/descriptive-statistics-and-data-models.qmd): teaches how to identify units, variables, sample/population roles, and the right numerical or graphical summaries before making any claim.
-- `Estimation and Bias-Variance`: explains how sample-based procedures target population quantities and why accuracy has both systematic and random components.
-- `Maximum Likelihood and Bayesian Basics`: introduces two major ways to connect models, parameters, and observed data.
-- `Confidence Intervals and Hypothesis Testing`: teaches uncertainty statements and evidence-based decision procedures.
-- `Regression and Classification Basics`: turns statistical summaries into predictive and explanatory modeling.
-- `Experimental Design and Model Evaluation`: teaches how randomization, controls, splits, and metrics shape what conclusions you may trust.
+- [Estimation and Bias-Variance](concepts/estimation-and-bias-variance.qmd): explains how sample-based procedures target population quantities and why accuracy has both systematic and random components.
+- [Maximum Likelihood and Bayesian Basics](concepts/maximum-likelihood-and-bayesian-basics.qmd): introduces two major ways to connect models, parameters, and observed data.
+- [Confidence Intervals and Hypothesis Testing](concepts/confidence-intervals-and-hypothesis-testing.qmd): teaches uncertainty statements, p-values, and the basic relation between intervals and tests.
+- [Regression and Classification Basics](concepts/regression-and-classification-basics.qmd): turns statistical summaries into predictive and explanatory modeling.
+- [Experimental Design and Model Evaluation](concepts/experimental-design-and-model-evaluation.qmd): teaches how randomization, controls, splits, and metrics shape what conclusions you may trust.
 
 ## Proof Patterns In This Module
 
@@ -113,7 +113,7 @@ If the page feels slippery, revisit:
 
 ## Optional Deep Dives After First Pass
 
-Until more statistics pages are built, the strongest official deeper references are:
+Now that the full first-pass statistics spine is live, the strongest official deeper references are:
 
 - [Penn State STAT 500](https://online.stat.psu.edu/stat500/) - follow how the course moves from collecting and summarizing data into probability models and inferential procedures. Checked `2026-04-24`.
 - [MIT 18.05 Introduction to Probability and Statistics](https://ocw.mit.edu/courses/18-05-introduction-to-probability-and-statistics-spring-2022/) - watch the transition from probability foundations to statistical inference and modeling. Checked `2026-04-24`.
@@ -121,7 +121,14 @@ Until more statistics pages are built, the strongest official deeper references 
 
 ## Study Order
 
-The intended first pass is the six-step sequence above, but right now the live entry point is [Descriptive Statistics and Data Models](concepts/descriptive-statistics-and-data-models.qmd).
+The intended first pass is the six-step sequence above, and right now the first live path is:
+
+1. [Descriptive Statistics and Data Models](concepts/descriptive-statistics-and-data-models.qmd)
+2. [Estimation and Bias-Variance](concepts/estimation-and-bias-variance.qmd)
+3. [Maximum Likelihood and Bayesian Basics](concepts/maximum-likelihood-and-bayesian-basics.qmd)
+4. [Confidence Intervals and Hypothesis Testing](concepts/confidence-intervals-and-hypothesis-testing.qmd)
+5. [Regression and Classification Basics](concepts/regression-and-classification-basics.qmd)
+6. [Experimental Design and Model Evaluation](concepts/experimental-design-and-model-evaluation.qmd)
 
 You are ready to move deeper into the module when you can:
 

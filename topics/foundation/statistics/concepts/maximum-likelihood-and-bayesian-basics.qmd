@@ -1,0 +1,334 @@
+---
+title: "Maximum Likelihood and Bayesian Basics"
+description: "How likelihood connects parameters to observed data, how maximum likelihood chooses a best-fitting parameter value, and how Bayesian updating combines prior information with data through the posterior."
+page-type: concept
+status: published
+update-status: current
+level: foundation
+topic: statistics
+prerequisites:
+  - /topics/foundation/statistics/concepts/estimation-and-bias-variance.qmd
+  - /topics/foundation/probability/concepts/joint-conditional-and-bayes.qmd
+learning-goals:
+  - "Explain what a likelihood function is and what it is not."
+  - "Compute a simple maximum likelihood estimate."
+  - "Describe prior, likelihood, posterior, and posterior mean or mode in a basic Bayesian model."
+  - "Compare what MLE and Bayesian updating do with the same data."
+applications:
+  - inference
+  - machine-learning
+  - experimentation
+keywords:
+  - likelihood
+  - maximum likelihood
+  - bayesian inference
+  - posterior
+  - prior
+  - map
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/foundation/statistics/index.qmd
+  - /topics/foundation/statistics/concepts/estimation-and-bias-variance.qmd
+  - /topics/foundation/probability/concepts/joint-conditional-and-bayes.qmd
+stable-sources:
+  - "Penn State STAT 415 Lesson 1"
+  - "Penn State STAT 415 Bayesian Methods"
+  - "MIT 18.05 Bayesian Updating with Discrete Priors"
+current-sources:
+  - "MIT 18.05 Exam 2 review on MLE and Bayesian updating"
+---
+
+## Role
+
+This page introduces two major ways to build point estimates from a statistical model.
+
+Maximum likelihood starts from the observed data and asks which parameter value makes those data look most plausible. Bayesian inference adds a prior belief about the parameter and updates that belief after seeing the data.
+
+## First-Pass Promise
+
+Read this page after `Estimation and Bias-Variance`.
+
+If you stop here, you should still understand:
+
+- what a likelihood function is
+- how to form a simple maximum likelihood estimate
+- what prior, likelihood, posterior, and posterior mean or mode mean
+- how MLE and Bayesian updating answer slightly different questions
+
+## Why It Matters
+
+These two viewpoints sit underneath a huge amount of modern statistical and ML practice.
+
+They show up when you:
+
+- fit a Bernoulli success probability
+- estimate a Gaussian mean or variance
+- train models by maximizing log-likelihood
+- regularize a fit in a way that has a Bayesian interpretation
+- compare evidence from data against prior domain knowledge
+
+If you learn only the formulas, the topic feels fragmented. If you learn the shared picture, a lot of later material becomes more coherent:
+
+- `likelihood` asks how well each parameter value explains the observed data
+- `Bayes` asks how to revise a prior belief after seeing those data
+
+## Prerequisite Recall
+
+- a parameter $\theta$ is an unknown quantity indexing a probabilistic model
+- an estimator is a rule based on the sample
+- Bayes' rule updates probabilities after conditioning on observed evidence
+- for repeated Bernoulli trials, the binomial model is a natural probability model
+
+## Intuition
+
+Suppose you flip a possibly biased coin and observe data.
+
+There are at least two natural questions you could ask:
+
+1. `Which value of the bias p makes these observed flips look most plausible?`
+2. `What should I believe about p after combining the data with what I already believed?`
+
+The first question leads to maximum likelihood.
+
+The second leads to Bayesian inference.
+
+They use the same model ingredients, but the direction of interpretation is different:
+
+- the likelihood treats the data as fixed and compares parameter values
+- the posterior treats the data as observed and updates uncertainty about the parameter
+
+That distinction matters. The likelihood function is not a probability distribution over $\theta$ by itself. The posterior is.
+
+## Formal Core
+
+::: {#def-likelihood}
+## Likelihood
+
+Suppose the data are $x$ and the model has parameter $\theta$ with sampling distribution $p(x \mid \theta)$.
+
+The `likelihood function` is
+$$
+L(\theta; x) = p(x \mid \theta),
+$$
+viewed as a function of $\theta$ with the observed data $x$ held fixed.
+
+Likelihood compares how strongly different parameter values are supported by the observed data.
+:::
+
+::: {#def-mle}
+## Maximum Likelihood Estimate
+
+A `maximum likelihood estimate` (MLE) is any value $\hat{\theta}_{\mathrm{MLE}}$ satisfying
+$$
+\hat{\theta}_{\mathrm{MLE}} \in \arg\max_{\theta} L(\theta; x).
+$$
+
+Because the logarithm is monotone, the MLE can also be found by maximizing the log-likelihood
+$$
+\ell(\theta; x) = \log L(\theta; x).
+$$
+:::
+
+::: {#def-bayes}
+## Bayesian Updating
+
+In the Bayesian view, $\theta$ itself has a prior distribution $\pi(\theta)$.
+
+After observing data $x$, the posterior distribution is
+$$
+\pi(\theta \mid x)
+\propto
+p(x \mid \theta)\pi(\theta).
+$$
+
+So the posterior is proportional to:
+
+$$
+\text{likelihood} \times \text{prior}.
+$$
+
+Common Bayesian point estimates include the posterior mean and the posterior mode, also called the MAP estimate.
+:::
+
+## Worked Example
+
+Suppose $X_1,\dots,X_n$ are i.i.d. Bernoulli$(p)$ and you observe $x$ successes in $n$ trials.
+
+### Maximum Likelihood
+
+If we summarize the data by the count $x$, then the likelihood is proportional to
+$$
+L(p; x) \propto p^x(1-p)^{n-x}, \qquad 0 \le p \le 1,
+$$
+since the omitted binomial coefficient does not depend on $p$ and therefore does not change the MLE.
+
+The log-likelihood is
+$$
+\ell(p; x) = x \log p + (n-x)\log(1-p).
+$$
+
+Differentiate and set equal to zero:
+$$
+\frac{d}{dp}\ell(p; x) = \frac{x}{p} - \frac{n-x}{1-p} = 0.
+$$
+
+Solving gives
+$$
+\hat{p}_{\mathrm{MLE}} = \frac{x}{n}.
+$$
+
+So for Bernoulli data, the MLE is just the sample proportion.
+
+### Bayesian Version
+
+Now suppose the prior on $p$ is Beta$(a,b)$, with density proportional to
+$$
+p^{a-1}(1-p)^{b-1}.
+$$
+
+Multiplying prior and likelihood gives
+$$
+\pi(p \mid x)
+\propto
+p^x(1-p)^{n-x} \cdot p^{a-1}(1-p)^{b-1}
+
+=
+p^{a+x-1}(1-p)^{b+n-x-1}.
+$$
+
+So the posterior is
+$$
+p \mid x \sim \operatorname{Beta}(a+x,\; b+n-x).
+$$
+
+This is the clean first example of Bayesian updating:
+
+- the prior contributes pseudo-counts $a-1$ and $b-1$
+- the data contribute $x$ successes and $n-x$ failures
+- the posterior combines both
+
+### Concrete Numbers
+
+Suppose you observe $x=8$ successes in $n=10$ trials.
+
+- MLE:
+  $$
+  \hat{p}_{\mathrm{MLE}} = \frac{8}{10} = 0.8
+  $$
+
+If the prior is Beta$(2,2)$, then the posterior is
+$$
+\operatorname{Beta}(10,4).
+$$
+
+The posterior mean is
+$$
+\mathbb{E}[p \mid x] = \frac{10}{14} \approx 0.714.
+$$
+
+So the Bayesian estimate is pulled toward the prior center compared with the MLE.
+
+That is the whole comparison in one picture:
+
+- the MLE listens only to the observed data
+- the Bayesian estimate listens to both data and prior
+
+## Computation Lens
+
+A good workflow for simple likelihood-based estimation is:
+
+1. write down the model $p(x \mid \theta)$
+2. treat the observed data as fixed
+3. write the likelihood as a function of $\theta$
+4. simplify with the log-likelihood if needed
+5. optimize
+6. check whether the answer lies in the allowed parameter space
+
+For simple Bayesian updating:
+
+1. choose a prior $\pi(\theta)$
+2. write the likelihood
+3. multiply prior and likelihood
+4. identify the posterior shape up to normalization
+5. extract a posterior summary such as mean, mode, or interval
+
+## Application Lens
+
+These ideas connect directly to modern practice:
+
+- many supervised learning models are trained by maximizing log-likelihood or an equivalent loss
+- MAP estimation often looks like likelihood plus regularization
+- Bayesian updating appears when prior structure matters, data are scarce, or uncertainty reporting is central
+- model comparison, calibration, and probabilistic prediction all inherit this likelihood/posterior language
+
+So even in advanced workflows, the underlying first-pass questions stay the same:
+
+- what does the data-fitting term want?
+- what does the prior or regularizer want?
+- how much are they pulling against each other?
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- what a likelihood function is
+- why likelihood is not itself a probability distribution over the parameter
+- how to derive the Bernoulli MLE
+- how prior and likelihood combine into a posterior
+
+then this page has done its main job.
+
+## Go Deeper
+
+The most useful next steps after this page are:
+
+1. [Confidence Intervals and Hypothesis Testing](confidence-intervals-and-hypothesis-testing.qmd), to move from point estimates to uncertainty statements and decisions
+2. [Estimation and Bias-Variance](estimation-and-bias-variance.qmd) if you want to compare MLE or Bayesian estimates through error criteria
+3. [Joint, Conditional, and Bayes](../../probability/concepts/joint-conditional-and-bayes.qmd) if the conditioning viewpoint still feels shaky
+
+## Optional Paper Bridge
+
+- [Penn State STAT 415 Lesson 1: Point Estimation](https://online.stat.psu.edu/stat415/lesson/1) - `First pass` - official mathematical-statistics treatment introducing maximum likelihood as a central point-estimation method. Checked `2026-04-24`.
+- [MIT 18.05 Bayesian Updating with Discrete Priors](https://ocw.mit.edu/courses/18-05-introduction-to-probability-and-statistics-spring-2022/mit18_05_s22_statistics.pdf) - `Second pass` - official MIT notes showing Bayes tables, posterior updates, and the contrast with MLE. Checked `2026-04-24`.
+- [Penn State STAT 415 Bayesian Methods](https://online.stat.psu.edu/stat415/section/9) - `Second pass` - official source for the posterior-as-update viewpoint and Bayesian point estimation. Checked `2026-04-24`.
+
+## Optional After First Pass
+
+If you want more practice before moving on:
+
+- derive the MLE for a Gaussian mean with known variance
+- compare a posterior mean with a posterior mode in a simple Beta-Binomial model
+- identify a regularized ML objective and ask what prior it corresponds to
+
+## Common Mistakes
+
+- treating the likelihood as a probability distribution over $\theta$
+- forgetting that the data are fixed when viewing the likelihood as a function of the parameter
+- thinking MLE and Bayes must give the same answer
+- using Bayes' rule without identifying the prior and posterior objects clearly
+- forgetting that different Bayesian point summaries can give different estimates
+
+## Exercises
+
+1. For Bernoulli data with $x$ successes in $n$ trials, write the likelihood and derive the MLE.
+2. If the prior is Beta$(1,1)$ and the data are $x=3$ successes in $n=5$ trials, what is the posterior distribution?
+3. In words, explain one reason a Bayesian estimate might differ from the MLE on a small dataset.
+
+## Sources and Further Reading
+
+- [Penn State STAT 415 Lesson 1: Point Estimation](https://online.stat.psu.edu/stat415/lesson/1) - `First pass` - official source introducing MLE as a principled point-estimation method. Checked `2026-04-24`.
+- [Penn State STAT 415 Bayesian Methods](https://online.stat.psu.edu/stat415/section/9) - `Second pass` - official introduction to posterior-based estimation and Bayesian updating. Checked `2026-04-24`.
+- [MIT 18.05 Introduction to Statistics](https://ocw.mit.edu/courses/18-05-introduction-to-probability-and-statistics-spring-2022/mit18_05_s22_statistics.pdf) - `Second pass` - official MIT reading with clear examples contrasting MLE and Bayesian updating. Checked `2026-04-24`.
+- [MIT 18.05 Exam 2 review: MLE and Bayesian updating](https://ocw.mit.edu/courses/18-05-introduction-to-probability-and-statistics-spring-2022/mit18_05_s22_exam2_rev_pset.pdf) - `Paper bridge` - concise official review sheet showing the computational patterns for MLE, conjugate priors, and MAP-style thinking. Checked `2026-04-24`.
+
+Sources checked online on `2026-04-24`:
+
+- Penn State STAT 415 Lesson 1
+- Penn State STAT 415 Bayesian Methods
+- MIT 18.05 Introduction to Statistics
+- MIT 18.05 Exam 2 review

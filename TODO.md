@@ -17,9 +17,9 @@ Use it to track:
 
 ## Current Snapshot
 
-- `70` `.qmd` pages currently exist
-- `19` concept-topic pages currently exist
-- strongest subjects so far: `Linear Algebra`, `Probability`, `Proofs`
+- `75` `.qmd` pages currently exist
+- `24` concept-topic pages currently exist
+- strongest subjects so far: `Linear Algebra`, `Probability`, `Proofs`, `Statistics`
 - non-topic sections already scaffolded: `Start Here`, `Roadmaps`, `Applications`, `Paper Lab`, `Research`, `Publication`, `Library`, `Notes`
 
 ## Site Sections
@@ -210,11 +210,11 @@ These are not required before the main spine is public, but they are the next hi
 
 - [x] `Statistics index`
 - [x] `Descriptive statistics and data models`
-- [ ] `Estimation and bias-variance`
-- [ ] `Maximum likelihood and Bayesian basics`
-- [ ] `Confidence intervals and hypothesis testing`
-- [ ] `Regression and classification basics`
-- [ ] `Experimental design and model evaluation`
+- [x] `Estimation and bias-variance`
+- [x] `Maximum likelihood and Bayesian basics`
+- [x] `Confidence intervals and hypothesis testing`
+- [x] `Regression and classification basics`
+- [x] `Experimental design and model evaluation`
 
 ## Advanced
 
@@ -304,8 +304,9 @@ These are the topics that should eventually become canonical examples for future
 - [~] `Joint, conditional, and Bayes`
 - [~] `Law of large numbers and CLT`
 - [~] `Concentration and common inequalities`
-- [ ] `Maximum likelihood and Bayesian basics`
-- [ ] `Regression and classification basics`
+- [~] `Maximum likelihood and Bayesian basics`
+- [~] `Regression and classification basics`
+- [~] `Experimental design and model evaluation`
 - [ ] `Partial derivatives and gradients`
 - [ ] `Jacobians and Hessians`
 - [ ] `Constrained optimization, KKT, and Lagrangians`
@@ -314,12 +315,12 @@ These are the topics that should eventually become canonical examples for future
 
 Near-term highest-value content steps:
 
-1. [ ] `Estimation and bias-variance`
-2. [ ] `Maximum likelihood and Bayesian basics`
-3. [ ] `Confidence intervals and hypothesis testing`
-4. [ ] `Logic module: propositional logic`
-5. [ ] `Render and visually QA the proofs and statistics modules locally`
-6. [ ] `Regression and classification basics`
+1. [ ] `Logic module: propositional logic`
+2. [ ] `Render and visually QA the proofs and statistics modules locally`
+3. [ ] `Machine learning applications index`
+4. [ ] `Applications: optimization and inference`
+5. [ ] `Commit and push the current statistics module additions`
+6. [ ] `Start logic module: predicate logic after propositional logic`
 
 ## Work Outside Topic Content
 
@@ -364,6 +365,6 @@ Yes, there is important work outside topic writing.
 
 ## Notes
 
-- Current content momentum is strongest in `Linear Algebra`, `Probability`, and `Proofs`.
-- The next subject most worth strengthening is `Statistics`.
+- Current content momentum is strongest in `Linear Algebra`, `Probability`, `Proofs`, and `Statistics`.
+- The next subject most worth strengthening is `Logic`.
 - The next non-content task most worth doing is a `local render + visual QA pass`.
