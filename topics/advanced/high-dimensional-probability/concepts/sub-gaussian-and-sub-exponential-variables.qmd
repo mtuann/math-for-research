@@ -1,0 +1,291 @@
+---
+title: "Sub-Gaussian and Sub-Exponential Variables"
+description: "How tail classes give reusable non-asymptotic control for sums, maxima, norms, and random matrix arguments."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: high-dimensional-probability
+prerequisites:
+  - /topics/advanced/high-dimensional-probability/concepts/concentration-beyond-basics.qmd
+  - /topics/foundation/probability/index.qmd
+  - /topics/foundation/linear-algebra/index.qmd
+learning-goals:
+  - "Understand why sub-Gaussian and sub-exponential classes are more reusable than memorizing isolated inequalities."
+  - "Recognize the qualitative tail behavior of sub-Gaussian versus sub-exponential variables."
+  - "See why sums, maxima, and norm bounds are often phrased through these tail classes."
+  - "Understand how these notions prepare the way for random vectors and random matrices."
+applications:
+  - machine-learning-theory
+  - high-dimensional-statistics
+  - random-matrices
+keywords:
+  - sub-gaussian
+  - sub-exponential
+  - tails
+  - concentration
+  - Orlicz norm
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/high-dimensional-probability/index.qmd
+  - /topics/advanced/high-dimensional-probability/concepts/concentration-beyond-basics.qmd
+  - /topics/advanced/learning-theory/concepts/rademacher-complexity-and-data-dependent-capacity.qmd
+stable-sources:
+  - "UCI High-Dimensional Probability course"
+  - "Vershynin, High-Dimensional Probability"
+  - "Stanford STATS214 / CS229M Machine Learning Theory"
+current-sources:
+  - "UCI High-Dimensional Probability course page"
+  - "High-Dimensional Probability PDF chapter"
+  - "High-Dimensional Probability book page"
+---
+
+## Role
+
+This is the second page of the `High-Dimensional Probability` module.
+
+The first page introduced the non-asymptotic concentration mindset.
+
+This page introduces two tail classes that make that mindset reusable:
+
+- `sub-Gaussian`
+- `sub-exponential`
+
+Instead of remembering many unrelated inequalities one by one, you now get a language for saying what kind of tails a random quantity has and what sorts of concentration behavior should follow.
+
+## First-Pass Promise
+
+Read this page after `Concentration Beyond Basics`.
+
+If you stop here, you should still understand:
+
+- what sub-Gaussian and sub-exponential variables mean at a first pass
+- how their tails differ
+- why these classes appear constantly in modern concentration arguments
+- why they are the bridge from scalar concentration to vectors, matrices, and empirical processes
+
+## Why It Matters
+
+Modern high-dimensional arguments need a reusable way to say:
+
+- this random quantity has Gaussian-like tails
+- this one has slightly heavier, but still well-controlled, tails
+- sums or maxima of these quantities can still be handled uniformly
+
+That is exactly what tail classes do.
+
+They package concentration behavior into stable objects that can be moved from one proof to another.
+
+This is why modern papers often say things like:
+
+- “assume the coordinates are sub-Gaussian”
+- “the noise is sub-exponential”
+- “the rows are isotropic and sub-Gaussian”
+
+Those phrases are not decoration. They summarize the deviation behavior needed for the proof.
+
+## Prerequisite Recall
+
+- concentration bounds are used in non-asymptotic form, with explicit dependence on `n`, `d`, and `\delta`
+- maxima and simultaneous control often create logarithmic dimension terms
+- the next step is to classify random variables by tail behavior instead of treating each inequality in isolation
+
+## Intuition
+
+### Sub-Gaussian
+
+A sub-Gaussian random variable has tails that decay like a Gaussian, up to constants.
+
+At a first pass, think:
+
+`Gaussian-like tail decay, stable concentration, good behavior under averaging`
+
+Examples include:
+
+- centered bounded random variables
+- Gaussian variables themselves
+- many linear functionals of well-behaved random vectors
+
+### Sub-Exponential
+
+A sub-exponential random variable has heavier tails than a sub-Gaussian one, but still decays fast enough to support useful non-asymptotic bounds.
+
+At a first pass, think:
+
+`heavier than Gaussian, but still exponentially controlled`
+
+This class often appears when you square a sub-Gaussian quantity, or when a proof naturally produces products or quadratic forms.
+
+### Why The Distinction Matters
+
+Sub-Gaussian variables often lead to concentration with deviation scale like
+
+$$
+\sqrt{\frac{\log(1/\delta)}{n}},
+$$
+
+while sub-exponential variables often introduce a two-regime behavior:
+
+- sub-Gaussian-like for smaller deviations
+- linear/exponential-type behavior for larger deviations
+
+That difference matters once proofs start mixing sums, maxima, and matrix-valued quantities.
+
+## Formal Core
+
+::: {#def-subgaussian}
+## Definition: Sub-Gaussian Tail Behavior
+
+A centered random variable $X$ is `sub-Gaussian` if its tails satisfy a bound of the form
+
+$$
+\mathbb P(|X|\ge t)\le 2e^{-ct^2/K^2}
+$$
+
+for all $t\ge 0$, with constants $c>0$ and scale parameter $K$.
+:::
+
+At first pass, the exact equivalent definitions are less important than the message:
+
+- tails decay like $e^{-t^2}$
+- concentration is strong
+- many bounded or Gaussian-like variables fall into this class
+
+::: {#def-subexponential}
+## Definition: Sub-Exponential Tail Behavior
+
+A centered random variable $X$ is `sub-exponential` if its tails satisfy a bound of the form
+
+$$
+\mathbb P(|X|\ge t)\le 2\exp\!\left(
+-c\min\left\{\frac{t^2}{K^2},\frac{t}{K}\right\}
+\right)
+$$
+
+for all $t\ge 0$, with constants $c>0$ and scale parameter $K$.
+:::
+
+At first pass, the key contrast is:
+
+- sub-Gaussian tails behave like $e^{-t^2}$
+- sub-exponential tails behave more like $e^{-t}$
+
+::: {#thm-sum-subgaussian}
+## Theorem Idea: Averages Of Sub-Gaussian Variables Concentrate Well
+
+If $X_1,\dots,X_n$ are independent centered sub-Gaussian variables with common scale parameter $K$, then their empirical average satisfies a sub-Gaussian-type deviation bound.
+
+So with probability at least $1-\delta$,
+
+$$
+\left|
+\frac{1}{n}\sum_{i=1}^n X_i
+\right|
+\lesssim
+K\sqrt{\frac{\log(1/\delta)}{n}}.
+$$
+:::
+
+::: {#thm-square-subgaussian}
+## Theorem Idea: Squaring Produces Sub-Exponential Behavior
+
+If $X$ is sub-Gaussian, then $X^2$ is typically sub-exponential after centering.
+
+That is one reason sub-exponential variables appear so often in covariance, norm, and quadratic-form arguments.
+:::
+
+## Worked Example
+
+Suppose $X_1,\dots,X_n$ are independent centered random variables with values in $[-1,1]$.
+
+From a first-pass viewpoint, boundedness already implies sub-Gaussian behavior.
+
+That means the empirical average
+
+$$
+\frac{1}{n}\sum_{i=1}^n X_i
+$$
+
+inherits strong concentration, so at confidence level $1-\delta$ its deviation is on the order of
+
+$$
+\sqrt{\frac{\log(1/\delta)}{n}}.
+$$
+
+Now look instead at the squared variables $X_i^2$.
+
+These no longer behave like centered Gaussian tails in the same way. They fit more naturally into a sub-exponential picture.
+
+This is the first useful transition:
+
+- raw variables may be sub-Gaussian
+- quadratic quantities built from them are often sub-exponential
+
+That is exactly the pattern that later reappears in covariance estimation, random matrix bounds, and norm concentration.
+
+## Computation Lens
+
+When reading a high-dimensional proof, a very common workflow is:
+
+1. identify the random quantity
+2. ask whether it is sub-Gaussian or sub-exponential
+3. choose the right concentration tool for sums, maxima, or matrix lifts
+
+That is why these tail classes save effort. They compress many proof choices into one line of structural information.
+
+## Application Lens
+
+### Learning Theory
+
+Generalization arguments often assume feature vectors, losses, or gradients have sub-Gaussian-type tails, because this gives finite-sample concentration with explicit confidence dependence.
+
+### High-Dimensional Statistics
+
+Covariance estimation, regression with random design, and effective-rank arguments often move from sub-Gaussian vectors to sub-exponential quadratic forms.
+
+### Random Matrices
+
+Many random-matrix results start with rows or entries that are sub-Gaussian. The spectral conclusions then depend on lifting scalar tail control to matrix norms.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- how sub-Gaussian tails differ from sub-exponential tails
+- why bounded variables are often treated as sub-Gaussian
+- why squared or quadratic quantities often become sub-exponential
+- why these tail classes are more reusable than memorizing isolated inequalities
+
+then this page has done its job.
+
+## Go Deeper
+
+After this page, the next natural step is:
+
+- [Random Vectors, Isotropy, and Norms](random-vectors-isotropy-and-norms.qmd)
+
+The current best adjacent live pages are:
+
+- [Concentration Beyond Basics](concentration-beyond-basics.qmd)
+- [Random Vectors, Isotropy, and Norms](random-vectors-isotropy-and-norms.qmd)
+- [Rademacher Complexity and Data-Dependent Capacity](../../learning-theory/concepts/rademacher-complexity-and-data-dependent-capacity.qmd)
+- [Theorem Families](../../../../research/theorem-families.qmd)
+
+## Optional Deeper Reading After First Pass
+
+The strongest current references connected to this page are:
+
+- [UCI High-Dimensional Probability course](https://www.math.uci.edu/~rvershyn/teaching/hdp/hdp.html) - official current course page for the subject arc. Checked `2026-04-25`.
+- [High-Dimensional Probability PDF chapter](https://www.math.uci.edu/~rvershyn/papers/HDP-book/HDP-1.pdf) - official PDF chapter developing sub-Gaussian and sub-exponential language. Checked `2026-04-25`.
+- [High-Dimensional Probability book page](https://www.math.uci.edu/~rvershyn/papers/HDP-book/HDP-book.html) - official book hub for deeper follow-up. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [UCI High-Dimensional Probability course](https://www.math.uci.edu/~rvershyn/teaching/hdp/hdp.html) - `First pass` - official current course page for the full subject toolkit. Checked `2026-04-25`.
+- [High-Dimensional Probability PDF chapter](https://www.math.uci.edu/~rvershyn/papers/HDP-book/HDP-1.pdf) - `First pass` - official PDF chapter introducing sub-Gaussian and sub-exponential thinking. Checked `2026-04-25`.
+- [High-Dimensional Probability book page](https://www.math.uci.edu/~rvershyn/papers/HDP-book/HDP-book.html) - `Second pass` - official book hub for stronger depth and later chapters. Checked `2026-04-25`.

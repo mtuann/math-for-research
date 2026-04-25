@@ -17,8 +17,8 @@ Use it to track:
 
 ## Current Snapshot
 
-- `172` `.qmd` pages currently exist
-- `57` concept-topic pages currently exist
+- `179` `.qmd` pages currently exist
+- `63` concept-topic pages currently exist
 - strongest subjects so far: `Linear Algebra`, `Probability`, `Proofs`, `Logic`, `Statistics`, `Single-Variable Calculus`, `Multivariable Calculus`, `Optimization`, `Real Analysis`
 - strongest public-facing bridge so far: `Applications > Machine Learning`
 - non-topic sections already scaffolded: `Start Here`, `Roadmaps`, `Applications`, `Paper Lab`, `Research`, `Publication`, `Library`, `Notes`
@@ -289,11 +289,13 @@ These are not required before the main spine is public, but they are the next hi
 
 ### High-Dimensional Probability
 
-- [ ] `Concentration beyond basics`
-- [ ] `Sub-Gaussian and sub-exponential variables`
-- [ ] `Random vectors and norms`
-- [ ] `Random matrices`
-- [ ] `High-dimensional phenomena`
+- [x] `High-Dimensional Probability index`
+- [x] `Concentration beyond basics`
+- [x] `Sub-Gaussian and sub-exponential variables`
+- [x] `Random vectors, isotropy, and norms`
+- [x] `Random matrices and spectral concentration`
+- [x] `High-dimensional phenomena`
+- [x] `High-dimensional probability for learning theory and modern ML`
 
 ### High-Dimensional Statistics
 

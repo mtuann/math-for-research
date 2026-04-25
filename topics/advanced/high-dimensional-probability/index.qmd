@@ -1,0 +1,188 @@
+---
+title: "High-Dimensional Probability"
+description: "Non-asymptotic probability tools for concentration, random vectors, random matrices, and modern ML theory."
+page-type: module-overview
+status: published
+update-status: current
+level: advanced
+topic: high-dimensional-probability
+prerequisites:
+  - /topics/foundation/probability/index.qmd
+  - /topics/foundation/linear-algebra/index.qmd
+learning-goals:
+  - "Understand why high-dimensional probability shifts from asymptotic slogans to non-asymptotic concentration tools."
+  - "Know the intended first-pass order for the high-dimensional-probability module."
+  - "Connect concentration, random vectors, and random matrices to learning theory and modern ML."
+applications:
+  - machine-learning-theory
+  - high-dimensional-statistics
+  - random-matrices
+keywords:
+  - high-dimensional probability
+  - concentration
+  - sub-gaussian
+  - random matrices
+  - isotropy
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+stable-sources:
+  - "UCI High-Dimensional Probability course"
+  - "Vershynin, High-Dimensional Probability"
+  - "Stanford STATS214 / CS229M Machine Learning Theory"
+current-sources:
+  - "UCI High-Dimensional Probability course page"
+  - "High-Dimensional Probability book page"
+  - "High-Dimensional Probability PDF chapter"
+---
+
+## Why This Module Matters
+
+Classical probability teaches laws of large numbers, central limits, conditioning, and a few standard concentration inequalities.
+
+High-dimensional probability changes the style of the questions.
+
+Now the objects are often:
+
+- vectors with many coordinates
+- random matrices
+- suprema over large classes
+- norms, operator norms, and spectral quantities
+- events whose probability must stay useful even when dimension grows
+
+That is why modern papers often speak in non-asymptotic language:
+
+- `with probability at least 1-\delta`
+- `up to constants`
+- `scales like \sqrt{\log d / n}`
+- `operator norm`
+- `sub-Gaussian` or `sub-exponential`
+
+This module is the bridge from ordinary probability intuition to that research-facing language.
+
+::: {.meta-strip}
+::: {.meta-box}
+**Prerequisites**
+[Probability](../../foundation/probability/index.qmd) and [Linear Algebra](../../foundation/linear-algebra/index.qmd) should come first. [Real Analysis](../real-analysis/index.qmd) helps with rigor and convergence language. [Learning Theory](../learning-theory/index.qmd) is not strictly required to start, but it makes the motivation much clearer.
+:::
+::: {.meta-box}
+**Unlocks**
+Random matrix bounds, high-dimensional statistics, sharper learning-theory arguments, modern concentration language
+:::
+::: {.meta-box}
+**Research Use**
+Reading papers that use sub-Gaussian tails, spectral concentration, norm concentration, covering arguments, or dimension-dependent sample complexity
+:::
+:::
+
+## First Pass Through This Module
+
+The intended first-pass spine for this module is:
+
+1. [Concentration Beyond Basics](concepts/concentration-beyond-basics.qmd)
+2. [Sub-Gaussian and Sub-Exponential Variables](concepts/sub-gaussian-and-sub-exponential-variables.qmd)
+3. [Random Vectors, Isotropy, and Norms](concepts/random-vectors-isotropy-and-norms.qmd)
+4. [Random Matrices and Spectral Concentration](concepts/random-matrices-and-spectral-concentration.qmd)
+5. [High-Dimensional Phenomena](concepts/high-dimensional-phenomena.qmd)
+6. [High-Dimensional Probability for Learning Theory and Modern ML](concepts/high-dimensional-probability-for-learning-theory-and-modern-ml.qmd)
+
+This six-page first-pass spine is now complete, so the full path from scalar concentration to vectors, matrices, geometry, and then theory-facing ML motivation is in place.
+
+## How To Use This Module
+
+Read this module in spine order.
+
+The default reading path is:
+
+1. start with [Concentration Beyond Basics](concepts/concentration-beyond-basics.qmd)
+2. continue to [Sub-Gaussian and Sub-Exponential Variables](concepts/sub-gaussian-and-sub-exponential-variables.qmd)
+3. continue to [Random Vectors, Isotropy, and Norms](concepts/random-vectors-isotropy-and-norms.qmd)
+4. continue to [Random Matrices and Spectral Concentration](concepts/random-matrices-and-spectral-concentration.qmd)
+5. continue to [High-Dimensional Phenomena](concepts/high-dimensional-phenomena.qmd)
+6. continue to [High-Dimensional Probability for Learning Theory and Modern ML](concepts/high-dimensional-probability-for-learning-theory-and-modern-ml.qmd)
+7. use nearby live pages in [Probability](../../foundation/probability/index.qmd), [Linear Algebra](../../foundation/linear-algebra/index.qmd), and [Learning Theory](../learning-theory/index.qmd) whenever the page talks about norms, tails, or generalization
+
+The module should stay focused on a compact non-asymptotic toolkit rather than becoming an encyclopedia of every modern probability topic.
+
+## Core Concepts
+
+- [Concentration Beyond Basics](concepts/concentration-beyond-basics.qmd): the opening page that explains the non-asymptotic concentration mindset and why high-dimensional work cares about simultaneous control.
+- [Sub-Gaussian and Sub-Exponential Variables](concepts/sub-gaussian-and-sub-exponential-variables.qmd): the page where tail classes become reusable tools rather than isolated examples.
+- [Random Vectors, Isotropy, and Norms](concepts/random-vectors-isotropy-and-norms.qmd): the page where scalar tails grow into vector geometry.
+- [Random Matrices and Spectral Concentration](concepts/random-matrices-and-spectral-concentration.qmd): the page where operator norms and eigenvalue control become central.
+- [High-Dimensional Phenomena](concepts/high-dimensional-phenomena.qmd): the page where concentration and geometry explain effects that feel counterintuitive from low-dimensional intuition.
+- [High-Dimensional Probability for Learning Theory and Modern ML](concepts/high-dimensional-probability-for-learning-theory-and-modern-ml.qmd): the bridge page back into the site's theory-facing ML layer.
+
+## Proof Patterns In This Module
+
+- `Tail to confidence`: convert a tail inequality into a usable high-probability statement at confidence level $\delta$.
+- `Simultaneous control`: move from one scalar quantity to maxima, norms, or whole classes of quantities.
+- `Geometry through randomness`: use concentration to understand vectors, matrices, and random operators.
+
+## Applications
+
+### Learning Theory And Generalization
+
+Many modern bounds depend on concentration beyond the scalar LLN/CLT level: suprema, norms, random features, random matrices, and data-dependent complexity all live here.
+
+### High-Dimensional Statistics
+
+Covariance estimation, sparse recovery, random design regression, and effective dimension arguments all rely on high-dimensional probability language.
+
+## Go Deeper By Topic
+
+The main starting path is:
+
+1. [Concentration Beyond Basics](concepts/concentration-beyond-basics.qmd)
+2. [Sub-Gaussian and Sub-Exponential Variables](concepts/sub-gaussian-and-sub-exponential-variables.qmd)
+3. [Random Vectors, Isotropy, and Norms](concepts/random-vectors-isotropy-and-norms.qmd)
+4. [Random Matrices and Spectral Concentration](concepts/random-matrices-and-spectral-concentration.qmd)
+5. [High-Dimensional Phenomena](concepts/high-dimensional-phenomena.qmd)
+6. [High-Dimensional Probability for Learning Theory and Modern ML](concepts/high-dimensional-probability-for-learning-theory-and-modern-ml.qmd)
+
+The strongest adjacent live pages right now are:
+
+- [Probability](../../foundation/probability/index.qmd)
+- [Learning Theory](../learning-theory/index.qmd)
+- [Regularization, Implicit Bias, and Model Complexity](../../../applications/machine-learning/regularization-implicit-bias-and-model-complexity.qmd)
+- [Theorem Families](../../../research/theorem-families.qmd)
+
+## Optional Deeper Reading After First Pass
+
+The strongest current references connected to this module are:
+
+- [UCI High-Dimensional Probability course](https://www.math.uci.edu/~rvershyn/teaching/hdp/hdp.html) - official current course page covering concentration, random vectors, and random matrices. Checked `2026-04-25`.
+- [High-Dimensional Probability book page](https://www.math.uci.edu/~rvershyn/papers/HDP-book/HDP-book.html) - official book hub for Vershynin's text. Checked `2026-04-25`.
+- [High-Dimensional Probability PDF chapter](https://www.math.uci.edu/~rvershyn/papers/HDP-book/HDP-1.pdf) - official current PDF chapter with opening concentration and geometry material. Checked `2026-04-25`.
+- [Stanford STATS214 / CS229M: Machine Learning Theory](https://web.stanford.edu/class/stats214/) - current official theory course page showing where concentration and modern probability plug into ML theory. Checked `2026-04-25`.
+
+## Study Order
+
+For the current module state, read:
+
+1. [Concentration Beyond Basics](concepts/concentration-beyond-basics.qmd)
+2. [Sub-Gaussian and Sub-Exponential Variables](concepts/sub-gaussian-and-sub-exponential-variables.qmd)
+3. [Random Vectors, Isotropy, and Norms](concepts/random-vectors-isotropy-and-norms.qmd)
+4. [Random Matrices and Spectral Concentration](concepts/random-matrices-and-spectral-concentration.qmd)
+5. [High-Dimensional Phenomena](concepts/high-dimensional-phenomena.qmd)
+6. [High-Dimensional Probability for Learning Theory and Modern ML](concepts/high-dimensional-probability-for-learning-theory-and-modern-ml.qmd)
+
+before trying to read random-matrix or high-dimensional-statistics papers cold.
+
+You are ready to move deeper into this module when you can:
+
+- explain why high-dimensional work prefers non-asymptotic probability statements
+- explain why maxima and simultaneous coordinate control often introduce $\log d$-type terms
+- explain why norms and matrix quantities bring their own geometry-sensitive scales
+- translate a tail bound into a confidence-level statement
+- explain why dimension changes what “small deviation” means
+
+## Sources and Further Reading
+
+- [UCI High-Dimensional Probability course](https://www.math.uci.edu/~rvershyn/teaching/hdp/hdp.html) - `First pass` - official current course page for the full module's toolkit. Checked `2026-04-25`.
+- [High-Dimensional Probability book page](https://www.math.uci.edu/~rvershyn/papers/HDP-book/HDP-book.html) - `First pass` - official book hub for a modern non-asymptotic route through the subject. Checked `2026-04-25`.
+- [High-Dimensional Probability PDF chapter](https://www.math.uci.edu/~rvershyn/papers/HDP-book/HDP-1.pdf) - `First pass` - official PDF chapter with concentration and high-dimensional geometry intuition. Checked `2026-04-25`.
+- [Stanford STATS214 / CS229M: Machine Learning Theory](https://web.stanford.edu/class/stats214/) - `Second pass` - official ML theory course page showing how this module supports modern learning-theory reading. Checked `2026-04-25`.

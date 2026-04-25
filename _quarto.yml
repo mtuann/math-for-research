@@ -145,6 +145,15 @@ website:
               - topics/advanced/learning-theory/concepts/rademacher-complexity-and-data-dependent-capacity.qmd
               - topics/advanced/learning-theory/concepts/algorithmic-stability-and-regularization.qmd
               - topics/advanced/learning-theory/concepts/generalization-in-modern-regimes.qmd
+          - section: "High-Dimensional Probability"
+            contents:
+              - topics/advanced/high-dimensional-probability/index.qmd
+              - topics/advanced/high-dimensional-probability/concepts/concentration-beyond-basics.qmd
+              - topics/advanced/high-dimensional-probability/concepts/sub-gaussian-and-sub-exponential-variables.qmd
+              - topics/advanced/high-dimensional-probability/concepts/random-vectors-isotropy-and-norms.qmd
+              - topics/advanced/high-dimensional-probability/concepts/random-matrices-and-spectral-concentration.qmd
+              - topics/advanced/high-dimensional-probability/concepts/high-dimensional-phenomena.qmd
+              - topics/advanced/high-dimensional-probability/concepts/high-dimensional-probability-for-learning-theory-and-modern-ml.qmd
       - section: "Research Workflow"
         contents:
           - applications/index.qmd

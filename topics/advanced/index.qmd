@@ -19,6 +19,7 @@ The advanced track is where the site moves into:
 - [Real Analysis](real-analysis/index.qmd)
 - [Optimization](optimization/index.qmd)
 - [Learning Theory](learning-theory/index.qmd)
+- [High-Dimensional Probability](high-dimensional-probability/index.qmd)
 
 ## Real Analysis
 
@@ -62,9 +63,23 @@ Its current live opening is:
 
 This module is where the site turns empirical risk, population risk, hypothesis classes, and generalization into explicit mathematical objects.
 
+## High-Dimensional Probability
+
+[High-Dimensional Probability](high-dimensional-probability/index.qmd) is the next theory-facing layer after classical probability and learning theory.
+
+Its current live opening is:
+
+- [Concentration Beyond Basics](high-dimensional-probability/concepts/concentration-beyond-basics.qmd)
+- [Sub-Gaussian and Sub-Exponential Variables](high-dimensional-probability/concepts/sub-gaussian-and-sub-exponential-variables.qmd)
+- [Random Vectors, Isotropy, and Norms](high-dimensional-probability/concepts/random-vectors-isotropy-and-norms.qmd)
+- [Random Matrices and Spectral Concentration](high-dimensional-probability/concepts/random-matrices-and-spectral-concentration.qmd)
+- [High-Dimensional Phenomena](high-dimensional-probability/concepts/high-dimensional-phenomena.qmd)
+- [High-Dimensional Probability for Learning Theory and Modern ML](high-dimensional-probability/concepts/high-dimensional-probability-for-learning-theory-and-modern-ml.qmd)
+
+This module is where the site shifts from scalar probability intuition to non-asymptotic control of maxima, norms, random vectors, and random matrices.
+
 ## Planned Next Advanced Modules
 
 - `Numerical Methods`
 - `Matrix Analysis`
-- `High-Dimensional Probability`
 - `High-Dimensional Statistics`
