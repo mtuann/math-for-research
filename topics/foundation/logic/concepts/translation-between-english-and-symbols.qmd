@@ -1,0 +1,319 @@
+---
+title: "Translation Between English and Symbols"
+description: "How to move carefully between natural-language statements and symbolic logic without losing quantifier scope, implication structure, or the intended meaning."
+page-type: concept
+status: published
+update-status: current
+level: foundation
+topic: logic
+prerequisites:
+  - /topics/foundation/logic/concepts/sets-functions-and-relations.qmd
+  - /topics/foundation/proofs/concepts/statements-and-quantifiers.qmd
+learning-goals:
+  - "Translate short English mathematical statements into symbolic logic."
+  - "Translate symbolic formulas back into clear English."
+  - "Track domain, quantifier scope, implication structure, and uniqueness claims."
+  - "Avoid the most common translation mistakes in theorem reading."
+applications:
+  - theorem-reading
+  - specification-writing
+  - formal-verification
+keywords:
+  - translation
+  - quantifiers
+  - theorem statements
+  - symbolic logic
+  - formalization
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/foundation/logic/index.qmd
+  - /topics/foundation/logic/concepts/predicate-logic.qmd
+  - /topics/foundation/logic/concepts/sets-functions-and-relations.qmd
+  - /topics/foundation/proofs/concepts/statements-and-quantifiers.qmd
+stable-sources:
+  - "Stanford CS103"
+  - "MIT Mathematics for Computer Science"
+  - "CMU OLI Logic & Proofs"
+current-sources:
+  - "MIT 6.1200J problem sets"
+---
+
+## Role
+
+This page is the practical capstone of the first-pass logic module.
+
+It teaches how to translate between ordinary mathematical English and symbolic statements without distorting meaning.
+
+## First-Pass Promise
+
+Read this page after [Sets, Functions, and Relations](sets-functions-and-relations.qmd).
+
+If you stop here, you should still understand:
+
+- how to choose a domain and predicates before writing symbols
+- how to translate `if`, `only if`, `for every`, and `there exists`
+- how to read a symbolic formula back into clean English
+- how to avoid common scope and wording mistakes
+
+## Why It Matters
+
+A lot of difficulty in theorem reading is not advanced mathematics. It is failed translation.
+
+People often know the words individually, but the meaning breaks because of:
+
+- hidden quantifiers
+- misplaced implication
+- unclear domains
+- confusing `if` with `only if`
+- forgetting when a witness depends on a variable
+
+This is why the same theorem can look impossible in prose and almost obvious once translated carefully.
+
+In CS and AI, the same skill also matters in specifications, constraints, invariants, and correctness conditions. A vague sentence is not enough. It has to survive formalization.
+
+## Prerequisite Recall
+
+- predicate logic adds domains, predicates, and quantifiers
+- relations and functions give names to common mathematical structures
+- negation and equivalence help expose the real failure case of a statement
+
+## Intuition
+
+Translation is not word-for-word replacement.
+
+It is a modeling task:
+
+1. choose the domain
+2. choose the predicates or relations
+3. identify the logical skeleton
+4. write the statement with the correct scope
+
+Then, when reading symbols back into English, the goal is not to paraphrase loosely. The goal is to preserve meaning while making the structure readable.
+
+Good translation always answers:
+
+- what objects are being quantified over?
+- what depends on what?
+- what is assumed, and what is concluded?
+- what would it mean for the statement to fail?
+
+## Formal Core
+
+::: {#def-translation-principle}
+## Translation Principle
+
+To translate a sentence into symbolic logic:
+
+1. specify the domain
+2. define predicates, relations, or functions
+3. identify whether the sentence is universal, existential, conditional, or biconditional
+4. write the formula with explicit grouping and quantifier scope
+
+To translate symbols back into English:
+
+1. read quantifiers first
+2. identify the main connective
+3. keep the dependence structure visible
+4. avoid adding meaning that is not in the formula
+:::
+
+::: {#prop-common-language-patterns}
+## Common Language Patterns
+
+Some common translations are:
+
+$$
+\text{for every } x \quad \longleftrightarrow \quad \forall x
+$$
+
+$$
+\text{there exists } x \quad \longleftrightarrow \quad \exists x
+$$
+
+$$
+\text{if } P, \text{ then } Q \quad \longleftrightarrow \quad P \to Q
+$$
+
+$$
+P \text{ only if } Q \quad \longleftrightarrow \quad P \to Q
+$$
+
+$$
+P \text{ if } Q \quad \longleftrightarrow \quad Q \to P
+$$
+
+$$
+P \text{ iff } Q \quad \longleftrightarrow \quad P \leftrightarrow Q
+$$
+
+The phrase `there exists a unique x such that P(x)` means both existence and uniqueness:
+
+$$
+\exists x \left(P(x) \land \forall y\,(P(y) \to y=x)\right).
+$$
+:::
+
+::: {#thm-scope-matters}
+## Key Statement
+
+Translation is correct only if it preserves scope and dependence.
+
+In particular,
+
+$$
+\forall x\, \exists y\, R(x,y)
+$$
+
+and
+
+$$
+\exists y\, \forall x\, R(x,y)
+$$
+
+are generally different because the first allows the witness $y$ to depend on $x$, while the second requires one single witness for all $x$.
+:::
+
+## Worked Example
+
+Take the sentence:
+
+`Every student in the course has at least one homework partner.`
+
+Choose:
+
+- domain: people in the course
+- $Student(x)$: $x$ is a student
+- $Partner(x,y)$: $y$ is a homework partner of $x$
+
+Then a reasonable translation is
+
+$$
+\forall x \big(Student(x) \to \exists y\, Partner(x,y)\big).
+$$
+
+Now compare it with
+
+$$
+\exists y\, \forall x \big(Student(x) \to Partner(x,y)\big).
+$$
+
+This second formula says there is one single person who is a homework partner for every student.
+
+That is much stronger and usually not what the English sentence means.
+
+Now translate the first formula back into English carefully:
+
+`For every person x, if x is a student, then there exists some person y such that y is a homework partner of x.`
+
+That sentence is not elegant English, but it preserves the logic correctly. After you are sure the structure is right, you can polish the wording.
+
+## Computation Lens
+
+Translation is one of the most useful debugging tools in mathematics and CS.
+
+Typical uses are:
+
+- rewrite a theorem statement into symbolic form before trying to prove it
+- translate a safety condition into a formal specification
+- detect whether two English statements differ only in wording or in actual scope
+- formalize `at least one`, `at most one`, `exactly one`, and `for all`
+
+In proof work, this often reveals why a proof attempt is stuck: the statement being targeted is not the one the writer thinks it is.
+
+## Application Lens
+
+One concrete application is theorem and paper reading.
+
+Suppose a paper claims:
+
+`For every accuracy target epsilon, there exists a sample size N such that for all n >= N, the estimator error is at most epsilon.`
+
+Even before you know statistics, you can see this is about quantifier structure:
+
+$$
+\forall \varepsilon > 0\, \exists N\, \forall n \ge N\, E(n,\varepsilon).
+$$
+
+That is the beginning of reading asymptotic statements correctly.
+
+The same skill helps in system specifications:
+
+- every request eventually receives a response
+- some reachable state violates the invariant
+- exactly one leader exists at each time
+
+These are not just English sentences. They are claims whose meaning depends on scope.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- how to choose a domain and predicates before symbolizing
+- why `P only if Q` means $P \to Q$
+- why quantifier order can change the whole statement
+- how to read a formula back into careful English
+- how to formalize a basic uniqueness statement
+
+then this page has done its job.
+
+## Go Deeper
+
+The best next steps after this page are:
+
+1. [Statements and Quantifiers](../../proofs/concepts/statements-and-quantifiers.qmd)
+2. [Proof-writing Clinic](../../proofs/concepts/proof-writing-clinic.qmd)
+3. [Logic module overview](../index.qmd)
+
+## Optional Paper Bridge
+
+Optional after the first pass:
+
+- [Stanford CS103](https://web.stanford.edu/class/cs103/) - use the official course as a bank of translation-style exercises and scope checks. Checked `2026-04-24`.
+- [MIT 6.1200J / 18.062J Problem Set 1](https://ocw.mit.edu/courses/6-1200j-mathematics-for-computer-science-spring-2024/mit6_1200j_s24_pset01.pdf) - see the level of theorem translation and formalization expected in an actual math-for-CS course. Checked `2026-04-24`.
+
+## Optional After First Pass
+
+If you want more depth after finishing the logic spine:
+
+- revisit [Predicate Logic](predicate-logic.qmd) and translate each symbolic example back into polished English
+- revisit [How to Read Theory Papers](/start-here/how-to-read-theory-papers.qmd) and annotate the hidden quantifiers in one theorem statement
+
+## Common Mistakes
+
+- starting symbolization before specifying the domain
+- translating `P only if Q` as $Q \to P$
+- using one existential witness where the English sentence allows the witness to depend on a universal variable
+- leaving grouping ambiguous in a long implication
+- reading a symbolic formula back into English with extra assumptions not present in the formula
+
+## Exercises
+
+1. Translate into symbols:
+   - every graph vertex has a neighbor
+   - there exists a unique minimum element
+   - if a model converges, then its loss decreases
+2. Translate into careful English:
+
+   $$
+   \forall x\, (A(x) \to \exists y\, R(x,y))
+   $$
+
+   and
+
+   $$
+   \exists y\, \forall x\, (A(x) \to R(x,y)).
+   $$
+
+3. Write a formula for `there is exactly one leader` using a predicate $Leader(x)$.
+
+## Sources and Further Reading
+
+- [Stanford CS103](https://web.stanford.edu/class/cs103/) - `First pass` - official course with strong translation-oriented logic exercises. Checked `2026-04-24`.
+- [CMU OLI Logic & Proofs](https://oli.cmu.edu/courses/logic-proofs/) - `First pass` - official interactive course with guided practice on symbolic meaning and proof-oriented translation. Checked `2026-04-24`.
+- [MIT Mathematics for Computer Science, Predicate Logic I](https://openlearninglibrary.mit.edu/assets/courseware/v1/dd3f5d64bd71d66720d23a13e3f2b105/asset-v1%3AOCW%2B6.042J%2B2T2019%2Btype%40asset%2Bblock/MIT6_042JS16_Predicate_Logic_1.pdf) - `Second pass` - official notes that support symbolization and quantified reading. Checked `2026-04-24`.
+- [MIT 6.1200J / 18.062J Problem Set 1](https://ocw.mit.edu/courses/6-1200j-mathematics-for-computer-science-spring-2024/mit6_1200j_s24_pset01.pdf) - `Second pass` - official current problem material for practicing formalization. Checked `2026-04-24`.

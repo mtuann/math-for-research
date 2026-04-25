@@ -1,0 +1,319 @@
+---
+title: "Predicate Logic"
+description: "How logic becomes expressive enough to talk about objects, properties, relations, and quantified statements such as 'for all' and 'there exists.'"
+page-type: concept
+status: published
+update-status: current
+level: foundation
+topic: logic
+prerequisites:
+  - /topics/foundation/logic/concepts/logical-equivalence-and-negation.qmd
+  - /topics/foundation/proofs/concepts/statements-and-quantifiers.qmd
+learning-goals:
+  - "Define domain, predicate, and quantifier precisely."
+  - "Translate simple English mathematical statements into predicate logic."
+  - "Negate quantified statements correctly."
+  - "Explain how first-order logic sharpens theorem statements and specifications."
+applications:
+  - theorem-reading
+  - formal-verification
+  - database-theory
+keywords:
+  - predicate logic
+  - first-order logic
+  - quantifier
+  - universal quantifier
+  - existential quantifier
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: annual
+date-modified: last-modified
+draft: false
+next:
+  - /topics/foundation/logic/concepts/sets-functions-and-relations.qmd
+related-pages:
+  - /topics/foundation/logic/index.qmd
+  - /topics/foundation/logic/concepts/propositional-logic.qmd
+  - /topics/foundation/logic/concepts/logical-equivalence-and-negation.qmd
+  - /topics/foundation/logic/concepts/sets-functions-and-relations.qmd
+  - /topics/foundation/proofs/concepts/statements-and-quantifiers.qmd
+stable-sources:
+  - "Stanford CS103 First-Order Logic"
+  - "CMU OLI Logic & Proofs"
+  - "MIT Mathematics for Computer Science"
+current-sources:
+  - "MIT 6.1200J predicate-logic translation material"
+---
+
+## Role
+
+This page is where logic stops talking only about whole statements and starts talking about objects inside a domain.
+
+It introduces predicates, quantifiers, and the first formal language strong enough to express many real theorem statements from mathematics and CS.
+
+## First-Pass Promise
+
+Read this page after [Logical Equivalence and Negation](logical-equivalence-and-negation.qmd).
+
+If you stop here, you should still understand:
+
+- what a domain is
+- what a predicate is
+- what $\forall$ and $\exists$ mean
+- why quantifier order matters
+- how to negate quantified statements correctly
+
+## Why It Matters
+
+Propositional logic can express combinations of whole statements, but it cannot say things like:
+
+- every vector in this subspace has a certain property
+- there exists a minimizer
+- for every input, some witness exists
+- two objects are related in a specific way
+
+Research mathematics and theoretical CS are full of statements of exactly this form.
+
+Predicate logic, also called first-order logic, is the first language that can express them cleanly. It is the bridge between symbolic logic and the theorem statements you meet in linear algebra, probability, optimization, algorithms, databases, and verification.
+
+## Prerequisite Recall
+
+- propositional logic treats whole statements as atomic units
+- logical equivalence and negation let you rewrite formulas without changing meaning
+- theorem statements often hide quantifiers even when they are not written explicitly
+
+## Intuition
+
+Predicate logic adds internal structure to statements.
+
+Instead of using one atomic symbol for a whole claim, we let a predicate describe a property or relation involving objects from a domain.
+
+For example, if the domain is the integers, then:
+
+- $Even(n)$ can mean "n is even"
+- $Prime(n)$ can mean "n is prime"
+- $Less(x,y)$ can mean "$x < y$"
+
+Then we can build richer statements:
+
+$$
+\forall n\; (Even(n) \to Even(n^2))
+$$
+
+or
+
+$$
+\exists n\; (Prime(n) \land Even(n)).
+$$
+
+The key new idea is that truth now depends not just on connectives, but also on:
+
+- what objects live in the domain
+- which predicates are being used
+- how variables are quantified
+
+## Formal Core
+
+::: {#def-domain-predicate}
+## Definition
+
+A `domain of discourse` is the collection of objects we are talking about.
+
+A `predicate` is a property or relation that becomes a proposition once its variables are filled in with objects from the domain.
+
+Examples:
+
+- $Even(n)$ is a unary predicate on integers
+- $Less(x,y)$ is a binary predicate on numbers
+- $Edge(u,v)$ is a binary predicate on graph vertices
+:::
+
+::: {#def-quantifiers}
+## Quantifiers
+
+If $P(x)$ is a predicate:
+
+- $\forall x\, P(x)$ means `for every object x in the domain, P(x) holds`
+- $\exists x\, P(x)$ means `there exists at least one object x in the domain such that P(x) holds`
+
+The variable $x$ is bound by the quantifier inside its scope.
+:::
+
+::: {#thm-negating-quantifiers}
+## Key Statement
+
+Negating quantified statements flips the quantifier and negates the inside:
+
+$$
+\neg (\forall x\, P(x)) \equiv \exists x\, \neg P(x)
+$$
+
+$$
+\neg (\exists x\, P(x)) \equiv \forall x\, \neg P(x)
+$$
+
+These are the quantifier analogues of De Morgan's laws.
+:::
+
+## Worked Example
+
+Suppose the domain is the set of real numbers, and let $Positive(x)$ mean "$x > 0$".
+
+Consider the statement:
+
+$$
+\forall x\; (Positive(x) \to Positive(x^2)).
+$$
+
+This says: every positive real number has a positive square.
+
+Now negate it carefully.
+
+Start with
+
+$$
+\neg \forall x\; (Positive(x) \to Positive(x^2)).
+$$
+
+Flip the universal quantifier:
+
+$$
+\exists x\; \neg (Positive(x) \to Positive(x^2)).
+$$
+
+Now negate the implication:
+
+$$
+\exists x\; (Positive(x) \land \neg Positive(x^2)).
+$$
+
+This final form is the real failure case. It says the original statement is false exactly when there exists a positive real number whose square is not positive.
+
+That is much more informative than a raw outer negation.
+
+It also shows a general workflow:
+
+1. identify the domain
+2. identify the predicate
+3. track the quantifier
+4. push negation inward until the failure case becomes concrete
+
+## Computation Lens
+
+Predicate logic is still close enough to logic to feel symbolic, but it already points toward structure used in CS systems.
+
+Typical tasks are:
+
+- translate English into quantified formulas
+- detect which variables are free or bound
+- compare two formulas with different quantifier order
+- negate a theorem statement to expose the counterexample pattern
+
+This is also the language behind many specification styles:
+
+- for every request, there exists a response
+- there exists a reachable bad state
+- for all nodes, some invariant holds
+
+Even when practical tools use richer logics, this first-order layer is often the conceptual core.
+
+## Application Lens
+
+One concrete application is theorem reading.
+
+Many beginner mistakes in reading theory come from collapsing all quantifiers into vague English intuition. But the order and scope matter enormously:
+
+$$
+\forall x\, \exists y\, R(x,y)
+$$
+
+does not mean the same thing as
+
+$$
+\exists y\, \forall x\, R(x,y).
+$$
+
+The first allows the witness $y$ to depend on $x$. The second asks for one single universal witness.
+
+That distinction appears everywhere:
+
+- optimization: for every point there exists a descent direction
+- analysis: for every $\varepsilon$ there exists a $\delta$
+- learning theory: for every sample size there exists a bound
+- databases: there exists a record satisfying a query predicate
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- the difference between a proposition and a predicate
+- what the domain contributes to meaning
+- how $\forall$ and $\exists$ differ
+- why quantifier order matters
+- how to negate a quantified statement correctly
+
+then this page has done its job.
+
+## Go Deeper
+
+The best next steps after this page are:
+
+1. [Sets, Functions, and Relations](sets-functions-and-relations.qmd)
+2. [Statements and Quantifiers](../../proofs/concepts/statements-and-quantifiers.qmd)
+3. [Contrapositive and Contradiction](../../proofs/concepts/contrapositive-and-contradiction.qmd)
+
+## Optional Paper Bridge
+
+Optional after the first pass:
+
+- [Stanford CS103 First-Order Logic, Part I](https://web.stanford.edu/class/archive/cs/cs103/cs103.1232/lectures/04/) - watch how the lecture formalizes quantified statements and translation patterns. Checked `2026-04-24`.
+- [MIT Open Learning Library: Quantifiers & Predicate Logic](https://openlearninglibrary.mit.edu/courses/course-v1%3AOCW%2B6.042J%2B2T2019/course/) - use the official MCS unit as a bridge from beginner predicate logic to theorem translation. Checked `2026-04-24`.
+
+## Optional After First Pass
+
+If you want more depth before the next logic pages land:
+
+- continue to [Sets, Functions, and Relations](sets-functions-and-relations.qmd)
+- revisit [Logical Equivalence and Negation](logical-equivalence-and-negation.qmd) and compare connective negation with quantifier negation
+- compare this page with [Statements and Quantifiers](../../proofs/concepts/statements-and-quantifiers.qmd) to see how theorem prose hides first-order structure
+
+## Common Mistakes
+
+- forgetting to specify the domain
+- treating a predicate like a full proposition before variables are filled in
+- swapping $\forall$ and $\exists$ as if order did not matter
+- negating $\forall x\, P(x)$ as $\forall x\, \neg P(x)$ instead of $\exists x\, \neg P(x)$
+- assuming a witness chosen after $\forall x$ must be the same for every $x$
+
+## Exercises
+
+1. Let the domain be the integers. Write formulas for:
+   - every even integer has an even square
+   - there exists an even prime
+   - every integer has a larger integer
+2. Negate and simplify:
+   - $\forall x\, P(x)$
+   - $\exists x\, (P(x) \land Q(x))$
+   - $\forall x\, \exists y\, R(x,y)$
+3. Explain in words why
+
+   $$
+   \forall x\, \exists y\, R(x,y)
+   $$
+
+   and
+
+   $$
+   \exists y\, \forall x\, R(x,y)
+   $$
+
+   are generally different statements.
+
+## Sources and Further Reading
+
+- [Stanford CS103 First-Order Logic, Part I](https://web.stanford.edu/class/archive/cs/cs103/cs103.1232/lectures/04/) - `First pass` - concise official lecture page focused on syntax and translation. Checked `2026-04-24`.
+- [CMU OLI Logic & Proofs](https://oli.cmu.edu/courses/logic-proofs/) - `First pass` - official interactive course with predicate-logic practice and negation work. Checked `2026-04-24`.
+- [MIT Mathematics for Computer Science, Predicate Logic I](https://openlearninglibrary.mit.edu/assets/courseware/v1/dd3f5d64bd71d66720d23a13e3f2b105/asset-v1%3AOCW%2B6.042J%2B2T2019%2Btype%40asset%2Bblock/MIT6_042JS16_Predicate_Logic_1.pdf) - `Second pass` - official MIT notes on predicate syntax, semantics, and examples. Checked `2026-04-24`.
+- [MIT 6.1200J / 18.062J Problem Set 1](https://ocw.mit.edu/courses/6-1200j-mathematics-for-computer-science-spring-2024/mit6_1200j_s24_pset01.pdf) - `Second pass` - current official course material showing the level of translation and quantified reasoning expected in practice. Checked `2026-04-24`.
+- [CMU 15-311 Logic and Mechanized Reasoning](https://csd.cmu.edu/course/15311/s26) - `Paper bridge` - points toward formal verification and mechanized reasoning built on first-order logic. Checked `2026-04-24`.

@@ -1,0 +1,198 @@
+---
+title: "Logic"
+description: "Core symbolic logic for theorem reading, formal reasoning, and research-facing math in CS, AI, and engineering."
+page-type: module-overview
+status: published
+update-status: current
+level: foundation
+topic: logic
+prerequisites:
+  - /start-here/notation-and-symbols.qmd
+  - /topics/foundation/proofs/index.qmd
+learning-goals:
+  - "Understand what propositional and predicate logic are trying to formalize."
+  - "Know the intended study order for the logic module."
+  - "Connect symbolic logic to proof reading, verification, and formal reasoning in CS."
+applications:
+  - formal-verification
+  - algorithms
+  - database-theory
+keywords:
+  - logic
+  - propositions
+  - predicates
+  - negation
+  - formal reasoning
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: annual
+date-modified: last-modified
+draft: false
+---
+
+## Why This Module Matters
+
+Logic is where mathematical language becomes explicit enough to inspect.
+
+Proofs use logic all the time, but often indirectly. This module slows that down and makes the structure visible: what counts as a statement, how compound statements are built, how negation changes meaning, and how quantifiers control the scope of a claim.
+
+That matters far beyond pure math. Logic sits under specification, verification, SAT solving, constraint systems, database queries, knowledge representation, and theorem proving. It also makes theorem statements in analysis, probability, and optimization much easier to parse correctly.
+
+The first-pass logic module is now live as five pages: `Propositional Logic`, `Logical Equivalence and Negation`, `Predicate Logic`, `Sets, Functions, and Relations`, and `Translation Between English and Symbols`.
+
+::: {.meta-strip}
+::: {.meta-box}
+**Prerequisites**
+Proof-reading habits, notation comfort, and patience with symbolic language
+:::
+::: {.meta-box}
+**Unlocks**
+Discrete math, formal verification, theorem proving, cleaner theorem reading
+:::
+::: {.meta-box}
+**Research Use**
+Specifications, SAT and automated reasoning, quantified theorem statements, formal models
+:::
+:::
+
+## First Pass Through This Module
+
+1. [Propositional Logic](concepts/propositional-logic.qmd)
+2. [Logical Equivalence and Negation](concepts/logical-equivalence-and-negation.qmd)
+3. [Predicate Logic](concepts/predicate-logic.qmd)
+4. [Sets, Functions, and Relations](concepts/sets-functions-and-relations.qmd)
+5. [Translation Between English and Symbols](concepts/translation-between-english-and-symbols.qmd)
+
+These five pages now form a complete first pass through the logic module: from propositional form to equivalence, quantifiers, mathematical objects, and practical translation.
+
+## Navigation Rule
+
+The global sidebar should show only the logic `spine`:
+
+- the module overview
+- the core concept pages in study order
+
+Each concept page should be self-contained for first-pass learning. When companion pages appear later, they should feel optional rather than required.
+
+## Core Concepts
+
+- [Propositional Logic](concepts/propositional-logic.qmd): introduces statements, connectives, truth tables, satisfiability, and validity.
+- [Logical Equivalence and Negation](concepts/logical-equivalence-and-negation.qmd): teaches how to rewrite statements without changing truth conditions and how to negate claims precisely.
+- [Predicate Logic](concepts/predicate-logic.qmd): adds variables, domains, predicates, and quantified statements.
+- [Sets, Functions, and Relations](concepts/sets-functions-and-relations.qmd): connects logical form to mathematical collections, mappings, and structured pairs.
+- [Translation Between English and Symbols](concepts/translation-between-english-and-symbols.qmd): turns the rest of the module into a practical theorem-reading and symbolization workflow.
+
+## Proof Patterns In This Module
+
+- `Separate syntax from semantics`: a well-formed formula is not the same thing as a true formula.
+- `Negate carefully`: most beginner mistakes in logic come from sloppy negation.
+- `Track the bad row`: argument validity becomes clearer once you ask whether any assignment makes the premises true and the conclusion false.
+- `Make hidden quantifiers explicit`: theorem prose often becomes readable only after you write down the missing `for every` and `there exists`.
+
+## Applications
+
+### Formal Verification and SAT
+
+Propositional formulas encode constraints, hardware behavior, transition guards, and proof obligations. SAT solvers and model checkers begin from this logical layer before moving to richer systems.
+
+### Reading Quantified Mathematics
+
+Quantified theorems in analysis, optimization, probability, and learning theory become much easier to read when you can distinguish implication, equivalence, negation, and quantifier scope cleanly.
+
+## Go Deeper By Topic
+
+### Propositional Logic
+
+Start with [Propositional Logic](concepts/propositional-logic.qmd).
+
+Then use these nearby pages as reinforcement:
+
+- [Logical Equivalence and Negation](concepts/logical-equivalence-and-negation.qmd) for formula rewriting and precise negation
+- [Statements and Quantifiers](../proofs/concepts/statements-and-quantifiers.qmd) for theorem-language habits
+- [Direct Proof](../proofs/concepts/direct-proof.qmd) to see how logical structure turns into mathematical argument
+
+### Logical Equivalence and Negation
+
+Start with [Logical Equivalence and Negation](concepts/logical-equivalence-and-negation.qmd).
+
+Then use these nearby pages as reinforcement:
+
+- [Contrapositive and Contradiction](../proofs/concepts/contrapositive-and-contradiction.qmd)
+- [Proof-writing Clinic](../proofs/concepts/proof-writing-clinic.qmd)
+
+### Predicate Logic
+
+Start with [Predicate Logic](concepts/predicate-logic.qmd).
+
+Then use these nearby pages as reinforcement:
+
+- [Statements and Quantifiers](../proofs/concepts/statements-and-quantifiers.qmd)
+- [Contrapositive and Contradiction](../proofs/concepts/contrapositive-and-contradiction.qmd)
+
+### Sets, Functions, and Relations
+
+Start with [Sets, Functions, and Relations](concepts/sets-functions-and-relations.qmd).
+
+Then use these nearby pages as reinforcement:
+
+- [Statements and Quantifiers](../proofs/concepts/statements-and-quantifiers.qmd)
+- [Matrices and Linear Maps](../linear-algebra/concepts/matrices-and-linear-maps.qmd)
+
+### Translation Between English and Symbols
+
+Start with [Translation Between English and Symbols](concepts/translation-between-english-and-symbols.qmd).
+
+Then use these nearby pages as reinforcement:
+
+- [Statements and Quantifiers](../proofs/concepts/statements-and-quantifiers.qmd)
+- [Proof-writing Clinic](../proofs/concepts/proof-writing-clinic.qmd)
+
+## Research Bridge
+
+The best bridge from beginner logic into research-facing CS is not a giant list of papers. It is learning where logic reappears:
+
+- satisfiability and automated reasoning
+- model checking and verification
+- database and query semantics
+- theorem provers and proof assistants
+
+As this module grows, those bridges should live on the topic pages rather than overload the module overview.
+
+## Study Order
+
+The current first pass is simple:
+
+1. read [Propositional Logic](concepts/propositional-logic.qmd)
+2. continue to [Logical Equivalence and Negation](concepts/logical-equivalence-and-negation.qmd)
+3. continue to [Predicate Logic](concepts/predicate-logic.qmd)
+4. continue to [Sets, Functions, and Relations](concepts/sets-functions-and-relations.qmd)
+5. finish with [Translation Between English and Symbols](concepts/translation-between-english-and-symbols.qmd)
+6. keep [Proofs](../proofs/index.qmd) nearby and compare the symbolic statements to actual proof moves
+
+You are ready to move deeper when you can:
+
+- tell whether a sentence is being used as a proposition
+- build and read formulas with `and`, `or`, `not`, and `implies`
+- rewrite a statement into an equivalent form without changing its meaning
+- negate a compound statement precisely enough to expose its failure case
+- read and negate basic quantified statements
+- recognize when a mathematical object is being described as a set, relation, or function
+- translate short theorem-style English into symbols and back with controlled wording
+- explain what makes an argument valid or invalid in terms of truth assignments
+
+## Sources and Further Reading
+
+- [Stanford CS103](https://web.stanford.edu/class/cs103/) - `First pass` - strong official course hub covering the module's propositional, quantified, and translation layers. Checked `2026-04-24`.
+- [CMU OLI Logic & Proofs](https://oli.cmu.edu/courses/logic-proofs/) - `First pass` - official interactive course with a clean beginner path through sentential logic, predicate logic, and proof-facing translation. Checked `2026-04-24`.
+- [MIT Mathematics for Computer Science](https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-fall-2010/) - `Second pass` - official full-course reference tying logic to discrete math, proofs, sets, functions, and relations. Checked `2026-04-24`.
+- [MIT 6.1200J / 18.062J Mathematics for Computer Science](https://ocw.mit.edu/courses/6-1200j-mathematics-for-computer-science-spring-2024/) - `Second pass` - current official course archive showing what a modern math-for-CS logic foundation looks like in practice. Checked `2026-04-24`.
+- [CMU 15-311 Logic and Mechanized Reasoning](https://csd.cmu.edu/course/15311/s26) - `Paper bridge` - shows where introductory logic grows into verification, theorem proving, and mechanized reasoning. Checked `2026-04-24`.
+
+Sources checked online on `2026-04-24`:
+
+- Stanford CS103 course page
+- CMU OLI Logic & Proofs overview
+- MIT Mathematics for Computer Science 2010 course page
+- MIT 6.1200J Mathematics for Computer Science 2024 course page
+- CMU 15-311 course page

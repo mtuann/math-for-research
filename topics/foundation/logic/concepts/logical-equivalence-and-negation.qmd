@@ -1,0 +1,335 @@
+---
+title: "Logical Equivalence and Negation"
+description: "How to rewrite propositional statements without changing their meaning and how to negate them precisely enough to expose the exact failure case."
+page-type: concept
+status: published
+update-status: current
+level: foundation
+topic: logic
+prerequisites:
+  - /topics/foundation/logic/concepts/propositional-logic.qmd
+learning-goals:
+  - "Define logical equivalence precisely."
+  - "Negate compound propositions correctly."
+  - "Use standard equivalence laws to rewrite formulas into clearer or more useful forms."
+applications:
+  - sat-solving
+  - formal-verification
+  - theorem-reading
+keywords:
+  - logical equivalence
+  - negation
+  - De Morgan
+  - implication rewrite
+  - contradiction
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: annual
+date-modified: last-modified
+draft: false
+next:
+  - /topics/foundation/logic/concepts/predicate-logic.qmd
+related-pages:
+  - /topics/foundation/logic/index.qmd
+  - /topics/foundation/logic/concepts/propositional-logic.qmd
+  - /topics/foundation/logic/concepts/predicate-logic.qmd
+  - /topics/foundation/proofs/concepts/contrapositive-and-contradiction.qmd
+stable-sources:
+  - "Stanford CS103"
+  - "CMU OLI Logic & Proofs"
+  - "MIT Mathematics for Computer Science"
+current-sources:
+  - "CMU 15-311 Logic and Mechanized Reasoning"
+---
+
+## Role
+
+This page is the cleanup layer immediately after `Propositional Logic`.
+
+It teaches how to rewrite formulas without changing their truth conditions and how to negate a statement in a way that exactly captures when the original statement fails.
+
+## First-Pass Promise
+
+Read this page after [Propositional Logic](propositional-logic.qmd).
+
+If you stop here, you should still understand:
+
+- what it means for two formulas to be logically equivalent
+- how to eliminate implication and biconditional when helpful
+- how De Morgan's laws move negation inward
+- how to negate a compound claim without changing its meaning
+
+## Why It Matters
+
+Many logical mistakes do not come from choosing the wrong connective. They come from rewriting or negating a statement carelessly.
+
+That matters everywhere:
+
+- in proofs, a wrong negation changes the target statement
+- in verification, a wrong negation hides the actual failure case
+- in SAT and constraint systems, equivalent rewrites make formulas easier to solve
+- in theorem reading, implication and quantifier structure often become clearer after rewriting
+
+This page is also where symbolic logic becomes more usable. Instead of staring at one rigid formula shape, you learn a small algebra of transformations that preserve meaning.
+
+## Prerequisite Recall
+
+- a propositional formula is built from atomic propositions and connectives
+- a truth assignment determines the truth value of the whole formula
+- a formula is valid when every truth assignment makes it true
+
+## Intuition
+
+Logical equivalence means "different surface form, same truth behavior."
+
+For example, the implication
+
+$$
+p \to q
+$$
+
+often feels different from
+
+$$
+\neg p \lor q,
+$$
+
+but they make exactly the same truth judgments under every assignment.
+
+Negation is the other key move. The negation of a statement is not a loose English opposite. It is the precise condition under which the original statement fails.
+
+So the real workflow is:
+
+`understand a statement -> rewrite it into a useful form -> negate it carefully when needed`
+
+## Formal Core
+
+::: {#def-logical-equivalence}
+## Definition
+
+Two formulas $\varphi$ and $\psi$ are `logically equivalent` if they have the same truth value under every truth assignment.
+
+We often write this as
+
+$$
+\varphi \equiv \psi.
+$$
+
+Equivalently, $\varphi$ and $\psi$ are logically equivalent exactly when
+
+$$
+\varphi \leftrightarrow \psi
+$$
+
+is valid.
+:::
+
+::: {#prop-common-equivalences}
+## Key Equivalences
+
+The following equivalences are among the most useful first ones:
+
+$$
+p \to q \equiv \neg p \lor q
+$$
+
+$$
+p \leftrightarrow q \equiv (p \to q) \land (q \to p)
+$$
+
+$$
+\neg (p \land q) \equiv \neg p \lor \neg q
+$$
+
+$$
+\neg (p \lor q) \equiv \neg p \land \neg q
+$$
+
+$$
+\neg \neg p \equiv p
+$$
+
+$$
+p \to q \equiv \neg q \to \neg p
+$$
+
+The last line is the contrapositive equivalence.
+:::
+
+::: {#thm-negation-as-failure}
+## Key Statement
+
+To negate a compound formula correctly, keep pushing the negation inward until it lands on atomic propositions.
+
+This works by repeated use of:
+
+- implication rewrite: $p \to q \equiv \neg p \lor q$
+- De Morgan's laws
+- double-negation elimination
+
+The result makes the exact failure case visible.
+:::
+
+## Worked Example
+
+Suppose a safety specification says:
+
+1. if a request is authenticated, then access is granted
+2. if access is granted, then the audit log is updated
+
+Let
+
+- $a$: the request is authenticated
+- $g$: access is granted
+- $u$: the audit log is updated
+
+Then the specification is
+
+$$
+(a \to g) \land (g \to u).
+$$
+
+Rewrite each implication:
+
+$$
+(a \to g) \land (g \to u)
+\equiv
+(\neg a \lor g) \land (\neg g \lor u).
+$$
+
+That is already a useful equivalent form because it removes implication.
+
+Now negate the original specification:
+
+$$
+\neg \big((a \to g) \land (g \to u)\big).
+$$
+
+Use De Morgan:
+
+$$
+\neg (a \to g) \lor \neg (g \to u).
+$$
+
+Now negate each implication by first rewriting:
+
+$$
+\neg (a \to g) \equiv \neg (\neg a \lor g) \equiv a \land \neg g
+$$
+
+and similarly
+
+$$
+\neg (g \to u) \equiv g \land \neg u.
+$$
+
+So the full negation becomes
+
+$$
+(a \land \neg g) \lor (g \land \neg u).
+$$
+
+This is much more informative than a raw outer negation. It says the specification fails exactly when either:
+
+- an authenticated request is denied incorrectly, or
+- access is granted without updating the audit log
+
+That is the main payoff of careful negation: it exposes concrete failure modes.
+
+## Computation Lens
+
+Equivalent rewrites are used all the time before automated reasoning starts.
+
+Common computational moves are:
+
+- remove $\to$ and $\leftrightarrow$
+- push negations inward
+- simplify double negations
+- rewrite formulas toward CNF-like forms for SAT or constraint solving
+
+Even when you are not literally implementing a solver, these rewrites make formulas easier to inspect and compare.
+
+## Application Lens
+
+One important application is counterexample generation in verification.
+
+If a property is written as a logical formula, then the system fails exactly when the negation of that property is satisfiable.
+
+So there are two linked tasks:
+
+- rewrite the property into an equivalent form that is easier to process
+- negate it carefully so that a satisfying assignment corresponds to a real bug or failure case
+
+That same habit is useful in theorem reading. When a theorem says
+
+$$
+p \to q,
+$$
+
+you often understand it better by thinking about the equivalent failure condition
+
+$$
+p \land \neg q.
+$$
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- what logical equivalence means
+- why $p \to q$ is equivalent to $\neg p \lor q$
+- how De Morgan's laws change conjunctions and disjunctions under negation
+- how to negate a compound claim until the failure cases are explicit
+
+then this page has done its job.
+
+## Go Deeper
+
+The best next steps after this page are:
+
+1. [Predicate Logic](predicate-logic.qmd)
+2. [Contrapositive and Contradiction](../../proofs/concepts/contrapositive-and-contradiction.qmd)
+3. [Proof-writing Clinic](../../proofs/concepts/proof-writing-clinic.qmd)
+
+## Optional Paper Bridge
+
+Optional after the first pass:
+
+- [CMU 15-311 Logic and Mechanized Reasoning](https://csd.cmu.edu/course/15311/s26) - look for how propositional rewrites and negation become part of automated reasoning and proof search. Checked `2026-04-24`.
+- [CMU OLI Logic & Proofs](https://oli.cmu.edu/courses/logic-proofs/) - use the sentential-logic sections to practice equivalence and negation as systematic procedures rather than guesswork. Checked `2026-04-24`.
+
+## Optional After First Pass
+
+If you want more depth before `Predicate Logic` lands:
+- continue to [Predicate Logic](predicate-logic.qmd)
+- revisit [Propositional Logic](propositional-logic.qmd) and restate each validity example using equivalent formulas
+- revisit [Statements and Quantifiers](../../proofs/concepts/statements-and-quantifiers.qmd) and compare propositional negation with theorem-statement negation
+
+## Common Mistakes
+
+- negating $p \land q$ as $\neg p \land \neg q$ instead of $\neg p \lor \neg q$
+- negating $p \lor q$ as $\neg p \lor \neg q$ instead of $\neg p \land \neg q$
+- forgetting that the negation of $p \to q$ is $p \land \neg q$
+- confusing the biconditional formula $p \leftrightarrow q$ with the broader notion of logical equivalence
+- rewriting a formula into a shape that looks similar but does not preserve truth values
+
+## Exercises
+
+1. Rewrite each formula without implication:
+   - $p \to q$
+   - $(p \land q) \to r$
+   - $p \leftrightarrow q$
+2. Negate each formula and simplify until negations land on atomic propositions:
+   - $\neg (p \lor q)$
+   - $\neg (p \to q)$
+   - $\neg \big((p \to q) \land (q \to r)\big)$
+3. Show that $p \to q$ and $\neg q \to \neg p$ are logically equivalent by reasoning from truth values or by using known equivalence laws.
+
+## Sources and Further Reading
+
+- [Stanford CS103](https://web.stanford.edu/class/cs103/) - `First pass` - current official course hub for the logic sequence this page is modeled after. Checked `2026-04-24`.
+- [CMU OLI Logic & Proofs](https://oli.cmu.edu/courses/logic-proofs/) - `First pass` - official interactive course with strong sentential-logic practice and negation drills. Checked `2026-04-24`.
+- [MIT Mathematics for Computer Science, Chapter 1: Propositions](https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-fall-2010/resources/mit6_042jf10_chap01/) - `Second pass` - official notes for proposition semantics and connective behavior. Checked `2026-04-24`.
+- [MIT Mathematics for Computer Science, Algebra for Equivalence](https://courses.csail.mit.edu/6.042/spring18/prpostn_algebra.pdf) - `Second pass` - focused MIT handout on equivalence manipulation. Checked `2026-04-24`.
+- [CMU 15-311 Logic and Mechanized Reasoning](https://csd.cmu.edu/course/15311/s26) - `Paper bridge` - points toward verification and automated reasoning built on these transformations. Checked `2026-04-24`.

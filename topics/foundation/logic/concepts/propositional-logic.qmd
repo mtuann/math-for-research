@@ -1,0 +1,282 @@
+---
+title: "Propositional Logic"
+description: "How symbolic logic starts by treating whole statements as propositions, combining them with connectives, and checking formulas by truth assignments."
+page-type: concept
+status: published
+update-status: current
+level: foundation
+topic: logic
+prerequisites:
+  - /topics/foundation/proofs/concepts/statements-and-quantifiers.qmd
+learning-goals:
+  - "Define proposition, connective, and truth assignment precisely."
+  - "Build and read propositional formulas."
+  - "Use truth-table reasoning to distinguish satisfiable, valid, and invalid formulas or arguments."
+applications:
+  - formal-verification
+  - boolean-circuits
+  - theorem-reading
+keywords:
+  - propositional logic
+  - truth table
+  - implication
+  - satisfiability
+  - validity
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: annual
+date-modified: last-modified
+draft: false
+next:
+  - /topics/foundation/logic/concepts/logical-equivalence-and-negation.qmd
+related-pages:
+  - /topics/foundation/logic/index.qmd
+  - /topics/foundation/logic/concepts/logical-equivalence-and-negation.qmd
+  - /topics/foundation/proofs/concepts/statements-and-quantifiers.qmd
+  - /topics/foundation/proofs/concepts/direct-proof.qmd
+stable-sources:
+  - "Stanford CS103 Propositional Logic"
+  - "CMU OLI Logic & Proofs"
+  - "MIT Mathematics for Computer Science"
+current-sources:
+  - "CMU 15-311 Logic and Mechanized Reasoning"
+---
+
+## Role
+
+This page is the starting point of symbolic logic on the site.
+
+It introduces the smallest formal language we can use to reason about complete statements and their combinations before variables and quantifiers appear.
+
+## First-Pass Promise
+
+Read this page first.
+
+If you stop here, you should still understand:
+
+- what a proposition is
+- how connectives build compound formulas
+- what a truth assignment does
+- what it means for a formula to be satisfiable, valid, or contradictory
+- what makes a propositional argument valid
+
+## Why It Matters
+
+Propositional logic is small, but it teaches several habits that keep returning:
+
+- separate syntax from meaning
+- track assumptions explicitly
+- negate carefully
+- test an argument by looking for a bad case
+
+Those habits matter in proof writing, theorem reading, circuit design, SAT solving, model checking, and even everyday debugging of mathematical claims.
+
+In CS and AI, propositional logic is also the first bridge to constraint systems and automated reasoning. Before a system can prove something, refute something, or search for a satisfying assignment, it needs a language for statements and connectives.
+
+## Prerequisite Recall
+
+- a statement is something that can be true or false
+- `not`, `and`, `or`, and `if ... then ...` already appear informally in mathematical English
+- the truth of an implication is about allowed combinations of truth values, not about temporal order or causation
+
+## Intuition
+
+Propositional logic treats whole statements as indivisible building blocks.
+
+We might write:
+
+- $p$: the server is overloaded
+- $q$: latency spikes
+- $r$: an alert fires
+
+Then instead of reasoning with full English sentences each time, we build formulas such as
+
+$$
+p \to q, \qquad q \to r, \qquad p.
+$$
+
+The point is not to make language look fancy. The point is to make logical structure visible.
+
+Truth tables then let us inspect every possible truth assignment to the atomic propositions. That gives a complete semantic test for whether a formula can be true, must be true, or supports a valid argument.
+
+## Formal Core
+
+::: {#def-proposition}
+## Definition
+
+A proposition is a statement that has a definite truth value: true or false.
+
+If $p$ and $q$ are propositions, then compound propositions can be formed using connectives such as:
+
+- negation: $\neg p$
+- conjunction: $p \land q$
+- disjunction: $p \lor q$
+- implication: $p \to q$
+- biconditional: $p \leftrightarrow q$
+
+A truth assignment gives each atomic proposition a truth value, and the truth values of compound formulas are then determined by the meanings of the connectives.
+:::
+
+::: {#def-semantic-labels}
+## Key Semantic Labels
+
+For a propositional formula $\varphi$:
+
+- $\varphi$ is `satisfiable` if some truth assignment makes it true
+- $\varphi$ is `valid` or a `tautology` if every truth assignment makes it true
+- $\varphi$ is a `contradiction` if no truth assignment makes it true
+
+For premises $\Gamma$ and conclusion $\psi$, we say $\Gamma \models \psi$ if every truth assignment that makes all formulas in $\Gamma$ true also makes $\psi$ true.
+:::
+
+::: {#thm-validity-test}
+## Key Statement
+
+An argument with premises $P_1,\dots,P_k$ and conclusion $C$ is valid in propositional logic exactly when there is no truth assignment for which all premises are true and the conclusion is false.
+
+Equivalently, the formula
+
+$$
+(P_1 \land \cdots \land P_k) \to C
+$$
+
+is valid.
+:::
+
+## Worked Example
+
+Consider the argument:
+
+1. If a job is submitted, then the queue is nonempty.
+2. The queue is not nonempty.
+3. Therefore, the job was not submitted.
+
+Let
+
+- $p$: a job is submitted
+- $q$: the queue is nonempty
+
+Then the argument becomes:
+
+$$
+p \to q, \qquad \neg q, \qquad \therefore \neg p.
+$$
+
+This is the classic `modus tollens` pattern.
+
+To test validity, look for a bad row: one where both premises are true but the conclusion is false.
+
+If the conclusion $\neg p$ is false, then $p$ must be true.
+
+If the second premise $\neg q$ is true, then $q$ must be false.
+
+But then the first premise $p \to q$ becomes `true implies false`, which is false.
+
+So there is no bad row. The argument is valid.
+
+That is the core semantic idea of propositional logic:
+
+- do not ask whether the argument sounds persuasive
+- ask whether any truth assignment breaks it
+
+## Computation Lens
+
+Propositional logic is the first place where logic becomes algorithmic.
+
+Typical computational tasks are:
+
+- build a truth table
+- test whether a formula is satisfiable
+- test whether a formula is valid
+- search for a counterexample assignment when an argument is invalid
+
+This is also the Boolean language behind digital circuits:
+
+- $\land$ behaves like `AND`
+- $\lor$ behaves like `OR`
+- $\neg$ behaves like `NOT`
+
+Once formulas are encoded this way, they can be manipulated by software, compiled into constraints, or passed to SAT solvers.
+
+## Application Lens
+
+One concrete application is formal verification.
+
+A simple software or hardware condition can often be written as a propositional formula:
+
+- if request and permission, then access
+- not both write and read at the same time
+- alarm if either sensor fails
+
+Before richer mathematical structure appears, propositional logic already lets us ask:
+
+- can these constraints all hold at once?
+- does this specification imply the safety condition?
+- is there a counterexample assignment that breaks the claim?
+
+That same style of reasoning later appears in SAT-based planning, model checking, and proof automation.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- what a proposition is
+- what a truth assignment does
+- the difference between satisfiable, valid, and contradictory
+- why argument validity means `no bad truth assignment`
+
+then this page has done its job.
+
+## Go Deeper
+
+The best next steps after this page are:
+
+1. [Logical Equivalence and Negation](logical-equivalence-and-negation.qmd)
+2. [Statements and Quantifiers](../../proofs/concepts/statements-and-quantifiers.qmd)
+3. [Direct Proof](../../proofs/concepts/direct-proof.qmd)
+
+## Optional Paper Bridge
+
+Optional after the first pass:
+
+- [CMU 15-311 Logic and Mechanized Reasoning](https://csd.cmu.edu/course/15311/s26) - watch how introductory propositional logic grows into formal verification, automated reasoning, and theorem proving. Checked `2026-04-24`.
+- [Stanford CS103 Propositional Logic](https://web.stanford.edu/class/archive/cs/cs103/cs103.1252/lectures/03/) - use the official lecture page and truth-table tool as a compact bridge from symbolic syntax to semantic checking. Checked `2026-04-24`.
+
+## Optional After First Pass
+
+If you want more depth before the rest of the logic module lands:
+
+- continue to [Logical Equivalence and Negation](logical-equivalence-and-negation.qmd)
+- revisit [Proofs](../../proofs/index.qmd) and notice where implication, negation, and quantified structure are already doing work
+- compare this page with [How to Write Proofs](/start-here/how-to-write-proofs.qmd) to see how formal structure becomes prose
+
+## Common Mistakes
+
+- treating $p \to q$ as if it means causation or time order
+- forgetting that an implication can be true when its antecedent is false
+- confusing the converse $q \to p$ with the contrapositive $\neg q \to \neg p$
+- treating English `or` as always exclusive
+- deciding validity by intuition instead of checking whether a bad row exists
+
+## Exercises
+
+1. Let $p$ mean `the model converges` and $q$ mean `the loss decreases`. Write symbolic formulas for:
+   - if the model converges, then the loss decreases
+   - the loss decreases but the model does not converge
+   - either the model converges or the loss decreases
+2. Determine whether $(p \land q) \to p$ is valid, satisfiable but not valid, or contradictory.
+3. Test whether the argument
+
+   $$
+   p \lor q,\qquad \neg p,\qquad \therefore q
+   $$
+
+   is valid by searching for a bad truth assignment.
+
+## Sources and Further Reading
+
+- [Stanford CS103 Propositional Logic](https://web.stanford.edu/class/archive/cs/cs103/cs103.1252/lectures/03/) - `First pass` - concise official lecture page with a useful truth-table tool. Checked `2026-04-24`.
+- [CMU OLI Logic & Proofs](https://oli.cmu.edu/courses/logic-proofs/) - `First pass` - official interactive course with strong support for sentential logic practice. Checked `2026-04-24`.
+- [MIT Mathematics for Computer Science, Chapter 1: Propositions](https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-fall-2010/resources/mit6_042jf10_chap01/) - `Second pass` - official notes that connect propositional logic to later discrete mathematics and proof methods. Checked `2026-04-24`.
+- [CMU 15-311 Logic and Mechanized Reasoning](https://csd.cmu.edu/course/15311/s26) - `Paper bridge` - shows where this introductory material leads in CS research and formal methods. Checked `2026-04-24`.

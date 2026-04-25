@@ -1,0 +1,314 @@
+---
+title: "Sets, Functions, and Relations"
+description: "How logic attaches to mathematical objects by using sets for collections, relations for structured pairs, and functions for unambiguous mappings."
+page-type: concept
+status: published
+update-status: current
+level: foundation
+topic: logic
+prerequisites:
+  - /topics/foundation/logic/concepts/predicate-logic.qmd
+learning-goals:
+  - "Use set, subset, Cartesian product, relation, and function precisely."
+  - "Explain how a relation is a subset of a Cartesian product."
+  - "Explain how a function is a special kind of relation."
+  - "Connect sets, functions, and relations to theorem statements and CS models."
+applications:
+  - graphs
+  - databases
+  - formal-verification
+keywords:
+  - sets
+  - functions
+  - relations
+  - Cartesian product
+  - subsets
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: annual
+date-modified: last-modified
+draft: false
+next:
+  - /topics/foundation/logic/concepts/translation-between-english-and-symbols.qmd
+related-pages:
+  - /topics/foundation/logic/index.qmd
+  - /topics/foundation/logic/concepts/predicate-logic.qmd
+  - /topics/foundation/logic/concepts/logical-equivalence-and-negation.qmd
+  - /topics/foundation/logic/concepts/translation-between-english-and-symbols.qmd
+stable-sources:
+  - "Stanford CS103 Functions"
+  - "MIT Mathematics for Computer Science"
+  - "MIT 6.1200J Relations and Counting"
+current-sources:
+  - "CMU OLI Logic & Proofs"
+---
+
+## Role
+
+This page is where symbolic logic gets attached to the mathematical objects it usually talks about.
+
+It explains sets as collections, relations as selected pairs, and functions as the special relations that assign outputs unambiguously.
+
+## First-Pass Promise
+
+Read this page after [Predicate Logic](predicate-logic.qmd).
+
+If you stop here, you should still understand:
+
+- what membership and subset mean
+- what a Cartesian product is
+- what a relation is as a subset of a product
+- what makes a function a special kind of relation
+- why these ideas keep returning in graphs, databases, algorithms, and theorem statements
+
+## Why It Matters
+
+Once you start reading real mathematics, theorem statements stop talking only about abstract predicates. They talk about:
+
+- sets of objects
+- functions between sets
+- relations on a set or between sets
+
+These are not side topics. They are the container language of a huge fraction of mathematics and CS.
+
+Graphs can be viewed as relations on vertices. Databases store relations. State transitions are relations on states. Encoders, decoders, loss maps, and update rules are functions. Subspaces, event spaces, and feasible regions are sets.
+
+So this page is the bridge from logical form to mathematical structure.
+
+## Prerequisite Recall
+
+- predicate logic can talk about properties and relations on objects from a domain
+- a quantified statement becomes precise only after the domain and relevant predicates are clear
+- logical equivalence and negation help expose the exact meaning of a statement
+
+## Intuition
+
+Sets tell you what objects are in play.
+
+Functions tell you how one object determines another.
+
+Relations tell you which pairs of objects are linked, without requiring that each input have exactly one output.
+
+That is the simplest mental model:
+
+- a set is a collection
+- a relation is a selected set of pairs
+- a function is a relation with exactly one output for each allowed input
+
+This viewpoint makes many topics feel less disconnected. For example:
+
+- a graph is a relation on vertices
+- a database table is a relation
+- a classifier is a function from inputs to labels or scores
+- a theorem assumption often says some set, function, or relation has a certain property
+
+## Formal Core
+
+::: {#def-set-and-subset}
+## Definition
+
+A set is a collection of objects treated as one mathematical object.
+
+If $x$ is an element of a set $A$, we write
+
+$$
+x \in A.
+$$
+
+If every element of $A$ is also an element of $B$, we write
+
+$$
+A \subseteq B.
+$$
+
+The Cartesian product of sets $A$ and $B$ is
+
+$$
+A \times B = \{(a,b) : a \in A,\; b \in B\}.
+$$
+:::
+
+::: {#def-relation}
+## Relation
+
+A relation from $A$ to $B$ is a subset
+
+$$
+R \subseteq A \times B.
+$$
+
+If $(a,b) \in R$, we may write $aRb$ or $R(a,b)$.
+
+So a relation is just a selected collection of ordered pairs.
+:::
+
+::: {#def-function}
+## Function
+
+A function from $A$ to $B$ is a relation $f \subseteq A \times B$ such that each input $a \in A$ is associated with exactly one output $b \in B$.
+
+We write
+
+$$
+f : A \to B
+$$
+
+and denote the unique output by $f(a)$.
+
+So every function is a relation, but not every relation is a function.
+:::
+
+::: {#thm-function-as-relation}
+## Key Statement
+
+To check whether a relation $R \subseteq A \times B$ is a function from $A$ to $B$, ask two questions:
+
+1. does every $a \in A$ appear with at least one output?
+2. does every $a \in A$ appear with at most one output?
+
+If both are true, then each input has exactly one output, so $R$ is a function.
+:::
+
+## Worked Example
+
+Let
+
+$$
+A = \{a,b,c\}
+\qquad \text{and} \qquad
+B = \{1,2\}.
+$$
+
+Consider the relation
+
+$$
+R = \{(a,1),(b,1),(c,2)\}.
+$$
+
+Because $R \subseteq A \times B$, it is a relation from $A$ to $B$.
+
+Is it a function?
+
+Check each element of $A$:
+
+- $a$ is paired with exactly one output, namely $1$
+- $b$ is paired with exactly one output, namely $1$
+- $c$ is paired with exactly one output, namely $2$
+
+So yes, $R$ is a function.
+
+Now consider instead
+
+$$
+S = \{(a,1),(a,2),(b,1)\}.
+$$
+
+This is still a relation from $A$ to $B$, but it is not a function from $A$ to $B$:
+
+- $a$ has two outputs, so uniqueness fails
+- $c$ has no output, so totality on $A$ fails
+
+This example captures the key distinction:
+
+- relations are flexible pairings
+- functions are controlled pairings with one output per input
+
+## Computation Lens
+
+These ideas show up constantly in implementation and modeling.
+
+Typical computational interpretations are:
+
+- a set as a collection of allowed states, labels, tokens, or vertices
+- a relation as adjacency, reachability, compatibility, or database membership
+- a function as a deterministic mapping, scoring rule, update rule, or transformation
+
+In code, a dictionary-like map is usually trying to behave like a function. A table of allowed pairs often behaves like a relation. A matrix can represent a function once bases are fixed, which is why this page also supports later linear algebra.
+
+## Application Lens
+
+One concrete application is graph and database modeling.
+
+If $V$ is a set of vertices, then a directed graph can be described by a relation
+
+$$
+E \subseteq V \times V.
+$$
+
+If $(u,v) \in E$, there is a directed edge from $u$ to $v$.
+
+A relational database table behaves similarly: it stores tuples, and membership in the table is itself a relation.
+
+Functions show up when the pairing is deterministic. For example:
+
+- each student has one ID number
+- each node in a tree has one parent, except the root
+- each input to a trained model produces one output prediction
+
+So the distinction between relation and function is not stylistic. It changes what questions we can ask and what properties the system has.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- the difference between $\in$ and $\subseteq$
+- what $A \times B$ contains
+- why a relation is a subset of a product
+- why every function is a relation but not conversely
+- one CS example of a relation and one CS example of a function
+
+then this page has done its job.
+
+## Go Deeper
+
+The best next steps after this page are:
+
+1. [Translation Between English and Symbols](translation-between-english-and-symbols.qmd)
+2. [Proof-writing Clinic](../../proofs/concepts/proof-writing-clinic.qmd)
+3. [Linear Algebra: Matrices and Linear Maps](../../linear-algebra/concepts/matrices-and-linear-maps.qmd)
+
+## Optional Paper Bridge
+
+Optional after the first pass:
+
+- [Stanford CS103 Functions, Part I](https://web.stanford.edu/class/archive/cs/cs103/cs103.1252/lectures/06/) - use this official lecture page as a compact bridge into function thinking and mapping between sets. Checked `2026-04-24`.
+- [MIT 6.1200J Lecture 15: Relations and Counting](https://ocw.mit.edu/courses/6-1200j-mathematics-for-computer-science-spring-2024/mit6_1200j_s24_lec15.pdf) - watch how relations, functions, injectivity, surjectivity, and graphs are tied together. Checked `2026-04-24`.
+
+## Optional After First Pass
+
+If you want more depth before the final logic page lands:
+
+- continue to [Translation Between English and Symbols](translation-between-english-and-symbols.qmd)
+- revisit [Predicate Logic](predicate-logic.qmd) and notice how predicates become relations when their variables range over sets
+- compare this page with [Matrices and Linear Maps](../../linear-algebra/concepts/matrices-and-linear-maps.qmd) to see how functions later receive coordinate representations
+
+## Common Mistakes
+
+- confusing $x \in A$ with $A \subseteq B$
+- treating ordered pairs as if order does not matter
+- calling a relation a function even when one input has multiple outputs
+- forgetting that the domain and codomain matter when deciding whether something is a function
+- thinking every relation must be symmetric or every function must be injective
+
+## Exercises
+
+1. Let $A = \{1,2\}$ and $B = \{x,y,z\}$. List the elements of $A \times B$.
+2. Let
+
+   $$
+   R = \{(1,x),(2,y)\} \subseteq A \times B.
+   $$
+
+   Is $R$ a function from $A$ to $B$? Explain.
+3. Give one example of:
+   - a relation on a set that is not a function
+   - a function between two sets
+   - a graph interpreted as a relation
+
+## Sources and Further Reading
+
+- [MIT sets definitions handout](https://courses.csail.mit.edu/6.042/spring18/sets-definitions.pdf) - `First pass` - focused MIT notes on membership, subset, and set-builder language. Checked `2026-04-24`.
+- [Stanford CS103 Functions, Part I](https://web.stanford.edu/class/archive/cs/cs103/cs103.1252/lectures/06/) - `First pass` - concise official lecture page on functions as transformations and pairings between sets. Checked `2026-04-24`.
+- [MIT 6.1200J Lecture 15: Relations and Counting](https://ocw.mit.edu/courses/6-1200j-mathematics-for-computer-science-spring-2024/mit6_1200j_s24_lec15.pdf) - `Second pass` - official lecture notes on relations, functions, injections, surjections, and equivalence relations. Checked `2026-04-24`.
+- [CMU OLI Logic & Proofs](https://oli.cmu.edu/courses/logic-proofs/) - `Second pass` - official interactive course that connects logic to functions and translation work. Checked `2026-04-24`.

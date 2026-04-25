@@ -9,6 +9,7 @@ The foundation track is where you build fluency strong enough that later theory 
 ## First Modules
 
 - [Proofs](proofs/index.qmd)
+- [Logic](logic/index.qmd)
 - [Linear Algebra](linear-algebra/index.qmd)
 - [Probability](probability/index.qmd)
 - [Statistics](statistics/index.qmd)

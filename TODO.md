@@ -17,8 +17,8 @@ Use it to track:
 
 ## Current Snapshot
 
-- `103` `.qmd` pages currently exist
-- `24` concept-topic pages currently exist
+- `109` `.qmd` pages currently exist
+- `29` concept-topic pages currently exist
 - strongest subjects so far: `Linear Algebra`, `Probability`, `Proofs`, `Statistics`
 - non-topic sections already scaffolded: `Start Here`, `Roadmaps`, `Applications`, `Paper Lab`, `Research`, `Publication`, `Library`, `Notes`
 
@@ -124,11 +124,12 @@ Use it to track:
 
 ### Logic
 
-- [ ] `Propositional logic`
-- [ ] `Predicate logic`
-- [ ] `Sets, functions, relations`
-- [ ] `Logical equivalence and negation`
-- [ ] `Translation between English and symbols`
+- [x] `Logic index`
+- [x] `Propositional logic`
+- [x] `Logical equivalence and negation`
+- [x] `Predicate logic`
+- [x] `Sets, functions, relations`
+- [x] `Translation between English and symbols`
 
 ### Discrete Math
 

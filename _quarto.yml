@@ -65,6 +65,14 @@ website:
               - topics/foundation/proofs/concepts/induction.qmd
               - topics/foundation/proofs/concepts/counterexamples-and-proof-debugging.qmd
               - topics/foundation/proofs/concepts/proof-writing-clinic.qmd
+          - section: "Logic"
+            contents:
+              - topics/foundation/logic/index.qmd
+              - topics/foundation/logic/concepts/propositional-logic.qmd
+              - topics/foundation/logic/concepts/logical-equivalence-and-negation.qmd
+              - topics/foundation/logic/concepts/predicate-logic.qmd
+              - topics/foundation/logic/concepts/sets-functions-and-relations.qmd
+              - topics/foundation/logic/concepts/translation-between-english-and-symbols.qmd
           - section: "Linear Algebra"
             contents:
               - topics/foundation/linear-algebra/index.qmd
