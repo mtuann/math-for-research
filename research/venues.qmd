@@ -1,0 +1,370 @@
+---
+title: "Venues"
+description: "A research-facing venue map showing where theorem-heavy, optimization-heavy, graph-heavy, and statistics-heavy work is commonly published, and how venue fit depends on audience and evidence."
+page-type: research-direction
+status: published
+update-status: monitor
+level: research
+topic: venues
+prerequisites:
+  - /research/index.qmd
+  - /research/theorem-families.qmd
+  - /research/directions.qmd
+  - /research/surveys.qmd
+learning-goals:
+  - "Understand venue fit as a question of audience, contribution type, and evidence, not prestige alone."
+  - "Recognize the main venue clusters around ML theory, optimization, graph learning, and probability/statistics."
+  - "See how the site's research directions map onto different conference and journal cultures."
+  - "Choose better reading targets by looking at venue family rather than isolated paper titles."
+applications:
+  - literature-entry
+  - publication-awareness
+  - machine-learning-theory
+  - optimization
+  - statistics
+keywords:
+  - venues
+  - conference map
+  - journals
+  - literature culture
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: quarterly
+date-modified: last-modified
+draft: false
+stable-sources:
+  - "Research index"
+  - "Directions"
+  - "Surveys"
+current-sources:
+  - "NeurIPS official site"
+  - "ICML official site"
+  - "ICLR official site"
+  - "Association for Computational Learning"
+  - "JMLR"
+  - "PMLR"
+---
+
+## Why This Page
+
+This page is not a ranking guide.
+
+It is a `venue fit` guide.
+
+The point is not to ask "which venue is best?" in the abstract. The useful question is:
+
+`For this kind of result, who is the audience and what kind of evidence do they expect?`
+
+That question helps with both paper reading and research orientation.
+
+It tells you:
+
+- where a direction tends to live
+- how theorem-heavy and experiment-heavy work are blended
+- which papers are likely to be good reading targets for your current background
+
+## Venue Snapshot
+
+- `Type`: top-level research map
+- `Setting`: readers trying to understand where different kinds of work are typically published
+- `Main claim`: venue names are most useful when read as signals about audience and evidence culture
+- `Why it matters`: different venue families reward different balances of theorem, experiment, systems, and application content
+
+## How To Use This Page
+
+When you see a paper, ask four questions:
+
+1. `What is the main contribution type?`
+   theorem, algorithm, benchmark, system, application, or synthesis
+
+2. `What evidence carries the paper?`
+   proofs, experiments, ablations, empirical evaluation, or some mix
+
+3. `Who is the natural audience?`
+   learning theorists, broad ML readers, optimization people, statisticians, graph-learning researchers
+
+4. `What is the surrounding literature culture?`
+   conference-first, journal-first, or mixed
+
+Venue fit becomes much clearer after those questions.
+
+## Cluster 1: Broad ML Conference Venues
+
+### Typical venues
+
+- `NeurIPS`
+- `ICML`
+- `ICLR`
+- `AISTATS`
+
+### Best for
+
+- broad machine learning interest
+- papers mixing theory and experiment
+- model, method, or representation contributions with strong ML relevance
+- active frontier work where fast iteration matters
+
+### Evidence culture
+
+These venues often reward a good blend of:
+
+- conceptual novelty
+- strong experimental story
+- enough theory to clarify or support the main mechanism when theory is relevant
+
+This does not mean all papers look the same, but it does mean the audience is broader than a theorem-only community.
+
+### Where it appears in this site
+
+- [Directions](directions.qmd)
+- [Applications > Machine Learning](../applications/machine-learning/index.qmd)
+- [How Top-Venue Papers Are Shaped](../publication/how-top-venue-papers-are-shaped.qmd)
+
+## Cluster 2: Learning-Theory Venues
+
+### Typical venues
+
+- `COLT`
+- `JMLR`
+- theory-heavy tracks or theory-oriented papers in broad ML venues
+
+### Best for
+
+- theorem-first contributions
+- generalization, sample complexity, optimization theory, and online learning
+- work where mathematical clarity is the main contribution
+
+### Evidence culture
+
+Here theorems usually carry more weight than large experimental campaigns.
+
+But readers still need to ask:
+
+- what assumptions make the result meaningful?
+- is the theorem illuminating a practical regime or only a stylized one?
+- if experiments exist, are they illustrating the mathematics or replacing missing theory?
+
+### Where it appears in this site
+
+- [Theorem Families](theorem-families.qmd)
+- [Directions](directions.qmd)
+- [AI / ML Theory roadmap](../roadmaps/ai-ml-theory.qmd)
+
+## Cluster 3: Optimization And Numerical Venues
+
+### Typical venues
+
+- `Mathematical Programming`
+- `SIAM Journal on Optimization`
+- `Mathematical Programming Computation`
+- optimization-related work in `NeurIPS`, `ICML`, or engineering conferences when ML relevance is central
+
+### Best for
+
+- optimization theory
+- solver design
+- duality and certificate structure
+- numerical methods with strong mathematical analysis
+- differentiable optimization in research areas that still care about solver behavior
+
+### Evidence culture
+
+These venues often care more about:
+
+- formulation clarity
+- assumptions and proof quality
+- computational behavior tied to the theory
+
+than about large benchmark collections alone.
+
+### Where it appears in this site
+
+- [Optimization](../topics/advanced/optimization/index.qmd)
+- [Duality and Certificates](../topics/advanced/optimization/concepts/duality-and-certificates.qmd)
+- [Optimization for Machine Learning](../applications/machine-learning/optimization-for-machine-learning.qmd)
+
+## Cluster 4: Statistics And Probability Venues
+
+### Typical venues
+
+- `Annals of Statistics`
+- `Annals of Probability`
+- `JASA`
+- `JRSS B`
+- `Bernoulli`
+- `AISTATS` when the work has strong ML overlap
+
+### Best for
+
+- estimation theory
+- uncertainty and calibration
+- high-dimensional inference
+- asymptotic and non-asymptotic statistical analysis
+- probability tools that support modern data science
+
+### Evidence culture
+
+These venues often read very differently from broad ML conferences.
+
+The audience usually expects:
+
+- sharper attention to assumptions
+- stronger inferential interpretation
+- more careful statistical framing
+
+### Where it appears in this site
+
+- [Statistics](../topics/foundation/statistics/index.qmd)
+- [Probability](../topics/foundation/probability/index.qmd)
+- [Uncertainty Calibration and Predictive Confidence](../applications/machine-learning/uncertainty-calibration-and-predictive-confidence.qmd)
+
+## Cluster 5: Algorithms And Theory-CS Venues
+
+### Typical venues
+
+- `STOC`
+- `FOCS`
+- `SODA`
+- related theory workshops and journals
+
+### Best for
+
+- algorithmic guarantees
+- complexity results
+- lower bounds and impossibility results
+- sketching, streaming, and discrete-math flavored theory
+
+### Evidence culture
+
+Compared with broad ML venues, these communities often place more emphasis on:
+
+- theorem novelty
+- proof architecture
+- asymptotic guarantees
+- formal model choice
+
+### Where it appears in this site
+
+- [Theorem Families](theorem-families.qmd)
+- [Paper Lab](../paper-lab/index.qmd)
+- future `Discrete Math` and algorithms-adjacent parts of the site
+
+## Cluster 6: Graph And Data-Mining Venues
+
+### Typical venues
+
+- `KDD`
+- `WWW`
+- graph-learning work also appears in `NeurIPS`, `ICML`, and `ICLR`
+
+### Best for
+
+- graph mining and representation learning
+- web-scale relational problems
+- recommendation and network analysis
+- graph methods where application framing matters strongly
+
+### Evidence culture
+
+These venues often care about:
+
+- the graph problem setting itself
+- scale and datasets
+- application relevance
+- whether the method makes sense for real networked data
+
+### Where it appears in this site
+
+- [Directions](directions.qmd)
+- [CS224W 2024](https://snap.stanford.edu/class/cs224w-2024/)
+- [Graph Rewiring, Homophily, and Heterophily](../applications/machine-learning/graph-rewiring-homophily-and-heterophily.qmd)
+
+## How The Site's Directions Map To Venue Clusters
+
+### High-dimensional probability and random matrices
+
+Often lives across:
+
+- probability and statistics journals
+- `COLT`
+- `JMLR`
+- some theory-heavy papers in broad ML venues
+
+### Modern learning theory
+
+Often lives across:
+
+- `COLT`
+- `JMLR`
+- theory-facing papers in `NeurIPS`, `ICML`, and sometimes `ICLR`
+
+### Graph learning beyond simple message passing
+
+Often lives across:
+
+- `NeurIPS`
+- `ICML`
+- `ICLR`
+- `KDD`
+- `WWW`
+
+### Generative modeling through score, flow, and transport
+
+Often lives across:
+
+- `NeurIPS`
+- `ICML`
+- `ICLR`
+- `JMLR`
+
+### Optimization inside learning and inference pipelines
+
+Often lives across:
+
+- optimization journals
+- `NeurIPS`
+- `ICML`
+- engineering and control venues when the problem framing demands it
+
+### Representation geometry and in-context structure
+
+Often lives across:
+
+- `ICLR`
+- `NeurIPS`
+- `ICML`
+- `JMLR`
+
+## Common Venue Mistakes
+
+### Mistake 1: reading venue name as a quality oracle
+
+Venue names are signals about audience and expectations, not replacements for technical judgment.
+
+### Mistake 2: assuming theorem-heavy and benchmark-heavy papers are judged the same way
+
+Different venue families tolerate different balances of proof, experiment, and systems detail.
+
+### Mistake 3: ignoring journals
+
+If you only read conference papers, you miss a large amount of strong work in optimization, probability, and statistics.
+
+### Mistake 4: using venue as the only way to choose papers
+
+Venue fit helps, but reading trails, theorem families, and surveys are still better first tools than prestige-chasing.
+
+## What To Learn Next
+
+- [Surveys](surveys.qmd), if you want literature entry points before venue-specific reading
+- [How Top-Venue Papers Are Shaped](../publication/how-top-venue-papers-are-shaped.qmd), if you want to understand the paper-construction side
+- [Claim-Evidence Matrix](../publication/claim-evidence-matrix.qmd), if you want to analyze how venue expectations affect paper structure
+
+## Sources And Further Reading
+
+- [NeurIPS](https://neurips.cc/) - `Paper bridge` - official home for one of the main broad ML conference venues. Checked `2026-04-25`.
+- [ICML](https://icml.cc/) - `Paper bridge` - official home for a major broad ML venue with a wide algorithm-and-theory mix. Checked `2026-04-25`.
+- [ICLR](https://iclr.cc/) - `Paper bridge` - official home for the major representation-learning conference with strong deep-learning presence. Checked `2026-04-25`.
+- [Association for Computational Learning / COLT](https://www.learningtheory.org/) - `Paper bridge` - official home for the learning-theory conference family. Checked `2026-04-25`.
+- [Journal of Machine Learning Research](https://jmlr.org/) - `Second pass` - important journal venue for theory, methodology, and broader ML work. Checked `2026-04-25`.
+- [Proceedings of Machine Learning Research](https://proceedings.mlr.press/) - `Second pass` - official proceedings hub for many ML and statistics conferences, including AISTATS and COLT. Checked `2026-04-25`.

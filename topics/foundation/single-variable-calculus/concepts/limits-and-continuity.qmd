@@ -245,12 +245,12 @@ The strongest next steps after this page are:
 2. [Optimization](../../../advanced/optimization/index.qmd), if you want to see where continuity and local behavior become solver assumptions
 3. [Backpropagation and Computation Graphs](../../../../applications/machine-learning/backpropagation-and-computation-graphs.qmd), if you want a later ML-facing reason the chain-rule side of calculus matters
 
-## Optional Paper Bridge
+## Optional Deeper Reading
 
 - [MIT 18.01SC Single Variable Calculus Syllabus](https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/syllabus) - `First pass` - official course arc showing how limits and continuity anchor the rest of calculus. Checked `2026-04-25`.
 - [MIT 18.01SC Continuity Notes](https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/98249dc379f2f104980eb24a9e7a3ad8_MIT18_01SCF10_Ses4b.pdf) - `Second pass` - compact official note set for continuity and nearby behavior. Checked `2026-04-25`.
 - [OpenStax Calculus Volume 1: Continuity](https://openstax.org/books/calculus-volume-1/pages/2-4-continuity) - `Second pass` - strong free section with continuity tests and discontinuity types. Checked `2026-04-25`.
-- [Paul's Online Math Notes: Limits and Continuity](https://tutorial.math.lamar.edu/classes/calci/limitsintro.aspx) - `Paper bridge` - useful practice-heavy bridge when you want many examples before moving on to derivatives. Checked `2026-04-25`.
+- [Paul's Online Math Notes: Limits and Continuity](https://tutorial.math.lamar.edu/classes/calci/limitsintro.aspx) - `Second pass` - useful practice-heavy bridge when you want many examples before moving on to derivatives. Checked `2026-04-25`.
 
 ## Optional After First Pass
 

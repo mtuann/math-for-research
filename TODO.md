@@ -17,7 +17,7 @@ Use it to track:
 
 ## Current Snapshot
 
-- `154` `.qmd` pages currently exist
+- `158` `.qmd` pages currently exist
 - `45` concept-topic pages currently exist
 - strongest subjects so far: `Linear Algebra`, `Probability`, `Proofs`, `Logic`, `Statistics`, `Single-Variable Calculus`, `Multivariable Calculus`, `Optimization`
 - strongest public-facing bridge so far: `Applications > Machine Learning`
@@ -90,10 +90,10 @@ Use it to track:
 ### Research
 
 - [x] `Research index`
-- [ ] `Theorem families`
-- [ ] `Directions`
-- [ ] `Surveys`
-- [ ] `Venues`
+- [x] `Theorem families`
+- [x] `Directions`
+- [x] `Surveys`
+- [x] `Venues`
 
 ### Publication
 
@@ -359,7 +359,7 @@ Near-term highest-value content steps:
 3. [ ] `Render and visually QA the optimization module locally`
 4. [ ] `Sweep review the full optimization module`
 5. [ ] `Curate Library: papers`
-6. [ ] `Build Research: theorem families`
+6. [ ] `Build Publication: venue map`
 
 ## Work Outside Topic Content
 

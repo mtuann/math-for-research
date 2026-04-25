@@ -275,13 +275,13 @@ The strongest next steps after this page are:
 2. [Optimization](../../../advanced/optimization/index.qmd), if you want to see iterates and convergence rates in algorithmic form
 3. [Probability](../../probability/index.qmd), if you want to see convergence language reappear in LLN, CLT, and stochastic limits
 
-## Optional Paper Bridge
+## Optional Deeper Reading
 
 - [MIT 18.01 Lecture Notes Archive](https://ocw.mit.edu/courses/18-01-single-variable-calculus-fall-2006/resources/lecture-notes/) - `First pass` - official MIT archive including the infinite series and convergence notes. Checked `2026-04-25`.
 - [OpenStax Calculus Volume 2: Sequences](https://openstax.org/books/calculus-volume-2/pages/5-1-sequences) - `Second pass` - free text section on sequence convergence, boundedness, and monotonicity. Checked `2026-04-25`.
 - [OpenStax Calculus Volume 2: Infinite Series](https://openstax.org/books/calculus-volume-2/pages/5-2-infinite-series) - `Second pass` - free text section defining infinite series through partial sums. Checked `2026-04-25`.
 - [Paul's Online Math Notes: Sequences](https://tutorial.math.lamar.edu/classes/calcii/sequences.aspx) - `Second pass` - practice-heavy companion for convergence examples. Checked `2026-04-25`.
-- [Paul's Online Math Notes: Series - The Basics](https://tutorial.math.lamar.edu/classes/calcii/series_basics.aspx) - `Paper bridge` - useful worked-example bridge for partial sums and benchmark series. Checked `2026-04-25`.
+- [Paul's Online Math Notes: Series - The Basics](https://tutorial.math.lamar.edu/classes/calcii/series_basics.aspx) - `Second pass` - useful worked-example bridge for partial sums and benchmark series. Checked `2026-04-25`.
 
 ## Optional After First Pass
 

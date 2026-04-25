@@ -88,8 +88,8 @@ website:
               - topics/foundation/multivariable-calculus/concepts/partial-derivatives-and-gradients.qmd
               - topics/foundation/multivariable-calculus/concepts/chain-rule-and-linearization.qmd
               - topics/foundation/multivariable-calculus/concepts/jacobians-and-hessians.qmd
-              - topics/foundation/multivariable-calculus/concepts/constrained-optimization.qmd
               - topics/foundation/multivariable-calculus/concepts/multiple-integrals.qmd
+              - topics/foundation/multivariable-calculus/concepts/constrained-optimization.qmd
               - topics/foundation/multivariable-calculus/concepts/vector-fields-and-divergence-curl.qmd
           - section: "Linear Algebra"
             contents:
@@ -138,6 +138,10 @@ website:
           - paper-lab/dependency-maps.qmd
           - paper-lab/reading-trails.qmd
           - research/index.qmd
+          - research/theorem-families.qmd
+          - research/directions.qmd
+          - research/surveys.qmd
+          - research/venues.qmd
           - publication/index.qmd
           - publication/claim-evidence-matrix.qmd
           - publication/how-top-venue-papers-are-shaped.qmd

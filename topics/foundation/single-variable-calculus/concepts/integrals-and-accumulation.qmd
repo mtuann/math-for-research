@@ -114,14 +114,14 @@ and only second as area in special geometric cases.
 ::: {#def-definite-integral}
 ## Definite Integral
 
-If the limit exists, the definite integral of $f$ from $a$ to $b$ is
+If the limit exists, the definite integral of $f$ from $a$ to $b$ is the limit of Riemann sums over partitions of $[a,b]$ whose mesh tends to zero:
 
 $$
 \int_a^b f(x)\,dx
-= \lim_{n\to\infty}\sum_{i=1}^n f(x_i^*)\Delta x.
+= \lim_{\lVert P\rVert \to 0}\sum_{i=1}^n f(x_i^*)\Delta x_i.
 $$
 
-This is the limit of Riemann sums formed by partitioning the interval $[a,b]$ into small pieces and sampling the function on each piece.
+Here $\lVert P\rVert$ is the width of the largest subinterval in the partition. This makes the idea precise: the pieces must get uniformly fine, not merely numerous.
 
 The result is a **number**, not a new function.
 :::
@@ -149,7 +149,7 @@ At a first-pass level, the key message is:
 - integrals add local change across an interval
 - the two operations are tightly linked
 
-If $F'(x)=f(x)$, then
+If $f$ is continuous on $[a,b]$ and $F'(x)=f(x)$ on that interval, then
 
 $$
 \int_a^b f(x)\,dx = F(b)-F(a).
@@ -251,12 +251,12 @@ The strongest next steps after this page are:
 2. [Probability](../../probability/index.qmd), if you want to see accumulation become expectation and total probability
 3. [Optimization](../../../advanced/optimization/index.qmd), if you want to see how local update rules become pathwise or objective-level reasoning
 
-## Optional Paper Bridge
+## Optional Deeper Reading
 
 - [MIT 18.01SC: The Definite Integral and its Applications](https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-3-the-definite-integral-and-its-applications/) - `First pass` - official MIT unit connecting definite integrals, Riemann sums, and the Fundamental Theorem. Checked `2026-04-25`.
 - [OpenStax Calculus Volume 1: The Definite Integral](https://openstax.org/books/calculus-volume-1/pages/5-2-the-definite-integral) - `Second pass` - free text section on integral definition, notation, and net area. Checked `2026-04-25`.
 - [OpenStax Calculus Volume 1: The Fundamental Theorem of Calculus](https://openstax.org/books/calculus-volume-1/pages/5-3-the-fundamental-theorem-of-calculus) - `Second pass` - direct bridge between antiderivatives and definite integrals. Checked `2026-04-25`.
-- [Paul's Online Math Notes: Definition of the Definite Integral](https://tutorial.math.lamar.edu/Classes/CalcI/DefnofDefiniteIntegral.aspx) - `Paper bridge` - practice-heavy explanation of Riemann-sum intuition and net change. Checked `2026-04-25`.
+- [Paul's Online Math Notes: Definition of the Definite Integral](https://tutorial.math.lamar.edu/Classes/CalcI/DefnofDefiniteIntegral.aspx) - `Second pass` - practice-heavy explanation of Riemann-sum intuition and net change. Checked `2026-04-25`.
 
 ## Optional After First Pass
 

@@ -248,16 +248,16 @@ then this page has done its main job.
 
 The strongest next steps after this page are:
 
-1. `Partial derivatives and gradients`, because Taylor-style local modeling is even more powerful in several variables
+1. [Partial Derivatives and Gradients](../../multivariable-calculus/concepts/partial-derivatives-and-gradients.qmd), because Taylor-style local modeling is even more powerful in several variables
 2. [Optimization](../../../advanced/optimization/index.qmd), to see linear and quadratic local models become algorithms and certificates
 3. [Backpropagation and Computation Graphs](../../../../applications/machine-learning/backpropagation-and-computation-graphs.qmd), for the multivariable chain-rule side of local approximation
 
-## Optional Paper Bridge
+## Optional Deeper Reading
 
 - [MIT 18.01SC Session 98: Taylor's Series](https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-5-exploring-the-infinite/part-b-taylor-series/session-98-taylors-series/) - `First pass` - official MIT introduction to Taylor-series thinking. Checked `2026-04-25`.
 - [MIT Introduction to Taylor Series Notes](https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/1f7a71d62dea7f3b637daedb410854a0_MIT18_01SCF10_Ses98a.pdf) - `Second pass` - compact official notes for building and interpreting Taylor expansions. Checked `2026-04-25`.
 - [OpenStax Calculus Volume 2: Taylor and Maclaurin Series](https://openstax.org/books/calculus-volume-2/pages/6-3-taylor-and-maclaurin-series) - `Second pass` - free text section on Taylor coefficients, series, and remainder ideas. Checked `2026-04-25`.
-- [OpenStax Calculus Volume 2: Working with Taylor Series](https://openstax.org/books/calculus-volume-2/pages/6-4-working-with-taylor-series) - `Paper bridge` - useful bridge from the basic formula to practical approximation work. Checked `2026-04-25`.
+- [OpenStax Calculus Volume 2: Working with Taylor Series](https://openstax.org/books/calculus-volume-2/pages/6-4-working-with-taylor-series) - `Second pass` - useful bridge from the basic formula to practical approximation work. Checked `2026-04-25`.
 - [Paul's Online Math Notes: Taylor Series](https://tutorial.math.lamar.edu/Classes/CalcII/TaylorSeries.aspx) - `Second pass` - practice-heavy companion with many worked examples. Checked `2026-04-25`.
 
 ## Optional After First Pass

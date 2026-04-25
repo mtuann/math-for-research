@@ -1,0 +1,330 @@
+---
+title: "Directions"
+description: "A map of active research directions built on top of the site's stable math backbone, with reading trails into probability, optimization, graphs, and generative modeling."
+page-type: research-direction
+status: published
+update-status: monitor
+level: research
+topic: research-directions
+prerequisites:
+  - /research/index.qmd
+  - /research/theorem-families.qmd
+  - /paper-lab/reading-trails.qmd
+learning-goals:
+  - "See which current directions grow naturally out of the site's stable theorem families."
+  - "Distinguish durable mathematical backbones from fast-moving frontier questions."
+  - "Choose a research direction using reading trails instead of hype alone."
+  - "Understand where optimization, probability, graph learning, and generative modeling currently connect."
+applications:
+  - machine-learning-theory
+  - graph-learning
+  - optimization
+  - high-dimensional-statistics
+  - generative-modeling
+keywords:
+  - research directions
+  - machine learning theory
+  - graph learning
+  - diffusion
+  - optimization
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: quarterly
+date-modified: last-modified
+draft: false
+stable-sources:
+  - "Research index"
+  - "Theorem Families"
+  - "Reading Trails"
+current-sources:
+  - "CS229T course description"
+  - "CS224W 2024"
+  - "EE364a current course page"
+  - "High-Dimensional Probability course"
+---
+
+## Why This Page
+
+Research directions are where the site should stop feeling like a curriculum and start feeling like a gateway.
+
+But a good directions page should not just say what is fashionable. It should say:
+
+- what stable math the direction stands on
+- what the active questions are
+- what breaks if you skip the prerequisites
+- what a realistic first reading trail looks like
+
+That is the design rule here:
+
+`stable backbone first, active frontier second`
+
+## Directions At A Glance
+
+- `Type`: top-level research map
+- `Setting`: readers who want to move from topic mastery into current research areas
+- `Main claim`: research directions make the most sense when organized by the theorem families behind them
+- `Why it matters`: this is the layer that turns "I studied the topic" into "I know what to read next"
+
+## How To Read This Page
+
+For each direction below, read in this order:
+
+1. `Stable backbone`
+2. `What is active now`
+3. `Where it appears`
+4. `Starter trail`
+
+If the stable backbone already feels weak, follow the trail backward rather than pushing deeper into frontier papers.
+
+## Direction 1: High-Dimensional Probability And Random Matrices
+
+### Stable backbone
+
+- concentration inequalities
+- random vectors and random matrices
+- norm control and geometric probability
+- empirical process intuition
+
+### What is active now
+
+This direction stays central because many modern questions in data science and ML become high-dimensional before they become algorithmic.
+
+Typical active questions:
+
+- how do random matrix effects shape generalization and interpolation?
+- how do concentration tools scale to dependent, structured, or heavy-tailed settings?
+- which probabilistic tools remain reliable in modern overparameterized regimes?
+
+### Where it appears
+
+- high-dimensional statistics
+- covariance and regression theory
+- sketching and randomized linear algebra
+- generalization analysis
+- compressed sensing and inverse problems
+
+### Starter trail
+
+1. [Probability](../topics/foundation/probability/index.qmd)
+2. [Concentration and Common Inequalities](../topics/foundation/probability/concepts/concentration-and-common-inequalities.qmd)
+3. [Theorem Families](theorem-families.qmd)
+4. [High-Dimensional Probability](https://www.math.uci.edu/~rvershyn/teaching/hdp/hdp.html)
+
+## Direction 2: Modern Learning Theory
+
+### Stable backbone
+
+- empirical risk and population risk
+- bias-variance and validation
+- stability, complexity, and uniform convergence
+- optimization-generalization interaction
+
+### What is active now
+
+The frontier is no longer only classical VC-style bounds.
+
+Current emphasis includes:
+
+- overparameterization
+- implicit regularization
+- distribution shift
+- self-supervised and unsupervised settings
+- theory for large nonlinear models
+
+### Where it appears
+
+- deep learning theory
+- representation learning
+- calibration and uncertainty
+- model selection and validation
+- robustness and shift analysis
+
+### Starter trail
+
+1. [Statistics](../topics/foundation/statistics/index.qmd)
+2. [Generalization, Overfitting, and Validation](../applications/machine-learning/generalization-overfitting-and-validation.qmd)
+3. [Regularization, Implicit Bias, and Model Complexity](../applications/machine-learning/regularization-implicit-bias-and-model-complexity.qmd)
+4. [CS229T Course Description](https://bulletin.stanford.edu/courses/2136161)
+
+## Direction 3: Graph Learning Beyond Simple Message Passing
+
+### Stable backbone
+
+- spectral methods
+- graph operators and propagation
+- embedding geometry
+- message passing as local operator application
+
+### What is active now
+
+Graph learning is no longer just about applying a standard GNN layer repeatedly.
+
+Active questions include:
+
+- heterophily and when homophily assumptions fail
+- oversquashing and long-range dependence
+- rewiring and graph augmentation
+- spectral invariances and structure-aware architectures
+
+### Where it appears
+
+- graph neural networks
+- molecule and protein learning
+- reasoning over relational data
+- network science
+- structured scientific systems
+
+### Starter trail
+
+1. [Eigenvalues and Diagonalization](../topics/foundation/linear-algebra/concepts/eigenvalues-and-diagonalization.qmd)
+2. [Graph Rewiring, Homophily, and Heterophily](../applications/machine-learning/graph-rewiring-homophily-and-heterophily.qmd)
+3. [Long-Range Dependence and Oversquashing in Graphs](../applications/machine-learning/long-range-dependence-and-oversquashing-in-graphs.qmd)
+4. [CS224W 2024](https://snap.stanford.edu/class/cs224w-2024/)
+
+## Direction 4: Generative Modeling Through Score, Flow, And Transport
+
+### Stable backbone
+
+- multivariable calculus
+- probability over continuous spaces
+- vector fields and local dynamics
+- denoising and score estimation
+
+### What is active now
+
+This direction is one of the clearest examples of stable math powering a fast frontier.
+
+Current emphasis includes:
+
+- score-based generation
+- reverse-time SDE views
+- flow matching
+- transport-based formulations
+- faster sampling and better trajectory design
+
+### Where it appears
+
+- image, video, and multimodal generation
+- scientific generative modeling
+- inverse problems
+- uncertainty-aware simulation
+
+### Starter trail
+
+1. [Multivariable Calculus](../topics/foundation/multivariable-calculus/index.qmd)
+2. [Diffusion Models and Denoising](../applications/machine-learning/diffusion-models-and-denoising.qmd)
+3. [Score Matching and the SDE View of Diffusion](../applications/machine-learning/score-matching-and-the-sde-view-of-diffusion.qmd)
+4. [Flow Matching and Transport Views of Generation](../applications/machine-learning/flow-matching-and-transport-views-of-generation.qmd)
+
+## Direction 5: Optimization Inside Learning And Inference Pipelines
+
+### Stable backbone
+
+- convex sets and convex functions
+- duality and certificates
+- first-order methods
+- constrained optimization
+
+### What is active now
+
+Optimization is increasingly used not just as a solver layer, but as part of the model itself.
+
+Current themes include:
+
+- differentiable optimization layers
+- optimization as an inference primitive
+- structured prediction and constrained learning
+- solver-aware architectures
+
+### Where it appears
+
+- control and robotics
+- inverse problems
+- constrained ML pipelines
+- differentiable programming
+- scientific machine learning
+
+### Starter trail
+
+1. [Optimization](../topics/advanced/optimization/index.qmd)
+2. [Duality and Certificates](../topics/advanced/optimization/concepts/duality-and-certificates.qmd)
+3. [Optimization for Machine Learning](../applications/machine-learning/optimization-for-machine-learning.qmd)
+4. [EE364a: Convex Optimization I](https://web.stanford.edu/class/ee364a/index.html)
+
+## Direction 6: Representation Geometry And In-Context Structure
+
+### Stable backbone
+
+- vectors and linear maps
+- similarity geometry
+- operator viewpoints on attention
+- local linearization and feature maps
+
+### What is active now
+
+This direction asks what large models are really doing in representation space.
+
+Typical active questions:
+
+- how should embeddings be interpreted geometrically?
+- when do linear probes reveal useful structure versus artifacts?
+- why does in-context learning sometimes look like local linear regression or adaptation?
+
+### Where it appears
+
+- transformers
+- foundation models
+- multimodal learning
+- interpretability and diagnostics
+- representation analysis
+
+### Starter trail
+
+1. [Vectors and Linear Combinations](../topics/foundation/linear-algebra/concepts/vectors-and-linear-combinations.qmd)
+2. [Attention, Softmax, and Weighted Mixtures](../applications/machine-learning/attention-softmax-and-weighted-mixtures.qmd)
+3. [Representation Learning and Geometry of Embeddings](../applications/machine-learning/representation-learning-and-geometry-of-embeddings.qmd)
+4. [In-Context Learning and Linearization](../applications/machine-learning/in-context-learning-and-linearization.qmd)
+
+## Which Direction Should You Pick?
+
+Use this quick rule.
+
+- choose `high-dimensional probability` if random fluctuation and matrix behavior keep appearing in what you read
+- choose `modern learning theory` if you want clearer answers to why models generalize or fail
+- choose `graph learning` if your objects and relations are naturally networked
+- choose `score / flow / transport` if you care about modern generative modeling
+- choose `optimization in the loop` if constrained computation or solver structure is central
+- choose `representation geometry` if your questions keep returning to embeddings, attention, or model internals
+
+If you are unsure, start with the direction whose prerequisites feel least painful. Momentum matters more than perfect taste.
+
+## What Has Changed Recently
+
+The directions above are not equally active for the same reasons.
+
+Right now, some of the strongest movement is happening where stable math collides with large modern models:
+
+- generalization and implicit bias under scale
+- graph learning beyond homophily assumptions
+- diffusion, score, and flow viewpoints for generation
+- optimization layers and solver-structured models
+- representation geometry and in-context behavior
+
+That is why this page is grouped by mathematical direction, not by model brand.
+
+## What To Learn Next
+
+- [Surveys](index.qmd), once the top-level survey page is live
+- [Venues](index.qmd), once the venue map is live
+- [Paper Lab](../paper-lab/index.qmd), if you want reading workflows instead of direction maps
+- [Applications > Machine Learning](../applications/machine-learning/index.qmd), if you want problem-first bridges
+
+## Sources And Further Reading
+
+- [CS229T Course Description](https://bulletin.stanford.edu/courses/2136161) - `Paper bridge` - concise official map of active machine learning theory themes such as overparameterization, distribution shift, and self-supervision. Checked `2026-04-25`.
+- [CS224W 2024](https://snap.stanford.edu/class/cs224w-2024/) - `Paper bridge` - current official course hub showing active graph-learning themes, including GNNs and broader graph reasoning. Checked `2026-04-25`.
+- [EE364a: Convex Optimization I](https://web.stanford.edu/class/ee364a/index.html) - `Second pass` - current official convex optimization entry point, useful for research directions built on certificates, duality, and solver structure. Checked `2026-04-25`.
+- [High-Dimensional Probability](https://www.math.uci.edu/~rvershyn/teaching/hdp/hdp.html) - `Paper bridge` - strong current gateway into the probability tools that keep reappearing in modern theory work. Checked `2026-04-25`.
+- [The Trained Transformer as a Linear Unit](https://jmlr.org/papers/v25/23-1042.html) - `Paper bridge` - representative current paper for the direction connecting in-context behavior and linearized perspectives. Checked `2026-04-25`.
+- [Understanding Heterophily for Graph Neural Networks](https://proceedings.mlr.press/v235/wang24u.html) - `Paper bridge` - representative current paper for the direction beyond simple homophily-based message passing. Checked `2026-04-25`.

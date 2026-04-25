@@ -1,0 +1,399 @@
+---
+title: "Theorem Families"
+description: "A research-facing map of the recurring theorem families that organize modern work in learning theory, optimization, probability, graphs, and generative modeling."
+page-type: research-direction
+status: published
+update-status: monitor
+level: research
+topic: theorem-families
+prerequisites:
+  - /research/index.qmd
+  - /paper-lab/theorem-decoder.qmd
+  - /paper-lab/dependency-maps.qmd
+learning-goals:
+  - "Recognize recurring theorem families across papers instead of reading every result as isolated."
+  - "Map theorem families to stable math prerequisites and current research areas."
+  - "See which proof patterns and assumptions tend to travel together."
+  - "Choose a good next reading trail based on theorem family rather than paper hype."
+applications:
+  - machine-learning-theory
+  - optimization
+  - graph-learning
+  - high-dimensional-statistics
+keywords:
+  - theorem families
+  - concentration
+  - spectral methods
+  - convexity
+  - generalization
+  - transport
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: quarterly
+date-modified: last-modified
+draft: false
+stable-sources:
+  - "Research index"
+  - "MIT Mathematics for Computer Science"
+  - "EE364A Convex Optimization I"
+current-sources:
+  - "CS229T course description"
+  - "CS224W 2024"
+  - "High-Dimensional Probability course"
+---
+
+## Why This Page
+
+Most research papers do not introduce completely new mathematics from scratch.
+
+They usually belong to a recurring `theorem family`:
+
+- concentration and tail bounds
+- spectral or operator methods
+- convexity and duality
+- stability and generalization
+- transport and denoising
+
+Once you can recognize the family, papers become easier to read.
+
+You no longer ask only "what does this theorem say?" You also ask:
+
+- what family is this theorem from?
+- what assumptions usually come with this family?
+- what proof patterns should I expect?
+- which site pages should I revisit before going deeper?
+
+That is the job of this page.
+
+## Research Snapshot
+
+- `Type`: top-level research map
+- `Setting`: math-heavy papers in CS, AI, engineering, optimization, and statistics
+- `Main claim`: theorem families are better reading units than isolated theorems
+- `Why it matters`: families tell you what toolkit a paper is using and what nearby papers are likely to look like
+
+## How To Use This Page
+
+Use it in one of two ways.
+
+### Route 1: From a paper backward
+
+If a theorem in a paper feels dense, ask which family it belongs to. Then come here and use the matching section to find:
+
+- stable prerequisites
+- common assumptions
+- proof habits
+- internal reading trails
+
+### Route 2: From a topic forward
+
+If you already know a topic page and want to see where it leads in research, use this page to jump from:
+
+- stable math
+- to theorem family
+- to application pages
+- to paper labs
+- to current directions
+
+## Family 1: Concentration And Tail Bounds
+
+### What this family does
+
+This family turns random fluctuation into quantitative control.
+
+It tells you when averages, empirical quantities, matrices, or stochastic processes stay near their expected behavior.
+
+### Core objects
+
+- random variables and sums
+- martingales and processes
+- norms of random vectors and matrices
+- empirical averages and sample-dependent quantities
+
+### Typical assumptions
+
+- independence or weak dependence
+- boundedness, sub-Gaussian, or sub-exponential tails
+- Lipschitz structure
+- sample size large enough for the target regime
+
+### Common proof patterns
+
+- mgf or exponential-moment argument
+- symmetrization
+- union bound and covering argument
+- matrix lifting of scalar tail inequalities
+
+### Where it appears
+
+- generalization bounds
+- high-dimensional statistics
+- randomized numerical linear algebra
+- sketching and streaming
+- diffusion and sampling error control
+
+### Start here in this site
+
+1. [Probability](../topics/foundation/probability/index.qmd)
+2. [Concentration and Common Inequalities](../topics/foundation/probability/concepts/concentration-and-common-inequalities.qmd)
+3. [Paper Lab: Randomized Sketching for Least Squares](../topics/foundation/linear-algebra/paper-lab/randomized-sketching-for-least-squares.qmd)
+
+## Family 2: Spectral And Operator Methods
+
+### What this family does
+
+This family explains structure through eigenvalues, singular values, invariant subspaces, and repeated operator action.
+
+It is one of the cleanest bridges from linear algebra to modern ML, graph learning, and scientific computing.
+
+### Core objects
+
+- matrices and linear maps
+- eigenvalues and eigenvectors
+- singular values and low-rank approximations
+- graph Laplacians and propagation operators
+
+### Typical assumptions
+
+- symmetry, positive semidefiniteness, or near-normal behavior
+- low-rank or approximately low-rank structure
+- graph or operator structure that makes the spectrum informative
+- perturbations small enough for spectral interpretation to survive
+
+### Common proof patterns
+
+- orthogonal decomposition
+- variational characterizations
+- perturbation bounds
+- repeated-operator or power-method intuition
+
+### Where it appears
+
+- PCA and dimensionality reduction
+- spectral clustering
+- graph neural networks
+- attention and linear-operator viewpoints
+- operator learning and scientific ML
+
+### Start here in this site
+
+1. [Linear Algebra](../topics/foundation/linear-algebra/index.qmd)
+2. [Eigenvalues and Diagonalization](../topics/foundation/linear-algebra/concepts/eigenvalues-and-diagonalization.qmd)
+3. [SVD and Low-Rank Approximation](../topics/foundation/linear-algebra/concepts/svd-and-low-rank-approximation.qmd)
+4. [Paper Lab: Spectral Clustering and Graph Modes](../topics/foundation/linear-algebra/paper-lab/spectral-clustering-and-graph-modes.qmd)
+
+## Family 3: Convexity, Duality, And Certificates
+
+### What this family does
+
+This family gives structure to optimization problems and makes correctness or impossibility statements auditable.
+
+It is the theorem family behind many "why does this optimizer / relaxation / certificate work?" questions.
+
+### Core objects
+
+- convex sets and convex functions
+- subgradients and optimality conditions
+- feasible regions and constraints
+- primal and dual problems
+- certificates of optimality or infeasibility
+
+### Typical assumptions
+
+- convexity
+- regularity or constraint qualification
+- smoothness or subgradient access
+- duality gap small or zero under the right regime
+
+### Common proof patterns
+
+- separating hyperplane argument
+- first-order optimality inequalities
+- Lagrangian construction
+- weak and strong duality comparisons
+
+### Where it appears
+
+- optimization theory
+- inverse problems and regularization
+- structured estimation
+- differentiable optimization layers
+- robust and constrained ML pipelines
+
+### Start here in this site
+
+1. [Optimization](../topics/advanced/optimization/index.qmd)
+2. [Convex Functions and Subgradients](../topics/advanced/optimization/concepts/convex-functions-and-subgradients.qmd)
+3. [Duality and Certificates](../topics/advanced/optimization/concepts/duality-and-certificates.qmd)
+4. [Optimization for Machine Learning](../applications/machine-learning/optimization-for-machine-learning.qmd)
+
+## Family 4: Stability, Capacity, And Generalization
+
+### What this family does
+
+This family asks why performance on observed data says anything about new data.
+
+It is the core theorem family behind learning theory, model complexity, validation, and many modern questions around overparameterized models.
+
+### Core objects
+
+- population risk and empirical risk
+- hypothesis classes and complexity measures
+- algorithmic stability
+- training, validation, and test distributions
+
+### Typical assumptions
+
+- i.i.d. or controlled sampling regime
+- bounded or well-behaved loss
+- complexity control through class restriction or algorithmic bias
+- distributional assumptions explicit enough to interpret the bound
+
+### Common proof patterns
+
+- symmetrization and ghost-sample tricks
+- uniform convergence
+- stability argument
+- capacity or complexity comparison
+
+### Where it appears
+
+- learning theory
+- regularization and implicit bias
+- validation and model selection
+- calibration and uncertainty
+- distribution shift analysis
+
+### Start here in this site
+
+1. [Statistics](../topics/foundation/statistics/index.qmd)
+2. [Generalization, Overfitting, and Validation](../applications/machine-learning/generalization-overfitting-and-validation.qmd)
+3. [Uncertainty Calibration and Predictive Confidence](../applications/machine-learning/uncertainty-calibration-and-predictive-confidence.qmd)
+4. [AI / ML Theory roadmap](../roadmaps/ai-ml-theory.qmd)
+
+## Family 5: Transport, Score, And Denoising
+
+### What this family does
+
+This family studies how probability distributions evolve, transform, or can be recovered through local score or velocity information.
+
+It has become one of the clearest modern bridges from probability and calculus to generative modeling.
+
+### Core objects
+
+- densities and score functions
+- stochastic differential equations
+- velocity fields and flows
+- probability paths and denoising objectives
+
+### Typical assumptions
+
+- regularity of score or vector fields
+- well-defined interpolation or noising process
+- numerical solvability of forward or reverse dynamics
+- approximation quality of learned score or flow model
+
+### Common proof patterns
+
+- continuity-equation viewpoint
+- reverse-time stochastic process reasoning
+- denoising identity or score matching argument
+- transport-based comparison of distributions
+
+### Where it appears
+
+- diffusion models
+- flow matching
+- score-based generation
+- uncertainty-aware sampling
+- scientific generative modeling
+
+### Start here in this site
+
+1. [Diffusion Models and Denoising](../applications/machine-learning/diffusion-models-and-denoising.qmd)
+2. [Score Matching and the SDE View of Diffusion](../applications/machine-learning/score-matching-and-the-sde-view-of-diffusion.qmd)
+3. [Flow Matching and Transport Views of Generation](../applications/machine-learning/flow-matching-and-transport-views-of-generation.qmd)
+
+## Family 6: Geometry Of Representations And Message Passing
+
+### What this family does
+
+This family studies how structure is shaped by propagation, neighborhood geometry, invariances, and embedding spaces.
+
+It is especially important in graph learning, representation learning, and transformer-era ML.
+
+### Core objects
+
+- embeddings and similarity geometry
+- graph neighborhoods and propagation operators
+- homophily and heterophily structure
+- bottlenecks, oversquashing, and long-range dependence
+
+### Typical assumptions
+
+- graph or representation geometry captures useful structure
+- propagation operator matches the task geometry
+- feature similarity is informative enough for the learning signal
+- depth or receptive-field growth does not destroy the information you need
+
+### Common proof patterns
+
+- operator and diffusion viewpoint
+- neighborhood expansion or bottleneck analysis
+- invariance or symmetry argument
+- geometry-of-embeddings interpretation
+
+### Where it appears
+
+- graph neural networks
+- message passing systems
+- representation diagnostics
+- embedding geometry
+- attention and mixture views
+
+### Start here in this site
+
+1. [Attention, Softmax, and Weighted Mixtures](../applications/machine-learning/attention-softmax-and-weighted-mixtures.qmd)
+2. [Representation Learning and Geometry of Embeddings](../applications/machine-learning/representation-learning-and-geometry-of-embeddings.qmd)
+3. [Long-Range Dependence and Oversquashing in Graphs](../applications/machine-learning/long-range-dependence-and-oversquashing-in-graphs.qmd)
+4. [Graph Rewiring, Homophily, and Heterophily](../applications/machine-learning/graph-rewiring-homophily-and-heterophily.qmd)
+
+## How To Pick The Right Family
+
+Use these quick cues.
+
+- if the theorem says `with probability at least` or controls deviations, start with `concentration`
+- if the theorem talks about eigenvalues, singular values, Laplacians, or repeated linear action, start with `spectral`
+- if the theorem uses `argmin`, certificates, KKT, or dual variables, start with `convexity and duality`
+- if the theorem compares empirical and population behavior, start with `generalization`
+- if the theorem talks about scores, flows, denoising, or reverse-time dynamics, start with `transport and denoising`
+- if the theorem is about propagation, neighborhoods, or embedding structure, start with `representation geometry`
+
+## What Has Changed Recently
+
+The stable backbone of these families has not changed much, but their frontier importance has shifted.
+
+Right now, the most visibly active families around modern AI and theory-facing CS are:
+
+- `stability, capacity, and generalization`
+- `transport, score, and denoising`
+- `geometry of representations and message passing`
+- `high-dimensional concentration and random-matrix methods`
+
+That is one reason this page distinguishes stable theorem families from the moving frontier built on top of them.
+
+## What To Learn Next
+
+- [Directions](index.qmd), once the top-level research directions page is live
+- [Paper Lab](../paper-lab/index.qmd), if you want theorem-reading workflow instead of topic-first study
+- [Applications > Machine Learning](../applications/machine-learning/index.qmd), if you want problem-first bridges
+- [AI / ML Theory roadmap](../roadmaps/ai-ml-theory.qmd), if your goal is a research-reading route rather than isolated topic lookup
+
+## Sources And Further Reading
+
+- [MIT Mathematics for Computer Science](https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-fall-2010/pages/readings/) - `First pass` - durable source for proof structure and theorem language before specializing into research families. Checked `2026-04-25`.
+- [EE364a: Convex Optimization I](https://web.stanford.edu/class/ee364a/index.html) - `Second pass` - clean official anchor for convexity, duality, and certificate-style theorem families. Checked `2026-04-25`.
+- [CS224W 2024](https://snap.stanford.edu/class/cs224w-2024/) - `Second pass` - current official course hub showing how spectral and message-passing families organize graph learning. Checked `2026-04-25`.
+- [CS229T Course Description](https://bulletin.stanford.edu/courses/2136161) - `Paper bridge` - useful current signal for generalization, overparameterization, and modern ML-theory families. Checked `2026-04-25`.
+- [High-Dimensional Probability](https://www.math.uci.edu/~rvershyn/teaching/hdp/hdp.html) - `Paper bridge` - strong current bridge into concentration, random matrices, and modern data-science probability. Checked `2026-04-25`.

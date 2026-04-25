@@ -32,10 +32,12 @@ draft: false
 stable-sources:
   - "MIT 18.01SC Single Variable Calculus"
   - "OpenStax Calculus Volume 1"
+  - "OpenStax Calculus Volume 2"
   - "Paul's Online Math Notes"
 current-sources:
   - "MIT OpenCourseWare syllabus and lecture notes"
   - "OpenStax Calculus Volume 1 web edition"
+  - "OpenStax Calculus Volume 2 web edition"
 ---
 
 ## Why This Module Matters
@@ -78,16 +80,6 @@ The intended first-pass order is:
 3. [Integrals and Accumulation](concepts/integrals-and-accumulation.qmd)
 4. [Sequences and Series](concepts/sequences-and-series.qmd)
 5. [Taylor Expansion](concepts/taylor-expansion.qmd)
-
-The full five-page first-pass single-variable calculus spine is now live:
-
-1. [Limits and Continuity](concepts/limits-and-continuity.qmd)
-2. [Derivatives and Local Approximation](concepts/derivatives-and-local-approximation.qmd)
-3. [Integrals and Accumulation](concepts/integrals-and-accumulation.qmd)
-4. [Sequences and Series](concepts/sequences-and-series.qmd)
-5. [Taylor Expansion](concepts/taylor-expansion.qmd)
-
-The next natural build should be `Partial derivatives and gradients`, because the calculus foundation is now ready to open the multivariable bridge into optimization and ML.
 
 ## Navigation Rule
 
@@ -137,20 +129,13 @@ If that page feels shaky, slow down and make sure you can:
 The strongest official deeper references for this module are:
 
 - [MIT 18.01SC Single Variable Calculus](https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/syllabus) - clean official course arc from limits to integration and approximation. Checked `2026-04-25`.
-- [OpenStax Calculus Volume 1](https://openstax.org/books/calculus-volume-1/pages/index) - broad free text that works well as a structured second pass. Checked `2026-04-25`.
+- [OpenStax Calculus Volume 1](https://openstax.org/books/calculus-volume-1/pages/index) - broad free text for limits, continuity, derivatives, and integrals. Checked `2026-04-25`.
+- [OpenStax Calculus Volume 2](https://openstax.org/books/calculus-volume-2/pages/index) - broad free text for sequences, series, and Taylor expansion. Checked `2026-04-25`.
 - [Paul's Online Math Notes: Calculus I](https://tutorial.math.lamar.edu/) - useful practice-heavy companion when you need more examples and repair work. Checked `2026-04-25`.
 
 ## Study Order
 
 The intended first pass is the five-step sequence above.
-
-Right now the live on-site path starts with:
-
-1. [Limits and Continuity](concepts/limits-and-continuity.qmd)
-2. [Derivatives and Local Approximation](concepts/derivatives-and-local-approximation.qmd)
-3. [Integrals and Accumulation](concepts/integrals-and-accumulation.qmd)
-4. [Sequences and Series](concepts/sequences-and-series.qmd)
-5. [Taylor Expansion](concepts/taylor-expansion.qmd)
 
 You are ready to move to the next page when you can:
 
@@ -166,5 +151,6 @@ You are ready to move to the next page when you can:
 
 - [MIT 18.01SC Single Variable Calculus](https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/syllabus) - `First pass` - strong official course sequence for the whole one-variable calculus arc. Checked `2026-04-25`.
 - [OpenStax Calculus Volume 1](https://openstax.org/books/calculus-volume-1/pages/index) - `Second pass` - full free text with clean sections on limits, continuity, derivatives, and integration. Checked `2026-04-25`.
+- [OpenStax Calculus Volume 2](https://openstax.org/books/calculus-volume-2/pages/index) - `Second pass` - full free text for sequences, series, and Taylor expansion. Checked `2026-04-25`.
 - [Paul's Online Math Notes: Calculus I](https://tutorial.math.lamar.edu/) - `Second pass` - useful practice-oriented companion when you want many worked examples. Checked `2026-04-25`.
-- [MIT 18.01 Lecture Notes](https://www.ocw.mit.edu/courses/18-01-single-variable-calculus-fall-2006/resources/lecture-notes/) - `Paper bridge` - useful when you want a compact lecture-note style presentation rather than a textbook pass. Checked `2026-04-25`.
+- [MIT 18.01 Lecture Notes](https://www.ocw.mit.edu/courses/18-01-single-variable-calculus-fall-2006/resources/lecture-notes/) - `Second pass` - useful when you want a compact lecture-note style presentation rather than a textbook pass. Checked `2026-04-25`.

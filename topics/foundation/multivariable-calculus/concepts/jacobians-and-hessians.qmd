@@ -283,16 +283,16 @@ then this page has done its main job.
 
 The strongest next steps after this page are:
 
-1. [Constrained Optimization](constrained-optimization.qmd), because local gradient and Hessian information become actionable under constraints
-2. [Optimization](../../../advanced/optimization/index.qmd), to see first-order and second-order models become algorithms and certificates
-3. [Backpropagation and Computation Graphs](../../../../applications/machine-learning/backpropagation-and-computation-graphs.qmd), to see Jacobian-style composition reasoning in ML form
+1. [Multiple Integrals](multiple-integrals.qmd), because the accumulation branch of multivariable calculus is now ready too
+2. [Constrained Optimization](constrained-optimization.qmd), because local gradient and Hessian information become actionable under constraints
+3. [Optimization](../../../advanced/optimization/index.qmd), to see first-order and second-order models become algorithms and certificates
 
-## Optional Paper Bridge
+## Optional Deeper Reading
 
 - [MIT 18.02SC Syllabus](https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/pages/syllabus/) - `First pass` - official MIT overview linking gradient, linear approximation, and change-of-variables ideas in one course arc. Checked `2026-04-25`.
 - [MIT 18.02SC Recitation 37](https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/0b5e096d0aa3d8b6e4f8aa348967ae49_MIT18_02SCF10Rec_37_300k.pdf) - `Second pass` - official Jacobian-focused recitation material. Checked `2026-04-25`.
 - [MIT 18.02SC Recitation 38](https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/d242a71addf333a7052ac13d7d365656_MIT18_02SCF10Rec_38_300k.pdf) - `Second pass` - additional official Jacobian examples. Checked `2026-04-25`.
-- [OpenStax Calculus Volume 3: Chapter 4 Introduction](https://openstax.org/books/calculus-volume-3/pages/4-introduction) - `Paper bridge` - useful free bridge tying partials, linear approximations, chain rule, and optimization-style extrema together. Checked `2026-04-25`.
+- [OpenStax Calculus Volume 3: Chapter 4 Introduction](https://openstax.org/books/calculus-volume-3/pages/4-introduction) - `Second pass` - useful free bridge tying partials, linear approximations, chain rule, and optimization-style extrema together. Checked `2026-04-25`.
 - [Paul's Online Math Notes: Hessian](https://tutorial.math.lamar.edu/Classes/CalcIII/MoreExtrema.aspx) - `Second pass` - worked-example companion for second-derivative and Hessian-style interpretation. Checked `2026-04-25`.
 
 ## Optional After First Pass

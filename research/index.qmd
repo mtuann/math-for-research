@@ -16,3 +16,16 @@ Each mature topic should eventually link to:
 
 This section is the aggregator for those connections.
 
+## First Page
+
+- [Theorem Families](theorem-families.qmd)
+- [Directions](directions.qmd)
+- [Surveys](surveys.qmd)
+- [Venues](venues.qmd)
+
+## What This Section Should Eventually Contain
+
+- `Theorem Families`: recurring proof and result patterns that appear across many papers
+- `Directions`: active frontier maps by area
+- `Surveys`: curated entry points into broader literature
+- `Venues`: where different kinds of work are usually published

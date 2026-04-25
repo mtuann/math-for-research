@@ -293,13 +293,13 @@ The strongest next steps after this page are:
 2. `Paper Lab: theorem decoder`, if you want to shift from math-building into theory-reading workflow
 3. later vector-calculus theorem layers such as Green, Stokes, and the divergence theorem, if the site grows deeper in continuous mathematics
 
-## Optional Paper Bridge
+## Optional Deeper Reading
 
 - [MIT 18.02SC Session 56: Vector Fields](https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/pages/3.-double-integrals-and-line-integrals-in-the-plane/part-b-vector-fields-and-line-integrals/session-56-vector-fields/) - `First pass` - official MIT introduction to vector fields. Checked `2026-04-25`.
 - [MIT 18.02SC Session 79: Vector Fields in Space](https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/pages/4.-triple-integrals-and-surface-integrals-in-3-space/part-b-flux-and-the-divergence-theorem/session-79-vector-fields-in-space/) - `Second pass` - official extension of field intuition into 3-space. Checked `2026-04-25`.
 - [OpenStax Calculus Volume 3: Vector Fields](https://openstax.org/books/calculus-volume-3/pages/6-1-vector-fields) - `Second pass` - free text section on what a vector field is and how to read it. Checked `2026-04-25`.
 - [OpenStax Calculus Volume 3: Divergence and Curl](https://openstax.org/books/calculus-volume-3/pages/6-5-divergence-and-curl) - `Second pass` - free text section on the two core local operators. Checked `2026-04-25`.
-- [Paul's Online Math Notes: Curl and Divergence](https://tutorial.math.lamar.edu/Classes/CalcIII/CurlDivergence.aspx) - `Paper bridge` - worked-example companion for first computations and interpretation. Checked `2026-04-25`.
+- [Paul's Online Math Notes: Curl and Divergence](https://tutorial.math.lamar.edu/Classes/CalcIII/CurlDivergence.aspx) - `Second pass` - worked-example companion for first computations and interpretation. Checked `2026-04-25`.
 
 ## Optional After First Pass
 

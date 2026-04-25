@@ -1,0 +1,314 @@
+---
+title: "Surveys"
+description: "A curated map of surveys, course-style overviews, and broad entry points that help readers move from stable math into active literature without drowning in papers."
+page-type: research-direction
+status: published
+update-status: monitor
+level: research
+topic: surveys
+prerequisites:
+  - /research/index.qmd
+  - /research/theorem-families.qmd
+  - /research/directions.qmd
+  - /paper-lab/reading-trails.qmd
+learning-goals:
+  - "Choose the right kind of survey for your current background and goal."
+  - "Separate textbook-scale, course-scale, and frontier-scale survey material."
+  - "Use surveys as entry points instead of turning them into another unread backlog."
+  - "Map major research directions in the site to strong external survey resources."
+applications:
+  - literature-entry
+  - machine-learning-theory
+  - graph-learning
+  - optimization
+  - generative-modeling
+keywords:
+  - surveys
+  - literature map
+  - tutorials
+  - course notes
+  - entry points
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: quarterly
+date-modified: last-modified
+draft: false
+stable-sources:
+  - "Research index"
+  - "Theorem Families"
+  - "Directions"
+current-sources:
+  - "CS229T course description"
+  - "CS224W 2024"
+  - "High-Dimensional Probability course"
+  - "Flow Matching Guide and Code"
+---
+
+## Why This Page
+
+Surveys are useful, but they are easy to misuse.
+
+People often grab a survey hoping it will remove all difficulty. Instead, a good survey usually does something narrower and more valuable:
+
+- gives vocabulary
+- organizes a literature patch
+- shows how results fit together
+- tells you what is stable and what is still moving
+
+This page is here to help you pick the right survey for the right job.
+
+## Survey Snapshot
+
+- `Type`: top-level research map
+- `Setting`: readers who want an entry point into a literature area without starting from random recent papers
+- `Main claim`: the best survey depends on whether you need `backbone`, `bridge`, or `frontier context`
+- `Why it matters`: surveys save time only when they are chosen with a purpose
+
+## Three Kinds Of Surveys
+
+### 1. Textbook-scale survey
+
+This is what you read when the field still feels mathematically unstable to you.
+
+Use it for:
+
+- definitions
+- standard objects
+- proof backbones
+- historical shape of the area
+
+Examples:
+
+- a full book
+- lecture notes that function like a book
+- a mature graduate course
+
+### 2. Course-scale survey
+
+This is often the best starting point for research readers.
+
+Use it for:
+
+- a structured reading path
+- topic selection with some curation already done
+- a bridge from math to modern applications
+
+Examples:
+
+- a course homepage with reading list
+- course notes
+- official lecture schedule with curated references
+
+### 3. Frontier survey
+
+This is what you read when you already know the basics and want a snapshot of the active literature.
+
+Use it for:
+
+- recent variants
+- terminology changes
+- open problems
+- where the area has moved in the last few years
+
+Examples:
+
+- recent survey papers
+- living tutorials
+- current course pages tied to active research groups
+
+## How To Choose A Survey
+
+Ask one question first:
+
+`What is my current bottleneck?`
+
+If the bottleneck is:
+
+- missing math backbone -> start with `textbook-scale`
+- missing big picture -> start with `course-scale`
+- missing frontier map -> start with `frontier survey`
+
+Do not ask a frontier survey to do the job of a textbook.
+
+## How To Read A Survey Without Drowning
+
+Use this rule:
+
+1. read the abstract, introduction, and conclusion
+2. locate the section that matches your direction
+3. extract a `small reading trail`
+4. stop and read one anchor paper before continuing
+
+A survey is not a moral obligation to read from page 1 to page 80.
+
+## Survey Entry Point 1: High-Dimensional Probability
+
+### Best use
+
+Choose this when concentration, random matrices, and non-asymptotic bounds keep appearing in papers you care about.
+
+### Good starting sources
+
+- [High-Dimensional Probability course](https://www.math.uci.edu/~rvershyn/teaching/hdp/hdp.html)
+- [High-Dimensional Probability, 2nd edition](https://www.math.uci.edu/~rvershyn/papers/HDP-book/HDP-book.html?source=content_type%3Areact%7Cfirst_level_url%3Aarticle%7Csection%3Amain_content%7Cbutton%3Abody_link)
+- [Four lectures on probabilistic methods for data science](https://www.math.uci.edu/~rvershyn/papers/four-lectures-probability-data.pdf)
+
+### Why this works
+
+This direction benefits from having:
+
+- one course-scale entry point
+- one book-scale backbone
+- one shorter bridge text
+
+### Internal trail
+
+1. [Concentration and Common Inequalities](../topics/foundation/probability/concepts/concentration-and-common-inequalities.qmd)
+2. [Theorem Families](theorem-families.qmd)
+3. one of the sources above
+
+## Survey Entry Point 2: Convex Optimization And Solver Structure
+
+### Best use
+
+Choose this when your papers keep using:
+
+- convexity
+- certificates
+- duality
+- constrained optimization
+- solver layers
+
+### Good starting sources
+
+- [EE364a: Convex Optimization I](https://web.stanford.edu/class/ee364a/index.html)
+- [Stanford Engineering Everywhere: EE364A](https://see.stanford.edu/Course/EE364A)
+- [Boyd teaching page](https://stanford.edu/~boyd/teaching.html)
+
+### Why this works
+
+Optimization is a field where the best survey is often a course rather than a standalone paper.
+
+### Internal trail
+
+1. [Optimization](../topics/advanced/optimization/index.qmd)
+2. [Duality and Certificates](../topics/advanced/optimization/concepts/duality-and-certificates.qmd)
+3. [Optimization for Machine Learning](../applications/machine-learning/optimization-for-machine-learning.qmd)
+4. one of the sources above
+
+## Survey Entry Point 3: Graph Learning And Geometric Deep Learning
+
+### Best use
+
+Choose this when you want a broad map of:
+
+- graph neural networks
+- representation learning on graphs
+- homophily / heterophily
+- spectral and geometric viewpoints
+
+### Good starting sources
+
+- [CS224W 2024](https://snap.stanford.edu/class/cs224w-2024/)
+- [Geometric Deep Learning: Grids, Groups, Graphs, Geodesics, and Gauges](https://arxiv.org/abs/2104.13478)
+
+### Why this works
+
+This area moves fast, so pairing one current course hub with one broad survey is often better than reading many isolated papers first.
+
+### Internal trail
+
+1. [Eigenvalues and Diagonalization](../topics/foundation/linear-algebra/concepts/eigenvalues-and-diagonalization.qmd)
+2. [Graph Rewiring, Homophily, and Heterophily](../applications/machine-learning/graph-rewiring-homophily-and-heterophily.qmd)
+3. [Long-Range Dependence and Oversquashing in Graphs](../applications/machine-learning/long-range-dependence-and-oversquashing-in-graphs.qmd)
+4. one of the sources above
+
+## Survey Entry Point 4: Modern Learning Theory
+
+### Best use
+
+Choose this when your questions revolve around:
+
+- generalization
+- implicit bias
+- overparameterization
+- distribution shift
+- theory for large nonlinear models
+
+### Good starting sources
+
+- [CS229T Course Description](https://bulletin.stanford.edu/courses/2136161)
+- [CS229T/STAT231 Notes](https://web.stanford.edu/class/cs229t/notes.pdf)
+
+### Why this works
+
+Learning theory is broad enough that a course-scale map is often more useful than one giant survey paper.
+
+### Internal trail
+
+1. [Generalization, Overfitting, and Validation](../applications/machine-learning/generalization-overfitting-and-validation.qmd)
+2. [Regularization, Implicit Bias, and Model Complexity](../applications/machine-learning/regularization-implicit-bias-and-model-complexity.qmd)
+3. [Directions](directions.qmd)
+4. one of the sources above
+
+## Survey Entry Point 5: Diffusion, Score, And Flow Models
+
+### Best use
+
+Choose this when you want a wider map around:
+
+- score-based generation
+- diffusion models
+- flow matching
+- transport views of generation
+
+### Good starting sources
+
+- [Stanford HAI: What are Diffusion Models?](https://hai.stanford.edu/ai-definitions/what-are-diffusion-models)
+- [Flow Matching Guide and Code](https://arxiv.org/abs/2412.06264)
+
+### Why this works
+
+This area changes quickly, so a short conceptual overview plus a current guide is usually a better opening than a stack of recent papers.
+
+### Internal trail
+
+1. [Diffusion Models and Denoising](../applications/machine-learning/diffusion-models-and-denoising.qmd)
+2. [Score Matching and the SDE View of Diffusion](../applications/machine-learning/score-matching-and-the-sde-view-of-diffusion.qmd)
+3. [Flow Matching and Transport Views of Generation](../applications/machine-learning/flow-matching-and-transport-views-of-generation.qmd)
+4. one of the sources above
+
+## Common Survey Mistakes
+
+### Reading surveys too early
+
+If the survey uses notation you still cannot translate, go back to topic pages or `Paper Lab`.
+
+### Reading surveys too late
+
+If you already understand the area, the survey may no longer be the best use of your time. Jump to a paper lab or current paper instead.
+
+### Treating surveys as proof sources
+
+Many surveys explain ideas well but compress proofs aggressively. They are often for structure, not full derivation.
+
+### Turning one survey into a new unread backlog
+
+The point is to extract a trail, not to collect a dozen references you never return to.
+
+## What To Learn Next
+
+- [Venues](index.qmd), once the top-level venue page is live
+- [Paper Lab](../paper-lab/index.qmd), if you want paper-reading workflow instead of literature entry
+- [Directions](directions.qmd), if you want to choose a frontier before choosing a survey
+
+## Sources And Further Reading
+
+- [High-Dimensional Probability course](https://www.math.uci.edu/~rvershyn/teaching/hdp/hdp.html) - `Second pass` - one of the cleanest current course-scale entry points into modern concentration and random-matrix ideas. Checked `2026-04-25`.
+- [High-Dimensional Probability, 2nd edition](https://www.math.uci.edu/~rvershyn/papers/HDP-book/HDP-book.html?source=content_type%3Areact%7Cfirst_level_url%3Aarticle%7Csection%3Amain_content%7Cbutton%3Abody_link) - `First pass` - durable book-scale backbone for the probability side of current theory work. Checked `2026-04-25`.
+- [EE364a: Convex Optimization I](https://web.stanford.edu/class/ee364a/index.html) - `Second pass` - current official course-scale map for convexity, duality, and certificates. Checked `2026-04-25`.
+- [CS224W 2024](https://snap.stanford.edu/class/cs224w-2024/) - `Paper bridge` - current official hub for graph-learning readings and topic sequencing. Checked `2026-04-25`.
+- [Geometric Deep Learning: Grids, Groups, Graphs, Geodesics, and Gauges](https://arxiv.org/abs/2104.13478) - `Paper bridge` - broad survey bridge into graph and geometric learning. Checked `2026-04-25`.
+- [CS229T Course Description](https://bulletin.stanford.edu/courses/2136161) - `Paper bridge` - concise current map of modern learning-theory topics. Checked `2026-04-25`.
+- [Flow Matching Guide and Code](https://arxiv.org/abs/2412.06264) - `Paper bridge` - useful current guide for the score/flow side of generative modeling. Checked `2026-04-25`.

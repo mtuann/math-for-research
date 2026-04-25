@@ -155,7 +155,7 @@ This vector is the multivariable analog of the derivative.
 ::: {#prp-levelset}
 ## Gradient And Level Sets
 
-At a point where $\nabla f \ne 0$, the gradient is perpendicular to the level set
+If $f$ is differentiable at a point, $\nabla f \ne 0$ there, and the level set is smooth near that point, then the gradient is perpendicular to the level set
 
 $$
 f(x_1,\dots,x_n)=c
@@ -169,7 +169,7 @@ So the gradient points normal to the contour or level surface.
 ::: {#prp-steepest}
 ## Steepest Increase
 
-At a point where $\nabla f \ne 0$, the gradient points in the direction of steepest local increase of $f$.
+If $f$ is differentiable at a point and $\nabla f \ne 0$ there, then the gradient points in the direction of steepest local increase of $f$.
 
 Its magnitude gives the maximal directional rate of increase.
 :::
@@ -258,12 +258,12 @@ The strongest next steps after this page are:
 2. [Optimization](../../../advanced/optimization/index.qmd), to see gradients turn into algorithms and stationarity conditions
 3. [Backpropagation and Computation Graphs](../../../../applications/machine-learning/backpropagation-and-computation-graphs.qmd), to see multivariable derivative flow in modern ML language
 
-## Optional Paper Bridge
+## Optional Deeper Reading
 
 - [MIT 18.02SC Partial Derivatives Unit](https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/pages/2.-partial-derivatives/) - `First pass` - official MIT unit introducing partial derivatives, tangent approximation, and gradient ideas. Checked `2026-04-25`.
 - [MIT 18.02SC Session 26: Partial Derivatives](https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/pages/2.-partial-derivatives/part-a-functions-of-two-variables-tangent-approximation-and-optimization/session-26-partial-derivatives/) - `Second pass` - compact official page for the first derivative layer in several variables. Checked `2026-04-25`.
 - [OpenStax Calculus Volume 3: Partial Derivatives](https://openstax.org/books/calculus-volume-3/pages/4-3-partial-derivatives) - `Second pass` - free text section on definitions, computation, and interpretation. Checked `2026-04-25`.
-- [OpenStax Calculus Volume 3: Directional Derivatives and the Gradient](https://openstax.org/books/calculus-volume-3/pages/4-6-directional-derivatives-and-the-gradient) - `Paper bridge` - strong free bridge from coordinate-wise rates to the gradient geometry. Checked `2026-04-25`.
+- [OpenStax Calculus Volume 3: Directional Derivatives and the Gradient](https://openstax.org/books/calculus-volume-3/pages/4-6-directional-derivatives-and-the-gradient) - `Second pass` - strong free bridge from coordinate-wise rates to the gradient geometry. Checked `2026-04-25`.
 - [Paul's Online Math Notes: Partial Derivatives](https://tutorial.math.lamar.edu/Classes/CalcIII/PartialDerivsIntro.aspx) - `Second pass` - worked-example companion for repair and repetition. Checked `2026-04-25`.
 
 ## Optional After First Pass

@@ -113,7 +113,7 @@ Linearization says that near a point, all of this complicated behavior is approx
 ::: {#def-chain-rule}
 ## Chain Rule For Two Independent Variables
 
-If
+If $f$ is differentiable at $(x,y)$ and $g,h$ are differentiable at $(u,v)$, and
 
 $$
 z=f(x,y), \qquad x=g(u,v), \qquad y=h(u,v),
@@ -293,13 +293,13 @@ The strongest next steps after this page are:
 2. [Optimization](../../../advanced/optimization/index.qmd), to see local models become gradient-based algorithms and constrained reasoning
 3. [Backpropagation and Computation Graphs](../../../../applications/machine-learning/backpropagation-and-computation-graphs.qmd), to see chain-rule bookkeeping in modern ML language
 
-## Optional Paper Bridge
+## Optional Deeper Reading
 
 - [MIT 18.02SC Syllabus](https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/pages/syllabus/) - `First pass` - official MIT overview explicitly listing chain rule, total differentials, and linear approximation as core outcomes. Checked `2026-04-25`.
 - [MIT 18.02SC Recitation: The Chain Rule with More Variables](https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/9c1ce0e28ad2ba291d5492ee7a9ea174_MIT18_02SCF10Rec_25_300k.pdf) - `Second pass` - compact official material emphasizing dependency-graph intuition. Checked `2026-04-25`.
 - [OpenStax Calculus Volume 3: The Chain Rule](https://openstax.org/books/calculus-volume-3/pages/4-5-the-chain-rule) - `Second pass` - free text section on the generalized multivariable chain rule. Checked `2026-04-25`.
 - [Paul's Online Math Notes: Chain Rule](https://tutorial.math.lamar.edu/Classes/CalcIII/ChainRule.aspx) - `Second pass` - worked-example companion for multivariable chain-rule practice. Checked `2026-04-25`.
-- [Paul's Online Math Notes: Tangent Planes and Linear Approximations](https://tutorial.math.lamar.edu/Classes/CalcIII/TangentPlanes.aspx) - `Paper bridge` - practice-heavy bridge from formulas to local linear approximation. Checked `2026-04-25`.
+- [Paul's Online Math Notes: Tangent Planes and Linear Approximations](https://tutorial.math.lamar.edu/Classes/CalcIII/TangentPlanes.aspx) - `Second pass` - practice-heavy bridge from formulas to local linear approximation. Checked `2026-04-25`.
 
 ## Optional After First Pass
 

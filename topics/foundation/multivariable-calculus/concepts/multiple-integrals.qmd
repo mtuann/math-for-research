@@ -7,7 +7,7 @@ update-status: current
 level: foundation
 topic: multivariable-calculus
 prerequisites:
-  - /topics/foundation/multivariable-calculus/concepts/constrained-optimization.qmd
+  - /topics/foundation/single-variable-calculus/concepts/integrals-and-accumulation.qmd
 learning-goals:
   - "Explain a double or triple integral as accumulated quantity over a region."
   - "Interpret iterated integrals as repeated one-variable accumulation."
@@ -52,7 +52,7 @@ Its job is to extend the integral idea from one-dimensional intervals to two- an
 
 ## First-Pass Promise
 
-Read this page after [Constrained Optimization](constrained-optimization.qmd).
+Read this page after [Integrals and Accumulation](../../single-variable-calculus/concepts/integrals-and-accumulation.qmd).
 
 If you stop here, you should still understand:
 
@@ -130,7 +130,7 @@ $$
 
 represents the accumulated contribution of $f$ over the area region $R$.
 
-At a first-pass level, it is the limit of Riemann sums over smaller and smaller pieces of area.
+At a first-pass level, it is the limit of Riemann sums over finer and finer partitions whose largest piece size goes to zero.
 :::
 
 ::: {#def-triple}
@@ -144,7 +144,7 @@ $$
 
 represents the accumulated contribution of $f$ over the volume region $E$.
 
-Again, the conceptual definition is a limit of sums of local density values times small volume elements.
+Again, the conceptual definition is a limit of sums of local density values times small volume elements over finer and finer partitions whose largest piece size goes to zero.
 :::
 
 ::: {#def-iterated}
@@ -271,7 +271,7 @@ The strongest next steps after this page are:
 2. [Probability](../../probability/index.qmd), to see multi-variable density and expectation ideas in a probabilistic setting
 3. [Optimization](../../../advanced/optimization/index.qmd), to see how integration appears in continuous objectives and modeling
 
-## Optional Paper Bridge
+## Optional Deeper Reading
 
 - [MIT 18.02SC Unit 3: Double Integrals and Line Integrals in the Plane](https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/pages/3.-double-integrals-and-line-integrals-in-the-plane/) - `First pass` - official MIT entry point to double integration. Checked `2026-04-25`.
 - [MIT 18.02SC Session 47: Definition of Double Integration](https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/pages/3.-double-integrals-and-line-integrals-in-the-plane/part-a-double-integrals/session-47-definition-of-double-integration/) - `Second pass` - compact official material on the basic double-integral definition. Checked `2026-04-25`.
@@ -280,7 +280,7 @@ The strongest next steps after this page are:
 - [OpenStax Calculus Volume 3: Double Integrals over General Regions](https://openstax.org/books/calculus-volume-3/pages/5-2-double-integrals-over-general-regions) - `Second pass` - free text section on region description and iterated bounds. Checked `2026-04-25`.
 - [OpenStax Calculus Volume 3: Triple Integrals](https://openstax.org/books/calculus-volume-3/pages/5-4-triple-integrals) - `Second pass` - free text section for triple-integral intuition and setup. Checked `2026-04-25`.
 - [Paul's Online Math Notes: Double Integrals](https://tutorial.math.lamar.edu/classes/calciii/doubleintegrals.aspx) - `Second pass` - practice-heavy companion for setup and interpretation. Checked `2026-04-25`.
-- [Paul's Online Math Notes: Triple Integrals](https://tutorial.math.lamar.edu/Classes/CalcIII/TripleIntegrals.aspx) - `Paper bridge` - practice-heavy companion for spatial accumulation. Checked `2026-04-25`.
+- [Paul's Online Math Notes: Triple Integrals](https://tutorial.math.lamar.edu/Classes/CalcIII/TripleIntegrals.aspx) - `Second pass` - practice-heavy companion for spatial accumulation. Checked `2026-04-25`.
 
 ## Optional After First Pass
 

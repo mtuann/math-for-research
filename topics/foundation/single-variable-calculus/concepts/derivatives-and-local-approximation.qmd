@@ -234,8 +234,8 @@ This is the first place calculus stops being only about exact values and starts 
 
 Optimization methods later rely on the same derivative idea:
 
-- if the derivative is positive, the function is locally increasing
-- if the derivative is negative, the function is locally decreasing
+- if the derivative stays positive on a nearby interval, the function increases there
+- if the derivative stays negative on a nearby interval, the function decreases there
 - if the derivative is near zero, the local linear signal is weak and a stationary point may be nearby
 
 In ML, the multivariable version of this becomes the gradient. In backpropagation, the chain rule propagates these local linear effects through a computation graph. So this page is small in scope, but it is foundational for much of the site’s later content.
@@ -259,12 +259,12 @@ The strongest next steps after this page are:
 2. [Optimization](../../../advanced/optimization/index.qmd), to see how derivative information becomes algorithms and certificates
 3. [Backpropagation and Computation Graphs](../../../../applications/machine-learning/backpropagation-and-computation-graphs.qmd), for the many-variable version of local linear propagation
 
-## Optional Paper Bridge
+## Optional Deeper Reading
 
 - [MIT 18.01SC Session 1: Introduction to Derivatives](https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/1.-differentiation/part-a-definition-and-basic-rules/session-1-introduction-to-derivatives/) - `First pass` - official MIT introduction emphasizing secant-to-tangent thinking. Checked `2026-04-25`.
 - [MIT 18.01SC Linear Approximation Notes](https://live.ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/94a15969d6c72a07f8966fb2e594661d_MIT18_01SCF10_Ses23c.pdf) - `Second pass` - compact official note set connecting derivative information to local modeling. Checked `2026-04-25`.
 - [OpenStax Calculus Volume 1: Defining the Derivative](https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative) - `Second pass` - free text section with tangent and rate interpretations. Checked `2026-04-25`.
-- [OpenStax Calculus Volume 1: Linear Approximations and Differentials](https://openstax.org/books/calculus-volume-1/pages/4-2-linear-approximations-and-differentials) - `Paper bridge` - useful bridge from derivative computation to approximation and error thinking. Checked `2026-04-25`.
+- [OpenStax Calculus Volume 1: Linear Approximations and Differentials](https://openstax.org/books/calculus-volume-1/pages/4-2-linear-approximations-and-differentials) - `Second pass` - useful bridge from derivative computation to approximation and error thinking. Checked `2026-04-25`.
 - [Paul's Online Math Notes: Interpretation of the Derivative](https://tutorial.math.lamar.edu/Classes/CalcI/DerivativeInterp.aspx) - `Second pass` - practice-heavy reinforcement for interpretation. Checked `2026-04-25`.
 - [Paul's Online Math Notes: Linear Approximations](https://tutorial.math.lamar.edu/Classes/CalcI/LinearApproximations.aspx) - `Second pass` - extra worked examples for using derivatives as local models. Checked `2026-04-25`.
 
