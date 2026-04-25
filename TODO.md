@@ -17,8 +17,8 @@ Use it to track:
 
 ## Current Snapshot
 
-- `68` `.qmd` pages currently exist
-- `18` concept-topic pages currently exist
+- `70` `.qmd` pages currently exist
+- `19` concept-topic pages currently exist
 - strongest subjects so far: `Linear Algebra`, `Probability`, `Proofs`
 - non-topic sections already scaffolded: `Start Here`, `Roadmaps`, `Applications`, `Paper Lab`, `Research`, `Publication`, `Library`, `Notes`
 
@@ -208,7 +208,8 @@ These are not required before the main spine is public, but they are the next hi
 
 ### Statistics
 
-- [ ] `Descriptive statistics and data models`
+- [x] `Statistics index`
+- [x] `Descriptive statistics and data models`
 - [ ] `Estimation and bias-variance`
 - [ ] `Maximum likelihood and Bayesian basics`
 - [ ] `Confidence intervals and hypothesis testing`
@@ -313,12 +314,12 @@ These are the topics that should eventually become canonical examples for future
 
 Near-term highest-value content steps:
 
-1. [ ] `Commit and push the current proofs module cleanup`
-2. [ ] `Statistics index`
-3. [ ] `Descriptive statistics and data models`
-4. [ ] `Estimation and bias-variance`
-5. [ ] `Logic module: propositional logic`
-6. [ ] `Render and visually QA the proofs module locally`
+1. [ ] `Estimation and bias-variance`
+2. [ ] `Maximum likelihood and Bayesian basics`
+3. [ ] `Confidence intervals and hypothesis testing`
+4. [ ] `Logic module: propositional logic`
+5. [ ] `Render and visually QA the proofs and statistics modules locally`
+6. [ ] `Regression and classification basics`
 
 ## Work Outside Topic Content
 

@@ -83,6 +83,10 @@ website:
               - topics/foundation/probability/concepts/joint-conditional-and-bayes.qmd
               - topics/foundation/probability/concepts/law-of-large-numbers-and-clt.qmd
               - topics/foundation/probability/concepts/concentration-and-common-inequalities.qmd
+          - section: "Statistics"
+            contents:
+              - topics/foundation/statistics/index.qmd
+              - topics/foundation/statistics/concepts/descriptive-statistics-and-data-models.qmd
           - topics/advanced/index.qmd
       - section: "Research Workflow"
         contents:

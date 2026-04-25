@@ -1,0 +1,145 @@
+---
+title: "Statistics"
+description: "Core statistical thinking for turning data into summaries, uncertainty statements, and defensible conclusions in CS, AI, and engineering."
+page-type: module-overview
+status: published
+update-status: current
+level: foundation
+topic: statistics
+prerequisites:
+  - /topics/foundation/probability/index.qmd
+learning-goals:
+  - "Understand the internal study order of a first statistics pass."
+  - "Connect descriptive summaries to inference, modeling, and evaluation."
+  - "See how statistical thinking enters experiments, data analysis, and research papers."
+applications:
+  - data-analysis
+  - machine-learning
+  - experimentation
+keywords:
+  - statistics
+  - descriptive statistics
+  - inference
+  - experimental design
+  - regression
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: annual
+date-modified: last-modified
+draft: false
+---
+
+## Why This Module Matters
+
+Statistics is the layer where probability meets data.
+
+Probability tells you how random quantities behave in a model. Statistics asks the harder practical question: given finite, noisy, biased, or incomplete data, what are you justified in saying about the world?
+
+That shift matters everywhere in CS, AI, and engineering. Experimental results, model evaluation, uncertainty intervals, regression fits, A/B tests, benchmark tables, and scientific claims all depend on statistical reasoning, not just probability formulas.
+
+This module is the first pass through that reasoning. It begins with how to describe data responsibly, then moves toward estimation, uncertainty, model fitting, and experimental judgment.
+
+::: {.meta-strip}
+::: {.meta-box}
+**Prerequisites**
+Probability, algebra, and basic comfort reading formulas
+:::
+::: {.meta-box}
+**Unlocks**
+Inference, regression, experimental design, learning theory
+:::
+::: {.meta-box}
+**Research Use**
+Benchmarking, uncertainty reporting, study design, result interpretation
+:::
+:::
+
+## First Pass Through This Module
+
+1. [Descriptive Statistics and Data Models](concepts/descriptive-statistics-and-data-models.qmd)
+2. `Estimation and Bias-Variance` (planned)
+3. `Maximum Likelihood and Bayesian Basics` (planned)
+4. `Confidence Intervals and Hypothesis Testing` (planned)
+5. `Regression and Classification Basics` (planned)
+6. `Experimental Design and Model Evaluation` (planned)
+
+Right now, the first page is live and the rest of the sequence is the intended statistics spine.
+
+## Navigation Rule
+
+The global sidebar shows only the statistics `spine`:
+
+- the module overview
+- the core concept pages in study order
+
+Each concept page should be strong enough for first-pass learning on its own. Any future proof, application, lab, or paper-lab pages should feel optional rather than required.
+
+## Core Concepts
+
+- [Descriptive Statistics and Data Models](concepts/descriptive-statistics-and-data-models.qmd): teaches how to identify units, variables, sample/population roles, and the right numerical or graphical summaries before making any claim.
+- `Estimation and Bias-Variance`: explains how sample-based procedures target population quantities and why accuracy has both systematic and random components.
+- `Maximum Likelihood and Bayesian Basics`: introduces two major ways to connect models, parameters, and observed data.
+- `Confidence Intervals and Hypothesis Testing`: teaches uncertainty statements and evidence-based decision procedures.
+- `Regression and Classification Basics`: turns statistical summaries into predictive and explanatory modeling.
+- `Experimental Design and Model Evaluation`: teaches how randomization, controls, splits, and metrics shape what conclusions you may trust.
+
+## Proof Patterns In This Module
+
+- `Match the summary to the variable type`: counts and proportions for categorical data; center, spread, and shape for quantitative data.
+- `Separate description from inference`: a sample summary is not yet a population claim.
+- `Track the data-generating story`: what the units are and how they were collected matters before any formula does.
+
+## Applications
+
+### Experimental Science And Benchmarking
+
+Every benchmark table quietly makes statistical choices: what the observational unit is, which runs are pooled, whether variation is shown, and which summary statistic is reported. Bad summaries can make good experiments look weak or weak experiments look stronger than they are.
+
+### Machine Learning Evaluation
+
+Train/validation/test splits, repeated seeds, error bars, calibration plots, confusion matrices, and regression diagnostics all rely on basic statistical thinking about samples, variability, and what a reported number actually represents.
+
+## Go Deeper By Topic
+
+### Describing Data Correctly
+
+Start with [Descriptive Statistics and Data Models](concepts/descriptive-statistics-and-data-models.qmd).
+
+If the page feels slippery, revisit:
+
+- [Sample Spaces, Events, and Conditioning](../probability/concepts/sample-spaces-events-conditioning.qmd) for the probability-side language of populations, samples, and conditioning
+- [Expectation, Variance, Covariance](../probability/concepts/expectation-variance-covariance.qmd) for the probability-side meaning of average and spread
+
+## Optional Deep Dives After First Pass
+
+Until more statistics pages are built, the strongest official deeper references are:
+
+- [Penn State STAT 500](https://online.stat.psu.edu/stat500/) - follow how the course moves from collecting and summarizing data into probability models and inferential procedures. Checked `2026-04-24`.
+- [MIT 18.05 Introduction to Probability and Statistics](https://ocw.mit.edu/courses/18-05-introduction-to-probability-and-statistics-spring-2022/) - watch the transition from probability foundations to statistical inference and modeling. Checked `2026-04-24`.
+- [CMU OLI Probability & Statistics](https://oli.cmu.edu/courses/probability-and-statistics/) - useful as a practice-oriented second pass. Checked `2026-04-24`.
+
+## Study Order
+
+The intended first pass is the six-step sequence above, but right now the live entry point is [Descriptive Statistics and Data Models](concepts/descriptive-statistics-and-data-models.qmd).
+
+You are ready to move deeper into the module when you can:
+
+- identify the observational unit in a dataset or experiment
+- distinguish sample from population and statistic from parameter
+- choose a reasonable summary for categorical versus quantitative variables
+- explain why the collection process matters before inference
+
+## Sources and Further Reading
+
+- [Penn State STAT 500](https://online.stat.psu.edu/stat500/) - `First pass` - strong official open notes for the applied statistics arc from data description to inference. Checked `2026-04-24`.
+- [MIT 18.05 Introduction to Probability and Statistics](https://ocw.mit.edu/courses/18-05-introduction-to-probability-and-statistics-spring-2022/) - `Second pass` - official MIT course with a clean probability-to-statistics bridge. Checked `2026-04-24`.
+- [CMU OLI Probability & Statistics](https://oli.cmu.edu/courses/probability-and-statistics/) - `Second pass` - structured practice environment with beginner-friendly reinforcement. Checked `2026-04-24`.
+- [NIST/SEMATECH e-Handbook: Exploratory Data Analysis](https://www.nist.gov/publications/nistsematech-e-handbook-statistical-methods-chapter-1-exploratory-data-analysis) - `Paper bridge` - strong official reference for how descriptive summaries and plots support real data analysis before formal modeling. Checked `2026-04-24`.
+
+Sources checked online on `2026-04-24`:
+
+- Penn State STAT 500 course page
+- MIT 18.05 course page
+- CMU OLI Probability & Statistics
+- NIST exploratory data analysis chapter

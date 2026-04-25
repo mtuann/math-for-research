@@ -1,0 +1,260 @@
+---
+title: "Descriptive Statistics and Data Models"
+description: "How to identify what your data actually are, what the units and variables mean, and which summaries or plots are appropriate before making inferential claims."
+page-type: concept
+status: published
+update-status: current
+level: foundation
+topic: statistics
+prerequisites:
+  - /topics/foundation/statistics/index.qmd
+learning-goals:
+  - "Distinguish population, sample, parameter, and statistic."
+  - "Identify observational units, variables, and their roles."
+  - "Choose appropriate descriptive summaries for categorical and quantitative data."
+  - "Explain why data collection and study structure matter before inference."
+applications:
+  - data-analysis
+  - experimentation
+  - machine-learning
+keywords:
+  - descriptive statistics
+  - sample
+  - population
+  - parameter
+  - statistic
+  - exploratory data analysis
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/foundation/statistics/index.qmd
+  - /topics/foundation/probability/index.qmd
+  - /topics/foundation/probability/concepts/expectation-variance-covariance.qmd
+stable-sources:
+  - "Penn State STAT 500 Lesson 1"
+  - "CMU OLI Probability & Statistics"
+  - "NIST/SEMATECH e-Handbook: Exploratory Data Analysis"
+current-sources:
+  - "MIT 18.05 Introduction to Probability and Statistics"
+---
+
+## Role
+
+This page is the entry point to statistics.
+
+Its job is to teach the habits that must come before inference: identify what the data represent, what kind of variables you have, and which summaries or plots actually fit the problem.
+
+## First-Pass Promise
+
+Read this page first in the statistics module.
+
+If you stop here, you should still understand:
+
+- the difference between a population, a sample, a parameter, and a statistic
+- how to identify observational units and variable types
+- how to summarize categorical and quantitative data differently
+- why a data summary is only as trustworthy as the data model behind it
+
+## Why It Matters
+
+A lot of bad statistical reasoning starts before any formula appears.
+
+Typical failure modes are simple:
+
+- the observational unit is unclear
+- a statistic is treated like a population truth
+- categorical data are summarized as if the labels had numeric meaning
+- one extreme value dominates the mean and nobody notices
+- a benchmark table hides variation because only one number is reported
+
+In CS, AI, and engineering, this shows up constantly: benchmark summaries, A/B tests, sensor logs, ablation tables, error distributions, latency reports, and user studies all begin with descriptive statistics. If this layer is weak, the later inference is built on sand.
+
+## Prerequisite Recall
+
+- probability describes uncertainty using models of random outcomes
+- a random variable is a numerical quantity attached to an outcome
+- expectation and variance describe average behavior and spread in a model
+
+## Intuition
+
+Before asking “what conclusion should we draw?”, statistics asks a more basic question:
+
+`what exactly is being measured, on what units, under what collection process?`
+
+That is the data-model mindset.
+
+A data model, at this level, is not a complicated probabilistic object. It is the structured description of:
+
+- what one row or one observation stands for
+- which variables were recorded
+- which variables are categorical or quantitative
+- which variable is explanatory and which is the response, if roles matter
+- what population the sample is supposed to represent
+
+Once that is clear, descriptive statistics become much easier. You know what should be counted, averaged, compared, graphed, or left alone.
+
+## Formal Core
+
+::: {#def-basic-roles}
+## Core Statistical Roles
+
+- `Population`: the larger collection of units you ultimately care about
+- `Sample`: the observed subset of units you actually measured
+- `Parameter`: a numerical feature of the population, such as a population mean or proportion
+- `Statistic`: a numerical feature computed from the sample, such as a sample mean or sample proportion
+
+A central statistical task is to use sample statistics to learn something about population parameters.
+:::
+
+::: {#def-data-model}
+## Data Model
+
+For first-pass statistics, a useful working data model records:
+
+1. the observational unit
+2. the variables measured on each unit
+3. the variable type of each variable
+4. the role of each variable, when relevant
+5. the intended population and sampling story
+
+Without this structure, numerical summaries are easy to misread.
+:::
+
+::: {#prp-summary-rule}
+## Summary Rule
+
+Choose descriptive tools to match the variable type:
+
+- for `categorical` variables, use counts, proportions, and bar-style displays
+- for `quantitative` variables, use summaries of center and spread such as mean, median, standard deviation, quartiles, and boxplots or histograms
+- for `grouped` data, compare summaries within groups rather than only pooling everything together
+
+The right summary is the one that preserves the important structure of the data instead of hiding it.
+:::
+
+## Worked Example
+
+Suppose an engineering team records inference latency for a prototype model on eight requests:
+
+$$
+92,\;95,\;97,\;101,\;104,\;110,\;112,\;180 \text{ milliseconds.}
+$$
+
+The observational unit is `one request`.
+
+The main variable is `latency_ms`, which is quantitative. If the team also records `device_type`, then that variable is categorical.
+
+Now compute a few descriptive summaries for `latency_ms`:
+
+- sample mean:
+  $$
+  \bar{x} = \frac{92+95+97+101+104+110+112+180}{8} = 111.375
+  $$
+- sample median:
+  the middle pair is $101$ and $104$, so the median is
+  $$
+  \frac{101+104}{2}=102.5
+  $$
+- minimum and maximum: $92$ and $180$
+
+What do we learn?
+
+- the mean is pulled upward by the large value $180$
+- the median stays closer to the bulk of the runs
+- reporting only the mean would hide the possibility of a long-tail slowdown
+
+This is exactly why descriptive statistics are not “just bookkeeping.” They determine what a reader sees as typical, variable, or suspicious.
+
+If the same data were split by `device_type`, then a better summary might report separate medians and spreads for each device rather than one pooled number.
+
+## Computation Lens
+
+A good first descriptive pass over any dataset is:
+
+1. identify the observational unit
+2. list the variables and classify them as categorical or quantitative
+3. decide whether any variable plays an explanatory or response role
+4. compute counts/proportions for categorical variables
+5. compute center and spread summaries for quantitative variables
+6. make at least one plot that can reveal skew, outliers, or imbalance
+7. ask whether pooled summaries are hiding meaningful subgroups
+
+This is often the fastest way to catch data issues before building models.
+
+## Application Lens
+
+In ML and systems papers, descriptive statistics appear in places that people often overlook:
+
+- benchmark tables across seeds or datasets
+- latency and throughput summaries
+- calibration or error distributions
+- class-imbalance tables
+- ablation studies split by task or architecture
+
+If a paper reports only one mean score with no sense of spread, grouping, or sample size, your first statistical question should be: `what structure of the data is being hidden?`
+
+That is descriptive statistics doing real research work.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- what population, sample, parameter, and statistic mean
+- what a simple first-pass data model looks like
+- how summaries differ for categorical versus quantitative variables
+- why outliers, grouping, and collection design matter before inference
+
+then this page has done its main job.
+
+## Go Deeper
+
+The most useful next steps after this page are:
+
+1. `Estimation and Bias-Variance` once it is built, to understand how sample summaries target population quantities
+2. [Expectation, Variance, Covariance](../../probability/concepts/expectation-variance-covariance.qmd) if you want the probability-side view of average and spread
+3. [Sample Spaces, Events, and Conditioning](../../probability/concepts/sample-spaces-events-conditioning.qmd) if you want to revisit how data collection and conditioning interact
+
+## Optional Paper Bridge
+
+- [Penn State STAT 500 Lesson 1: Collecting and Summarizing Data](https://online.stat.psu.edu/stat500/Lesson01) - `First pass` - strong official lesson on variable types, sampling concerns, graphical summaries, and descriptive measures. Checked `2026-04-24`.
+- [CMU OLI Probability & Statistics](https://oli.cmu.edu/courses/probability-and-statistics/) - `Second pass` - useful official second perspective for structured beginner practice. Checked `2026-04-24`.
+- [NIST/SEMATECH e-Handbook: Exploratory Data Analysis](https://www.nist.gov/publications/nistsematech-e-handbook-statistical-methods-chapter-1-exploratory-data-analysis) - `Paper bridge` - strong official bridge from basic summaries to real analytic workflow, especially plots, anomalies, and model checking. Checked `2026-04-24`.
+
+## Optional After First Pass
+
+If you want more practice before moving on:
+
+- take one table from a paper and identify its observational unit, variables, and hidden sampling story
+- compute both mean and median on a skewed dataset and explain the difference
+- ask whether a pooled summary should be split by subgroup, seed, hardware, or class
+
+## Common Mistakes
+
+- confusing a sample statistic with a population fact
+- averaging category labels as if the labels had numeric meaning
+- reporting only the mean when the data are skewed or contain outliers
+- forgetting to say what one row of the dataset represents
+- treating a descriptive summary as if it already implied causality or significance
+
+## Exercises
+
+1. A survey records `favorite operating system` for 300 students. What are the observational units, variable type, and appropriate summaries?
+2. A dataset contains response times in milliseconds with one unusually large outlier. Explain why the mean and median may tell different stories.
+3. In a benchmark table with results pooled across three hardware types, give one reason why the pooled mean might be misleading.
+
+## Sources and Further Reading
+
+- [Penn State STAT 500 Lesson 1: Collecting and Summarizing Data](https://online.stat.psu.edu/stat500/Lesson01) - `First pass` - official open lesson with clear treatment of variables, data collection, and descriptive summaries. Checked `2026-04-24`.
+- [MIT 18.05 Introduction to Probability and Statistics](https://ocw.mit.edu/courses/18-05-introduction-to-probability-and-statistics-spring-2022/) - `Second pass` - official MIT course showing how descriptive and inferential viewpoints fit into one statistics sequence. Checked `2026-04-24`.
+- [NIST/SEMATECH e-Handbook: Exploratory Data Analysis](https://www.nist.gov/publications/nistsematech-e-handbook-statistical-methods-chapter-1-exploratory-data-analysis) - `Paper bridge` - excellent official reference for the habit of plotting and checking data before formal modeling. Checked `2026-04-24`.
+
+Sources checked online on `2026-04-24`:
+
+- Penn State STAT 500 Lesson 1
+- CMU OLI Probability & Statistics
+- NIST exploratory data analysis chapter
+- MIT 18.05 course page

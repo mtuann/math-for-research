@@ -11,6 +11,6 @@ The foundation track is where you build fluency strong enough that later theory 
 - [Proofs](proofs/index.qmd)
 - [Linear Algebra](linear-algebra/index.qmd)
 - [Probability](probability/index.qmd)
+- [Statistics](statistics/index.qmd)
 
 These are the first starter modules scaffolded in this version of the site.
-
