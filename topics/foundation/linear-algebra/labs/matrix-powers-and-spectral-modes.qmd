@@ -115,11 +115,16 @@ applyP = (v) => ({
   y: P[1][0] * v.x + P[1][1] * v.y
 })
 
-state = ({x: x0a, y: x0b})
-trajectory = [{step: 0, x: state.x, y: state.y}]
-for (let i = 1; i <= steps; i++) {
-  state = applyP(state)
-  trajectory.push({step: i, x: state.x, y: state.y})
+initialState = ({x: x0a, y: x0b})
+
+trajectory = {
+  let state = ({...initialState})
+  let rows = [{step: 0, x: state.x, y: state.y}]
+  for (let i = 1; i <= steps; i++) {
+    state = applyP(state)
+    rows.push({step: i, x: state.x, y: state.y})
+  }
+  return rows
 }
 
 consensusValue = (x0a + x0b) / 2
