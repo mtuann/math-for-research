@@ -115,9 +115,9 @@ website:
               - topics/foundation/statistics/concepts/descriptive-statistics-and-data-models.qmd
               - topics/foundation/statistics/concepts/estimation-and-bias-variance.qmd
               - topics/foundation/statistics/concepts/maximum-likelihood-and-bayesian-basics.qmd
-          - topics/foundation/statistics/concepts/confidence-intervals-and-hypothesis-testing.qmd
-          - topics/foundation/statistics/concepts/regression-and-classification-basics.qmd
-          - topics/foundation/statistics/concepts/experimental-design-and-model-evaluation.qmd
+              - topics/foundation/statistics/concepts/confidence-intervals-and-hypothesis-testing.qmd
+              - topics/foundation/statistics/concepts/regression-and-classification-basics.qmd
+              - topics/foundation/statistics/concepts/experimental-design-and-model-evaluation.qmd
           - topics/advanced/index.qmd
           - section: "Real Analysis"
             contents:
