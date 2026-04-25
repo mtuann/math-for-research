@@ -14,5 +14,17 @@ The advanced track is where the site moves into:
 - high-dimensional probability
 - high-dimensional statistics
 
-This branch is planned in detail and will grow after the foundation spine is stable.
+## First Live Module
 
+- [Optimization](optimization/index.qmd)
+
+Optimization is the first advanced module now starting to go live. It is the natural bridge from the foundation stack into convexity, duality, certificates, first-order methods, and research-facing mathematical modeling.
+
+## Planned Next Advanced Modules
+
+- `Real Analysis`
+- `Numerical Methods`
+- `Matrix Analysis`
+- `Learning Theory`
+- `High-Dimensional Probability`
+- `High-Dimensional Statistics`

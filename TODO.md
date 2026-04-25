@@ -17,9 +17,10 @@ Use it to track:
 
 ## Current Snapshot
 
-- `131` `.qmd` pages currently exist
-- `29` concept-topic pages currently exist
+- `133` `.qmd` pages currently exist
+- `30` concept-topic pages currently exist
 - strongest subjects so far: `Linear Algebra`, `Probability`, `Proofs`, `Logic`, `Statistics`
+- strongest public-facing bridge so far: `Applications > Machine Learning`
 - non-topic sections already scaffolded: `Start Here`, `Roadmaps`, `Applications`, `Paper Lab`, `Research`, `Publication`, `Library`, `Notes`
 
 ## Site Sections
@@ -249,10 +250,11 @@ These are not required before the main spine is public, but they are the next hi
 
 ### Optimization
 
+- [x] `Optimization index`
 - [ ] `Convex sets and separation`
 - [ ] `Convex functions and subgradients`
 - [ ] `Unconstrained first-order methods`
-- [ ] `Constrained optimization, KKT, and Lagrangians`
+- [x] `Constrained optimization, KKT, and Lagrangians`
 - [ ] `Duality and certificates`
 
 ### Numerical Methods
@@ -330,17 +332,17 @@ These are the topics that should eventually become canonical examples for future
 - [~] `Experimental design and model evaluation`
 - [ ] `Partial derivatives and gradients`
 - [ ] `Jacobians and Hessians`
-- [ ] `Constrained optimization, KKT, and Lagrangians`
+- [~] `Constrained optimization, KKT, and Lagrangians`
 
 ## Suggested Build Order From Here
 
 Near-term highest-value content steps:
 
-1. [ ] `Logic module: propositional logic`
-2. [ ] `Logic module: predicate logic`
-3. [ ] `Machine learning applications index`
-4. [ ] `Render and visually QA the expanded linear algebra module locally`
-5. [ ] `AI / ML theory roadmap`
+1. [ ] `Optimization module: convex sets and separation`
+2. [ ] `Optimization module: convex functions and subgradients`
+3. [ ] `Optimization module: unconstrained first-order methods`
+4. [ ] `Paper Lab: theorem decoder`
+5. [ ] `Single-variable calculus module: limits and continuity`
 6. [ ] `Curate Library: books and courses`
 
 ## Work Outside Topic Content
@@ -387,6 +389,6 @@ Yes, there is important work outside topic writing.
 
 ## Notes
 
-- Current content momentum is strongest in `Linear Algebra`, `Probability`, `Proofs`, and `Statistics`.
-- The next subject most worth strengthening is `Logic`.
+- Current content momentum is strongest in `Linear Algebra`, `Probability`, `Proofs`, `Logic`, `Statistics`, and `Applications > Machine Learning`.
+- The next subject most worth strengthening is `Optimization`.
 - The next non-content task most worth doing is a `local render + visual QA pass`.

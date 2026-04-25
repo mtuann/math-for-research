@@ -1,0 +1,165 @@
+---
+title: "Optimization"
+description: "How objectives, constraints, convexity, and certificates fit together in the mathematical language behind fitting, design, control, and machine learning."
+page-type: module-overview
+status: published
+update-status: current
+level: advanced
+topic: optimization
+prerequisites:
+  - /topics/foundation/linear-algebra/index.qmd
+  - /topics/foundation/probability/index.qmd
+learning-goals:
+  - "Understand the internal study order of a first optimization pass."
+  - "See how gradients, constraints, multipliers, and convexity fit together."
+  - "Connect optimization to machine learning, control, inverse problems, and scientific computing."
+applications:
+  - machine-learning
+  - control
+  - scientific-computing
+keywords:
+  - optimization
+  - convex optimization
+  - KKT
+  - duality
+  - gradient methods
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: annual
+date-modified: last-modified
+draft: false
+stable-sources:
+  - "Stanford EE364a"
+  - "Boyd and Vandenberghe, Convex Optimization"
+  - "MIT 6.253 Convex Analysis and Optimization"
+current-sources:
+  - "Differentiable Convex Optimization Layers (NeurIPS 2019)"
+---
+
+## Why This Module Matters
+
+Optimization is the language of `fit the model`, `choose the design`, `allocate the resource`, and `control the system`.
+
+Once a problem becomes `pick variables to minimize cost while respecting structure`, you are in optimization, even if the surrounding application is machine learning, signal processing, robotics, operations research, or scientific computing.
+
+This module is where several earlier strands finally meet:
+
+- linear algebra gives the geometry of spaces, projections, and operators
+- probability and statistics explain what objective functions are trying to estimate or regularize
+- calculus explains local change, gradients, and curvature
+- algorithms turn optimality conditions into actual solvers
+
+If this module is skipped, later material starts to feel like disconnected recipes: gradient descent becomes a trick, Lagrange multipliers become a symbol game, duality becomes mysterious, and ML training objectives look more arbitrary than they really are.
+
+::: {.meta-strip}
+::: {.meta-box}
+**Prerequisites**
+Linear algebra first. Probability helps. Multivariable calculus will make the later parts smoother.
+:::
+::: {.meta-box}
+**Unlocks**
+Convex modeling, duality, constrained ML, numerical optimization, control
+:::
+::: {.meta-box}
+**Research Use**
+Reading papers with objectives, constraints, certificates, regularization, and solver-based arguments
+:::
+:::
+
+## First Pass Through This Module
+
+1. [Constrained Optimization, KKT, and Lagrangians](concepts/constrained-optimization-kkt-and-lagrangians.qmd)
+2. `Convex sets and separation`
+3. `Convex functions and subgradients`
+4. `Unconstrained first-order methods`
+5. `Duality and certificates`
+
+Right now the first live entry point is [Constrained Optimization, KKT, and Lagrangians](concepts/constrained-optimization-kkt-and-lagrangians.qmd). The convexity and algorithm pages listed after it are the next planned spine pages for this module.
+
+## Navigation Rule
+
+The global sidebar shows only the optimization `spine`:
+
+- the module overview
+- the core concept pages in study order
+
+Each concept page should be strong enough for first-pass learning on its own. Any future proof, application, lab, paper-lab, or research pages should feel optional rather than required.
+
+## Core Concepts
+
+- [Constrained Optimization, KKT, and Lagrangians](concepts/constrained-optimization-kkt-and-lagrangians.qmd): the first bridge from informal `optimize under rules` thinking to precise optimality conditions and dual interpretations.
+- `Convex sets and separation`: the geometric layer that explains why some optimization problems are globally well behaved.
+- `Convex functions and subgradients`: the analytic layer that explains shape, descent, and nonsmooth generalizations of gradients.
+- `Unconstrained first-order methods`: the algorithmic layer behind gradient descent, step sizes, convergence, and large-scale optimization.
+- `Duality and certificates`: the certification layer that explains lower bounds, sensitivity, and why multipliers are more than algebraic artifacts.
+
+## Proof Patterns In This Module
+
+- `First-order stationarity`: at an optimum, feasible perturbations cannot improve the objective to first order.
+- `Geometry of active constraints`: optimality becomes a balance between the objective gradient and constraint normals.
+- `Certificate thinking`: primal feasibility plus dual information can prove optimality or suboptimality.
+
+## Applications
+
+### Machine Learning And Statistical Estimation
+
+Loss minimization, regularization, constrained training, adversarial formulations, sparse estimation, and calibration all turn into optimization problems. KKT and duality appear in support vector machines, lasso-style methods, differentiable optimization layers, and modern implicit-bias analysis.
+
+### Control, Design, And Scientific Computing
+
+Trajectory planning, resource allocation, filter design, inverse problems, and engineering tradeoff studies all depend on writing the right objective and constraints, then extracting interpretable multipliers, sensitivities, and certificates from the solution.
+
+## Go Deeper By Topic
+
+### Constrained Problems And Multipliers
+
+Start with [Constrained Optimization, KKT, and Lagrangians](concepts/constrained-optimization-kkt-and-lagrangians.qmd).
+
+If you want adjacent context right away, the best current bridges are:
+
+- [Optimization for Machine Learning](../../../applications/machine-learning/optimization-for-machine-learning.qmd) for the training-side view
+- [Orthogonality and Least Squares](../../foundation/linear-algebra/concepts/orthogonality-and-least-squares.qmd) for a familiar optimization problem you already know geometrically
+
+## Optional Deep Dives After First Pass
+
+The strongest official deeper references currently connected to this module are:
+
+- [Stanford EE364a: Convex Optimization I](https://web.stanford.edu/class/ee364a/index.html) - current official course page and the clearest self-study backbone for optimization in engineering and ML. Checked `2026-04-24`.
+- [Convex Optimization by Boyd and Vandenberghe](https://web.stanford.edu/~boyd/cvxbook/) - the canonical text, hosted on the authors' official Stanford page. Checked `2026-04-24`.
+- [MIT 6.253: Convex Analysis and Optimization](https://web.mit.edu/6.253/www/) - stronger mathematical second pass for readers who want more analysis depth. Checked `2026-04-24`.
+- [MIT EE227A: Convex Optimization](https://optml.mit.edu/teach/ee227a/) - useful bridge for scalable methods and algorithmic perspective. Checked `2026-04-24`.
+
+## Study Order
+
+The intended long-term first pass through optimization is:
+
+1. [Constrained Optimization, KKT, and Lagrangians](concepts/constrained-optimization-kkt-and-lagrangians.qmd)
+2. `Convex sets and separation`
+3. `Convex functions and subgradients`
+4. `Unconstrained first-order methods`
+5. `Duality and certificates`
+
+Right now the current live path starts with the KKT page because it gives the fastest bridge from applications back to the mathematical heart of the subject: optimality conditions, feasible geometry, multipliers, and certificates.
+
+You are ready to move deeper into the module when you can:
+
+- distinguish objective, variables, and constraints cleanly
+- explain why unconstrained and constrained optima obey different first-order logic
+- interpret a multiplier as more than a symbol attached to a constraint
+
+## Sources and Further Reading
+
+- [Stanford EE364a: Convex Optimization I](https://web.stanford.edu/class/ee364a/index.html) - `First pass` - the best current official course backbone for the applied and theoretical arc of convex optimization. Checked `2026-04-24`.
+- [Convex Optimization by Boyd and Vandenberghe](https://web.stanford.edu/~boyd/cvxbook/) - `First pass` - official online text with the cleanest entry into convex sets, functions, optimality conditions, and duality. Checked `2026-04-24`.
+- [MIT 6.253: Convex Analysis and Optimization](https://web.mit.edu/6.253/www/) - `Second pass` - useful when you want more mathematical depth behind convexity and optimality. Checked `2026-04-24`.
+- [MIT EE227A: Convex Optimization](https://optml.mit.edu/teach/ee227a/) - `Second pass` - good algorithmic complement once the core ideas are in place. Checked `2026-04-24`.
+- [Differentiable Convex Optimization Layers](https://papers.nips.cc/paper_files/paper/2019/hash/9ce3c52fc54362e22053399d3181c638-Abstract.html) - `Paper bridge` - shows how KKT systems and convex programs reappear inside modern deep learning pipelines. Checked `2026-04-24`.
+
+Sources checked online on `2026-04-24`:
+
+- Stanford EE364a course page
+- Boyd and Vandenberghe convex optimization book page
+- MIT 6.253 course page
+- MIT EE227A course page
+- NeurIPS 2019 differentiable convex optimization layers proceedings page

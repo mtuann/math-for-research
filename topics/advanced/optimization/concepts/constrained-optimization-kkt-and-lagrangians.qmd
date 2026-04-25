@@ -1,0 +1,368 @@
+---
+title: "Constrained Optimization, KKT, and Lagrangians"
+description: "How constraints turn optimization into a geometry of active boundaries, multipliers, and certificates."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: optimization
+prerequisites:
+  - /topics/foundation/linear-algebra/concepts/orthogonality-and-least-squares.qmd
+  - /applications/machine-learning/optimization-for-machine-learning.qmd
+learning-goals:
+  - "Write the Lagrangian for an optimization problem with equality and inequality constraints."
+  - "State the KKT conditions and interpret each part geometrically."
+  - "Solve one complete constrained example and identify active constraints."
+  - "Explain why KKT conditions matter in machine learning, control, and modern differentiable optimization."
+applications:
+  - machine-learning
+  - control
+  - operations-research
+keywords:
+  - constrained optimization
+  - KKT
+  - Lagrangian
+  - Lagrange multipliers
+  - dual variables
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/optimization/index.qmd
+  - /applications/machine-learning/optimization-for-machine-learning.qmd
+  - /topics/foundation/linear-algebra/concepts/orthogonality-and-least-squares.qmd
+stable-sources:
+  - "Stanford EE364a"
+  - "Convex Optimization by Boyd and Vandenberghe"
+  - "MIT 6.253 Convex Analysis and Optimization"
+current-sources:
+  - "Differentiable Convex Optimization Layers (NeurIPS 2019)"
+---
+
+## Role
+
+This page is the first serious optimality page of the optimization module.
+
+It explains how the simple unconstrained rule `gradient equals zero` turns into a richer constrained rule involving active boundaries, multipliers, and certificates of optimality.
+
+## First-Pass Promise
+
+Read this page first.
+
+If you stop here, you should still understand:
+
+- what the Lagrangian is trying to encode
+- what each KKT condition says
+- how one small constrained problem is solved from setup to interpretation
+- why multipliers matter in machine learning, control, and solver-based modeling
+
+## Why It Matters
+
+Many important problems are not `minimize f(x)` in empty space.
+
+They are problems like:
+
+- fit parameters while satisfying structural constraints
+- allocate limited resources
+- control a system under safety or energy limits
+- optimize predictions while enforcing fairness, monotonicity, or physics-inspired rules
+
+The moment constraints appear, local optimality is no longer just `set the gradient to zero`.
+
+Instead, the objective gradient must be balanced by the geometry of the active constraints. The KKT conditions are the compact language for that balance. They show up in convex optimization, support vector machines, sparse estimation, control, economics, and differentiable optimization layers.
+
+## Prerequisite Recall
+
+- an unconstrained differentiable minimum often satisfies $\nabla f(x^\star)=0$
+- a feasible point is one that satisfies all constraints
+- an `active` inequality constraint is one that holds with equality at the solution
+- the gradient of a constraint points normal to its boundary
+
+## Intuition
+
+In an unconstrained problem, the optimizer can move in any direction. At a local optimum there is no first-order improving direction, so the gradient must vanish.
+
+With constraints, the optimizer cannot move freely. Some directions are forbidden because they leave the feasible set.
+
+That changes the geometry. At an optimum, the gradient of the objective does not usually vanish. Instead, it is balanced by a combination of the normals to the active constraints.
+
+That is the meaning of the Lagrangian and the KKT system:
+
+- `primal feasibility`: stay inside the allowed region
+- `stationarity`: the objective gradient is balanced by constraint normals
+- `dual feasibility`: inequality multipliers point in the right sign direction
+- `complementary slackness`: inactive inequalities carry zero multiplier
+
+Multipliers therefore have two lives at once:
+
+- geometric: they weight active constraint normals
+- economic / sensitivity: they act like `shadow prices` for tightening constraints
+
+## Formal Core
+
+Consider the differentiable constrained problem
+
+$$
+\begin{aligned}
+\text{minimize} \quad & f(x) \\
+\text{subject to} \quad & g_i(x) \le 0, \quad i=1,\dots,m, \\
+& Ax = b.
+\end{aligned}
+$$
+
+::: {#def-lagrangian}
+## Definition
+
+The Lagrangian of the problem is
+
+$$
+\mathcal{L}(x,\lambda,\nu)
+=
+f(x) + \sum_{i=1}^m \lambda_i g_i(x) + \nu^\top(Ax-b),
+$$
+
+where $\lambda \in \mathbb{R}^m$ are inequality multipliers and $\nu$ are equality multipliers.
+:::
+
+For a first pass, the main rule to remember is:
+
+- equality constraints can use multipliers with any sign
+- inequality constraints use multipliers with sign restrictions
+
+::: {#thm-kkt}
+## KKT Conditions
+
+Suppose the problem is convex and differentiable, and a constraint qualification such as Slater's condition holds. Then $x^\star$ is optimal if and only if there exist multipliers $\lambda^\star,\nu^\star$ such that:
+
+1. `Primal feasibility`
+
+$$
+g_i(x^\star)\le 0, \qquad Ax^\star=b
+$$
+
+2. `Dual feasibility`
+
+$$
+\lambda_i^\star \ge 0 \quad \text{for all } i
+$$
+
+3. `Stationarity`
+
+$$
+\nabla f(x^\star)
++
+\sum_{i=1}^m \lambda_i^\star \nabla g_i(x^\star)
++
+A^\top \nu^\star
+=
+0
+$$
+
+4. `Complementary slackness`
+
+$$
+\lambda_i^\star g_i(x^\star)=0
+\quad \text{for all } i
+$$
+
+For general nonlinear nonconvex problems, KKT conditions are usually necessary under regularity conditions, but not automatically sufficient.
+:::
+
+The most important interpretive line is the stationarity condition:
+
+$$
+\nabla f(x^\star)
+=
+-
+\sum_{i=1}^m \lambda_i^\star \nabla g_i(x^\star)
+-
+A^\top \nu^\star.
+$$
+
+At the solution, the objective gradient is expressed using the normals to the constraints that matter.
+
+## Worked Example
+
+Consider the problem
+
+$$
+\begin{aligned}
+\text{minimize} \quad & f(x,y)=x^2+y^2 \\
+\text{subject to} \quad & 1-x-y \le 0, \\
+& -x \le 0, \\
+& -y \le 0.
+\end{aligned}
+$$
+
+Geometrically, we are looking for the point of smallest Euclidean norm in the feasible region
+
+$$
+\{(x,y): x\ge 0,\ y\ge 0,\ x+y\ge 1\}.
+$$
+
+The feasible set is the first-quadrant half-plane above the line $x+y=1$. The point closest to the origin should lie on that boundary.
+
+Write multipliers $\lambda_1,\lambda_2,\lambda_3 \ge 0$ for the three inequalities. The Lagrangian is
+
+$$
+\mathcal{L}(x,y,\lambda)
+=
+x^2+y^2
+\,+\,\lambda_1(1-x-y)
+\,+\,\lambda_2(-x)
+\,+\,\lambda_3(-y).
+$$
+
+The KKT conditions are:
+
+`Primal feasibility`
+
+$$
+x+y\ge 1,\qquad x\ge 0,\qquad y\ge 0
+$$
+
+`Dual feasibility`
+
+$$
+\lambda_1,\lambda_2,\lambda_3 \ge 0
+$$
+
+`Stationarity`
+
+$$
+2x-\lambda_1-\lambda_2=0,
+\qquad
+2y-\lambda_1-\lambda_3=0
+$$
+
+`Complementary slackness`
+
+$$
+\lambda_1(1-x-y)=0,\qquad
+\lambda_2 x = 0,\qquad
+\lambda_3 y = 0
+$$
+
+Now guess from geometry that both coordinates stay positive and the boundary $x+y=1$ is active. Then $\lambda_2=\lambda_3=0$, and from stationarity
+
+$$
+2x=\lambda_1,\qquad 2y=\lambda_1.
+$$
+
+So $x=y$. Combined with $x+y=1$, we get
+
+$$
+x^\star=y^\star=\frac12.
+$$
+
+Then
+
+$$
+\lambda_1^\star = 1,\qquad \lambda_2^\star=\lambda_3^\star=0.
+$$
+
+Interpretation:
+
+- the active boundary is $x+y=1$
+- the nonnegativity constraints are inactive
+- the objective gradient at $(1/2,1/2)$ is $(1,1)$
+- that gradient is exactly balanced by the normal direction of the active constraint
+
+The optimal value is
+
+$$
+f(x^\star,y^\star)=\frac12.
+$$
+
+If we tighten the boundary slightly to $x+y \ge 1+\delta$, the optimal value increases approximately by $\lambda_1^\star \delta = \delta$ for small $\delta$. This is the shadow-price meaning of the multiplier.
+
+## Computation Lens
+
+In practice, constrained optimization work often follows this routine:
+
+1. choose a sign convention, usually `g_i(x) <= 0`
+2. write the Lagrangian once, cleanly
+3. identify candidate active constraints
+4. solve or inspect the KKT system
+5. use the multipliers to interpret sensitivity and certificates
+
+Even when a solver does the numerical work, this viewpoint matters. It tells you:
+
+- which constraints are actually binding
+- whether the solution satisfies sensible optimality conditions
+- how objective value reacts when you perturb a limit, budget, or safety threshold
+
+This is also why dual variables reported by optimization software are not just extra numbers. They summarize local sensitivity information.
+
+## Application Lens
+
+KKT conditions show up everywhere once constraints become part of a model.
+
+In support vector machines, the margin problem is constrained and the support vectors are tied to which constraints are active. In control and engineering design, multipliers encode how strongly performance trades against safety or actuation limits. In differentiable optimization layers, the KKT system is often the object that gets implicitly differentiated during backpropagation.
+
+So this page is not just about solving toy constrained problems. It is about learning the standard language that makes optimization results readable across modern ML and engineering papers.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- what the Lagrangian is
+- what each KKT condition contributes
+- why complementary slackness distinguishes active from inactive inequalities
+- how the worked example turns geometry into equations
+
+then this page has done its main job.
+
+## Go Deeper
+
+The strongest current adjacent pages are:
+
+1. [Optimization for Machine Learning](../../../../applications/machine-learning/optimization-for-machine-learning.qmd) for the training-side view
+2. [Orthogonality and Least Squares](../../../foundation/linear-algebra/concepts/orthogonality-and-least-squares.qmd) for a familiar optimization problem that already has strong geometric intuition
+3. [Optimization module overview](../index.qmd) for the planned growth of the rest of this module
+
+## Optional Paper Bridge
+
+- [Differentiable Convex Optimization Layers](https://papers.nips.cc/paper_files/paper/2019/hash/9ce3c52fc54362e22053399d3181c638-Abstract.html) - `Paper bridge` - watch how KKT systems are used as differentiable objects inside modern neural architectures. Checked `2026-04-24`.
+- [OptNet: Differentiable Optimization as a Layer in Neural Networks](https://proceedings.mlr.press/v70/amos17a.html) - `Paper bridge` - a second clean entry into optimization layers built around quadratic programs and implicit differentiation. Checked `2026-04-24`.
+
+## Optional After First Pass
+
+If you want more depth after this first pass:
+
+- revisit [Optimization for Machine Learning](../../../../applications/machine-learning/optimization-for-machine-learning.qmd) and ask which statements there are really KKT statements in disguise
+- read a duality lecture from [Stanford SEE EE364A](https://see.stanford.edu/Course/EE364A) and watch how multipliers become lower-bound certificates
+- compare this page's constrained viewpoint with later pages on convexity and first-order methods as the optimization module grows
+
+## Common Mistakes
+
+- assuming KKT conditions are always sufficient, even in nonconvex problems
+- forgetting the sign restriction on inequality multipliers
+- using complementary slackness backward as if every zero multiplier meant the constraint was active
+- writing inequalities with inconsistent sign conventions and then misreading the multiplier sign
+- treating multipliers as algebraic baggage instead of sensitivity information
+
+## Exercises
+
+1. For the one-dimensional problem $\min x^2$ subject to $x\ge 1$, write the Lagrangian and solve the KKT system.
+2. In the worked example above, verify directly that $(x^\star,y^\star,\lambda^\star)$ satisfies all four KKT components.
+3. Explain in words why an inactive inequality constraint must have zero multiplier in a convex KKT system.
+
+## Sources and Further Reading
+
+- [Stanford EE364a: Convex Optimization I](https://web.stanford.edu/class/ee364a/index.html) - `First pass` - current official course page that states the course arc and points to the core convex-optimization backbone. Checked `2026-04-24`.
+- [Stanford Engineering Everywhere: EE364A](https://see.stanford.edu/Course/EE364A) - `First pass` - official lecture-note archive with direct material on duality, KKT conditions, and constrained minimization. Checked `2026-04-24`.
+- [Convex Optimization by Boyd and Vandenberghe](https://web.stanford.edu/~boyd/cvxbook/) - `Second pass` - canonical official text for constrained convex problems, duality, and sensitivity. Checked `2026-04-24`.
+- [MIT 6.253: Convex Analysis and Optimization](https://web.mit.edu/6.253/www/) - `Second pass` - useful when you want more mathematical depth behind optimality conditions and convexity. Checked `2026-04-24`.
+- [Differentiable Convex Optimization Layers](https://papers.nips.cc/paper_files/paper/2019/hash/9ce3c52fc54362e22053399d3181c638-Abstract.html) - `Paper bridge` - shows how KKT systems reappear in modern end-to-end learning pipelines. Checked `2026-04-24`.
+
+Sources checked online on `2026-04-24`:
+
+- Stanford EE364a course page
+- Stanford Engineering Everywhere EE364A page
+- Boyd and Vandenberghe convex optimization book page
+- MIT 6.253 course page
+- NeurIPS 2019 differentiable convex optimization layers page
