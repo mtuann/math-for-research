@@ -18,7 +18,15 @@ The advanced track is where the site moves into:
 
 - [Optimization](optimization/index.qmd)
 
-Optimization is the first advanced module now starting to go live. It is the natural bridge from the foundation stack into convexity, duality, certificates, first-order methods, and research-facing mathematical modeling.
+Optimization is the first advanced module now going live with an actual five-page spine:
+
+- [Convex Sets and Separation](optimization/concepts/convex-sets-and-separation.qmd)
+- [Convex Functions and Subgradients](optimization/concepts/convex-functions-and-subgradients.qmd)
+- [Constrained Optimization, KKT, and Lagrangians](optimization/concepts/constrained-optimization-kkt-and-lagrangians.qmd)
+- [Unconstrained First-Order Methods](optimization/concepts/unconstrained-first-order-methods.qmd)
+- [Duality and Certificates](optimization/concepts/duality-and-certificates.qmd)
+
+It is the natural bridge from the foundation stack into convexity, duality, certificates, first-order methods, and research-facing mathematical modeling.
 
 ## Planned Next Advanced Modules
 

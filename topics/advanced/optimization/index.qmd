@@ -8,7 +8,7 @@ level: advanced
 topic: optimization
 prerequisites:
   - /topics/foundation/linear-algebra/index.qmd
-  - /topics/foundation/probability/index.qmd
+  - "Basic calculus: derivatives, partial derivatives, gradients, and curvature intuition"
 learning-goals:
   - "Understand the internal study order of a first optimization pass."
   - "See how gradients, constraints, multipliers, and convexity fit together."
@@ -55,7 +55,7 @@ If this module is skipped, later material starts to feel like disconnected recip
 ::: {.meta-strip}
 ::: {.meta-box}
 **Prerequisites**
-Linear algebra first. Probability helps. Multivariable calculus will make the later parts smoother.
+Linear algebra first. Basic calculus is strongly recommended. Probability helps connect objectives to estimation and uncertainty.
 :::
 ::: {.meta-box}
 **Unlocks**
@@ -69,13 +69,23 @@ Reading papers with objectives, constraints, certificates, regularization, and s
 
 ## First Pass Through This Module
 
-1. [Constrained Optimization, KKT, and Lagrangians](concepts/constrained-optimization-kkt-and-lagrangians.qmd)
-2. `Convex sets and separation`
-3. `Convex functions and subgradients`
-4. `Unconstrained first-order methods`
-5. `Duality and certificates`
+1. [Convex Sets and Separation](concepts/convex-sets-and-separation.qmd)
+2. [Convex Functions and Subgradients](concepts/convex-functions-and-subgradients.qmd)
+3. [Constrained Optimization, KKT, and Lagrangians](concepts/constrained-optimization-kkt-and-lagrangians.qmd)
+4. [Unconstrained First-Order Methods](concepts/unconstrained-first-order-methods.qmd)
+5. [Duality and Certificates](concepts/duality-and-certificates.qmd)
 
-Right now the first live entry point is [Constrained Optimization, KKT, and Lagrangians](concepts/constrained-optimization-kkt-and-lagrangians.qmd). The convexity and algorithm pages listed after it are the next planned spine pages for this module.
+The current live first-pass path is:
+
+1. [Convex Sets and Separation](concepts/convex-sets-and-separation.qmd)
+2. [Convex Functions and Subgradients](concepts/convex-functions-and-subgradients.qmd)
+3. [Constrained Optimization, KKT, and Lagrangians](concepts/constrained-optimization-kkt-and-lagrangians.qmd)
+4. [Unconstrained First-Order Methods](concepts/unconstrained-first-order-methods.qmd)
+5. [Duality and Certificates](concepts/duality-and-certificates.qmd)
+
+The five-page first-pass core of the optimization module is now live.
+
+Because the site's calculus sequence is not live yet, this module is best read after you are already comfortable with derivatives, partial derivatives, gradients, and basic curvature intuition.
 
 ## Navigation Rule
 
@@ -88,11 +98,11 @@ Each concept page should be strong enough for first-pass learning on its own. An
 
 ## Core Concepts
 
+- [Convex Sets and Separation](concepts/convex-sets-and-separation.qmd): the geometric foundation for feasible regions, hyperplane certificates, and later duality arguments.
+- [Convex Functions and Subgradients](concepts/convex-functions-and-subgradients.qmd): the analytic layer that explains shape, global lower bounds, and nonsmooth first-order reasoning.
 - [Constrained Optimization, KKT, and Lagrangians](concepts/constrained-optimization-kkt-and-lagrangians.qmd): the first bridge from informal `optimize under rules` thinking to precise optimality conditions and dual interpretations.
-- `Convex sets and separation`: the geometric layer that explains why some optimization problems are globally well behaved.
-- `Convex functions and subgradients`: the analytic layer that explains shape, descent, and nonsmooth generalizations of gradients.
-- `Unconstrained first-order methods`: the algorithmic layer behind gradient descent, step sizes, convergence, and large-scale optimization.
-- `Duality and certificates`: the certification layer that explains lower bounds, sensitivity, and why multipliers are more than algebraic artifacts.
+- [Unconstrained First-Order Methods](concepts/unconstrained-first-order-methods.qmd): the algorithmic layer behind gradient descent, step sizes, convergence, and large-scale optimization.
+- [Duality and Certificates](concepts/duality-and-certificates.qmd): the certification layer that explains lower bounds, strong duality, and why multipliers are more than algebraic artifacts.
 
 ## Proof Patterns In This Module
 
@@ -112,9 +122,17 @@ Trajectory planning, resource allocation, filter design, inverse problems, and e
 
 ## Go Deeper By Topic
 
-### Constrained Problems And Multipliers
+### Convex Geometry First
 
-Start with [Constrained Optimization, KKT, and Lagrangians](concepts/constrained-optimization-kkt-and-lagrangians.qmd).
+Start with [Convex Sets and Separation](concepts/convex-sets-and-separation.qmd).
+
+Then move to [Convex Functions and Subgradients](concepts/convex-functions-and-subgradients.qmd).
+
+Then move to [Constrained Optimization, KKT, and Lagrangians](concepts/constrained-optimization-kkt-and-lagrangians.qmd).
+
+Then move to [Unconstrained First-Order Methods](concepts/unconstrained-first-order-methods.qmd).
+
+Then move to [Duality and Certificates](concepts/duality-and-certificates.qmd).
 
 If you want adjacent context right away, the best current bridges are:
 
@@ -134,19 +152,28 @@ The strongest official deeper references currently connected to this module are:
 
 The intended long-term first pass through optimization is:
 
-1. [Constrained Optimization, KKT, and Lagrangians](concepts/constrained-optimization-kkt-and-lagrangians.qmd)
-2. `Convex sets and separation`
-3. `Convex functions and subgradients`
-4. `Unconstrained first-order methods`
-5. `Duality and certificates`
+1. [Convex Sets and Separation](concepts/convex-sets-and-separation.qmd)
+2. [Convex Functions and Subgradients](concepts/convex-functions-and-subgradients.qmd)
+3. [Constrained Optimization, KKT, and Lagrangians](concepts/constrained-optimization-kkt-and-lagrangians.qmd)
+4. [Unconstrained First-Order Methods](concepts/unconstrained-first-order-methods.qmd)
+5. [Duality and Certificates](concepts/duality-and-certificates.qmd)
 
-Right now the current live path starts with the KKT page because it gives the fastest bridge from applications back to the mathematical heart of the subject: optimality conditions, feasible geometry, multipliers, and certificates.
+Right now the current live path starts with geometry, then objective shape, then constrained first-order reasoning, so the module already has a real first conceptual arc:
+
+1. [Convex Sets and Separation](concepts/convex-sets-and-separation.qmd)
+2. [Convex Functions and Subgradients](concepts/convex-functions-and-subgradients.qmd)
+3. [Constrained Optimization, KKT, and Lagrangians](concepts/constrained-optimization-kkt-and-lagrangians.qmd)
+4. [Unconstrained First-Order Methods](concepts/unconstrained-first-order-methods.qmd)
+5. [Duality and Certificates](concepts/duality-and-certificates.qmd)
 
 You are ready to move deeper into the module when you can:
 
+- explain why convex feasible regions are special
+- explain why convex objectives turn local first-order information into global information
 - distinguish objective, variables, and constraints cleanly
 - explain why unconstrained and constrained optima obey different first-order logic
 - interpret a multiplier as more than a symbol attached to a constraint
+- explain why a dual feasible point can certify a lower bound
 
 ## Sources and Further Reading
 

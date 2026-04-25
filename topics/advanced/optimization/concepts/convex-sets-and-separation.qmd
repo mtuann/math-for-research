@@ -1,0 +1,313 @@
+---
+title: "Convex Sets and Separation"
+description: "How convexity turns feasible regions into geometrically tame objects and makes separating hyperplanes possible."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: optimization
+prerequisites:
+  - /topics/foundation/linear-algebra/concepts/subspaces-basis-dimension.qmd
+  - /topics/foundation/linear-algebra/concepts/orthogonality-and-least-squares.qmd
+learning-goals:
+  - "State the definition of a convex set and test simple examples correctly."
+  - "Explain why intersections, affine images, and convex hulls matter in optimization modeling."
+  - "State the geometric meaning of a separating hyperplane."
+  - "Connect convex geometry to feasibility, classification, and optimality certificates."
+applications:
+  - optimization
+  - machine-learning
+  - control
+keywords:
+  - convex set
+  - convex hull
+  - hyperplane
+  - halfspace
+  - separation theorem
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/optimization/index.qmd
+  - /topics/advanced/optimization/concepts/constrained-optimization-kkt-and-lagrangians.qmd
+  - /applications/machine-learning/kernel-methods-and-similarity-geometry.qmd
+stable-sources:
+  - "Stanford EE364a"
+  - "Stanford SEE EE364A lecture archive"
+  - "Convex Optimization by Boyd and Vandenberghe"
+current-sources:
+  - "MIT 6.253 Convex Analysis and Optimization"
+  - "Differentiable Convex Optimization Layers (NeurIPS 2019)"
+---
+
+## Role
+
+This page gives the geometric starting point of the optimization module.
+
+It explains which feasible regions are well behaved enough to support global reasoning, and why hyperplanes can certify membership, non-membership, and optimality.
+
+## First-Pass Promise
+
+Read this page first.
+
+If you stop here, you should still understand:
+
+- what convexity means geometrically
+- why convex feasible sets are special for optimization
+- what a separating hyperplane is trying to prove
+- how this geometry reappears in classification, duality, and KKT arguments
+
+## Why It Matters
+
+Optimization becomes dramatically easier once the feasible region is convex.
+
+If a set is convex, then averaging two feasible points stays feasible. That single fact has deep consequences:
+
+- local minima are much more likely to be global minima
+- interpolation between candidate solutions stays inside the model
+- hyperplanes can certify when a point is outside the region
+- geometry, algebra, and computation start to agree with one another
+
+This is why convex sets sit at the front of almost every serious optimization course. Before algorithms, duality, or KKT conditions, you need to know what kind of geometry those tools are talking about.
+
+## Prerequisite Recall
+
+- an affine combination has coefficients summing to one
+- a hyperplane is a set of the form $\{x : a^\top x = b\}$
+- a halfspace is a set of the form $\{x : a^\top x \le b\}$ or $\{x : a^\top x \ge b\}$
+- projections and orthogonality already tell you how nearest-point geometry can create normal directions
+
+## Intuition
+
+A set is convex if every line segment between two of its points stays inside the set.
+
+So convexity is really a statement about `no dents inward`.
+
+That matters because optimization constantly asks questions like:
+
+- if two feasible designs are allowed, is a blended design still allowed?
+- if a point is outside the feasible region, can I prove it with one simple inequality?
+- if a boundary point is optimal, is there a supporting normal direction that explains why?
+
+Convexity makes the answer to these questions much cleaner.
+
+Separation is the next step. If a point lies outside a nice convex set, there is often a hyperplane that places the point on one side and the set on the other. That hyperplane is not just a picture. It is a certificate.
+
+## Formal Core
+
+::: {#def-convex-set}
+## Definition
+
+A set $C \subseteq \mathbb{R}^n$ is `convex` if for every $x,y \in C$ and every $\theta \in [0,1]$,
+
+$$
+\theta x + (1-\theta)y \in C.
+$$
+
+Equivalently, the full line segment joining $x$ and $y$ stays inside $C$.
+:::
+
+Important families of convex sets include:
+
+- affine sets
+- halfspaces and hyperplanes
+- polyhedra, as intersections of finitely many halfspaces
+- Euclidean balls and norm balls
+- cones such as the positive semidefinite cone
+- probability simplices
+
+::: {#prp-closure}
+## Basic Closure Rules
+
+The following operations preserve convexity:
+
+1. intersections of convex sets
+2. affine images of convex sets
+3. inverse images of convex sets under affine maps
+4. convex hulls of arbitrary point sets
+
+These rules are the backbone of optimization modeling.
+:::
+
+::: {#thm-separation}
+## Separating Hyperplane Principle
+
+If $C$ is a nonempty closed convex set and $z \notin C$, then there exists a nonzero vector $a$ and scalar $b$ such that
+
+$$
+a^\top z > b
+\qquad \text{and} \qquad
+a^\top x \le b \quad \text{for all } x \in C.
+$$
+
+So one hyperplane can certify that the point $z$ lies outside the set $C$.
+:::
+
+This principle comes in several forms. For a first pass, the main thing to retain is:
+
+- convex sets can often be certified by linear inequalities
+- outside points can often be ruled out by one hyperplane
+- later, KKT and duality reuse exactly this geometry
+
+## Worked Example
+
+Consider the set
+
+$$
+C = \{(x,y)\in\mathbb{R}^2 : x^2 + y^2 \le 1\},
+$$
+
+the unit disk.
+
+This set is convex because the Euclidean norm ball is convex. Geometrically, any line segment joining two points in the disk stays inside the disk.
+
+Now take the outside point
+
+$$
+z = (2,0).
+$$
+
+We want a hyperplane that separates $z$ from $C$.
+
+The nearest point in $C$ to $z$ is clearly
+
+$$
+x^\star = (1,0),
+$$
+
+which lies on the boundary of the disk.
+
+The boundary normal at that point points in the horizontal direction, so the natural separating hyperplane is
+
+$$
+x = 1.
+$$
+
+In inner-product form, this is
+
+$$
+a^\top x = b
+\quad \text{with} \quad
+a =
+\begin{bmatrix}
+1\\
+0
+\end{bmatrix},
+\qquad b=1.
+$$
+
+Then for every $(x,y)\in C$,
+
+$$
+a^\top
+\begin{bmatrix}
+x\\
+y
+\end{bmatrix}
+= x \le 1,
+$$
+
+while for the outside point,
+
+$$
+a^\top z = 2 > 1.
+$$
+
+So the hyperplane $x=1$ separates the unit disk from the point $(2,0)$.
+
+This example is simple, but it contains the entire pattern:
+
+1. convex set
+2. outside point
+3. nearest-point geometry
+4. normal direction
+5. hyperplane certificate
+
+Later optimization arguments will package the same logic into dual variables, gradients, and KKT conditions.
+
+## Computation Lens
+
+In computational optimization, convex geometry is rarely manipulated as a drawing. It is encoded through operations like:
+
+- intersections of halfspaces
+- cone constraints
+- affine maps
+- norm-ball constraints
+- convex hulls or mixtures
+
+That is why closure properties matter so much. They tell you when a complicated feasible region is still convex without requiring a picture.
+
+Separation also has a computational meaning: if a point violates the region, a hyperplane or linear functional can often witness the violation. This is the geometric ancestor of feasibility certificates, dual certificates, and cutting-plane methods.
+
+## Application Lens
+
+Two very important applications come almost directly from this page.
+
+First, in maximum-margin classification, a separating hyperplane is not just a geometric picture. It is the object being learned. Convex feasible sets and supporting hyperplanes explain why margin-based methods admit clean optimization formulations.
+
+Second, in optimization theory itself, duality often works by producing a linear or affine functional that certifies infeasibility, suboptimality, or support at the optimum. So when later pages talk about dual variables or KKT multipliers, this page is the geometric background they are using.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- what convexity means using line segments
+- why halfspaces, balls, and polyhedra are central examples
+- what a separating hyperplane is proving
+- why this geometry matters for optimization and classification
+
+then this page has done its main job.
+
+## Go Deeper
+
+The strongest next pages are:
+
+1. [Convex Functions and Subgradients](convex-functions-and-subgradients.qmd) for the objective-shape side of the same geometry
+2. [Constrained Optimization, KKT, and Lagrangians](constrained-optimization-kkt-and-lagrangians.qmd) for how boundary geometry becomes optimality conditions
+3. [Optimization for Machine Learning](../../../../applications/machine-learning/optimization-for-machine-learning.qmd) for how these geometric ideas show up in practical objectives
+
+## Optional Paper Bridge
+
+- [OptNet: Differentiable Optimization as a Layer in Neural Networks](https://proceedings.mlr.press/v70/amos17a.html) - `Paper bridge` - watch how convex constraints and KKT systems become trainable layers in larger models. Checked `2026-04-24`.
+- [Differentiable Convex Optimization Layers](https://papers.nips.cc/paper_files/paper/2019/hash/9ce3c52fc54362e22053399d3181c638-Abstract.html) - `Paper bridge` - a modern bridge from convex geometry and parametrized convex programs to differentiable ML pipelines. Checked `2026-04-24`.
+
+## Optional After First Pass
+
+If you want more depth after the first pass:
+
+- read the convex-sets lecture in [Stanford SEE EE364A](https://see.stanford.edu/Course/EE364A) and watch how examples accumulate by closure rules
+- revisit halfspaces, polyhedra, and positive semidefinite constraints in the [Boyd and Vandenberghe book](https://web.stanford.edu/~boyd/cvxbook/)
+- compare set separation here with support vectors and margins in modern classification pages
+
+## Common Mistakes
+
+- checking convexity at a few sample points instead of using the line-segment definition
+- confusing `affine` with `convex`
+- assuming every nonconvex set can be repaired by adding one constraint
+- thinking separation works in the same strong form for arbitrary nonclosed or nonconvex sets
+- treating a hyperplane certificate as a picture only, rather than a reusable mathematical witness
+
+## Exercises
+
+1. Show directly from the definition that a halfspace $\{x : a^\top x \le b\}$ is convex.
+2. Give an example of a set in $\mathbb{R}^2$ that is not convex and explain which line segment leaves the set.
+3. For the unit disk and outside point $(0,2)$, write a separating hyperplane analogous to the worked example.
+
+## Sources and Further Reading
+
+- [Stanford EE364a: Convex Optimization I](https://web.stanford.edu/class/ee364a/index.html) - `First pass` - current official course page for the canonical optimization backbone. Checked `2026-04-24`.
+- [Stanford Engineering Everywhere: EE364A](https://see.stanford.edu/Course/EE364A) - `First pass` - official lecture archive with direct convex-set and supporting-hyperplane material. Checked `2026-04-24`.
+- [Convex Optimization by Boyd and Vandenberghe](https://web.stanford.edu/~boyd/cvxbook/) - `First pass` - canonical official text for convex sets, convex functions, and separation geometry. Checked `2026-04-24`.
+- [MIT 6.253: Convex Analysis and Optimization](https://web.mit.edu/6.253/www/) - `Second pass` - useful when you want more mathematical convex-analysis depth. Checked `2026-04-24`.
+- [OptNet: Differentiable Optimization as a Layer in Neural Networks](https://proceedings.mlr.press/v70/amos17a.html) - `Paper bridge` - a practical bridge showing where convex geometry and optimality systems surface in modern ML. Checked `2026-04-24`.
+
+Sources checked online on `2026-04-24`:
+
+- Stanford EE364a course page
+- Stanford SEE EE364A page
+- Boyd and Vandenberghe convex optimization book page
+- MIT 6.253 course page
+- PMLR page for OptNet

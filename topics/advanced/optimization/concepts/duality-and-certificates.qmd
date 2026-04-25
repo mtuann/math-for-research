@@ -1,0 +1,373 @@
+---
+title: "Duality and Certificates"
+description: "How the dual problem produces lower bounds, sensitivity information, and sometimes exact certificates of optimality."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: optimization
+prerequisites:
+  - /topics/advanced/optimization/concepts/constrained-optimization-kkt-and-lagrangians.qmd
+  - /topics/advanced/optimization/concepts/convex-functions-and-subgradients.qmd
+learning-goals:
+  - "Write the dual function and the dual problem from a constrained optimization problem."
+  - "State weak duality and explain why every dual feasible point is a lower-bound certificate."
+  - "Explain when strong duality lets primal and dual solutions certify each other."
+  - "Interpret multipliers as sensitivity information rather than extra algebra."
+applications:
+  - optimization
+  - machine-learning
+  - control
+keywords:
+  - duality
+  - dual problem
+  - weak duality
+  - strong duality
+  - certificate
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/optimization/index.qmd
+  - /topics/advanced/optimization/concepts/constrained-optimization-kkt-and-lagrangians.qmd
+  - /applications/machine-learning/bayesian-optimization-and-surrogate-modeling.qmd
+stable-sources:
+  - "Stanford EE364a"
+  - "Stanford SEE EE364A duality lectures"
+  - "Convex Optimization by Boyd and Vandenberghe"
+  - "MIT 6.253 Convex Analysis and Optimization"
+current-sources:
+  - "Differentiable Convex Optimization Layers (NeurIPS 2019)"
+  - "Learning-based Moving Horizon Estimation through Differentiable Convex Optimization Layers (L4DC 2022)"
+---
+
+## Role
+
+This page closes the first-pass optimization spine.
+
+It explains how optimization problems produce a second problem, the dual, whose feasible points certify lower bounds and whose optimal solutions often reveal sensitivity, structure, and exact optimality.
+
+## First-Pass Promise
+
+Read this page after `Constrained Optimization, KKT, and Lagrangians`.
+
+If you stop here, you should still understand:
+
+- what the dual function is
+- why weak duality gives a lower-bound certificate
+- when strong duality lets primal and dual solutions meet
+- why dual variables carry sensitivity information
+
+## Why It Matters
+
+Duality is one of the reasons optimization feels deeper than `just minimize a formula`.
+
+Instead of looking only at candidate primal solutions, duality lets you reason from the other side:
+
+- produce lower bounds on the best achievable value
+- certify that a proposed solution is already optimal
+- understand which constraints are expensive or binding
+- reformulate a problem into a form that is easier to solve or interpret
+
+This is why duality appears everywhere:
+
+- in support vector machines and kernel methods
+- in regularized estimation and sparse recovery
+- in control and model predictive control
+- in decomposition methods and large-scale optimization
+- in differentiable optimization layers, where KKT and dual systems become part of a learning pipeline
+
+## Prerequisite Recall
+
+- the Lagrangian is
+
+$$
+\mathcal{L}(x,\lambda,\nu)
+=
+f(x)+\sum_{i=1}^m \lambda_i g_i(x)+\nu^\top(Ax-b)
+$$
+
+for inequality multipliers $\lambda \ge 0$ and equality multipliers $\nu$
+- KKT conditions combine primal feasibility, dual feasibility, stationarity, and complementary slackness
+- in a convex problem with suitable regularity, KKT conditions become sufficient
+
+## Intuition
+
+The primal problem asks:
+
+`what is the best feasible decision x?`
+
+The dual problem asks a different question:
+
+`what lower bound on the optimal value can I certify by weighting the constraints?`
+
+The Lagrangian temporarily relaxes the constraints and adds penalties for violating them. If the multipliers have the right sign, minimizing the Lagrangian over $x$ produces a quantity that can never exceed the true primal optimum. That quantity is the dual function.
+
+So the dual problem is a search over `good lower bounds`.
+
+When the best lower bound equals the primal optimum, there is no gap, and the primal-dual pair certifies optimality exactly.
+
+This is the main picture:
+
+- primal feasible point -> upper bound on the optimum
+- dual feasible point -> lower bound on the optimum
+- matching bounds -> certificate of optimality
+
+## Formal Core
+
+Consider the constrained problem
+
+$$
+\begin{aligned}
+\text{minimize} \quad & f(x) \\
+\text{subject to} \quad & g_i(x) \le 0,\quad i=1,\dots,m, \\
+& Ax=b.
+\end{aligned}
+$$
+
+::: {#def-dual-function}
+## Definition
+
+The `dual function` is
+
+$$
+q(\lambda,\nu)=\inf_x \mathcal{L}(x,\lambda,\nu),
+$$
+
+where
+
+$$
+\mathcal{L}(x,\lambda,\nu)
+=
+f(x)+\sum_{i=1}^m \lambda_i g_i(x)+\nu^\top(Ax-b)
+$$
+
+and $\lambda \ge 0$.
+:::
+
+The `dual problem` is
+
+$$
+\begin{aligned}
+\text{maximize} \quad & q(\lambda,\nu) \\
+\text{subject to} \quad & \lambda \ge 0.
+\end{aligned}
+$$
+
+::: {#thm-weak-duality}
+## Weak Duality
+
+For every primal feasible point $x$ and every dual feasible pair $(\lambda,\nu)$,
+
+$$
+q(\lambda,\nu)\le f(x).
+$$
+
+In particular, if $p^\star$ is the primal optimum and $d^\star$ is the dual optimum, then
+
+$$
+d^\star \le p^\star.
+$$
+:::
+
+So every dual feasible point is already a valid lower-bound certificate.
+
+::: {#thm-strong-duality}
+## Strong Duality (Convex Case)
+
+If the primal problem is convex and a regularity condition such as Slater's condition holds, then
+
+$$
+d^\star = p^\star.
+$$
+
+In that case, an optimal primal-dual pair certifies optimality exactly.
+:::
+
+Under the same convex regularity assumptions, KKT conditions are the compact certificate tying strong duality to first-order geometry.
+
+## Worked Example
+
+Consider the one-dimensional convex problem
+
+$$
+\begin{aligned}
+\text{minimize} \quad & x^2 \\
+\text{subject to} \quad & 1-x \le 0.
+\end{aligned}
+$$
+
+The feasible set is $x \ge 1$, so the primal optimum is clearly
+
+$$
+x^\star = 1,
+\qquad
+p^\star = 1.
+$$
+
+Now form the Lagrangian:
+
+$$
+\mathcal{L}(x,\lambda)=x^2+\lambda(1-x),
+\qquad \lambda \ge 0.
+$$
+
+The dual function is
+
+$$
+q(\lambda)=\inf_x \left(x^2+\lambda(1-x)\right).
+$$
+
+To compute the infimum, minimize over $x$:
+
+$$
+\frac{d}{dx}\big(x^2+\lambda(1-x)\big)=2x-\lambda.
+$$
+
+So the minimizing value is
+
+$$
+x=\frac{\lambda}{2}.
+$$
+
+Plugging back in,
+
+$$
+q(\lambda)
+=
+\left(\frac{\lambda}{2}\right)^2+\lambda\left(1-\frac{\lambda}{2}\right)
+=
+\lambda-\frac{\lambda^2}{4}.
+$$
+
+So the dual problem is
+
+$$
+\max_{\lambda\ge 0}\left(\lambda-\frac{\lambda^2}{4}\right).
+$$
+
+This is a concave quadratic in $\lambda$, maximized at
+
+$$
+\lambda^\star = 2,
+$$
+
+and the optimal dual value is
+
+$$
+d^\star = q(2)=2-1=1.
+$$
+
+So
+
+$$
+d^\star = p^\star = 1.
+$$
+
+This one small example shows the full pattern:
+
+1. primal solution gives an achievable value
+2. dual solution gives a lower bound
+3. the values match
+4. optimality is certified
+
+It also gives a sensitivity interpretation: the multiplier $\lambda^\star=2$ measures how costly it is, locally, to tighten the constraint threshold.
+
+## Computation Lens
+
+Duality is not just theoretical decoration. It often changes how problems are solved.
+
+Sometimes the dual problem is:
+
+- lower dimensional
+- smoother
+- easier to decompose
+- easier to distribute across data or constraints
+- more interpretable because the variables are attached to constraints, margins, or prices
+
+This is why primal-dual methods, decomposition methods, mirror-style methods, and constraint-aware ML formulations keep returning to the dual viewpoint.
+
+In computation, the most important habit is:
+
+- primal feasible point gives an upper bound
+- dual feasible point gives a lower bound
+- the gap tells you how far you are from a certificate
+
+## Application Lens
+
+Support vector machines are one of the cleanest examples of duality in machine learning. The margin problem can be solved or interpreted through its dual, and the resulting dual variables identify support vectors and kernelized structure.
+
+More generally, duality powers:
+
+- regularized estimation and sparsity methods
+- Lagrangian relaxations in combinatorial and structured problems
+- control and moving-horizon estimation formulations
+- differentiable optimization layers, where dual and KKT structure are used inside end-to-end systems
+
+So duality is not only about proving theorems. It is also about extracting useful structure from an optimization model.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- what the dual function is
+- why weak duality automatically gives lower bounds
+- when strong duality gives exact certificates
+- why dual variables can be read as sensitivity information
+
+then this page has done its main job.
+
+## Go Deeper
+
+The strongest next pages are:
+
+1. [Optimization for Machine Learning](../../../../applications/machine-learning/optimization-for-machine-learning.qmd) for the ML-training perspective
+2. [Bayesian Optimization and Surrogate Modeling](../../../../applications/machine-learning/bayesian-optimization-and-surrogate-modeling.qmd) for another view of certificates, bounds, and acquisition tradeoffs
+3. [Optimization module overview](../index.qmd) for the now-complete first-pass spine
+
+## Optional Paper Bridge
+
+- [Differentiable Convex Optimization Layers](https://papers.nips.cc/paper_files/paper/2019/hash/9ce3c52fc54362e22053399d3181c638-Abstract.html) - `Paper bridge` - a modern bridge where duality and KKT structure become differentiable computational objects. Checked `2026-04-24`.
+- [Learning-based Moving Horizon Estimation through Differentiable Convex Optimization Layers](https://proceedings.mlr.press/v168/muntwiler22a.html) - `Paper bridge` - an applied control-oriented example of optimization layers with explicit convex structure. Checked `2026-04-24`.
+
+## Optional After First Pass
+
+If you want more depth after the first pass:
+
+- read the duality lectures in [Stanford SEE EE364A](https://see.stanford.edu/Course/EE364A) and follow how weak duality becomes strong duality under Slater-type conditions
+- revisit the KKT page and ask which lines are really duality statements in compressed form
+- compare primal and dual formulations in an SVM or lasso-style problem
+
+## Common Mistakes
+
+- thinking duality only matters when the primal problem is hard
+- forgetting that weak duality needs dual feasibility
+- assuming strong duality always holds without a regularity condition
+- treating multipliers only as algebraic variables instead of lower-bound and sensitivity objects
+- confusing a small duality gap with exact optimality before feasibility is checked
+
+## Exercises
+
+1. For the worked example, verify directly that $q(\lambda)\le 1$ for every $\lambda\ge 0$.
+2. Explain in words why a dual feasible point gives a lower bound rather than an upper bound.
+3. Suppose a primal feasible point and a dual feasible point have the same objective value. What can you conclude?
+
+## Sources and Further Reading
+
+- [Stanford EE364a: Convex Optimization I](https://web.stanford.edu/class/ee364a/index.html) - `First pass` - current official course backbone for duality, optimality conditions, and convex modeling. Checked `2026-04-24`.
+- [Stanford Engineering Everywhere: EE364A](https://see.stanford.edu/Course/EE364A) - `First pass` - official lecture archive with direct material on duality, complementary slackness, and KKT conditions. Checked `2026-04-24`.
+- [Convex Optimization by Boyd and Vandenberghe](https://web.stanford.edu/~boyd/cvxbook/) - `First pass` - canonical official text for weak duality, strong duality, and sensitivity interpretation. Checked `2026-04-24`.
+- [MIT 6.253: Convex Analysis and Optimization](https://web.mit.edu/6.253/www/) - `Second pass` - useful when you want a more mathematical treatment of duality and saddle-point structure. Checked `2026-04-24`.
+- [Differentiable Convex Optimization Layers](https://papers.nips.cc/paper_files/paper/2019/hash/9ce3c52fc54362e22053399d3181c638-Abstract.html) - `Paper bridge` - a modern bridge from textbook duality into differentiable optimization layers. Checked `2026-04-24`.
+
+Sources checked online on `2026-04-24`:
+
+- Stanford EE364a course page
+- Stanford SEE EE364A page
+- Boyd and Vandenberghe convex optimization book page
+- MIT 6.253 course page
+- NeurIPS 2019 differentiable convex optimization layers page
+- PMLR page for learning-based moving horizon estimation

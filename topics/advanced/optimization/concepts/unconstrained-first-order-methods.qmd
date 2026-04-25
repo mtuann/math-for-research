@@ -1,0 +1,348 @@
+---
+title: "Unconstrained First-Order Methods"
+description: "How gradient-based algorithms use only first-order information to decrease smooth convex objectives and scale to large problems."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: optimization
+prerequisites:
+  - /topics/advanced/optimization/concepts/convex-functions-and-subgradients.qmd
+learning-goals:
+  - "Write the basic gradient descent update and explain the role of the step size."
+  - "State why smoothness gives a descent guarantee for gradient descent."
+  - "Explain how strong convexity changes convergence from sublinear to linear."
+  - "Connect deterministic, stochastic, and adaptive first-order methods at a high level."
+applications:
+  - optimization
+  - machine-learning
+  - scientific-computing
+keywords:
+  - gradient descent
+  - first-order methods
+  - smoothness
+  - strong convexity
+  - stochastic gradient descent
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/optimization/index.qmd
+  - /topics/advanced/optimization/concepts/convex-functions-and-subgradients.qmd
+  - /topics/advanced/optimization/concepts/constrained-optimization-kkt-and-lagrangians.qmd
+  - /applications/machine-learning/optimization-for-machine-learning.qmd
+stable-sources:
+  - "Stanford EE364a"
+  - "Stanford SEE EE364A lecture archive"
+  - "Convex Optimization by Boyd and Vandenberghe"
+  - "MIT 6.253 Convex Analysis and Optimization"
+current-sources:
+  - "MIT 6.7220/15.084 Nonlinear Optimization"
+  - "Adaptive Subgradient Methods for Online Learning and Stochastic Optimization (JMLR 2011)"
+---
+
+## Role
+
+This page is the first algorithm page of the optimization module.
+
+It explains how the geometry of convex functions turns into practical iterative methods that use only gradient or subgradient information.
+
+## First-Pass Promise
+
+Read this page after `Convex Functions and Subgradients`.
+
+If you stop here, you should still understand:
+
+- the basic gradient descent update
+- why step size matters
+- what smoothness buys you
+- why strong convexity improves convergence
+- how SGD and adaptive methods fit into the same first-order family
+
+## Why It Matters
+
+Optimization becomes useful only when the mathematics can be turned into an algorithm.
+
+First-order methods do exactly that. They use local linear information, such as gradients or subgradients, to produce a sequence of improving iterates. This makes them attractive when:
+
+- the variable dimension is large
+- Hessians are too expensive to form or solve with
+- data arrive in streams or minibatches
+- the loss has simple first-order structure but complicated global geometry
+
+That is why first-order methods dominate modern machine learning and large-scale scientific optimization. Even when second-order or interior-point methods exist, first-order methods are often the only practical baseline at scale.
+
+## Prerequisite Recall
+
+- for a differentiable convex function, the gradient gives a global affine lower bound
+- a subgradient plays the same supporting-role at nonsmooth points
+- unconstrained optimality for differentiable convex problems is $\nabla f(x^\star)=0$
+- unconstrained optimality for nonsmooth convex problems is $0 \in \partial f(x^\star)$
+
+## Intuition
+
+If a differentiable convex function has gradient $\nabla f(x)$ at the current point, then that gradient points in the direction of steepest local increase.
+
+So the simplest idea is:
+
+`move a little in the opposite direction`
+
+This produces the gradient descent update.
+
+The subtlety is the step size. If the step is too small, progress is slow. If it is too large, the method can oscillate or even diverge. Smoothness controls how inaccurate the local linear model can be, and therefore how aggressively we are allowed to step.
+
+Strong convexity adds another ingredient: curvature that rules out flat valleys. This makes the method contract toward the minimizer at a geometric rate instead of drifting there slowly.
+
+## Formal Core
+
+::: {#def-gradient-descent}
+## Definition
+
+For a differentiable objective $f : \mathbb{R}^n \to \mathbb{R}$, the gradient descent update is
+
+$$
+x_{k+1} = x_k - \eta_k \nabla f(x_k),
+$$
+
+where $\eta_k > 0$ is the step size, also called the learning rate.
+:::
+
+::: {#def-smoothness}
+## Definition
+
+A differentiable function $f$ is `L-smooth` if its gradient is Lipschitz:
+
+$$
+\|\nabla f(x) - \nabla f(y)\|_2 \le L \|x-y\|_2
+\quad \text{for all } x,y.
+$$
+
+Intuitively, smoothness bounds how quickly the gradient can change.
+:::
+
+For first-pass optimization, the most important consequence of smoothness is the descent lemma.
+
+::: {#thm-descent-lemma}
+## Descent Guarantee
+
+If $f$ is differentiable and $L$-smooth, then for every $x$ and every step size $\eta$,
+
+$$
+f(x-\eta \nabla f(x))
+\le
+f(x) - \eta \left(1-\frac{L\eta}{2}\right)\|\nabla f(x)\|_2^2.
+$$
+
+In particular, if $0<\eta\le 1/L$, then
+
+$$
+f(x-\eta \nabla f(x))
+\le
+f(x) - \frac{\eta}{2}\|\nabla f(x)\|_2^2.
+$$
+
+So the objective decreases whenever the gradient is nonzero.
+:::
+
+::: {#def-strong-convexity}
+## Definition
+
+A differentiable function $f$ is `\mu-strongly convex` if for all $x,y$,
+
+$$
+f(y) \ge f(x) + \nabla f(x)^\top (y-x) + \frac{\mu}{2}\|y-x\|_2^2
+$$
+
+for some $\mu>0$.
+
+Strong convexity means the function has uniform curvature from below.
+:::
+
+::: {#prp-convergence}
+## Convergence Pattern
+
+For smooth convex minimization, gradient descent typically achieves `sublinear` convergence in function value.
+
+If the objective is both $L$-smooth and $\mu$-strongly convex, then fixed-step gradient descent with an appropriate step size converges `linearly` (geometrically) to the unique minimizer.
+:::
+
+This is the main first-pass takeaway:
+
+- convex + smooth gives reliable descent
+- convex + smooth + strongly convex gives much faster contraction
+
+## Worked Example
+
+Consider the quadratic function
+
+$$
+f(x_1,x_2) = \frac12(x_1^2 + 9x_2^2).
+$$
+
+Its gradient is
+
+$$
+\nabla f(x_1,x_2) =
+\begin{bmatrix}
+x_1 \\
+9x_2
+\end{bmatrix}.
+$$
+
+So gradient descent with fixed step size $\eta$ becomes
+
+$$
+\begin{bmatrix}
+x_{1,k+1} \\
+x_{2,k+1}
+\end{bmatrix}
+=
+\begin{bmatrix}
+x_{1,k} \\
+x_{2,k}
+\end{bmatrix}
+-
+\eta
+\begin{bmatrix}
+x_{1,k} \\
+9x_{2,k}
+\end{bmatrix}
+=
+\begin{bmatrix}
+(1-\eta)x_{1,k} \\
+(1-9\eta)x_{2,k}
+\end{bmatrix}.
+$$
+
+This makes the dynamics completely visible.
+
+If $\eta$ is too large, the second coordinate can overshoot badly because the curvature in the $x_2$ direction is much larger.
+
+Take $\eta = 0.1$. Then
+
+$$
+x_{1,k+1}=0.9x_{1,k},
+\qquad
+x_{2,k+1}=0.1x_{2,k}.
+$$
+
+So the second coordinate shrinks much faster than the first.
+
+Take $\eta = 0.25$. Then
+
+$$
+x_{1,k+1}=0.75x_{1,k},
+\qquad
+x_{2,k+1}=-1.25x_{2,k}.
+$$
+
+Now the second coordinate flips sign and grows in magnitude, so the method is unstable in that direction.
+
+This is the key lesson:
+
+1. anisotropic curvature makes some directions harder than others
+2. the stable step size is controlled by the largest curvature
+3. conditioning matters even in very simple convex problems
+
+That is why optimization papers spend so much time talking about smoothness constants, condition numbers, preconditioning, and adaptive steps.
+
+## Computation Lens
+
+In practice, unconstrained first-order methods form a family rather than one algorithm:
+
+- `gradient descent`: full deterministic gradient
+- `stochastic gradient descent`: noisy gradient estimates from samples or minibatches
+- `subgradient methods`: used when the objective is convex but nonsmooth
+- `momentum and accelerated methods`: add memory or extrapolation
+- `adaptive methods` such as AdaGrad: rescale coordinates based on past gradients
+
+The unifying theme is the same:
+
+`use first-order information cheaply, many times`
+
+This is also where the math of the previous page becomes operational:
+
+- smoothness controls stable steps
+- strong convexity improves rates
+- subgradients keep the method meaningful when corners appear
+
+## Application Lens
+
+Machine learning training loops are the most visible application of first-order methods.
+
+Empirical risk minimization over large datasets rarely permits exact full-batch second-order solves, so practitioners use SGD, minibatch gradients, momentum variants, or adaptive methods. The theory you need to read these methods responsibly begins here:
+
+- what the update is
+- what assumptions justify descent
+- how curvature affects speed
+- why nonsmooth penalties often require subgradient or proximal variants
+
+For the broader training-side view, see [Optimization for Machine Learning](../../../../applications/machine-learning/optimization-for-machine-learning.qmd).
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- the gradient descent update
+- why the step size controls stability and speed
+- how smoothness gives a descent guarantee
+- why strong convexity leads to faster convergence
+- how SGD and subgradient methods fit into the same first-order family
+
+then this page has done its main job.
+
+## Go Deeper
+
+The strongest next pages are:
+
+1. [Optimization for Machine Learning](../../../../applications/machine-learning/optimization-for-machine-learning.qmd) for the ML training perspective
+2. [Duality and Certificates](duality-and-certificates.qmd) for the lower-bound and certificate side of optimization
+3. [Constrained Optimization, KKT, and Lagrangians](constrained-optimization-kkt-and-lagrangians.qmd) for the constrained first-order story
+
+## Optional Paper Bridge
+
+- [Adaptive Subgradient Methods for Online Learning and Stochastic Optimization](https://jmlr.org/beta/papers/v12/duchi11a.html) - `Paper bridge` - the canonical modern bridge from first-order convex analysis to adaptive large-scale learning algorithms. Checked `2026-04-24`.
+- [RSG: Beating Subgradient Method without Smoothness and Strong Convexity](https://jmlr.org/beta/papers/v19/17-016.html) - `Paper bridge` - a nice bridge showing how rate improvements still depend on geometric structure beyond the plain textbook subgradient method. Checked `2026-04-24`.
+
+## Optional After First Pass
+
+If you want more depth after the first pass:
+
+- compare gradient descent on a well-conditioned quadratic and an ill-conditioned quadratic
+- read the unconstrained minimization lectures in [Stanford SEE EE364A](https://see.stanford.edu/Course/EE364A/76)
+- look at [MIT 6.7220/15.084 Nonlinear Optimization](https://ocw.mit.edu/courses/6-7220j-nonlinear-optimization-spring-2025/) for a more current optimization-course perspective on gradient descent and SGD
+
+## Common Mistakes
+
+- thinking the gradient always points directly to the minimizer
+- using a large step size because it looks faster locally
+- forgetting that smoothness assumptions justify the descent guarantee
+- assuming subgradients behave identically to gradients at nonsmooth points
+- treating stochastic gradients as exact gradients rather than noisy estimators
+
+## Exercises
+
+1. Apply one step of gradient descent with step size $\eta$ to $f(x)=x^2$ and write the resulting update rule.
+2. For the worked example, explain why the second coordinate controls the stable step size.
+3. In words, explain the difference between sublinear and linear convergence.
+
+## Sources and Further Reading
+
+- [Stanford EE364a: Convex Optimization I](https://web.stanford.edu/class/ee364a/index.html) - `First pass` - current official course backbone for gradient methods in convex optimization. Checked `2026-04-24`.
+- [Stanford Engineering Everywhere: EE364A Lecture 16](https://see.stanford.edu/Course/EE364A/76) - `First pass` - official lecture archive page focused on unconstrained minimization, gradient descent, strong convexity, and Newton methods. Checked `2026-04-24`.
+- [Convex Optimization by Boyd and Vandenberghe](https://web.stanford.edu/~boyd/cvxbook/) - `First pass` - canonical official text for descent methods and smooth convex minimization. Checked `2026-04-24`.
+- [MIT 6.253: Convex Analysis and Optimization](https://web.mit.edu/6.253/www/) - `Second pass` - useful when you want more mathematical depth behind rates and convex optimization algorithms. Checked `2026-04-24`.
+- [MIT 6.7220/15.084 Nonlinear Optimization](https://ocw.mit.edu/courses/6-7220j-nonlinear-optimization-spring-2025/) - `Second pass` - current official optimization course with direct lecture material on gradient descent and stochastic gradient descent. Checked `2026-04-24`.
+- [Adaptive Subgradient Methods for Online Learning and Stochastic Optimization](https://jmlr.org/beta/papers/v12/duchi11a.html) - `Paper bridge` - a clean route from textbook first-order methods to adaptive large-scale learning. Checked `2026-04-24`.
+
+Sources checked online on `2026-04-24`:
+
+- Stanford EE364a course page
+- Stanford SEE EE364A lecture 16 page
+- Boyd and Vandenberghe convex optimization book page
+- MIT 6.253 course page
+- MIT 6.7220/15.084 course page
+- JMLR AdaGrad page

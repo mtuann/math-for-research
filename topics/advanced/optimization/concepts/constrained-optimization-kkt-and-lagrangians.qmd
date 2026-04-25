@@ -7,8 +7,9 @@ update-status: current
 level: advanced
 topic: optimization
 prerequisites:
+  - /topics/advanced/optimization/concepts/convex-sets-and-separation.qmd
+  - /topics/advanced/optimization/concepts/convex-functions-and-subgradients.qmd
   - /topics/foundation/linear-algebra/concepts/orthogonality-and-least-squares.qmd
-  - /applications/machine-learning/optimization-for-machine-learning.qmd
 learning-goals:
   - "Write the Lagrangian for an optimization problem with equality and inequality constraints."
   - "State the KKT conditions and interpret each part geometrically."
@@ -50,7 +51,7 @@ It explains how the simple unconstrained rule `gradient equals zero` turns into 
 
 ## First-Pass Promise
 
-Read this page first.
+Read this page after `Convex Sets and Separation` and `Convex Functions and Subgradients`.
 
 If you stop here, you should still understand:
 
@@ -322,7 +323,7 @@ The strongest current adjacent pages are:
 
 1. [Optimization for Machine Learning](../../../../applications/machine-learning/optimization-for-machine-learning.qmd) for the training-side view
 2. [Orthogonality and Least Squares](../../../foundation/linear-algebra/concepts/orthogonality-and-least-squares.qmd) for a familiar optimization problem that already has strong geometric intuition
-3. [Optimization module overview](../index.qmd) for the planned growth of the rest of this module
+3. [Duality and Certificates](duality-and-certificates.qmd) for the certificate and lower-bound side of the KKT story
 
 ## Optional Paper Bridge
 

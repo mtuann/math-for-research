@@ -105,7 +105,11 @@ website:
           - section: "Optimization"
             contents:
               - topics/advanced/optimization/index.qmd
+              - topics/advanced/optimization/concepts/convex-sets-and-separation.qmd
+              - topics/advanced/optimization/concepts/convex-functions-and-subgradients.qmd
               - topics/advanced/optimization/concepts/constrained-optimization-kkt-and-lagrangians.qmd
+              - topics/advanced/optimization/concepts/unconstrained-first-order-methods.qmd
+              - topics/advanced/optimization/concepts/duality-and-certificates.qmd
       - section: "Research Workflow"
         contents:
           - applications/index.qmd

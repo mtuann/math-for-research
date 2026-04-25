@@ -17,9 +17,9 @@ Use it to track:
 
 ## Current Snapshot
 
-- `133` `.qmd` pages currently exist
-- `30` concept-topic pages currently exist
-- strongest subjects so far: `Linear Algebra`, `Probability`, `Proofs`, `Logic`, `Statistics`
+- `137` `.qmd` pages currently exist
+- `34` concept-topic pages currently exist
+- strongest subjects so far: `Linear Algebra`, `Probability`, `Proofs`, `Logic`, `Statistics`, `Optimization`
 - strongest public-facing bridge so far: `Applications > Machine Learning`
 - non-topic sections already scaffolded: `Start Here`, `Roadmaps`, `Applications`, `Paper Lab`, `Research`, `Publication`, `Library`, `Notes`
 
@@ -251,11 +251,11 @@ These are not required before the main spine is public, but they are the next hi
 ### Optimization
 
 - [x] `Optimization index`
-- [ ] `Convex sets and separation`
-- [ ] `Convex functions and subgradients`
-- [ ] `Unconstrained first-order methods`
+- [x] `Convex sets and separation`
+- [x] `Convex functions and subgradients`
+- [x] `Unconstrained first-order methods`
 - [x] `Constrained optimization, KKT, and Lagrangians`
-- [ ] `Duality and certificates`
+- [x] `Duality and certificates`
 
 ### Numerical Methods
 
@@ -332,18 +332,22 @@ These are the topics that should eventually become canonical examples for future
 - [~] `Experimental design and model evaluation`
 - [ ] `Partial derivatives and gradients`
 - [ ] `Jacobians and Hessians`
+- [~] `Convex sets and separation`
+- [~] `Convex functions and subgradients`
+- [~] `Unconstrained first-order methods`
 - [~] `Constrained optimization, KKT, and Lagrangians`
+- [~] `Duality and certificates`
 
 ## Suggested Build Order From Here
 
 Near-term highest-value content steps:
 
-1. [ ] `Optimization module: convex sets and separation`
-2. [ ] `Optimization module: convex functions and subgradients`
-3. [ ] `Optimization module: unconstrained first-order methods`
-4. [ ] `Paper Lab: theorem decoder`
-5. [ ] `Single-variable calculus module: limits and continuity`
-6. [ ] `Curate Library: books and courses`
+1. [ ] `Paper Lab: theorem decoder`
+2. [ ] `Single-variable calculus module: limits and continuity`
+3. [ ] `Single-variable calculus module: derivatives and local approximation`
+4. [ ] `Curate Library: books and courses`
+5. [ ] `Render and visually QA the optimization module locally`
+6. [ ] `Sweep review the full optimization module`
 
 ## Work Outside Topic Content
 

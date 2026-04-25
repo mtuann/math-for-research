@@ -1,0 +1,342 @@
+---
+title: "Convex Functions and Subgradients"
+description: "How convexity turns objectives into globally well-behaved landscapes and replaces gradients with subgradients when corners appear."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: optimization
+prerequisites:
+  - /topics/advanced/optimization/concepts/convex-sets-and-separation.qmd
+  - /topics/foundation/linear-algebra/concepts/orthogonality-and-least-squares.qmd
+learning-goals:
+  - "State the definition of a convex function and recognize common equivalent pictures."
+  - "Use the first-order underestimator property for differentiable convex functions."
+  - "Define a subgradient and interpret the subdifferential at a nonsmooth point."
+  - "Explain why convexity and subgradients matter for regularization, margin losses, and first-order optimization."
+applications:
+  - optimization
+  - machine-learning
+  - statistics
+keywords:
+  - convex function
+  - subgradient
+  - subdifferential
+  - epigraph
+  - first-order condition
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/optimization/index.qmd
+  - /topics/advanced/optimization/concepts/convex-sets-and-separation.qmd
+  - /topics/advanced/optimization/concepts/constrained-optimization-kkt-and-lagrangians.qmd
+  - /applications/machine-learning/regularization-implicit-bias-and-model-complexity.qmd
+stable-sources:
+  - "Stanford EE364a"
+  - "Convex Optimization by Boyd and Vandenberghe"
+  - "MIT 6.253 Convex Analysis and Optimization"
+current-sources:
+  - "Stanford EE364m Mathematics of Convexity"
+  - "Adaptive Subgradient Methods for Online Learning and Stochastic Optimization (JMLR 2011)"
+---
+
+## Role
+
+This page is the analytic heart of the early optimization module.
+
+It explains what kind of objective functions let local first-order information control global behavior, and how subgradients extend that story to nonsmooth problems.
+
+## First-Pass Promise
+
+Read this page after `Convex Sets and Separation`.
+
+If you stop here, you should still understand:
+
+- what a convex function is
+- why tangent information gives a global lower bound
+- what a subgradient is at a corner or kink
+- why these ideas matter for regularization, hinge-style losses, and first-order optimization
+
+## Why It Matters
+
+Optimization is not just about feasible regions. It is also about objective shape.
+
+Convex functions are special because they have no deceptive valleys. If you move between two points on the graph, the function lies below the chord joining their heights. That geometric statement leads to powerful optimization consequences:
+
+- every local minimum is a global minimum
+- tangent information becomes globally meaningful
+- many nonsmooth objectives still admit useful first-order certificates
+
+This is exactly why convex losses, penalties, and regularizers are so important in machine learning, statistics, and engineering design. They allow meaningful optimization statements even when the problem is not smooth everywhere.
+
+## Prerequisite Recall
+
+- a convex set contains every line segment between its points
+- the epigraph of a function is the set of points lying on or above its graph
+- a hyperplane can support or separate convex sets
+- gradients describe first-order change when a function is differentiable
+
+## Intuition
+
+For sets, convexity meant `no inward dents`.
+
+For functions, convexity means the graph bends upward rather than downward. Averaging inputs never gives a function value worse than averaging outputs:
+
+`function of an average <= average of function values`
+
+That single inequality is why convex objectives behave so differently from arbitrary ones.
+
+If the function is smooth, every tangent line or tangent plane sits below the graph. So the gradient at one point already gives a global lower-bounding linear model.
+
+If the function has a corner, there may be many supporting lines instead of one tangent line. Each valid supporting slope is a subgradient. The whole collection is the subdifferential.
+
+So the progression is:
+
+- convex set -> supporting hyperplanes
+- convex function -> supporting affine lower bounds
+- nonsmooth convex function -> subgradients and subdifferentials
+
+## Formal Core
+
+::: {#def-convex-function}
+## Definition
+
+A function $f : \mathbb{R}^n \to \mathbb{R}\cup\{+\infty\}$ is `convex` if its domain is convex and for all $x,y$ in the domain and all $\theta \in [0,1]$,
+
+$$
+f(\theta x + (1-\theta)y)
+\le
+\theta f(x) + (1-\theta)f(y).
+$$
+
+This is the defining Jensen-style inequality for convexity.
+:::
+
+One very important geometric equivalence is:
+
+- $f$ is convex if and only if its epigraph
+
+$$
+\operatorname{epi}(f)
+=
+\{(x,t) : t \ge f(x)\}
+$$
+
+is a convex set.
+
+::: {#thm-first-order}
+## First-Order Characterization
+
+If $f$ is differentiable and convex, then for all $x,y$,
+
+$$
+f(y) \ge f(x) + \nabla f(x)^\top (y-x).
+$$
+
+So the first-order Taylor model at $x$ is a global affine lower bound for the function.
+:::
+
+This is one of the most important inequalities in optimization. It says the gradient of a convex function is not merely local information.
+
+::: {#def-subgradient}
+## Definition
+
+A vector $g$ is a `subgradient` of a convex function $f$ at $x$ if for all $y$,
+
+$$
+f(y) \ge f(x) + g^\top (y-x).
+$$
+
+The set of all subgradients at $x$ is the `subdifferential`, written $\partial f(x)$.
+:::
+
+When $f$ is differentiable at $x$, the subdifferential collapses to one point:
+
+$$
+\partial f(x)=\{\nabla f(x)\}.
+$$
+
+::: {#prp-subgradient-optimality}
+## Subgradient Optimality Condition
+
+For an unconstrained convex problem
+
+$$
+\min_x f(x),
+$$
+
+a point $x^\star$ is globally optimal if and only if
+
+$$
+0 \in \partial f(x^\star).
+$$
+
+For differentiable convex functions, this reduces to the familiar condition $\nabla f(x^\star)=0$.
+:::
+
+## Worked Example
+
+Take the function
+
+$$
+f(x)=|x|.
+$$
+
+This is one of the simplest convex but nonsmooth functions.
+
+First, why is it convex? One reason is geometric: its graph is a `V` shape, always bending upward. Another reason is analytic: it satisfies the convexity inequality, and its epigraph is the convex cone
+
+$$
+\{(x,t): t\ge |x|\}.
+$$
+
+Now examine its subgradients.
+
+For $x>0$, the function is differentiable and
+
+$$
+\partial f(x)=\{1\}.
+$$
+
+For $x<0$, it is also differentiable and
+
+$$
+\partial f(x)=\{-1\}.
+$$
+
+At the kink $x=0$, there is no ordinary derivative, but there are many supporting lines. A number $g$ is a subgradient at $0$ if for all $y$,
+
+$$
+|y| \ge g y.
+$$
+
+This holds exactly when
+
+$$
+g \in [-1,1].
+$$
+
+So
+
+$$
+\partial f(0) = [-1,1].
+$$
+
+Now check optimality. Since
+
+$$
+0 \in [-1,1] = \partial f(0),
+$$
+
+the point $x^\star=0$ is a global minimizer of $|x|$.
+
+This tiny example contains the main picture:
+
+1. convexity gives global structure
+2. smooth points have one supporting slope
+3. corners have many supporting slopes
+4. minimization means finding a point whose subdifferential contains zero
+
+## Computation Lens
+
+Convexity and subgradients immediately affect algorithms.
+
+If the objective is smooth and convex, gradient descent makes sense because the gradient points toward a global underestimator.
+
+If the objective is convex but nonsmooth, we often use:
+
+- subgradient methods
+- proximal methods
+- splitting methods
+- smoothing or reformulation tricks
+
+This is why functions like:
+
+- $\ell_1$ penalties
+- hinge loss
+- max-type objectives
+- norm objectives
+
+still belong naturally to the optimization toolbox even when ordinary derivatives fail at some points.
+
+## Application Lens
+
+Many of the most important ML and statistics objectives are built from convex functions and subgradients.
+
+Examples include:
+
+- $\ell_1$ regularization, where the absolute value promotes sparsity
+- hinge loss in margin-based classification
+- norms and max-functions in robust or structured optimization
+
+The reason these models remain workable is that convexity gives global geometry, and subgradients preserve first-order reasoning at nonsmooth points.
+
+For a bridge to model complexity and regularization, see [Regularization, Implicit Bias, and Model Complexity](../../../../applications/machine-learning/regularization-implicit-bias-and-model-complexity.qmd).
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- what convexity means for a function
+- why differentiable convex functions admit global affine lower bounds
+- what a subgradient is at a kink
+- why $0 \in \partial f(x^\star)$ is the right nonsmooth optimality condition
+
+then this page has done its main job.
+
+## Go Deeper
+
+The strongest next pages are:
+
+1. [Unconstrained First-Order Methods](unconstrained-first-order-methods.qmd) for the algorithmic version of the first-order story
+2. [Constrained Optimization, KKT, and Lagrangians](constrained-optimization-kkt-and-lagrangians.qmd) for the constrained first-order version
+3. [Regularization, Implicit Bias, and Model Complexity](../../../../applications/machine-learning/regularization-implicit-bias-and-model-complexity.qmd) for a machine-learning bridge
+
+## Optional Paper Bridge
+
+- [Adaptive Subgradient Methods for Online Learning and Stochastic Optimization](https://jmlr.org/beta/papers/v12/duchi11a.html) - `Paper bridge` - watch how subgradient ideas lead to practical large-scale learning algorithms like AdaGrad. Checked `2026-04-24`.
+- [1-norm Support Vector Machines](https://papers.nips.cc/paper/2450-1-norm-support-vector-machines) - `Paper bridge` - a clean bridge from convex nonsmooth objectives to sparse margin-based learning. Checked `2026-04-24`.
+
+## Optional After First Pass
+
+If you want more depth after the first pass:
+
+- compare ordinary gradients and subgradients on absolute value, hinge loss, and max-functions
+- read the convex-functions lecture in [Stanford SEE EE364A](https://see.stanford.edu/Course/EE364A) and watch how epigraphs and supporting hyperplanes enter the proofs
+- look at [Stanford EE364m](https://web.stanford.edu/class/ee364m/) if you want a more mathematical convex-analysis perspective
+
+## Common Mistakes
+
+- confusing convexity of the domain with convexity of the function
+- assuming every convex function must be differentiable
+- treating the gradient inequality as local rather than global
+- thinking the subdifferential at a nonsmooth point is an arbitrary set rather than the set of supporting slopes
+- forgetting that $0 \in \partial f(x^\star)$ is sufficient for global optimality only because the problem is convex
+
+## Exercises
+
+1. Show that $f(x)=x^2$ is convex by checking the first-order inequality.
+2. Compute the subdifferential of $f(x)=|x|$ at $x=0$ directly from the definition.
+3. Explain why the function $f(x)=\max\{x,0\}$ is convex and identify $\partial f(0)$.
+
+## Sources and Further Reading
+
+- [Stanford EE364a: Convex Optimization I](https://web.stanford.edu/class/ee364a/index.html) - `First pass` - current official course backbone for convex functions, optimality, and modeling. Checked `2026-04-24`.
+- [Stanford Engineering Everywhere: EE364A](https://see.stanford.edu/Course/EE364A) - `First pass` - official lecture archive with direct material on convex functions, epigraphs, and first-order conditions. Checked `2026-04-24`.
+- [Convex Optimization by Boyd and Vandenberghe](https://web.stanford.edu/~boyd/cvxbook/) - `First pass` - canonical official text for convex functions, subgradients, and global first-order reasoning. Checked `2026-04-24`.
+- [MIT 6.253: Convex Analysis and Optimization](https://web.mit.edu/6.253/www/) - `Second pass` - good for a more mathematical convex-analysis treatment. Checked `2026-04-24`.
+- [Stanford EE364m: The Mathematics of Convexity](https://web.stanford.edu/class/ee364m/) - `Second pass` - current official course for a deeper mathematical treatment of convex sets and functions. Checked `2026-04-24`.
+- [Adaptive Subgradient Methods for Online Learning and Stochastic Optimization](https://jmlr.org/beta/papers/v12/duchi11a.html) - `Paper bridge` - a strong path from convex analysis into large-scale learning algorithms. Checked `2026-04-24`.
+
+Sources checked online on `2026-04-24`:
+
+- Stanford EE364a course page
+- Stanford SEE EE364A page
+- Boyd and Vandenberghe convex optimization book page
+- MIT 6.253 course page
+- Stanford EE364m page
+- JMLR AdaGrad paper page
