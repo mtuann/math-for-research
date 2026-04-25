@@ -1,0 +1,315 @@
+---
+title: "Entropy, Cross-Entropy, and KL Divergence"
+description: "How entropy measures uncertainty, how cross-entropy measures log-loss under a proposed model, and why KL divergence is the nonnegative gap between truth and mismatch."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: information-theory
+prerequisites:
+  - /topics/foundation/probability/index.qmd
+  - /topics/foundation/statistics/index.qmd
+learning-goals:
+  - "Define entropy, cross-entropy, and KL divergence for discrete distributions."
+  - "Interpret cross-entropy as expected log-loss under a proposed model."
+  - "Explain why KL divergence is nonnegative and asymmetric."
+  - "Use the identity cross-entropy = entropy + KL divergence."
+applications:
+  - signal-and-communication
+  - machine-learning-theory
+  - research-reading
+keywords:
+  - entropy
+  - cross-entropy
+  - KL divergence
+  - relative entropy
+  - log-loss
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/information-theory/index.qmd
+  - /topics/foundation/probability/index.qmd
+  - /topics/foundation/statistics/index.qmd
+  - /topics/advanced/learning-theory/index.qmd
+  - /applications/machine-learning/uncertainty-calibration-and-predictive-confidence.qmd
+stable-sources:
+  - "MIT 6.441 Information Theory"
+  - "Stanford EE376A Information Theory"
+  - "Stanford EE377 Information Theory and Statistics"
+current-sources:
+  - "MIT 6.441 lecture notes"
+  - "Stanford EE376A course page"
+  - "Stanford EE376A lecture notes"
+  - "Stanford EE376A lecture 3"
+  - "Stanford EE377 bulletin"
+---
+
+## Role
+
+This is the first page of the `Information Theory` module.
+
+Its job is to introduce the three information measures that will keep reappearing everywhere else:
+
+- `entropy`
+- `cross-entropy`
+- `KL divergence`
+
+These are the smallest reusable language pieces for uncertainty, mismatch, coding cost, and log-loss.
+
+## First-Pass Promise
+
+Read this page first in the module.
+
+If you stop here, you should still understand:
+
+- what entropy measures
+- what cross-entropy measures
+- why KL divergence is a gap between two distributions
+- why cross-entropy equals entropy plus KL divergence
+
+## Why It Matters
+
+These quantities appear under many different names across the site:
+
+- uncertainty
+- information content
+- coding cost
+- negative log-likelihood
+- log-loss
+- regularized or variational objectives
+
+Without one clean picture, it is easy to memorize formulas but miss the structure.
+
+This page gives that structure.
+
+At a first pass:
+
+- entropy measures how uncertain a distribution is
+- cross-entropy measures how expensive it is to code or predict data from `P` using a model `Q`
+- KL divergence measures the extra cost of using `Q` when the truth is `P`
+
+That last sentence is one of the most reusable interpretations in modern ML and statistics.
+
+## Prerequisite Recall
+
+- a discrete distribution assigns probabilities `p(x)` to outcomes `x`
+- expectation under `P` means averaging with respect to the true distribution `P`
+- logarithm base `2` gives units in `bits`, while natural logarithm gives units in `nats`
+- negative log-probability acts like a surprise or coding length
+
+## Intuition
+
+### Entropy Measures Intrinsic Uncertainty
+
+If a distribution is concentrated on one outcome, there is little uncertainty.
+
+If it spreads mass across many outcomes, there is more uncertainty.
+
+Entropy summarizes that uncertainty into one number.
+
+### Cross-Entropy Measures Prediction Or Coding Under Mismatch
+
+Suppose the world really generates data from `P`, but we use a model `Q`.
+
+Then cross-entropy asks:
+
+`how costly is it, on average, to encode or predict data from P as if Q were correct?`
+
+So cross-entropy is not a property of one distribution alone. It is a mismatch quantity.
+
+### KL Divergence Is The Extra Cost Of Mismatch
+
+KL divergence compares `P` and `Q` directly.
+
+It is zero exactly when the two distributions agree, and positive otherwise.
+
+At a first pass, the right interpretation is:
+
+`KL divergence is the extra expected log-loss caused by using Q instead of the truth P`
+
+### Cross-Entropy Splits Cleanly Into Entropy Plus KL
+
+This is the key identity:
+
+`cross-entropy = entropy + KL divergence`
+
+So cross-entropy contains:
+
+- the irreducible uncertainty already present in `P`
+- plus the extra penalty from model mismatch
+
+That decomposition is why these three quantities belong on one opening page.
+
+## Formal Core
+
+For this first pass, we stay with discrete distributions.
+
+::: {#def-entropy}
+## Definition: Entropy
+
+For a discrete random variable `X` with distribution `P`, the entropy is
+
+$$
+H(P)= - \sum_x p(x)\log p(x).
+$$
+:::
+
+::: {#def-cross-entropy}
+## Definition: Cross-Entropy
+
+For discrete distributions `P` and `Q` on the same support, the cross-entropy of `P` relative to `Q` is
+
+$$
+H(P,Q)= -\sum_x p(x)\log q(x).
+$$
+:::
+
+::: {#def-kl}
+## Definition: KL Divergence
+
+The KL divergence, or relative entropy, from `P` to `Q` is
+
+$$
+D(P\|Q)= \sum_x p(x)\log\frac{p(x)}{q(x)}.
+$$
+:::
+
+::: {#thm-cross-entropy-split}
+## Theorem Idea: Cross-Entropy Decomposes Into Entropy Plus KL
+
+For discrete distributions `P` and `Q`,
+
+$$
+H(P,Q)=H(P)+D(P\|Q).
+$$
+:::
+
+This identity is one of the central algebraic facts of the whole module.
+
+::: {#thm-gibbs}
+## Theorem Idea: Gibbs Inequality
+
+For discrete distributions `P` and `Q`,
+
+$$
+D(P\|Q)\ge 0,
+$$
+
+with equality if and only if `P=Q` on the support of `P`.
+:::
+
+So the true distribution minimizes cross-entropy against itself.
+
+## Worked Example
+
+Let
+
+$$
+P=(0.9,0.1),
+\qquad
+Q=(0.6,0.4).
+$$
+
+Then the entropy of `P` is
+
+$$
+H(P)= -0.9\log 0.9 - 0.1\log 0.1.
+$$
+
+The cross-entropy of `P` relative to `Q` is
+
+$$
+H(P,Q)= -0.9\log 0.6 - 0.1\log 0.4.
+$$
+
+And the KL divergence is
+
+$$
+D(P\|Q)=0.9\log \frac{0.9}{0.6} + 0.1\log \frac{0.1}{0.4}.
+$$
+
+You do not need the exact decimal values to see the structure:
+
+- `P` is quite concentrated, so its entropy is not very large
+- `Q` is less concentrated and mismatched to `P`
+- that mismatch makes cross-entropy larger than entropy
+- the difference is exactly the KL divergence
+
+This is the cleanest first example of:
+
+`irreducible uncertainty + mismatch penalty`
+
+## Computation Lens
+
+When you see one of these quantities in a paper or objective, ask:
+
+1. which distribution is the truth or data-generating distribution?
+2. which distribution is the model or approximation?
+3. are we measuring intrinsic uncertainty, or mismatch, or both?
+4. are the logarithms in bits or nats?
+5. is the objective really a cross-entropy or negative log-likelihood in disguise?
+
+Those questions usually decode the notation faster than expanding formulas mechanically.
+
+## Application Lens
+
+### Classification And Log-Loss
+
+Cross-entropy is the standard loss for probabilistic classification because it rewards calibrated probability assignments, not just the final label decision.
+
+### Variational Inference And Approximation
+
+KL divergence appears whenever one distribution is being approximated by another, especially in variational methods.
+
+### Coding And Compression
+
+Entropy is the baseline limit for ideal coding, while cross-entropy and KL explain what happens when the code is optimized for the wrong distribution.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- what entropy measures
+- what cross-entropy measures
+- why KL divergence is not symmetric
+- why KL is always nonnegative
+- why `H(P,Q)=H(P)+D(P\|Q)` matters
+
+then this page has done its job.
+
+## Go Deeper
+
+The next natural step in this module is:
+
+- [Mutual Information, Conditional Entropy, and Data Processing](mutual-information-conditional-entropy-and-data-processing.qmd)
+
+The strongest adjacent live pages right now are:
+
+- [Information Theory](../index.qmd)
+- [Mutual Information, Conditional Entropy, and Data Processing](mutual-information-conditional-entropy-and-data-processing.qmd)
+- [Probability](../../../foundation/probability/index.qmd)
+- [Statistics](../../../foundation/statistics/index.qmd)
+- [Learning Theory](../../learning-theory/index.qmd)
+- [Uncertainty Calibration and Predictive Confidence](../../../../applications/machine-learning/uncertainty-calibration-and-predictive-confidence.qmd)
+
+## Optional Deeper Reading After First Pass
+
+The strongest current references connected to this page are:
+
+- [MIT 6.441 lecture notes](https://ocw.mit.edu/courses/6-441-information-theory-spring-2016/pages/lecture-notes/) - official lecture-note index covering entropy, divergence, mutual information, and coding. Checked `2026-04-25`.
+- [Stanford EE376A: Information Theory](https://web.stanford.edu/class/ee376a/) - official course page introducing entropy, mutual information, compression, and communication. Checked `2026-04-25`.
+- [Stanford EE376A lecture notes](https://web.stanford.edu/class/ee376a/files/lecture_notes.pdf) - official notes for the full first-course information-theory core. Checked `2026-04-25`.
+- [Stanford EE376A lecture 3](https://web.stanford.edu/class/ee376a/files/lecture_3.pdf) - official notes focused on entropy, relative entropy, and mutual information. Checked `2026-04-25`.
+- [Stanford EE377 bulletin](https://bulletin.stanford.edu/courses/2161992) - official current course description connecting information theory with probability and statistics. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [MIT 6.441 lecture notes](https://ocw.mit.edu/courses/6-441-information-theory-spring-2016/pages/lecture-notes/) - `First pass` - official notes index for entropy, divergence, mutual information, and coding. Checked `2026-04-25`.
+- [Stanford EE376A: Information Theory](https://web.stanford.edu/class/ee376a/) - `First pass` - official course page for the first-course picture of uncertainty, compression, and communication. Checked `2026-04-25`.
+- [Stanford EE376A lecture notes](https://web.stanford.edu/class/ee376a/files/lecture_notes.pdf) - `Second pass` - official notes for a complete first pass through the field. Checked `2026-04-25`.
+- [Stanford EE376A lecture 3](https://web.stanford.edu/class/ee376a/files/lecture_3.pdf) - `Second pass` - official notes focused on entropy, relative entropy, and mutual information. Checked `2026-04-25`.
+- [Stanford EE377 bulletin](https://bulletin.stanford.edu/courses/2161992) - `Second pass` - official current description of information-theoretic tools in probability and statistics. Checked `2026-04-25`.

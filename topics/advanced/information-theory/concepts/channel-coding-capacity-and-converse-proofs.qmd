@@ -1,0 +1,326 @@
+---
+title: "Channel Coding, Capacity, and Converse Proofs"
+description: "How channel capacity measures the maximum reliable communication rate, why random coding shows achievability, and why converse arguments rule out rates above capacity."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: information-theory
+prerequisites:
+  - /topics/advanced/information-theory/concepts/typicality-source-coding-and-compression-intuition.qmd
+  - /topics/advanced/information-theory/concepts/mutual-information-conditional-entropy-and-data-processing.qmd
+  - /topics/foundation/probability/index.qmd
+learning-goals:
+  - "Explain channel coding as reliable communication over a noisy channel."
+  - "Interpret capacity as the maximum achievable reliable rate."
+  - "State the channel coding theorem at a first-pass level."
+  - "Distinguish achievability arguments from converse arguments."
+applications:
+  - signal-and-communication
+  - machine-learning-theory
+  - research-reading
+keywords:
+  - channel coding
+  - capacity
+  - converse
+  - Fano's inequality
+  - reliable communication
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/information-theory/index.qmd
+  - /topics/advanced/information-theory/concepts/mutual-information-conditional-entropy-and-data-processing.qmd
+  - /topics/advanced/information-theory/concepts/typicality-source-coding-and-compression-intuition.qmd
+  - /topics/advanced/high-dimensional-statistics/index.qmd
+  - /topics/advanced/control-and-dynamics/index.qmd
+stable-sources:
+  - "MIT 6.441 Information Theory"
+  - "Stanford EE376A Information Theory"
+  - "Stanford EE377 Information Theory and Statistics"
+current-sources:
+  - "MIT 6.441 chapter 14"
+  - "Stanford EE376A course outline"
+  - "Stanford EE376A lecture notes"
+  - "Stanford EE376A lecture 8"
+  - "Stanford EE376A lecture 11"
+---
+
+## Role
+
+This is the fourth page of the `Information Theory` module.
+
+Its job is to explain how information theory turns noisy communication into a precise limit statement:
+
+- what it means to communicate reliably
+- what the channel capacity is
+- why rates below capacity are achievable
+- why rates above capacity are impossible
+
+This is the page where mutual information becomes an operational limit.
+
+## First-Pass Promise
+
+Read this page after [Typicality, Source Coding, and Compression Intuition](typicality-source-coding-and-compression-intuition.qmd).
+
+If you stop here, you should still understand:
+
+- what a coding rate is
+- what “reliable communication” means
+- why capacity is defined as a supremum over achievable rates
+- why the channel coding theorem has a direct part and a converse part
+
+## Why It Matters
+
+Compression asked:
+
+`how many bits are needed to describe a source?`
+
+Channel coding asks:
+
+`how many bits can survive a noisy channel reliably?`
+
+That question matters far beyond classical communication:
+
+- sensing and telemetry
+- storage with errors
+- control with noisy observations
+- lower-bound arguments in statistics and learning
+- representation bottlenecks in modern ML
+
+At a first pass:
+
+- a channel corrupts transmitted symbols
+- coding spreads information across many channel uses
+- reliable communication is possible up to a certain rate
+- that maximum rate is the capacity
+- converse arguments say the limit is real, not just a weakness of current code constructions
+
+This is the canonical example of an upper bound and a matching constructive lower bound meeting exactly.
+
+## Prerequisite Recall
+
+- mutual information `I(X;Y)` measures how much output `Y` reveals about input `X`
+- typicality gives a way to reason about high-probability sequence structure
+- entropy controlled compression rate in source coding
+- data processing says that noise and post-processing cannot increase information
+
+## Intuition
+
+### Noise Destroys Symbol-Level Reliability
+
+If a channel flips, erases, or perturbs symbols, then sending one raw symbol at a time is fragile.
+
+The core trick of coding is:
+
+`do not protect each symbol separately; spread the message across a long block`
+
+That way, the receiver can use the whole output sequence to infer the original message.
+
+### Rate Measures Information Per Channel Use
+
+If a code transmits one of `M` possible messages using `n` channel uses, its rate is roughly
+
+$$
+R=\frac{1}{n}\log M.
+$$
+
+So the rate asks:
+
+`how much information do we communicate per use of the noisy channel?`
+
+### Capacity Is The Reliable-Communication Threshold
+
+Some rates are small enough that coding can overcome the noise.
+
+Some rates are too ambitious: the channel simply does not carry enough information.
+
+Capacity is the boundary between those two regimes.
+
+For a memoryless channel, the remarkable fact is that this boundary can be written using mutual information:
+
+$$
+C = \max_{P_X} I(X;Y).
+$$
+
+### Direct And Converse Are Different Kinds Of Truth
+
+The channel coding theorem has two halves:
+
+- `direct part`: rates below capacity can be achieved
+- `converse part`: rates above capacity cannot be achieved
+
+The direct part is constructive in spirit.
+
+The converse part is impossibility in spirit.
+
+You need both to know that the capacity formula is the actual limit.
+
+## Formal Core
+
+For this first pass, think of a discrete memoryless channel with transition law `P_{Y|X}`.
+
+::: {#def-achievable-rate}
+## Definition Idea: Achievable Rate
+
+A rate `R` is achievable if for every small target error level, there exist sufficiently long block codes whose rate is at least `R` and whose decoding error probability goes to `0` as block length grows.
+:::
+
+This definition is operational: it is about what can actually be communicated reliably.
+
+::: {#def-capacity}
+## Definition: Channel Capacity
+
+The channel capacity `C` is the supremum of all achievable rates.
+:::
+
+So capacity is the largest rate at which reliable communication is possible.
+
+::: {#thm-capacity-formula}
+## Theorem Idea: Capacity Formula For A Memoryless Channel
+
+For a discrete memoryless channel,
+
+$$
+C=\max_{P_X} I(X;Y).
+$$
+:::
+
+This is the central operational meaning of mutual information.
+
+::: {#thm-channel-coding-direct}
+## Theorem Idea: Direct Part
+
+If `R<C`, then there exist coding schemes with block length `n` whose decoding error probability goes to `0`.
+:::
+
+At a first pass, the proof idea is:
+
+- draw a random codebook
+- use joint typicality or related decoding
+- show the error probability vanishes when the rate is below mutual-information threshold
+
+::: {#thm-channel-coding-converse}
+## Theorem Idea: Converse Part
+
+If `R>C`, then no sequence of codes can make the decoding error probability go to `0`.
+:::
+
+At a first pass, the proof idea is:
+
+- if the receiver decodes well, the output must retain enough information about the message
+- Fano-style inequalities convert small decoding error into an information lower bound
+- data processing and single-letter bounds show the channel cannot support more than capacity
+
+::: {#thm-fano-idea}
+## Theorem Idea: Fano's Inequality As A Converse Tool
+
+Fano's inequality relates decoding error probability to conditional entropy of the message given the observation.
+:::
+
+At first pass, keep only the role:
+
+`Fano turns probability of error into an information inequality`
+
+That is why it appears so often in converse proofs and statistical lower bounds.
+
+## Worked Example
+
+Consider a binary symmetric channel `BSC(p)`:
+
+- input alphabet `{0,1}`
+- output alphabet `{0,1}`
+- each transmitted bit flips with probability `p`
+
+If you send uncoded bits, the channel flips them independently, so reliability is poor unless `p` is tiny.
+
+But with long block codes, reliable communication is possible up to capacity
+
+$$
+C = 1 - H_2(p),
+$$
+
+where `H_2` is binary entropy.
+
+What matters at first pass is the shape:
+
+- if `p=0`, the channel is noiseless and `C=1`
+- if `p=1/2`, the output is pure noise independent of the input and `C=0`
+- for intermediate `p`, capacity lies strictly between `0` and `1`
+
+So capacity matches the intuitive quality of the channel, but gives an exact rate threshold.
+
+## Computation Lens
+
+When a paper mentions capacity or a converse proof, ask:
+
+1. what is the channel or observation model?
+2. what is the input distribution, and is the key quantity `I(X;Y)` optimized over it?
+3. is the result an achievability statement, a converse statement, or both?
+4. where does Fano's inequality or data processing enter?
+5. is the theorem single-letter, or is extra work needed to reduce a block problem to one-letter quantities?
+
+Those questions usually reveal whether the proof is constructive, impossibility-based, or a mix of both.
+
+## Application Lens
+
+### Communication Systems
+
+This is the classical home of the theorem: coding over noisy channels with an exact reliability threshold.
+
+### Statistics And Learning Lower Bounds
+
+Fano-style converses and information constraints reappear when proving that no estimator or learner can perform too well under limited data or noisy observations.
+
+### Control, Sensing, And Feedback
+
+Whenever a controller or estimator receives information through a noisy pipeline, capacity-like reasoning becomes a natural upper bound on what the system can possibly recover or stabilize.
+
+## Stop Here For First Pass
+
+If you stop here, retain these five ideas:
+
+- coding rate measures information per channel use
+- capacity is the maximum reliable communication rate
+- for memoryless channels, capacity is characterized by maximizing mutual information
+- the direct part proves rates below capacity are achievable
+- the converse part proves rates above capacity are impossible
+
+That is enough to read most first-pass channel-coding statements without getting lost in proof detail.
+
+## Go Deeper
+
+The next natural step in this module is:
+
+- [Rate-Distortion and Representation Tradeoffs](rate-distortion-and-representation-tradeoffs.qmd)
+
+The strongest adjacent live pages right now are:
+
+- [Information Theory](../index.qmd)
+- [Mutual Information, Conditional Entropy, and Data Processing](mutual-information-conditional-entropy-and-data-processing.qmd)
+- [Typicality, Source Coding, and Compression Intuition](typicality-source-coding-and-compression-intuition.qmd)
+- [Rate-Distortion and Representation Tradeoffs](rate-distortion-and-representation-tradeoffs.qmd)
+- [High-Dimensional Statistics](../../high-dimensional-statistics/index.qmd)
+- [Control and Dynamics](../../control-and-dynamics/index.qmd)
+
+## Optional Deeper Reading After First Pass
+
+If you want a stronger second pass on the same ideas, use:
+
+- [MIT 6.441 Chapter 14: Channel Coding](https://ocw.mit.edu/courses/6-441-information-theory-spring-2016/resources/mit6_441s16_chapter_14/) for the cleanest official MIT entry into channel coding. Checked `2026-04-25`.
+- [Stanford EE376A course outline](https://web.stanford.edu/class/ee376a/outline.html) to see how capacity, converse, and achievability are staged in the course. Checked `2026-04-25`.
+- [Stanford EE376A lecture notes](https://web.stanford.edu/class/ee376a/files/lecture_notes.pdf) for the full official course treatment. Checked `2026-04-25`.
+- [Stanford EE376A lecture 8](https://web.stanford.edu/class/ee376a/files/2017-18/lecture_8.pdf) for capacity and examples. Checked `2026-04-25`.
+- [Stanford EE376A lecture 11](https://web.stanford.edu/class/ee376a/files/2017-18/lecture_11.pdf) for the converse viewpoint. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [MIT 6.441: Information Theory](https://ocw.mit.edu/courses/6-441-information-theory-spring-2010/) - `First pass` - official course page for the overall coding-theorem structure of the field. Checked `2026-04-25`.
+- [MIT 6.441 Chapter 14: Channel Coding](https://ocw.mit.edu/courses/6-441-information-theory-spring-2016/resources/mit6_441s16_chapter_14/) - `First pass` - official MIT chapter specifically for the channel-coding theorem. Checked `2026-04-25`.
+- [Stanford EE376A course outline](https://web.stanford.edu/class/ee376a/outline.html) - `First pass` - official outline showing the capacity, converse, and achievability sequence. Checked `2026-04-25`.
+- [Stanford EE376A lecture notes](https://web.stanford.edu/class/ee376a/files/lecture_notes.pdf) - `Second pass` - official full notes containing the channel-coding theorem and examples. Checked `2026-04-25`.
+- [Stanford EE376A lecture 8](https://web.stanford.edu/class/ee376a/files/2017-18/lecture_8.pdf) - `Second pass` - official notes focused on channel capacity and examples. Checked `2026-04-25`.
+- [Stanford EE376A lecture 11](https://web.stanford.edu/class/ee376a/files/2017-18/lecture_11.pdf) - `Second pass` - official notes focused on the converse part. Checked `2026-04-25`.

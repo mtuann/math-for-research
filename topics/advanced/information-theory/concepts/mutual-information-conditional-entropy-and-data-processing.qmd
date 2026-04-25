@@ -1,0 +1,345 @@
+---
+title: "Mutual Information, Conditional Entropy, and Data Processing"
+description: "How conditional entropy measures remaining uncertainty, how mutual information measures uncertainty reduction, and why post-processing cannot create information."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: information-theory
+prerequisites:
+  - /topics/advanced/information-theory/concepts/entropy-cross-entropy-and-kl-divergence.qmd
+  - /topics/foundation/probability/index.qmd
+  - /topics/foundation/statistics/index.qmd
+learning-goals:
+  - "Define conditional entropy and mutual information for discrete random variables."
+  - "Interpret mutual information as uncertainty reduction and as KL divergence from independence."
+  - "Explain the data processing inequality at a first-pass level."
+  - "Use mutual information to read noisy-observation and representation arguments."
+applications:
+  - signal-and-communication
+  - machine-learning-theory
+  - research-reading
+keywords:
+  - mutual information
+  - conditional entropy
+  - data processing inequality
+  - information flow
+  - dependence
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/information-theory/index.qmd
+  - /topics/advanced/information-theory/concepts/entropy-cross-entropy-and-kl-divergence.qmd
+  - /topics/foundation/probability/index.qmd
+  - /topics/advanced/learning-theory/index.qmd
+  - /topics/advanced/high-dimensional-statistics/index.qmd
+stable-sources:
+  - "MIT 6.441 Information Theory"
+  - "Stanford EE376A Information Theory"
+  - "Stanford EE377 Information Theory and Statistics"
+current-sources:
+  - "MIT 6.441 lecture notes"
+  - "Stanford EE376A course page"
+  - "Stanford EE376A lecture notes"
+  - "Stanford EE376A lecture 3"
+  - "Stanford EE377 bulletin"
+---
+
+## Role
+
+This is the second page of the `Information Theory` module.
+
+Its job is to move from one-distribution quantities to two-variable structure:
+
+- how much uncertainty remains after observing something else
+- how much information one variable carries about another
+- why post-processing cannot create information that was not already there
+
+These are the core objects behind dependence, representation quality, feature usefulness, and communication through noise.
+
+## First-Pass Promise
+
+Read this page after [Entropy, Cross-Entropy, and KL Divergence](entropy-cross-entropy-and-kl-divergence.qmd).
+
+If you stop here, you should still understand:
+
+- what conditional entropy measures
+- what mutual information measures
+- why mutual information is always nonnegative
+- why the data processing inequality is one of the most reusable ideas in the whole field
+
+## Why It Matters
+
+A large fraction of information-theory language is really about one question:
+
+`how much does observing Y tell us about X?`
+
+That question shows up in several disguises:
+
+- a sensor observing a hidden state
+- a noisy communication channel
+- a feature trying to predict a label
+- a representation trying to preserve useful structure
+- a statistic trying to compress data without throwing away too much
+
+At a first pass:
+
+- conditional entropy measures uncertainty left over after seeing another variable
+- mutual information measures uncertainty removed by that observation
+- data processing says that once information is lost through a channel or transformation, later post-processing cannot get it back
+
+Those three ideas are the load-bearing bridge from entropy and KL divergence to coding, capacity, lower bounds, and many ML applications.
+
+## Prerequisite Recall
+
+- entropy `H(X)` measures intrinsic uncertainty in a discrete random variable `X`
+- KL divergence compares two distributions and is always nonnegative
+- the joint distribution `P_{XY}` describes a pair `(X,Y)`
+- the marginals `P_X` and `P_Y` describe each variable separately
+- independence means `P_{XY}=P_XP_Y`
+
+## Intuition
+
+### Conditional Entropy Measures Remaining Uncertainty
+
+Suppose `Y` is a noisy observation of `X`.
+
+Before observing `Y`, your uncertainty about `X` is `H(X)`.
+
+After observing `Y`, some of that uncertainty may disappear.
+
+Conditional entropy `H(X|Y)` measures the uncertainty that remains on average after `Y` is revealed.
+
+### Mutual Information Measures Uncertainty Reduction
+
+The difference
+
+`H(X) - H(X|Y)`
+
+is the average reduction in uncertainty about `X` caused by seeing `Y`.
+
+That reduction is the mutual information `I(X;Y)`.
+
+So the clean first-pass interpretation is:
+
+`mutual information = how much knowing one variable helps with the other`
+
+### Mutual Information Also Measures Departure From Independence
+
+If `X` and `Y` are independent, then learning `Y` tells you nothing about `X`.
+
+So mutual information should be zero.
+
+In fact, mutual information is exactly the KL divergence between:
+
+- the true joint distribution `P_{XY}`
+- the product `P_XP_Y` that would hold under independence
+
+So mutual information is also a dependence measure.
+
+### Data Processing Says Information Cannot Increase Under Post-Processing
+
+If information flows through a chain
+
+`X -> Y -> Z`
+
+where `Z` is computed only from `Y`, then `Z` cannot contain more information about `X` than `Y` already did.
+
+So
+
+`I(X;Z) <= I(X;Y)`
+
+This is the data processing inequality.
+
+At a first pass, the right mental picture is:
+
+`post-processing may discard or rearrange information, but it cannot create new information about the original source`
+
+## Formal Core
+
+For this first pass, we stay with discrete random variables.
+
+::: {#def-conditional-entropy}
+## Definition: Conditional Entropy
+
+For discrete random variables `X` and `Y`, the conditional entropy of `X` given `Y` is
+
+$$
+H(X\mid Y)= -\sum_{x,y} p(x,y)\log p(x\mid y).
+$$
+:::
+
+::: {#def-mutual-information}
+## Definition: Mutual Information
+
+The mutual information between `X` and `Y` is
+
+$$
+I(X;Y)=H(X)-H(X\mid Y).
+$$
+
+By symmetry, it is also
+
+$$
+I(X;Y)=H(Y)-H(Y\mid X).
+$$
+:::
+
+::: {#thm-mi-kl}
+## Theorem Idea: Mutual Information Is KL Divergence From Independence
+
+For discrete random variables `X` and `Y`,
+
+$$
+I(X;Y)=D(P_{XY}\|P_XP_Y).
+$$
+:::
+
+This makes the nonnegativity of mutual information immediate from KL divergence.
+
+::: {#thm-mi-nonnegative}
+## Theorem Idea: Mutual Information Is Nonnegative
+
+For discrete random variables `X` and `Y`,
+
+$$
+I(X;Y)\ge 0,
+$$
+
+with equality if and only if `X` and `Y` are independent.
+:::
+
+::: {#thm-chain-rule-mi}
+## Theorem Idea: Chain Rule For Entropy
+
+For discrete random variables `X` and `Y`,
+
+$$
+H(X,Y)=H(Y)+H(X\mid Y)=H(X)+H(Y\mid X).
+$$
+:::
+
+This is the cleanest way to remember why conditional entropy and mutual information fit together.
+
+::: {#thm-dpi}
+## Theorem Idea: Data Processing Inequality
+
+If `X -> Y -> Z` forms a Markov chain, then
+
+$$
+I(X;Z)\le I(X;Y).
+$$
+:::
+
+At a first pass, treat this as the formal version of:
+
+`post-processing cannot increase information about the original source`
+
+## Worked Example
+
+Let `X` be a fair bit:
+
+$$
+P(X=0)=P(X=1)=1/2.
+$$
+
+Now let `Y` be a noisy copy of `X` that flips with probability `0.1`.
+
+So:
+
+- with probability `0.9`, `Y=X`
+- with probability `0.1`, `Y\neq X`
+
+Then:
+
+- `H(X)=1` bit because `X` is a fair bit
+- after observing `Y`, there is still some uncertainty because the channel is noisy
+- that remaining uncertainty is `H(X|Y)`
+- the mutual information is `I(X;Y)=H(X)-H(X|Y)`
+
+What matters at first pass is the qualitative picture:
+
+- if the flip probability were `0`, then `Y` would reveal `X` perfectly, so `H(X|Y)=0` and `I(X;Y)=1`
+- if the flip probability were `1/2`, then `Y` would be pure noise independent of `X`, so `H(X|Y)=H(X)=1` and `I(X;Y)=0`
+- the actual case `0.1` lies in between: `Y` is useful, but not perfect
+
+This is the basic communication and noisy-observation picture behind mutual information.
+
+## Computation Lens
+
+When you see mutual information or a data processing argument in a paper, ask:
+
+1. what is the source variable and what is the observation or representation?
+2. is the claim about uncertainty reduction, dependence, or both?
+3. is the proof using `I(X;Y)=H(X)-H(X|Y)` or using `I(X;Y)=D(P_{XY}\|P_XP_Y)`?
+4. where is the Markov chain or post-processing step?
+5. is the author bounding mutual information because exact computation is hard?
+
+Those questions usually reveal whether the argument is really about prediction, compression, communication, or lower bounds.
+
+## Application Lens
+
+### Communication Through Noise
+
+In a channel, `X` is the transmitted message and `Y` is the received observation.
+
+Mutual information measures how much of the original message survives the channel.
+
+### Feature Usefulness And Representation Learning
+
+If `Y` is a feature or representation derived from raw input `X`, then `I(X;Y)` measures how much information the representation keeps about the source.
+
+This does not solve representation learning by itself, but it explains why information quantities keep appearing in the literature.
+
+### Statistics And Lower Bounds
+
+In statistics and learning theory, data processing helps show that if the observed data carry only limited information about a hidden parameter, then no estimator can recover that parameter too accurately.
+
+This is one of the main bridges from basic information measures to minimax lower bounds.
+
+## Stop Here For First Pass
+
+If you stop here, retain these five ideas:
+
+- `H(X|Y)` is the uncertainty left after observing `Y`
+- `I(X;Y)` is the uncertainty reduction from observing `Y`
+- `I(X;Y)=D(P_{XY}\|P_XP_Y)`
+- mutual information is zero exactly at independence
+- data processing says post-processing cannot create information about the original source
+
+That is enough to read a surprising amount of later notation without getting lost.
+
+## Go Deeper
+
+The next natural step in this module is:
+
+- [Typicality, Source Coding, and Compression Intuition](typicality-source-coding-and-compression-intuition.qmd)
+
+The strongest adjacent live pages right now are:
+
+- [Information Theory](../index.qmd)
+- [Entropy, Cross-Entropy, and KL Divergence](entropy-cross-entropy-and-kl-divergence.qmd)
+- [Typicality, Source Coding, and Compression Intuition](typicality-source-coding-and-compression-intuition.qmd)
+- [Probability](../../../foundation/probability/index.qmd)
+- [Learning Theory](../../learning-theory/index.qmd)
+- [High-Dimensional Statistics](../../high-dimensional-statistics/index.qmd)
+
+## Optional Deeper Reading After First Pass
+
+If you want a stronger second pass on the same ideas, use:
+
+- [MIT 6.441 lecture notes](https://ocw.mit.edu/courses/6-441-information-theory-spring-2016/pages/lecture-notes/) for mutual information, conditional information, and the data processing viewpoint. Checked `2026-04-25`.
+- [Stanford EE376A lecture notes](https://web.stanford.edu/class/ee376a/files/lecture_notes.pdf) for a clean first-course treatment of entropy, mutual information, and coding ideas. Checked `2026-04-25`.
+- [Stanford EE376A lecture 3](https://web.stanford.edu/class/ee376a/files/lecture_3.pdf) for a compact official treatment of entropy, relative entropy, and mutual information. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [MIT 6.441 lecture notes](https://ocw.mit.edu/courses/6-441-information-theory-spring-2016/pages/lecture-notes/) - `First pass` - official lecture-note index with mutual information, conditional information, and strong data-processing topics. Checked `2026-04-25`.
+- [Stanford EE376A: Information Theory](https://web.stanford.edu/class/ee376a/) - `First pass` - official course page introducing entropy, mutual information, compression, and communication. Checked `2026-04-25`.
+- [Stanford EE376A lecture notes](https://web.stanford.edu/class/ee376a/files/lecture_notes.pdf) - `Second pass` - official notes for a full first course in information theory. Checked `2026-04-25`.
+- [Stanford EE376A lecture 3](https://web.stanford.edu/class/ee376a/files/lecture_3.pdf) - `Second pass` - official notes focused on entropy, relative entropy, and mutual information. Checked `2026-04-25`.
+- [Stanford EE377 bulletin](https://bulletin.stanford.edu/courses/2161992) - `Second pass` - official current description of information-theoretic methods meeting probability and statistics. Checked `2026-04-25`.

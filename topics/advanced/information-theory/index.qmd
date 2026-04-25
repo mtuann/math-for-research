@@ -1,0 +1,187 @@
+---
+title: "Information Theory"
+description: "Entropy, KL divergence, mutual information, coding, capacity, and information-theoretic lower bounds as the language of compression, communication, and modern ML/statistics."
+page-type: module-overview
+status: published
+update-status: current
+level: advanced
+topic: information-theory
+prerequisites:
+  - /topics/foundation/probability/index.qmd
+  - /topics/foundation/statistics/index.qmd
+learning-goals:
+  - "Understand why information theory measures uncertainty, mismatch, and communication limits in one language."
+  - "Know the intended first-pass order for the information-theory module."
+  - "Connect entropy, divergence, coding, and lower bounds to ML, statistics, and communication."
+applications:
+  - signal-and-communication
+  - machine-learning-theory
+  - research-reading
+keywords:
+  - information theory
+  - entropy
+  - KL divergence
+  - mutual information
+  - coding
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+stable-sources:
+  - "MIT 6.441 Information Theory"
+  - "Stanford EE376A Information Theory"
+  - "Stanford CS236 Deep Generative Models"
+  - "Stanford EE378C Information-theoretic Lower Bounds in Data Science"
+  - "Stanford EE377 Information Theory and Statistics"
+current-sources:
+  - "MIT 6.441 course page"
+  - "MIT 6.441 lecture notes"
+  - "Stanford EE376A course page"
+  - "Stanford EE376A lecture notes"
+  - "Stanford CS236 lecture 5"
+  - "Stanford EE378C course page"
+  - "Stanford EE377 bulletin"
+---
+
+## Why This Module Matters
+
+Information theory gives one language for several ideas that show up everywhere else on the site:
+
+- uncertainty
+- mismatch between models and reality
+- compression and representation
+- communication limits
+- lower bounds in statistics and learning
+
+That is why papers keep writing objects such as:
+
+- entropy
+- cross-entropy
+- KL divergence
+- mutual information
+- capacity
+- rate-distortion
+
+This module is where those objects stop being scattered formulas and become a connected theory.
+
+::: {.meta-strip}
+::: {.meta-box}
+**Prerequisites**
+[Probability](../../foundation/probability/index.qmd) should come first. [Statistics](../../foundation/statistics/index.qmd) helps because many modern uses of information theory appear through estimation, log-loss, variational objectives, and lower bounds.
+:::
+::: {.meta-box}
+**Unlocks**
+Compression, communication, variational objectives, information-theoretic lower bounds, representation tradeoffs
+:::
+::: {.meta-box}
+**Research Use**
+Reading papers in ML theory, statistics, communication, coding, variational inference, and information-limited learning
+:::
+:::
+
+## First Pass Through This Module
+
+The intended first-pass spine for this module is:
+
+1. [Entropy, Cross-Entropy, and KL Divergence](concepts/entropy-cross-entropy-and-kl-divergence.qmd)
+2. [Mutual Information, Conditional Entropy, and Data Processing](concepts/mutual-information-conditional-entropy-and-data-processing.qmd)
+3. [Typicality, Source Coding, and Compression Intuition](concepts/typicality-source-coding-and-compression-intuition.qmd)
+4. [Channel Coding, Capacity, and Converse Proofs](concepts/channel-coding-capacity-and-converse-proofs.qmd)
+5. [Rate-Distortion and Representation Tradeoffs](concepts/rate-distortion-and-representation-tradeoffs.qmd)
+6. [Variational Objectives, ELBO, and Information Bounds](concepts/variational-objectives-elbo-and-information-bounds.qmd)
+7. [Information-Theoretic Lower Bounds in Statistics, Learning, and Communication](concepts/information-theoretic-lower-bounds-in-statistics-learning-and-communication.qmd)
+
+The module now opens with seven live pages. Together they explain:
+
+- entropy as intrinsic uncertainty
+- cross-entropy as coding/log-loss under mismatch
+- KL divergence as mismatch penalty
+- conditional entropy as remaining uncertainty after observation
+- mutual information as uncertainty reduction and dependence
+- data processing as the rule that post-processing cannot create information
+- typicality as concentration on a structured high-probability set
+- source coding as the statement that entropy controls compression rate
+- channel capacity as the maximum reliable communication rate
+- converse proofs as the reason this limit is fundamental rather than merely constructive
+- rate-distortion as the fidelity-versus-compression tradeoff
+- representation tradeoffs as constrained information-retention problems
+- ELBO as a lower bound that makes latent-variable learning tractable
+- information bounds as the bridge from classical quantities to modern generative and bottleneck objectives
+- lower bounds as the capstone use of KL divergence, mutual information, and data processing for impossibility results
+
+## How To Use This Module
+
+For the current module state, the best path is:
+
+1. start with [Entropy, Cross-Entropy, and KL Divergence](concepts/entropy-cross-entropy-and-kl-divergence.qmd)
+2. continue to [Mutual Information, Conditional Entropy, and Data Processing](concepts/mutual-information-conditional-entropy-and-data-processing.qmd)
+3. then read [Typicality, Source Coding, and Compression Intuition](concepts/typicality-source-coding-and-compression-intuition.qmd)
+4. then read [Channel Coding, Capacity, and Converse Proofs](concepts/channel-coding-capacity-and-converse-proofs.qmd)
+5. then read [Rate-Distortion and Representation Tradeoffs](concepts/rate-distortion-and-representation-tradeoffs.qmd)
+6. then read [Variational Objectives, ELBO, and Information Bounds](concepts/variational-objectives-elbo-and-information-bounds.qmd)
+7. finish with [Information-Theoretic Lower Bounds in Statistics, Learning, and Communication](concepts/information-theoretic-lower-bounds-in-statistics-learning-and-communication.qmd)
+8. keep [Probability](../../foundation/probability/index.qmd) nearby whenever you want to re-ground the discrete-distribution language
+9. pair the pages with [Statistics](../../foundation/statistics/index.qmd) when log-loss, likelihood, or calibration language appears
+10. use [Learning Theory](../learning-theory/index.qmd), [High-Dimensional Statistics](../high-dimensional-statistics/index.qmd), and [Applications > Machine Learning](../../../applications/machine-learning/index.qmd) as nearby payoff zones
+
+The design goal is to make the basic information measures feel usable before and while the module branches into coding theorems, rate-distortion, variational objectives, and lower bounds.
+
+## Core Concepts
+
+- [Entropy, Cross-Entropy, and KL Divergence](concepts/entropy-cross-entropy-and-kl-divergence.qmd): the opening page that explains uncertainty, log-loss under mismatch, and the nonnegative gap measured by KL divergence.
+- [Mutual Information, Conditional Entropy, and Data Processing](concepts/mutual-information-conditional-entropy-and-data-processing.qmd): the second page that explains uncertainty reduction, dependence, and why information cannot increase under post-processing.
+- [Typicality, Source Coding, and Compression Intuition](concepts/typicality-source-coding-and-compression-intuition.qmd): the third page that explains why entropy predicts the effective size of the high-probability region and therefore the basic compression scale.
+- [Channel Coding, Capacity, and Converse Proofs](concepts/channel-coding-capacity-and-converse-proofs.qmd): the fourth page that explains reliable communication, capacity, and why converse proofs matter.
+- [Rate-Distortion and Representation Tradeoffs](concepts/rate-distortion-and-representation-tradeoffs.qmd): the fifth page that explains lossy compression and fidelity-constrained information retention.
+- [Variational Objectives, ELBO, and Information Bounds](concepts/variational-objectives-elbo-and-information-bounds.qmd): the sixth page that explains how KL and information bounds become tractable training objectives in modern generative ML.
+- [Information-Theoretic Lower Bounds in Statistics, Learning, and Communication](concepts/information-theoretic-lower-bounds-in-statistics-learning-and-communication.qmd): the capstone page that explains Fano, Le Cam, packing, and communication constraints as impossibility tools.
+
+## Module Status
+
+This first-pass spine is now complete.
+
+## Applications
+
+### Compression And Representation
+
+Entropy and rate-distortion are the natural language for what can be represented efficiently and what fidelity costs.
+
+### Communication And Reliability
+
+Channel capacity and coding theorems turn noisy communication into a precise limit question.
+
+### ML, Statistics, And Variational Objectives
+
+Cross-entropy, KL divergence, mutual information, and information-theoretic lower bounds keep appearing in modern ML and theory-facing statistics.
+
+## Go Deeper By Topic
+
+The strongest adjacent live pages right now are:
+
+- [Probability](../../foundation/probability/index.qmd)
+- [Statistics](../../foundation/statistics/index.qmd)
+- [Learning Theory](../learning-theory/index.qmd)
+- [High-Dimensional Statistics](../high-dimensional-statistics/index.qmd)
+- [Uncertainty Calibration and Predictive Confidence](../../../applications/machine-learning/uncertainty-calibration-and-predictive-confidence.qmd)
+
+## Optional Deeper Reading After First Pass
+
+The strongest current references connected to this module are:
+
+- [MIT 6.441: Information Theory](https://ocw.mit.edu/courses/6-441-information-theory-spring-2010/) - official course page for information measures, coding theorems, and communication limits. Checked `2026-04-25`.
+- [MIT 6.441 lecture notes](https://ocw.mit.edu/courses/6-441-information-theory-spring-2016/pages/lecture-notes/) - official lecture-note index covering entropy, divergence, mutual information, coding, and rate-distortion. Checked `2026-04-25`.
+- [Stanford EE376A: Information Theory](https://web.stanford.edu/class/ee376a/) - official course page introducing entropy, mutual information, compression, and communication with broad applications. Checked `2026-04-25`.
+- [Stanford EE376A lecture notes](https://web.stanford.edu/class/ee376a/files/lecture_notes.pdf) - official lecture notes for the full information-theory core. Checked `2026-04-25`.
+- [Stanford EE376A lecture 3](https://web.stanford.edu/class/ee376a/files/lecture_3.pdf) - official notes focused on entropy, relative entropy, and mutual information. Checked `2026-04-25`.
+- [Stanford EE377 bulletin](https://bulletin.stanford.edu/courses/2161992) - official current course description for information-theoretic methods in probability and statistics. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [MIT 6.441: Information Theory](https://ocw.mit.edu/courses/6-441-information-theory-spring-2010/) - `First pass` - official course page for the whole field structure and its canonical objects. Checked `2026-04-25`.
+- [MIT 6.441 lecture notes](https://ocw.mit.edu/courses/6-441-information-theory-spring-2016/pages/lecture-notes/) - `First pass` - official lecture-note index for entropy, divergence, coding, capacity, and rate-distortion. Checked `2026-04-25`.
+- [Stanford EE376A: Information Theory](https://web.stanford.edu/class/ee376a/) - `First pass` - official course page emphasizing information measures, compression, and communication. Checked `2026-04-25`.
+- [Stanford EE376A lecture notes](https://web.stanford.edu/class/ee376a/files/lecture_notes.pdf) - `Second pass` - official notes for a complete first course in information theory. Checked `2026-04-25`.
+- [Stanford EE376A lecture 3](https://web.stanford.edu/class/ee376a/files/lecture_3.pdf) - `Second pass` - official notes focused on entropy, relative entropy, and mutual information. Checked `2026-04-25`.
+- [Stanford EE377 bulletin](https://bulletin.stanford.edu/courses/2161992) - `Second pass` - official current description of information theory meeting modern statistics and lower bounds. Checked `2026-04-25`.

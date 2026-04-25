@@ -17,8 +17,8 @@ Use it to track:
 
 ## Current Snapshot
 
-- `217` `.qmd` pages currently exist
-- `96` concept-topic pages currently exist
+- `225` `.qmd` pages currently exist
+- `103` concept-topic pages currently exist
 - strongest subjects so far: `Linear Algebra`, `Probability`, `Proofs`, `Logic`, `Statistics`, `Single-Variable Calculus`, `Multivariable Calculus`, `Optimization`, `Real Analysis`
 - strongest public-facing bridge so far: `Applications > Machine Learning`
 - non-topic sections already scaffolded: `Start Here`, `Roadmaps`, `Applications`, `Paper Lab`, `Research`, `Publication`, `Library`, `Notes`
@@ -318,11 +318,14 @@ These are not required before the main spine is public, but they are the next hi
 
 ### Information Theory
 
-- [ ] `Entropy and mutual information`
-- [ ] `KL divergence and variational views`
-- [ ] `Source coding intuition`
-- [ ] `Channel coding intuition`
-- [ ] `Information-theoretic ML bridges`
+- [x] `Information Theory index`
+- [x] `Entropy, cross-entropy, and KL divergence`
+- [x] `Mutual information, conditional entropy, and data processing`
+- [x] `Typicality, source coding, and compression intuition`
+- [x] `Channel coding, capacity, and converse proofs`
+- [x] `Rate-distortion and representation tradeoffs`
+- [x] `Variational objectives, ELBO, and information bounds`
+- [x] `Information-theoretic lower bounds in statistics, learning, and communication`
 
 ### Control and Dynamics
 
