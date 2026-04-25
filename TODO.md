@@ -17,8 +17,8 @@ Use it to track:
 
 ## Current Snapshot
 
-- `164` `.qmd` pages currently exist
-- `50` concept-topic pages currently exist
+- `172` `.qmd` pages currently exist
+- `57` concept-topic pages currently exist
 - strongest subjects so far: `Linear Algebra`, `Probability`, `Proofs`, `Logic`, `Statistics`, `Single-Variable Calculus`, `Multivariable Calculus`, `Optimization`, `Real Analysis`
 - strongest public-facing bridge so far: `Applications > Machine Learning`
 - non-topic sections already scaffolded: `Start Here`, `Roadmaps`, `Applications`, `Paper Lab`, `Research`, `Publication`, `Library`, `Notes`
@@ -278,11 +278,14 @@ These are not required before the main spine is public, but they are the next hi
 
 ### Learning Theory
 
-- [ ] `ERM and hypothesis classes`
-- [ ] `PAC and VC dimension`
-- [ ] `Rademacher complexity`
-- [ ] `Algorithmic stability`
-- [ ] `Generalization in modern regimes`
+- [x] `Learning Theory index`
+- [x] `ERM, population risk, and hypothesis classes`
+- [x] `PAC learning, sample complexity, and the learning setup`
+- [x] `VC dimension and shattering`
+- [x] `Uniform convergence and generalization bounds`
+- [x] `Rademacher complexity and data-dependent capacity`
+- [x] `Algorithmic stability and regularization`
+- [x] `Generalization in modern regimes`
 
 ### High-Dimensional Probability
 

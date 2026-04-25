@@ -1,0 +1,340 @@
+---
+title: "ERM, Population Risk, and Hypothesis Classes"
+description: "How supervised learning becomes a theorem-level problem through data distributions, losses, hypothesis classes, empirical risk, and population risk."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: learning-theory
+prerequisites:
+  - /topics/foundation/probability/index.qmd
+  - /topics/foundation/statistics/index.qmd
+  - /topics/advanced/optimization/index.qmd
+learning-goals:
+  - "Explain the difference between empirical risk and population risk."
+  - "Understand what a hypothesis class is and why it matters for learning guarantees."
+  - "State empirical risk minimization as an optimization problem over a function class."
+  - "See why generalization begins with controlling the gap between sample performance and distribution performance."
+applications:
+  - machine-learning-theory
+  - generalization
+  - model-selection
+keywords:
+  - empirical risk minimization
+  - population risk
+  - hypothesis class
+  - generalization
+  - loss function
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/learning-theory/index.qmd
+  - /applications/machine-learning/supervised-learning-losses-and-empirical-risk.qmd
+  - /applications/machine-learning/generalization-overfitting-and-validation.qmd
+  - /applications/machine-learning/regularization-implicit-bias-and-model-complexity.qmd
+stable-sources:
+  - "Stanford STATS214 / CS229M Machine Learning Theory"
+  - "Stanford CS229T / STATS231 Statistical Learning Theory"
+  - "Berkeley CS281B / STAT241B Statistical Learning Theory"
+current-sources:
+  - "Stanford STATS214 course page"
+  - "Stanford CS229T notes PDF"
+  - "MIT 6.036 Introduction to Machine Learning"
+---
+
+## Role
+
+This is the first page of the `Learning Theory` module.
+
+Its job is to formalize the learning problem before the module starts proving guarantees.
+
+A lot of confusion in theory-heavy ML comes from mixing together:
+
+- the sample you observed
+- the distribution you actually care about
+- the loss you are minimizing
+- the function class you allowed yourself to search over
+
+This page separates those pieces cleanly.
+
+## First-Pass Promise
+
+Read this page first in the module.
+
+If you stop here, you should still understand:
+
+- what supervised learning is as a mathematical object
+- what a hypothesis class is
+- what empirical risk and population risk are
+- why ERM is the natural starting point for generalization theory
+- why low training error alone is not enough
+
+## Why It Matters
+
+Machine learning practice often starts with:
+
+1. choose a model family
+2. choose a loss
+3. fit on data
+4. evaluate on held-out data
+
+Learning theory asks what that process means mathematically.
+
+The central question is not:
+
+`did optimization reduce the training loss?`
+
+The central question is:
+
+`did the predictor we found achieve low risk under the data-generating distribution?`
+
+That one step forces the whole theory stack to appear:
+
+- probability because the sample is random
+- statistics because the loss estimates an unknown target quantity
+- optimization because ERM is an optimization problem
+- complexity theory of function classes because too much flexibility breaks naive guarantees
+
+## Prerequisite Recall
+
+- probability gives you a data-generating distribution and random samples
+- statistics already introduced estimators, validation, and the difference between sample quantities and population quantities
+- optimization already framed fitting as minimizing an objective over a feasible set
+
+## Intuition
+
+### The Data Comes From A Distribution
+
+In learning theory, examples are usually modeled as i.i.d. draws
+
+$$
+(X,Y) \sim P
+$$
+
+from an unknown distribution $P$ over inputs and labels.
+
+You do not directly optimize against $P$, because you do not know it. You only see a finite i.i.d. sample from it.
+
+### Hypothesis Class
+
+A `hypothesis class` is the family of predictors you allow yourself to choose from.
+
+Examples:
+
+- all threshold classifiers on the line
+- all linear classifiers in $\mathbb{R}^d$
+- all predictors representable by some neural-network architecture
+
+The class matters because learning is not just about one predictor. It is about selecting one predictor from a family using finite data.
+
+### Empirical Risk vs Population Risk
+
+The population risk is what you actually care about:
+
+$$
+R(h)=\mathbb{E}[\ell(h(X),Y)].
+$$
+
+The empirical risk is what you can compute from data:
+
+$$
+\widehat{R}_n(h)=\frac{1}{n}\sum_{i=1}^n \ell(h(X_i),Y_i).
+$$
+
+Learning theory begins by studying when minimizing $\widehat{R}_n(h)$ is a good proxy for minimizing $R(h)$.
+
+## Formal Core
+
+::: {#def-learning-problem}
+## Definition: Learning Problem
+
+Fix:
+
+- an input space $\mathcal{X}$
+- an output space $\mathcal{Y}$
+- a distribution $P$ on $\mathcal{X}\times\mathcal{Y}$
+- a loss function $\ell : \mathcal{Y}\times\mathcal{Y}\to\mathbb{R}_{\ge 0}$
+- a hypothesis class $\mathcal{H}$ of predictors $h : \mathcal{X}\to\mathcal{Y}$
+
+The goal is to find $h \in \mathcal{H}$ with low population risk
+
+$$
+R(h)=\mathbb{E}_{(X,Y)\sim P}[\ell(h(X),Y)].
+$$
+:::
+
+::: {#def-erm}
+## Definition: Empirical Risk Minimization
+
+Given an i.i.d. sample
+
+$$
+S=\{(X_1,Y_1),\dots,(X_n,Y_n)\},
+$$
+
+with
+
+$$
+((X_1,Y_1),\dots,(X_n,Y_n)) \sim P^n,
+$$
+
+the empirical risk of $h$ is
+
+$$
+\widehat{R}_n(h)=\frac{1}{n}\sum_{i=1}^n \ell(h(X_i),Y_i).
+$$
+
+When the minimum is attained, an `empirical risk minimizer` is any hypothesis $\hat{h}_n \in \mathcal{H}$ satisfying
+
+$$
+\hat{h}_n \in \arg\min_{h\in\mathcal{H}} \widehat{R}_n(h).
+$$
+
+When no exact minimizer exists, one typically works with the infimum or an approximate minimizer instead.
+:::
+
+This is the simplest mathematical model of `fit the model on the training sample`.
+
+::: {#def-best-in-class}
+## Definition: Best-In-Class Predictor
+
+When a minimizer exists, the population benchmark inside the class is
+
+$$
+h^\ast_{\mathcal{H}} \in \arg\min_{h\in\mathcal{H}} R(h).
+$$
+
+Even if $\mathcal{H}$ does not contain the true rule, this is the best predictor available inside the chosen class.
+
+When no minimizer exists, one instead compares to the infimum of $R(h)$ over $h \in \mathcal{H}$.
+:::
+
+The learning-theory problem is often to compare $\hat{h}_n$ with $h^\ast_{\mathcal{H}}$.
+
+## Worked Example
+
+Consider binary classification on the real line with threshold predictors
+
+$$
+h_t(x)=\mathbf{1}\{x\ge t\}.
+$$
+
+Here the hypothesis class is
+
+$$
+\mathcal{H}=\{h_t : t \in \mathbb{R}\}.
+$$
+
+Suppose the loss is zero-one loss:
+
+$$
+\ell(h(x),y)=\mathbf{1}\{h(x)\ne y\}.
+$$
+
+Then the population risk is
+
+$$
+R(h_t)=\mathbb{P}(h_t(X)\ne Y),
+$$
+
+which is the true classification error under the unknown distribution.
+
+From a sample
+
+$$
+S=\{(X_1,Y_1),\dots,(X_n,Y_n)\},
+$$
+
+the empirical risk is
+
+$$
+\widehat{R}_n(h_t)=\frac{1}{n}\sum_{i=1}^n \mathbf{1}\{h_t(X_i)\ne Y_i\},
+$$
+
+which is the training error.
+
+ERM chooses the threshold that minimizes the observed training error over all thresholds.
+
+This example already shows the central tension:
+
+- you can minimize training error exactly over the sample
+- but the real question is whether the chosen threshold also has low error under the distribution
+
+That gap between empirical and population performance is where generalization theory starts.
+
+## Computation Lens
+
+ERM is not only a theoretical definition. It is the abstract form behind many training procedures:
+
+- least squares minimizes empirical squared loss
+- logistic regression minimizes empirical log loss
+- SVM-style methods minimize empirical surrogate losses plus regularization
+- neural-network training usually minimizes empirical loss over a huge hypothesis class
+
+So learning theory does not replace optimization. It asks when optimization on data produces a predictor that is actually useful beyond that data.
+
+## Application Lens
+
+### Generalization
+
+This page gives the main vocabulary needed to understand generalization results:
+
+- sample
+- distribution
+- class
+- empirical risk
+- population risk
+
+Every later theorem is really a refinement of how those pieces relate.
+
+### Regularization And Model Class Design
+
+Regularization can be read as changing the effective search problem:
+
+- shrink the class
+- penalize complexity inside the class
+- trade training fit for better population behavior
+
+That is why model complexity and regularization naturally belong in the same theory conversation.
+
+### Modern ML
+
+In modern overparameterized ML, the class may be huge and the optimizer may find interpolating solutions. Learning theory then asks why the resulting predictor can still have low population risk.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- what a hypothesis class is
+- why empirical risk is different from population risk
+- why ERM is the clean first mathematical model of fitting
+- why low training error alone does not prove low test or population error
+
+then this page has done its first-pass job.
+
+## Go Deeper
+
+The next natural module step is:
+
+- [PAC Learning, Sample Complexity, and the Learning Setup](pac-learning-sample-complexity-and-the-learning-setup.qmd)
+
+For now, the best live next steps are:
+
+- [Generalization, Overfitting, and Validation](../../../../applications/machine-learning/generalization-overfitting-and-validation.qmd)
+- [Regularization, Implicit Bias, and Model Complexity](../../../../applications/machine-learning/regularization-implicit-bias-and-model-complexity.qmd)
+- [PAC Learning, Sample Complexity, and the Learning Setup](pac-learning-sample-complexity-and-the-learning-setup.qmd)
+- [Probability](../../../foundation/probability/index.qmd)
+- [Statistics](../../../foundation/statistics/index.qmd)
+- [Optimization](../../optimization/index.qmd)
+
+## Sources and Further Reading
+
+- [Stanford STATS214 / CS229M: Machine Learning Theory](https://web.stanford.edu/class/stats214/) - `First pass` - current official course page showing the modern theory arc from generalization to deep-learning theory. Checked `2026-04-25`.
+- [Stanford CS229T Notes](https://web.stanford.edu/class/cs229t/notes.pdf) - `First pass` - official notes that formalize the learning setup, ERM, and generalization questions very clearly. Checked `2026-04-25`.
+- [Stanford CS229T / STATS231: Statistical Learning Theory](https://web.stanford.edu/class/cs229t/) - `First pass` - official archived course page with a clean statistical learning theory backbone. Checked `2026-04-25`.
+- [MIT 6.036: Introduction to Machine Learning](https://ocw.mit.edu/courses/6-036-introduction-to-machine-learning-fall-2020/) - `Second pass` - official course page that gives a practical bridge from fitting objectives to learning-theory language. Checked `2026-04-25`.
+- [Berkeley CS281B / STAT241B: Statistical Learning Theory](https://www.stat.berkeley.edu/~bartlett/courses/2014spring-cs281bstat241b/) - `Second pass` - strong official course page for deeper statistical learning theory. Checked `2026-04-25`.

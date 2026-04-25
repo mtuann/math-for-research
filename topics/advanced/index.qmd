@@ -18,6 +18,7 @@ The advanced track is where the site moves into:
 
 - [Real Analysis](real-analysis/index.qmd)
 - [Optimization](optimization/index.qmd)
+- [Learning Theory](learning-theory/index.qmd)
 
 ## Real Analysis
 
@@ -45,10 +46,25 @@ This module is where the site makes limits, continuity, compactness, and theorem
 
 It is the natural bridge from the foundation stack into convexity, duality, certificates, first-order methods, and research-facing mathematical modeling.
 
+## Learning Theory
+
+[Learning Theory](learning-theory/index.qmd) is the current bridge from the site's math backbone into theorem-level ML guarantees.
+
+Its current live opening is:
+
+- [ERM, Population Risk, and Hypothesis Classes](learning-theory/concepts/erm-population-risk-and-hypothesis-classes.qmd)
+- [PAC Learning, Sample Complexity, and the Learning Setup](learning-theory/concepts/pac-learning-sample-complexity-and-the-learning-setup.qmd)
+- [VC Dimension and Shattering](learning-theory/concepts/vc-dimension-and-shattering.qmd)
+- [Uniform Convergence and Generalization Bounds](learning-theory/concepts/uniform-convergence-and-generalization-bounds.qmd)
+- [Rademacher Complexity and Data-Dependent Capacity](learning-theory/concepts/rademacher-complexity-and-data-dependent-capacity.qmd)
+- [Algorithmic Stability and Regularization](learning-theory/concepts/algorithmic-stability-and-regularization.qmd)
+- [Generalization in Modern Regimes](learning-theory/concepts/generalization-in-modern-regimes.qmd)
+
+This module is where the site turns empirical risk, population risk, hypothesis classes, and generalization into explicit mathematical objects.
+
 ## Planned Next Advanced Modules
 
 - `Numerical Methods`
 - `Matrix Analysis`
-- `Learning Theory`
 - `High-Dimensional Probability`
 - `High-Dimensional Statistics`

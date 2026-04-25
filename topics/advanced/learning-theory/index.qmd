@@ -1,0 +1,196 @@
+---
+title: "Learning Theory"
+description: "How learning problems become theorem-level objects through risk, hypothesis classes, sample complexity, capacity, and stability."
+page-type: module-overview
+status: published
+update-status: current
+level: advanced
+topic: learning-theory
+prerequisites:
+  - /topics/foundation/proofs/index.qmd
+  - /topics/foundation/logic/index.qmd
+  - /topics/foundation/probability/index.qmd
+  - /topics/foundation/statistics/index.qmd
+  - /topics/advanced/optimization/index.qmd
+learning-goals:
+  - "Understand why learning theory studies guarantees about risk, generalization, and sample complexity rather than just model performance."
+  - "Know the intended first-pass order for the learning-theory module."
+  - "Connect probability, statistics, optimization, and real analysis to the most common theory-facing ML claims."
+applications:
+  - machine-learning-theory
+  - generalization
+  - modern-ml
+keywords:
+  - learning theory
+  - ERM
+  - PAC learning
+  - VC dimension
+  - Rademacher complexity
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+stable-sources:
+  - "Stanford STATS214 / CS229M Machine Learning Theory"
+  - "Stanford CS229T / STATS231 Statistical Learning Theory"
+  - "Berkeley CS281B / STAT241B Statistical Learning Theory"
+current-sources:
+  - "Stanford STATS214 course page"
+  - "Stanford CS229T course page"
+  - "Stanford CS229T notes PDF"
+---
+
+## Why This Module Matters
+
+Learning theory is where machine learning stops being only a modeling toolkit and becomes a theorem-level subject.
+
+It asks questions like:
+
+- why should empirical success predict future success?
+- how many samples are enough?
+- what makes one hypothesis class more dangerous than another?
+- why do stability, regularization, or margins change generalization behavior?
+
+This module sits directly on top of the site's existing backbone:
+
+- probability provides concentration and randomness
+- statistics provides risk, estimation, and validation language
+- optimization explains empirical risk minimization and regularization
+- real analysis sharpens convergence, limits, and theorem reading
+
+Without learning theory, many ML papers still look like claims about error curves. With it, they become claims about function classes, probability, and guarantees.
+
+::: {.meta-strip}
+::: {.meta-box}
+**Prerequisites**
+[Probability](../../foundation/probability/index.qmd), [Statistics](../../foundation/statistics/index.qmd), and [Optimization](../optimization/index.qmd) should come first. [Proofs](../../foundation/proofs/index.qmd) and [Logic](../../foundation/logic/index.qmd) matter because nearly every guarantee is quantifier-heavy. [Real Analysis](../real-analysis/index.qmd) becomes more important once the module reaches stronger convergence and complexity arguments.
+:::
+::: {.meta-box}
+**Unlocks**
+Generalization bounds, sample complexity, stability arguments, modern capacity language, theory-facing ML papers
+:::
+::: {.meta-box}
+**Research Use**
+Reading papers that talk about hypothesis classes, complexity measures, excess risk, bounds, or modern interpolation-era generalization
+:::
+:::
+
+## First Pass Through This Module
+
+The intended first-pass spine for this module is:
+
+1. [ERM, Population Risk, and Hypothesis Classes](concepts/erm-population-risk-and-hypothesis-classes.qmd)
+2. [PAC Learning, Sample Complexity, and the Learning Setup](concepts/pac-learning-sample-complexity-and-the-learning-setup.qmd)
+3. [VC Dimension and Shattering](concepts/vc-dimension-and-shattering.qmd)
+4. [Uniform Convergence and Generalization Bounds](concepts/uniform-convergence-and-generalization-bounds.qmd)
+5. [Rademacher Complexity and Data-Dependent Capacity](concepts/rademacher-complexity-and-data-dependent-capacity.qmd)
+6. [Algorithmic Stability and Regularization](concepts/algorithmic-stability-and-regularization.qmd)
+7. [Generalization in Modern Regimes](concepts/generalization-in-modern-regimes.qmd)
+
+The current live opening is pages `1-7`, which completes the first-pass spine from the learning setup through classical guarantees, data-dependent capacity, stability, and finally the modern interpolation-era picture.
+
+## How To Use This Module
+
+Read the module in spine order.
+
+For now, that means:
+
+1. start with [ERM, Population Risk, and Hypothesis Classes](concepts/erm-population-risk-and-hypothesis-classes.qmd)
+2. continue to [PAC Learning, Sample Complexity, and the Learning Setup](concepts/pac-learning-sample-complexity-and-the-learning-setup.qmd)
+3. continue to [VC Dimension and Shattering](concepts/vc-dimension-and-shattering.qmd)
+4. continue to [Uniform Convergence and Generalization Bounds](concepts/uniform-convergence-and-generalization-bounds.qmd)
+5. continue to [Rademacher Complexity and Data-Dependent Capacity](concepts/rademacher-complexity-and-data-dependent-capacity.qmd)
+6. continue to [Algorithmic Stability and Regularization](concepts/algorithmic-stability-and-regularization.qmd)
+7. continue to [Generalization in Modern Regimes](concepts/generalization-in-modern-regimes.qmd)
+8. use nearby live pages in probability, statistics, optimization, and the ML applications section when a guarantee refers back to risk, regularization, or validation
+
+The module should stay short and proof-driven rather than turning into a survey of every ML theorem family.
+
+## Core Concepts
+
+- [ERM, Population Risk, and Hypothesis Classes](concepts/erm-population-risk-and-hypothesis-classes.qmd): the foundational page that turns supervised learning into a theorem-ready problem statement.
+- [PAC Learning, Sample Complexity, and the Learning Setup](concepts/pac-learning-sample-complexity-and-the-learning-setup.qmd): the page that formalizes what it means to learn reliably from finite data.
+- [VC Dimension and Shattering](concepts/vc-dimension-and-shattering.qmd): the classic capacity language for binary classes and sample complexity.
+- [Uniform Convergence and Generalization Bounds](concepts/uniform-convergence-and-generalization-bounds.qmd): the first major bridge from concentration and capacity control to ERM generalization guarantees.
+- [Rademacher Complexity and Data-Dependent Capacity](concepts/rademacher-complexity-and-data-dependent-capacity.qmd): the page where capacity becomes more adaptive and data-aware.
+- [Algorithmic Stability and Regularization](concepts/algorithmic-stability-and-regularization.qmd): the alternative route to generalization through sensitivity of the learning procedure.
+- [Generalization in Modern Regimes](concepts/generalization-in-modern-regimes.qmd): the bridge from classical theory to interpolation, implicit bias, and current research language.
+
+## Proof Patterns In This Module
+
+- `Empirical-to-population comparison`: control the gap between what was observed on the sample and what happens under the data distribution.
+- `Capacity controls uniformity`: the richer the class, the harder it is to guarantee that one sample represents all hypotheses well.
+- `Stability as robustness`: if small data changes do not move the output much, generalization can follow without the same capacity route.
+
+## Applications
+
+### Why Models Generalize
+
+This is the main public-facing question the module answers. It explains why training error alone is never the full story, and why guarantees usually mention class size, complexity, margins, stability, or data assumptions.
+
+### Modern ML Theory
+
+The module is also the cleanest bridge into papers about implicit bias, overparameterization, margin-based analysis, data-dependent complexity, and interpolation-era generalization.
+
+## Go Deeper By Topic
+
+The current live starting points are:
+
+1. [ERM, Population Risk, and Hypothesis Classes](concepts/erm-population-risk-and-hypothesis-classes.qmd)
+2. [PAC Learning, Sample Complexity, and the Learning Setup](concepts/pac-learning-sample-complexity-and-the-learning-setup.qmd)
+3. [VC Dimension and Shattering](concepts/vc-dimension-and-shattering.qmd)
+4. [Uniform Convergence and Generalization Bounds](concepts/uniform-convergence-and-generalization-bounds.qmd)
+5. [Rademacher Complexity and Data-Dependent Capacity](concepts/rademacher-complexity-and-data-dependent-capacity.qmd)
+6. [Algorithmic Stability and Regularization](concepts/algorithmic-stability-and-regularization.qmd)
+7. [Generalization in Modern Regimes](concepts/generalization-in-modern-regimes.qmd)
+
+The strongest adjacent live pages right now are:
+
+- [Generalization, Overfitting, and Validation](../../../applications/machine-learning/generalization-overfitting-and-validation.qmd)
+- [Regularization, Implicit Bias, and Model Complexity](../../../applications/machine-learning/regularization-implicit-bias-and-model-complexity.qmd)
+- [Probability](../../foundation/probability/index.qmd)
+- [Statistics](../../foundation/statistics/index.qmd)
+- [Optimization](../optimization/index.qmd)
+- [Real Analysis](../real-analysis/index.qmd)
+
+## Optional Deeper Reading After First Pass
+
+The strongest current references connected to this module are:
+
+- [Stanford STATS214 / CS229M: Machine Learning Theory](https://web.stanford.edu/class/stats214/) - official current course page describing the modern learning-theory arc, including uniform convergence and deep-learning theory. Checked `2026-04-25`.
+- [Stanford CS229T / STATS231: Statistical Learning Theory](https://web.stanford.edu/class/cs229t/) - official archived theory course page that still gives a clean classical spine. Checked `2026-04-25`.
+- [Stanford CS229T Notes](https://web.stanford.edu/class/cs229t/notes.pdf) - detailed official notes with ERM, generalization, VC, and complexity tools. Checked `2026-04-25`.
+- [Berkeley CS281B / STAT241B: Statistical Learning Theory](https://www.stat.berkeley.edu/~bartlett/courses/2014spring-cs281bstat241b/) - strong official second-pass course reference from Peter Bartlett. Checked `2026-04-25`.
+
+## Study Order
+
+For the current module state, read:
+
+1. [ERM, Population Risk, and Hypothesis Classes](concepts/erm-population-risk-and-hypothesis-classes.qmd)
+2. [PAC Learning, Sample Complexity, and the Learning Setup](concepts/pac-learning-sample-complexity-and-the-learning-setup.qmd)
+3. [VC Dimension and Shattering](concepts/vc-dimension-and-shattering.qmd)
+4. [Uniform Convergence and Generalization Bounds](concepts/uniform-convergence-and-generalization-bounds.qmd)
+5. [Rademacher Complexity and Data-Dependent Capacity](concepts/rademacher-complexity-and-data-dependent-capacity.qmd)
+6. [Algorithmic Stability and Regularization](concepts/algorithmic-stability-and-regularization.qmd)
+7. [Generalization in Modern Regimes](concepts/generalization-in-modern-regimes.qmd)
+
+before trying to read capacity or generalization-bound papers cold.
+
+You are ready to move deeper into the module when you can:
+
+- distinguish empirical risk from population risk without hand-waving
+- explain what a PAC statement is trying to guarantee
+- explain what it means for a class to shatter a set
+- explain why ERM needs simultaneous control over the whole class rather than one fixed hypothesis
+- explain what a hypothesis class is and why its size or richness matters
+- state why minimizing training error alone is not the same as learning
+- describe the learning problem in terms of data distribution, loss, predictor class, and target risk
+
+## Sources and Further Reading
+
+- [Stanford STATS214 / CS229M: Machine Learning Theory](https://web.stanford.edu/class/stats214/) - `First pass` - current official course page for a modern learning-theory path. Checked `2026-04-25`.
+- [Stanford CS229T / STATS231: Statistical Learning Theory](https://web.stanford.edu/class/cs229t/) - `First pass` - official archived course page with a clean theoretical backbone. Checked `2026-04-25`.
+- [Stanford CS229T Notes](https://web.stanford.edu/class/cs229t/notes.pdf) - `First pass` - detailed official notes that make the formal learning setup and generalization tools concrete. Checked `2026-04-25`.
+- [Berkeley CS281B / STAT241B: Statistical Learning Theory](https://www.stat.berkeley.edu/~bartlett/courses/2014spring-cs281bstat241b/) - `Second pass` - strong official course page for a deeper statistical-learning-theory route. Checked `2026-04-25`.

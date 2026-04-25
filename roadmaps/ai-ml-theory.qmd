@@ -63,12 +63,12 @@ Use this as the default order.
 7. [Multivariable Calculus](../topics/foundation/multivariable-calculus/index.qmd)
 8. [Optimization](../topics/advanced/optimization/index.qmd)
 9. [Real Analysis](../topics/advanced/real-analysis/index.qmd)
-10. `Matrix Analysis`
-11. `Learning Theory`
+10. [Learning Theory](../topics/advanced/learning-theory/index.qmd)
+11. `Matrix Analysis`
 12. `High-Dimensional Probability`
 13. `High-Dimensional Statistics`
 
-The first nine stages are already live on the site. They are enough to begin reading the cleaner end of ML-facing math pages right now.
+The first ten stages are already live on the site. That is already enough to begin reading the cleaner end of ML-facing math pages right now.
 
 ## Why This Order Works
 
@@ -257,11 +257,11 @@ A good current sequence is:
 
 ## Common Next Theory Directions
 
-After the current foundations, calculus bridge, and optimization path, the next big theory modules with the best payoff are:
+After the current foundations, calculus bridge, optimization path, and opening learning-theory route, the next big theory modules with the best payoff are:
 
-- `Real Analysis`
-- `Learning Theory`
+- `Matrix Analysis`
 - `High-Dimensional Probability`
+- `High-Dimensional Statistics`
 
 ## Sources and Further Reading
 

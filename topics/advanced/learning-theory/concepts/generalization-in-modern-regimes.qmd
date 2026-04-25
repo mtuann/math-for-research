@@ -1,0 +1,304 @@
+---
+title: "Generalization in Modern Regimes"
+description: "How interpolation, overparameterization, implicit bias, and data geometry changed the way learning theory talks about generalization."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: learning-theory
+prerequisites:
+  - /topics/advanced/learning-theory/concepts/algorithmic-stability-and-regularization.qmd
+  - /topics/advanced/optimization/index.qmd
+  - /topics/advanced/real-analysis/index.qmd
+learning-goals:
+  - "Explain why modern generalization questions are not captured by a single classical theorem."
+  - "Understand the first-pass meanings of interpolation, overparameterization, double descent, benign overfitting, and implicit bias."
+  - "See how optimization, geometry, and data structure now interact with generalization theory."
+  - "Recognize why classical tools still matter even when modern regimes look different from the classical finite-capacity picture."
+applications:
+  - machine-learning-theory
+  - generalization
+  - deep-learning-theory
+keywords:
+  - interpolation
+  - double descent
+  - benign overfitting
+  - implicit bias
+  - overparameterization
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/learning-theory/index.qmd
+  - /topics/advanced/learning-theory/concepts/algorithmic-stability-and-regularization.qmd
+  - /applications/machine-learning/regularization-implicit-bias-and-model-complexity.qmd
+  - /applications/machine-learning/generalization-overfitting-and-validation.qmd
+  - /applications/machine-learning/in-context-learning-and-linearization.qmd
+stable-sources:
+  - "Stanford STATS214 / CS229M Machine Learning Theory"
+  - "Stanford CS229T / STATS231 Statistical Learning Theory"
+  - "Belkin et al., PNAS 2020 benign overfitting in linear regression"
+current-sources:
+  - "Stanford STATS214 course page"
+  - "Stanford CS229T notes PDF"
+  - "JMLR 2023 The Implicit Bias of Benign Overfitting"
+  - "PMLR 2020 Double Trouble in Double Descent"
+---
+
+## Role
+
+This is the seventh page of the `Learning Theory` module.
+
+The earlier pages built the classical first-pass spine:
+
+- ERM and risk
+- PAC language
+- VC and Rademacher capacity
+- stability and regularization
+
+This page explains what changed when modern ML started routinely operating in regimes with:
+
+- zero or near-zero training error
+- many more parameters than samples
+- strong optimization effects
+- generalization behavior that classical worst-case stories do not fully explain by themselves
+
+## First-Pass Promise
+
+Read this page after `Algorithmic Stability and Regularization`.
+
+If you stop here, you should still understand:
+
+- what people mean by `modern regimes`
+- why interpolation and overparameterization became central
+- what `double descent`, `benign overfitting`, and `implicit bias` are trying to explain
+- why the modern picture uses classical theory as a base, but not as the whole story
+
+## Why It Matters
+
+Classical learning theory often studies the question:
+
+`how can a not-too-rich class generalize from finite data?`
+
+Modern practice created a sharper puzzle:
+
+`how can highly overparameterized models fit the training data almost perfectly and still predict well?`
+
+That question pushed theory toward:
+
+- interpolation instead of small training error
+- optimizer-dependent bias instead of class capacity alone
+- data geometry and effective dimension instead of raw parameter count
+- phenomena like `double descent` and `benign overfitting`
+
+This page is not about replacing classical theory. It is about seeing how the conversation widened.
+
+## Prerequisite Recall
+
+- ERM chooses a predictor from data
+- VC/Rademacher bounds control richness of classes
+- stability studies sensitivity of the learning procedure
+- optimization can create implicit preferences even without explicit penalties
+- regularization can be explicit or algorithmic
+
+## Intuition
+
+### Interpolation
+
+In many modern settings, the learned model fits the training data almost exactly:
+
+$$
+\widehat R_n(\hat h)\approx 0.
+$$
+
+Classically, this would sound dangerous, especially under noise.
+
+Yet in overparameterized models, perfect or near-perfect fitting can still coexist with respectable test performance.
+
+### Overparameterization
+
+Having more parameters than samples does not automatically imply bad generalization.
+
+What matters more is often:
+
+- which solution among many interpolating ones is selected
+- how the data are distributed in feature space
+- what geometry or norm the optimizer implicitly favors
+
+### No Single Modern Theorem
+
+The modern-regimes picture is not one theorem replacing VC theory.
+
+It is a cluster of ideas:
+
+- `double descent`: test error can rise near interpolation and then fall again
+- `benign overfitting`: exact fitting of noisy data can still generalize well
+- `implicit bias`: optimization selects special solutions among many possibilities
+- `effective complexity`: parameter count alone is too crude
+
+## Formal Core
+
+This page stays deliberately first-pass and language-level rather than turning into a catalog of sharp modern theorems.
+
+::: {#def-interpolation}
+## Definition: Interpolation
+
+A learning procedure `interpolates` the training data if it achieves essentially zero training error, often exactly
+
+$$
+\widehat R_n(\hat h)=0
+$$
+
+in the chosen loss.
+:::
+
+::: {#def-double-descent}
+## Definition: Double Descent
+
+`Double descent` refers to the phenomenon that test error can follow a curve with:
+
+1. an initial classical descent as model size grows
+2. a peak near the interpolation threshold
+3. a second descent in more overparameterized regimes
+:::
+
+::: {#def-benign-overfitting}
+## Definition: Benign Overfitting
+
+`Benign overfitting` means that a model can fit noisy training data exactly or nearly exactly while still achieving low test error.
+:::
+
+::: {#def-implicit-bias}
+## Definition: Implicit Bias
+
+`Implicit bias` is the preference induced by the optimization method itself, even when no explicit regularizer is written into the objective.
+:::
+
+::: {#thm-modern-picture}
+## Theorem-Level Message
+
+The first-pass modern lesson is not a single universal bound. It is that generalization can depend on an interaction among:
+
+- the hypothesis class
+- the data distribution
+- the optimization procedure
+- the specific interpolating or near-interpolating solution selected
+
+So the right explanatory object is often more refined than parameter count alone.
+:::
+
+## Worked Example
+
+Consider overparameterized linear regression with more parameters than samples.
+
+There are often infinitely many vectors $w$ that interpolate the training data:
+
+$$
+Xw = y.
+$$
+
+So the real question is not just:
+
+`does interpolation happen?`
+
+but rather:
+
+`which interpolating solution is chosen?`
+
+Gradient descent started from zero tends to select the minimum-norm interpolating solution. In some data regimes, that selected solution can still predict well on fresh data.
+
+That simple example already shows the modern shift:
+
+- the hypothesis space is huge
+- exact fitting is possible
+- the optimizer chooses one special solution
+- generalization depends on that solution's geometry and the data covariance, not just on raw model size
+
+This is the kind of story behind many modern-regime results.
+
+## Computation Lens
+
+Modern regimes force theory to pay attention to the training algorithm itself.
+
+The questions become:
+
+- what solution does gradient descent find?
+- how do initialization and step size matter?
+- what norm, margin, or geometry is implicitly favored?
+- what happens once interpolation is reached?
+
+This is why modern generalization theory often sits at the intersection of:
+
+- optimization
+- probability
+- linear algebra
+- classical statistical learning theory
+
+## Application Lens
+
+### Double Descent
+
+Double descent changed the public story around capacity. It showed that test error can behave non-monotonically across the interpolation threshold, so the old “bigger model means worse generalization” slogan is too crude.
+
+### Benign Overfitting
+
+Benign overfitting tells us that fitting noisy data is not automatically catastrophic. Whether it is harmful depends on the selected interpolating solution and the data geometry.
+
+### Implicit Bias
+
+Implicit bias explains why optimization is not just a computational detail. The optimizer can act like a hidden regularizer.
+
+### Reading Modern Theory Papers
+
+When a paper in this area claims a generalization result, good first questions are:
+
+- what exactly is overparameterized?
+- what is interpolating?
+- what solution does the algorithm converge to?
+- what notion of effective complexity replaces raw parameter count?
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- why modern regimes created a new generalization puzzle
+- what `double descent`, `benign overfitting`, and `implicit bias` are trying to capture
+- why parameter count alone is often too crude
+- why optimization and data geometry now sit inside the generalization story
+
+then this page has done its job.
+
+## Go Deeper
+
+After this page, the next natural directions are:
+
+- [Research: Directions](../../../../research/directions.qmd)
+- [AI / ML Theory Roadmap](../../../../roadmaps/ai-ml-theory.qmd)
+
+The current best adjacent live pages are:
+
+- [Algorithmic Stability and Regularization](algorithmic-stability-and-regularization.qmd)
+- [Regularization, Implicit Bias, and Model Complexity](../../../../applications/machine-learning/regularization-implicit-bias-and-model-complexity.qmd)
+- [Optimization for Machine Learning](../../../../applications/machine-learning/optimization-for-machine-learning.qmd)
+- [In-Context Learning and Linearization](../../../../applications/machine-learning/in-context-learning-and-linearization.qmd)
+
+## Optional Deeper Reading After First Pass
+
+The strongest current references connected to this page are:
+
+- [Stanford STATS214 / CS229M: Machine Learning Theory](https://web.stanford.edu/class/stats214/) - current official course page explicitly placing deep-learning theory and modern generalization inside the theory curriculum. Checked `2026-04-25`.
+- [Stanford CS229T Notes](https://web.stanford.edu/class/cs229t/notes.pdf) - official notes giving the classical baseline that modern-regime papers extend, challenge, or refine. Checked `2026-04-25`.
+- [Benign Overfitting in Linear Regression (PNAS / PMC)](https://pmc.ncbi.nlm.nih.gov/articles/PMC7720150/) - classic primary-source entry into the benign-overfitting literature. Checked `2026-04-25`.
+- [The Implicit Bias of Benign Overfitting (JMLR 2023)](https://www.jmlr.org/papers/v24/22-0784.html) - modern primary-source reference on when benign overfitting can or cannot arise. Checked `2026-04-25`.
+- [Double Trouble in Double Descent (PMLR 2020)](https://proceedings.mlr.press/v119/d-ascoli20a.html) - paper-bridge source for the geometry behind double-descent behavior. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [Stanford STATS214 / CS229M: Machine Learning Theory](https://web.stanford.edu/class/stats214/) - `First pass` - current official course page for the modern theory arc. Checked `2026-04-25`.
+- [Stanford CS229T Notes](https://web.stanford.edu/class/cs229t/notes.pdf) - `First pass` - official notes for the classical baseline that modern-regime theory builds on. Checked `2026-04-25`.
+- [Benign Overfitting in Linear Regression (PNAS / PMC)](https://pmc.ncbi.nlm.nih.gov/articles/PMC7720150/) - `Second pass` - primary-source entry into interpolation-era theory. Checked `2026-04-25`.
+- [The Implicit Bias of Benign Overfitting (JMLR 2023)](https://www.jmlr.org/papers/v24/22-0784.html) - `Second pass` - modern paper on the interplay between benign overfitting and algorithmic bias. Checked `2026-04-25`.
+- [Double Trouble in Double Descent (PMLR 2020)](https://proceedings.mlr.press/v119/d-ascoli20a.html) - `Paper bridge` - useful bridge source for the modern double-descent conversation. Checked `2026-04-25`.

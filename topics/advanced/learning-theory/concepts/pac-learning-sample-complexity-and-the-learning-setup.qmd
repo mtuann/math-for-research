@@ -1,0 +1,304 @@
+---
+title: "PAC Learning, Sample Complexity, and the Learning Setup"
+description: "How learning guarantees turn into probability statements with accuracy, confidence, and finite-sample requirements."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: learning-theory
+prerequisites:
+  - /topics/advanced/learning-theory/concepts/erm-population-risk-and-hypothesis-classes.qmd
+  - /topics/foundation/probability/index.qmd
+  - /topics/foundation/statistics/index.qmd
+learning-goals:
+  - "Explain the PAC viewpoint in terms of accuracy, confidence, and randomness over the training sample."
+  - "Understand what sample complexity is measuring."
+  - "See the difference between realizable and agnostic learning setups at a first-pass level."
+  - "Use a simple finite-class bound to understand why sample complexity scales with class size and confidence."
+applications:
+  - machine-learning-theory
+  - generalization
+  - sample-complexity
+keywords:
+  - PAC learning
+  - sample complexity
+  - realizable case
+  - agnostic learning
+  - confidence
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/learning-theory/index.qmd
+  - /topics/advanced/learning-theory/concepts/erm-population-risk-and-hypothesis-classes.qmd
+  - /applications/machine-learning/generalization-overfitting-and-validation.qmd
+  - /paper-lab/theorem-decoder.qmd
+stable-sources:
+  - "Stanford STATS214 / CS229M Machine Learning Theory"
+  - "Stanford CS229T / STATS231 Statistical Learning Theory"
+  - "Berkeley CS281B / STAT241B Statistical Learning Theory"
+current-sources:
+  - "Stanford STATS214 course page"
+  - "Stanford CS229T notes PDF"
+  - "Berkeley CS281B / STAT241B Statistical Learning Theory course page"
+---
+
+## Role
+
+This is the second page of the `Learning Theory` module.
+
+The first page defined the learning problem through data distributions, losses, empirical risk, and hypothesis classes.
+
+This page asks the next natural question:
+
+`what does it mean to learn reliably from finitely many samples?`
+
+That is the job of the PAC viewpoint and the language of sample complexity.
+
+## First-Pass Promise
+
+Read this page after `ERM, Population Risk, and Hypothesis Classes`.
+
+If you stop here, you should still understand:
+
+- what `probably approximately correct` is trying to formalize
+- what sample complexity measures
+- why $\varepsilon$ and $\delta$ are the two main knobs in many learning guarantees
+- why finite-sample guarantees depend on both the class and the learning setup
+
+## Why It Matters
+
+Learning theory is not satisfied with saying:
+
+`this method often works in practice`
+
+It wants a statement of the form:
+
+`with high probability over the training sample, the learned predictor has small population error`
+
+That sentence has three important pieces:
+
+- `small error`: the approximation target
+- `high probability`: the confidence level
+- `over the training sample`: the source of randomness in the guarantee
+
+PAC learning packages those pieces into a clean framework.
+
+This matters because once you understand PAC language, many theorem statements in ML become much less intimidating. They are often variations on the same core question:
+
+`how many samples are enough to guarantee good out-of-sample performance?`
+
+## Prerequisite Recall
+
+- empirical risk lives on the observed sample
+- population risk lives under the unknown data distribution
+- the training sample is usually modeled as i.i.d.
+- ERM chooses a predictor by minimizing empirical risk over a class
+
+## Intuition
+
+### The Two Guarantee Knobs
+
+PAC-style guarantees are built around two parameters:
+
+- $\varepsilon$: how accurate you want the predictor to be
+- $\delta$: how much failure probability you are willing to tolerate
+
+Smaller $\varepsilon$ means a tighter accuracy target.
+Smaller $\delta$ means a stronger confidence demand.
+
+Both usually require more data.
+
+### Sample Complexity
+
+The `sample complexity` asks:
+
+`how large must n be so that learning succeeds at accuracy ε and confidence 1−δ?`
+
+It is not one universal number. It depends on:
+
+- the hypothesis class
+- the loss/setup
+- the algorithm
+- whether the world is realizable or agnostic
+
+### Realizable vs Agnostic
+
+In the `realizable` setting, you assume the class contains a perfect predictor for the task.
+
+In the `agnostic` setting, you do not. Then the goal is to compete with the best predictor in the class, not with perfection.
+
+This distinction is one of the first big forks in learning theory.
+
+## Formal Core
+
+To keep the first pass concrete, the formal statements below specialize to `binary classification with zero-one loss`. That is the cleanest setting for first learning the PAC language.
+
+::: {#def-pac}
+## Definition Idea: PAC Guarantee In The Realizable Setting
+
+A learner is `probably approximately correct` in the realizable setting if, for every distribution $P$ that is realizable by the class $\mathcal{H}$, it returns a predictor $\hat h$ such that with probability at least $1-\delta$ over the i.i.d. training sample,
+
+$$
+R(\hat h)\le \varepsilon,
+$$
+
+once the sample size is large enough.
+:::
+
+Here:
+
+- `probably` refers to confidence at least $1-\delta$
+- `approximately correct` refers to error at most $\varepsilon$
+- the randomness is over the training sample
+
+::: {#def-agnostic-target}
+## Agnostic Comparison Target
+
+In the agnostic setting, perfection is not assumed.
+
+Instead, the usual target is to return a predictor $\hat h$ such that, with high probability,
+
+$$
+R(\hat h)\le \inf_{h\in\mathcal H}R(h) + \varepsilon.
+$$
+
+So the learner competes with the best predictor available inside the class, up to an additive tolerance $\varepsilon$.
+:::
+
+::: {#def-sample-complexity}
+## Definition: Sample Complexity
+
+The `sample complexity` is the number of training examples needed so that the PAC-style guarantee holds for chosen values of $\varepsilon$ and $\delta$.
+:::
+
+So sample complexity is the first formal answer to:
+
+`how much data do I need?`
+
+::: {#def-realizable-agnostic}
+## Realizable vs Agnostic Setup
+
+- `Realizable`: in binary classification with zero-one loss, there exists some $h \in \mathcal{H}$ with zero population classification error.
+- `Agnostic`: no perfect hypothesis is assumed; the goal is to compete with the best predictor in $\mathcal{H}$.
+:::
+
+::: {#thm-finite-class}
+## Theorem Idea: Finite-Class Sample Complexity
+
+For a finite hypothesis class $\mathcal{H}$ in realizable binary classification with zero-one loss, ERM succeeds once the sample size is on the order of
+
+$$
+\frac{\log |\mathcal{H}| + \log(1/\delta)}{\varepsilon}.
+$$
+
+This theorem says that:
+
+- larger classes need more data
+- stronger confidence needs more data
+- tighter error tolerance needs more data
+:::
+
+The exact constants are less important on a first pass than the structural dependence.
+
+## Worked Example
+
+Suppose your hypothesis class contains only four candidate classifiers:
+
+$$
+\mathcal{H}=\{h_1,h_2,h_3,h_4\}.
+$$
+
+Assume the realizable setting: one of these classifiers has zero population error.
+
+Then a standard finite-class PAC bound says that ERM needs roughly
+
+$$
+n \gtrsim \frac{\log |\mathcal{H}| + \log(1/\delta)}{\varepsilon}
+$$
+
+samples.
+
+Since $|\mathcal{H}|=4$,
+
+$$
+\log |\mathcal{H}| = \log 4,
+$$
+
+so the dependence on class size is mild here.
+
+But if the class had size $4{,}000{,}000$, then $\log |\mathcal{H}|$ would be much larger, and the needed sample size would increase accordingly.
+
+The qualitative lesson is more important than the exact arithmetic:
+
+- a richer class gives you more expressive power
+- but that expressive power costs sample complexity
+
+This is the first clean form of the bias-complexity tension that later pages make sharper.
+
+## Computation Lens
+
+PAC theory separates two questions that practice often mixes together:
+
+1. can we optimize the training objective?
+2. if we can, should we expect the learned predictor to generalize?
+
+Optimization answers the first question.
+Learning theory answers the second.
+
+That is why a model can be easy to fit and still hard to justify statistically.
+
+## Application Lens
+
+### Generalization And Data Requirements
+
+PAC language is the cleanest first answer to:
+
+- how much data is enough?
+- how should confidence be reported?
+- why does a richer class demand stronger evidence?
+
+### Model Selection
+
+When practitioners say that a model class is `too flexible`, PAC/sample-complexity language is one of the first formal ways to explain what that means.
+
+### Modern ML
+
+Modern deep learning often stretches or escapes classical PAC intuitions, but the PAC framework is still one of the main starting points for understanding what later theory is trying to revise, refine, or replace.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- what `probably` and `approximately` refer to in a PAC statement
+- what sample complexity is measuring
+- why $\varepsilon$ and $\delta$ both matter
+- why finite-class guarantees get worse as the class gets larger
+- why realizable and agnostic settings are not the same problem
+
+then this page has done its first-pass job.
+
+## Go Deeper
+
+The next natural module step is:
+
+- [VC Dimension and Shattering](vc-dimension-and-shattering.qmd)
+
+For now, the best live next steps are:
+
+- [ERM, Population Risk, and Hypothesis Classes](erm-population-risk-and-hypothesis-classes.qmd)
+- [VC Dimension and Shattering](vc-dimension-and-shattering.qmd)
+- [Probability](../../../foundation/probability/index.qmd)
+- [Statistics](../../../foundation/statistics/index.qmd)
+- [Generalization, Overfitting, and Validation](../../../../applications/machine-learning/generalization-overfitting-and-validation.qmd)
+- [Theorem Decoder](../../../../paper-lab/theorem-decoder.qmd)
+
+## Sources and Further Reading
+
+- [Stanford STATS214 / CS229M: Machine Learning Theory](https://web.stanford.edu/class/stats214/) - `First pass` - current official theory course page that frames generalization and modern learning-theory questions clearly. Checked `2026-04-25`.
+- [Stanford CS229T Notes](https://web.stanford.edu/class/cs229t/notes.pdf) - `First pass` - official notes with PAC definitions, finite-class sample complexity, and the realizable/agnostic split. Checked `2026-04-25`.
+- [Stanford CS229T / STATS231: Statistical Learning Theory](https://web.stanford.edu/class/cs229t/) - `First pass` - official archived course page supporting the classical PAC/VC route. Checked `2026-04-25`.
+- [Berkeley CS281B / STAT241B: Statistical Learning Theory](https://www.stat.berkeley.edu/~bartlett/courses/2014spring-cs281bstat241b/) - `Second pass` - strong official course page for deeper sample-complexity and capacity arguments. Checked `2026-04-25`.

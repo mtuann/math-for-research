@@ -135,6 +135,16 @@ website:
               - topics/advanced/optimization/concepts/constrained-optimization-kkt-and-lagrangians.qmd
               - topics/advanced/optimization/concepts/unconstrained-first-order-methods.qmd
               - topics/advanced/optimization/concepts/duality-and-certificates.qmd
+          - section: "Learning Theory"
+            contents:
+              - topics/advanced/learning-theory/index.qmd
+              - topics/advanced/learning-theory/concepts/erm-population-risk-and-hypothesis-classes.qmd
+              - topics/advanced/learning-theory/concepts/pac-learning-sample-complexity-and-the-learning-setup.qmd
+              - topics/advanced/learning-theory/concepts/vc-dimension-and-shattering.qmd
+              - topics/advanced/learning-theory/concepts/uniform-convergence-and-generalization-bounds.qmd
+              - topics/advanced/learning-theory/concepts/rademacher-complexity-and-data-dependent-capacity.qmd
+              - topics/advanced/learning-theory/concepts/algorithmic-stability-and-regularization.qmd
+              - topics/advanced/learning-theory/concepts/generalization-in-modern-regimes.qmd
       - section: "Research Workflow"
         contents:
           - applications/index.qmd

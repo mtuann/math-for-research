@@ -1,0 +1,281 @@
+---
+title: "VC Dimension and Shattering"
+description: "How combinatorial richness of a hypothesis class controls what label patterns it can realize and why that matters for sample complexity."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: learning-theory
+prerequisites:
+  - /topics/advanced/learning-theory/concepts/pac-learning-sample-complexity-and-the-learning-setup.qmd
+  - /topics/foundation/proofs/index.qmd
+  - /topics/foundation/logic/index.qmd
+learning-goals:
+  - "Explain what it means for a hypothesis class to shatter a finite set."
+  - "Define VC dimension and interpret it as a capacity measure for binary classes."
+  - "Understand why VC dimension is a stronger and more useful summary than raw class size for infinite classes."
+  - "See why Sauer-style growth control is the bridge from shattering to generalization bounds."
+applications:
+  - machine-learning-theory
+  - generalization
+  - sample-complexity
+keywords:
+  - VC dimension
+  - shattering
+  - growth function
+  - Sauer's lemma
+  - capacity
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/learning-theory/index.qmd
+  - /topics/advanced/learning-theory/concepts/pac-learning-sample-complexity-and-the-learning-setup.qmd
+  - /applications/machine-learning/generalization-overfitting-and-validation.qmd
+  - /paper-lab/theorem-decoder.qmd
+stable-sources:
+  - "Stanford CS229T / STATS231 Statistical Learning Theory"
+  - "Stanford STATS214 / CS229M Machine Learning Theory"
+  - "Berkeley STAT154 VC dimension notes"
+  - "Berkeley CS281B / STAT241B Statistical Learning Theory"
+current-sources:
+  - "Stanford CS229T notes PDF"
+  - "Stanford STATS214 course page"
+  - "Berkeley STAT154 VC dimension lecture notes"
+---
+
+## Role
+
+This is the third page of the `Learning Theory` module.
+
+The PAC page explained that sample complexity depends on the richness of the class.
+
+This page gives the first major answer to:
+
+`how do we measure the richness of an infinite hypothesis class?`
+
+The answer, for binary classification, is the language of `shattering` and `VC dimension`.
+
+## First-Pass Promise
+
+Read this page after `PAC Learning, Sample Complexity, and the Learning Setup`.
+
+If you stop here, you should still understand:
+
+- what it means for a class to shatter a finite set
+- what VC dimension measures
+- why VC dimension matters more than raw cardinality when the class is infinite
+- why combinatorial richness controls generalization and sample complexity
+
+## Why It Matters
+
+Finite-class PAC bounds depend on $\log |\mathcal H|$.
+
+That is fine if $\mathcal H$ is literally finite, but many useful classes are infinite:
+
+- thresholds with a real-valued parameter
+- linear separators with real-valued weights
+- intervals, halfspaces, and smooth function families
+
+So class size alone is not the right complexity measure.
+
+VC dimension gives a more structural notion of richness:
+
+`how many points can the class label in every possible way?`
+
+That question turns out to control sample complexity much better than naive counting.
+
+## Prerequisite Recall
+
+- PAC/sample-complexity language asks how many samples are enough for reliable learning
+- realizable and agnostic settings are different, but both need a notion of class richness
+- binary classification makes it natural to think about label patterns on finite point sets
+
+## Intuition
+
+### Label Patterns
+
+Take a finite set of inputs $x_1,\dots,x_n$.
+
+Each binary classifier $h$ induces a label vector
+
+$$
+(h(x_1),\dots,h(x_n)) \in \{0,1\}^n.
+$$
+
+If a class can realize many such labelings, then it is expressive.
+
+If it can realize `all` of them, then on that set the class is maximally flexible.
+
+### Shattering
+
+To `shatter` a finite set means the class can realize every possible binary labeling on that set.
+
+That is the first strong sign that the class is rich enough to fit many kinds of data.
+
+### VC Dimension
+
+The VC dimension asks for the largest number of points that can be shattered.
+
+So it is a single number summarizing combinatorial richness.
+
+It is not perfect, but it is one of the first major capacity measures in learning theory.
+
+## Formal Core
+
+To keep the first pass concrete, this page stays in `binary classification`.
+
+::: {#def-shatter}
+## Definition: Shattering
+
+Let $\mathcal H$ be a class of binary-valued functions on $\mathcal X$.
+
+A finite set $\{x_1,\dots,x_n\}\subset \mathcal X$ is `shattered` by $\mathcal H$ if for every binary vector $(y_1,\dots,y_n)\in\{0,1\}^n$, there exists some $h\in\mathcal H$ such that
+
+$$
+h(x_i)=y_i \qquad \text{for all } i=1,\dots,n.
+$$
+:::
+
+::: {#def-vc}
+## Definition: VC Dimension
+
+The `VC dimension` of $\mathcal H$, written $\mathrm{VC}(\mathcal H)$, is the largest integer $d$ such that some set of size $d$ is shattered by $\mathcal H$.
+
+If sets of arbitrarily large finite size can be shattered, then the VC dimension is infinite.
+:::
+
+Important warning:
+
+VC dimension $d$ means there exists at least one shattered set of size $d$.
+It does `not` mean that every set of size $d$ is shattered.
+
+::: {#def-growth}
+## Definition Idea: Growth Function
+
+For $n$ points, the `growth function` counts the maximum number of distinct binary labelings that $\mathcal H$ can realize on a set of size $n$.
+:::
+
+The growth function is the more detailed object; VC dimension is a summary number extracted from it.
+
+::: {#thm-sauer}
+## Theorem Idea: Sauer's Lemma
+
+If $\mathrm{VC}(\mathcal H)=d$, then once $n>d$, the number of labelings $\mathcal H$ can realize on $n$ points grows only polynomially in $n$, not exponentially like $2^n$.
+:::
+
+This is the key bridge from combinatorics to generalization: finite VC dimension prevents unrestricted label explosion.
+
+## Worked Example
+
+Consider threshold classifiers on the real line:
+
+$$
+\mathcal H = \{h_t(x)=\mathbf{1}\{x\ge t\}: t\in\mathbb R\}.
+$$
+
+### One Point
+
+Take any single point $x_1$.
+
+We can realize both labels:
+
+- choose $t>x_1$ to get $h_t(x_1)=0$
+- choose $t\le x_1$ to get $h_t(x_1)=1$
+
+So every one-point set is shattered.
+
+### Two Points
+
+Now take two points with $x_1<x_2$.
+
+The possible threshold labelings are:
+
+- $(0,0)$
+- $(0,1)$
+- $(1,1)$
+
+But we cannot realize
+
+$$
+(1,0),
+$$
+
+because a threshold that labels the left point `1` will also label the right point `1`.
+
+So no two-point set is shattered.
+
+Therefore
+
+$$
+\mathrm{VC}(\mathcal H)=1.
+$$
+
+This example is small, but it already shows why VC dimension is meaningful:
+
+the class is infinite, yet its effective binary-classification richness is only `1`.
+
+## Computation Lens
+
+VC dimension is not a training algorithm.
+
+It is a way to talk about what a class is capable of representing before you even run optimization.
+
+That separation matters:
+
+- optimization tells you how to fit inside the class
+- VC dimension tells you how rich the class already is
+
+This is why two model families with similar training behavior can still have very different theoretical capacity.
+
+## Application Lens
+
+### Infinite Classes Need Structural Capacity
+
+Thresholds, intervals, linear separators, and neural models are usually infinite classes. VC dimension is one of the first ways to say something finite and useful about their complexity.
+
+### Bridge To Generalization Bounds
+
+The next page in the module will use VC-style capacity control to explain why uniform convergence is even plausible. VC dimension is one of the cleanest first answers to:
+
+`why can one sample say something about all hypotheses at once?`
+
+### Reading Theory Papers
+
+When a paper says a class has small VC dimension, it is not just dropping a definition. It is claiming a structural reason why sample complexity or uniform convergence should be controlled.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- what shattering means
+- what VC dimension measures
+- why infinite classes can still have finite VC dimension
+- why VC dimension is a better first-pass capacity notion than raw class size
+- why Sauer-style control matters for later generalization bounds
+
+then this page has done its first-pass job.
+
+## Go Deeper
+
+The next natural module step is:
+
+- [Uniform Convergence and Generalization Bounds](uniform-convergence-and-generalization-bounds.qmd)
+
+For now, the best live next steps are:
+
+- [PAC Learning, Sample Complexity, and the Learning Setup](pac-learning-sample-complexity-and-the-learning-setup.qmd)
+- [ERM, Population Risk, and Hypothesis Classes](erm-population-risk-and-hypothesis-classes.qmd)
+- [Uniform Convergence and Generalization Bounds](uniform-convergence-and-generalization-bounds.qmd)
+- [Generalization, Overfitting, and Validation](../../../../applications/machine-learning/generalization-overfitting-and-validation.qmd)
+- [Theorem Decoder](../../../../paper-lab/theorem-decoder.qmd)
+
+## Sources and Further Reading
+
+- [Stanford CS229T Notes](https://web.stanford.edu/class/cs229t/notes.pdf) - `First pass` - official notes with PAC framing, shattering coefficient, VC dimension, and Sauer-style control. Checked `2026-04-25`.
+- [Stanford STATS214 / CS229M: Machine Learning Theory](https://web.stanford.edu/class/stats214/) - `First pass` - current official theory course page showing how VC-style tools fit into a modern learning-theory arc. Checked `2026-04-25`.
+- [Berkeley STAT154: VC dimension and uniform laws for zero-one loss](https://stat154.berkeley.edu/spring-2025/lectures/unit2/unit2_vc_dimension.html) - `First pass` - official lecture notes with a very clear worked explanation of shattering and VC dimension. Checked `2026-04-25`.
+- [Berkeley CS281B / STAT241B: Statistical Learning Theory](https://www.stat.berkeley.edu/~bartlett/courses/2014spring-cs281bstat241b/) - `Second pass` - strong official course page for deeper structural and sample-complexity arguments. Checked `2026-04-25`.
