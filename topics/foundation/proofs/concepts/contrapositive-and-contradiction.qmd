@@ -1,0 +1,318 @@
+---
+title: "Contrapositive and Contradiction"
+description: "How indirect proof changes the point of view of a theorem, either by proving an equivalent contrapositive or by assuming the theorem is false and driving that assumption into an impossibility."
+page-type: concept
+status: published
+update-status: current
+level: foundation
+topic: proofs
+prerequisites:
+  - /topics/foundation/proofs/concepts/statements-and-quantifiers.qmd
+  - /topics/foundation/proofs/concepts/direct-proof.qmd
+learning-goals:
+  - "Form the contrapositive of an implication correctly."
+  - "Set up a proof by contradiction from the negation of a target claim."
+  - "Decide when indirect proof is cleaner than direct proof."
+  - "Recognize common mistakes in negation and contradiction arguments."
+applications:
+  - theorem-reading
+  - algorithms
+  - theory
+keywords:
+  - contrapositive
+  - contradiction
+  - indirect proof
+  - implication
+  - negation
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/foundation/proofs/index.qmd
+  - /topics/foundation/proofs/concepts/statements-and-quantifiers.qmd
+  - /topics/foundation/proofs/concepts/direct-proof.qmd
+stable-sources:
+  - "Stanford CS103 Guide to Proofs"
+  - "CMU OLI Logic & Proofs"
+  - "MIT Mathematics for Computer Science"
+current-sources:
+  - "Stanford CS103 Proofwriting Checklist"
+---
+
+## Role
+
+This page teaches the two main `indirect proof` moves.
+
+When a direct proof feels awkward, you often win by changing the point of view: either prove an equivalent contrapositive, or assume the theorem is false and show that assumption cannot be sustained.
+
+## First-Pass Promise
+
+Read this page after `Direct Proof`.
+
+If you stop here, you should still understand:
+
+- how to form a contrapositive correctly
+- what a proof by contradiction actually assumes
+- when indirect proof is cleaner than direct proof
+- how to avoid the most common setup mistakes
+
+## Why It Matters
+
+A lot of early proof frustration is not about algebra. It is about choosing the wrong proof direction.
+
+Some claims are technically direct-proofable but become much clearer if you:
+
+- negate the conclusion and prove the negated hypothesis
+- assume the whole statement is false and squeeze that assumption until it breaks
+
+This matters well beyond beginner exercises. In research papers, contradiction is used to rule out impossible counterexamples, impossible parameter regimes, impossible minimizers, or impossible algorithmic behavior. Contrapositive reasoning shows up whenever a theorem is easier to read backward than forward.
+
+## Prerequisite Recall
+
+- an implication $P \Rightarrow Q$ is false only when $P$ is true and $Q$ is false
+- negating a quantified statement changes both the quantifier and the predicate
+- a direct proof starts from the actual assumptions and moves toward the actual conclusion
+
+## Intuition
+
+Indirect proof works by changing which world you enter.
+
+In a proof by contrapositive, you do not change the meaning of the theorem. You replace it with an equivalent implication:
+
+`if P then Q`
+
+becomes
+
+`if not Q then not P`
+
+Sometimes the second form is much easier because `not Q` has a concrete algebraic shape.
+
+In a proof by contradiction, you temporarily enter the world where the theorem is false. Then you use that false-world assumption until it produces something impossible, such as:
+
+- $R$ and $\neg R$
+- an integer being both even and odd
+- a fraction in lowest terms turning out to have a common factor
+
+So the high-level picture is:
+
+- `contrapositive` proves an equivalent statement
+- `contradiction` proves the original statement by showing its negation is impossible
+
+## Formal Core
+
+::: {#def-contrapositive}
+## Definition
+
+For an implication
+
+$$
+P \Rightarrow Q,
+$$
+
+the contrapositive is
+
+$$
+\neg Q \Rightarrow \neg P.
+$$
+
+These two statements are logically equivalent. Proving one is as good as proving the other.
+:::
+
+::: {#def-contradiction}
+## Proof by Contradiction
+
+To prove a statement $T$ by contradiction, assume
+
+$$
+\neg T
+$$
+
+and then derive an impossibility.
+
+That impossibility is a contradiction: a statement of the form
+
+$$
+R \land \neg R
+$$
+
+or anything else known to be impossible under the rules of the setting.
+:::
+
+::: {#prp-when-to-use}
+## Key Strategy
+
+Use `contrapositive` when:
+
+- the theorem already has the form $P \Rightarrow Q$
+- the negation of the conclusion $\neg Q$ is concrete and easy to manipulate
+- the original conclusion $Q$ feels awkward to prove directly
+
+Use `contradiction` when:
+
+- the negation of the whole theorem has a clean form
+- the claim is an impossibility, uniqueness, or nonexistence statement
+- assuming the theorem is false naturally creates a bad object or impossible configuration
+
+Many beginner contradiction proofs can be rewritten as contraposition, so it is worth asking whether the contradiction is truly necessary or just a disguised reversed implication.
+:::
+
+## Worked Example
+
+### Contrapositive Example
+
+Prove:
+
+> If $n^2$ is even, then $n$ is even.
+
+The direct route is possible, but the contrapositive is much cleaner:
+
+> If $n$ is odd, then $n^2$ is odd.
+
+So assume $n$ is odd. Then
+
+$$
+n = 2k+1
+$$
+
+for some integer $k$. Squaring gives
+
+$$
+n^2 = (2k+1)^2 = 4k^2 + 4k + 1 = 2(2k^2+2k)+1.
+$$
+
+This has the form `twice an integer plus one`, so $n^2$ is odd.
+
+Therefore the contrapositive is true, and hence the original statement is true.
+
+The key lesson is not just the algebra. It is the choice of viewpoint: `odd` was easier to work with than `even square`.
+
+### Contradiction Example
+
+Prove:
+
+> $\sqrt{2}$ is irrational.
+
+Assume for contradiction that $\sqrt{2}$ is rational. Then
+
+$$
+\sqrt{2} = \frac{a}{b}
+$$
+
+for integers $a$ and $b$ with no common factor and $b \ne 0$.
+
+Squaring gives
+
+$$
+2 = \frac{a^2}{b^2},
+\qquad
+2b^2 = a^2.
+$$
+
+So $a^2$ is even, which means $a$ is even. Write
+
+$$
+a = 2k.
+$$
+
+Then
+
+$$
+2b^2 = (2k)^2 = 4k^2,
+\qquad
+b^2 = 2k^2.
+$$
+
+So $b^2$ is even, hence $b$ is even.
+
+Therefore both $a$ and $b$ are even, so they have a common factor of $2$. But that contradicts the assumption that $a/b$ was already in lowest terms.
+
+So the assumption that $\sqrt{2}$ is rational must be false. Hence $\sqrt{2}$ is irrational.
+
+Here the proof works by assuming the false world and showing it collapses under its own consequences.
+
+## Computation Lens
+
+When you face a theorem, a useful proof-selection routine is:
+
+1. identify whether the statement is an implication
+2. write its contrapositive explicitly
+3. write the negation of the whole theorem explicitly
+4. compare which version gives you better algebra or cleaner structure
+
+This sounds mechanical, but it saves a lot of wasted effort. Many bad proofs come from trying to reason indirectly without ever writing the exact negation you are using.
+
+## Application Lens
+
+Indirect proof is everywhere in theory-facing work:
+
+- in algorithms, contradiction often rules out a supposed better counterexample or impossible running-time behavior
+- in optimization, contradiction can show a minimizer must satisfy a structural property
+- in analysis and probability, contradiction often rules out impossible limits or pathological cases
+- in paper reading, contraposition helps unpack the real content of a theorem that is easier to understand backward
+
+So this topic is not just about old textbook tricks. It is part of how serious mathematical arguments are actually organized.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- why $P \Rightarrow Q$ and $\neg Q \Rightarrow \neg P$ mean the same thing
+- what a contradiction proof assumes at the start
+- when contrapositive is cleaner than direct proof
+- why writing the exact negation matters
+
+then this page has done its main job.
+
+## Go Deeper
+
+For the main proofs spine, the best nearby pages are:
+
+- [Statements and Quantifiers](statements-and-quantifiers.qmd), if negations still feel shaky
+- [Direct Proof](direct-proof.qmd), if you want to compare direct and indirect setup side by side
+- [Induction](induction.qmd), if you want the next main proof method after indirect proof
+
+## Optional Paper Bridge
+
+- [Stanford CS103 Guide to Proofs](https://web.stanford.edu/class/archive/cs/cs103/cs103.1254/guide_to_proofs) - `First pass` - strong official guide that explains how and when to use contrapositive and contradiction in undergraduate discrete math. Checked `2026-04-24`.
+- [Stanford CS103 Proofwriting Checklist](https://web.stanford.edu/class/archive/cs/cs103/cs103.1252/proofwriting_checklist) - `Second pass` - especially useful for the exact sentence structure of indirect proofs. Checked `2026-04-24`.
+- [Logic & Proofs - OLI](https://oli.cmu.edu/courses/logic-proofs/) - `Second pass` - official CMU material emphasizing indirect rules, derivation structure, and contradiction finding. Checked `2026-04-24`.
+- [MIT Mathematics for Computer Science: Proof by Contradiction](https://courses.csail.mit.edu/6.042/spring18/contradiction.pdf) - `Paper bridge` - an official MIT bridge from classroom contradiction proofs to standard CS math style. Checked `2026-04-24`.
+
+## Optional After First Pass
+
+If you want more practice before moving on:
+
+- take a direct-proof theorem and rewrite it by contrapositive
+- write the negation of a quantified theorem before trying any contradiction proof
+- compare a genuine contradiction proof with one that is really contraposition in disguise
+
+## Common Mistakes
+
+- negating an implication incorrectly
+- assuming the original theorem instead of its negation in a contradiction proof
+- calling something a contradiction proof when it is really just contraposition
+- reaching something surprising but not actually impossible
+- forgetting to explain at the end what the contradiction rules out
+
+## Exercises
+
+1. Write the contrapositive of: “If a real number $x$ satisfies $x^2 < 1$, then $-1 < x < 1$.”
+2. Prove by contrapositive: if an integer $n$ is divisible by $4$, then $n$ is even.
+3. Explain why the assumption “$\sqrt{2} = a/b$ for integers $a,b$ in lowest terms” is a useful starting point for a contradiction proof of the irrationality of $\sqrt{2}$.
+
+## Sources and Further Reading
+
+- [Stanford CS103 Guide to Proofs](https://web.stanford.edu/class/archive/cs/cs103/cs103.1254/guide_to_proofs) - `First pass` - high-quality official proof guide with clear treatment of indirect methods. Checked `2026-04-24`.
+- [Stanford CS103 Proofwriting Checklist](https://web.stanford.edu/class/archive/cs/cs103/cs103.1252/proofwriting_checklist) - `First pass` - excellent official checklist for writing contradiction and contrapositive proofs cleanly. Checked `2026-04-24`.
+- [Logic & Proofs - OLI](https://oli.cmu.edu/courses/logic-proofs/) - `Second pass` - official CMU resource with indirect-rule practice and proof-construction support. Checked `2026-04-24`.
+- [MIT Mathematics for Computer Science: Proof by Contradiction](https://courses.csail.mit.edu/6.042/spring18/contradiction.pdf) - `Second pass` - official MIT handout with classic contradiction examples. Checked `2026-04-24`.
+
+Sources checked online on `2026-04-24`:
+
+- Stanford CS103 Guide to Proofs
+- Stanford CS103 Proofwriting Checklist
+- CMU OLI Logic & Proofs
+- MIT 6.042 contradiction handout

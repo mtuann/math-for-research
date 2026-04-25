@@ -17,10 +17,9 @@ Use it to track:
 
 ## Current Snapshot
 
-- `64` `.qmd` pages currently exist
-- `14` concept-topic pages currently exist
-- strongest subjects so far: `Linear Algebra`, `Probability`
-- partial supporting subjects: `Proofs`
+- `68` `.qmd` pages currently exist
+- `18` concept-topic pages currently exist
+- strongest subjects so far: `Linear Algebra`, `Probability`, `Proofs`
 - non-topic sections already scaffolded: `Start Here`, `Roadmaps`, `Applications`, `Paper Lab`, `Research`, `Publication`, `Library`, `Notes`
 
 ## Site Sections
@@ -118,10 +117,10 @@ Use it to track:
 - [x] `Proofs index`
 - [x] `Statements and quantifiers`
 - [x] `Direct proof`
-- [ ] `Contrapositive and contradiction`
-- [ ] `Induction`
-- [ ] `Counterexamples and proof debugging`
-- [ ] `Proof-writing clinic`
+- [x] `Contrapositive and contradiction`
+- [x] `Induction`
+- [x] `Counterexamples and proof debugging`
+- [x] `Proof-writing clinic`
 
 ### Logic
 
@@ -296,14 +295,14 @@ These are the topics that should eventually become canonical examples for future
 
 - [x] `Orthogonality and least squares`
 - [x] `SVD and low-rank approximation`
-- [ ] `Statements and quantifiers`
-- [ ] `Induction`
+- [~] `Statements and quantifiers`
+- [~] `Induction`
 - [x] `Eigenvalues and diagonalization`
-- [ ] `Random variables and distributions`
-- [ ] `Expectation, variance, covariance`
-- [ ] `Joint, conditional, and Bayes`
-- [ ] `Law of large numbers and CLT`
-- [ ] `Concentration and common inequalities`
+- [~] `Random variables and distributions`
+- [~] `Expectation, variance, covariance`
+- [~] `Joint, conditional, and Bayes`
+- [~] `Law of large numbers and CLT`
+- [~] `Concentration and common inequalities`
 - [ ] `Maximum likelihood and Bayesian basics`
 - [ ] `Regression and classification basics`
 - [ ] `Partial derivatives and gradients`
@@ -314,12 +313,12 @@ These are the topics that should eventually become canonical examples for future
 
 Near-term highest-value content steps:
 
-1. [ ] `Commit the current uncommitted linear algebra spine pages`
-2. [ ] `Probability spine: sample spaces / conditioning`
-3. [ ] `Proofs spine: contrapositive and contradiction`
-4. [ ] `Proofs spine: induction`
-5. [ ] `Statistics index + first two concept pages`
-6. [ ] `Multivariable calculus index + first two concept pages`
+1. [ ] `Commit and push the current proofs module cleanup`
+2. [ ] `Statistics index`
+3. [ ] `Descriptive statistics and data models`
+4. [ ] `Estimation and bias-variance`
+5. [ ] `Logic module: propositional logic`
+6. [ ] `Render and visually QA the proofs module locally`
 
 ## Work Outside Topic Content
 
@@ -364,6 +363,6 @@ Yes, there is important work outside topic writing.
 
 ## Notes
 
-- Current content momentum is strongest in `Linear Algebra`.
-- The next subject most worth strengthening is `Probability`.
+- Current content momentum is strongest in `Linear Algebra`, `Probability`, and `Proofs`.
+- The next subject most worth strengthening is `Statistics`.
 - The next non-content task most worth doing is a `local render + visual QA pass`.

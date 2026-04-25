@@ -1,0 +1,319 @@
+---
+title: "Counterexamples and Proof Debugging"
+description: "How to disprove false statements with targeted counterexamples, diagnose where a proof attempt breaks, and repair either the argument or the theorem statement."
+page-type: concept
+status: published
+update-status: current
+level: foundation
+topic: proofs
+prerequisites:
+  - /topics/foundation/proofs/concepts/statements-and-quantifiers.qmd
+  - /topics/foundation/proofs/concepts/direct-proof.qmd
+  - /topics/foundation/proofs/concepts/contrapositive-and-contradiction.qmd
+  - /topics/foundation/proofs/concepts/induction.qmd
+learning-goals:
+  - "Recognize when a claim can be disproved by a single counterexample."
+  - "Build a counterexample that targets the exact logical shape of a theorem."
+  - "Debug a proof attempt by locating the first unjustified step."
+  - "Repair a false theorem by weakening, sharpening, or correcting its statement."
+applications:
+  - theorem-reading
+  - algorithms
+  - theory
+keywords:
+  - counterexample
+  - disproof
+  - proof debugging
+  - false theorem
+  - assumption checking
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/foundation/proofs/index.qmd
+  - /topics/foundation/proofs/concepts/statements-and-quantifiers.qmd
+  - /topics/foundation/proofs/concepts/direct-proof.qmd
+  - /topics/foundation/proofs/concepts/contrapositive-and-contradiction.qmd
+  - /topics/foundation/proofs/concepts/induction.qmd
+stable-sources:
+  - "Stanford CS103 Proofwriting Checklist"
+  - "CMU OLI Logic & Proofs"
+  - "MIT Mathematics for Computer Science"
+current-sources:
+  - "MIT 6.042 problem set proof guidelines"
+---
+
+## Role
+
+This page teaches the part of proof practice that feels most like research and debugging: deciding whether a statement is even true, finding the right failure case when it is false, and locating the exact step where a proof draft stops being valid.
+
+It closes the first proofs spine by turning proof techniques into error-detection techniques.
+
+## First-Pass Promise
+
+Read this page after `Induction`.
+
+If you stop here, you should still understand:
+
+- when one counterexample is enough to kill a theorem
+- how to target a counterexample to the exact shape of a claim
+- how to debug a proof draft step by step
+- how to repair a false theorem into a true one
+
+## Why It Matters
+
+A big part of mathematical maturity is learning that many first attempts are wrong in useful ways.
+
+You need to be able to:
+
+- test whether a theorem is even plausible
+- find the smallest or clearest example that breaks it
+- distinguish a false theorem from a true theorem with a bad proof
+- revise the theorem statement or the proof structure without panic
+
+This matters in coursework, but it matters even more in research. Many proofs fail not because the topic is advanced, but because:
+
+- an assumption was forgotten
+- a quantifier was too broad
+- a case split missed something
+- a lemma was used outside its scope
+
+Counterexamples and debugging keep you from investing days into proving the wrong theorem.
+
+## Prerequisite Recall
+
+- to disprove a universal statement, it is enough to find one violating example
+- to disprove an implication $P \Rightarrow Q$, you need a case where $P$ is true and $Q$ is false
+- a proof is only as strong as its least justified step
+
+## Intuition
+
+A proof attempt is a lot like a program: if the output is wrong, you do not fix it by staring at the final line. You trace where the logic first went off the rails.
+
+A counterexample is the mathematical version of a failing test case.
+
+The core habit is:
+
+1. identify the exact theorem shape
+2. ask what would make it false
+3. test simple, extreme, or boundary cases
+4. if the theorem survives, inspect the proof attempt line by line anyway
+
+So a good workflow is:
+
+`test the statement -> test the proof -> repair the weakest point`
+
+## Formal Core
+
+::: {#def-counterexample}
+## Definition
+
+A counterexample to a statement is a concrete example showing that the statement is false.
+
+For a universal claim
+
+$$
+\forall x \in S,\; P(x),
+$$
+
+it is enough to find one $x \in S$ such that $P(x)$ is false.
+:::
+
+::: {#prp-implication-counterexample}
+## Counterexample to an Implication
+
+To disprove a universally quantified implication
+
+$$
+\forall x \in S,\; (P(x) \Rightarrow Q(x)),
+$$
+
+you need one example $x \in S$ for which:
+
+1. $P(x)$ is true
+2. $Q(x)$ is false
+
+That is the only way the implication can fail.
+:::
+
+::: {#prp-debugging}
+## Proof Debugging Rule
+
+When debugging a proof, do not ask only whether the final conclusion feels wrong.
+
+Ask instead:
+
+1. what is the precise statement being proved?
+2. what assumptions are currently active?
+3. which line introduces a new claim?
+4. exactly what earlier fact justifies that line?
+
+The first line that cannot be justified is the real bug.
+:::
+
+## Worked Example
+
+Consider the claim:
+
+> For all integers $m$ and $n$, if $m+n$ is even, then $m$ and $n$ are even.
+
+This claim is false.
+
+### Step 1: Find a Counterexample
+
+To break an implication, we want:
+
+- hypothesis true: $m+n$ is even
+- conclusion false: it is not the case that both $m$ and $n$ are even
+
+Take
+
+$$
+m=1,\qquad n=3.
+$$
+
+Then
+
+$$
+m+n = 4,
+$$
+
+which is even, but $m$ and $n$ are both odd, not even.
+
+So this single example disproves the theorem.
+
+### Step 2: Debug a Bad Proof Attempt
+
+A flawed proof might say:
+
+> Since $m+n$ is even, there is an integer $k$ with $m+n=2k$. Therefore both $m$ and $n$ must be even.
+
+The bug is in the word `therefore`.
+
+From
+
+$$
+m+n=2k,
+$$
+
+we may conclude that the sum is even. But we are not allowed to split that fact into “each summand is even.” An even sum can also come from two odd integers.
+
+So the first unjustified step is the jump from
+
+$$
+m+n \text{ is even}
+$$
+
+to
+
+$$
+m \text{ is even and } n \text{ is even}.
+$$
+
+### Step 3: Repair the Theorem
+
+A nearby true statement is:
+
+> For all integers $m$ and $n$, if $m+n$ is even, then $m$ and $n$ have the same parity.
+
+That corrected theorem survives the counterexample above, because $1$ and $3$ are both odd.
+
+This is a standard repair pattern:
+
+1. detect failure
+2. inspect why the example failed
+3. weaken or refine the conclusion so the actual pattern becomes true
+
+## Computation Lens
+
+A practical debugging checklist for proofs is:
+
+1. test the theorem on tiny examples
+2. test boundary cases like `0`, `1`, empty sets, singletons, equality cases, or repeated values
+3. rewrite the statement in symbols to expose its quantifiers and logical structure
+4. mark each line of the proof with the fact that justifies it
+5. stop at the first unjustified leap
+6. decide whether the bug is in:
+   - the theorem
+   - the proof strategy
+   - the notation or scoping
+   - a missing assumption
+
+This is often faster than trying to “feel” whether the proof is right.
+
+## Application Lens
+
+Counterexample hunting and proof debugging show up all over theory-facing work:
+
+- in algorithms, a tiny instance can kill a false invariant or a false greedy claim
+- in optimization, a missing convexity or continuity assumption often shows up as a counterexample
+- in probability, a single pathological distribution can reveal that a statement is too broad
+- in paper reading, asking “what example would break this if one assumption were dropped?” is one of the fastest ways to understand why the assumptions are there
+
+So this topic is not just remedial cleanup. It is one of the main ways mathematicians and theorists test whether an argument is actually robust.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- how to falsify a universal statement with one example
+- how to target a counterexample to an implication
+- how to identify the first broken line in a proof
+- how to repair a false theorem by changing its assumptions or conclusion
+
+then this page has done its main job.
+
+## Go Deeper
+
+For the proofs spine, the most useful nearby pages are:
+
+- [Statements and Quantifiers](statements-and-quantifiers.qmd), if you want help translating a claim into a testable logical shape
+- [Contrapositive and Contradiction](contrapositive-and-contradiction.qmd), if you want to distinguish a failed direct proof from a genuinely useful indirect one
+- [Induction](induction.qmd), if you want to debug recursive proof structure case by case
+- [Proof-writing Clinic](proof-writing-clinic.qmd), if you want the full bad-draft to revised-proof workflow
+
+## Optional Paper Bridge
+
+- [Stanford CS103 Proofwriting Checklist](https://web.stanford.edu/class/archive/cs/cs103/cs103.1252/proofwriting_checklist) - `First pass` - excellent official guide to proof structure, common writing mistakes, and how to spot logical bugs in drafts. Checked `2026-04-24`.
+- [CMU OLI Logic & Proofs](https://oli.cmu.edu/courses/logic-proofs/) - `Second pass` - official CMU resource emphasizing strategic proof construction and systematic counterexample finding. Checked `2026-04-24`.
+- [MIT 6.042 PSet Submission and Guidelines](https://courses.csail.mit.edu/6.042/spring18/pset_instructions.shtml) - `Second pass` - concise official advice on proof clarity, templates, and why equations alone are usually not enough. Checked `2026-04-24`.
+- [MIT Mathematics for Computer Science induction notes](https://web.mit.edu/broder/Public/6.042-lecture-notes/lecture-notes.pdf) - `Paper bridge` - useful for seeing how proof templates help prevent debugging mistakes in induction-heavy arguments. Checked `2026-04-24`.
+
+## Optional After First Pass
+
+If you want more practice before moving on:
+
+- take a false claim and try to find the smallest counterexample
+- annotate a proof draft by writing the justification for each line in the margin
+- take a false theorem and rewrite it into the nearest true theorem you can find
+
+## Common Mistakes
+
+- giving an example where the hypothesis is false and calling it a counterexample to an implication
+- producing many examples instead of one decisive falsifying example
+- noticing a proof feels wrong without locating the exact broken line
+- fixing the proof when the theorem itself is false
+- overcorrecting a false theorem into something much weaker than necessary
+
+## Exercises
+
+1. Disprove the claim: “For all real numbers $x$, if $x^2 \ge x$, then $x \ge 1$.”
+2. Find a counterexample to the claim: “If a product $ab$ is positive, then $a$ and $b$ are positive.”
+3. A student writes: “Since $n^2$ is divisible by $4$, $n$ must be divisible by $4$.” Explain how to test this claim and identify whether the theorem or the proof is broken.
+
+## Sources and Further Reading
+
+- [Stanford CS103 Proofwriting Checklist](https://web.stanford.edu/class/archive/cs/cs103/cs103.1252/proofwriting_checklist) - `First pass` - one of the best official sources on finding structural bugs in proof drafts. Checked `2026-04-24`.
+- [CMU OLI Logic & Proofs](https://oli.cmu.edu/courses/logic-proofs/) - `First pass` - official interactive resource that explicitly teaches counterexample finding and guided proof construction. Checked `2026-04-24`.
+- [MIT 6.042 PSet Submission and Guidelines](https://courses.csail.mit.edu/6.042/spring18/pset_instructions.shtml) - `Second pass` - official MIT guidance on proof clarity and template-following, both central to proof debugging. Checked `2026-04-24`.
+- [MIT Mathematics for Computer Science induction notes](https://web.mit.edu/broder/Public/6.042-lecture-notes/lecture-notes.pdf) - `Second pass` - official MIT notes that make the proof-template mindset concrete. Checked `2026-04-24`.
+
+Sources checked online on `2026-04-24`:
+
+- Stanford CS103 Proofwriting Checklist
+- CMU OLI Logic & Proofs
+- MIT 6.042 proof guidelines
+- MIT induction lecture notes

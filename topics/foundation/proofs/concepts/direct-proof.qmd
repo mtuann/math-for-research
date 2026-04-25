@@ -1,47 +1,252 @@
 ---
 title: "Direct Proof"
+description: "How to prove a statement by starting from the actual assumptions, applying definitions and known facts, and walking cleanly to the desired conclusion."
+page-type: concept
+status: published
+update-status: current
+level: foundation
+topic: proofs
+prerequisites:
+  - /topics/foundation/proofs/concepts/statements-and-quantifiers.qmd
+learning-goals:
+  - "Recognize when a theorem is naturally suited to direct proof."
+  - "Write the setup of a direct proof clearly."
+  - "Apply definitions to the current objects rather than restating them abstractly."
+  - "End the proof at the exact target statement."
+applications:
+  - theorem-writing
+  - algorithms
+  - theory
+keywords:
+  - direct proof
+  - assumptions
+  - want-to-show
+  - definition use
+  - proof structure
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: annual
+date-modified: last-modified
+draft: false
+next:
+  - /topics/foundation/proofs/concepts/contrapositive-and-contradiction.qmd
+related-pages:
+  - /topics/foundation/proofs/index.qmd
+  - /topics/foundation/proofs/concepts/statements-and-quantifiers.qmd
+  - /topics/foundation/proofs/concepts/contrapositive-and-contradiction.qmd
+stable-sources:
+  - "Stanford CS103 Guide to Proofs"
+  - "Stanford CS103 Proofwriting Checklist"
+  - "MIT Mathematics for Computer Science"
+current-sources:
+  - "MIT 6.042 proof guidelines"
 ---
 
 ## Role
 
-Direct proof is the baseline method: start from assumptions, use definitions and valid steps, and reach the conclusion.
+Direct proof is the baseline proof method.
+
+It is what you use when the structure of the statement already points forward: assume the hypothesis, unpack the relevant definitions, and derive the conclusion without reversing direction or assuming the theorem is false.
+
+## First-Pass Promise
+
+Read this page after `Statements and Quantifiers`.
+
+If you stop here, you should still understand:
+
+- when a direct proof is the right tool
+- how to set up a direct proof cleanly
+- how to use a definition on the current objects instead of repeating it abstractly
+- how to tell whether the last line really proves the theorem
+
+## Why It Matters
+
+Even though later proof methods look fancier, direct proof is still the backbone of most mathematical writing.
+
+It shows up whenever you want to prove:
+
+- closure properties
+- divisibility statements
+- subset relations
+- simple bounds
+- algebraic identities
+- local steps inside larger theorems
+
+Many advanced proofs are really built from short direct-proof fragments stitched together.
+
+## Prerequisite Recall
+
+- a theorem usually has assumptions and a target
+- you should already know the domain and logical shape of the statement you are proving
+- definitions are meant to be applied to the current objects, not restated in the abstract
 
 ## Intuition
 
-A direct proof is the cleanest method when the structure of the claim already points forward.
+A direct proof is the cleanest method when the theorem already points from left to right.
 
-## Basic Template
+If the theorem says
 
-1. state the assumptions
-2. unpack the relevant definitions
-3. transform the expressions or objects in small justified steps
-4. end exactly at the desired conclusion
+$$
+P \Rightarrow Q,
+$$
+
+and the assumption $P$ has a usable structure, then the natural move is:
+
+1. assume $P$
+2. unpack what $P$ means
+3. manipulate or combine facts
+4. land exactly at $Q$
+
+The main discipline is that every step must move the argument forward. A proof is not a place to state everything true in the neighborhood.
+
+## Formal Core
+
+::: {#def-direct-proof}
+## Definition
+
+A direct proof of an implication starts from the actual assumptions of the theorem and proceeds by valid deductions until the desired conclusion is reached.
+:::
+
+::: {#prp-template}
+## Standard Template
+
+For a theorem of the form
+
+$$
+\forall x \in S,\; (P(x) \Rightarrow Q(x)),
+$$
+
+the usual direct-proof structure is:
+
+1. choose an arbitrary $x \in S$ satisfying $P(x)$
+2. state that the goal is to prove $Q(x)$
+3. apply definitions and known facts
+4. conclude that $Q(x)$ holds
+
+This is the proof-writing version of “start where you are allowed to start, and end where you are required to end.”
+:::
+
+::: {#prp-usage}
+## Key Strategy
+
+Direct proof is usually the right choice when:
+
+- the hypothesis already gives a concrete form you can work with
+- the conclusion is naturally reachable by algebraic or logical manipulation
+- there is no need to reverse the statement or assume falsity
+
+If the direct route feels awkward, that is often the signal to try contrapositive, contradiction, or induction instead.
+:::
 
 ## Worked Example
 
-::: {#prp-divisible-six}
-## Proposition
+Prove:
 
-If an integer $n$ is divisible by $6$, then it is divisible by $3$.
-:::
+> If an integer $n$ is divisible by $6$, then it is divisible by $3$.
 
-::: {.proof}
-If $n$ is divisible by $6$, then $n = 6k$ for some integer $k$. Since $6k = 3(2k)$, and $2k$ is an integer, it follows that $n$ is divisible by $3$.
-:::
+We use a direct proof.
 
-## Why This Works
+Choose any integer $n$ divisible by $6$. We will show that $n$ is divisible by $3$.
 
-The proof succeeds because the definition of divisibility gives an algebraic representation, and that representation can be rearranged into the target form.
+Since $n$ is divisible by $6$, there exists an integer $k$ such that
+
+$$
+n = 6k.
+$$
+
+Rewrite this as
+
+$$
+n = 3(2k).
+$$
+
+Because $2k$ is an integer, this shows that $n$ has the form $3m$ for an integer $m$, namely $m=2k$.
+
+Therefore $n$ is divisible by $3$, as required.
+
+This proof works because the hypothesis gave an explicit algebraic representation. Once we had that, the conclusion became a matter of rewriting.
+
+## Computation Lens
+
+A good direct-proof checklist is:
+
+1. state the assumptions clearly
+2. state the target clearly
+3. introduce variables only when a definition guarantees they exist
+4. justify each nontrivial algebraic or logical step
+5. end by matching the theorem’s conclusion exactly
+
+This is especially important when proofs involve several definitions in a row. If you lose track of which variable came from which assumption, the proof gets muddy fast.
 
 ## Application Lens
 
 Direct proof patterns show up everywhere:
 
-- proving closure properties
-- checking algorithm invariants
-- verifying matrix identities
-- establishing elementary bounds before a bigger theorem
+- proving a set is closed under an operation
+- checking that an invariant is preserved after one algorithm step
+- proving one matrix identity from another
+- establishing a simple lemma before a larger contradiction or induction argument
 
-## Paper Bridge
+So even if you later prefer more sophisticated methods, direct proof is still the tool you will use most often sentence by sentence.
 
-Even advanced proofs contain direct-proof fragments. When reading a hard paper, spotting those easier fragments can keep you oriented.
+## Stop Here For First Pass
+
+If you can now explain:
+
+- how a direct proof starts and ends
+- how to use a definition on the current objects
+- why every sentence should move the proof forward
+- when direct proof is the natural method
+
+then this page has done its main job.
+
+## Go Deeper
+
+The next proofs-spine pages are:
+
+- [Contrapositive and Contradiction](contrapositive-and-contradiction.qmd), where you switch to indirect methods if the forward route is awkward
+- [Induction](induction.qmd), where the forward route must be propagated across infinitely many cases
+
+## Optional Paper Bridge
+
+- [Stanford CS103 Guide to Proofs](https://web.stanford.edu/class/archive/cs/cs103/cs103.1254/guide_to_proofs) - `First pass` - official guide with good direct-proof patterns and theorem setup advice. Checked `2026-04-24`.
+- [Stanford CS103 Proofwriting Checklist](https://web.stanford.edu/class/archive/cs/cs103/cs103.1252/proofwriting_checklist) - `Second pass` - excellent official checklist for assumptions, want-to-show, and sentence structure. Checked `2026-04-24`.
+- [MIT Mathematics for Computer Science: What is a Proof?](https://web.mit.edu/neboat/Public/6.042/proofs.pdf) - `Second pass` - official MIT notes emphasizing proof structure and clear reasoning. Checked `2026-04-24`.
+- [MIT 6.042 PSet Submission and Guidelines](https://courses.csail.mit.edu/6.042/spring18/pset_instructions.shtml) - `Paper bridge` - concise official reminder that clarity and structure are part of a correct proof. Checked `2026-04-24`.
+
+## Optional After First Pass
+
+If you want more practice before moving on:
+
+- prove a simple divisibility fact using only definitions
+- rewrite a direct proof and remove every sentence that is true but unused
+- compare a direct proof with an indirect proof of the same theorem and ask which one is cleaner
+
+## Common Mistakes
+
+- failing to state the target of the proof
+- restating a definition instead of applying it
+- introducing a variable without explaining where it came from
+- piling up equations without telling the reader why they matter
+- ending with a nearby fact instead of the theorem itself
+
+## Exercises
+
+1. Prove directly: if an integer $n$ is divisible by $8$, then it is divisible by $4$.
+2. Prove directly: if sets $A$ and $B$ satisfy $A \subseteq B$ and $x \in A$, then $x \in B$.
+3. Take a short direct proof you know and identify its assumptions, target, introduced variables, and final conclusion.
+
+## Sources and Further Reading
+
+- [Stanford CS103 Guide to Proofs](https://web.stanford.edu/class/archive/cs/cs103/cs103.1254/guide_to_proofs) - `First pass` - strong official source for basic proof setup and proof method choice. Checked `2026-04-24`.
+- [Stanford CS103 Proofwriting Checklist](https://web.stanford.edu/class/archive/cs/cs103/cs103.1252/proofwriting_checklist) - `First pass` - excellent official checklist for direct-proof structure and sentence-level discipline. Checked `2026-04-24`.
+- [MIT Mathematics for Computer Science: What is a Proof?](https://web.mit.edu/neboat/Public/6.042/proofs.pdf) - `Second pass` - official MIT notes on proof clarity and proof structure. Checked `2026-04-24`.
+- [MIT 6.042 PSet Submission and Guidelines](https://courses.csail.mit.edu/6.042/spring18/pset_instructions.shtml) - `Second pass` - useful official reminder that equations alone rarely make a readable proof. Checked `2026-04-24`.
+
+Sources checked online on `2026-04-24`:
+
+- Stanford CS103 Guide to Proofs
+- Stanford CS103 Proofwriting Checklist
+- MIT proof notes
+- MIT proof guidelines

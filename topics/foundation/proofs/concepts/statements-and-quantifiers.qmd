@@ -1,62 +1,278 @@
 ---
 title: "Statements and Quantifiers"
+description: "How mathematical claims get their meaning from logical structure, especially through universal and existential quantifiers, domains, and negation."
+page-type: concept
+status: published
+update-status: current
+level: foundation
+topic: proofs
+prerequisites:
+  - /start-here/notation-and-symbols.qmd
+learning-goals:
+  - "Read quantified statements precisely."
+  - "Negate universal and existential statements correctly."
+  - "Identify the domain, assumptions, and target of a theorem."
+  - "Translate between plain English and a more exact logical reading."
+applications:
+  - theorem-reading
+  - logic
+  - theory
+keywords:
+  - quantifiers
+  - universal statement
+  - existential statement
+  - negation
+  - theorem parsing
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: annual
+date-modified: last-modified
+draft: false
+next:
+  - /topics/foundation/proofs/concepts/direct-proof.qmd
+related-pages:
+  - /topics/foundation/proofs/index.qmd
+  - /topics/foundation/proofs/concepts/direct-proof.qmd
+  - /topics/foundation/proofs/concepts/contrapositive-and-contradiction.qmd
+stable-sources:
+  - "Stanford CS103 Guide to Proofs"
+  - "Stanford CS103 Guide to Negation"
+  - "CMU OLI Logic & Proofs"
+current-sources:
+  - "Stanford CS103 Guide to Logic Translation"
 ---
 
 ## Role
 
 This page teaches the grammar of mathematical claims.
 
+Before you can write or read proofs well, you need to know exactly what a theorem is saying, who it is talking about, what is assumed, and what would count as making it false.
+
+## First-Pass Promise
+
+Read this page first in the proofs module.
+
+If you stop here, you should still understand:
+
+- what universal and existential statements mean
+- why the domain of a variable matters
+- how to negate quantified statements correctly
+- how to read the logical shape of a theorem before trying to prove it
+
 ## Why It Matters
 
-Many people think they do not understand proofs, when the real problem is that they are reading quantified statements too loosely.
+Many proof problems are misdiagnosed as “I don’t know how to prove this,” when the real problem is simpler:
+
+- the theorem was read too loosely
+- the quantifiers were ignored
+- the domain was never identified
+- the negation was formed incorrectly
+
+That matters immediately in theory-heavy reading. A line like
+
+> For every $\varepsilon > 0$, there exists $\delta > 0$ such that ...
+
+is not just prose. It is a very specific logical machine. If you misread the quantifier order, the theorem itself changes.
+
+## Prerequisite Recall
+
+- a theorem is a mathematical claim with some logical structure
+- variables in a claim need a domain
+- the words `for every`, `there exists`, `if`, `and`, `or`, and `not` do real logical work
 
 ## Intuition
 
-A mathematical statement is not just a sentence. It also has scope:
+A mathematical statement is not just a sentence. It has scope:
 
-- who or what the claim talks about
-- whether the claim is universal or existential
+- which objects are being discussed
+- whether the claim is about all objects or at least one object
 - what assumptions are active
+- what conclusion is being asserted
+
+The quickest way to get lost in a proof is to collapse all of that into a vague English summary.
+
+So the right habit is:
+
+`read the theorem as a structured object, not as a slogan`
 
 ## Formal Core
 
-The two quantifiers you must read precisely are:
+::: {#def-universal-existential}
+## Quantifiers
 
-- $\forall x \in S, P(x)$ meaning “for every $x$ in $S$, property $P(x)$ holds”
-- $\exists x \in S \text{ such that } P(x)$ meaning “there exists at least one $x$ in $S$ with property $P(x)$”
+The two core quantifiers are:
 
-Negation rules matter:
+- universal quantification:
+  $$
+  \forall x \in S,\; P(x)
+  $$
+  meaning “for every $x$ in $S$, the property $P(x)$ holds”
 
-- $\neg(\forall x, P(x))$ becomes $\exists x$ such that $\neg P(x)$
-- $\neg(\exists x, P(x))$ becomes $\forall x, \neg P(x)$
+- existential quantification:
+  $$
+  \exists x \in S \text{ such that } P(x)
+  $$
+  meaning “there exists at least one $x$ in $S$ for which $P(x)$ holds”
+:::
+
+::: {#prp-negation}
+## Negation Rules
+
+Negation changes both the predicate and, for quantified statements, the quantifier:
+
+$$
+\neg(\forall x \in S,\; P(x))
+\quad \equiv \quad
+\exists x \in S \text{ such that } \neg P(x)
+$$
+
+and
+
+$$
+\neg(\exists x \in S,\; P(x))
+\quad \equiv \quad
+\forall x \in S,\; \neg P(x).
+$$
+
+For an implication,
+
+$$
+\neg(P \Rightarrow Q)
+\quad \equiv \quad
+P \land \neg Q.
+$$
+:::
+
+::: {#prp-reading}
+## Key Reading Strategy
+
+When you read a theorem, identify:
+
+1. the domain of each variable
+2. the quantifier type and order
+3. the assumptions
+4. the exact target claim
+
+This is often the real first step of the proof.
+:::
 
 ## Worked Example
 
-Claim:
+Consider the claim:
 
-> For every real number $x$, if $x > 1$ then $x^2 > 1$.
+> For every real number $x$, if $x > 1$, then $x^2 > 1$.
 
-This is a universal statement with a conditional structure. To test your reading, ask:
+Read structurally, this says:
 
-- what is the domain?
-- what is assumed?
-- what must be proved?
+$$
+\forall x \in \mathbb{R},\; (x>1 \Rightarrow x^2>1).
+$$
+
+Now ask the four standard questions:
+
+1. `Domain`: what is $x$ allowed to be?  
+   Answer: any real number.
+
+2. `Assumption`: what are we allowed to assume in the proof?  
+   Answer: only the hypothesis $x>1$.
+
+3. `Target`: what must be shown?  
+   Answer: $x^2>1$.
+
+4. `How would the statement be false?`  
+   Since it is a universal implication, it would be false if there were a real number $x$ with
+   $$
+   x>1 \quad \text{and} \quad x^2 \le 1.
+   $$
+
+That final line is especially important. It tells you what a counterexample would have to look like.
+
+## Computation Lens
+
+A useful theorem-parsing checklist is:
+
+1. rewrite the statement using quantifiers if needed
+2. underline the domain of each variable
+3. box the hypothesis
+4. circle the conclusion
+5. write the negation in full if you expect to use contradiction or counterexample
+
+This is the proof analogue of turning a word problem into exact notation before trying to solve it.
 
 ## Application Lens
 
-In research papers, assumptions are often compressed into a line like:
+In research papers, many of the hard-looking theorems become more manageable once you do this parse.
 
-> Let $f$ be $L$-smooth and $\mu$-strongly convex.
+For example, a theorem might begin:
 
-That line is already doing heavy logical work. If you read it casually, the rest of the theorem becomes blurry.
+> Let $f$ be $L$-smooth and $\mu$-strongly convex. For every step size $\eta \in (0, 1/L]$, ...
+
+That opening line already fixes:
+
+- the object being studied
+- the assumptions on that object
+- the allowed parameter range
+
+If you read it casually, the rest of the theorem becomes blurry. If you read it as structured logic, the proof becomes much easier to follow.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- what $\forall$ and $\exists$ mean
+- why quantifier order matters
+- how to negate universal and existential statements
+- how to extract assumptions and targets from a theorem
+
+then this page has done its main job.
+
+## Go Deeper
+
+The next proofs-spine pages are:
+
+- [Direct Proof](direct-proof.qmd), where this logical parsing becomes a forward proof structure
+- [Contrapositive and Contradiction](contrapositive-and-contradiction.qmd), where correct negation becomes essential
+
+## Optional Paper Bridge
+
+- [Stanford CS103 Guide to Proofs](https://web.stanford.edu/class/archive/cs/cs103/cs103.1254/guide_to_proofs) - `First pass` - strong official guide to the logical structure of proofs and theorem statements. Checked `2026-04-24`.
+- [Stanford CS103 Guide to Negation](https://web.stanford.edu/class/cs103/guide_to_negation) - `Second pass` - official animated guide focused specifically on building correct negations. Checked `2026-04-24`.
+- [Stanford CS103 Guide to Logic Translation](https://web.stanford.edu/class/archive/cs/cs103/cs103.1246/guide_to_translation) - `Second pass` - useful for moving between English statements and exact symbolic structure. Checked `2026-04-24`.
+- [Logic & Proofs - OLI](https://oli.cmu.edu/courses/logic-proofs/) - `Paper bridge` - official interactive environment for practicing theorem parsing and logical analysis. Checked `2026-04-24`.
+
+## Optional After First Pass
+
+If you want more practice before moving on:
+
+- rewrite a theorem from one of your math pages in explicit quantified form
+- negate that theorem carefully
+- identify what a counterexample would need to satisfy
 
 ## Common Mistakes
 
 - treating “for all” like “for many”
-- forgetting the domain of the variable
-- negating universal claims incorrectly
+- forgetting the domain of a variable
+- negating a universal statement incorrectly
+- ignoring quantifier order
+- reading a theorem as an intuition instead of as a logical object
 
 ## Exercises
 
 1. Negate the statement: “For every matrix $A$, there exists a vector $x$ such that $Ax = 0$.”
-2. Rewrite “No continuous function on `[0,1]` is unbounded” using quantifiers.
+2. Rewrite “No continuous function on $[0,1]$ is unbounded” using quantifiers.
+3. For the statement “For every integer $n$, if $n$ is even then $n^2$ is even,” describe exactly what a counterexample would have to look like.
+
+## Sources and Further Reading
+
+- [Stanford CS103 Guide to Proofs](https://web.stanford.edu/class/archive/cs/cs103/cs103.1254/guide_to_proofs) - `First pass` - official proof guide with good theorem-parsing examples. Checked `2026-04-24`.
+- [Stanford CS103 Guide to Negation](https://web.stanford.edu/class/cs103/guide_to_negation) - `First pass` - official Stanford guide focused on negation, one of the key failure points in early proof work. Checked `2026-04-24`.
+- [Stanford CS103 Guide to Logic Translation](https://web.stanford.edu/class/archive/cs/cs103/cs103.1246/guide_to_translation) - `Second pass` - useful for sharpening theorem parsing through symbolic translation. Checked `2026-04-24`.
+- [Logic & Proofs - OLI](https://oli.cmu.edu/courses/logic-proofs/) - `Second pass` - interactive official resource for repeated logic practice. Checked `2026-04-24`.
+
+Sources checked online on `2026-04-24`:
+
+- Stanford CS103 Guide to Proofs
+- Stanford CS103 Guide to Negation
+- Stanford CS103 Guide to Logic Translation
+- CMU OLI Logic & Proofs

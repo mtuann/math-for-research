@@ -61,6 +61,10 @@ website:
               - topics/foundation/proofs/index.qmd
               - topics/foundation/proofs/concepts/statements-and-quantifiers.qmd
               - topics/foundation/proofs/concepts/direct-proof.qmd
+              - topics/foundation/proofs/concepts/contrapositive-and-contradiction.qmd
+              - topics/foundation/proofs/concepts/induction.qmd
+              - topics/foundation/proofs/concepts/counterexamples-and-proof-debugging.qmd
+              - topics/foundation/proofs/concepts/proof-writing-clinic.qmd
           - section: "Linear Algebra"
             contents:
               - topics/foundation/linear-algebra/index.qmd

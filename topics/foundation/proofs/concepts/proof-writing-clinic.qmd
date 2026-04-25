@@ -1,0 +1,287 @@
+---
+title: "Proof-writing Clinic"
+description: "How to turn a proof draft into a readable, rigorous argument by checking assumptions, variable scope, line justification, theorem shape, and sentence-level clarity."
+page-type: concept
+status: published
+update-status: current
+level: foundation
+topic: proofs
+prerequisites:
+  - /topics/foundation/proofs/concepts/statements-and-quantifiers.qmd
+  - /topics/foundation/proofs/concepts/direct-proof.qmd
+  - /topics/foundation/proofs/concepts/contrapositive-and-contradiction.qmd
+  - /topics/foundation/proofs/concepts/induction.qmd
+  - /topics/foundation/proofs/concepts/counterexamples-and-proof-debugging.qmd
+learning-goals:
+  - "Diagnose the most common structural and writing bugs in proof drafts."
+  - "Rewrite a vague or invalid proof into a clear, justified proof."
+  - "Use a repeatable self-edit checklist before calling a proof finished."
+  - "Distinguish stylistic cleanup from genuine logical repair."
+applications:
+  - theorem-writing
+  - theorem-reading
+  - algorithms
+keywords:
+  - proofwriting
+  - proof debugging
+  - assumptions
+  - variable scope
+  - clarity
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/foundation/proofs/index.qmd
+  - /topics/foundation/proofs/concepts/direct-proof.qmd
+  - /topics/foundation/proofs/concepts/contrapositive-and-contradiction.qmd
+  - /topics/foundation/proofs/concepts/induction.qmd
+  - /topics/foundation/proofs/concepts/counterexamples-and-proof-debugging.qmd
+stable-sources:
+  - "Stanford CS103 Proofwriting Checklist"
+  - "Stanford CS103 Discrete Structures Proofwriting Checklist"
+  - "CMU OLI Logic & Proofs"
+current-sources:
+  - "MIT 6.042 proof guidelines"
+---
+
+## Role
+
+This page is the practical capstone of the proofs module.
+
+Its job is not to introduce one new proof method. Its job is to help you revise a draft until it becomes an argument another careful reader can actually trust.
+
+## First-Pass Promise
+
+Read this page after `Counterexamples and Proof Debugging`.
+
+If you stop here, you should still understand:
+
+- the difference between a proof that feels plausible and a proof that is actually clear
+- the most common structural bugs in early proof drafts
+- how to repair a draft without rewriting everything from scratch
+- how to run a short self-edit checklist before you call a proof finished
+
+## Why It Matters
+
+A lot of proof frustration comes from mixing two problems together:
+
+- the idea of the proof is not yet right
+- the idea is fine, but the writing hides it
+
+A proof-writing clinic helps separate those.
+
+In practice, many weak drafts fail because of a small number of recurring issues:
+
+- assumptions are not stated clearly
+- variables appear without being introduced
+- a conclusion is asserted with no justification
+- definitions are repeated abstractly instead of applied concretely
+- the proof structure says one method is being used, but the body uses another
+
+This matters in class, but it also matters in research. A theorem can be mathematically correct and still unreadable. That is a real problem, because unreadable proofs are hard to verify, hard to debug, and hard to extend.
+
+## Prerequisite Recall
+
+- a proof needs a clear start point and end point
+- each proof step needs some justification, not just plausibility
+- a false theorem and a true theorem with a bad proof are different problems
+
+## Intuition
+
+Think of proof revision the way you think about debugging code.
+
+A first draft often contains:
+
+- unnecessary lines
+- variables that were never introduced
+- a jump that only works if an unstated assumption is added
+- sentences that are grammatically fine but mathematically vague
+
+The point of clinic-style revision is to ask, line by line:
+
+1. what is this sentence doing?
+2. what earlier fact justifies it?
+3. if I remove this sentence, does anything break?
+4. if the proof breaks, what exact role was this sentence supposed to play?
+
+That process usually makes the proof shorter, clearer, and more correct at the same time.
+
+## Formal Core
+
+::: {#prp-structure}
+## Structural Checklist
+
+A proof draft should answer these questions explicitly or implicitly:
+
+1. What are the assumptions?
+2. What is the exact claim to prove?
+3. Which proof method is being used?
+4. Where are new variables introduced, and where do they come from?
+5. What justifies each nontrivial step?
+6. What exact statement has been proved at the end?
+:::
+
+::: {#prp-common-bugs}
+## Common Proof Bugs
+
+The most common proofwriting failures are:
+
+- `missing setup`: assumptions or target are not articulated
+- `scope bug`: a variable appears without being introduced or changes meaning mid-proof
+- `load-bearing bug`: a sentence is true but unused, or a needed sentence is missing
+- `definition bug`: a definition is repeated abstractly instead of applied to the current object
+- `method mismatch`: the proof claims to be direct, contradiction, or induction but does not actually follow that structure
+- `equation pile`: equations appear with no explanation of why each transformation is valid
+:::
+
+::: {#prp-revision}
+## Revision Rule
+
+When revising a proof, fix logic before style, but use style to expose logic.
+
+In practice:
+
+1. test whether the theorem is true
+2. locate the first unjustified step
+3. repair the mathematical structure
+4. then cut extra sentences and improve phrasing
+
+Good style is not cosmetic. It often reveals the hidden bug.
+:::
+
+## Worked Example
+
+Consider the theorem:
+
+> If $m$ and $n$ are even integers, then $m+n$ is even.
+
+A student writes:
+
+> Proof: Since $m$ and $n$ are even, every even number can be written as twice an integer. So $m=2a$ and $n=2b$. Then $m+n=2a+2b=2(a+b)$. Therefore $m+n$ is even. QED.
+
+This draft is close, but let us put it through clinic.
+
+### What Is Good
+
+- the overall idea is correct
+- the relevant definition is being used
+- the final algebra points to the right conclusion
+
+### What Needs Repair
+
+1. The proof does not begin by clearly stating the assumptions and target.
+2. The sentence “every even number can be written as twice an integer” repeats the definition abstractly instead of applying it directly to $m$ and $n$.
+3. The variables $a$ and $b$ appear, but their source should be stated more cleanly.
+4. The last line should explicitly connect the algebraic form $2(a+b)$ to the definition of evenness.
+
+### Revised Version
+
+> Proof: Choose any even integers $m$ and $n$. We will show that $m+n$ is even. Since $m$ is even, there is an integer $a$ such that $m=2a$. Since $n$ is even, there is an integer $b$ such that $n=2b$. Therefore
+> $$
+> m+n = 2a+2b = 2(a+b).
+> $$
+> Because $a+b$ is an integer, this shows that $m+n$ has the form $2k$ for some integer $k$, namely $k=a+b$. Hence $m+n$ is even, as required.
+
+This version is not dramatically longer, but it is much easier to trust. Every introduced variable has a source, and every algebraic step is tied back to the target definition.
+
+### What Actually Changed
+
+The revision did not invent new mathematics. It made the argument `verifiable`.
+
+That is the clinic mindset:
+
+1. preserve the working core idea
+2. expose hidden assumptions and variable origins
+3. make the endpoint match the theorem exactly
+
+## Computation Lens
+
+A strong self-edit pass can be run with this short checklist:
+
+1. `Truth check`: have I tested whether the theorem is even true?
+2. `Setup check`: do the assumptions and target appear near the start?
+3. `Variable check`: does every symbol come from somewhere?
+4. `Method check`: does the body actually match the claimed method?
+5. `Line check`: can I justify every nontrivial sentence from earlier facts?
+6. `Endpoint check`: does the last sentence prove exactly the theorem, not a nearby statement?
+7. `Trim check`: can I delete any sentence without harming the argument?
+
+This is the proof analogue of running unit tests, type checks, and a linter before shipping code.
+
+## Application Lens
+
+Proof clinic habits transfer directly to research work:
+
+- they make theorem statements easier to audit
+- they make collaborator feedback more precise
+- they reduce the risk of a hidden assumption breaking a later section
+- they make paper proofs easier to compress without making them unreadable
+
+In theory-heavy papers, the difference between a strong and weak proof section is often not brilliance. It is disciplined exposition.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- what the main categories of proofwriting bugs are
+- how to turn a vague draft into a verifiable proof
+- why revising for clarity often improves correctness
+- what checklist you would run before submitting a proof
+
+then this page has done its main job.
+
+## Go Deeper
+
+The most useful companion pages in the proofs module are:
+
+- [Counterexamples and Proof Debugging](counterexamples-and-proof-debugging.qmd), if you need to decide whether the theorem or the proof is broken
+- [Contrapositive and Contradiction](contrapositive-and-contradiction.qmd), if a draft is using an indirect method sloppily
+- [Induction](induction.qmd), if the draft bug is about a bad base case or bad inductive hypothesis
+
+After this page, the natural next move is to start the `Logic` module or move into `Statistics`, depending on whether you want more proof fluency or more applied math next.
+
+## Optional Paper Bridge
+
+- [Stanford CS103 Proofwriting Checklist](https://web.stanford.edu/class/archive/cs/cs103/cs103.1252/proofwriting_checklist) - `First pass` - one of the strongest official guides to structure, load-bearing sentences, variable scope, and proof style. Checked `2026-04-24`.
+- [Stanford Discrete Structures Proofwriting Checklist](https://web.stanford.edu/class/cs103/discrete_structures_checklist) - `Second pass` - great for the next layer of proofwriting precision once objects like functions and graphs enter the picture. Checked `2026-04-24`.
+- [CMU OLI Logic & Proofs](https://oli.cmu.edu/courses/logic-proofs/) - `Second pass` - official interactive environment that supports repeated proof practice with feedback. Checked `2026-04-24`.
+- [MIT 6.042 Problem Set Instructions](https://courses.csail.mit.edu/6.042/spring18/pset_instructions.shtml) - `Paper bridge` - short official statement of what graders expect from readable, structured proofs. Checked `2026-04-24`.
+
+## Optional After First Pass
+
+If you want more practice before moving on:
+
+- take one of your old proof drafts and annotate the role of every sentence
+- rewrite one proof with the goal of deleting every non-load-bearing line
+- compare a mathematically correct but sloppy proof with a polished revision and ask what changed
+
+## Common Mistakes
+
+- assuming clarity is a cosmetic issue instead of a mathematical one
+- repeating definitions instead of applying them
+- using notation as the verb of a sentence
+- introducing a variable and never using it
+- ending with a nearby conclusion rather than the actual target statement
+
+## Exercises
+
+1. Take the theorem “If $n$ is even, then $n^2$ is even.” Write a proof draft that is mathematically correct but stylistically weak, then revise it.
+2. Find the bug in this sentence: “Since $A \subseteq B$, all elements are in $B$.” What is missing?
+3. Take any proof from the proofs module and mark each sentence as one of: setup, variable introduction, justified inference, or conclusion.
+
+## Sources and Further Reading
+
+- [Stanford CS103 Proofwriting Checklist](https://web.stanford.edu/class/archive/cs/cs103/cs103.1252/proofwriting_checklist) - `First pass` - outstanding official source for revision habits and recurring proof bugs. Checked `2026-04-24`.
+- [Stanford Discrete Structures Proofwriting Checklist](https://web.stanford.edu/class/cs103/discrete_structures_checklist) - `First pass` - official supplement showing how proofwriting standards become more precise in discrete structures. Checked `2026-04-24`.
+- [CMU OLI Logic & Proofs](https://oli.cmu.edu/courses/logic-proofs/) - `Second pass` - official interactive logic course with strong support for repeated proof practice. Checked `2026-04-24`.
+- [MIT 6.042 Problem Set Instructions](https://courses.csail.mit.edu/6.042/spring18/pset_instructions.shtml) - `Second pass` - concise official reminder that clarity and explicit structure are part of mathematical correctness in practice. Checked `2026-04-24`.
+
+Sources checked online on `2026-04-24`:
+
+- Stanford CS103 Proofwriting Checklist
+- Stanford Discrete Structures Proofwriting Checklist
+- CMU OLI Logic & Proofs
+- MIT 6.042 proof guidelines

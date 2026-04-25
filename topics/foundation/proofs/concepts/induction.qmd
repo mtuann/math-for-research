@@ -1,0 +1,306 @@
+---
+title: "Induction"
+description: "How induction proves infinitely many cases by combining a verified starting point with a propagation rule, and why this becomes the proof-language counterpart of recursion."
+page-type: concept
+status: published
+update-status: current
+level: foundation
+topic: proofs
+prerequisites:
+  - /topics/foundation/proofs/concepts/statements-and-quantifiers.qmd
+  - /topics/foundation/proofs/concepts/direct-proof.qmd
+  - /topics/foundation/proofs/concepts/contrapositive-and-contradiction.qmd
+learning-goals:
+  - "State the principle of mathematical induction correctly."
+  - "Write a clean base case, inductive hypothesis, and inductive step."
+  - "Recognize when strong induction is the natural form."
+  - "Connect induction to recursive definitions, summations, and algorithmic reasoning."
+applications:
+  - algorithms
+  - discrete-math
+  - theory
+keywords:
+  - induction
+  - strong induction
+  - inductive hypothesis
+  - recursive reasoning
+  - well-ordering
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/foundation/proofs/index.qmd
+  - /topics/foundation/proofs/concepts/direct-proof.qmd
+  - /topics/foundation/proofs/concepts/contrapositive-and-contradiction.qmd
+stable-sources:
+  - "Stanford CS103 Mathematical Induction"
+  - "MIT Mathematics for Computer Science"
+  - "CMU OLI Logic & Proofs"
+current-sources:
+  - "Stanford CS103 Mathematical Induction lecture materials"
+---
+
+## Role
+
+This page teaches the standard method for proving that a statement holds for every natural number beyond some starting point.
+
+Induction is the proof-language version of recursive propagation: establish a starting case, then show how truth at one stage forces truth at the next.
+
+## First-Pass Promise
+
+Read this page after `Contrapositive and Contradiction`.
+
+If you stop here, you should still understand:
+
+- what the base case and inductive step actually do
+- what an inductive hypothesis is and how to use it
+- why induction proves infinitely many cases without checking them one by one
+- when strong induction is more natural than the one-step version
+
+## Why It Matters
+
+Induction appears everywhere in math for CS, AI, and engineering:
+
+- proving summation formulas
+- analyzing recursively defined objects
+- proving correctness of recursive algorithms
+- establishing properties of sequences, trees, graphs, and state machines
+- justifying formulas that hold for all input sizes
+
+If direct proof is the basic proof method, induction is the first method that genuinely scales to infinite families of claims.
+
+## Prerequisite Recall
+
+- a statement like “for every $n \ge n_0$, $P(n)$ holds” is a universal claim over the natural numbers
+- direct proof moves from assumptions toward a conclusion
+- contradiction can show that a certain bad counterexample cannot exist
+
+## Intuition
+
+The standard picture is a line of dominoes, but the deeper idea is `propagation`.
+
+You want to prove a statement $P(n)$ for every integer $n \ge n_0$. Instead of checking infinitely many values, you prove two facts:
+
+1. the statement is true at the starting point
+2. whenever it is true at one stage, it must also be true at the next stage
+
+That combination means the truth cannot “break” later. Once the chain starts, the step keeps pushing it forward forever.
+
+In computer science, this is closely related to recursion:
+
+- recursive definitions build bigger objects from smaller ones
+- induction proves properties of all those objects by following the same build pattern
+
+So a good mental model is:
+
+`recursion builds -> induction certifies`
+
+## Formal Core
+
+::: {#thm-induction}
+## Principle of Mathematical Induction
+
+Let $P(n)$ be a statement for integers $n \ge n_0$.
+
+If:
+
+1. `Base case`: $P(n_0)$ is true
+2. `Inductive step`: for every integer $n \ge n_0$, if $P(n)$ is true, then $P(n+1)$ is true
+
+then $P(n)$ is true for every integer $n \ge n_0$.
+:::
+
+::: {#def-ih}
+## Inductive Hypothesis
+
+In the inductive step, the temporary assumption that $P(n)$ is true is called the inductive hypothesis.
+
+It is not the final conclusion. It is the assumption you are allowed to use to prove the next case.
+:::
+
+::: {#thm-strong-induction}
+## Strong Induction
+
+Let $P(n)$ be a statement for integers $n \ge n_0$.
+
+If:
+
+1. the required starting cases hold, and
+2. for every $n \ge n_0$, assuming $P(k)$ is true for all $n_0 \le k \le n$ lets you prove $P(n+1)$
+
+then $P(n)$ is true for all $n \ge n_0$.
+
+Strong induction is not stronger in logical power than ordinary induction. It is just often a better fit when the next case depends on several earlier ones rather than only the immediately previous one.
+:::
+
+::: {#prp-template}
+## Key Strategy
+
+When setting up an induction proof, identify:
+
+- the exact predicate $P(n)$
+- the exact starting index
+- the exact statement you may assume in the inductive step
+- the exact target you must prove next
+
+Most bad induction proofs fail because one of those four pieces stays implicit or gets shifted halfway through the argument.
+:::
+
+## Worked Example
+
+Prove that for every integer $n \ge 1$,
+
+$$
+1 + 2 + \cdots + n = \frac{n(n+1)}{2}.
+$$
+
+Define the predicate
+
+$$
+P(n): \quad 1 + 2 + \cdots + n = \frac{n(n+1)}{2}.
+$$
+
+### Base Case
+
+Take $n=1$. Then the left-hand side is $1$, and the right-hand side is
+
+$$
+\frac{1(1+1)}{2} = 1.
+$$
+
+So $P(1)$ is true.
+
+### Inductive Step
+
+Assume $P(n)$ is true for some integer $n \ge 1$. This is the inductive hypothesis:
+
+$$
+1 + 2 + \cdots + n = \frac{n(n+1)}{2}.
+$$
+
+We must prove $P(n+1)$, namely
+
+$$
+1 + 2 + \cdots + n + (n+1) = \frac{(n+1)(n+2)}{2}.
+$$
+
+Start from the left-hand side and use the inductive hypothesis:
+
+$$
+1 + 2 + \cdots + n + (n+1)
+= \frac{n(n+1)}{2} + (n+1).
+$$
+
+Factor out $(n+1)$:
+
+$$
+\frac{n(n+1)}{2} + (n+1)
+= (n+1)\left(\frac{n}{2} + 1\right)
+= (n+1)\left(\frac{n+2}{2}\right)
+= \frac{(n+1)(n+2)}{2}.
+$$
+
+So $P(n+1)$ is true.
+
+Therefore, by induction, $P(n)$ holds for all integers $n \ge 1$.
+
+This example captures the heart of induction:
+
+1. name the predicate
+2. verify the start
+3. assume the current case
+4. use that assumption to build the next one
+
+## Computation Lens
+
+A practical induction checklist is:
+
+1. write `P(n)` explicitly in one sentence or formula
+2. decide where the claim really starts
+3. prove the base case at that start
+4. in the step, assume exactly $P(n)$
+5. prove exactly $P(n+1)$
+6. say clearly at the end what the induction principle now gives you
+
+Strong induction is usually the right choice when the case $n+1$ is built from multiple smaller cases. That happens often with recursive algorithms, divide-and-conquer recurrences, and number-theoretic decompositions.
+
+## Application Lens
+
+Induction is the native proof tool for recursive and size-based reasoning:
+
+- if an algorithm is defined recursively on input size $n$, induction is often how you prove correctness for all $n$
+- if a structure is built from smaller structures, induction matches the construction process
+- if a theorem claims something for all path lengths, tree depths, or iteration counts, induction is usually nearby
+
+This is why induction becomes central so quickly in discrete math and theoretical CS. It is how you turn a recursive idea into a rigorous universal claim.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- what the base case and inductive step do
+- what the inductive hypothesis is
+- why induction proves infinitely many cases
+- when strong induction is a better fit
+
+then this page has done its main job.
+
+## Go Deeper
+
+For the proofs spine, the best nearby pages are:
+
+- [Direct Proof](direct-proof.qmd), if you want to compare induction with one-step forward reasoning
+- [Contrapositive and Contradiction](contrapositive-and-contradiction.qmd), if you want to compare indirect and recursive proof structure
+- [Counterexamples and Proof Debugging](counterexamples-and-proof-debugging.qmd), if you want to stress-test proof attempts and false theorems
+
+## Optional Paper Bridge
+
+- [Stanford CS103 Mathematical Induction, Part I](https://web.stanford.edu/class/archive/cs/cs103/cs103.1252/lectures/12/) - `First pass` - official Stanford material that frames induction as a core CS proof technique. Checked `2026-04-24`.
+- [MIT Mathematics for Computer Science induction notes](https://web.mit.edu/broder/Public/6.042-lecture-notes/lecture-notes.pdf) - `Second pass` - official MIT notes with templates and examples for ordinary induction. Checked `2026-04-24`.
+- [MIT OCW slides on induction and strong induction](https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-fall-2005/resources/slides3f/) - `Second pass` - official MIT OCW resource that explicitly contrasts ordinary and strong induction. Checked `2026-04-24`.
+- [Logic & Proofs - OLI](https://oli.cmu.edu/courses/logic-proofs/) - `Paper bridge` - useful as a structured proof-practice environment once you want repetition and feedback. Checked `2026-04-24`.
+
+## Optional After First Pass
+
+If you want more practice before moving on:
+
+- rewrite a summation identity as a predicate $P(n)$ and prove it by induction
+- identify a theorem where the case $n+1$ depends on all earlier cases and try strong induction
+- compare a recursive definition with the induction proof that certifies it
+
+## Common Mistakes
+
+- proving the wrong base case
+- assuming $P(n+1)$ instead of $P(n)$ in the step
+- changing the statement mid-proof so the inductive hypothesis no longer matches
+- proving “it works for a few cases” instead of the actual induction step
+- forgetting to state the conclusion that induction now gives
+
+## Exercises
+
+1. Prove by induction that for every integer $n \ge 1$,
+   $$
+   1 + 3 + 5 + \cdots + (2n-1) = n^2.
+   $$
+2. Prove by induction that for every integer $n \ge 0$,
+   $$
+   2^n \ge n+1.
+   $$
+3. Explain in words when strong induction is more natural than ordinary induction.
+
+## Sources and Further Reading
+
+- [Stanford CS103 Mathematical Induction, Part I](https://web.stanford.edu/class/archive/cs/cs103/cs103.1252/lectures/12/) - `First pass` - current official Stanford lecture page emphasizing how often induction appears in CS. Checked `2026-04-24`.
+- [MIT Mathematics for Computer Science induction notes](https://web.mit.edu/broder/Public/6.042-lecture-notes/lecture-notes.pdf) - `First pass` - official MIT notes with a clear induction template and many introductory examples. Checked `2026-04-24`.
+- [MIT OCW slides on induction and strong induction](https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-fall-2005/resources/slides3f/) - `Second pass` - official OCW material contrasting ordinary induction, strong induction, and the well-ordering principle. Checked `2026-04-24`.
+- [Logic & Proofs - OLI](https://oli.cmu.edu/courses/logic-proofs/) - `Second pass` - structured proof-practice environment for getting repetition beyond reading examples. Checked `2026-04-24`.
+
+Sources checked online on `2026-04-24`:
+
+- Stanford CS103 induction lecture page
+- MIT induction lecture notes
+- MIT OCW induction/strong induction resource page
+- CMU OLI Logic & Proofs course page

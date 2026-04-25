@@ -1,53 +1,164 @@
 ---
 title: "Proofs"
+description: "Core proof techniques and proof-writing habits for research-facing math in CS, AI, and engineering."
+page-type: module-overview
+status: published
+update-status: current
+level: foundation
+topic: proofs
+prerequisites:
+  - /start-here/notation-and-symbols.qmd
+  - /start-here/how-to-write-proofs.qmd
+learning-goals:
+  - "Learn the first proof methods in the right order."
+  - "Read theorem statements with logical precision."
+  - "Write short proofs that are clear, correct, and revision-friendly."
+applications:
+  - theorem-reading
+  - algorithms
+  - theory
+keywords:
+  - proofs
+  - proofwriting
+  - contradiction
+  - induction
+  - counterexample
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: annual
+date-modified: last-modified
+draft: false
 ---
 
 ## Why This Module Matters
 
 Proof writing is the point where math stops being a pile of techniques and starts becoming a language.
 
-If you want to read theory-heavy papers well, this module is not optional.
+If you want to read theory-heavy papers well, this module is not optional. It is where you learn how to parse assumptions, choose a proof method, and tell the difference between a proof idea that feels plausible and an argument that is actually rigorous.
+
+This module is also unusually transferable. The same habits that help in beginner proof exercises help later in analysis, optimization, probability, learning theory, and research writing.
 
 ::: {.meta-strip}
 ::: {.meta-box}
 **Prerequisites**
-Algebra fluency and patience
+Algebra fluency, notation comfort, and patience
 :::
 ::: {.meta-box}
 **Unlocks**
-Logic, discrete math, real analysis, learning theory
+Logic, discrete math, analysis, learning theory
 :::
 ::: {.meta-box}
 **Research Use**
-Theorem reading, assumption tracking, proof debugging
+Theorem reading, assumption tracking, proof debugging, paper writing
 :::
 :::
 
-## Module Sequence
+## First Pass Through This Module
 
 1. [Statements and Quantifiers](concepts/statements-and-quantifiers.qmd)
 2. [Direct Proof](concepts/direct-proof.qmd)
-3. Contrapositive and contradiction
-4. Induction
-5. Counterexamples and proof debugging
+3. [Contrapositive and Contradiction](concepts/contrapositive-and-contradiction.qmd)
+4. [Induction](concepts/induction.qmd)
+5. [Counterexamples and Proof Debugging](concepts/counterexamples-and-proof-debugging.qmd)
+6. [Proof-writing Clinic](concepts/proof-writing-clinic.qmd)
+
+On a first pass, these six pages are the whole story. You should be able to stop at the concept pages and still get a complete beginner-to-usable proof foundation.
 
 ## Navigation Rule
 
 The global sidebar shows only the proof `spine`:
 
 - the module overview
-- the core concept pages you should study in order
+- the core concept pages in study order
 
-When this module grows, worked examples, exercises, and paper-bridge pages should live inside the relevant topic package or on the module page, not all at once in the global sidebar.
+Each page should be a first-pass finish line for its own topic. If companion pages are added later, they should feel optional, not required to understand the main flow.
 
-## What You Should Be Able To Do After This Module
+## Core Concepts
 
-- read a theorem statement carefully
-- identify hidden quantifiers
-- choose a reasonable proof strategy
-- explain why a proof step is valid
-- write short proofs without collapsing into symbol soup
+- [Statements and Quantifiers](concepts/statements-and-quantifiers.qmd): teaches the logical grammar of theorem statements and negation.
+- [Direct Proof](concepts/direct-proof.qmd): teaches the default forward proof pattern from assumptions to conclusion.
+- [Contrapositive and Contradiction](concepts/contrapositive-and-contradiction.qmd): teaches the main indirect methods and when to use them.
+- [Induction](concepts/induction.qmd): teaches how to prove infinitely many cases with a base case and propagation step.
+- [Counterexamples and Proof Debugging](concepts/counterexamples-and-proof-debugging.qmd): teaches how to test false theorems and locate broken proof steps.
+- [Proof-writing Clinic](concepts/proof-writing-clinic.qmd): turns all of the above into a practical revision workflow.
 
-## Paper Bridge
+## Proof Patterns In This Module
 
-The first thing proofs teach you for research is how to read assumptions without skipping them. That single habit affects optimization, probability, learning theory, and statistics almost immediately.
+- `Parse before proving`: theorem structure matters before proof strategy.
+- `Choose the right direction`: direct, indirect, and inductive proofs each have natural use cases.
+- `Debug by first failure`: when a proof draft is wrong, find the earliest unjustified step.
+- `Revise for verifiability`: good proofwriting makes correctness easier to check.
+
+## Applications
+
+### Reading Theory Papers
+
+These pages teach you how to slow down enough to read assumptions, quantify what is actually being claimed, and spot when a theorem is being applied outside its scope.
+
+### Writing Correct Arguments
+
+Whether you are proving an invariant, checking a recurrence, justifying an estimator property, or writing a theorem section in a paper, the same proof habits keep the argument readable and trustworthy.
+
+## Go Deeper By Topic
+
+### Indirect Proof
+
+Start with [Contrapositive and Contradiction](concepts/contrapositive-and-contradiction.qmd).
+
+If that page still feels slippery, revisit:
+
+- [Statements and Quantifiers](concepts/statements-and-quantifiers.qmd) for negation practice
+- [Direct Proof](concepts/direct-proof.qmd) to compare forward and indirect setups
+
+### Proof Revision
+
+Start with [Counterexamples and Proof Debugging](concepts/counterexamples-and-proof-debugging.qmd), then finish with [Proof-writing Clinic](concepts/proof-writing-clinic.qmd).
+
+That pair is the best bridge from “I know proof methods” to “I can diagnose and improve a real proof draft.”
+
+## Optional Deep Dives After First Pass
+
+Until the proofs module grows companion pages, the best deeper pass is through official proofwriting references:
+
+- [Stanford CS103 Proofwriting Checklist](https://web.stanford.edu/class/archive/cs/cs103/cs103.1252/proofwriting_checklist) - watch how proof structure and sentence structure are treated as part of correctness. Checked `2026-04-24`.
+- [CMU OLI Logic & Proofs](https://oli.cmu.edu/courses/logic-proofs/) - use it as a repetition-and-feedback layer after reading the concept pages. Checked `2026-04-24`.
+
+## Study Order
+
+The intended order is exactly the six-page spine above.
+
+The first three pages teach:
+
+- how to read a theorem
+- how to prove something directly
+- how to switch to indirect reasoning when needed
+
+The next three pages teach:
+
+- how to reason recursively through induction
+- how to disprove and debug
+- how to revise a proof draft into a clean final version
+
+You are ready to leave this module when you can:
+
+- parse a theorem without losing its quantifiers
+- pick a reasonable proof method
+- identify the first broken line in a weak proof
+- revise a short proof into something another reader can verify
+
+## Sources and Further Reading
+
+- [Stanford CS103 Guide to Proofs](https://web.stanford.edu/class/archive/cs/cs103/cs103.1254/guide_to_proofs) - `First pass` - one of the best official proof guides for beginners in CS-flavored math. Checked `2026-04-24`.
+- [Stanford CS103 Proofwriting Checklist](https://web.stanford.edu/class/archive/cs/cs103/cs103.1252/proofwriting_checklist) - `First pass` - excellent official proof revision checklist. Checked `2026-04-24`.
+- [CMU OLI Logic & Proofs](https://oli.cmu.edu/courses/logic-proofs/) - `Second pass` - strong official interactive course for repeated logic and proof practice. Checked `2026-04-24`.
+- [MIT Mathematics for Computer Science: What is a Proof?](https://web.mit.edu/neboat/Public/6.042/proofs.pdf) - `Second pass` - official MIT notes emphasizing proof structure and clarity. Checked `2026-04-24`.
+- [MIT 6.042 PSet Submission and Guidelines](https://courses.csail.mit.edu/6.042/spring18/pset_instructions.shtml) - `Paper bridge` - concise official statement of what readable proof structure looks like in practice. Checked `2026-04-24`.
+
+Sources checked online on `2026-04-24`:
+
+- Stanford CS103 Guide to Proofs
+- Stanford CS103 Proofwriting Checklist
+- CMU OLI Logic & Proofs
+- MIT proof notes
+- MIT proof guidelines
