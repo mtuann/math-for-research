@@ -1,0 +1,195 @@
+---
+title: "Oversmoothing, Depth, and Graph Sampling"
+description: "A bridge page showing why repeated graph propagation can wash node representations together, why deeper GNNs become hard to train, and how graph sampling helps with scale and locality."
+page-type: application
+status: published
+update-status: current
+level: bridge
+topic: machine-learning
+prerequisites:
+  - /applications/machine-learning/graph-diffusion-and-message-passing.qmd
+  - /topics/foundation/linear-algebra/applications/spectral-modes-in-consensus-and-graphs.qmd
+  - /applications/machine-learning/regularization-implicit-bias-and-model-complexity.qmd
+learning-goals:
+  - "Explain oversmoothing as repeated propagation that makes node representations too similar."
+  - "Relate graph depth to diffusion and neighborhood growth."
+  - "Explain why graph sampling is used to control computation and locality."
+  - "Connect deep GNN design choices to the matrix-propagation view already built on the site."
+applications:
+  - machine-learning
+  - graph-learning
+  - deep-learning
+keywords:
+  - oversmoothing
+  - graph neural networks
+  - message passing
+  - GraphSAGE
+  - graph sampling
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+---
+
+## Application Snapshot
+
+Deeper models help in many areas of ML, but graph neural networks often hit a different regime:
+
+`more layers can make node representations too similar`
+
+That phenomenon is called oversmoothing.
+
+At the same time, deeper message passing expands the effective neighborhood of each node very quickly, so computation and noise both grow. That is one reason graph sampling became a core practical tool.
+
+## Problem Setting
+
+A simple graph propagation layer can be written as
+
+$$
+H^{(\ell+1)} = P H^{(\ell)} W^{(\ell)},
+$$
+
+where:
+
+- $H^{(\ell)}$ is the node-feature matrix at layer $\ell$
+- $P$ is a normalized propagation matrix
+- $W^{(\ell)}$ is a learned weight matrix
+
+If we ignore the learned weights for a moment and focus only on propagation, repeated layers look like
+
+$$
+H^{(L)} \approx P^L H^{(0)}.
+$$
+
+So the same question from graph diffusion returns:
+
+`what happens when we keep applying the same graph-mixing operator?`
+
+## Why This Math Appears
+
+This page lives directly on top of earlier pages:
+
+- [Graph Diffusion and Message Passing](graph-diffusion-and-message-passing.qmd): message passing is learned propagation
+- [Spectral Modes in Consensus and Graphs](../../topics/foundation/linear-algebra/applications/spectral-modes-in-consensus-and-graphs.qmd): repeated graph updates are matrix powers
+- [Regularization, Implicit Bias, and Model Complexity](regularization-implicit-bias-and-model-complexity.qmd): depth and architecture change which solutions and geometries the model prefers
+
+So oversmoothing is not an isolated GNN pathology. It is what happens when a propagation operator keeps averaging away distinctions that the task still needs.
+
+## Math Objects In Use
+
+- graph propagation matrix $P$
+- repeated powers $P^L$
+- node-feature matrix $H$
+- neighborhood radius induced by depth
+- sampling or aggregation budget per node
+
+## A Small Worked Walkthrough
+
+Take the same 3-node line-style propagation matrix used for diffusion intuition:
+
+$$
+P =
+\begin{bmatrix}
+\tfrac{1}{2} & \tfrac{1}{2} & 0 \\
+\tfrac{1}{3} & \tfrac{1}{3} & \tfrac{1}{3} \\
+0 & \tfrac{1}{2} & \tfrac{1}{2}
+\end{bmatrix}.
+$$
+
+Start with one scalar feature at each node:
+
+$$
+H^{(0)} =
+\begin{bmatrix}
+1 \\
+0 \\
+0
+\end{bmatrix}.
+$$
+
+After one propagation step,
+
+$$
+H^{(1)} = P H^{(0)}
+=
+\begin{bmatrix}
+\tfrac{1}{2} \\
+\tfrac{1}{3} \\
+0
+\end{bmatrix}.
+$$
+
+After two steps,
+
+$$
+H^{(2)} = P H^{(1)}
+=
+\begin{bmatrix}
+\tfrac{5}{12} \\
+\tfrac{5}{18} \\
+\tfrac{1}{6}
+\end{bmatrix}.
+$$
+
+After many steps, the entries keep moving toward a shared smoothed pattern. The graph is mixing information across nodes.
+
+That mixing is useful at first:
+
+- local noise is reduced
+- neighboring structure is incorporated
+
+But if we keep going, node representations can become too similar to distinguish. That is oversmoothing.
+
+The second practical issue is neighborhood explosion. If each node aggregates from, say, $d$ neighbors per layer, then $L$ layers can expose information from roughly $d^L$ local paths. For large graphs, this quickly becomes expensive.
+
+This is why methods like GraphSAGE sample only part of each neighborhood during training. Instead of aggregating all neighbors at each layer, the model may sample a fixed number such as:
+
+- 25 neighbors at layer 1
+- 10 neighbors at layer 2
+
+This does not remove the underlying diffusion logic, but it keeps the computation manageable and the effective receptive field better controlled.
+
+## Implementation or Computation Note
+
+In practical GNN design, depth is tied to three competing effects:
+
+- more layers let information travel farther
+- more layers can wash node features together
+- more layers increase memory and neighborhood cost
+
+Common mitigations include:
+
+- residual or skip connections
+- normalization
+- jumping-knowledge style architectures
+- neighborhood sampling
+- restricting depth and using stronger features
+
+Another response is to change the graph itself. [Graph Rewiring, Homophily, and Heterophily](graph-rewiring-homophily-and-heterophily.qmd) looks at that option directly.
+
+It is also important not to confuse this page's main failure mode with [Long-Range Dependence and Oversquashing in Graphs](long-range-dependence-and-oversquashing-in-graphs.qmd). Oversmoothing is about node states becoming too similar; oversquashing is about too much distant information being forced through too small a bottleneck.
+
+So “make the GNN deeper” is not a neutral choice. It changes both the operator and the geometry of the learned representations.
+
+## Failure Modes
+
+- assuming deeper message passing is always better
+- confusing oversmoothing with every possible GNN failure mode
+- ignoring neighborhood explosion and training cost on large graphs
+- treating graph sampling as only an implementation trick rather than a modeling choice about locality
+- forgetting that some recent results show oversmoothing is nuanced and depends on operator and initialization, not only on layer count
+
+## Paper Bridge
+
+- [Inductive Representation Learning on Large Graphs](https://papers.nips.cc/paper/2017/file/5dd9db5e033da9c6fb5ba83c7a7ebea9-Paper.pdf) - `First pass` - GraphSAGE is the classic bridge for understanding sampled neighborhood aggregation in large graphs. Checked `2026-04-24`.
+- [A Non-Asymptotic Analysis of Oversmoothing in Graph Neural Networks](https://openreview.net/forum?id=CJd-BtnwtXq) - `Paper bridge` - theory-facing paper that makes the depth/oversmoothing tradeoff explicit. Checked `2026-04-24`.
+
+## Sources and Further Reading
+
+- [CS224W | Machine Learning with Graphs](https://snap.stanford.edu/class/cs224w-2024/) - `First pass` - official Stanford graph-learning course hub for the broader context around sampling, propagation, and GNN design. Checked `2026-04-24`.
+- [Semi-Supervised Classification with Graph Convolutional Networks](https://openreview.net/forum?id=SJU4ayYgl) - `First pass` - canonical GCN paper for the basic propagation layer that makes oversmoothing intuitive. Checked `2026-04-24`.
+- [Inductive Representation Learning on Large Graphs](https://papers.nips.cc/paper/2017/file/5dd9db5e033da9c6fb5ba83c7a7ebea9-Paper.pdf) - `First pass` - GraphSAGE paper for sampled message passing on large graphs. Checked `2026-04-24`.
+- [A Non-Asymptotic Analysis of Oversmoothing in Graph Neural Networks](https://openreview.net/forum?id=CJd-BtnwtXq) - `Second pass` - precise modern analysis of why oversmoothing appears at finite depth. Checked `2026-04-24`.
+- [Graph Neural Networks Do Not Always Oversmooth](https://papers.neurips.cc/paper_files/paper/2024/file/5623c35f3ab5e2c72aeb3abce27dc28f-Paper-Conference.pdf) - `Paper bridge` - useful current nuance showing the story depends on the regime and initialization. Checked `2026-04-24`.

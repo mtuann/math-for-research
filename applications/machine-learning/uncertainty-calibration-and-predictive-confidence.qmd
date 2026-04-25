@@ -1,0 +1,187 @@
+---
+title: "Uncertainty Calibration and Predictive Confidence"
+description: "A bridge page showing why predictive confidence is not the same as accuracy, how calibration is checked, and why trustworthy uncertainty needs held-out evaluation."
+page-type: application
+status: published
+update-status: current
+level: bridge
+topic: machine-learning
+prerequisites:
+  - /topics/foundation/probability/index.qmd
+  - /topics/foundation/statistics/index.qmd
+  - /applications/machine-learning/generalization-overfitting-and-validation.qmd
+learning-goals:
+  - "Explain calibration for class probabilities and predictive intervals."
+  - "Distinguish accuracy, calibration, and sharpness."
+  - "Interpret a reliability diagram and the basic idea behind expected calibration error."
+  - "Recognize why calibration must be checked on held-out data and why it can fail under distribution shift."
+applications:
+  - machine-learning
+  - evaluation
+  - uncertainty
+keywords:
+  - calibration
+  - predictive confidence
+  - uncertainty
+  - reliability diagram
+  - expected calibration error
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+---
+
+## Application Snapshot
+
+A model can be highly accurate and still be badly overconfident.
+
+That is why many real systems need more than a predicted label. They need a confidence score, probability, interval, or uncertainty estimate that behaves honestly.
+
+Calibration is the statistical question behind that honesty:
+
+`when the model says 90% confidence, is it right about 90% of the time?`
+
+This matters whenever decisions depend on uncertainty, not just on ranking:
+
+- medical triage
+- selective prediction or abstention
+- active learning
+- human review queues
+- deployment under changing conditions
+
+## Problem Setting
+
+For classification, suppose a model outputs a predictive distribution
+
+$$
+\hat{p}(y \mid x)
+$$
+
+and confidence
+
+$$
+c(x) = \max_k \hat{p}(y=k \mid x).
+$$
+
+Perfect confidence calibration informally means:
+
+`among predictions made at confidence about c, the empirical accuracy is also about c`
+
+For regression or probabilistic forecasting, calibration is usually phrased through predictive intervals or predictive distributions. For example, a nominal 90% predictive interval should contain the true target about 90% of the time on future data from the same regime.
+
+So calibration is not only about having uncertainty. It is about the agreement between:
+
+- reported uncertainty
+- observed frequencies
+
+This is different from accuracy or discrimination. A model can rank examples well and still assign misleading confidence.
+
+## Why This Math Appears
+
+This page reuses several math layers already on the site:
+
+- [Probability](../../topics/foundation/probability/index.qmd): confidence is a conditional-probability claim about future correctness
+- [Statistics](../../topics/foundation/statistics/index.qmd): calibration is estimated from held-out data, intervals, and empirical frequencies
+- [Generalization, Overfitting, and Validation](generalization-overfitting-and-validation.qmd): calibration is another held-out performance property, and it can degrade under shift
+
+The broader ML lesson is:
+
+`a predictive distribution is only useful if its uncertainty behaves honestly on the data regime you care about`
+
+## Math Objects In Use
+
+- predictive distribution $\hat{p}(y \mid x)$
+- confidence score $c(x)$
+- reliability diagram
+- expected calibration error (ECE)
+- proper scoring rules such as log loss or Brier score
+- predictive intervals, empirical coverage, and sharpness
+
+## A Small Worked Walkthrough
+
+Suppose a classifier is evaluated on 100 held-out examples.
+
+- On 50 examples, it predicts confidence about $0.9$
+- On those 50 examples, it is correct only 35 times
+- On the other 50 examples, it predicts confidence about $0.6$
+- On those 50 examples, it is correct 30 times
+
+So the empirical accuracies by confidence group are:
+
+- confidence bin $0.9$ -> accuracy $35/50 = 0.7$
+- confidence bin $0.6$ -> accuracy $30/50 = 0.6$
+
+Overall accuracy is
+
+$$
+\frac{35+30}{100} = 0.65.
+$$
+
+But the first confidence bin is clearly overconfident: the model speaks as if it were right 90% of the time, while it is right only 70% of the time there.
+
+A simple binned ECE-style summary here is
+
+$$
+\frac{50}{100}\lvert 0.9 - 0.7 \rvert
++
+\frac{50}{100}\lvert 0.6 - 0.6 \rvert
+= 0.10.
+$$
+
+Now imagine another model with the same overall accuracy $0.65$, but whose confidence scores are closer to the actual success rates on held-out data. The two models could look equally good under accuracy, while one is much more trustworthy for downstream decisions.
+
+The regression version tells the same story. If a model reports 90% predictive intervals on 100 future examples but those intervals cover the truth only 72 times, the uncertainty is overconfident even if the point predictions are numerically strong.
+
+## Implementation or Computation Note
+
+In practice, calibration is usually handled with a separate held-out role:
+
+1. `train` to fit the base model
+2. `validation` or `calibration` split to tune or recalibrate confidence
+3. `test` to measure final performance honestly
+
+Common post-hoc tools include:
+
+- temperature scaling
+- Platt scaling
+- isotonic regression
+
+Common evaluation tools include:
+
+- reliability diagrams
+- expected calibration error
+- log loss or Brier score
+- empirical interval coverage and interval width for regression
+
+One important distinction is:
+
+- `calibration` asks whether reported confidence matches observed frequency
+- `sharpness` asks whether the predictions are informative rather than excessively vague
+
+Very wide intervals can look well covered while still being unhelpful.
+
+Another practical lesson is that calibration under IID validation data does **not** guarantee calibration after distribution shift. A model may look well calibrated in development and then become overconfident once the data regime changes.
+
+## Failure Modes
+
+- treating softmax confidence as if it were automatically a calibrated probability
+- calibrating and evaluating on the same held-out test set
+- reporting only ECE and ignoring binning choices, class imbalance, or proper scoring rules
+- confusing accuracy or AUC with calibrated confidence
+- forgetting the tradeoff between calibration and sharpness
+- assuming calibration on the training or validation distribution will survive dataset shift
+
+## Paper Bridge
+
+- [On Calibration of Modern Neural Networks](https://proceedings.mlr.press/v70/guo17a.html) - `First pass` - classic modern paper showing that strong neural-network accuracy does not guarantee calibrated confidence, and that temperature scaling is often an effective fix. Checked `2026-04-24`.
+- [Can You Trust Your Model's Uncertainty? Evaluating Predictive Uncertainty Under Dataset Shift](https://papers.neurips.cc/paper/2019/hash/8558cb408c1d76621371888657d2eb1d-Abstract.html) - `Paper bridge` - strong deployment-facing paper showing how uncertainty quality can degrade under shift even when uncertainty methods look reasonable in-distribution. Checked `2026-04-24`.
+
+## Sources and Further Reading
+
+- [Probability calibration](https://scikit-learn.org/stable/modules/calibration.html) - `First pass` - official scikit-learn guide to reliability diagrams, calibration curves, and common recalibration tools. Checked `2026-04-24`.
+- [On Calibration of Modern Neural Networks](https://proceedings.mlr.press/v70/guo17a.html) - `First pass` - primary source for temperature scaling and the modern overconfidence story in deep classifiers. Checked `2026-04-24`.
+- [Accurate Uncertainties for Deep Learning Using Calibrated Regression](https://proceedings.mlr.press/v80/kuleshov18a.html) - `Second pass` - primary bridge for thinking about calibrated uncertainty in regression rather than only classification. Checked `2026-04-24`.
+- [Metrics of Calibration for Probabilistic Predictions](https://www.jmlr.org/papers/v23/22-0658.html) - `Second pass` - useful source once you want more nuance about how calibration metrics summarize reliability diagrams. Checked `2026-04-24`.
+- [Can You Trust Your Model's Uncertainty? Evaluating Predictive Uncertainty Under Dataset Shift](https://papers.neurips.cc/paper/2019/hash/8558cb408c1d76621371888657d2eb1d-Abstract.html) - `Paper bridge` - current deployment-facing warning that honest uncertainty must be re-checked under the actual data regime. Checked `2026-04-24`.

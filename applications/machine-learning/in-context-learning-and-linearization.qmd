@@ -1,0 +1,218 @@
+---
+title: "In-Context Learning and Linearization"
+description: "A bridge page showing how prompt examples act like a tiny dataset in context, and why simplified analyses often interpret in-context learning through linear regression or local linear updates."
+page-type: application
+status: published
+update-status: current
+level: bridge
+topic: machine-learning
+prerequisites:
+  - /applications/machine-learning/attention-softmax-and-weighted-mixtures.qmd
+  - /applications/machine-learning/representation-learning-and-geometry-of-embeddings.qmd
+  - /topics/foundation/linear-algebra/applications/linear-regression-through-projection.qmd
+learning-goals:
+  - "Explain in-context learning as adaptation from prompt examples without changing model weights."
+  - "Interpret a prompt as a small dataset of demonstrations plus a query."
+  - "Recognize the linearization lens used to analyze in-context learning on simple function classes."
+  - "Connect attention, embeddings, and least-squares style prediction to the modern study of few-shot prompting."
+applications:
+  - machine-learning
+  - deep-learning
+  - transformers
+keywords:
+  - in-context learning
+  - few-shot learning
+  - prompting
+  - linearization
+  - transformers
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+---
+
+## Application Snapshot
+
+Large language models can often solve a new task from examples written in the prompt, without any gradient update to the weights.
+
+That behavior is called `in-context learning` (ICL).
+
+At first it can feel mysterious. But one useful mathematical lens is much less mystical:
+
+`the prompt can behave like a tiny training set, and the model can behave as if it is fitting a simple predictor inside its activations`
+
+In the cleanest synthetic settings, that implicit predictor often looks surprisingly close to linear regression, ridge regression, or another simple update rule.
+
+## Problem Setting
+
+Suppose a prompt contains demonstration pairs
+
+$$
+(x_1, y_1), \dots, (x_k, y_k)
+$$
+
+followed by a query input $x_\star$.
+
+The model must produce an output $y_\star$.
+
+The important constraint is:
+
+`the model adapts to the task through the context, not by changing parameters`
+
+So the context window plays two roles at once:
+
+- it is input to the model
+- it also acts like a tiny task-specific dataset
+
+This is different from standard supervised training, where the model absorbs data into its weights across optimization steps.
+
+## Why This Math Appears
+
+This page sits on top of several earlier bridges:
+
+- [Attention, Softmax, and Weighted Mixtures](attention-softmax-and-weighted-mixtures.qmd): attention lets the model compare a query with demonstrations and combine information from several examples
+- [Representation Learning and Geometry of Embeddings](representation-learning-and-geometry-of-embeddings.qmd): in-context learning depends on the geometry of hidden representations, not only on raw tokens
+- [Linear Regression Through Projection](../../topics/foundation/linear-algebra/applications/linear-regression-through-projection.qmd): many clean ICL analyses use regression-like predictors as the simplest mathematical analogue
+
+That is why linear algebra keeps reappearing in ICL papers:
+
+- demonstrations become vectors in context
+- attention computes structured comparisons
+- predictions can sometimes be approximated by linear maps or least-squares style estimators
+
+## Math Objects In Use
+
+- prompt examples $(x_i, y_i)$
+- query example $x_\star$
+- hidden representation or embedding space
+- attention weights over contextual examples
+- implicit predictor induced by the prompt
+- linear estimator or local linearization
+
+## A Small Worked Walkthrough
+
+Take a toy regression task where the hidden rule is
+
+$$
+y = 2x.
+$$
+
+Suppose the prompt contains two demonstrations
+
+$$
+(1,2), \qquad (3,6),
+$$
+
+and the query is
+
+$$
+x_\star = 4.
+$$
+
+The correct answer is clearly $8$.
+
+Now write the demonstrations as a tiny linear-regression problem:
+
+$$
+X =
+\begin{bmatrix}
+1 \\
+3
+\end{bmatrix},
+\qquad
+y =
+\begin{bmatrix}
+2 \\
+6
+\end{bmatrix}.
+$$
+
+The least-squares fit for a one-dimensional slope is
+
+$$
+\hat{w} = (X^\top X)^{-1} X^\top y.
+$$
+
+Here,
+
+$$
+X^\top X = 1^2 + 3^2 = 10,
+\qquad
+X^\top y = 1\cdot 2 + 3\cdot 6 = 20,
+$$
+
+so
+
+$$
+\hat{w} = \frac{20}{10} = 2.
+$$
+
+Then the prediction for the query is
+
+$$
+\hat{y}_\star = x_\star \hat{w} = 4 \cdot 2 = 8.
+$$
+
+This does **not** mean a language model literally writes down and inverts a matrix every time it sees a few-shot prompt.
+
+It means something more modest and more useful:
+
+- the prompt can encode a small supervised-learning problem
+- attention can route information from the demonstrations to the query
+- in simplified settings, the resulting behavior can match a linear predictor very closely
+
+That is the linearization lens: analyze the in-context behavior by comparing it to a simple, mathematically transparent estimator.
+
+## Implementation or Computation Note
+
+There are at least three different stories people tell about ICL:
+
+1. `Pattern continuation`
+   The model continues token patterns it has seen many times in pretraining.
+
+2. `Retrieval`
+   The model uses attention to pull relevant examples or templates from the prompt.
+
+3. `Implicit learning algorithm`
+   The model behaves as if it is fitting a small predictor inside its activations from the prompt examples.
+
+In practice, all three can matter, and which one dominates depends on:
+
+- model scale
+- task type
+- prompt format
+- how close the task is to the pretraining distribution
+
+This is also why `linearization` should be read carefully.
+
+On this page, it means:
+
+- using a linear or locally linear mathematical model to explain part of the behavior
+- not claiming that all in-context learning in general LLMs is fully solved by linear regression
+
+The cleanest evidence for the linearization view comes from controlled synthetic tasks such as linear regression, where researchers can compare transformer predictions directly with least squares, ridge, or gradient-based learners.
+
+## Failure Modes
+
+- assuming in-context learning is just memorization with a fancy name
+- assuming every case of ICL is literally gradient descent in hidden space
+- overgeneralizing from synthetic linear-regression tasks to all language-model reasoning
+- forgetting that prompt order, formatting, and tokenization can materially change behavior
+- treating attention weights as a full explanation rather than one partial view of the mechanism
+- confusing in-context learning with fine-tuning or weight updates
+
+## Paper Bridge
+
+- [Language Models are Few-Shot Learners](https://papers.nips.cc/paper/2020/hash/1457c0d6bfcb4967418bfb8ac142f64a-Abstract.html) - `First pass` - classic source for the modern few-shot prompting phenomenon in large language models. Checked `2026-04-24`.
+- [Trained Transformers Learn Linear Models In-Context](https://jmlr.org/papers/v25/23-1042.html) - `Paper bridge` - strong math-facing paper showing that, on synthetic regression tasks, transformers can match linear estimators surprisingly closely. Checked `2026-04-24`.
+
+## Sources and Further Reading
+
+- [CS324: Large Language Models](https://stanford-cs324.github.io/winter2022/) - `First pass` - official Stanford course hub for the broader LLM setting in which in-context learning became central. Checked `2026-04-24`.
+- [CS224N Lecture 9: Pretraining](https://web.stanford.edu/class/cs224n/slides/cs224n-spr2024-lecture09-pretraining-updated.pdf) - `First pass` - official Stanford slides that introduce GPT-style few-shot prompting in a broader NLP course context. Checked `2026-04-24`.
+- [Language Models are Few-Shot Learners](https://papers.nips.cc/paper/2020/hash/1457c0d6bfcb4967418bfb8ac142f64a-Abstract.html) - `First pass` - primary source for the empirical phenomenon of in-context learning in very large language models. Checked `2026-04-24`.
+- [What Can Transformers Learn In-Context? A Case Study of Simple Function Classes](https://arxiv.org/abs/2208.01066) - `Second pass` - primary source for studying ICL on controlled function classes such as linear functions and decision trees. Checked `2026-04-24`.
+- [What Learning Algorithm is In-Context Learning? Investigations with Linear Models](https://arxiv.org/abs/2211.15661) - `Second pass` - influential primary paper investigating whether transformers implicitly implement regression-style learning algorithms in context. Checked `2026-04-24`.
+- [Trained Transformers Learn Linear Models In-Context](https://jmlr.org/papers/v25/23-1042.html) - `Paper bridge` - strong mathematical bridge between ICL behavior and linear estimators. Checked `2026-04-24`.

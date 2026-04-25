@@ -1,0 +1,220 @@
+---
+title: "Kernel Ridge and Gaussian-Process Intuition"
+description: "A bridge page showing how kernel ridge regression and Gaussian-process regression share the same predictive form, and where uncertainty enters the picture."
+page-type: application
+status: published
+update-status: current
+level: bridge
+topic: machine-learning
+prerequisites:
+  - /applications/machine-learning/kernel-methods-and-similarity-geometry.qmd
+  - /applications/machine-learning/regularization-implicit-bias-and-model-complexity.qmd
+  - /topics/foundation/probability/index.qmd
+learning-goals:
+  - "Explain kernel ridge regression as regularized prediction in a kernel geometry."
+  - "Recognize the shared predictive form between kernel ridge regression and GP regression."
+  - "Explain how GP regression adds uncertainty, not only a mean prediction."
+  - "Connect kernels, regularization, and Bayesian function priors at a practical level."
+applications:
+  - machine-learning
+  - machine-learning-theory
+  - bayesian-ml
+keywords:
+  - kernel ridge regression
+  - gaussian process
+  - posterior mean
+  - uncertainty
+  - kernel matrix
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+---
+
+## Application Snapshot
+
+Kernel ridge regression and Gaussian-process regression often look like different worlds:
+
+- one sounds like regularized optimization
+- the other sounds like Bayesian probability
+
+But at prediction time, their mean predictor has the same basic shape:
+
+`a weighted combination of kernel similarities to the training data`
+
+The main extra ingredient in Gaussian processes is uncertainty.
+
+## Problem Setting
+
+Given training inputs $x_1,\dots,x_n$ and targets $y \in \mathbb{R}^n$, define the kernel matrix
+
+$$
+K_{ij} = K(x_i,x_j).
+$$
+
+Kernel ridge regression solves a regularized problem whose prediction at a new point $x$ can be written as
+
+$$
+\hat{f}(x) = k(x)^\top (K + \lambda I)^{-1} y,
+$$
+
+where
+
+$$
+k(x) =
+\begin{bmatrix}
+K(x_1,x) \\
+\vdots \\
+K(x_n,x)
+\end{bmatrix}.
+$$
+
+Gaussian-process regression with observation noise variance $\sigma^2$ has posterior mean
+
+$$
+m(x) = k(x)^\top (K + \sigma^2 I)^{-1} y.
+$$
+
+So the predictive mean is the same algebraic form after matching $\lambda$ with $\sigma^2$.
+
+## Why This Math Appears
+
+This page ties together several earlier bridges:
+
+- [Kernel Methods and Similarity Geometry](kernel-methods-and-similarity-geometry.qmd): prediction already depends on the Gram matrix and similarity vector
+- [Regularization, Implicit Bias, and Model Complexity](regularization-implicit-bias-and-model-complexity.qmd): the ridge term is explicit complexity control
+- [Probability](../../topics/foundation/probability/index.qmd): the GP view treats prediction as a distribution over functions, not only a point estimate
+
+So this is a valuable bridge because it shows one of the cleanest places where optimization and Bayesian reasoning meet the same linear algebra.
+
+## Math Objects In Use
+
+- kernel matrix $K$
+- similarity vector $k(x)$
+- ridge parameter $\lambda$
+- GP noise variance $\sigma^2$
+- predictive mean
+- predictive variance
+
+## A Small Worked Walkthrough
+
+Suppose
+
+$$
+K =
+\begin{bmatrix}
+1 & 0.5 \\
+0.5 & 1
+\end{bmatrix},
+\qquad
+y =
+\begin{bmatrix}
+1 \\
+0
+\end{bmatrix},
+\qquad
+\lambda = 0.5.
+$$
+
+Then
+
+$$
+K + \lambda I =
+\begin{bmatrix}
+1.5 & 0.5 \\
+0.5 & 1.5
+\end{bmatrix},
+$$
+
+and
+
+$$
+(K+\lambda I)^{-1}
+=
+\begin{bmatrix}
+0.75 & -0.25 \\
+-0.25 & 0.75
+\end{bmatrix}.
+$$
+
+So the coefficient vector is
+
+$$
+\alpha = (K+\lambda I)^{-1} y
+=
+\begin{bmatrix}
+0.75 \\
+-0.25
+\end{bmatrix}.
+$$
+
+For a new point with
+
+$$
+k(x)=
+\begin{bmatrix}
+0.8 \\
+0.4
+\end{bmatrix},
+$$
+
+the prediction is
+
+$$
+\hat{f}(x) = k(x)^\top \alpha
+= 0.8(0.75) + 0.4(-0.25)
+= 0.5.
+$$
+
+The important structure is:
+
+- the prediction is a weighted sum of similarities to the training set
+- ridge regularization stabilizes the matrix inversion
+- the GP posterior mean uses the same formula
+
+What Gaussian processes add is a predictive variance, typically of the form
+
+$$
+v(x) = K(x,x) - k(x)^\top (K+\sigma^2 I)^{-1} k(x),
+$$
+
+which tells us how uncertain the model is at that location.
+
+## Implementation or Computation Note
+
+Kernel ridge and GP regression both depend on solving linear systems involving the kernel matrix.
+
+That gives them a clean mathematical form, but also a computational cost:
+
+- storing the full kernel matrix takes $O(n^2)$ memory
+- solving the system typically costs around $O(n^3)$ with dense methods
+
+So these methods are especially attractive when:
+
+- the dataset is moderate in size
+- uncertainty matters
+- similarity structure is more natural than explicit feature engineering
+
+This same mean-plus-uncertainty structure is exactly what [Bayesian Optimization and Surrogate Modeling](bayesian-optimization-and-surrogate-modeling.qmd) turns into a sequential search strategy for expensive objectives.
+
+## Failure Modes
+
+- thinking the GP is “just another kernel method” and forgetting the probabilistic uncertainty layer
+- treating the ridge parameter or noise variance as a purely technical knob instead of a modeling choice
+- assuming a good kernel is automatic rather than problem-dependent
+- ignoring conditioning issues in the kernel matrix
+- forgetting that the predictive mean can be smooth while uncertainty remains high away from the data
+
+## Paper Bridge
+
+- [Gaussian Processes for Machine Learning](https://gaussianprocess.org/gpml/) - `First pass` - the canonical online book for understanding GP regression from the ground up. Checked `2026-04-24`.
+- [CS229 Gaussian Processes Section Notes](https://cs229.stanford.edu/section/cs229-gp.pdf) - `Paper bridge` - official Stanford notes that make the regression formulas concrete. Checked `2026-04-24`.
+
+## Sources and Further Reading
+
+- [CS229 Notes on SVMs and Kernel Methods](https://cs229.stanford.edu/notes_archive/cs229-notes3.pdf) - `First pass` - official Stanford notes for the kernel side of the story. Checked `2026-04-24`.
+- [CS229 Gaussian Processes Section Notes](https://cs229.stanford.edu/section/cs229-gp.pdf) - `First pass` - official section notes for the GP regression viewpoint. Checked `2026-04-24`.
+- [Gaussian Processes for Machine Learning](https://gaussianprocess.org/gpml/) - `Second pass` - online classic text for the broader Bayesian function-space picture. Checked `2026-04-24`.
+- [The Gaussian Process Web Site](https://gaussianprocess.org/) - `Second pass` - canonical resource hub for books, software, and references around Gaussian processes. Checked `2026-04-24`.

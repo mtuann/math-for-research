@@ -1,0 +1,213 @@
+---
+title: "Flow Matching and Transport Views of Generation"
+description: "A bridge page showing how flow matching learns a time-dependent velocity field that transports noise into data, and why this gives a transport-based alternative to diffusion-style generation."
+page-type: application
+status: published
+update-status: current
+level: bridge
+topic: machine-learning
+prerequisites:
+  - /applications/machine-learning/diffusion-models-and-denoising.qmd
+  - /applications/machine-learning/score-matching-and-the-sde-view-of-diffusion.qmd
+  - /applications/machine-learning/optimization-for-machine-learning.qmd
+learning-goals:
+  - "Explain generation as transport from a simple source distribution to a data distribution."
+  - "Interpret flow matching as learning a velocity field along a probability path."
+  - "Recognize the difference between ODE transport views and reverse-SDE diffusion views."
+  - "Understand why straighter transport paths can support faster sampling."
+applications:
+  - machine-learning
+  - generative-modeling
+  - deep-learning
+keywords:
+  - flow matching
+  - transport
+  - velocity field
+  - ODE
+  - rectified flow
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+---
+
+## Application Snapshot
+
+The diffusion story says:
+
+- corrupt data with noise
+- learn how to reverse the corruption
+
+The flow-matching story says:
+
+- start from a simple source such as Gaussian noise
+- define a path from source to data
+- learn the velocity field that moves points along that path
+
+So generation becomes a transport problem:
+
+`learn how to push a simple distribution into the data distribution`
+
+This gives a clean bridge from generative modeling to differential equations, transport, and geometry.
+
+## Problem Setting
+
+Let $x_0$ be a source sample, often drawn from a simple distribution such as a Gaussian, and let $x_1$ be a target data sample.
+
+Choose a time-dependent probability path $x_t$ for $t \in [0,1]$ that moves from source to target.
+
+Flow matching trains a model $v_\theta(x,t)$ to approximate the velocity field that should move points along that path:
+
+$$
+\frac{dx_t}{dt} = v(x_t,t).
+$$
+
+After training, we generate by solving the learned ODE
+
+$$
+\frac{dx}{dt} = v_\theta(x,t)
+$$
+
+starting from a simple source sample and integrating forward toward data.
+
+So instead of reversing a noising process step by step, we learn a transport field directly.
+
+## Why This Math Appears
+
+This page continues the site's generative sequence:
+
+- [Diffusion Models and Denoising](diffusion-models-and-denoising.qmd): generation as reversing gradual corruption
+- [Score Matching and the SDE View of Diffusion](score-matching-and-the-sde-view-of-diffusion.qmd): generation as reverse-time stochastic dynamics guided by a learned field
+- [Optimization for Machine Learning](optimization-for-machine-learning.qmd): the velocity field is still learned by gradient-based training
+
+The new mathematical move is:
+
+`replace reverse stochastic denoising with direct learning of a transport vector field`
+
+That is why words such as `flow`, `velocity`, `trajectory`, and `transport path` show up.
+
+## Math Objects In Use
+
+- source sample $x_0$
+- target sample $x_1$
+- interpolation or probability path $x_t$
+- velocity field $v(x,t)$
+- learned vector field $v_\theta(x,t)$
+- transport ODE
+- sampling trajectory from source to data
+
+## A Small Worked Walkthrough
+
+Take the simplest possible one-dimensional path.
+
+Let
+
+$$
+x_0 = 0,
+\qquad
+x_1 = 2.
+$$
+
+Choose the straight interpolation
+
+$$
+x_t = (1-t)x_0 + t x_1 = 2t.
+$$
+
+Then the time derivative is
+
+$$
+\frac{dx_t}{dt} = 2.
+$$
+
+So along this path, the correct velocity field is just the constant
+
+$$
+v(x_t,t)=2.
+$$
+
+If a model learns that velocity exactly, then starting from $x(0)=0$ and solving
+
+$$
+\frac{dx}{dt}=2
+$$
+
+gives
+
+$$
+x(t)=2t,
+\qquad
+x(1)=2.
+$$
+
+This toy case is deliberately simple, but it shows the whole logic:
+
+- choose a path from source to target
+- compute the target velocity along that path
+- train a model to predict that velocity from $(x_t,t)$
+- generate by integrating the learned field
+
+In high dimensions, the same story holds, except the path and the velocity field live in a much larger space and are represented by a neural network.
+
+## Why This Is Related to Diffusion
+
+Flow matching is not disconnected from diffusion. In fact, the connection is one reason the topic matters.
+
+Both families learn time-dependent fields over intermediate distributions between noise and data.
+
+The difference is mostly in the lens:
+
+- `diffusion / score-based view`: learn the field needed to reverse a stochastic noising process
+- `flow-matching view`: learn the velocity field that transports mass along a chosen path
+
+The original flow-matching paper also shows that suitable Gaussian probability paths can recover diffusion-like paths as special cases.
+
+So flow matching is not an unrelated generative universe. It is part of the same broader movement toward path-based generative modeling.
+
+## Implementation or Computation Note
+
+Why do people care about flow matching so much?
+
+Because the transport view can make sampling simpler and faster.
+
+If the learned path is relatively straight and the velocity field is well behaved, then numerical ODE integration may require fewer function evaluations than long reverse-diffusion chains.
+
+That is why later work often emphasizes:
+
+- straighter paths
+- optimal-transport-inspired couplings
+- rectified flow
+- efficient ODE solvers
+
+The practical design choices now become:
+
+- which source distribution to use
+- which probability path to use
+- how to define pairings or couplings between source and target
+- how to parameterize and integrate the velocity field
+
+This is where flow matching becomes both a modeling question and a numerical-method question.
+
+## Failure Modes
+
+- thinking flow matching is just a renamed normalizing flow
+- assuming every flow-matching model learns exact optimal transport
+- ignoring that path choice strongly affects training and sampling behavior
+- treating deterministic ODE transport and stochastic diffusion as if they were identical
+- forgetting that faster sampling depends on the geometry of the learned trajectories, not only on the model size
+- overclaiming from toy straight-line intuition to all real generative problems
+
+## Paper Bridge
+
+- [Flow Matching for Generative Modeling](https://openreview.net/forum?id=PqvMRDCJT9t) - `First pass` - the core paper introducing flow matching as supervised learning of vector fields along probability paths. Checked `2026-04-24`.
+- [Rectified Flow: A Marginal Preserving Approach to Optimal Transport](https://arxiv.org/abs/2209.14577) - `Paper bridge` - influential transport-facing paper showing why straighter trajectories can matter for efficient generation. Checked `2026-04-24`.
+
+## Sources and Further Reading
+
+- [CME296: Diffusion and Large Vision Models](https://bulletin.stanford.edu/courses/2276231) - `First pass` - official Stanford course listing explicitly grouping diffusion, score matching, and flow matching in one modern generative curriculum. Checked `2026-04-24`.
+- [Flow Matching for Generative Modeling](https://openreview.net/forum?id=PqvMRDCJT9t) - `First pass` - primary source for the flow-matching framework. Checked `2026-04-24`.
+- [Flow Matching Guide and Code](https://arxiv.org/abs/2412.06264) - `Second pass` - broad guide for the modern flow-matching ecosystem once the basic velocity-field idea is clear. Checked `2026-04-24`.
+- [Rectified Flow: A Marginal Preserving Approach to Optimal Transport](https://arxiv.org/abs/2209.14577) - `Second pass` - primary source for the straighter-transport viewpoint that now strongly shapes fast generators. Checked `2026-04-24`.
+- [Stochastic Interpolants: A Unifying Framework for Flows and Diffusions](https://jmlr.org/papers/v26/23-1605.html) - `Paper bridge` - useful unifying view when you want one mathematical language covering both deterministic transport and stochastic generative paths. Checked `2026-04-24`.

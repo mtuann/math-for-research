@@ -1,0 +1,210 @@
+---
+title: "Linear Probes and Representation Diagnostics"
+description: "A bridge page showing how linear probes test what a frozen representation makes linearly decodable, and how to read probe results without overclaiming what a model knows."
+page-type: application
+status: published
+update-status: current
+level: bridge
+topic: machine-learning
+prerequisites:
+  - /applications/machine-learning/representation-learning-and-geometry-of-embeddings.qmd
+  - /applications/machine-learning/supervised-learning-losses-and-empirical-risk.qmd
+  - /topics/foundation/statistics/concepts/experimental-design-and-model-evaluation.qmd
+learning-goals:
+  - "Explain a linear probe as a frozen-representation plus linear-head evaluation."
+  - "Distinguish linear probing from end-to-end fine-tuning."
+  - "Interpret layerwise probe results as evidence about linearly available information, not full understanding."
+  - "Use control tasks, validation splits, and probe capacity to avoid overreading probe accuracy."
+applications:
+  - machine-learning
+  - representation-learning
+  - model-evaluation
+keywords:
+  - linear probe
+  - representation diagnostics
+  - transfer learning
+  - frozen features
+  - decodability
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+---
+
+## Application Snapshot
+
+A linear probe asks a narrow but useful question:
+
+`if we freeze the representation, what information is already easy to decode with a linear head?`
+
+That makes linear probing one of the simplest diagnostics for representation quality.
+
+It is especially useful when you want to compare:
+
+- different layers of the same model
+- different pretraining methods
+- zero-shot behavior versus learned downstream adaptation
+- frozen-feature transfer versus full fine-tuning
+
+## Problem Setting
+
+Suppose a pretrained model maps an input $x$ to a hidden representation
+
+$$
+z(x) \in \mathbb{R}^d.
+$$
+
+We freeze that representation and train only a linear predictor
+
+$$
+\hat{y} = W z(x) + b
+$$
+
+or, for multiclass classification, a softmax head built from those logits.
+
+The encoder is not updated. Only $W$ and $b$ are trained on the downstream labels.
+
+So a probe does not ask:
+
+`can the whole model solve the task after end-to-end adaptation?`
+
+It asks:
+
+`does this frozen representation already make the task linearly accessible?`
+
+## Why This Math Appears
+
+This page sits on top of several earlier bridges:
+
+- [Representation Learning and Geometry of Embeddings](representation-learning-and-geometry-of-embeddings.qmd): a representation is useful when geometry makes downstream tasks easier
+- [Supervised Learning, Losses, and Empirical Risk](supervised-learning-losses-and-empirical-risk.qmd): the probe is still a supervised predictor trained on a downstream loss
+- [Experimental Design and Model Evaluation](../../topics/foundation/statistics/concepts/experimental-design-and-model-evaluation.qmd): probe results are only meaningful if the split, metric, and comparison protocol are sound
+
+So linear probing is where representation geometry meets evaluation discipline.
+
+## Math Objects In Use
+
+- frozen representation $z(x)$
+- linear head $W z + b$
+- training and validation splits
+- accuracy, cross-entropy, or another downstream metric
+- layer index if we probe multiple hidden states
+- control baselines that help separate real signal from probe memorization
+
+## A Small Worked Walkthrough
+
+Suppose a frozen encoder maps four inputs into two-dimensional vectors:
+
+$$
+z(x_1) =
+\begin{bmatrix}
+2 \\
+1
+\end{bmatrix},
+\qquad
+z(x_2) =
+\begin{bmatrix}
+1.5 \\
+0.5
+\end{bmatrix},
+\qquad
+z(x_3) =
+\begin{bmatrix}
+-1 \\
+-1
+\end{bmatrix},
+\qquad
+z(x_4) =
+\begin{bmatrix}
+-1.5 \\
+-0.5
+\end{bmatrix}.
+$$
+
+Assume $x_1,x_2$ belong to class `A` and $x_3,x_4$ belong to class `B`.
+
+A linear probe with
+
+$$
+w =
+\begin{bmatrix}
+1 \\
+0.5
+\end{bmatrix},
+\qquad
+b = 0
+$$
+
+computes the score $s(x)=w^\top z(x)$.
+
+Then
+
+$$
+s(x_1)=2.5,\quad
+s(x_2)=1.75,\quad
+s(x_3)=-1.5,\quad
+s(x_4)=-1.75.
+$$
+
+So a single linear separator already splits the classes.
+
+The important conclusion is not that the model "understands class A." The narrower conclusion is:
+
+- the frozen representation places the two classes in a geometry that a linear rule can separate
+- a downstream task may therefore require only a small head rather than a full model rewrite
+
+Now imagine probing two layers of the same network:
+
+- an early layer gives probe accuracy near random
+- a later layer gives strong validation accuracy
+
+That suggests the later layer has made task-relevant information more linearly available. It still does **not** prove that the model internally uses the exact same linear rule during its native prediction pipeline.
+
+## Implementation or Computation Note
+
+A practical probe workflow usually looks like this:
+
+1. choose one or more frozen layers
+2. extract representations on a clean train / validation / test split
+3. train only a linear head
+4. compare validation and test behavior across layers or models
+
+Useful diagnostics include:
+
+- layerwise probe accuracy
+- train versus validation gap
+- zero-shot versus linear-probe versus fine-tuned performance
+- probe performance under small data budgets
+- control tasks or random-label baselines
+
+This is why probing is not just "train a tiny classifier." It is an evaluation design problem.
+
+For modern foundation models, linear probes are often used because they are cheap, reproducible, and less confounded than full fine-tuning. They also let you ask whether a representation is already useful before spending compute on larger adaptation.
+
+## Failure Modes
+
+- treating probe accuracy as proof that the model causally uses that feature
+- using a probe that is too expressive, so the probe learns the task instead of revealing the representation
+- comparing probes across models with mismatched data budgets or preprocessing
+- ignoring train / validation / test leakage
+- reading tiny accuracy differences as strong structural conclusions
+- forgetting that high probe accuracy can still coexist with poor robustness or poor calibration
+
+One especially important caution is this:
+
+`linear decodability is evidence about accessible information, not a full theory of representation meaning`
+
+## Paper Bridge
+
+- [Understanding intermediate layers using linear classifier probes](https://arxiv.org/abs/1610.01644) - `Paper bridge` - the classic paper that introduced layerwise linear probes as a way to study what hidden states make easy to classify. Checked `2026-04-24`.
+- [Designing and Interpreting Probes with Control Tasks](https://aclanthology.org/D19-1275/) - `Paper bridge` - the key cautionary paper showing that probe accuracy alone can be misleading without controlling probe capacity and memorization. Checked `2026-04-24`.
+
+## Sources and Further Reading
+
+- [CS231n Transfer Learning Notes](https://cs231n.github.io/transfer-learning/) - `First pass` - official Stanford notes explaining the frozen-feature plus linear-classifier workflow that makes probe intuition concrete. Checked `2026-04-24`.
+- [openai/CLIP](https://github.com/openai/CLIP) - `First pass` - official OpenAI repository for CLIP, a widely cited reference point for zero-shot versus linear-probe transfer evaluation. Checked `2026-04-24`.
+- [Stanford CS224N](https://web.stanford.edu/class/cs224n) - `First pass` - official course hub for modern learned representations, transfer, and downstream linear classification in NLP. Checked `2026-04-24`.
+- [Understanding intermediate layers using linear classifier probes](https://arxiv.org/abs/1610.01644) - `Second pass` - primary source for the basic layerwise probe idea. Checked `2026-04-24`.
+- [Designing and Interpreting Probes with Control Tasks](https://aclanthology.org/D19-1275/) - `Second pass` - primary source for selectivity, control tasks, and careful interpretation. Checked `2026-04-24`.

@@ -1,0 +1,136 @@
+---
+title: "Generalization, Overfitting, and Validation"
+description: "A bridge page showing why low training loss is not enough, how validation fits into the workflow, and how generalization turns sample performance into a theory question."
+page-type: application
+status: published
+update-status: current
+level: bridge
+topic: machine-learning
+prerequisites:
+  - /applications/machine-learning/supervised-learning-losses-and-empirical-risk.qmd
+  - /applications/machine-learning/optimization-for-machine-learning.qmd
+  - /topics/foundation/statistics/index.qmd
+learning-goals:
+  - "Explain the difference between training performance and generalization."
+  - "Recognize overfitting and underfitting in terms of error behavior."
+  - "Explain the role of train, validation, and test splits."
+  - "Connect these ideas to learning theory and statistical reasoning."
+applications:
+  - machine-learning
+  - machine-learning-theory
+  - validation
+keywords:
+  - generalization
+  - overfitting
+  - validation
+  - test error
+  - bias variance
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+---
+
+## Application Snapshot
+
+Optimization can make training loss small.
+
+But ML is not judged by how well a model fits the training sample alone. It is judged by how well it performs on new data.
+
+That gap between fitting the sample and performing well beyond the sample is where validation and generalization enter.
+
+## Problem Setting
+
+Suppose we train a predictor $f$ by minimizing empirical risk on a dataset.
+
+We can measure:
+
+- `training error`: performance on the sample used to fit the model
+- `validation error`: performance on held-out data used for model or hyperparameter selection
+- `test error`: performance on final held-out data used only for evaluation
+
+The central ML question is:
+
+`when does low training error say something meaningful about future error?`
+
+## Why This Math Appears
+
+This question reuses the site's probability and statistics foundations immediately:
+
+- training data are a sample, not the whole population
+- performance estimates vary with the sample
+- model complexity interacts with estimation uncertainty
+- hyperparameter tuning can leak information if validation and test roles are confused
+
+It also opens the door to theory:
+
+- concentration ideas help bound deviations between empirical and population behavior
+- learning theory studies when empirical risk is a reliable proxy
+- optimization can influence generalization through the solutions it prefers
+
+So generalization is not a vague ML slogan. It is the point where optimization, statistics, and theory collide.
+
+## Math Objects In Use
+
+- training loss or empirical risk $\hat{R}_n(f)$
+- population or expected risk $R(f)$
+- validation split
+- test split
+- generalization gap
+
+## A Small Worked Walkthrough
+
+Imagine two models trained on the same regression dataset:
+
+- Model A is simple and leaves visible bias in the training fit
+- Model B is very flexible and drives training loss almost to zero
+
+If Model B also chases noise in the sample, its validation error may rise even while training error keeps falling.
+
+That is the standard overfitting pattern:
+
+- training error decreases
+- validation error first decreases, then worsens
+
+In contrast, underfitting usually shows up when both training and validation error stay high because the model class or features are too limited.
+
+This is why the workflow needs separate roles:
+
+- `train` to fit parameters
+- `validation` to tune model choices
+- `test` to estimate final performance honestly
+
+## Implementation or Computation Note
+
+Validation is not only a statistical idea. It shapes how experiments are run.
+
+Typical practical choices include:
+
+- train / validation / test split
+- cross-validation when data are limited
+- early stopping based on validation behavior
+- hyperparameter tuning using validation only
+
+One recurring failure mode is leakage: information from the validation or test set indirectly influences training decisions, making performance look better than it really is.
+
+## Failure Modes
+
+- using the test set repeatedly during model development
+- tuning hyperparameters on the same data used for final evaluation
+- assuming zero training error means success
+- reading a noisy validation improvement as a real gain
+- treating generalization as if it were only an engineering heuristic rather than a statistical question
+
+## Paper Bridge
+
+- [CS229 Lecture 19: Advice for Applying Machine Learning](https://see.stanford.edu/Course/CS229/52) - `First pass` - official practical bridge for validation, diagnostics, and bias-variance thinking. Checked `2026-04-24`.
+- [CS229T / Statistical Learning Theory](https://web.stanford.edu/class/cs229t/) - `Paper bridge` - a direct entry from validation intuition into formal learning-theory questions. Checked `2026-04-24`.
+
+## Sources and Further Reading
+
+- [CS229 Lecture Notes 5: Regularization and Model Selection](https://see.stanford.edu/materials/aimlcs229/cs229-notes5.pdf) - `First pass` - official Stanford notes on model selection, regularization, and validation logic. Checked `2026-04-24`.
+- [CS229 Lecture 19: Advice for Applying Machine Learning](https://see.stanford.edu/Course/CS229/52) - `First pass` - official practical bridge for bias, variance, diagnostics, and error analysis. Checked `2026-04-24`.
+- [CS229T / Statistical Learning Theory](https://web.stanford.edu/class/cs229t/) - `Second pass` - official theory-facing course hub for readers ready to move from intuition to guarantees. Checked `2026-04-24`.
+- [CS 189 Syllabus](https://eecs189.org/sp26/syllabus/) - `Second pass` - official Berkeley ML course framing the pipeline from data to optimization and evaluation. Checked `2026-04-24`.

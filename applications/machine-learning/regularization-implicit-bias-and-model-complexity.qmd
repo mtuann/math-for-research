@@ -1,0 +1,157 @@
+---
+title: "Regularization, Implicit Bias, and Model Complexity"
+description: "A bridge page showing how explicit penalties and optimization dynamics both prefer some solutions over others, and why model complexity is not just parameter count."
+page-type: application
+status: published
+update-status: current
+level: bridge
+topic: machine-learning
+prerequisites:
+  - /applications/machine-learning/optimization-for-machine-learning.qmd
+  - /applications/machine-learning/generalization-overfitting-and-validation.qmd
+  - /topics/foundation/linear-algebra/applications/linear-regression-through-projection.qmd
+learning-goals:
+  - "Explain explicit regularization as a penalty added to the objective."
+  - "Explain implicit bias as the preference induced by the optimization method."
+  - "Recognize that model complexity can depend on norms, margins, or geometry, not only parameter count."
+  - "Connect regularization language to overparameterization and generalization."
+applications:
+  - machine-learning
+  - machine-learning-theory
+  - optimization
+keywords:
+  - regularization
+  - implicit bias
+  - model complexity
+  - minimum norm
+  - generalization
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+---
+
+## Application Snapshot
+
+Many ML problems have more than one solution that fits the data well.
+
+So a central question is not only:
+
+`can the model fit the sample?`
+
+It is also:
+
+`which fitting solution will the training procedure prefer?`
+
+That is where explicit regularization, implicit bias, and model complexity meet.
+
+## Problem Setting
+
+Suppose we train a model by minimizing
+
+$$
+J(\theta) = \hat{R}_n(\theta) + \lambda \Omega(\theta),
+$$
+
+where $\hat{R}_n$ is empirical risk and $\Omega$ is a penalty such as $\|\theta\|_2^2$.
+
+This is explicit regularization: we tell the objective directly which kinds of solutions to prefer.
+
+But even when $\lambda=0$, the optimization method can still prefer some solutions over others. That preference is the optimizer's implicit bias.
+
+## Why This Math Appears
+
+This page sits right on top of several earlier bridges:
+
+- [Optimization for Machine Learning](optimization-for-machine-learning.qmd): regularization changes the objective and its gradient
+- [Generalization, Overfitting, and Validation](generalization-overfitting-and-validation.qmd): complexity control is one reason validation behavior changes
+- [Linear Regression Through Projection](../../topics/foundation/linear-algebra/applications/linear-regression-through-projection.qmd): minimum-norm geometry gives the cleanest first example
+
+The main idea is that generalization often depends less on raw parameter count than on which solution inside the hypothesis class is selected.
+
+## Math Objects In Use
+
+- empirical risk $\hat{R}_n(\theta)$
+- regularizer $\Omega(\theta)$
+- norm penalties such as $\|\theta\|_2^2$ or $\|\theta\|_1$
+- model complexity measures such as norms, margins, or effective dimension
+- optimization trajectory and initialization
+
+## A Small Worked Walkthrough
+
+Consider a linear model with one training condition:
+
+$$
+w_1 + w_2 = 1.
+$$
+
+Many parameter vectors interpolate this data exactly:
+
+$$
+(1,0), \qquad (0.5,0.5), \qquad (2,-1), \qquad \dots
+$$
+
+So fitting the sample alone does not identify one unique solution.
+
+Now compare their Euclidean norms:
+
+$$
+\|(1,0)\|_2 = 1,
+\qquad
+\|(0.5,0.5)\|_2 = \sqrt{0.5},
+\qquad
+\|(2,-1)\|_2 = \sqrt{5}.
+$$
+
+Among these, $(0.5,0.5)$ has the smallest norm.
+
+This is the cleanest first picture of explicit regularization:
+
+- if we add an $\ell_2$ penalty, lower-norm solutions are preferred
+- if many solutions fit the sample, the penalty chooses one geometry over another
+
+Now comes the bridge to implicit bias:
+
+- in underdetermined linear least squares, gradient descent started at zero converges to the minimum-norm interpolating solution
+- no penalty had to be written explicitly into the objective for that preference to appear
+
+So regularization can be:
+
+- `explicit`: written into the loss
+- `implicit`: induced by the optimization method and initialization
+
+## Implementation or Computation Note
+
+In practice, complexity control shows up through many levers:
+
+- weight decay or norm penalties
+- early stopping
+- architecture restrictions
+- data augmentation
+- optimizer choice and initialization
+
+Not all of these are equivalent, but they often push training toward solutions with different geometry, stability, or margin properties.
+
+This is why parameter count alone is often a poor summary of complexity in modern ML.
+
+## Failure Modes
+
+- equating model complexity only with the number of parameters
+- assuming regularization always means an explicit norm penalty
+- ignoring the role of initialization and optimizer choice
+- treating interpolation as automatically bad without asking which interpolating solution was found
+- confusing a validation heuristic with a mathematical complexity measure
+
+## Paper Bridge
+
+- [CS229 Lecture Notes 5: Regularization and Model Selection](https://see.stanford.edu/materials/aimlcs229/cs229-notes5.pdf) - `First pass` - official Stanford notes connecting regularization to model selection and bias-variance behavior. Checked `2026-04-24`.
+- [The Implicit Bias of Gradient Descent on Separable Data](https://jmlr.org/papers/v19/18-188.html) - `Paper bridge` - classic theory paper showing that optimization can select a specific geometry even without explicit regularization. Checked `2026-04-24`.
+
+## Sources and Further Reading
+
+- [CS229 Lecture Notes 5: Regularization and Model Selection](https://see.stanford.edu/materials/aimlcs229/cs229-notes5.pdf) - `First pass` - official notes for regularization, model selection, and bias-variance language. Checked `2026-04-24`.
+- [CS229 Lecture 19: Advice for Applying Machine Learning](https://see.stanford.edu/Course/CS229/52) - `First pass` - official practical bridge from regularization ideas to actual diagnostic decisions. Checked `2026-04-24`.
+- [CS229T / Statistical Learning Theory](https://web.stanford.edu/class/cs229t/) - `Second pass` - official theory-facing course hub for moving from regularization intuition to formal capacity and generalization questions. Checked `2026-04-24`.
+- [The Implicit Bias of Gradient Descent on Separable Data](https://jmlr.org/papers/v19/18-188.html) - `Paper bridge` - foundational paper on optimizer-induced solution preference. Checked `2026-04-24`.

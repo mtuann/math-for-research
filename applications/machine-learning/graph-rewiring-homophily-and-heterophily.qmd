@@ -1,0 +1,285 @@
+---
+title: "Graph Rewiring, Homophily, and Heterophily"
+description: "A bridge page showing why standard message passing often prefers homophily, why heterophily is not just noise, and how graph rewiring changes information flow before learning."
+page-type: application
+status: published
+update-status: current
+level: bridge
+topic: machine-learning
+prerequisites:
+  - /applications/machine-learning/graph-diffusion-and-message-passing.qmd
+  - /applications/machine-learning/oversmoothing-depth-and-graph-sampling.qmd
+  - /topics/foundation/linear-algebra/applications/spectral-modes-in-consensus-and-graphs.qmd
+learning-goals:
+  - "Explain homophily and heterophily as patterns of edge alignment with labels or features."
+  - "Explain why low-pass message passing often works better on homophilic graphs."
+  - "Interpret graph rewiring as changing the graph operator before or during learning."
+  - "Recognize when rewiring helps and when forcing homophily can destroy useful signal."
+applications:
+  - machine-learning
+  - graph-learning
+  - deep-learning
+keywords:
+  - graph rewiring
+  - homophily
+  - heterophily
+  - GNN
+  - graph structure learning
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+---
+
+## Application Snapshot
+
+Standard message-passing GNNs often succeed when neighbors carry similar labels or features.
+
+That regime is usually called `homophily`.
+
+But many real graphs are not like that:
+
+- fraud networks connect different roles
+- recommendation graphs connect users to unlike items
+- molecular or biological graphs often mix node types with distinct functions
+
+That regime is usually called `heterophily`.
+
+So one central graph-ML question becomes:
+
+`should we trust the given graph, or should we change it before propagating information through it?`
+
+That is where rewiring enters.
+
+## Problem Setting
+
+Suppose a graph has node features $H^{(0)}$ and a propagation operator $P$ derived from its adjacency matrix.
+
+A simple message-passing layer looks like
+
+$$
+H^{(\ell+1)} = \sigma\!\left(P H^{(\ell)} W^{(\ell)}\right).
+$$
+
+If neighboring nodes usually share task-relevant information, repeated propagation can help.
+
+If neighboring nodes usually belong to different classes or play different roles, repeated propagation can blur exactly the distinctions the task needs.
+
+One simple global homophily score is
+
+$$
+h = \frac{\#\{(u,v)\in E:\ y_u = y_v\}}{|E|},
+$$
+
+where $y_u$ and $y_v$ are node labels on an edge.
+
+But that single number is only a rough summary. Real graphs can mix:
+
+- local homophilic pockets
+- heterophilic bridges
+- relation-specific patterns
+- bottlenecks that matter more than the average ratio
+
+So rewiring means modifying the graph structure itself:
+
+- adding edges
+- removing edges
+- reweighting edges
+- or building an auxiliary graph used for propagation
+
+before or during learning.
+
+## Why This Math Appears
+
+This page extends two earlier graph bridges:
+
+- [Graph Diffusion and Message Passing](graph-diffusion-and-message-passing.qmd): graph learning depends on repeated propagation by a graph operator
+- [Oversmoothing, Depth, and Graph Sampling](oversmoothing-depth-and-graph-sampling.qmd): too much propagation can wash node representations together, and operator choice matters
+
+The new twist is that we are no longer only asking:
+
+`what happens if we apply the graph operator many times?`
+
+We are asking:
+
+`what if the operator itself is the wrong one for the task?`
+
+That is the mathematical role of rewiring.
+
+## Math Objects In Use
+
+- graph $G=(V,E)$
+- adjacency or propagation operator $P$
+- homophily or label-agreement summaries
+- node feature matrix $H$
+- rewired graph $\widetilde{G}$ or rewired operator $\widetilde{P}$
+- local versus long-range information paths
+
+## A Small Worked Walkthrough
+
+Take a 4-node path graph
+
+$$
+1 - 2 - 3 - 4
+$$
+
+with alternating class labels
+
+$$
+A,\ B,\ A,\ B.
+$$
+
+This is maximally heterophilic with respect to those labels: every original edge connects different classes.
+
+Suppose the initial scalar feature is
+
+$$
+H^{(0)} =
+\begin{bmatrix}
+1 \\
+0 \\
+1 \\
+0
+\end{bmatrix},
+$$
+
+so class $A$ nodes start with value $1$ and class $B$ nodes start with value $0$.
+
+Using self-loops and simple row-normalized propagation on the original path gives
+
+$$
+P =
+\begin{bmatrix}
+\tfrac{1}{2} & \tfrac{1}{2} & 0 & 0 \\
+\tfrac{1}{3} & \tfrac{1}{3} & \tfrac{1}{3} & 0 \\
+0 & \tfrac{1}{3} & \tfrac{1}{3} & \tfrac{1}{3} \\
+0 & 0 & \tfrac{1}{2} & \tfrac{1}{2}
+\end{bmatrix}.
+$$
+
+After one propagation step,
+
+$$
+H^{(1)} = P H^{(0)}
+=
+\begin{bmatrix}
+0.5 \\
+0.667 \\
+0.333 \\
+0.5
+\end{bmatrix}.
+$$
+
+Notice what happened:
+
+- node 2 belongs to class $B$, but it is now dominated by neighboring $A$ signal
+- node 3 belongs to class $A$, but it is pulled downward by neighboring $B$ signal
+
+So plain low-pass averaging is mixing the classes together.
+
+Now consider an illustrative rewiring that replaces the alternating path with same-class shortcuts:
+
+$$
+1 \leftrightarrow 3,
+\qquad
+2 \leftrightarrow 4.
+$$
+
+With self-loops, the rewired propagation matrix becomes
+
+$$
+\widetilde{P} =
+\begin{bmatrix}
+\tfrac{1}{2} & 0 & \tfrac{1}{2} & 0 \\
+0 & \tfrac{1}{2} & 0 & \tfrac{1}{2} \\
+\tfrac{1}{2} & 0 & \tfrac{1}{2} & 0 \\
+0 & \tfrac{1}{2} & 0 & \tfrac{1}{2}
+\end{bmatrix}.
+$$
+
+Then
+
+$$
+\widetilde{P} H^{(0)}
+=
+\begin{bmatrix}
+1 \\
+0 \\
+1 \\
+0
+\end{bmatrix}.
+$$
+
+The class signal is preserved instead of mixed away.
+
+This toy example is deliberately extreme, but it captures the main point:
+
+- the success or failure of message passing is tied to the graph operator
+- rewiring changes the operator before the model learns on top of it
+
+Real methods do **not** usually have access to test labels when rewiring. They rely on:
+
+- feature similarity
+- diffusion structure
+- curvature or bottleneck heuristics
+- learned edge scores
+- task-guided training signals on the training split only
+
+## Implementation or Computation Note
+
+There are several distinct reasons to rewire a graph:
+
+1. `Increase task-aligned similarity`
+   Make propagation follow nodes that appear semantically or structurally closer for the downstream task.
+
+2. `Reduce harmful mixing`
+   Prune edges that repeatedly inject misleading information.
+
+3. `Relieve bottlenecks`
+   Add shortcuts so long-range signals do not have to pass through narrow parts of the graph.
+
+4. `Create auxiliary propagation channels`
+   Keep the original graph, but also build another graph or channel that captures a different structural notion.
+
+This is why rewiring should be understood as a modeling choice, not only as preprocessing.
+
+It can help with:
+
+- heterophily
+- oversquashing
+- graph sparsity
+- noisy observed structure
+
+But it can also hurt if it erases meaningful cross-type edges.
+
+For a fuller explanation of the bottleneck side of the story, see [Long-Range Dependence and Oversquashing in Graphs](long-range-dependence-and-oversquashing-in-graphs.qmd).
+
+## Failure Modes
+
+- assuming low global homophily means GNNs cannot work at all
+- assuming one homophily ratio fully describes graph difficulty
+- forcing every graph to become more homophilic even when heterophilic edges carry the real task signal
+- using labels from validation or test data to guide rewiring, which leaks supervision
+- confusing heterophily with every graph-learning failure mode, including oversmoothing and oversquashing
+- evaluating rewiring without matching compute budget or propagation depth against the baseline
+
+The key caution is:
+
+`rewiring is powerful precisely because it changes the graph the model sees`
+
+So it must be evaluated as part of the model design, not as a neutral cleanup step.
+
+## Paper Bridge
+
+- [Revisiting Heterophily For Graph Neural Networks](https://arxiv.org/abs/2210.07606) - `Paper bridge` - strong entry point for why simple homophily metrics can be misleading and why filter design matters in heterophilic graphs. Checked `2026-04-24`.
+- [Make Heterophily Graphs Better Fit GNN: A Graph Rewiring Approach](https://arxiv.org/abs/2209.08264) - `Paper bridge` - a direct example of rewiring the graph itself to make propagation better aligned with heterophilic node classification. Checked `2026-04-24`.
+
+## Sources and Further Reading
+
+- [CS224W | Machine Learning with Graphs](https://snap.stanford.edu/class/cs224w-2024/) - `First pass` - official Stanford course hub for graph ML, including modern GNN perspectives and current graph-learning context. Checked `2026-04-24`.
+- [Revisiting Heterophily For Graph Neural Networks](https://arxiv.org/abs/2210.07606) - `First pass` - primary source on rethinking homophily metrics and designing for heterophilic graphs. Checked `2026-04-24`.
+- [Understanding Heterophily for Graph Neural Networks](https://proceedings.mlr.press/v235/wang24u.html) - `Second pass` - theory-facing 2024 paper on how different heterophily patterns interact with GNN behavior. Checked `2026-04-24`.
+- [Rewiring Networks for Graph Neural Network Training Using Discrete Geometry](https://arxiv.org/abs/2207.08026) - `Second pass` - primary source on rewiring graphs using discrete-geometric ideas to improve information flow. Checked `2026-04-24`.
+- [Is Rewiring Actually Helpful in Graph Neural Networks?](https://arxiv.org/abs/2305.19717) - `Paper bridge` - useful empirical and cautionary follow-up showing rewiring should be evaluated carefully rather than assumed helpful by default. Checked `2026-04-24`.

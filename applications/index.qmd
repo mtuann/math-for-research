@@ -6,7 +6,19 @@ title: "Applications"
 
 Math becomes far easier to retain when you keep seeing where it actually appears.
 
-This section will eventually organize application bridges for:
+This section organizes application bridges by destination area rather than by pure math topic.
+
+Start here when you want to answer:
+
+- `where does this math actually show up?`
+- `which pages are the best bridge from foundations into a field?`
+- `what should I read if I care about ML, systems, control, or scientific computing?`
+
+## Available Application Hubs
+
+- [Machine Learning](machine-learning/index.qmd)
+
+Later, this section will expand into:
 
 - machine learning
 - optimization and inference
@@ -15,4 +27,3 @@ This section will eventually organize application bridges for:
 - control and dynamics
 
 The design rule is simple: every serious application page should point back to the exact math objects it uses.
-

@@ -1,0 +1,183 @@
+---
+title: "Kernel Methods and Similarity Geometry"
+description: "A bridge page showing how kernels turn similarity into prediction, why the Gram matrix matters, and how linear methods become nonlinear through the kernel trick."
+page-type: application
+status: published
+update-status: current
+level: bridge
+topic: machine-learning
+prerequisites:
+  - /applications/machine-learning/supervised-learning-losses-and-empirical-risk.qmd
+  - /topics/foundation/linear-algebra/concepts/matrices-and-linear-maps.qmd
+  - /topics/foundation/statistics/concepts/regression-and-classification-basics.qmd
+learning-goals:
+  - "Explain a kernel as a similarity function that behaves like an inner product in feature space."
+  - "Recognize the Gram matrix as the central linear-algebra object in kernel methods."
+  - "Explain the kernel trick as implicit feature mapping."
+  - "Connect kernels to geometry, smoothing, and nonlinear prediction."
+applications:
+  - machine-learning
+  - machine-learning-theory
+  - kernel-methods
+keywords:
+  - kernels
+  - Gram matrix
+  - feature map
+  - similarity
+  - kernel trick
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+---
+
+## Application Snapshot
+
+Kernel methods let a model stay linear in one space while behaving nonlinearly in the original input space.
+
+The central move is:
+
+`replace raw dot products with a similarity function that acts like a dot product after an implicit feature map`
+
+That turns geometry into prediction.
+
+## Problem Setting
+
+Suppose we want a predictor that depends on how similar a new point $x$ is to training points $x_1,\dots,x_n$.
+
+Instead of using only raw coordinates, we define a kernel
+
+$$
+K(x,z) = \langle \phi(x), \phi(z) \rangle,
+$$
+
+where $\phi$ is a possibly very large feature map that we may never write down explicitly.
+
+Then many prediction rules can be expressed in the form
+
+$$
+f(x) = \sum_{i=1}^n \alpha_i K(x_i, x).
+$$
+
+So the prediction is built from weighted similarities to training examples.
+
+## Why This Math Appears
+
+Kernel methods sit at a useful meeting point:
+
+- `Linear Algebra`: the kernel matrix or Gram matrix stores all pairwise similarities
+- `Statistics`: predictions are built from sample points, so regularization and model complexity matter
+- `Optimization`: many kernel methods are learned by solving regularized objectives or dual problems
+- `Probability`: smooth kernels often encode locality or similarity assumptions about data
+
+This is why kernels are such a good bridge topic. They turn abstract geometry into a concrete prediction mechanism.
+
+## Math Objects In Use
+
+- feature map $\phi(x)$
+- kernel $K(x,z)$
+- Gram matrix $G$ with entries $G_{ij}=K(x_i,x_j)$
+- coefficients $\alpha_i$
+- prediction rule $f(x)=\sum_i \alpha_i K(x_i,x)$
+
+## A Small Worked Walkthrough
+
+Take three training inputs on the real line:
+
+$$
+x_1 = 0,
+\qquad
+x_2 = 1,
+\qquad
+x_3 = 2,
+$$
+
+with targets
+
+$$
+y_1 = 0,
+\qquad
+y_2 = 1,
+\qquad
+y_3 = 0.5.
+$$
+
+Use the Gaussian kernel
+
+$$
+K(x,z) = e^{-(x-z)^2}.
+$$
+
+Now evaluate a new point $x=1.2$. Its similarities to the training points are
+
+$$
+K(1.2,0) \approx e^{-1.44} \approx 0.237,
+$$
+
+$$
+K(1.2,1) \approx e^{-0.04} \approx 0.961,
+$$
+
+$$
+K(1.2,2) \approx e^{-0.64} \approx 0.527.
+$$
+
+If we normalize these into weights,
+
+$$
+w \approx (0.137,\;0.557,\;0.306),
+$$
+
+then a simple similarity-weighted prediction is
+
+$$
+\hat{y}
+\approx
+0.137(0) + 0.557(1) + 0.306(0.5)
+\approx
+0.710.
+$$
+
+The geometric point is the important one:
+
+- the point at $x=1$ influences the prediction most because it is most similar
+- the farther points still contribute, but less
+- the kernel has turned local similarity into a nonlinear prediction rule
+
+## Implementation or Computation Note
+
+Many kernel algorithms can be written entirely in terms of the Gram matrix
+
+$$
+G_{ij} = K(x_i,x_j).
+$$
+
+That is the practical face of the kernel trick:
+
+- you never need to construct $\phi(x)$ explicitly
+- you only need pairwise kernel evaluations
+- a linear algorithm in feature space becomes a nonlinear algorithm in the original input space
+
+The tradeoff is computational: kernel methods often require storing or manipulating an $n \times n$ matrix, which becomes expensive for large datasets.
+
+## Failure Modes
+
+- treating any informal similarity score as a valid kernel
+- forgetting that bandwidth or scale choices can completely change behavior
+- assuming the kernel trick makes models free, when Gram-matrix costs can be large
+- confusing locality or similarity with causal explanation
+- using a flexible kernel without enough regularization or validation
+
+## Paper Bridge
+
+- [CS229 Lecture 8: Kernels](https://see.stanford.edu/Course/CS229/39) - `First pass` - official lecture bridge from linear classification to kernelized nonlinear decision rules. Checked `2026-04-24`.
+- [CS229T Notes](https://web.stanford.edu/class/cs229t/notes.pdf) - `Paper bridge` - official theory notes pointing from practical kernel ideas toward RKHS and statistical learning theory. Checked `2026-04-24`.
+
+## Sources and Further Reading
+
+- [CS229 Notes on SVMs and Kernel Methods](https://cs229.stanford.edu/notes_archive/cs229-notes3.pdf) - `First pass` - official Stanford notes explaining the kernel trick and the feature-space viewpoint. Checked `2026-04-24`.
+- [CS229 Lecture 8: Kernels](https://see.stanford.edu/Course/CS229/39) - `First pass` - official lecture page for seeing where kernels enter a standard ML curriculum. Checked `2026-04-24`.
+- [CS229T Notes](https://web.stanford.edu/class/cs229t/notes.pdf) - `Second pass` - official theory notes that extend kernel ideas toward statistical learning theory. Checked `2026-04-24`.
+- [CS229: Machine Learning](https://cs229.stanford.edu/index.html) - `Second pass` - current course hub for locating the broader ML context around kernels, SVMs, and generalization. Checked `2026-04-24`.

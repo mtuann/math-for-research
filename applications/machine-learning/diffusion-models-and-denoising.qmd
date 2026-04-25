@@ -1,0 +1,156 @@
+---
+title: "Diffusion Models and Denoising"
+description: "A bridge page showing how diffusion models learn to reverse a gradual noising process, why denoising becomes generation, and where probability and optimization meet."
+page-type: application
+status: published
+update-status: current
+level: bridge
+topic: machine-learning
+prerequisites:
+  - /applications/machine-learning/backpropagation-and-computation-graphs.qmd
+  - /topics/foundation/probability/index.qmd
+  - /topics/foundation/statistics/index.qmd
+learning-goals:
+  - "Explain the forward noising process and reverse denoising process in diffusion models."
+  - "Interpret denoising as the core predictive task behind generation."
+  - "Recognize why diffusion models are probabilistic and iterative."
+  - "Connect diffusion language to probability, optimization, and computation graphs."
+applications:
+  - machine-learning
+  - generative-modeling
+  - deep-learning
+keywords:
+  - diffusion models
+  - denoising
+  - DDPM
+  - score-based models
+  - generative AI
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+---
+
+## Application Snapshot
+
+Diffusion models generate data by learning how to undo noise.
+
+The high-level picture is:
+
+1. gradually corrupt real data with random noise
+2. train a model to predict or remove that noise
+3. run the learned denoising process in reverse to generate new samples
+
+So generation becomes a repeated denoising problem.
+
+## Problem Setting
+
+Start with a clean sample $x_0$.
+
+The forward diffusion process gradually adds noise:
+
+$$
+x_t = \sqrt{1-\beta_t}\,x_{t-1} + \sqrt{\beta_t}\,\varepsilon_t,
+\qquad
+\varepsilon_t \sim \mathcal{N}(0,I).
+$$
+
+As $t$ increases, the sample becomes more corrupted until it is close to pure noise.
+
+The learning problem is then:
+
+`given a noisy sample x_t and the noise level t, predict the noise or predict how to denoise`
+
+If the model can do that reliably, we can approximately reverse the noising process and turn noise back into data.
+
+## Why This Math Appears
+
+Diffusion models sit at an interesting intersection of earlier foundations:
+
+- `Probability`: the forward and reverse processes are stochastic, and Gaussian noise is central
+- `Statistics`: the model is trained from noisy examples and a denoising objective
+- `Optimization`: training is still gradient-based minimization of a loss
+- [Backpropagation and Computation Graphs](backpropagation-and-computation-graphs.qmd): the denoiser is a large differentiable model trained by backprop
+
+So diffusion models are not just “fancy image generators.” They are probabilistic iterative denoisers learned with standard deep-learning optimization.
+
+## Math Objects In Use
+
+- clean sample $x_0$
+- noisy sample $x_t$
+- noise schedule $\beta_t$
+- Gaussian noise $\varepsilon$
+- denoiser or noise-prediction network $\varepsilon_\theta(x_t,t)$
+- reverse sampling process
+
+## A Small Worked Walkthrough
+
+Take a simple scalar example with
+
+$$
+x_0 = 2,
+\qquad
+\beta_1 = 0.25.
+$$
+
+If one noise draw is $\varepsilon_1 = 1$, then
+
+$$
+x_1 = \sqrt{0.75}\cdot 2 + \sqrt{0.25}\cdot 1
+\approx 1.732 + 0.5
+= 2.232.
+$$
+
+The sample is now noisy.
+
+Suppose at a later step the model sees $(x_t,t)$ and predicts the added noise $\hat{\varepsilon}_\theta(x_t,t)$. Then it can use that prediction to estimate which part of $x_t$ is signal and which part is noise.
+
+The exact sampling update depends on the formulation, but the conceptual point is stable:
+
+- if the model can predict the noise well
+- then it can move the sample slightly back toward the data manifold
+- and repeated denoising steps can turn random noise into a realistic sample
+
+So the core learning problem is not “draw a whole image in one shot.” It is “take one noisy step and learn how to clean it up.”
+
+## Implementation or Computation Note
+
+Diffusion models are powerful partly because the training target is local and stable:
+
+- predict noise
+- or predict a denoised direction
+- at many noise levels
+
+But sampling is iterative, so generation can be slower than one-shot models. This leads to practical design questions:
+
+- how many denoising steps to use
+- what noise schedule to choose
+- whether to parameterize the model by noise, score, or velocity
+- how to trade off sample quality and speed
+
+This is one reason current diffusion research often mixes probability, numerical-method ideas, and architectural engineering.
+
+The next natural page after this one is [Score Matching and the SDE View of Diffusion](score-matching-and-the-sde-view-of-diffusion.qmd), which explains the score field the model is learning and why reverse-time dynamics can generate samples.
+
+## Failure Modes
+
+- thinking the model memorizes clean images directly rather than learning denoising transitions
+- treating every diffusion implementation as mathematically identical
+- ignoring the role of the timestep or noise schedule
+- assuming denoising quality at one step automatically means fast high-quality sampling overall
+- forgetting that the model produces a distributional generation process, not only a deterministic decoder
+
+## Paper Bridge
+
+- [Denoising Diffusion Probabilistic Models](https://proceedings.neurips.cc/paper/2020/file/4c5bcfec8584af0d967f1ab10179ca4b-Paper.pdf) - `First pass` - foundational DDPM paper for the discrete noising and denoising view. Checked `2026-04-24`.
+- [Score-Based Generative Modeling through Stochastic Differential Equations](https://openreview.net/forum?id=PxTIG12RRHS) - `Paper bridge` - continuous-time view connecting diffusion to score modeling and reverse SDEs. Checked `2026-04-24`.
+
+## Sources and Further Reading
+
+- [What are Diffusion Models?](https://hai.stanford.edu/ai-definitions/what-are-diffusion-models) - `First pass` - short official Stanford HAI explanation of the noising-and-denoising story. Checked `2026-04-24`.
+- [CME296: Diffusion and Large Vision Models](https://bulletin.stanford.edu/courses/2276231) - `First pass` - current official Stanford course listing showing how diffusion now sits inside a modern generative-model curriculum. Checked `2026-04-24`.
+- [Denoising Diffusion Probabilistic Models](https://proceedings.neurips.cc/paper/2020/file/4c5bcfec8584af0d967f1ab10179ca4b-Paper.pdf) - `First pass` - foundational primary source for DDPMs. Checked `2026-04-24`.
+- [Score-Based Generative Modeling through Stochastic Differential Equations](https://openreview.net/forum?id=PxTIG12RRHS) - `Second pass` - primary source for the continuous-time score-based view. Checked `2026-04-24`.
+- [Diffusion Models Beat GANs on Image Synthesis](https://openreview.net/forum?id=AAWuCvzaVt) - `Paper bridge` - influential paper showing how diffusion methods became competitive at large-scale image generation. Checked `2026-04-24`.

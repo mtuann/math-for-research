@@ -1,0 +1,176 @@
+---
+title: "Long-Range Dependence and Oversquashing in Graphs"
+description: "A bridge page showing why graph tasks with distant dependencies can fail when too much information must pass through narrow graph bottlenecks, and how this differs from oversmoothing."
+page-type: application
+status: published
+update-status: current
+level: bridge
+topic: machine-learning
+prerequisites:
+  - /applications/machine-learning/graph-diffusion-and-message-passing.qmd
+  - /applications/machine-learning/oversmoothing-depth-and-graph-sampling.qmd
+  - /applications/machine-learning/graph-rewiring-homophily-and-heterophily.qmd
+learning-goals:
+  - "Explain long-range dependence as a task requiring information from distant nodes."
+  - "Explain oversquashing as information compression through graph bottlenecks."
+  - "Distinguish oversquashing from oversmoothing."
+  - "Recognize why rewiring, positional structure, and nonlocal mechanisms are used to relieve graph bottlenecks."
+applications:
+  - machine-learning
+  - graph-learning
+  - deep-learning
+keywords:
+  - oversquashing
+  - long-range dependence
+  - graph bottleneck
+  - GNN
+  - rewiring
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+---
+
+## Application Snapshot
+
+Some graph tasks depend on information that starts far away from the node we want to predict.
+
+That is a `long-range dependence` problem.
+
+Message-passing GNNs often struggle there, not only because they need enough layers, but because the information from many distant nodes may have to cross a very small graph bottleneck.
+
+That compression phenomenon is called `oversquashing`.
+
+The key idea is:
+
+`too many distant signals are squeezed into too few message channels before they reach the target`
+
+## Problem Setting
+
+A generic message-passing update has the form
+
+$$
+h_v^{(\ell+1)}
+=
+\phi\!\left(
+h_v^{(\ell)},
+\operatorname{AGG}\{h_u^{(\ell)} : u \in \mathcal{N}(v)\}
+\right),
+$$
+
+where node $v$ receives aggregated information from its neighbors.
+
+If the task at node $v$ depends on far-away nodes, then we need many rounds of propagation. But each round still passes through local neighborhoods and finite-width hidden vectors.
+
+So two questions appear together:
+
+1. `Can information travel far enough?`
+2. `Can it travel without being crushed on the way?`
+
+Oversquashing is about the second question.
+
+## Why This Math Appears
+
+This page continues the site's graph-ML sequence:
+
+- [Graph Diffusion and Message Passing](graph-diffusion-and-message-passing.qmd): message passing is repeated local propagation
+- [Oversmoothing, Depth, and Graph Sampling](oversmoothing-depth-and-graph-sampling.qmd): more layers increase receptive field, but repeated propagation can wash node states together
+- [Graph Rewiring, Homophily, and Heterophily](graph-rewiring-homophily-and-heterophily.qmd): changing the graph operator can alter which information paths exist at all
+
+Oversquashing is easiest to understand from graph topology:
+
+- the number of relevant distant nodes can grow very quickly
+- the number of edges or hidden channels carrying their information to the target may stay small
+
+That mismatch is why bottlenecks matter.
+
+## Math Objects In Use
+
+- graph $G=(V,E)$
+- target node $v$
+- receptive field after $L$ message-passing layers
+- bottleneck edge set or narrow cut
+- hidden state width $d$
+- local aggregation operator
+
+## A Small Worked Walkthrough
+
+Imagine a graph made from two parts:
+
+- on the left, a binary tree of depth $3$
+- on the right, one query node $q$
+- between them, a single bridge edge
+
+So the graph looks schematically like:
+
+`many left-side nodes -> one bridge -> query node`
+
+Suppose the label of $q$ depends on a summary of the leaf features on the left side.
+
+At depth $3$, there are already $2^3 = 8$ leaves. If we go deeper, the number of potentially relevant leaves grows exponentially, but the bridge remains only one edge wide.
+
+After enough message-passing layers, all of that left-side information must influence $q$ through a fixed-width hidden state, say
+
+$$
+h_b^{(\ell)} \in \mathbb{R}^d,
+$$
+
+at the bridge node $b$.
+
+So the model is forced to compress many distant signals into a small vector before the query ever sees them.
+
+That is oversquashing.
+
+The important contrast is:
+
+- `oversmoothing`: repeated propagation makes nearby node states too similar
+- `oversquashing`: too many distant signals are compressed through too small a cut
+
+Both can happen in deep GNNs, but they are not the same failure mode.
+
+In fact, increasing depth can help long-range reach while making oversquashing worse, because even more distant information is now trying to pass through the same bottleneck.
+
+## Implementation or Computation Note
+
+Typical responses to oversquashing include:
+
+1. `Graph rewiring`
+   Add shortcut edges or modify propagation paths so the task-relevant information does not have to pass through a narrow cut.
+
+2. `Positional or structural encodings`
+   Give the model extra information about global graph position or distance, so it relies less on repeated local transport alone.
+
+3. `Wider hidden states or richer message channels`
+   This can help somewhat, but topology often dominates.
+
+4. `Nonlocal mechanisms`
+   Global attention, long-range edges, or graph-transformer style layers can bypass the pure local-bottleneck regime.
+
+5. `Task-aware graph design`
+   If the observed graph is not the best carrier of task information, auxiliary edges or learned propagation channels may be necessary.
+
+This is also why oversquashing is often discussed together with rewiring. Rewiring is not just a preprocessing trick; it changes the geometry of information flow.
+
+## Failure Modes
+
+- confusing oversquashing with oversmoothing
+- assuming more GNN layers automatically solve long-range dependencies
+- treating all difficult graph tasks as homophily problems
+- believing width alone will remove a topological bottleneck
+- reading a rewiring result as universally good even when the added shortcuts destroy task-relevant structure elsewhere
+- ignoring that dataset construction can create or hide bottlenecks before model design even begins
+
+## Paper Bridge
+
+- [On the Bottleneck of Graph Neural Networks and its Practical Implications](https://arxiv.org/abs/2006.05205) - `First pass` - the classic source that framed oversquashing as a bottleneck problem for long-range graph dependencies. Checked `2026-04-24`.
+- [Understanding Oversquashing and Bottlenecks on Graphs via Curvature](https://openreview.net/forum?id=yaKnYKHBs9) - `Paper bridge` - influential paper connecting bottlenecks, geometry, and rewiring strategies. Checked `2026-04-24`.
+
+## Sources and Further Reading
+
+- [CS224W: Machine Learning with Graphs](https://snap.stanford.edu/class/cs224w-2024/) - `First pass` - official Stanford course hub for modern graph ML and GNN foundations. Checked `2026-04-24`.
+- [On the Bottleneck of Graph Neural Networks and its Practical Implications](https://arxiv.org/abs/2006.05205) - `First pass` - primary source introducing oversquashing through graph bottlenecks. Checked `2026-04-24`.
+- [Understanding Oversquashing and Bottlenecks on Graphs via Curvature](https://openreview.net/forum?id=yaKnYKHBs9) - `Second pass` - primary source for the curvature-and-bottleneck perspective and rewiring motivation. Checked `2026-04-24`.
+- [Oversquashing in GNNs through the lens of information contraction and graph expansion](https://arxiv.org/abs/2208.03471) - `Second pass` - primary source giving another useful angle through information contraction and expansion-based rewiring. Checked `2026-04-24`.
+- [Graph Rewiring, Homophily, and Heterophily](graph-rewiring-homophily-and-heterophily.qmd) - `First pass` - site page on how changing the graph operator can relieve harmful propagation structure.

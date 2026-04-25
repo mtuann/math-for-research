@@ -1,0 +1,224 @@
+---
+title: "Machine Learning"
+description: "A public-facing hub showing where the site's math modules reappear in machine learning models, training pipelines, and theory questions."
+page-type: application-index
+status: published
+update-status: current
+level: bridge
+topic: machine-learning
+prerequisites:
+  - /topics/foundation/linear-algebra/index.qmd
+  - /topics/foundation/probability/index.qmd
+  - /topics/foundation/statistics/index.qmd
+learning-goals:
+  - "Map core math modules to recurring ML objects and tasks."
+  - "Choose a first ML-facing reading path based on current interest."
+  - "See where the site already has real ML bridge content."
+applications:
+  - machine-learning
+  - machine-learning-theory
+keywords:
+  - machine learning
+  - applications
+  - roadmap
+  - theory bridge
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+---
+
+## Why This Section Exists
+
+Many readers do not want math in the abstract. They want to know:
+
+- where it shows up in ML
+- which math topics matter first
+- what to read next if they care about theory rather than only implementation
+
+This hub answers those questions without trying to become a full ML textbook.
+
+The rule for this section is simple:
+
+`every ML page should point back to the exact math objects it uses`
+
+## What Machine Learning Keeps Reusing
+
+Across models, training pipelines, and theory papers, the same mathematical objects keep returning:
+
+- vectors, linear maps, projections, and low-rank structure
+- probability, conditioning, and concentration
+- estimators, validation, and generalization language
+- optimization objectives, gradients, and regularization
+- graph and spectral structure in structured or relational data
+
+If you can identify those objects quickly, ML papers stop feeling like disconnected tricks.
+
+::: {.meta-strip}
+::: {.meta-box}
+**Best Starting Math**
+[Linear Algebra](../../topics/foundation/linear-algebra/index.qmd), [Probability](../../topics/foundation/probability/index.qmd), [Statistics](../../topics/foundation/statistics/index.qmd)
+:::
+::: {.meta-box}
+**Best Entry For Theory**
+[AI / ML Theory Roadmap](../../roadmaps/ai-ml-theory.qmd)
+:::
+::: {.meta-box}
+**Best Entry For Papers**
+[Paper Lab](../../paper-lab/index.qmd)
+:::
+:::
+
+## Start Here By Interest
+
+### If You Want The Shortest Math-to-ML Entry
+
+Start in this order:
+
+1. [Linear Algebra](../../topics/foundation/linear-algebra/index.qmd)
+2. [Probability](../../topics/foundation/probability/index.qmd)
+3. [Statistics](../../topics/foundation/statistics/index.qmd)
+4. [AI / ML Theory Roadmap](../../roadmaps/ai-ml-theory.qmd)
+
+### If You Want Concrete Model Components First
+
+Start with the linear-algebra-heavy bridges:
+
+1. [Vector Mixtures in Embeddings and Attention](../../topics/foundation/linear-algebra/applications/vector-mixtures-in-embeddings-and-attention.qmd)
+2. [Learned Linear Projections in Transformers](../../topics/foundation/linear-algebra/applications/learned-linear-projections-in-transformers.qmd)
+3. [PCA Through SVD](../../topics/foundation/linear-algebra/applications/pca-through-svd.qmd)
+
+### If You Want Theory-Flavored ML
+
+Start with:
+
+1. [Linear Regression Through Projection](../../topics/foundation/linear-algebra/applications/linear-regression-through-projection.qmd)
+2. [Probability](../../topics/foundation/probability/index.qmd)
+3. [Statistics](../../topics/foundation/statistics/index.qmd)
+4. [AI / ML Theory Roadmap](../../roadmaps/ai-ml-theory.qmd)
+
+## Application Families
+
+### Linear Models, Embeddings, and Projections
+
+These pages show the most reusable linear-algebra layer inside modern ML:
+
+- [Representation Learning and Geometry of Embeddings](representation-learning-and-geometry-of-embeddings.qmd)
+- [Linear Probes and Representation Diagnostics](linear-probes-and-representation-diagnostics.qmd)
+- [Vector Mixtures in Embeddings and Attention](../../topics/foundation/linear-algebra/applications/vector-mixtures-in-embeddings-and-attention.qmd)
+- [Learned Linear Projections in Transformers](../../topics/foundation/linear-algebra/applications/learned-linear-projections-in-transformers.qmd)
+- [Linear Regression Through Projection](../../topics/foundation/linear-algebra/applications/linear-regression-through-projection.qmd)
+- [PCA Through SVD](../../topics/foundation/linear-algebra/applications/pca-through-svd.qmd)
+- [Low-Dimensional Subspace Models](../../topics/foundation/linear-algebra/applications/low-dimensional-subspace-models.qmd)
+
+Use this family when you want to see how vectors, matrices, orthogonality, and low-rank structure become real model components.
+
+### Transformers, Prompting, and In-Context Learning
+
+Use this family when you want to understand how prompts act like temporary task descriptions and why attention-based models can sometimes behave like small learners at inference time:
+
+- [Attention, Softmax, and Weighted Mixtures](attention-softmax-and-weighted-mixtures.qmd)
+- [Backpropagation and Computation Graphs](backpropagation-and-computation-graphs.qmd)
+- [In-Context Learning and Linearization](in-context-learning-and-linearization.qmd)
+
+### Graph and Spectral ML
+
+Use this family when the model depends on graph structure, diffusion, or repeated linear updates:
+
+- [Graph Diffusion and Message Passing](graph-diffusion-and-message-passing.qmd)
+- [Oversmoothing, Depth, and Graph Sampling](oversmoothing-depth-and-graph-sampling.qmd)
+- [Graph Rewiring, Homophily, and Heterophily](graph-rewiring-homophily-and-heterophily.qmd)
+- [Long-Range Dependence and Oversquashing in Graphs](long-range-dependence-and-oversquashing-in-graphs.qmd)
+- [Spectral Modes in Consensus and Graphs](../../topics/foundation/linear-algebra/applications/spectral-modes-in-consensus-and-graphs.qmd)
+- [Paper Lab: Spectral Clustering and Graph Modes](../../topics/foundation/linear-algebra/paper-lab/spectral-clustering-and-graph-modes.qmd)
+
+### Training, Complexity, and Generalization
+
+Use this family when the main question is not only fitting the sample, but understanding why training prefers some solutions over others:
+
+- [Optimization for Machine Learning](optimization-for-machine-learning.qmd)
+- [Generalization, Overfitting, and Validation](generalization-overfitting-and-validation.qmd)
+- [Uncertainty Calibration and Predictive Confidence](uncertainty-calibration-and-predictive-confidence.qmd)
+- [Regularization, Implicit Bias, and Model Complexity](regularization-implicit-bias-and-model-complexity.qmd)
+
+### Similarity and Kernel ML
+
+Use this family when the model is built from comparisons, similarities, or geometry induced by a kernel:
+
+- [Kernel Methods and Similarity Geometry](kernel-methods-and-similarity-geometry.qmd)
+- [Kernel Ridge and Gaussian-Process Intuition](kernel-ridge-and-gaussian-process-intuition.qmd)
+
+### Surrogate Modeling and Sequential Design
+
+Use this family when each evaluation is expensive and the model must decide where to gather information next:
+
+- [Bayesian Optimization and Surrogate Modeling](bayesian-optimization-and-surrogate-modeling.qmd)
+- [Kernel Ridge and Gaussian-Process Intuition](kernel-ridge-and-gaussian-process-intuition.qmd)
+- [Experimental Design and Model Evaluation](../../topics/foundation/statistics/concepts/experimental-design-and-model-evaluation.qmd)
+
+### Generative Modeling and Denoising
+
+Use this family when the model learns to generate, denoise, or reverse a stochastic corruption process:
+
+- [Diffusion Models and Denoising](diffusion-models-and-denoising.qmd)
+- [Score Matching and the SDE View of Diffusion](score-matching-and-the-sde-view-of-diffusion.qmd)
+- [Flow Matching and Transport Views of Generation](flow-matching-and-transport-views-of-generation.qmd)
+
+### Research Bridges Already On The Site
+
+These pages are useful when you want the first step from stable math into current ML-flavored research:
+
+- [Paper Lab: Attention as Weighted Vector Mixture](../../topics/foundation/linear-algebra/paper-lab/attention-as-weighted-vector-mixture.qmd)
+- [Paper Lab: Linear Operators in Modern AI Systems](../../topics/foundation/linear-algebra/paper-lab/linear-operators-in-modern-ai-systems.qmd)
+- [Research Direction: Linear Operators in Modern ML](../../topics/foundation/linear-algebra/research/linear-operators-in-modern-ml.qmd)
+- [Research Direction: Low-Dimensional Structure and Subspace Methods](../../topics/foundation/linear-algebra/research/low-dimensional-structure-and-subspace-methods.qmd)
+- [Research Direction: Least Squares, Sketching, and Overparameterized Regression](../../topics/foundation/linear-algebra/research/least-squares-sketching-and-overparameterized-regression.qmd)
+
+## Core Bridge Pages Now Live
+
+These are the current short bridge pages that connect the site's math modules to recurring ML ideas:
+
+1. [Supervised Learning, Losses, and Empirical Risk](supervised-learning-losses-and-empirical-risk.qmd)
+2. [Optimization for Machine Learning](optimization-for-machine-learning.qmd)
+3. [Generalization, Overfitting, and Validation](generalization-overfitting-and-validation.qmd)
+4. [Backpropagation and Computation Graphs](backpropagation-and-computation-graphs.qmd)
+5. [Attention, Softmax, and Weighted Mixtures](attention-softmax-and-weighted-mixtures.qmd)
+6. [Kernel Methods and Similarity Geometry](kernel-methods-and-similarity-geometry.qmd)
+7. [Regularization, Implicit Bias, and Model Complexity](regularization-implicit-bias-and-model-complexity.qmd)
+8. [Graph Diffusion and Message Passing](graph-diffusion-and-message-passing.qmd)
+9. [Representation Learning and Geometry of Embeddings](representation-learning-and-geometry-of-embeddings.qmd)
+10. [Kernel Ridge and Gaussian-Process Intuition](kernel-ridge-and-gaussian-process-intuition.qmd)
+11. [Oversmoothing, Depth, and Graph Sampling](oversmoothing-depth-and-graph-sampling.qmd)
+12. [Diffusion Models and Denoising](diffusion-models-and-denoising.qmd)
+13. [Linear Probes and Representation Diagnostics](linear-probes-and-representation-diagnostics.qmd)
+14. [Bayesian Optimization and Surrogate Modeling](bayesian-optimization-and-surrogate-modeling.qmd)
+15. [Graph Rewiring, Homophily, and Heterophily](graph-rewiring-homophily-and-heterophily.qmd)
+16. [Score Matching and the SDE View of Diffusion](score-matching-and-the-sde-view-of-diffusion.qmd)
+17. [Uncertainty Calibration and Predictive Confidence](uncertainty-calibration-and-predictive-confidence.qmd)
+18. [In-Context Learning and Linearization](in-context-learning-and-linearization.qmd)
+19. [Long-Range Dependence and Oversquashing in Graphs](long-range-dependence-and-oversquashing-in-graphs.qmd)
+20. [Flow Matching and Transport Views of Generation](flow-matching-and-transport-views-of-generation.qmd)
+
+These pages are compact bridge pages. They are here to point you back to the exact math objects already developed elsewhere on the site instead of reteaching full modules.
+
+## Next Steps
+
+The current named ML bridge backlog is complete.
+
+The next high-value move is not another isolated bridge page, but a deeper theory module such as `Optimization`, or a review / polish pass across the ML section.
+
+## How To Use This Section
+
+- Use `Topics` when you want the math itself.
+- Use `Applications > Machine Learning` when you want the math-to-ML translation layer.
+- Use [AI / ML Theory Roadmap](../../roadmaps/ai-ml-theory.qmd) when you want a dependency-aware study order.
+- Use [Paper Lab](../../paper-lab/index.qmd) when you want to practice reading actual papers in parallel.
+
+## Sources and Further Reading
+
+- [CS229: Machine Learning](https://cs229.stanford.edu/index.html) - `First pass` - official current Stanford ML course hub showing the breadth of mainstream ML topics. Checked `2026-04-24`.
+- [CS 189 Syllabus](https://eecs189.org/sp26/syllabus/) - `First pass` - official Berkeley syllabus with a strong math-to-ML framing and prerequisite expectations. Checked `2026-04-24`.
+- [Mathematics for Machine Learning](https://mml-book.github.io/) - `Second pass` - a stable math bridge for readers moving from foundations into ML-facing formulations. Checked `2026-04-24`.
+- [CS229T / Statistical Learning Theory](https://web.stanford.edu/class/cs229t/) - `Paper bridge` - a compact theory-facing anchor for readers aiming beyond introductory ML. Checked `2026-04-24`.

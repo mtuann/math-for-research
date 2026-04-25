@@ -1,0 +1,177 @@
+---
+title: "Graph Diffusion and Message Passing"
+description: "A bridge page showing how neighborhood averaging on graphs becomes diffusion, and how graph neural networks turn that operator into learned message passing."
+page-type: application
+status: published
+update-status: current
+level: bridge
+topic: machine-learning
+prerequisites:
+  - /topics/foundation/linear-algebra/applications/spectral-modes-in-consensus-and-graphs.qmd
+  - /topics/foundation/linear-algebra/concepts/matrices-and-linear-maps.qmd
+  - /applications/machine-learning/attention-softmax-and-weighted-mixtures.qmd
+learning-goals:
+  - "Explain graph diffusion as repeated local averaging or propagation."
+  - "Interpret message passing as a learned version of neighborhood propagation."
+  - "Recognize the matrix form behind simple graph neural network layers."
+  - "Connect graph learning language to spectral and linear-algebra objects already on the site."
+applications:
+  - machine-learning
+  - graph-learning
+  - deep-learning
+keywords:
+  - graph diffusion
+  - message passing
+  - GNN
+  - propagation
+  - neighborhood aggregation
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+---
+
+## Application Snapshot
+
+Many graph-learning models are built from one simple pattern:
+
+`each node updates itself by mixing information from its neighbors`
+
+Without learnable parameters, that already looks like diffusion. With learned transforms and nonlinearities, it becomes message passing.
+
+## Problem Setting
+
+Suppose a graph has node features collected in a matrix $H^{(0)}$.
+
+A simple diffusion-style update can be written as
+
+$$
+H^{(1)} = P H^{(0)},
+$$
+
+where $P$ is a normalized propagation matrix derived from the graph.
+
+A basic graph neural network layer adds learned structure:
+
+$$
+H^{(\ell+1)} = \sigma\!\left(P H^{(\ell)} W^{(\ell)}\right).
+$$
+
+So the graph provides the propagation pattern, while learning happens through the weight matrix $W^{(\ell)}$ and nonlinearity $\sigma$.
+
+## Why This Math Appears
+
+This page reuses several math layers already built on the site:
+
+- [Spectral Modes in Consensus and Graphs](../../topics/foundation/linear-algebra/applications/spectral-modes-in-consensus-and-graphs.qmd): diffusion is repeated matrix action on a graph operator
+- [Matrices and Linear Maps](../../topics/foundation/linear-algebra/concepts/matrices-and-linear-maps.qmd): the update is still a linear map before the nonlinearity
+- [Attention, Softmax, and Weighted Mixtures](attention-softmax-and-weighted-mixtures.qmd): message passing also mixes neighboring vectors, though the weighting rule comes from graph structure or learned edge messages
+
+So graph neural networks are not magic graph-only machinery. They are learned propagation operators on structured data.
+
+## Math Objects In Use
+
+- graph $G=(V,E)$
+- adjacency or normalized propagation matrix $P$
+- node feature matrix $H$
+- neighborhood messages
+- update weights $W^{(\ell)}$
+- repeated propagation or message-passing layers
+
+## A Small Worked Walkthrough
+
+Take a 3-node line graph with self-loops and row-normalized propagation matrix
+
+$$
+P =
+\begin{bmatrix}
+\tfrac{1}{2} & \tfrac{1}{2} & 0 \\
+\tfrac{1}{3} & \tfrac{1}{3} & \tfrac{1}{3} \\
+0 & \tfrac{1}{2} & \tfrac{1}{2}
+\end{bmatrix}.
+$$
+
+Suppose the initial scalar node features are
+
+$$
+H^{(0)} =
+\begin{bmatrix}
+1 \\
+0 \\
+0
+\end{bmatrix}.
+$$
+
+Then one diffusion step gives
+
+$$
+H^{(1)} = P H^{(0)}
+=
+\begin{bmatrix}
+\tfrac{1}{2} \\
+\tfrac{1}{3} \\
+0
+\end{bmatrix}.
+$$
+
+After another step,
+
+$$
+H^{(2)} = P H^{(1)}
+=
+\begin{bmatrix}
+\tfrac{5}{12} \\
+\tfrac{5}{18} \\
+\tfrac{1}{6}
+\end{bmatrix}.
+$$
+
+The original signal has started to spread across the graph. That is diffusion.
+
+Now compare this with a learned message-passing layer:
+
+$$
+H^{(\ell+1)} = \sigma(P H^{(\ell)} W^{(\ell)}).
+$$
+
+The same neighborhood propagation remains, but the model can now:
+
+- transform features with $W^{(\ell)}$
+- stack layers
+- use nonlinear updates
+
+So message passing is a learned generalization of graph diffusion.
+
+## Implementation or Computation Note
+
+In modern GNN libraries, message passing is often described node-by-node:
+
+1. send a message from each node to its neighbors
+2. aggregate incoming messages
+3. update the node state
+
+The matrix form and the nodewise form are two views of the same process.
+
+One major practical issue is oversmoothing: after too many propagation steps, node representations can become too similar. That is one reason depth, normalization, and skip connections matter in graph models.
+
+## Failure Modes
+
+- treating every graph update as if it were fundamentally different from matrix propagation
+- forgetting that operator choice matters: adjacency, Laplacian, normalized adjacency, and attention-style graph operators behave differently
+- using too many propagation layers and washing away useful distinctions between nodes
+- assuming message-passing explanations are inherently causal rather than representational
+- ignoring that graph construction itself may dominate model behavior
+
+## Paper Bridge
+
+- [Semi-Supervised Classification with Graph Convolutional Networks](https://openreview.net/forum?id=SJU4ayYgl) - `First pass` - classic GCN paper showing how graph propagation becomes a simple learnable layer. Checked `2026-04-24`.
+- [Neural Message Passing for Quantum Chemistry](https://proceedings.mlr.press/v70/gilmer17a.html) - `Paper bridge` - influential paper that framed many graph models under a common message-passing viewpoint. Checked `2026-04-24`.
+
+## Sources and Further Reading
+
+- [CS224W | Machine Learning with Graphs](https://snap.stanford.edu/class/cs224w-2021/) - `First pass` - official Stanford course hub for graph learning and graph neural networks. Checked `2026-04-24`.
+- [Semi-Supervised Classification with Graph Convolutional Networks](https://openreview.net/forum?id=SJU4ayYgl) - `First pass` - primary source for the simple propagation-style GCN layer. Checked `2026-04-24`.
+- [Neural Message Passing for Quantum Chemistry](https://proceedings.mlr.press/v70/gilmer17a.html) - `Second pass` - primary source for the message-passing neural network framing. Checked `2026-04-24`.
+- [Spectral Modes in Consensus and Graphs](../../topics/foundation/linear-algebra/applications/spectral-modes-in-consensus-and-graphs.qmd) - `First pass` - site page for the repeated-operator intuition behind graph diffusion.

@@ -1,0 +1,178 @@
+---
+title: "Supervised Learning, Losses, and Empirical Risk"
+description: "A bridge page showing how prediction tasks, loss functions, and empirical risk connect the site's math foundations to the basic language of machine learning."
+page-type: application
+status: published
+update-status: current
+level: bridge
+topic: machine-learning
+prerequisites:
+  - /topics/foundation/probability/index.qmd
+  - /topics/foundation/statistics/index.qmd
+  - /topics/foundation/linear-algebra/applications/linear-regression-through-projection.qmd
+learning-goals:
+  - "Explain supervised learning as prediction from examples."
+  - "Interpret a loss function as a numerical penalty for prediction error."
+  - "Explain empirical risk as average training loss over a sample."
+  - "Connect empirical risk language to optimization, validation, and generalization."
+applications:
+  - machine-learning
+  - machine-learning-theory
+keywords:
+  - supervised learning
+  - loss
+  - empirical risk
+  - generalization
+  - optimization
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+---
+
+## Application Snapshot
+
+Most of modern machine learning can be described in one compact sentence:
+
+`choose a model, measure its prediction error with a loss, and try to make the average loss small on data`
+
+That average loss is the empirical risk.
+
+This page is the shortest bridge from the site's current math foundations into the language used in ML courses, papers, and benchmarks.
+
+## Problem Setting
+
+In supervised learning, we observe examples
+
+$$
+(x_1,y_1), \dots, (x_n,y_n),
+$$
+
+where:
+
+- $x_i$ is an input
+- $y_i$ is the target or label
+
+We choose a predictor $f$ from some model class and measure how well it predicts $y_i$ from $x_i$.
+
+A loss function
+
+$$
+\ell(f(x),y)
+$$
+
+assigns a numerical penalty to a prediction-target pair.
+
+The empirical risk of $f$ on the sample is
+
+$$
+\hat{R}_n(f) = \frac{1}{n}\sum_{i=1}^n \ell(f(x_i), y_i).
+$$
+
+The training problem is then:
+
+$$
+\min_f \hat{R}_n(f)
+$$
+
+possibly with regularization or constraints.
+
+## Why This Math Appears
+
+This language reuses several math layers already on the site:
+
+- `Probability`: data are modeled as random draws from some distribution
+- `Statistics`: training loss is a sample-based quantity, so estimation and validation matter
+- `Linear Algebra`: many predictors are linear maps, projections, or low-rank approximations
+- `Proofs + Logic`: theory papers formalize guarantees using quantified assumptions and implications
+
+So empirical risk is not a separate “ML trick.” It is the meeting point where modeling, optimization, probability, and statistics all touch the same object.
+
+## Math Objects In Use
+
+- sample of input-target pairs $(x_i,y_i)$
+- predictor $f$
+- loss function $\ell$
+- empirical risk $\hat{R}_n(f)$
+- sometimes a regularized objective such as
+
+  $$
+  \hat{R}_n(f) + \lambda \Omega(f)
+  $$
+
+## A Small Worked Walkthrough
+
+Suppose we fit a linear predictor
+
+$$
+f_\beta(x) = x^\top \beta
+$$
+
+for a regression task and use squared loss:
+
+$$
+\ell(f_\beta(x_i), y_i) = (x_i^\top \beta - y_i)^2.
+$$
+
+Then the empirical risk becomes
+
+$$
+\hat{R}_n(\beta)
+=
+\frac{1}{n}\sum_{i=1}^n (x_i^\top \beta - y_i)^2.
+$$
+
+Up to the scaling factor $1/n$, this is the same least-squares objective you already saw in [Linear Regression Through Projection](../../topics/foundation/linear-algebra/applications/linear-regression-through-projection.qmd).
+
+That is why least squares is such a good first ML bridge:
+
+- it is already empirical risk minimization
+- the loss is explicit
+- the math object is familiar
+- later models mostly change the predictor class, the loss, or the regularizer
+
+## Implementation or Computation Note
+
+Empirical risk is the starting object, not the end of the story.
+
+In practice, once the objective is written down, the workflow immediately branches into three operational questions:
+
+1. `Optimization`
+   How do we actually minimize the objective?
+
+2. `Validation`
+   How do we choose models and hyperparameters without fooling ourselves?
+
+3. `Generalization`
+   Why should low sample loss say anything about future data?
+
+That is why this page is the first bridge into the rest of the ML section rather than a self-contained stopping point.
+
+Use these pages as the strongest follow-on support:
+
+- [Linear Regression Through Projection](../../topics/foundation/linear-algebra/applications/linear-regression-through-projection.qmd)
+- [Optimization for Machine Learning](optimization-for-machine-learning.qmd)
+- [Generalization, Overfitting, and Validation](generalization-overfitting-and-validation.qmd)
+- [AI / ML Theory Roadmap](../../roadmaps/ai-ml-theory.qmd)
+
+## Failure Modes
+
+- treating empirical risk as if it were the true population objective
+- forgetting that the loss function is a modeling choice, not a law of nature
+- thinking lower training loss automatically means better generalization
+- confusing the model class with the optimization method used to fit it
+- talking about `accuracy` when the task is actually a regression task with a different loss
+
+## Paper Bridge
+
+- [CS229: Machine Learning](https://cs229.stanford.edu/index.html) - `First pass` - official Stanford entry point where supervised learning and loss-based objectives are the default language from the beginning. Checked `2026-04-24`.
+- [CS229T / Statistical Learning Theory](https://web.stanford.edu/class/cs229t/) - `Paper bridge` - a direct continuation once you want to see empirical risk and ERM turned into formal generalization questions. Checked `2026-04-24`.
+
+## Sources and Further Reading
+
+- [CS229: Machine Learning](https://cs229.stanford.edu/index.html) - `First pass` - official current ML course hub where supervised learning and loss-based training are central. Checked `2026-04-24`.
+- [CS 189 Syllabus](https://eecs189.org/sp26/syllabus/) - `First pass` - official Berkeley course framing the full ML pipeline from problem setup to model design and optimization. Checked `2026-04-24`.
+- [Mathematics for Machine Learning](https://mml-book.github.io/) - `Second pass` - useful bridge for readers translating familiar math objects into ML notation. Checked `2026-04-24`.
+- [CS229T / Statistical Learning Theory](https://web.stanford.edu/class/cs229t/) - `Paper bridge` - points from empirical risk language toward formal learning-theory analysis. Checked `2026-04-24`.

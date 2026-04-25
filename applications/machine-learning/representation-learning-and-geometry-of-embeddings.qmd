@@ -1,0 +1,182 @@
+---
+title: "Representation Learning and Geometry of Embeddings"
+description: "A bridge page showing how learned embeddings turn objects into vectors, why similarity geometry matters, and how representation quality is reflected in neighborhoods, directions, and linear probes."
+page-type: application
+status: published
+update-status: current
+level: bridge
+topic: machine-learning
+prerequisites:
+  - /applications/machine-learning/attention-softmax-and-weighted-mixtures.qmd
+  - /topics/foundation/linear-algebra/applications/vector-mixtures-in-embeddings-and-attention.qmd
+  - /topics/foundation/linear-algebra/applications/low-dimensional-subspace-models.qmd
+learning-goals:
+  - "Explain an embedding as a learned vector representation."
+  - "Recognize cosine similarity, neighborhoods, and directions as basic geometric tools for reading embeddings."
+  - "Connect embedding quality to downstream prediction and representation structure."
+  - "See why representation learning is largely a geometric problem in vector space."
+applications:
+  - machine-learning
+  - representation-learning
+  - deep-learning
+keywords:
+  - embeddings
+  - representation learning
+  - cosine similarity
+  - geometry
+  - vector spaces
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+---
+
+## Application Snapshot
+
+Much of modern ML can be described as:
+
+`learn a vector representation in which useful similarities and directions become easy to use`
+
+That vector representation is an embedding.
+
+Once an object has an embedding, many downstream operations reduce to geometry:
+
+- nearest neighbors
+- cosine similarity
+- clustering
+- linear classification
+- weighted mixtures and retrieval
+
+## Problem Setting
+
+Suppose a model maps each object $x$ to a vector
+
+$$
+e(x) \in \mathbb{R}^d.
+$$
+
+The goal is not just to compress the object into $d$ numbers. It is to place related objects in a geometry that helps downstream tasks.
+
+For example, we might want:
+
+- similar words to have nearby vectors
+- related images to form local neighborhoods
+- classes to become easier to separate with a simple linear rule
+
+So representation learning is often a search for a useful geometry, not only a search for a useful feature list.
+
+## Why This Math Appears
+
+This page sits on top of several math pages already on the site:
+
+- [Vector Mixtures in Embeddings and Attention](../../topics/foundation/linear-algebra/applications/vector-mixtures-in-embeddings-and-attention.qmd): embeddings are vectors that can be mixed, pooled, or queried
+- [Low-Dimensional Subspace Models](../../topics/foundation/linear-algebra/applications/low-dimensional-subspace-models.qmd): useful representations often concentrate signal into lower-dimensional structure
+- [Attention, Softmax, and Weighted Mixtures](attention-softmax-and-weighted-mixtures.qmd): attention reads and writes through embedding geometry
+
+So the recurring math objects are not special to NLP or vision. They are:
+
+- vector spaces
+- angles and norms
+- neighborhoods
+- projections and subspaces
+
+## Math Objects In Use
+
+- embedding map $e(x)$
+- cosine similarity
+
+  $$
+  \cos(e_i,e_j) = \frac{e_i^\top e_j}{\|e_i\|\,\|e_j\|}
+  $$
+
+- nearest-neighbor structure
+- low-dimensional directions or subspaces
+- linear probes or simple downstream classifiers
+
+## A Small Worked Walkthrough
+
+Suppose three learned word embeddings are
+
+$$
+e(\text{cat}) =
+\begin{bmatrix}
+1.0 \\
+0.9
+\end{bmatrix},
+\qquad
+e(\text{dog}) =
+\begin{bmatrix}
+0.9 \\
+1.0
+\end{bmatrix},
+\qquad
+e(\text{car}) =
+\begin{bmatrix}
+-1.0 \\
+0.2
+\end{bmatrix}.
+$$
+
+The dot product between `cat` and `dog` is
+
+$$
+e(\text{cat})^\top e(\text{dog}) = 1.8,
+$$
+
+while the dot product between `cat` and `car` is
+
+$$
+e(\text{cat})^\top e(\text{car}) = -0.82.
+$$
+
+So even before any downstream classifier, the geometry already suggests:
+
+- `cat` and `dog` are near each other
+- `car` lies in a different direction
+
+That is the practical meaning of embedding geometry:
+
+- related objects cluster
+- irrelevant objects separate
+- simple downstream rules become easier
+
+In larger models, we rarely inspect vectors by hand. But the same geometric questions remain:
+
+- what forms a neighborhood?
+- which directions encode task-relevant variation?
+- are the learned representations easy to separate or retrieve from?
+
+## Implementation or Computation Note
+
+In practice, embedding quality is often checked indirectly through:
+
+- nearest-neighbor queries
+- retrieval quality
+- clustering structure
+- performance of a simple linear probe on top of frozen embeddings
+
+The next natural page after this one is [Linear Probes and Representation Diagnostics](linear-probes-and-representation-diagnostics.qmd), which turns that last bullet into a more careful evaluation workflow.
+
+This is important because a bigger model does not automatically imply a better geometry. Embeddings can also become anisotropic, overly collapsed, or highly task-specific in ways that harm transfer.
+
+## Failure Modes
+
+- treating embeddings as mere storage vectors instead of a learned geometry
+- reading cosine similarity as semantic truth rather than model-dependent geometry
+- assuming visually clustered embeddings are automatically useful downstream
+- ignoring that representation quality depends on the task and training signal
+- forgetting that a linear probe can reveal whether useful structure is already present
+
+## Paper Bridge
+
+- [Efficient Estimation of Word Representations in Vector Space](https://arxiv.org/abs/1301.3781) - `Paper bridge` - classic word2vec paper showing how useful vector geometry can be learned from prediction tasks. Checked `2026-04-24`.
+- [CS224N Lecture 2: Word Vectors, Word Senses, and Neural Classifiers](https://cs224n.stanford.edu/slides/cs224n-spr2024-lecture02-wordvecs2.pdf) - `First pass` - official Stanford slide deck connecting embedding geometry to actual NLP practice. Checked `2026-04-24`.
+
+## Sources and Further Reading
+
+- [Stanford CS224N](https://web.stanford.edu/class/cs224n) - `First pass` - official course hub for modern NLP and the role of learned representations. Checked `2026-04-24`.
+- [CS224N Lecture Notes: Word Vectors I](https://web.stanford.edu/class/cs224n/readings/cs224n-2019-notes01-wordvecs1.pdf) - `First pass` - official notes introducing the geometry and intuition of word vectors. Checked `2026-04-24`.
+- [CS224N Lecture 2: Word Vectors, Word Senses, and Neural Classifiers](https://cs224n.stanford.edu/slides/cs224n-spr2024-lecture02-wordvecs2.pdf) - `First pass` - official Stanford slides connecting learned embeddings to linear classifiers and downstream use. Checked `2026-04-24`.
+- [Word Embedding (word2vec)](https://classic.d2l.ai/chapter_natural-language-processing-pretraining/word2vec.html) - `Second pass` - open text for seeing embeddings as learnable vector geometry. Checked `2026-04-24`.

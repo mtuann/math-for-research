@@ -1,0 +1,224 @@
+---
+title: "Attention, Softmax, and Weighted Mixtures"
+description: "A bridge page showing how attention turns similarity scores into softmax weights and then into weighted mixtures of value vectors."
+page-type: application
+status: published
+update-status: current
+level: bridge
+topic: machine-learning
+prerequisites:
+  - /applications/machine-learning/backpropagation-and-computation-graphs.qmd
+  - /topics/foundation/linear-algebra/applications/vector-mixtures-in-embeddings-and-attention.qmd
+  - /topics/foundation/linear-algebra/applications/learned-linear-projections-in-transformers.qmd
+learning-goals:
+  - "Explain attention as a weighted mixture of value vectors."
+  - "Interpret softmax as the normalization step turning scores into weights."
+  - "Recognize scaled dot-product attention in compact matrix form."
+  - "Connect attention equations to the site's linear-algebra bridge pages."
+applications:
+  - machine-learning
+  - deep-learning
+  - transformers
+keywords:
+  - attention
+  - softmax
+  - weighted mixtures
+  - transformers
+  - scaled dot-product attention
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+---
+
+## Application Snapshot
+
+Modern attention layers look complicated when written in full architecture diagrams, but one core operation is very simple:
+
+`score several value vectors, normalize the scores with softmax, and take a weighted sum`
+
+That means attention is not a completely new mathematical species. It is a structured weighted mixture.
+
+## Problem Setting
+
+Suppose one query vector $q$ looks at keys $k_1,\dots,k_m$ and values $v_1,\dots,v_m$.
+
+Scaled dot-product attention computes scores
+
+$$
+s_i = \frac{q^\top k_i}{\sqrt{d_k}},
+$$
+
+turns them into weights with softmax,
+
+$$
+\alpha_i = \frac{e^{s_i}}{\sum_{j=1}^m e^{s_j}},
+$$
+
+and then returns the attention output
+
+$$
+z = \sum_{i=1}^m \alpha_i v_i.
+$$
+
+So the flow is:
+
+1. compare query and keys
+2. normalize scores into nonnegative weights
+3. mix the value vectors using those weights
+
+## Why This Math Appears
+
+This page sits at the intersection of several pages already on the site:
+
+- [Vector Mixtures in Embeddings and Attention](../../topics/foundation/linear-algebra/applications/vector-mixtures-in-embeddings-and-attention.qmd): the output is still a weighted vector sum
+- [Learned Linear Projections in Transformers](../../topics/foundation/linear-algebra/applications/learned-linear-projections-in-transformers.qmd): the queries, keys, and values usually come from learned linear maps
+- [Backpropagation and Computation Graphs](backpropagation-and-computation-graphs.qmd): the score, softmax, and weighted sum all sit inside a differentiable computation graph
+
+So attention is best understood as:
+
+- a scoring rule
+- a normalization rule
+- a weighted-mixture rule
+
+instead of as a single mysterious black box.
+
+## Math Objects In Use
+
+- query vector $q$
+- key vectors $k_i$
+- value vectors $v_i$
+- similarity scores $s_i$
+- softmax weights $\alpha_i$
+- attention output $z$
+
+## A Small Worked Walkthrough
+
+Take one query and three key-value pairs:
+
+$$
+q =
+\begin{bmatrix}
+1 \\
+0
+\end{bmatrix},
+\qquad
+k_1 =
+\begin{bmatrix}
+1 \\
+0
+\end{bmatrix},
+\qquad
+k_2 =
+\begin{bmatrix}
+0 \\
+0
+\end{bmatrix},
+\qquad
+k_3 =
+\begin{bmatrix}
+-1 \\
+0
+\end{bmatrix}.
+$$
+
+Let $d_k=1$, so the scale factor is just $1$. Then the scores are
+
+$$
+s_1 = q^\top k_1 = 1,
+\qquad
+s_2 = q^\top k_2 = 0,
+\qquad
+s_3 = q^\top k_3 = -1.
+$$
+
+Softmax turns these into weights
+
+$$
+\alpha
+=
+\operatorname{softmax}(1,0,-1)
+\approx
+(0.665,\;0.245,\;0.090).
+$$
+
+Now choose values
+
+$$
+v_1 =
+\begin{bmatrix}
+1 \\
+0
+\end{bmatrix},
+\qquad
+v_2 =
+\begin{bmatrix}
+0 \\
+1
+\end{bmatrix},
+\qquad
+v_3 =
+\begin{bmatrix}
+1 \\
+1
+\end{bmatrix}.
+$$
+
+Then the output is
+
+$$
+z
+=
+0.665\,v_1 + 0.245\,v_2 + 0.090\,v_3
+\approx
+\begin{bmatrix}
+0.755 \\
+0.335
+\end{bmatrix}.
+$$
+
+This example shows three useful facts:
+
+- the output is still a linear combination of value vectors
+- because the softmax weights are nonnegative and sum to one, the output is a convex combination
+- changing the scores changes the mixture, not the basic algebraic form
+
+## Implementation or Computation Note
+
+For many queries at once, attention is usually written in matrix form:
+
+$$
+A = \operatorname{softmax}\!\left(\frac{QK^\top}{\sqrt{d_k}}\right),
+\qquad
+Z = AV.
+$$
+
+This compact formula hides the same story:
+
+- $QK^\top$ computes all query-key scores
+- softmax converts each row into normalized weights
+- multiplication by $V$ forms weighted mixtures of the value vectors
+
+In real transformers, masking is also crucial. It prevents attention from using padded positions or future tokens that should not be visible yet.
+
+## Failure Modes
+
+- reading attention as if it created arbitrary new directions, when one head still outputs a mixture of existing value vectors
+- forgetting that the weights come from learned projections, not raw tokens alone
+- treating softmax weights as a direct explanation of causal importance
+- ignoring masking, which changes which positions can actually receive weight
+- confusing the attention mechanism itself with the entire transformer block around it
+
+## Paper Bridge
+
+- [Attention Is All You Need](https://proceedings.neurips.cc/paper/7181-attention-is-all-you-need) - `Paper bridge` - the canonical source for scaled dot-product attention and the matrix form used in transformers. Checked `2026-04-24`.
+- [11.3 Attention Scoring Functions](https://d2l.ai/chapter_attention-mechanisms-and-transformers/attention-scoring-functions.html) - `First pass` - open technical chapter that isolates the scoring, softmax, and weighted-sum pieces clearly. Checked `2026-04-24`.
+
+## Sources and Further Reading
+
+- [11.1 Queries, Keys, and Values](https://d2l.ai/chapter_attention-mechanisms-and-transformers/queries-keys-values.html) - `First pass` - clear open introduction to the query-key-value picture before the full transformer block. Checked `2026-04-24`.
+- [11.3 Attention Scoring Functions](https://d2l.ai/chapter_attention-mechanisms-and-transformers/attention-scoring-functions.html) - `First pass` - open chapter showing how similarity scores, masked softmax, and weighted averages fit together. Checked `2026-04-24`.
+- [Attention Is All You Need](https://proceedings.neurips.cc/paper/7181-attention-is-all-you-need) - `Paper bridge` - original transformer paper with the scaled dot-product attention equation. Checked `2026-04-24`.
+- [CME 295: Transformers & Large Language Models](https://cme295.stanford.edu/) - `Second pass` - current official Stanford course hub for readers who want a broader transformer/LLM path after the algebraic core is clear. Checked `2026-04-24`.

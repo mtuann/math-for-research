@@ -10,6 +10,6 @@ The roadmaps help you move through the site in dependency-aware order instead of
 
 - [Core Foundation](core-foundation.qmd)
 - [Theory Reading Track](theory-reading.qmd)
+- [AI / ML Theory](ai-ml-theory.qmd)
 
-Later, this section can expand into `AI / ML theory`, `engineering systems`, and topic-specific research tracks.
-
+Later, this section can expand further into `engineering systems` and topic-specific research tracks.

@@ -17,9 +17,9 @@ Use it to track:
 
 ## Current Snapshot
 
-- `109` `.qmd` pages currently exist
+- `131` `.qmd` pages currently exist
 - `29` concept-topic pages currently exist
-- strongest subjects so far: `Linear Algebra`, `Probability`, `Proofs`, `Statistics`
+- strongest subjects so far: `Linear Algebra`, `Probability`, `Proofs`, `Logic`, `Statistics`
 - non-topic sections already scaffolded: `Start Here`, `Roadmaps`, `Applications`, `Paper Lab`, `Research`, `Publication`, `Library`, `Notes`
 
 ## Site Sections
@@ -45,13 +45,33 @@ Use it to track:
 - [x] `Roadmaps index`
 - [x] `Core foundation`
 - [x] `Theory reading`
-- [ ] `AI / ML theory`
+- [x] `AI / ML theory`
 - [ ] `Engineering systems`
 
 ### Applications
 
 - [x] `Applications index`
-- [ ] `Machine learning`
+- [x] `Machine learning`
+- [x] `Supervised learning, losses, and empirical risk`
+- [x] `Optimization for machine learning`
+- [x] `Generalization, overfitting, and validation`
+- [x] `Backpropagation and computation graphs`
+- [x] `Attention, softmax, and weighted mixtures`
+- [x] `Kernel methods and similarity geometry`
+- [x] `Regularization, implicit bias, and model complexity`
+- [x] `Graph diffusion and message passing`
+- [x] `Representation learning and geometry of embeddings`
+- [x] `Kernel ridge and Gaussian-process intuition`
+- [x] `Oversmoothing, depth, and graph sampling`
+- [x] `Graph rewiring, homophily, and heterophily`
+- [x] `Diffusion models and denoising`
+- [x] `Score matching and the SDE view of diffusion`
+- [x] `Uncertainty calibration and predictive confidence`
+- [x] `In-context learning and linearization`
+- [x] `Long-range dependence and oversquashing in graphs`
+- [x] `Flow matching and transport views of generation`
+- [x] `Linear probes and representation diagnostics`
+- [x] `Bayesian optimization and surrogate modeling`
 - [ ] `Optimization and inference`
 - [ ] `Scientific computing`
 - [ ] `Control and dynamics`

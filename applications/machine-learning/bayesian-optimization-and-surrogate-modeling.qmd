@@ -1,0 +1,209 @@
+---
+title: "Bayesian Optimization and Surrogate Modeling"
+description: "A bridge page showing how Bayesian optimization uses a probabilistic surrogate and an acquisition function to search expensive black-box objectives with fewer evaluations."
+page-type: application
+status: published
+update-status: current
+level: bridge
+topic: machine-learning
+prerequisites:
+  - /applications/machine-learning/kernel-ridge-and-gaussian-process-intuition.qmd
+  - /applications/machine-learning/optimization-for-machine-learning.qmd
+  - /topics/foundation/statistics/concepts/experimental-design-and-model-evaluation.qmd
+learning-goals:
+  - "Explain Bayesian optimization as sequential optimization of an expensive black-box objective."
+  - "Explain the role of a surrogate model and its uncertainty."
+  - "Interpret an acquisition function as the rule for choosing the next evaluation."
+  - "Recognize when Bayesian optimization is appropriate and when it is the wrong tool."
+applications:
+  - machine-learning
+  - optimization
+  - bayesian-ml
+keywords:
+  - bayesian optimization
+  - surrogate model
+  - acquisition function
+  - gaussian process
+  - hyperparameter optimization
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+---
+
+## Application Snapshot
+
+Bayesian optimization is designed for objectives that are:
+
+- expensive to evaluate
+- noisy or black-box
+- available only through a limited budget of trials
+
+Instead of evaluating the true objective everywhere, it repeats a smaller loop:
+
+1. fit a surrogate model to the observations so far
+2. use that surrogate to score where it is worth sampling next
+3. evaluate the real objective there
+4. update and repeat
+
+So the central ML idea is:
+
+`use a model of the objective to decide how to spend the next experiment`
+
+## Problem Setting
+
+Suppose we want to maximize an expensive objective
+
+$$
+f(x)
+$$
+
+over a search space of configurations $x$.
+
+In ML, $x$ might be:
+
+- hyperparameters
+- architecture settings
+- prompting or retrieval settings
+- simulator or experimental parameters
+
+and $f(x)$ might be:
+
+- validation accuracy
+- reward
+- sample efficiency
+- scientific yield from a costly experiment
+
+We observe data
+
+$$
+\mathcal{D}_t = \{(x_i, y_i)\}_{i=1}^t
+$$
+
+with $y_i$ equal to a noisy evaluation of $f(x_i)$.
+
+Bayesian optimization fits a surrogate posterior over the objective, often summarized by a predictive mean $\mu_t(x)$ and uncertainty $\sigma_t(x)$, and then chooses the next point by optimizing an acquisition function
+
+$$
+\alpha_t(x).
+$$
+
+## Why This Math Appears
+
+This page ties together three earlier threads:
+
+- [Kernel Ridge and Gaussian-Process Intuition](kernel-ridge-and-gaussian-process-intuition.qmd): Gaussian-process style mean and uncertainty are the classical surrogate ingredients
+- [Optimization for Machine Learning](optimization-for-machine-learning.qmd): we still solve an optimization problem, but now it is an outer loop over an acquisition rule rather than direct gradient descent on the true objective
+- [Experimental Design and Model Evaluation](../../topics/foundation/statistics/concepts/experimental-design-and-model-evaluation.qmd): each expensive trial is an information-gathering experiment, so split discipline, noise, and budget matter
+
+Bayesian optimization is one of the cleanest examples of ML using probability and optimization together in a sequential decision loop.
+
+## Math Objects In Use
+
+- black-box objective $f(x)$
+- observation history $\mathcal{D}_t$
+- surrogate posterior mean $\mu_t(x)$
+- surrogate uncertainty $\sigma_t(x)$
+- acquisition function $\alpha_t(x)$
+- incumbent best value or best observed point
+
+Common acquisition patterns include:
+
+- upper confidence bound (UCB)
+- expected improvement (EI)
+- probability of improvement (PI)
+
+## A Small Worked Walkthrough
+
+Suppose we are tuning one hyperparameter $x$ and want to maximize validation accuracy.
+
+After a few evaluations, the surrogate gives:
+
+| Candidate $x$ | Predictive mean $\mu(x)$ | Predictive std. dev. $\sigma(x)$ |
+|---|---:|---:|
+| 0.01 | 0.82 | 0.01 |
+| 0.05 | 0.80 | 0.04 |
+| 0.20 | 0.76 | 0.10 |
+
+If we use an upper-confidence rule
+
+$$
+\alpha(x) = \mu(x) + \beta \sigma(x)
+$$
+
+with $\beta = 1$, then
+
+$$
+\alpha(0.01)=0.83,\qquad
+\alpha(0.05)=0.84,\qquad
+\alpha(0.20)=0.86.
+$$
+
+So Bayesian optimization would pick $x=0.20$ next, even though it does **not** have the highest current mean.
+
+Why?
+
+- $x=0.01$ looks good, but we already know it fairly well
+- $x=0.20$ looks worse on the current mean, but its uncertainty is large
+- the acquisition function values learning opportunity, not only current best guess
+
+Now suppose the real evaluation at $x=0.20$ comes back as $0.88$. The surrogate updates, and the next acquisition step will usually focus around that region with a different exploration-exploitation balance.
+
+That is the core BO loop:
+
+- fit beliefs about the objective
+- spend the next evaluation where the surrogate says it is most valuable
+- update and repeat
+
+## Implementation or Computation Note
+
+Bayesian optimization tends to work best when:
+
+- each evaluation is genuinely expensive
+- the budget of evaluations is small to moderate
+- uncertainty matters
+- the search space is not too high-dimensional without extra structure
+
+In practice, a BO pipeline usually includes:
+
+1. an initial design, often random or Sobol points
+2. surrogate fitting after each batch
+3. acquisition optimization to choose the next candidate
+4. optional handling of noise, constraints, or batched evaluations
+
+A common first surrogate is a Gaussian process, but modern systems also use:
+
+- multi-task surrogates
+- multi-fidelity surrogates
+- trust-region variants for higher dimensions
+- discrete or mixed-space adaptations
+
+So the phrase `Bayesian optimization` names a family of sequential design methods, not just one fixed algorithm.
+
+## Failure Modes
+
+- using BO when the objective is cheap enough that random search or direct optimization is simpler
+- treating surrogate predictions as truth rather than as uncertain summaries
+- ignoring the difficulty of optimizing the acquisition function itself
+- pushing classical GP BO into very high-dimensional spaces without structure
+- forgetting that noisy objectives may need repeated trials or careful variance modeling
+- optimizing only the surrogate mean and calling it Bayesian optimization
+
+One practical sanity check is:
+
+`if each trial is cheap, Bayesian optimization is often solving the wrong problem elegantly`
+
+## Paper Bridge
+
+- [A Tutorial on Bayesian Optimization](https://arxiv.org/abs/1807.02811) - `Paper bridge` - the standard tutorial that explains the surrogate-plus-acquisition loop clearly from first principles. Checked `2026-04-24`.
+- [BoTorch: A Framework for Efficient Monte-Carlo Bayesian Optimization](https://arxiv.org/abs/1910.06403) - `Paper bridge` - a modern systems paper showing how BO is implemented for practical research workflows. Checked `2026-04-24`.
+
+## Sources and Further Reading
+
+- [Introduction to Bayesian Optimization](https://ax.dev/docs/intro-to-bo/) - `First pass` - official Ax documentation with a clean practical explanation of surrogate models, uncertainty, and acquisition functions. Checked `2026-04-24`.
+- [Acquisition Functions](https://botorch.org/docs/acquisition/) - `First pass` - official BoTorch documentation on the main acquisition ideas used in modern BO tooling. Checked `2026-04-24`.
+- [Peter Frazier's Bayesian Optimization Tutorials](https://people.orie.cornell.edu/pfrazier/bayes-opt-tutorials.html) - `Second pass` - Cornell tutorial hub tying Gaussian-process regression, expected improvement, and hands-on BO workflows together. Checked `2026-04-24`.
+- [A Tutorial on Bayesian Optimization](https://arxiv.org/abs/1807.02811) - `Second pass` - classic survey-style tutorial for the core mathematical loop. Checked `2026-04-24`.
+- [Efficient and Principled Scientific Discovery through Bayesian Optimization: A Tutorial](https://arxiv.org/abs/2604.01328) - `Paper bridge` - current tutorial showing how BO is being framed for modern scientific experimentation and sequential design. Checked `2026-04-24`.

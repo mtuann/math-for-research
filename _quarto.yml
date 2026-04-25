@@ -52,6 +52,7 @@ website:
           - roadmaps/index.qmd
           - roadmaps/core-foundation.qmd
           - roadmaps/theory-reading.qmd
+          - roadmaps/ai-ml-theory.qmd
       - section: "Topics"
         contents:
           - topics/index.qmd
@@ -104,6 +105,7 @@ website:
       - section: "Research Workflow"
         contents:
           - applications/index.qmd
+          - applications/machine-learning/index.qmd
           - paper-lab/index.qmd
           - paper-lab/how-to-read-a-paper.qmd
           - research/index.qmd

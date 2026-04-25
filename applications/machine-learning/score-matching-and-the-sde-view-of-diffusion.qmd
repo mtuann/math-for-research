@@ -1,0 +1,249 @@
+---
+title: "Score Matching and the SDE View of Diffusion"
+description: "A bridge page showing how score matching learns gradients of log density, and how the SDE view turns diffusion models into reverse-time stochastic dynamics driven by those scores."
+page-type: application
+status: published
+update-status: current
+level: bridge
+topic: machine-learning
+prerequisites:
+  - /applications/machine-learning/diffusion-models-and-denoising.qmd
+  - /applications/machine-learning/backpropagation-and-computation-graphs.qmd
+  - /topics/foundation/probability/index.qmd
+learning-goals:
+  - "Explain a score as the gradient of log density with respect to data."
+  - "Explain why score matching avoids direct normalization-constant computation."
+  - "Connect denoising score estimation to diffusion training objectives."
+  - "Interpret the SDE view as a continuous-time formulation of score-based diffusion."
+applications:
+  - machine-learning
+  - generative-modeling
+  - deep-learning
+keywords:
+  - score matching
+  - diffusion models
+  - SDE
+  - reverse-time SDE
+  - score-based models
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+---
+
+## Application Snapshot
+
+The earlier diffusion page tells the story like this:
+
+- add noise
+- learn to remove noise
+- sample by reversing the process
+
+This page adds the deeper mathematical layer:
+
+`the model is learning a score field, and the SDE view turns generation into reverse-time stochastic dynamics guided by that field`
+
+That perspective is useful because it unifies:
+
+- classical score matching
+- denoising score matching
+- score-based generative modeling
+- continuous-time diffusion models
+
+## Problem Setting
+
+For a density $p(x)$, the **score** is
+
+$$
+\nabla_x \log p(x).
+$$
+
+This is a vector field in data space. At a point $x$, it points toward directions of increasing log density.
+
+So if we knew the score of a data distribution, we would know how to move samples toward regions that look more like the data.
+
+The problem is that we usually do **not** know $p(x)$ in closed form. Score matching asks us to learn the score directly, without needing to evaluate the full normalized density.
+
+## Why This Math Appears
+
+This page extends [Diffusion Models and Denoising](diffusion-models-and-denoising.qmd).
+
+That page focused on the discrete denoising story. This page explains the hidden field the model is trying to estimate.
+
+It also sits on top of:
+
+- [Probability](../../topics/foundation/probability/index.qmd): noise processes, Gaussian perturbations, and stochastic dynamics
+- [Backpropagation and Computation Graphs](backpropagation-and-computation-graphs.qmd): the score network is still trained by standard gradient-based learning
+
+So the bridge is:
+
+`diffusion model` -> `denoising objective` -> `score estimation` -> `reverse-time SDE`
+
+## Math Objects In Use
+
+- density $p(x)$
+- score $\nabla_x \log p(x)$
+- perturbed density $p_t(x)$ at noise level $t$
+- time-dependent score model $s_\theta(x,t)$
+- forward diffusion SDE
+- reverse-time SDE
+- Langevin-type correction or stochastic sampling step
+
+## A Small Worked Walkthrough
+
+Start with the simplest possible density:
+
+$$
+p(x) = \mathcal{N}(0,1).
+$$
+
+Then
+
+$$
+\log p(x) = -\frac{x^2}{2} + C,
+$$
+
+so the score is
+
+$$
+\nabla_x \log p(x) = -x.
+$$
+
+That already gives a useful interpretation:
+
+- if $x>0$, the score points left
+- if $x<0$, the score points right
+- the farther we are from the high-density region near $0$, the stronger the pull back
+
+So the score field behaves like a direction field pointing toward more likely data.
+
+Now imagine a noisy sample $x=2$. The score is $-2$, so one crude update of the form
+
+$$
+x \leftarrow x + \eta \nabla_x \log p(x)
+$$
+
+with step size $\eta=0.1$ gives
+
+$$
+2 \mapsto 2 + 0.1(-2)=1.8.
+$$
+
+This does **not** yet produce a full generative algorithm, but it shows the core intuition:
+
+`if you know the score, you know how to push a point back toward higher-density regions`
+
+In modern score-based generation, we do not learn the score of only one clean density. We learn scores of many noise-perturbed densities $p_t(x)$ across time or noise scale.
+
+## From Score Matching to Denoising Score Matching
+
+Classical score matching says: learn a model whose score field matches the score field of the data distribution.
+
+The key attraction is that the training objective can be rewritten so we do not need the intractable normalization constant of the model density.
+
+For generative modeling in high dimension, a practical difficulty appears:
+
+- the clean data distribution may live near a thin manifold
+- its score can be unstable or ill-defined away from that manifold
+
+The 2019 score-based modeling line solves this by perturbing the data with Gaussian noise at multiple levels and learning the corresponding noisy scores.
+
+This is the denoising intuition:
+
+- noisy data has smoother densities
+- smoother densities have more stable score fields
+- learning those noisy score fields gives us a route to generation
+
+That is why denoising score matching sits so naturally next to diffusion.
+
+## The SDE View
+
+In the continuous-time view, we define a forward stochastic differential equation that gradually turns data into noise:
+
+$$
+dx = f(x,t)\,dt + g(t)\,dW_t.
+$$
+
+Here:
+
+- $f(x,t)$ is a drift term
+- $g(t)$ controls noise scale
+- $W_t$ is Brownian motion
+
+As time increases, the distribution of $x_t$ becomes simpler, often approaching a Gaussian prior.
+
+The key result behind score-based diffusion is that the reverse-time process is also an SDE:
+
+$$
+dx = \bigl[f(x,t) - g(t)^2 \nabla_x \log p_t(x)\bigr]dt + g(t)\,d\bar{W}_t
+$$
+
+when run backward in time.
+
+This equation says something beautiful and practical:
+
+`to reverse diffusion, we only need the time-dependent score of the perturbed distributions`
+
+Since the true score $\nabla_x \log p_t(x)$ is unknown, we train a neural network $s_\theta(x,t)$ to approximate it.
+
+Then sampling becomes numerical simulation of the reverse-time dynamics using the learned score field.
+
+## Why This Clarifies Diffusion Models
+
+The SDE view explains several things that feel mysterious in a purely discrete story:
+
+1. `Why denoising works`
+   Because denoising is an indirect way to estimate the score field of noisy distributions.
+
+2. `Why multiple noise levels matter`
+   Because the model must estimate a whole family of time-dependent densities, not just one clean distribution.
+
+3. `Why sampling needs many steps`
+   Because we are numerically solving a reverse stochastic process.
+
+4. `Why ODE samplers also appear`
+   Because the same model family admits a probability-flow ODE view alongside the reverse-time SDE.
+
+That ODE-side viewpoint is exactly where [Flow Matching and Transport Views of Generation](flow-matching-and-transport-views-of-generation.qmd) picks up the story.
+
+## Implementation or Computation Note
+
+Modern score-based diffusion pipelines usually choose:
+
+- a forward noise schedule or continuous SDE family
+- a parameterization of the score, noise, or velocity target
+- a numerical solver for the reverse process
+
+This is where ML meets numerical analysis:
+
+- more solver steps often improve quality but cost more compute
+- different parameterizations can stabilize training
+- predictor-corrector style samplers use both deterministic and stochastic updates
+
+So score-based diffusion is not only about architecture. It also depends on the quality of the learned vector field and the way we integrate it backward through time.
+
+## Failure Modes
+
+- confusing the score $\nabla_x \log p(x)$ with the gradient of log-likelihood with respect to model parameters
+- thinking score matching estimates the density directly instead of its gradient field
+- assuming every denoising objective is automatically the same as score matching
+- missing that the reverse-time process depends on **time-dependent** noisy scores, not only the clean data score
+- treating the SDE view as unrelated to DDPM-style diffusion, when they are closely connected formulations
+- forgetting that sample quality also depends on numerical solver choices, not only the trained network
+
+## Paper Bridge
+
+- [Estimation of Non-Normalized Statistical Models by Score Matching](https://jmlr.csail.mit.edu/papers/v6/hyvarinen05a.html) - `Paper bridge` - the original 2005 score-matching paper that defines the core estimation principle. Checked `2026-04-24`.
+- [Generative Modeling by Estimating Gradients of the Data Distribution](https://arxiv.org/abs/1907.05600) - `Paper bridge` - the crucial bridge from score matching to practical score-based generative modeling with multiple noise levels. Checked `2026-04-24`.
+- [Score-Based Generative Modeling through Stochastic Differential Equations](https://arxiv.org/abs/2011.13456) - `Paper bridge` - the key continuous-time paper that unifies score models and diffusion through reverse-time SDEs. Checked `2026-04-24`.
+
+## Sources and Further Reading
+
+- [What are Diffusion Models?](https://hai.stanford.edu/ai-definitions/what-are-diffusion-models) - `First pass` - short official Stanford HAI introduction to the diffusion picture before diving into score fields. Checked `2026-04-24`.
+- [CS109 Lecture 27: Diffusion](https://web.stanford.edu/class/cs109/lectures/27-Diffusion/) - `First pass` - official Stanford lecture page showing diffusion as a now-standard probability-facing ML topic. Checked `2026-04-24`.
+- [CME296: Diffusion and Large Vision Models](https://bulletin.stanford.edu/courses/2276231) - `First pass` - official Stanford course listing explicitly naming diffusion, score matching, and flow matching together. Checked `2026-04-24`.
+- [Estimation of Non-Normalized Statistical Models by Score Matching](https://jmlr.csail.mit.edu/papers/v6/hyvarinen05a.html) - `Second pass` - original JMLR source for score matching itself. Checked `2026-04-24`.
+- [Generative Modeling by Estimating Gradients of the Data Distribution](https://arxiv.org/abs/1907.05600) - `Second pass` - primary source for noisy score estimation and annealed Langevin dynamics. Checked `2026-04-24`.
+- [Score-Based Generative Modeling through Stochastic Differential Equations](https://arxiv.org/abs/2011.13456) - `Second pass` - primary source for reverse-time SDEs, predictor-corrector sampling, and the probability-flow ODE. Checked `2026-04-24`.

@@ -1,0 +1,199 @@
+---
+title: "Backpropagation and Computation Graphs"
+description: "A bridge page showing how neural-network training becomes gradient computation on a computation graph, and why backpropagation is the efficient reverse-mode use of the chain rule."
+page-type: application
+status: published
+update-status: current
+level: bridge
+topic: machine-learning
+prerequisites:
+  - /applications/machine-learning/optimization-for-machine-learning.qmd
+  - /topics/foundation/linear-algebra/concepts/matrices-and-linear-maps.qmd
+learning-goals:
+  - "Explain a neural network as a composition of simpler functions."
+  - "Interpret a computation graph as a dependency graph for intermediate quantities."
+  - "Explain backpropagation as reverse-mode chain rule."
+  - "Connect gradient flow through a network to parameter updates in training."
+applications:
+  - machine-learning
+  - deep-learning
+  - optimization
+keywords:
+  - backpropagation
+  - computation graph
+  - chain rule
+  - neural networks
+  - reverse mode autodiff
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+---
+
+## Application Snapshot
+
+Deep learning became practical not only because we can write large models, but because we can compute their gradients efficiently.
+
+That efficiency comes from two connected ideas:
+
+- represent the model and loss as a computation graph
+- apply the chain rule in reverse to reuse intermediate derivative information
+
+That reverse pass is backpropagation.
+
+## Problem Setting
+
+Suppose a model takes an input $x$, produces a prediction $\hat{y}$, and then incurs a loss
+
+$$
+L(\hat{y}, y).
+$$
+
+Even in a small neural network, the prediction is built by many nested operations:
+
+$$
+x \;\to\; z_1 \;\to\; a_1 \;\to\; z_2 \;\to\; a_2 \;\to\; L.
+$$
+
+Training requires gradients of the loss with respect to parameters such as weight matrices and bias vectors.
+
+The naive approach would differentiate each parameter separately from scratch. Backpropagation avoids that waste by reusing local derivatives along the graph.
+
+## Why This Math Appears
+
+This page sits exactly at the meeting point of several math layers already on the site:
+
+- `Linear Algebra`: layers are built from affine maps and matrix-vector products
+- `Optimization`: training updates need gradients of the objective
+- `Logic and proofs`: the dependency structure matters, and hidden assumptions about composition must be made explicit
+- `Empirical risk`: the loss being differentiated is part of the objective introduced in [Supervised Learning, Losses, and Empirical Risk](supervised-learning-losses-and-empirical-risk.qmd)
+
+So backpropagation is not a mysterious deep-learning ritual. It is a structured application of:
+
+- composition of maps
+- the chain rule
+- efficient bookkeeping on a directed acyclic graph
+
+## Math Objects In Use
+
+- parameter matrices and bias vectors
+- intermediate activations
+- scalar loss $L$
+- local derivatives at each node
+- gradients such as $\nabla_W L$ and $\nabla_b L$
+
+## A Small Worked Walkthrough
+
+Consider the smallest useful scalar network:
+
+$$
+u = wx + b,
+\qquad
+h = \sigma(u),
+\qquad
+L = \frac{1}{2}(h-y)^2.
+$$
+
+This is already a computation graph:
+
+1. affine step: $u = wx+b$
+2. nonlinearity: $h=\sigma(u)$
+3. loss: $L=\frac{1}{2}(h-y)^2$
+
+To update $w$ and $b$, we need $\frac{\partial L}{\partial w}$ and $\frac{\partial L}{\partial b}$.
+
+Backpropagation starts at the loss and moves backward.
+
+First,
+
+$$
+\frac{\partial L}{\partial h} = h-y.
+$$
+
+Then move through the nonlinearity:
+
+$$
+\frac{\partial L}{\partial u}
+=
+\frac{\partial L}{\partial h}\frac{\partial h}{\partial u}
+=
+(h-y)\sigma'(u).
+$$
+
+Now differentiate the affine step:
+
+$$
+\frac{\partial u}{\partial w} = x,
+\qquad
+\frac{\partial u}{\partial b} = 1.
+$$
+
+So
+
+$$
+\frac{\partial L}{\partial w}
+=
+\frac{\partial L}{\partial u}\frac{\partial u}{\partial w}
+=
+(h-y)\sigma'(u)\,x
+$$
+
+and
+
+$$
+\frac{\partial L}{\partial b}
+=
+\frac{\partial L}{\partial u}\frac{\partial u}{\partial b}
+=
+(h-y)\sigma'(u).
+$$
+
+The key point is not the formula itself. It is the pattern:
+
+- compute local derivatives once
+- propagate the loss sensitivity backward
+- reuse the intermediate quantity $\frac{\partial L}{\partial u}$ for multiple parameters
+
+That reuse is what scales to large networks.
+
+## Implementation or Computation Note
+
+Modern frameworks usually perform this bookkeeping automatically, but the underlying mechanism is the same.
+
+A computation graph stores:
+
+- forward values
+- graph dependencies
+- local derivative rules
+
+Then reverse-mode automatic differentiation propagates adjoints backward from the loss.
+
+This is why the cost of computing all parameter gradients is often only a constant factor larger than the cost of the forward evaluation itself, rather than a separate full derivative computation per parameter.
+
+In practice, this introduces engineering constraints too:
+
+- intermediate activations must often be stored for the backward pass
+- memory can become a bottleneck in large models
+- unstable derivatives can lead to exploding or vanishing gradients
+
+## Failure Modes
+
+- treating backpropagation as if it were different from the chain rule rather than an efficient implementation of it
+- forgetting that gradients depend on the full composition, not only on one local layer
+- numerical instability from exploding or vanishing gradients
+- confusing the computation graph of the model with the training loop around it
+- assuming autodiff removes the need to understand the objective and parameterization
+
+## Paper Bridge
+
+- [CS229: Additional Notes on Backpropagation](https://cs229.stanford.edu/notes_archive/cs229-notes-all/cs229-notes-backprop.pdf) - `First pass` - official focused note on backprop as the practical gradient engine of neural networks. Checked `2026-04-24`.
+- [CS229 Deep Learning Notes](https://cs229.stanford.edu/notes2020spring/cs229-notes-deep_learning.pdf) - `Second pass` - official notes connecting backpropagation to larger network structures and autodiff language. Checked `2026-04-24`.
+
+## Sources and Further Reading
+
+- [CS229: Additional Notes on Backpropagation](https://cs229.stanford.edu/notes_archive/cs229-notes-all/cs229-notes-backprop.pdf) - `First pass` - official Stanford note that explains the algorithm directly. Checked `2026-04-24`.
+- [CS229 Deep Learning Notes](https://cs229.stanford.edu/notes2020spring/cs229-notes-deep_learning.pdf) - `First pass` - official notes connecting computation graphs, chain rule structure, and neural-network training. Checked `2026-04-24`.
+- [CS 189 course page](https://www2.eecs.berkeley.edu/Courses/CS189/) - `Second pass` - official Berkeley ML course showing where neural networks and backprop live in a math-heavy ML curriculum. Checked `2026-04-24`.
+- [Dive into Deep Learning](https://d2l.ai/) - `Second pass` - broad open deep learning text useful once the computation-graph picture is clear. Checked `2026-04-24`.

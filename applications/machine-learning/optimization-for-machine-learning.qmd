@@ -1,0 +1,184 @@
+---
+title: "Optimization for Machine Learning"
+description: "A bridge page showing how loss minimization becomes an optimization problem, why gradients matter, and where regularization and stochastic methods enter ML training."
+page-type: application
+status: published
+update-status: current
+level: bridge
+topic: machine-learning
+prerequisites:
+  - /applications/machine-learning/supervised-learning-losses-and-empirical-risk.qmd
+  - /topics/foundation/linear-algebra/applications/linear-regression-through-projection.qmd
+learning-goals:
+  - "Interpret ML training as optimization of an objective."
+  - "Explain why gradients and stochastic gradients appear."
+  - "Recognize the role of regularization in the objective."
+  - "Connect optimization language to the site's future optimization module."
+applications:
+  - machine-learning
+  - optimization
+keywords:
+  - optimization
+  - gradient descent
+  - stochastic gradient descent
+  - regularization
+  - objective
+maintainer: mtuann
+last-reviewed: 2026-04-24
+source-check-date: 2026-04-24
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+---
+
+## Application Snapshot
+
+Once a learning problem is written as an empirical risk, the next question is:
+
+`how do we actually minimize the objective?`
+
+That is where optimization enters machine learning.
+
+This page is the shortest bridge from loss-based ML language to gradient methods, stochastic training, and regularization.
+
+## Problem Setting
+
+Suppose a model is parameterized by $\theta$, and we choose an objective
+
+$$
+J(\theta) = \hat{R}_n(\theta) + \lambda \Omega(\theta),
+$$
+
+where:
+
+- $\hat{R}_n(\theta)$ is the empirical risk
+- $\Omega(\theta)$ is a regularization term
+- $\lambda$ controls the strength of regularization
+
+Training means solving
+
+$$
+\min_\theta J(\theta).
+$$
+
+In simple linear models, this may have a closed-form solution or a very structured numerical method. In larger models, we usually rely on iterative optimization.
+
+## Why This Math Appears
+
+The optimization layer matters because most ML models are not defined only by what they can represent. They are defined by:
+
+- an objective function
+- a parameterization
+- an algorithm used to reduce the objective
+
+That reuses math from several places:
+
+- `Linear Algebra`: gradients, Jacobians, and linear approximations live in vector spaces
+- `Statistics`: the objective is built from sample-based quantities
+- `Probability`: stochastic gradients and random minibatches introduce noise and sampling effects
+- `Optimization`: descent directions, step sizes, convexity, and constraints control whether training behaves well
+
+So “training a model” is often shorthand for “approximately solving an optimization problem induced by data.”
+
+## Math Objects In Use
+
+- parameter vector $\theta$
+- objective function $J(\theta)$
+- gradient $\nabla J(\theta)$
+- step size or learning rate $\eta$
+- regularizer $\Omega(\theta)$
+
+## A Small Worked Walkthrough
+
+Take linear regression with squared loss:
+
+$$
+J(\beta) = \frac{1}{n}\sum_{i=1}^n (x_i^\top \beta - y_i)^2.
+$$
+
+This is the same empirical-risk viewpoint from [Supervised Learning, Losses, and Empirical Risk](supervised-learning-losses-and-empirical-risk.qmd), now seen as an optimization problem.
+
+The gradient is
+
+$$
+\nabla J(\beta)
+=
+\frac{2}{n} X^\top (X\beta - y).
+$$
+
+So one gradient descent step is
+
+$$
+\beta_{t+1} = \beta_t - \eta \nabla J(\beta_t).
+$$
+
+This update has a direct geometric interpretation:
+
+- the residual $X\beta - y$ measures current mismatch
+- multiplication by $X^\top$ maps that mismatch back into parameter space
+- the update moves parameters in a direction that lowers the objective locally
+
+If we add ridge-style regularization,
+
+$$
+J_\lambda(\beta)
+=
+\frac{1}{n}\sum_{i=1}^n (x_i^\top \beta - y_i)^2
++
+\lambda \|\beta\|_2^2,
+$$
+
+then the gradient changes to
+
+$$
+\nabla J_\lambda(\beta)
+=
+\frac{2}{n} X^\top (X\beta - y) + 2\lambda \beta.
+$$
+
+That one extra term already shows why optimization and regularization are tightly linked in ML.
+
+## Implementation or Computation Note
+
+In practice, large models rarely compute the full gradient on all data at every step.
+
+Instead they use stochastic or minibatch gradients:
+
+$$
+g_t \approx \nabla J(\theta_t).
+$$
+
+Then the update becomes
+
+$$
+\theta_{t+1} = \theta_t - \eta g_t.
+$$
+
+This is cheaper per step and often the only feasible approach at scale, but it introduces noise and tuning questions:
+
+- batch size
+- learning rate schedule
+- momentum or adaptive updates
+- stopping criteria
+
+So the optimization problem and the optimization algorithm are related, but not identical.
+
+## Failure Modes
+
+- the objective may be badly scaled, making gradient steps unstable
+- the learning rate may be too large or too small
+- low training loss can still coexist with poor test performance
+- a regularizer may stabilize fitting but bias the learned solution
+- nonconvex objectives can have many local geometric complications
+
+## Paper Bridge
+
+- [EE364a: Convex Optimization I](https://web.stanford.edu/class/ee364a/index.html) - `Second pass` - use this official course once you want optimization concepts in a cleaner mathematical form. Checked `2026-04-24`.
+- [CS229 Lecture 19: Advice for Applying Machine Learning](https://see.stanford.edu/Course/CS229/52) - `Paper bridge` - a practical official bridge where optimization diagnostics, model selection, and bias-variance start interacting. Checked `2026-04-24`.
+
+## Sources and Further Reading
+
+- [EE364a: Convex Optimization I](https://web.stanford.edu/class/ee364a/index.html) - `First pass` - official optimization course explaining the mathematical layer behind many ML objectives. Checked `2026-04-24`.
+- [CS229: Machine Learning](https://cs229.stanford.edu/index.html) - `First pass` - official ML course hub where objective-based training and optimization are central. Checked `2026-04-24`.
+- [CS 189 Syllabus](https://eecs189.org/sp26/syllabus/) - `Second pass` - official Berkeley course framing optimization as part of the standard ML pipeline. Checked `2026-04-24`.
+- [Mathematics for Machine Learning](https://mml-book.github.io/) - `Second pass` - useful bridge for readers translating gradients and objectives into ML notation. Checked `2026-04-24`.
