@@ -1,0 +1,368 @@
+---
+title: "Exponents, Logarithms, and Growth"
+description: "How exponent rules, logarithms, change of base, and growth comparison repair one of the most common bottlenecks in later math."
+page-type: concept
+status: published
+update-status: current
+level: foundation
+topic: algebra-repair
+prerequisites:
+  - /topics/foundation/algebra-repair/concepts/functions-and-graph-reading.qmd
+learning-goals:
+  - "Use exponent laws reliably."
+  - "Understand logarithms as inverse functions to exponentials."
+  - "Use change of base and log rules carefully."
+  - "Compare linear, polynomial, exponential, and logarithmic growth at a first-pass level."
+applications:
+  - calculus
+  - probability
+  - asymptotic-analysis
+keywords:
+  - exponent
+  - logarithm
+  - growth
+  - change of base
+  - exponential
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/foundation/algebra-repair/index.qmd
+  - /topics/foundation/algebra-repair/concepts/functions-and-graph-reading.qmd
+  - /topics/foundation/discrete-math/concepts/recurrences-and-asymptotics.qmd
+  - /topics/foundation/single-variable-calculus/index.qmd
+  - /topics/advanced/information-theory/index.qmd
+stable-sources:
+  - "OpenStax"
+  - "Khan Academy"
+  - "Paul's Online Math Notes"
+current-sources:
+  - "OpenStax College Algebra 2e"
+  - "OpenStax Precalculus 2e"
+  - "Khan Academy Algebra basics"
+  - "Khan Academy Algebra 1"
+  - "Paul's Notes Exponential/Log Functions"
+  - "Paul's Notes Growth/Decay"
+---
+
+## Role
+
+This page is the third step of the algebra-repair module.
+
+It repairs one of the most common symbolic bottlenecks in later math:
+
+- exponent rules that are only half remembered
+- logarithms treated as mysterious buttons instead of inverse functions
+- growth language that feels intuitive but not precise
+- confusion between linear, polynomial, logarithmic, and exponential scales
+
+## First-Pass Promise
+
+Read this page after [Functions and Graph Reading](functions-and-graph-reading.qmd).
+
+If you stop here, you should still understand:
+
+- the main exponent rules
+- why logarithms undo exponentials
+- how change of base works
+- why exponential and logarithmic growth are fundamentally different
+- how this page bridges into asymptotics, calculus, and probability
+
+## Why It Matters
+
+This page matters because exponents and logs are everywhere:
+
+- exponential decay in probability and statistics
+- logarithms in information theory and entropy
+- growth-rate comparison in asymptotic analysis
+- exponential and log transforms in calculus and optimization
+
+When this topic is shaky, later derivations become much harder than they need to be.
+
+Often the real issue is not the big theorem. It is that the algebra around powers and logs is fragile.
+
+## Prerequisite Recall
+
+- [Functions and Graph Reading](functions-and-graph-reading.qmd) already treated exponentials and logarithms as functions, not only formulas
+- inverse language matters here because logarithms reverse exponentials
+- growth comparison is easier once you stop focusing only on exact numbers and start noticing scale
+
+## Intuition
+
+An exponential function keeps multiplying by the same factor as the input increases by equal steps.
+
+That is why
+
+$$
+2^x
+$$
+
+grows so differently from
+
+$$
+x^2.
+$$
+
+A logarithm asks the inverse question:
+
+`what exponent produced this number?`
+
+So
+
+$$
+\log_2 32 = 5
+$$
+
+because
+
+$$
+2^5 = 32.
+$$
+
+That inverse viewpoint is the cleanest way to understand logs.
+
+It also explains why exponentials grow quickly and logarithms grow slowly: they are inverse behaviors.
+
+## Formal Core
+
+::: {#def-exponential}
+## Definition: Exponential Function
+
+For a base $a>0$ with $a \ne 1$, an exponential function has the form
+
+$$
+f(x)=a^x.
+$$
+
+Its output changes multiplicatively rather than additively.
+:::
+
+::: {#def-logarithm}
+## Definition: Logarithm
+
+For a base $a>0$ with $a \ne 1$, the logarithm base $a$ is defined by
+
+$$
+y=\log_a x
+\quad \Longleftrightarrow \quad
+a^y=x.
+$$
+
+So $\log_a x$ is the exponent needed to produce $x$ from base $a$.
+:::
+
+::: {#thm-exponent-laws}
+## Theorem Idea: Exponent Laws
+
+For compatible values,
+
+$$
+a^m a^n = a^{m+n},
+$$
+
+$$
+\frac{a^m}{a^n} = a^{m-n},
+$$
+
+$$
+(a^m)^n = a^{mn}.
+$$
+
+These laws work because exponents encode repeated multiplication.
+:::
+
+::: {#thm-log-laws}
+## Theorem Idea: Logarithm Laws
+
+For positive inputs,
+
+$$
+\log_a(xy)=\log_a x+\log_a y,
+$$
+
+$$
+\log_a\!\left(\frac{x}{y}\right)=\log_a x-\log_a y,
+$$
+
+$$
+\log_a(x^r)=r\log_a x.
+$$
+
+These are the logarithmic mirror image of exponent rules.
+:::
+
+::: {#thm-change-base}
+## Theorem Idea: Change of Base
+
+If $a,b>0$ and neither is `1`, then
+
+$$
+\log_a x = \frac{\log_b x}{\log_b a}.
+$$
+
+This matters because it lets you move between different log bases while preserving the same underlying quantity up to a constant factor.
+:::
+
+::: {#thm-growth-hierarchy}
+## Theorem Idea: Growth Hierarchy
+
+At a first-pass level, these growth types have very different large-scale behavior:
+
+$$
+\log n, \quad n, \quad n^2, \quad 2^n.
+$$
+
+For large $n$,
+
+- logarithmic growth is slow
+- polynomial growth is faster
+- exponential growth is dramatically faster
+
+This is one of the main bridges from algebra repair into asymptotics and algorithms.
+:::
+
+## Worked Example
+
+Solve
+
+$$
+2^{x+1}=16
+$$
+
+and compare the growth of
+
+$$
+\log_2 n
+$$
+
+and
+
+$$
+2^n.
+$$
+
+### Step 1: Rewrite the right-hand side
+
+Since
+
+$$
+16=2^4,
+$$
+
+the equation becomes
+
+$$
+2^{x+1}=2^4.
+$$
+
+### Step 2: Match exponents
+
+Because the bases are the same,
+
+$$
+x+1=4,
+$$
+
+so
+
+$$
+x=3.
+$$
+
+### Step 3: Read the inverse viewpoint
+
+The same result could be written as
+
+$$
+x+1=\log_2 16 = 4.
+$$
+
+This is exactly the inverse relationship between exponentials and logs.
+
+### Step 4: Compare growth qualitatively
+
+If $n$ gets large:
+
+- $\log_2 n$ grows very slowly
+- $2^n$ grows extremely fast
+
+For example:
+
+- when $n=10$, $\log_2 10$ is only a little above `3`
+- but $2^{10}=1024$
+
+This is why logs often appear in algorithmic complexity as “slow growth,” while exponentials usually signal rapid blow-up.
+
+## Computation Lens
+
+For first-pass exponent and log work, the main habits are:
+
+1. rewrite quantities in a common base when possible
+2. treat logarithms as inverse functions, not as separate magic rules
+3. check positivity before applying log identities
+4. use change of base instead of memorizing every base separately
+5. separate symbolic simplification from growth comparison, then reconnect them
+
+This page is less about memorizing identities and more about making the identities feel structurally inevitable.
+
+## Application Lens
+
+This page supports many later modules directly:
+
+- [Recurrences and Asymptotics](../../discrete-math/concepts/recurrences-and-asymptotics.qmd) through growth comparison
+- [Single-Variable Calculus](../../single-variable-calculus/index.qmd) through exponential and logarithmic functions
+- [Probability](../../probability/index.qmd) through exponential tails and log-likelihood language
+- [Information Theory](../../../advanced/information-theory/index.qmd) through entropy, bits, and log bases
+
+Once this page feels natural, a large amount of later notation becomes much calmer to read.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- what exponentials and logarithms each do
+- why logs are inverse functions
+- how change of base works
+- why log growth and exponential growth are not remotely the same scale
+- when log laws are valid and when positivity matters
+
+then this page has done its job.
+
+## Go Deeper
+
+The next page in this module is:
+
+- [Trig and Complex Numbers](trig-and-complex-numbers.qmd)
+
+The strongest adjacent bridges are:
+
+- [Functions and Graph Reading](functions-and-graph-reading.qmd)
+- [Recurrences and Asymptotics](../../discrete-math/concepts/recurrences-and-asymptotics.qmd)
+- [Single-Variable Calculus](../../single-variable-calculus/index.qmd)
+
+## Optional Deeper Reading After First Pass
+
+- [OpenStax College Algebra 2e](https://openstax.org/details/books/college-algebra-2e) - open official text for exponent laws and logarithm basics. Checked `2026-04-25`.
+- [OpenStax Precalculus 2e](https://openstax.org/details/books/precalculus-2e) - strong open official bridge from function language into growth and exponential/logarithmic modeling. Checked `2026-04-25`.
+- [Paul's Notes Exponential/Log Functions](https://tutorial.math.lamar.edu/Classes/Alg/ExpLogFcns.aspx) - stable worked-example page for exponentials, logarithms, and inverse interpretation. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [OpenStax College Algebra 2e](https://openstax.org/details/books/college-algebra-2e) - `First pass` - open official text for exponent rules, logarithms, and algebraic growth language. Checked `2026-04-25`.
+- [OpenStax Precalculus 2e](https://openstax.org/details/books/precalculus-2e) - `Second pass` - open official bridge from algebra repair into more complete exponential and logarithmic modeling. Checked `2026-04-25`.
+- [Khan Academy Algebra basics](https://www.khanacademy.org/math/algebra-basics) - `First pass` - official skill-based reinforcement for powers, exponents, and growth intuition. Checked `2026-04-25`.
+- [Khan Academy Algebra 1](https://www.khanacademy.org/math/algebra) - `Second pass` - broader official practice hub for exponentials, graph interpretation, and algebraic growth. Checked `2026-04-25`.
+- [Paul's Notes Exponential/Log Functions](https://tutorial.math.lamar.edu/Classes/Alg/ExpLogFcns.aspx) - `First pass` - stable worked-example page for inverse interpretation and log identities. Checked `2026-04-25`.
+- [Paul's Notes Growth/Decay](https://tutorial.math.lamar.edu/Classes/Alg/GrowthDecay.aspx) - `Second pass` - stable worked-example page reinforcing exponential growth and decay modeling. Checked `2026-04-25`.
+
+Sources checked online on `2026-04-25`:
+
+- OpenStax College Algebra 2e
+- OpenStax Precalculus 2e
+- Khan Academy Algebra basics
+- Khan Academy Algebra 1
+- Paul's Notes Exponential/Log Functions
+- Paul's Notes Growth/Decay

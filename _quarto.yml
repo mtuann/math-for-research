@@ -74,6 +74,14 @@ website:
               - topics/foundation/logic/concepts/predicate-logic.qmd
               - topics/foundation/logic/concepts/sets-functions-and-relations.qmd
               - topics/foundation/logic/concepts/translation-between-english-and-symbols.qmd
+          - section: "Algebra Repair"
+            contents:
+              - topics/foundation/algebra-repair/index.qmd
+              - topics/foundation/algebra-repair/concepts/expressions-and-equations.qmd
+              - topics/foundation/algebra-repair/concepts/functions-and-graph-reading.qmd
+              - topics/foundation/algebra-repair/concepts/exponents-logarithms-and-growth.qmd
+              - topics/foundation/algebra-repair/concepts/trig-and-complex-numbers.qmd
+              - topics/foundation/algebra-repair/concepts/symbol-manipulation-lab.qmd
           - section: "Discrete Math"
             contents:
               - topics/foundation/discrete-math/index.qmd

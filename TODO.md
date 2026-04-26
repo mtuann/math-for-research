@@ -17,9 +17,9 @@ Use it to track:
 
 ## Current Snapshot
 
-- `247` `.qmd` pages currently exist
-- `122` concept-topic pages currently exist
-- strongest completed foundation spines so far: `Discrete Math`, `Linear Algebra`, `Probability`, `Proofs`, `Logic`, `Statistics`, `Single-Variable Calculus`, `Multivariable Calculus`
+- `253` `.qmd` pages currently exist
+- `127` concept-topic pages currently exist
+- strongest completed foundation spines so far: `Algebra Repair`, `Discrete Math`, `Linear Algebra`, `Probability`, `Proofs`, `Logic`, `Statistics`, `Single-Variable Calculus`, `Multivariable Calculus`
 - strongest completed advanced spines so far: `Optimization`, `Real Analysis`, `Numerical Methods`, `ODEs and Dynamical Systems`, `Matrix Analysis`, `Learning Theory`, `High-Dimensional Probability`, `High-Dimensional Statistics`, `Information Theory`, `Control and Dynamics`, `Stochastic Control and Dynamic Programming`, `Signal Processing and Estimation`
 - strongest public-facing bridge so far: `Applications > Machine Learning`
 - non-topic sections already scaffolded: `Start Here`, `Roadmaps`, `Applications`, `Paper Lab`, `Research`, `Publication`, `Library`, `Notes`
@@ -128,11 +128,12 @@ Use it to track:
 
 ### Algebra Repair
 
-- [ ] `Expressions, equations, inequalities`
-- [ ] `Functions and graphs`
-- [ ] `Exponents and logarithms`
-- [ ] `Trigonometry and complex numbers`
-- [ ] `Symbol manipulation lab`
+- [x] `Algebra Repair index`
+- [x] `Expressions and equations`
+- [x] `Functions and graph reading`
+- [x] `Exponents, logarithms, and growth`
+- [x] `Trig and complex numbers`
+- [x] `Symbol manipulation lab`
 
 ### Proofs
 
@@ -410,14 +411,13 @@ These are the topics that should eventually become canonical examples for future
 
 Near-term highest-value content steps:
 
-1. [ ] `Build Foundation: Algebra Repair module`
-2. [ ] `Build Applications: Control and dynamics`
-3. [ ] `Build Applications: Signal and communication`
-4. [ ] `Build Roadmap: Engineering systems`
-5. [ ] `Build Advanced: Stochastic Processes module`
-6. [ ] `Build Publication: venue map`
-7. [ ] `Curate Library: books and courses`
-8. [ ] `Run local render + visual QA pass`
+1. [ ] `Build Applications: Control and dynamics`
+2. [ ] `Build Applications: Signal and communication`
+3. [ ] `Build Roadmap: Engineering systems`
+4. [ ] `Build Advanced: Stochastic Processes module`
+5. [ ] `Build Publication: venue map`
+6. [ ] `Curate Library: books and courses`
+7. [ ] `Run local render + visual QA pass`
 
 ## Work Outside Topic Content
 
@@ -464,5 +464,5 @@ Yes, there is important work outside topic writing.
 ## Notes
 
 - Current content momentum is strongest in the advanced bridge cluster: `Numerical Methods`, `ODEs and Dynamical Systems`, `Control and Dynamics`, `Stochastic Control and Dynamic Programming`, `Information Theory`, and `Signal Processing and Estimation`.
-- The next content gaps most worth filling are `Algebra Repair`, `Stochastic Processes`, and the missing non-ML application hubs.
+- The next content gaps most worth filling are `Stochastic Processes`, the missing non-ML application hubs, and `Engineering systems`.
 - The next non-content task most worth doing is a `local render + visual QA pass`.

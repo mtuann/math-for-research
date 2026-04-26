@@ -8,6 +8,7 @@ The foundation track is where you build fluency strong enough that later theory 
 
 ## First Modules
 
+- [Algebra Repair](algebra-repair/index.qmd)
 - [Proofs](proofs/index.qmd)
 - [Logic](logic/index.qmd)
 - [Discrete Math](discrete-math/index.qmd)

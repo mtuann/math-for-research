@@ -1,0 +1,336 @@
+---
+title: "Trig and Complex Numbers"
+description: "How radian language, sine and cosine, and basic complex-number geometry repair the most common pre-theory gaps in oscillation and rotation language."
+page-type: concept
+status: published
+update-status: current
+level: foundation
+topic: algebra-repair
+prerequisites:
+  - /topics/foundation/algebra-repair/concepts/functions-and-graph-reading.qmd
+  - /topics/foundation/algebra-repair/concepts/exponents-logarithms-and-growth.qmd
+learning-goals:
+  - "Interpret sine and cosine through the unit circle."
+  - "Use radians as the natural angle scale in later math."
+  - "Read complex numbers in both algebraic and geometric form."
+  - "Recognize rotation and oscillation as the shared language behind trigonometry and complex numbers."
+applications:
+  - calculus
+  - signal-processing
+  - dynamical-systems
+keywords:
+  - trigonometry
+  - radians
+  - sine
+  - cosine
+  - complex numbers
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/foundation/algebra-repair/index.qmd
+  - /topics/foundation/single-variable-calculus/index.qmd
+  - /topics/advanced/odes-and-dynamical-systems/index.qmd
+  - /topics/advanced/signal-processing-and-estimation/index.qmd
+stable-sources:
+  - "OpenStax"
+  - "Khan Academy"
+  - "Paul's Online Math Notes"
+current-sources:
+  - "OpenStax College Algebra 2e"
+  - "OpenStax Precalculus 2e"
+  - "Khan Academy Trigonometry"
+  - "Khan Academy Precalculus"
+  - "Paul's Notes Trig Functions"
+  - "Paul's Notes Complex Numbers"
+---
+
+## Role
+
+This page is the fourth step of the algebra-repair module.
+
+It repairs another common gap that later math quietly assumes is already stable:
+
+- radians as the default angle language
+- sine and cosine as coordinates, not just triangle mnemonics
+- complex numbers as points in the plane, not symbolic exceptions
+- rotation and oscillation as shared geometric structure
+
+## First-Pass Promise
+
+Read this page after [Exponents, Logarithms, and Growth](exponents-logarithms-and-growth.qmd).
+
+If you stop here, you should still understand:
+
+- why radians are the natural unit for angle
+- how sine and cosine come from the unit circle
+- how complex numbers extend the real line into a plane
+- why multiplication by special complex numbers acts like rotation and scaling
+- why this page helps later calculus, signals, and dynamical systems
+
+## Why It Matters
+
+Trigonometry and complex numbers look like separate topics at first, but later math keeps using them together.
+
+They appear in:
+
+- periodic motion
+- waves and signals
+- rotations in the plane
+- oscillatory solutions of differential equations
+- Fourier and spectral language
+
+When this layer is weak, later formulas involving `sin`, `cos`, `e^{i\theta}`, or oscillation often feel much more mysterious than they need to.
+
+## Prerequisite Recall
+
+- [Functions and Graph Reading](functions-and-graph-reading.qmd) already treated `sin` and `cos` as functions, not only buttons on a calculator
+- [Exponents, Logarithms, and Growth](exponents-logarithms-and-growth.qmd) already built the habit of reading functions structurally
+- coordinates in the plane give geometric meaning to algebraic objects
+
+## Intuition
+
+The unit circle is the cleanest first-pass picture for trigonometry.
+
+If an angle $\theta$ lands on a point of the unit circle, then that point has coordinates
+
+$$
+(\cos \theta, \sin \theta).
+$$
+
+So cosine and sine are not arbitrary formulas. They are coordinates of rotation.
+
+Complex numbers then continue the same story.
+
+The number
+
+$$
+a+bi
+$$
+
+can be read as a point in the plane:
+
+$$
+(a,b).
+$$
+
+That means complex arithmetic is not just symbolic play. It carries geometry:
+
+- addition shifts points
+- magnitude measures distance from the origin
+- special multiplications encode rotation and scaling
+
+## Formal Core
+
+::: {#def-radian}
+## Definition: Radian
+
+An angle of one radian is the angle that cuts off an arc of length `1` on the unit circle.
+
+Radians are the natural angle unit because they tie angle directly to arc length and make later calculus formulas clean.
+:::
+
+::: {#def-unit-circle}
+## Definition: Unit-Circle Trigonometry
+
+On the unit circle, the point at angle $\theta$ has coordinates
+
+$$
+(\cos \theta, \sin \theta).
+$$
+
+This is the main first-pass meaning of cosine and sine.
+:::
+
+::: {#def-complex-number}
+## Definition: Complex Number
+
+A complex number has the form
+
+$$
+z = a + bi,
+$$
+
+where $a$ and $b$ are real and
+
+$$
+i^2 = -1.
+$$
+
+Its real part is $a$ and its imaginary part is $b$.
+:::
+
+::: {#def-modulus}
+## Definition: Modulus
+
+The modulus of
+
+$$
+z = a+bi
+$$
+
+is
+
+$$
+|z| = \sqrt{a^2+b^2}.
+$$
+
+Geometrically, this is the distance from the origin to the point $(a,b)$.
+:::
+
+::: {#thm-unit-circle-identity}
+## Theorem Idea: Unit-Circle Identity
+
+Because points on the unit circle have distance `1` from the origin,
+
+$$
+\cos^2 \theta + \sin^2 \theta = 1.
+$$
+
+This identity is geometric before it is algebraic.
+:::
+
+::: {#thm-complex-geometry}
+## Theorem Idea: Complex Numbers Carry Geometry
+
+When a complex number is viewed as a point in the plane:
+
+- addition acts like vector addition
+- modulus gives distance from the origin
+- multiplying by a complex number of modulus `1` corresponds to rotation
+
+This is the bridge from algebraic symbols into oscillation and rotation language.
+:::
+
+## Worked Example
+
+Let
+
+$$
+z = 1+i.
+$$
+
+### Step 1: Read it geometrically
+
+The point corresponding to $z$ is
+
+$$
+(1,1).
+$$
+
+### Step 2: Compute the modulus
+
+$$
+|z| = \sqrt{1^2+1^2} = \sqrt{2}.
+$$
+
+So the point lies a distance $\sqrt{2}$ from the origin.
+
+### Step 3: Connect to angle language
+
+The point $(1,1)$ lies on the line $y=x$, so its direction from the origin is an angle of
+
+$$
+\frac{\pi}{4}
+$$
+
+or `45` degrees.
+
+### Step 4: Normalize to the unit circle
+
+If we divide by its modulus, we get
+
+$$
+\frac{1+i}{\sqrt{2}}.
+$$
+
+This point lies on the unit circle and has coordinates
+
+$$
+\left(\frac{1}{\sqrt{2}}, \frac{1}{\sqrt{2}}\right).
+$$
+
+So
+
+$$
+\cos\left(\frac{\pi}{4}\right)=\sin\left(\frac{\pi}{4}\right)=\frac{1}{\sqrt{2}}.
+$$
+
+This example matters because it shows the same object being read three ways:
+
+- algebraically as `1+i`
+- geometrically as `(1,1)`
+- trigonometrically as a direction with angle $\pi/4$
+
+## Computation Lens
+
+For first-pass trig and complex work, the main habits are:
+
+1. prefer radians when the goal is later math, not only geometry homework
+2. read `sin` and `cos` from the unit-circle coordinate picture
+3. translate complex numbers into points in the plane immediately
+4. compute modulus before trying to interpret scale
+5. move back and forth between algebraic and geometric views instead of choosing only one
+
+This page is mainly about making later formulas feel interpretable rather than magical.
+
+## Application Lens
+
+This page feeds directly into:
+
+- [Single-Variable Calculus](../../single-variable-calculus/index.qmd) through trig derivatives and periodic behavior
+- [ODEs and Dynamical Systems](../../../advanced/odes-and-dynamical-systems/index.qmd) through oscillation and modes
+- [Signal Processing and Estimation](../../../advanced/signal-processing-and-estimation/index.qmd) through waves, spectra, and sinusoidal language
+
+It is also one of the clearest places where geometry and algebra stop being separate subjects.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- why radians are the natural angle unit
+- how `\sin \theta` and `\cos \theta` come from the unit circle
+- how to read `a+bi` as a point
+- what modulus measures
+- why trig and complex numbers share a common rotation story
+
+then this page has done its job.
+
+## Go Deeper
+
+The next page in this module is:
+
+- [Symbol Manipulation Lab](symbol-manipulation-lab.qmd)
+
+The strongest adjacent bridges are:
+
+- [Exponents, Logarithms, and Growth](exponents-logarithms-and-growth.qmd)
+- [Single-Variable Calculus](../../single-variable-calculus/index.qmd)
+- [Signal Processing and Estimation](../../../advanced/signal-processing-and-estimation/index.qmd)
+
+## Optional Deeper Reading After First Pass
+
+- [OpenStax Precalculus 2e](https://openstax.org/details/books/precalculus-2e) - open official bridge text for trigonometric and complex-number language. Checked `2026-04-25`.
+- [Khan Academy Trigonometry](https://www.khanacademy.org/math/trigonometry) - official practice-oriented reinforcement for unit-circle and radian fluency. Checked `2026-04-25`.
+- [Paul's Notes Complex Numbers](https://tutorial.math.lamar.edu/Classes/Alg/ComplexNumbers.aspx) - stable worked-example page for the algebraic and geometric basics of complex numbers. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [OpenStax Precalculus 2e](https://openstax.org/details/books/precalculus-2e) - `First pass` - open official reference for trigonometric functions, radians, and complex-number basics. Checked `2026-04-25`.
+- [OpenStax College Algebra 2e](https://openstax.org/details/books/college-algebra-2e) - `Second pass` - open official algebra bridge for symbolic fluency around these topics. Checked `2026-04-25`.
+- [Khan Academy Trigonometry](https://www.khanacademy.org/math/trigonometry) - `First pass` - official skill-based reinforcement for unit-circle intuition and trig functions. Checked `2026-04-25`.
+- [Khan Academy Precalculus](https://www.khanacademy.org/math/precalculus) - `Second pass` - broader official practice hub for trigonometric and complex-number fluency. Checked `2026-04-25`.
+- [Paul's Notes Trig Functions](https://tutorial.math.lamar.edu/Classes/Alg/TrigFcns.aspx) - `First pass` - stable worked-example page for trig-function interpretation. Checked `2026-04-25`.
+- [Paul's Notes Complex Numbers](https://tutorial.math.lamar.edu/Classes/Alg/ComplexNumbers.aspx) - `First pass` - stable worked-example page for algebraic and geometric complex-number basics. Checked `2026-04-25`.
+
+Sources checked online on `2026-04-25`:
+
+- OpenStax Precalculus 2e
+- OpenStax College Algebra 2e
+- Khan Academy Trigonometry
+- Khan Academy Precalculus
+- Paul's Notes Trig Functions
+- Paul's Notes Complex Numbers

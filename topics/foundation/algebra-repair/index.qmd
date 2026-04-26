@@ -1,0 +1,230 @@
+---
+title: "Algebra Repair"
+description: "A repair-first module for expressions, equations, functions, exponents, trigonometric language, and symbol fluency before heavier theory."
+page-type: module-overview
+status: published
+update-status: current
+level: foundation
+topic: algebra-repair
+prerequisites:
+  - /start-here/notation-and-symbols.qmd
+learning-goals:
+  - "Repair the algebra habits that most often block later math modules."
+  - "Know the intended first-pass direction of the algebra-repair module."
+  - "Reconnect symbolic fluency to graphs, growth, and later technical reading."
+applications:
+  - calculus
+  - probability
+  - optimization
+keywords:
+  - algebra
+  - equations
+  - functions
+  - logarithms
+  - symbolic manipulation
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+stable-sources:
+  - "OpenStax"
+  - "Khan Academy"
+  - "Paul's Online Math Notes"
+current-sources:
+  - "OpenStax College Algebra 2e"
+  - "OpenStax Precalculus 2e"
+  - "Khan Academy Algebra basics"
+  - "Khan Academy Algebra 1"
+  - "Paul's Notes Algebra"
+  - "Paul's Notes Function intro"
+  - "Paul's Notes Exponential/Log Functions"
+  - "Paul's Notes Growth/Decay"
+  - "Khan Academy Trigonometry"
+  - "Khan Academy Precalculus"
+  - "Paul's Notes Trig Functions"
+  - "Paul's Notes Complex Numbers"
+  - "CMU 15-151 course page"
+---
+
+## Why This Module Matters
+
+This module exists for one very practical reason:
+
+many later math problems are not blocked by the advanced idea yet. They are blocked by algebra friction.
+
+That friction shows up as:
+
+- dropping minus signs
+- treating equivalent transformations carelessly
+- losing track of what a function takes in and returns
+- misreading exponential or logarithmic growth
+- getting stuck in symbolic manipulation before the real math even starts
+
+Without this repair layer, later modules like calculus, probability, optimization, information theory, and learning theory often feel harder than they really are.
+
+::: {.meta-strip}
+::: {.meta-box}
+**Prerequisites**
+[Notation and symbols](../../../start-here/notation-and-symbols.qmd), patience, and willingness to slow down
+:::
+::: {.meta-box}
+**Unlocks**
+Proofs, calculus, probability, linear algebra, optimization
+:::
+::: {.meta-box}
+**Research Use**
+Reading formulas cleanly, checking derivations, simplifying expressions, and avoiding symbol-level mistakes
+:::
+:::
+
+## First Pass Through This Module
+
+The intended first-pass spine is:
+
+1. [Expressions and Equations](concepts/expressions-and-equations.qmd)
+2. [Functions and Graph Reading](concepts/functions-and-graph-reading.qmd)
+3. [Exponents, Logarithms, and Growth](concepts/exponents-logarithms-and-growth.qmd)
+4. [Trig and Complex Numbers](concepts/trig-and-complex-numbers.qmd)
+5. [Symbol Manipulation Lab](concepts/symbol-manipulation-lab.qmd)
+
+This now gives the module a complete first-pass spine for the algebra blockages that most often slow down later theory.
+
+## How To Use This Module
+
+The best opening path is:
+
+1. start with [Expressions and Equations](concepts/expressions-and-equations.qmd)
+2. continue to [Functions and Graph Reading](concepts/functions-and-graph-reading.qmd)
+3. continue to [Exponents, Logarithms, and Growth](concepts/exponents-logarithms-and-growth.qmd)
+4. continue to [Trig and Complex Numbers](concepts/trig-and-complex-numbers.qmd)
+5. finish with [Symbol Manipulation Lab](concepts/symbol-manipulation-lab.qmd)
+6. keep [Notation and symbols](../../../start-here/notation-and-symbols.qmd) nearby if syntax itself is still slowing you down
+7. return to [Proofs](../proofs/index.qmd) or [Single-Variable Calculus](../single-variable-calculus/index.qmd) once symbolic steps stop feeling fragile
+
+This module is deliberately repair-oriented. It is not trying to be an algebra textbook from scratch. It is trying to remove the exact kinds of friction that keep later pages from feeling readable.
+
+## Core Concepts
+
+- [Expressions and Equations](concepts/expressions-and-equations.qmd): the opening repair page for variable meaning, equivalent transformations, solving equations, and common algebra mistakes.
+- [Functions and Graph Reading](concepts/functions-and-graph-reading.qmd): the second repair page for input-output thinking, domain/range, composition, and graph interpretation.
+- [Exponents, Logarithms, and Growth](concepts/exponents-logarithms-and-growth.qmd): the third repair page for exponent rules, logarithms, inverse thinking, and growth comparison.
+- [Trig and Complex Numbers](concepts/trig-and-complex-numbers.qmd): the fourth repair page for radian language, sine/cosine interpretation, and complex-number basics.
+- [Symbol Manipulation Lab](concepts/symbol-manipulation-lab.qmd): the closing repair page for multi-step drills, factor-before-cancel habits, and symbolic hygiene.
+
+## After This First Pass
+
+The strongest adjacent next moves are:
+
+- [Proofs](../proofs/index.qmd)
+- [Single-Variable Calculus](../single-variable-calculus/index.qmd)
+- [Probability](../probability/index.qmd)
+- [Linear Algebra](../linear-algebra/index.qmd)
+
+## Applications
+
+### Calculus Readiness
+
+Derivatives and integrals become much easier once symbolic transformations stop consuming all the attention.
+
+### Probability And Statistics
+
+Expectation formulas, densities, likelihoods, and Bayes updates all rely on calm algebra more than they first appear to.
+
+### Optimization And Modeling
+
+Much of optimization starts as algebra on objective functions, constraints, and parameterizations.
+
+## Go Deeper By Topic
+
+### Equation Solving
+
+Start with [Expressions and Equations](concepts/expressions-and-equations.qmd).
+
+If that page still feels shaky, slow down and work one problem where you:
+
+- simplify an expression
+- solve a linear equation
+- solve a rational equation
+- explain why each transformation preserved the solution set
+
+That explanation step matters as much as the final answer.
+
+### Function Language
+
+Continue to [Functions and Graph Reading](concepts/functions-and-graph-reading.qmd).
+
+If that page still feels shaky, work one example where you:
+
+- identify the domain
+- describe the range
+- compute one composition
+- explain what the graph means in words instead of only drawing it
+
+### Exponents And Logarithms
+
+Continue to [Exponents, Logarithms, and Growth](concepts/exponents-logarithms-and-growth.qmd).
+
+If that page still feels shaky, work one example where you:
+
+- rewrite numbers in a common base
+- solve one simple exponential equation
+- explain a logarithm as an inverse statement
+- compare `\log n`, `n`, and `2^n` in words
+
+### Trig And Complex Numbers
+
+Continue to [Trig and Complex Numbers](concepts/trig-and-complex-numbers.qmd).
+
+If that page still feels shaky, work one example where you:
+
+- read sine and cosine from the unit circle
+- switch between degrees and radians
+- plot a complex number as a point
+- compute its modulus and explain the geometry
+
+### Symbolic Hygiene
+
+Finish with [Symbol Manipulation Lab](concepts/symbol-manipulation-lab.qmd).
+
+If that page still feels shaky, work one example where you:
+
+- mark restrictions
+- factor before cancelling
+- simplify one line at a time
+- explain why the final form is equivalent to the original one
+
+## Optional Deeper Reading After First Pass
+
+- [OpenStax College Algebra 2e](https://openstax.org/details/books/college-algebra-2e) - broad open official text for equations, functions, and symbolic fluency. Checked `2026-04-25`.
+- [OpenStax Precalculus 2e](https://openstax.org/details/books/precalculus-2e) - strong open official reference for algebra-to-precalculus repair. Checked `2026-04-25`.
+- [Khan Academy Algebra basics](https://www.khanacademy.org/math/algebra-basics) - useful official practice-oriented reinforcement when fluency is weaker than conceptual understanding. Checked `2026-04-25`.
+- [Paul's Notes Function intro](https://tutorial.math.lamar.edu/Classes/Alg/Functions.aspx) - stable worked-example reinforcement for function notation and graph interpretation. Checked `2026-04-25`.
+- [Paul's Notes Exponential/Log Functions](https://tutorial.math.lamar.edu/Classes/Alg/ExpLogFcns.aspx) - stable worked-example reinforcement for exponentials, logarithms, and inverse thinking. Checked `2026-04-25`.
+- [Khan Academy Trigonometry](https://www.khanacademy.org/math/trigonometry) - official practice-oriented reinforcement for radians, unit-circle thinking, and trig functions. Checked `2026-04-25`.
+- [Paul's Notes Algebra](https://tutorial.math.lamar.edu/Classes/Alg/Alg.aspx) - stable worked-example reinforcement for multi-step symbolic manipulation. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [OpenStax College Algebra 2e](https://openstax.org/details/books/college-algebra-2e) - `First pass` - open official algebra text for equations, functions, and symbolic structure. Checked `2026-04-25`.
+- [OpenStax Precalculus 2e](https://openstax.org/details/books/precalculus-2e) - `Second pass` - open official reference for algebra repair that continues naturally into trigonometry and growth. Checked `2026-04-25`.
+- [Khan Academy Algebra basics](https://www.khanacademy.org/math/algebra-basics) - `First pass` - official skill-based practice layer for repairing fragile algebra habits. Checked `2026-04-25`.
+- [Khan Academy Algebra 1](https://www.khanacademy.org/math/algebra) - `Second pass` - broader official practice hub for equation solving and graph reading. Checked `2026-04-25`.
+- [Paul's Notes Algebra](https://tutorial.math.lamar.edu/Classes/Alg/Alg.aspx) - `Second pass` - stable reference for worked examples and symbolic manipulation patterns. Checked `2026-04-25`.
+- [Paul's Notes Function intro](https://tutorial.math.lamar.edu/Classes/Alg/Functions.aspx) - `First pass` - stable worked-example page for function notation, domain/range, and graph interpretation. Checked `2026-04-25`.
+- [Paul's Notes Exponential/Log Functions](https://tutorial.math.lamar.edu/Classes/Alg/ExpLogFcns.aspx) - `First pass` - stable worked-example page for exponents, logarithms, and inverse interpretation. Checked `2026-04-25`.
+- [Khan Academy Trigonometry](https://www.khanacademy.org/math/trigonometry) - `First pass` - official skill-based reinforcement for trig-function and unit-circle fluency. Checked `2026-04-25`.
+- [CMU 15-151 course page](https://www.cs.cmu.edu/~15151/) - `Paper bridge` - theory-oriented course page reminding why algebra fluency matters before proof-heavy discrete math. Checked `2026-04-25`.
+
+Sources checked online on `2026-04-25`:
+
+- OpenStax College Algebra 2e
+- OpenStax Precalculus 2e
+- Khan Academy Algebra basics
+- Khan Academy Algebra 1
+- Paul's Notes Algebra
+- Paul's Notes Function intro
+- Paul's Notes Exponential/Log Functions
+- Khan Academy Trigonometry
+- CMU 15-151 course page

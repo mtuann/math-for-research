@@ -1,0 +1,323 @@
+---
+title: "Symbol Manipulation Lab"
+description: "A repair lab for factoring, expanding, substitution, cancellation, and restriction tracking so symbolic work becomes reliable before heavier theory."
+page-type: concept
+status: published
+update-status: current
+level: foundation
+topic: algebra-repair
+prerequisites:
+  - /topics/foundation/algebra-repair/concepts/expressions-and-equations.qmd
+  - /topics/foundation/algebra-repair/concepts/functions-and-graph-reading.qmd
+  - /topics/foundation/algebra-repair/concepts/exponents-logarithms-and-growth.qmd
+  - /topics/foundation/algebra-repair/concepts/trig-and-complex-numbers.qmd
+learning-goals:
+  - "Use a repeatable workflow for multi-step symbolic manipulation."
+  - "Track restrictions and equivalence while simplifying."
+  - "Recognize when factoring, substitution, or common denominators are the right next move."
+  - "Avoid the most common cancellation and sign errors that contaminate later derivations."
+applications:
+  - calculus
+  - probability
+  - optimization
+keywords:
+  - simplification
+  - factorization
+  - substitution
+  - cancellation
+  - symbolic manipulation
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/foundation/algebra-repair/index.qmd
+  - /topics/foundation/algebra-repair/concepts/expressions-and-equations.qmd
+  - /topics/foundation/single-variable-calculus/index.qmd
+  - /topics/foundation/probability/index.qmd
+  - /topics/advanced/optimization/index.qmd
+stable-sources:
+  - "OpenStax"
+  - "Khan Academy"
+  - "Paul's Online Math Notes"
+current-sources:
+  - "OpenStax College Algebra 2e"
+  - "OpenStax Precalculus 2e"
+  - "Khan Academy Algebra basics"
+  - "Khan Academy Algebra 1"
+  - "Paul's Notes Algebra"
+---
+
+## Role
+
+This page closes the first-pass spine of the algebra-repair module.
+
+It is the page where separate algebra skills get used together:
+
+- factor before expanding blindly
+- rewrite before cancelling
+- track restrictions before simplifying
+- substitute only after the structure is clear
+- keep every symbolic step honest
+
+## First-Pass Promise
+
+Read this page after [Trig and Complex Numbers](trig-and-complex-numbers.qmd).
+
+If you stop here, you should still understand:
+
+- how to organize a multi-step symbolic simplification
+- when factoring is the right move
+- why cancellation only works on factors, not on terms
+- why restrictions must stay visible during simplification
+- how this page ties together the rest of the algebra-repair module
+
+## Why It Matters
+
+Many derivations fail not because the big idea is wrong, but because the symbolic execution is unreliable.
+
+That shows up in:
+
+- dropping a denominator restriction
+- cancelling terms that are not common factors
+- expanding too early and hiding the structure
+- substituting into a messy expression before simplifying
+- carrying sign errors for ten lines and only noticing at the end
+
+This page matters because later modules assume symbolic hygiene is already strong enough that the reader can focus on the actual concept.
+
+## Prerequisite Recall
+
+- [Expressions and Equations](expressions-and-equations.qmd) already built the rule that transformations must preserve the right thing
+- [Functions and Graph Reading](functions-and-graph-reading.qmd) already trained structural reading of formulas rather than surface reading
+- [Exponents, Logarithms, and Growth](exponents-logarithms-and-growth.qmd) and [Trig and Complex Numbers](trig-and-complex-numbers.qmd) added more symbolic objects that still need the same algebra discipline
+
+## Intuition
+
+Good symbolic manipulation is not random cleverness.
+
+It is a workflow:
+
+1. identify the structure
+2. record restrictions
+3. choose the cleanest representation
+4. simplify in a reversible way
+5. check what the result actually means
+
+The most important repair idea here is:
+
+`do not manipulate symbols by visual habit alone`
+
+Instead ask:
+
+- is this a sum, product, quotient, or composition?
+- can something be factored?
+- are these common factors or only similar-looking terms?
+- do any domain restrictions survive the simplification?
+
+## Formal Core
+
+::: {#def-symbolic-workflow}
+## Definition: Symbolic Manipulation Workflow
+
+A safe first-pass symbolic workflow is:
+
+1. note restrictions
+2. identify structure
+3. factor or rewrite before cancelling
+4. simplify one justified step at a time
+5. check the result against the original expression or equation
+
+The workflow matters more than speed.
+:::
+
+::: {#def-cancellation}
+## Definition: Cancellation Rule
+
+Cancellation is valid only for common nonzero factors.
+
+For example,
+
+$$
+\frac{(x-1)(x+1)}{x-1} = x+1
+$$
+
+for $x \ne 1$.
+
+But in general,
+
+$$
+\frac{x+1}{x+2}
+$$
+
+does not allow cancelling the `x`, because the numerator and denominator are not built from a common factor `x`.
+
+The visual presence of the same symbol is not enough.
+:::
+
+::: {#thm-factor-before-cancel}
+## Theorem Idea: Factor Before Cancelling
+
+If an expression is a quotient, cancellation can only happen after the numerator and denominator are written as products.
+
+This is why factoring is often the right first move in symbolic simplification.
+:::
+
+::: {#thm-restrictions-survive}
+## Theorem Idea: Restrictions Survive Simplification
+
+Even if a factor cancels algebraically, any value that made the original denominator zero remains excluded.
+
+So simplification can make an expression shorter, but it does not erase the original domain conditions.
+:::
+
+::: {#thm-substitution}
+## Theorem Idea: Substitution As Structure Compression
+
+When the same subexpression appears repeatedly, substitution can make the structure easier to see.
+
+For example, if
+
+$$
+u = x+1,
+$$
+
+then rewriting in terms of $u$ can expose a hidden quadratic or repeated factor.
+
+Substitution is useful when it reveals structure, not when it only renames clutter.
+:::
+
+## Worked Example
+
+Simplify
+
+$$
+E(x)=\frac{x^2-1}{x-1}-\frac{x^2+2x+1}{x+1}+\frac{3}{x+1}.
+$$
+
+### Step 1: Record restrictions
+
+The denominators show that
+
+$$
+x \ne 1, \qquad x \ne -1.
+$$
+
+### Step 2: Factor before cancelling
+
+Rewrite the numerators:
+
+$$
+x^2-1=(x-1)(x+1),
+$$
+
+$$
+x^2+2x+1=(x+1)^2.
+$$
+
+So
+
+$$
+E(x)=\frac{(x-1)(x+1)}{x-1}-\frac{(x+1)^2}{x+1}+\frac{3}{x+1}.
+$$
+
+### Step 3: Cancel only common factors
+
+For the allowed values of $x$,
+
+$$
+E(x)= (x+1) - (x+1) + \frac{3}{x+1}.
+$$
+
+### Step 4: Simplify the remaining structure
+
+The first two terms cancel:
+
+$$
+E(x)=\frac{3}{x+1}.
+$$
+
+### Step 5: Keep the original restrictions
+
+The simplified form is shorter, but the original restrictions remain:
+
+$$
+x \ne 1, \qquad x \ne -1.
+$$
+
+This example matters because it shows the whole lab workflow:
+
+- mark restrictions first
+- factor before cancelling
+- cancel only factors
+- simplify
+- keep the domain restrictions visible
+
+## Computation Lens
+
+For first-pass symbolic lab work, the main habits are:
+
+1. write restrictions before simplifying rational expressions
+2. factor before attempting cancellation
+3. keep “sum vs product” separate in your head
+4. use substitution only when it reveals repeated structure
+5. re-check the final form against the original problem
+
+This page is not about learning one new trick. It is about making many small symbolic choices consistently reliable.
+
+## Application Lens
+
+This page supports nearly every later module because multi-step symbolic work appears everywhere:
+
+- [Single-Variable Calculus](../../single-variable-calculus/index.qmd) in derivative and integral simplification
+- [Probability](../../probability/index.qmd) in density manipulation, conditioning, and expectation formulas
+- [Optimization](../../../advanced/optimization/index.qmd) in objective simplification and constraint handling
+
+The payoff is not flashy, but it is huge: once symbolic work is calmer, later theory becomes much easier to trust and debug.
+
+## Stop Here For First Pass
+
+If you can now explain:
+
+- why restrictions come first
+- why cancellation works only on common factors
+- why factoring is often the cleanest first move
+- why substitution should reveal structure, not only rename symbols
+- how to run a multi-step simplification without losing the logic
+
+then this page has done its job.
+
+## Go Deeper
+
+This page closes the first-pass `Algebra Repair` spine.
+
+The strongest adjacent bridges are:
+
+- [Single-Variable Calculus](../../single-variable-calculus/index.qmd)
+- [Probability](../../probability/index.qmd)
+- [Proofs](../../proofs/index.qmd)
+- [Optimization](../../../advanced/optimization/index.qmd)
+
+## Optional Deeper Reading After First Pass
+
+- [OpenStax College Algebra 2e](https://openstax.org/details/books/college-algebra-2e) - open official text for continued symbolic fluency and algebra drills. Checked `2026-04-25`.
+- [Khan Academy Algebra basics](https://www.khanacademy.org/math/algebra-basics) - official practice-oriented reinforcement when symbolic habits are still fragile. Checked `2026-04-25`.
+- [Paul's Notes Algebra](https://tutorial.math.lamar.edu/Classes/Alg/Alg.aspx) - stable worked-example reference for recurring algebra patterns and mistakes. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [OpenStax College Algebra 2e](https://openstax.org/details/books/college-algebra-2e) - `First pass` - open official algebra text for symbolic manipulation and structure-preserving simplification. Checked `2026-04-25`.
+- [OpenStax Precalculus 2e](https://openstax.org/details/books/precalculus-2e) - `Second pass` - open official bridge text showing how the same symbolic habits keep mattering beyond basic algebra. Checked `2026-04-25`.
+- [Khan Academy Algebra basics](https://www.khanacademy.org/math/algebra-basics) - `First pass` - official skill-based reinforcement for equation solving and simplification practice. Checked `2026-04-25`.
+- [Khan Academy Algebra 1](https://www.khanacademy.org/math/algebra) - `Second pass` - broader official practice hub for symbolic fluency and multi-step algebra. Checked `2026-04-25`.
+- [Paul's Notes Algebra](https://tutorial.math.lamar.edu/Classes/Alg/Alg.aspx) - `Second pass` - stable reference for worked examples, factoring, and rational-expression manipulation. Checked `2026-04-25`.
+
+Sources checked online on `2026-04-25`:
+
+- OpenStax College Algebra 2e
+- OpenStax Precalculus 2e
+- Khan Academy Algebra basics
+- Khan Academy Algebra 1
+- Paul's Notes Algebra
