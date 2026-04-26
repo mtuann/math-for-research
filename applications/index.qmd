@@ -13,9 +13,9 @@ This section organizes application bridges by destination area rather than by pu
 
 Start here when you want to answer:
 
-- `where does this math actually show up?`
-- `which pages are the best bridge from foundations into a field?`
-- `what should I read if I care about ML, systems, control, or scientific computing?`
+- where does this math actually show up?
+- which pages are the best bridge from foundations into a field?
+- what should I read if I care about ML, systems, control, or scientific computing?
 
 ## Available Application Hubs
 

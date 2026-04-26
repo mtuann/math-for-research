@@ -47,11 +47,11 @@ That makes `time-stepping` one of the most important choices in scientific compu
 
 The central question is not only:
 
-`does this method approximate the ODE or PDE?`
+*does this method approximate the ODE or PDE?*
 
 It is also:
 
-`can this method stay stable at a step size that is computationally realistic for the dynamics we actually care about?`
+*can this method stay stable at a step size that is computationally realistic for the dynamics we actually care about?*
 
 This is exactly where stiffness enters.
 
@@ -88,11 +88,11 @@ So a new layer of scientific meaning appears:
 
 This language reuses several math layers already live on the site:
 
-- `Models, Discretization, and Simulation Loops`: time-stepping is one of the main ways a model becomes a simulation
-- `ODEs and Dynamical Systems`: the continuous-time dynamics come first
-- `Numerical Methods`: consistency, stability regions, stiff decay, and implicit solves live there
-- `Linear Systems, Conditioning, and Stable Computation`: implicit methods often turn one time step into a linear or nonlinear solve
-- `Approximation, Quadrature, and Error Control in Practice`: step-size choice affects the accuracy of every quantity reported downstream
+- [Models, Discretization, and Simulation Loops](models-discretization-and-simulation-loops.qmd): time-stepping is one of the main ways a model becomes a simulation
+- [ODEs and Dynamical Systems](../../topics/advanced/odes-and-dynamical-systems/index.qmd): the continuous-time dynamics come first
+- [Numerical Methods](../../topics/advanced/numerical-methods/index.qmd): consistency, stability regions, stiff decay, and implicit solves live there
+- [Linear Systems, Conditioning, and Stable Computation](linear-systems-conditioning-and-stable-computation.qmd): implicit methods often turn one time step into a linear or nonlinear solve
+- [Approximation, Quadrature, and Error Control in Practice](approximation-quadrature-and-error-control-in-practice.qmd): step-size choice affects the accuracy of every quantity reported downstream
 
 So solver choice is not a postscript after the real mathematics.
 
@@ -166,7 +166,7 @@ But the tradeoff is that the step is now implicit. In larger systems, that usual
 
 So the practical question becomes:
 
-`is it cheaper to take many tiny explicit steps, or fewer larger implicit steps with more expensive work per step?`
+*is it cheaper to take many tiny explicit steps, or fewer larger implicit steps with more expensive work per step?*
 
 That is why time-stepping choice is one of the core design decisions in scientific computing rather than a detail buried inside code.
 

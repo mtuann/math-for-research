@@ -42,7 +42,7 @@ This hub answers those questions without trying to become a full ML textbook.
 
 The rule for this section is simple:
 
-`every ML page should point back to the exact math objects it uses`
+every ML page should point back to the exact math objects it uses.
 
 ## What Machine Learning Keeps Reusing
 
