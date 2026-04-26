@@ -17,7 +17,7 @@ Use it to track:
 
 ## Current Snapshot
 
-- `267` `.qmd` pages currently exist
+- `268` `.qmd` pages currently exist
 - `127` concept-topic pages currently exist
 - strongest completed foundation spines so far: `Algebra Repair`, `Discrete Math`, `Linear Algebra`, `Probability`, `Proofs`, `Logic`, `Statistics`, `Single-Variable Calculus`, `Multivariable Calculus`
 - strongest completed advanced spines so far: `Optimization`, `Real Analysis`, `Numerical Methods`, `ODEs and Dynamical Systems`, `Matrix Analysis`, `Learning Theory`, `High-Dimensional Probability`, `High-Dimensional Statistics`, `Information Theory`, `Control and Dynamics`, `Stochastic Control and Dynamic Programming`, `Signal Processing and Estimation`
@@ -48,7 +48,7 @@ Use it to track:
 - [x] `Core foundation`
 - [x] `Theory reading`
 - [x] `AI / ML theory`
-- [ ] `Engineering systems`
+- [x] `Engineering systems`
 
 ### Applications
 
@@ -423,11 +423,10 @@ These are the topics that should eventually become canonical examples for future
 
 Near-term highest-value content steps:
 
-1. [ ] `Build Roadmap: Engineering systems`
-2. [ ] `Build Advanced: Stochastic Processes module`
-3. [ ] `Build Publication: venue map`
-4. [ ] `Curate Library: books and courses`
-5. [ ] `Run local render + visual QA pass`
+1. [ ] `Build Advanced: Stochastic Processes module`
+2. [ ] `Build Publication: venue map`
+3. [ ] `Curate Library: books and courses`
+4. [ ] `Run local render + visual QA pass`
 
 ## Work Outside Topic Content
 
@@ -475,5 +474,5 @@ Yes, there is important work outside topic writing.
 
 - Current content momentum is strongest in the advanced bridge cluster: `Numerical Methods`, `ODEs and Dynamical Systems`, `Control and Dynamics`, `Stochastic Control and Dynamic Programming`, `Information Theory`, and `Signal Processing and Estimation`.
 - The public-facing application layer now has three full hubs: `Machine Learning`, `Control and dynamics`, and `Signal and communication`.
-- The next content gaps most worth filling are `Stochastic Processes`, `Engineering systems`, and the remaining application hubs such as `Optimization and inference` and `Scientific computing`.
+- The next content gaps most worth filling are `Stochastic Processes` and the remaining application hubs such as `Optimization and inference` and `Scientific computing`.
 - The next non-content task most worth doing is a `local render + visual QA pass`.

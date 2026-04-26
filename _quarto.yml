@@ -53,6 +53,7 @@ website:
           - roadmaps/core-foundation.qmd
           - roadmaps/theory-reading.qmd
           - roadmaps/ai-ml-theory.qmd
+          - roadmaps/engineering-systems.qmd
       - section: "Topics"
         contents:
           - topics/index.qmd

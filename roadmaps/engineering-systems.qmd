@@ -1,0 +1,270 @@
+---
+title: "Engineering Systems Roadmap"
+description: "A dependency-aware route through dynamics, signals, control, computation, and stochastic decision-making for readers who want a systems-facing math path."
+page-type: roadmap
+status: published
+update-status: current
+level: bridge
+topic: engineering-systems
+prerequisites:
+  - /topics/foundation/linear-algebra/index.qmd
+  - /topics/foundation/single-variable-calculus/index.qmd
+  - /topics/foundation/multivariable-calculus/index.qmd
+learning-goals:
+  - "Choose a sensible math-to-systems study order."
+  - "Recognize where engineering-systems study branches into control, sensing, communication, and computation."
+  - "See which parts of the current site already support systems-facing reading routes."
+applications:
+  - engineering-systems
+  - control
+  - communication
+  - scientific-computing
+keywords:
+  - roadmap
+  - engineering systems
+  - control
+  - signal processing
+  - scientific computing
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+---
+
+## Purpose
+
+This roadmap is for readers who want math to feel connected to systems that evolve, sense, estimate, communicate, and act.
+
+It is not a pure-proof route and it is not a narrow controls curriculum.
+
+It is a dependency-aware path through the parts of the site that support:
+
+- dynamical systems
+- sensing and signal pipelines
+- feedback and optimal control
+- stochastic decision-making
+- computation and simulation
+
+## Who This Is For
+
+Use this roadmap if your goal is any of the following:
+
+- understand state-space models, stability, and feedback
+- read signal, sensing, or communication papers without treating the math as black boxes
+- connect numerical methods to simulation, inversion, and large systems
+- move toward robotics, estimation, scientific computing, or sequential decision-making
+
+If your goal is mostly statistical learning theory or proof-heavy ML theory, [AI / ML Theory](ai-ml-theory.qmd) is the cleaner roadmap.
+
+## Main Sequence
+
+Use this as the default order.
+
+1. [Algebra Repair](../topics/foundation/algebra-repair/index.qmd)
+2. [Linear Algebra](../topics/foundation/linear-algebra/index.qmd)
+3. [Single-Variable Calculus](../topics/foundation/single-variable-calculus/index.qmd)
+4. [Multivariable Calculus](../topics/foundation/multivariable-calculus/index.qmd)
+5. [Probability](../topics/foundation/probability/index.qmd)
+6. [Statistics](../topics/foundation/statistics/index.qmd)
+7. [ODEs and Dynamical Systems](../topics/advanced/odes-and-dynamical-systems/index.qmd)
+8. [Numerical Methods](../topics/advanced/numerical-methods/index.qmd)
+9. [Matrix Analysis](../topics/advanced/matrix-analysis/index.qmd)
+10. [Signal Processing and Estimation](../topics/advanced/signal-processing-and-estimation/index.qmd)
+11. [Control and Dynamics](../topics/advanced/control-and-dynamics/index.qmd)
+12. [Stochastic Control and Dynamic Programming](../topics/advanced/stochastic-control-and-dynamic-programming/index.qmd)
+13. [Information Theory](../topics/advanced/information-theory/index.qmd)
+
+That sequence is now largely live on the site end to end, including complete first-pass modules for [ODEs and Dynamical Systems](../topics/advanced/odes-and-dynamical-systems/index.qmd), [Numerical Methods](../topics/advanced/numerical-methods/index.qmd), [Matrix Analysis](../topics/advanced/matrix-analysis/index.qmd), [Signal Processing and Estimation](../topics/advanced/signal-processing-and-estimation/index.qmd), [Control and Dynamics](../topics/advanced/control-and-dynamics/index.qmd), [Stochastic Control and Dynamic Programming](../topics/advanced/stochastic-control-and-dynamic-programming/index.qmd), and [Information Theory](../topics/advanced/information-theory/index.qmd).
+
+## Why This Order Works
+
+### Linear Algebra And Calculus First
+
+Engineering systems keep reusing the same objects:
+
+- vectors and matrices
+- derivatives and local approximation
+- gradients, Jacobians, and linearization
+- quadratic forms and spectral structure
+
+Without that language, state-space models, filters, and operators become notation to memorize instead of reusable tools.
+
+### Dynamics Before Feedback
+
+Feedback only makes sense once a reader can describe how a system evolves on its own.
+
+That is why [ODEs and Dynamical Systems](../topics/advanced/odes-and-dynamical-systems/index.qmd) comes before [Control and Dynamics](../topics/advanced/control-and-dynamics/index.qmd).
+
+First learn:
+
+- state variables
+- solution curves
+- equilibria
+- local stability
+
+Then it becomes natural to ask how inputs and feedback change that behavior.
+
+### Numerical Methods Before Large-Scale Systems Work
+
+Real systems work is rarely only symbolic.
+
+It depends on:
+
+- solving linear systems
+- computing eigenstructure
+- simulating trajectories
+- handling least squares and regularization
+- controlling numerical error
+
+That is why [Numerical Methods](../topics/advanced/numerical-methods/index.qmd) belongs in the core systems path instead of as an optional afterthought.
+
+### Probability And Statistics Before Estimation Under Uncertainty
+
+Signals, sensors, and controllers rarely operate in perfect conditions.
+
+Noise, hidden state, uncertainty, and limited data force a reader to think probabilistically.
+
+That is why [Probability](../topics/foundation/probability/index.qmd) and [Statistics](../topics/foundation/statistics/index.qmd) come before the deeper estimation and stochastic-control material.
+
+## Shared Core Bridge Into Systems
+
+Before branching, there is one short shared systems core:
+
+1. state-space modeling
+2. signals and channels
+3. noisy estimation
+4. feedback and stability
+5. computation and simulation
+
+Useful bridge pages for that shared core are:
+
+- [Applications > Control and Dynamics](../applications/control-and-dynamics/index.qmd)
+- [Applications > Signal and Communication](../applications/signal-and-communication/index.qmd)
+- [State, Sensing, and Actuation](../applications/control-and-dynamics/state-sensing-and-actuation.qmd)
+- [Signals, Channels, and Noisy Measurements](../applications/signal-and-communication/signals-channels-and-noisy-measurements.qmd)
+- [Estimation under Noise](../applications/control-and-dynamics/estimation-under-noise.qmd)
+- [Sampling, Bandwidth, and Reconstruction in Practice](../applications/signal-and-communication/sampling-bandwidth-and-reconstruction-in-practice.qmd)
+
+## Branch Points
+
+After the shared core, most readers should branch by goal instead of forcing one long linear route.
+
+### Control And Robotics Branch
+
+Use this branch if you care about:
+
+- feedback
+- stability
+- controllability and observability
+- trajectory planning
+- MPC and constrained control
+
+Best current pages:
+
+- [Control and Dynamics](../topics/advanced/control-and-dynamics/index.qmd)
+- [Applications > Control and Dynamics](../applications/control-and-dynamics/index.qmd)
+
+### Sensing And Communication Branch
+
+Use this branch if you care about:
+
+- filtering and denoising
+- sampling and bandwidth
+- decoding and error tradeoffs
+- sensing and inverse reconstruction
+- information limits
+
+Best current pages:
+
+- [Signal Processing and Estimation](../topics/advanced/signal-processing-and-estimation/index.qmd)
+- [Information Theory](../topics/advanced/information-theory/index.qmd)
+- [Applications > Signal and Communication](../applications/signal-and-communication/index.qmd)
+
+### Scientific Computing Branch
+
+Use this branch if you care about:
+
+- stable simulation
+- numerical linear algebra
+- time-stepping
+- inverse problems
+- approximation and error control
+
+Best current pages:
+
+- [Numerical Methods](../topics/advanced/numerical-methods/index.qmd)
+- [Matrix Analysis](../topics/advanced/matrix-analysis/index.qmd)
+- [Inverse Problems, Sensing, and Reconstruction](../applications/signal-and-communication/inverse-problems-sensing-and-reconstruction.qmd)
+
+### Stochastic Decision-Making Branch
+
+Use this branch if you care about:
+
+- noisy dynamics
+- Bellman methods
+- partial observability
+- LQG and filtering
+- RL/control bridges
+
+Best current pages:
+
+- [Stochastic Control and Dynamic Programming](../topics/advanced/stochastic-control-and-dynamic-programming/index.qmd)
+- [Learning, Identification, and RL Bridges](../applications/control-and-dynamics/learning-identification-and-rl-bridges.qmd)
+
+## Pages On The Site That Already Support This Roadmap
+
+### Strongest Current Systems Math Support
+
+- [ODEs and Dynamical Systems](../topics/advanced/odes-and-dynamical-systems/index.qmd)
+- [Numerical Methods](../topics/advanced/numerical-methods/index.qmd)
+- [Matrix Analysis](../topics/advanced/matrix-analysis/index.qmd)
+- [Signal Processing and Estimation](../topics/advanced/signal-processing-and-estimation/index.qmd)
+- [Control and Dynamics](../topics/advanced/control-and-dynamics/index.qmd)
+- [Stochastic Control and Dynamic Programming](../topics/advanced/stochastic-control-and-dynamic-programming/index.qmd)
+- [Information Theory](../topics/advanced/information-theory/index.qmd)
+
+### Strongest Current Systems Bridge Pages
+
+- [Applications > Control and Dynamics](../applications/control-and-dynamics/index.qmd)
+- [Applications > Signal and Communication](../applications/signal-and-communication/index.qmd)
+- [Optimal Control and Trajectory Planning](../applications/control-and-dynamics/optimal-control-and-trajectory-planning.qmd)
+- [Constraints, MPC, and Safe Operation](../applications/control-and-dynamics/constraints-mpc-and-safe-operation.qmd)
+- [Detection, Decoding, and Error Tradeoffs](../applications/signal-and-communication/detection-decoding-and-error-tradeoffs.qmd)
+- [Modern Bridges: Representation Learning, Sensing, and Communication](../applications/signal-and-communication/modern-bridges-representation-learning-sensing-and-communication.qmd)
+
+## Paper Reading Overlay
+
+Do not wait until the whole roadmap is complete before touching systems papers.
+
+Run a light reading overlay in parallel:
+
+1. [How to Read a Paper](../paper-lab/how-to-read-a-paper.qmd)
+2. one application-facing systems bridge page
+3. one matching advanced module page
+
+A good current sequence is:
+
+1. [Signals, Channels, and Noisy Measurements](../applications/signal-and-communication/signals-channels-and-noisy-measurements.qmd)
+2. [Signals, Convolution, and Linear Time-Invariant Systems](../topics/advanced/signal-processing-and-estimation/concepts/signals-convolution-and-linear-time-invariant-systems.qmd)
+3. [Detection, Decoding, and Error Tradeoffs](../applications/signal-and-communication/detection-decoding-and-error-tradeoffs.qmd)
+4. [Channel Coding, Capacity, and Converse Proofs](../topics/advanced/information-theory/concepts/channel-coding-capacity-and-converse-proofs.qmd)
+
+## Common Next Directions
+
+After the current route, the strongest adjacent additions would be:
+
+- `Stochastic Processes`, for Brownian motion, SDEs, MCMC, and diffusion-side probability
+- `Applications > Scientific Computing`, for simulation and PDE-facing bridges
+- `Applications > Optimization and Inference`, for inverse problems, variational methods, and estimator-design workflows
+
+## Sources and Further Reading
+
+- [18.03 Differential Equations syllabus](https://ocw.mit.edu/courses/18-03-differential-equations-spring-2010/pages/syllabus/) - `First pass` - official MIT anchor for the continuous-time modeling side of systems thinking. Checked `2026-04-25`.
+- [6.003 Signals and Systems lecture notes](https://ocw.mit.edu/courses/6-003-signals-and-systems-fall-2011/pages/lecture-notes/) - `First pass` - official MIT signal-and-system anchor for channels, convolution, and acquisition language. Checked `2026-04-25`.
+- [6.241J lecture notes](https://ocw.mit.edu/courses/6-241j-dynamic-systems-and-control-spring-2011/pages/lecture-notes/) - `First pass` - official MIT state-space and control anchor. Checked `2026-04-25`.
+- [16.323 lecture notes](https://ocw.mit.edu/courses/16-323-principles-of-optimal-control-spring-2008/pages/lecture-notes/) - `Second pass` - official MIT optimal-control anchor once planning and stochastic control begin to matter. Checked `2026-04-25`.
+- [EE278 / Introduction to Statistical Signal Processing](https://web.stanford.edu/class/ee278/) - `Second pass` - official Stanford estimation anchor for noisy sensing and hidden-state inference. Checked `2026-04-25`.
+- [EE363 bulletin](https://bulletin.stanford.edu/courses/2273941) - `Second pass` - official Stanford control anchor for linear systems and feedback language. Checked `2026-04-25`.
+- [AA228 / Decision Making Under Uncertainty](https://aa228.stanford.edu/) - `Paper bridge` - strong Stanford bridge once stochastic control, planning, and partial observability begin to overlap. Checked `2026-04-25`.
