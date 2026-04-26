@@ -1,0 +1,338 @@
+---
+title: "Markov Chains and Stationary Distributions"
+description: "How discrete-time Markov chains model memory through the present state, and how stationary distributions capture long-run stochastic balance."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: stochastic-processes
+prerequisites:
+  - /topics/foundation/probability/index.qmd
+  - /topics/foundation/linear-algebra/index.qmd
+learning-goals:
+  - "Define a discrete-time Markov chain and the Markov property."
+  - "Interpret transition matrices and n-step transitions."
+  - "Explain what a stationary distribution is and why it is not the same as a fixed state."
+  - "Recognize why irreducibility and aperiodicity matter for long-run convergence."
+applications:
+  - stochastic-processes
+  - engineering-systems
+  - machine-learning-theory
+keywords:
+  - Markov chain
+  - stationary distribution
+  - transition matrix
+  - irreducible
+  - mixing
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/stochastic-processes/index.qmd
+  - /topics/foundation/probability/index.qmd
+  - /topics/advanced/stochastic-control-and-dynamic-programming/index.qmd
+  - /topics/advanced/signal-processing-and-estimation/concepts/state-estimation-smoothing-and-hidden-state-inference.qmd
+  - /applications/machine-learning/score-matching-and-the-sde-view-of-diffusion.qmd
+stable-sources:
+  - "MIT 18.445 Introduction to Stochastic Processes"
+  - "MIT 6.262 Discrete Stochastic Processes"
+  - "Stanford Stats366 course notes"
+current-sources:
+  - "MIT 18.445 lecture notes page"
+  - "MIT 18.445 lecture 2"
+  - "MIT 6.262 course page"
+  - "MIT 6.262 chapter 5 resource"
+  - "Stanford Stats366 Markov chains notes"
+---
+
+## Role
+
+This is the first page of the `Stochastic Processes` module.
+
+Its job is to introduce the cleanest first stochastic process:
+
+- a system whose future evolution depends on the present state
+- but not on the full earlier history once that present state is known
+
+This is the point where ordinary probability becomes probability over time.
+
+## First-Pass Promise
+
+Read this page first in the module.
+
+If you stop here, you should still understand:
+
+- what the Markov property is
+- how a transition matrix describes one-step evolution
+- what a stationary distribution means
+- why some chains forget their starting point and others do not
+
+## Why It Matters
+
+Many random systems are too complicated to model by remembering the whole past.
+
+The Markov idea is the first major simplification:
+
+- keep exactly the information the future still needs
+- compress the rest of the past into the current state
+
+That is why Markov chains keep reappearing in:
+
+- queues and inventory systems
+- hidden-state models
+- random walks on graphs
+- stochastic control and RL
+- MCMC and sampling algorithms
+
+Once a reader sees that, the next natural question is not only what happens in one step.
+It is:
+
+`what happens after many steps?`
+
+That is where stationary distributions enter.
+
+## Prerequisite Recall
+
+- from [Probability](../../../foundation/probability/index.qmd), conditional probability tells us how to update uncertainty once current information is known
+- from [Linear Algebra](../../../foundation/linear-algebra/index.qmd), a matrix can act on a vector of probabilities and move a distribution forward in time
+- from stochastic-control language nearby, a state is useful when it stores the memory the future still needs from the past
+
+## Intuition
+
+### The Present State Is A Sufficient Summary
+
+The Markov property does not say the past is irrelevant.
+
+It says the state has been chosen so that the relevant effect of the past is already encoded in the present.
+
+So if the current state is known, earlier history gives no extra predictive power for the next step.
+
+### The Transition Matrix Moves Distributions
+
+For a finite-state chain, the transition matrix `P` tells us one-step transition probabilities.
+
+If the current distribution of the chain is a row vector `\mu`, then after one step the distribution becomes
+
+$$
+\mu P.
+$$
+
+So Markov-chain evolution can be read both:
+
+- pathwise, as random state-to-state motion
+- distributionally, as repeated application of an operator
+
+### A Stationary Distribution Is Not A Frozen State
+
+A stationary distribution `\pi` satisfies
+
+$$
+\pi P = \pi.
+$$
+
+This does not mean the chain stops moving.
+
+It means:
+
+- if the chain starts distributed as `\pi`
+- then every later time has the same marginal distribution `\pi`
+
+So stationarity is balance in distribution, not immobility of individual sample paths.
+
+### Long-Run Convergence Needs Structural Conditions
+
+Some chains have many closed classes.
+Some oscillate periodically.
+Some have a unique long-run distribution and forget where they started.
+
+That is why words like:
+
+- irreducible
+- aperiodic
+- recurrent
+
+matter.
+
+They separate chains with clean long-run behavior from chains where stationarity is more subtle.
+
+## Formal Core
+
+::: {#def-markov-chain}
+## Definition: Discrete-Time Markov Chain
+
+A discrete-time stochastic process `(X_0, X_1, X_2, \dots)` on a finite or countable state space `S` is a Markov chain if
+
+$$
+\mathbb{P}(X_{t+1}=j \mid X_t=i, X_{t-1}, \dots, X_0)
+=
+\mathbb{P}(X_{t+1}=j \mid X_t=i)
+$$
+
+for all times `t` and states `i,j`.
+:::
+
+In words:
+
+- once the present state is known, the next state no longer depends on the earlier path
+
+::: {#def-transition-matrix}
+## Definition: Transition Matrix
+
+For a finite-state Markov chain, the transition matrix `P` has entries
+
+$$
+P_{ij} = \mathbb{P}(X_{t+1}=j \mid X_t=i).
+$$
+:::
+
+Each row sums to `1`, because from the current state the next state must land somewhere.
+
+::: {#def-stationary-distribution}
+## Definition: Stationary Distribution
+
+A probability vector `\pi` is stationary if
+
+$$
+\pi P = \pi.
+$$
+:::
+
+This means the distribution is invariant under one-step evolution.
+
+::: {#thm-convergence-idea}
+## Theorem Idea: Irreducible Aperiodic Finite Chains Forget The Start
+
+For a finite-state Markov chain, if the chain is irreducible and aperiodic, then there is a unique stationary distribution `\pi`, and the distribution of `X_t` converges to `\pi` as `t \to \infty`, regardless of the initial state.
+:::
+
+At first pass, the main point is:
+
+- good connectivity plus no forced oscillation often yields clean long-run behavior
+
+## Worked Example
+
+Consider a two-state chain with states `A` and `B` and transition matrix
+
+$$
+P =
+\begin{pmatrix}
+0.9 & 0.1 \\
+0.4 & 0.6
+\end{pmatrix}.
+$$
+
+Interpretation:
+
+- from `A`, the chain stays in `A` with probability `0.9`
+- from `B`, the chain jumps to `A` with probability `0.4`
+
+Let the stationary distribution be
+
+$$
+\pi = (\pi_A, \pi_B).
+$$
+
+The stationarity equation `\pi P = \pi` gives
+
+$$
+\pi_A = 0.9\pi_A + 0.4\pi_B.
+$$
+
+So
+
+$$
+0.1\pi_A = 0.4\pi_B
+\quad\Rightarrow\quad
+\pi_A = 4\pi_B.
+$$
+
+Using `\pi_A + \pi_B = 1`, we get
+
+$$
+\pi = (0.8, 0.2).
+$$
+
+So in the long run, the chain spends about `80%` of its time in `A` and `20%` in `B`.
+
+This does not mean every four steps out of five are exactly in `A`.
+
+It means the long-run distribution settles around that balance.
+
+## Computation Lens
+
+When you meet a Markov-chain model, ask:
+
+1. what exactly is the state?
+2. is the chain finite-state, countable-state, or already drifting toward continuous-time modeling?
+3. do we care about one-step prediction, hitting probabilities, or long-run behavior?
+4. is there a unique stationary distribution, or can the chain split into different closed classes?
+5. is the chain mixing quickly, slowly, or not at all from some starting states?
+
+Those questions usually reveal whether the real object is:
+
+- short-term prediction
+- equilibrium behavior
+- rare-event timing
+- or sampling from a target distribution
+
+## Application Lens
+
+### Queueing And Networks
+
+A queue length, congestion state, or node occupancy can often be modeled as a Markov chain.
+
+### Hidden-State Models
+
+Latent-state models and HMM-style systems often build their temporal backbone from Markov transitions.
+
+### Stochastic Control And RL
+
+Markov chains become controlled once actions begin changing the transition law.
+
+### MCMC And Sampling
+
+Many sampling algorithms deliberately build a Markov chain whose stationary distribution is the distribution we want to sample from.
+
+## Stop Here For First Pass
+
+If you stop here, retain these five ideas:
+
+- a Markov chain is a random process whose next step depends on the present state, not the full earlier history
+- the transition matrix moves probability distributions forward in time
+- a stationary distribution is an invariant distribution, not a fixed state
+- long-run behavior depends on structural properties like irreducibility and aperiodicity
+- Markov chains are the entry point into stochastic control, hidden-state models, diffusion thinking, and MCMC
+
+## Go Deeper
+
+The strongest adjacent live pages right now are:
+
+- [Probability](../../../foundation/probability/index.qmd)
+- [Controlled Markov Models, Policies, and Cost Functionals](../../stochastic-control-and-dynamic-programming/concepts/controlled-markov-models-policies-and-cost-functionals.qmd)
+- [Infinite-Horizon Value Functions, Bellman Equations, and Contractions](../../stochastic-control-and-dynamic-programming/concepts/infinite-horizon-value-functions-bellman-equations-and-contractions.qmd)
+- [State Estimation, Smoothing, and Hidden-State Inference](../../signal-processing-and-estimation/concepts/state-estimation-smoothing-and-hidden-state-inference.qmd)
+- [Information-Theoretic Lower Bounds in Statistics, Learning, and Communication](../../information-theory/concepts/information-theoretic-lower-bounds-in-statistics-learning-and-communication.qmd)
+
+The natural next page in this module is:
+
+- `Martingales and Optional Stopping Intuition`
+
+## Optional Deeper Reading After First Pass
+
+The strongest current references connected to this page are:
+
+- [MIT 18.445 lecture notes page](https://ocw.mit.edu/courses/18-445-introduction-to-stochastic-processes-spring-2015/pages/lecture-notes) - official MIT route through finite Markov chains, stationary distributions, and mixing. Checked `2026-04-25`.
+- [MIT 18.445 lecture 2](https://ocw.mit.edu/courses/18-445-introduction-to-stochastic-processes-spring-2015/2edaa8542469ce692226813a8bd1ec88_MIT18_445S15_lecture2.pdf) - official MIT note focused directly on stationary distributions. Checked `2026-04-25`.
+- [MIT 6.262 Discrete Stochastic Processes](https://ocw.mit.edu/courses/6-262-discrete-stochastic-processes-spring-2011/) - official MIT course hub for discrete stochastic-process intuition and countable-state behavior. Checked `2026-04-25`.
+- [Stanford Stats366 Markov chains notes](https://web.stanford.edu/class/stats366/exs/Markov1.html) - concise Stanford note for first-pass Markov-chain definitions and stationary behavior. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [MIT 18.445 lecture notes page](https://ocw.mit.edu/courses/18-445-introduction-to-stochastic-processes-spring-2015/pages/lecture-notes) - `First pass` - official MIT lecture hub for Markov chains, stationary distributions, mixing, martingales, and Poisson processes. Checked `2026-04-25`.
+- [MIT 18.445 lecture 2](https://ocw.mit.edu/courses/18-445-introduction-to-stochastic-processes-spring-2015/2edaa8542469ce692226813a8bd1ec88_MIT18_445S15_lecture2.pdf) - `First pass` - official MIT note on stationary distributions for finite Markov chains. Checked `2026-04-25`.
+- [MIT 6.262 Discrete Stochastic Processes](https://ocw.mit.edu/courses/6-262-discrete-stochastic-processes-spring-2011/) - `Second pass` - official MIT course hub for discrete-time stochastic-process language. Checked `2026-04-25`.
+- [MIT 6.262 chapter 5 resource](https://ocw.mit.edu/courses/6-262-discrete-stochastic-processes-spring-2011/resources/mit6_262s11_chap05/) - `Second pass` - official MIT resource for countable-state Markov-chain ideas. Checked `2026-04-25`.
+- [Stanford Stats366 Markov chains notes](https://web.stanford.edu/class/stats366/exs/Markov1.html) - `Bridge outward` - useful Stanford note for discrete-time chains and stationarity. Checked `2026-04-25`.

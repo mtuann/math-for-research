@@ -1,0 +1,307 @@
+---
+title: "Poisson Processes and Counting Models"
+description: "How random event streams are modeled through counting processes, independent increments, exponential waiting times, and intensity-driven event rates."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: stochastic-processes
+prerequisites:
+  - /topics/foundation/probability/index.qmd
+learning-goals:
+  - "Define a Poisson process as a stochastic counting model."
+  - "Interpret independent increments and rate as the core structural assumptions."
+  - "Explain why exponential waiting times and Poisson event counts belong to the same object."
+  - "Recognize why Poisson processes are the default first model for random arrivals."
+applications:
+  - stochastic-processes
+  - engineering-systems
+  - signal-processing
+keywords:
+  - Poisson process
+  - counting process
+  - independent increments
+  - exponential waiting time
+  - arrivals
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/stochastic-processes/index.qmd
+  - /topics/foundation/probability/index.qmd
+  - /topics/advanced/stochastic-control-and-dynamic-programming/index.qmd
+  - /topics/advanced/signal-processing-and-estimation/concepts/state-estimation-smoothing-and-hidden-state-inference.qmd
+  - /applications/signal-and-communication/signals-channels-and-noisy-measurements.qmd
+stable-sources:
+  - "MIT 18.445 Introduction to Stochastic Processes"
+  - "MIT 6.262 Discrete Stochastic Processes"
+  - "Stanford MS&E 221 Stochastic Modeling"
+current-sources:
+  - "MIT 18.445 lecture notes page"
+  - "MIT 18.445 lecture 20"
+  - "MIT 6.262 course page"
+  - "Stanford MS&E 221 course page"
+  - "Stanford MS&E 221 references"
+---
+
+## Role
+
+This is an early live page in the `Stochastic Processes` module.
+
+Its job is to introduce the cleanest first counting process:
+
+- events arrive randomly over time
+- counts accumulate
+- increments over disjoint intervals do not interfere with one another
+
+This is where stochastic processes stop looking only like random state evolution and start looking like random event streams.
+
+## First-Pass Promise
+
+You can read this page even before the full module spine is complete.
+
+If you stop here, you should still understand:
+
+- what a Poisson process is
+- what the rate parameter means
+- why event counts over intervals are Poisson-distributed
+- why exponential waiting times are tied to the same model
+
+## Why It Matters
+
+Many random systems are driven not only by states but by arrivals:
+
+- customers entering a queue
+- packets arriving at a receiver
+- failures occurring in a network
+- photons or spikes arriving in a sensor stream
+- requests appearing in an online system
+
+The Poisson process is the first major model for that kind of randomness.
+
+It is useful because it is:
+
+- simple enough to analyze exactly
+- rich enough to capture random event timing
+- close to many first approximations used in queueing, sensing, communication, and reliability
+
+Once a reader sees that, random event timing becomes a reusable object rather than a domain-specific trick.
+
+## Prerequisite Recall
+
+- from [Probability](../../../foundation/probability/index.qmd), the Poisson distribution models random counts and the exponential distribution models memoryless waiting times
+- from Markov and stochastic-process intuition nearby, a process can be understood through its path over time rather than through one isolated random variable
+- from signal or sensing language nearby, event streams are often the right model when the data are spikes, arrivals, or detections rather than smooth waveforms
+
+## Intuition
+
+### A Counting Process Tracks How Many Events Have Happened
+
+Instead of recording a state value directly, a counting process records cumulative arrivals:
+
+$$
+N(t) = \text{number of events observed up to time } t.
+$$
+
+So the path:
+
+- starts at zero
+- jumps upward by one at each event
+- stays flat between events
+
+This already makes the object feel different from a smooth signal or a finite-state chain.
+
+### The Rate Controls Average Event Density
+
+The parameter `\lambda > 0` is the event rate.
+
+At first pass, it means:
+
+- on average, about `\lambda t` events occur over a time window of length `t`
+
+So larger `\lambda` means denser arrival streams.
+
+### Independent Increments Mean Separate Time Windows Do Not Interfere
+
+If two time intervals do not overlap, then the event counts in those intervals are independent.
+
+This is one of the defining structural simplifications of the Poisson process.
+
+It says:
+
+- what happened in one window does not bias the random event count in a disjoint future window
+
+### Waiting Times Are Exponential
+
+One of the most useful equivalent views is that:
+
+- the waiting time to the first event is exponential
+- successive interarrival times are i.i.d. exponential
+
+So the same process can be understood from two angles:
+
+- counts in windows
+- waiting times between events
+
+## Formal Core
+
+::: {#def-counting-process}
+## Definition: Counting Process
+
+A counting process `(N(t))_{t \ge 0}` is a stochastic process that counts how many events have occurred by time `t`.
+:::
+
+At first pass, it should satisfy:
+
+- `N(0)=0`
+- `N(t)` is integer-valued and nondecreasing
+- jumps correspond to events
+
+::: {#def-poisson-process}
+## Definition: Poisson Process
+
+A Poisson process with rate `\lambda > 0` is a counting process `(N(t))_{t \ge 0}` such that:
+
+1. `N(0)=0`
+2. it has independent increments
+3. for any `s < t`, the increment `N(t)-N(s)` is Poisson with mean `\lambda (t-s)`
+:::
+
+So event counts over a window depend only on the window length, not on its location.
+
+::: {#thm-waiting-time}
+## Theorem Idea: Poisson Counts And Exponential Waiting Times Are Two Views Of The Same Process
+
+For a Poisson process with rate `\lambda`, the waiting times between successive events are i.i.d. exponential random variables with rate `\lambda`.
+:::
+
+At first pass, the key point is:
+
+- window counts and interarrival times are two equivalent ways to describe the same random arrival mechanism
+
+::: {#thm-superposition}
+## Theorem Idea: Independent Poisson Streams Add
+
+If two independent Poisson processes have rates `\lambda_1` and `\lambda_2`, then their superposition is again a Poisson process with rate `\lambda_1 + \lambda_2`.
+:::
+
+This is one reason Poisson models appear so naturally in networks and queueing systems.
+
+## Worked Example
+
+Suppose packets arrive at a network buffer according to a Poisson process with rate
+
+$$
+\lambda = 3 \text{ packets per second}.
+$$
+
+Then over a `2`-second interval, the number of arrivals has distribution
+
+$$
+N(2) \sim \text{Poisson}(6).
+$$
+
+So:
+
+- the mean number of arrivals is `6`
+- the variance is also `6`
+
+The probability of exactly `k` arrivals is
+
+$$
+\mathbb{P}(N(2)=k) = e^{-6}\frac{6^k}{k!}.
+$$
+
+Now look at waiting times.
+
+The time `T_1` until the first packet arrives is exponential with rate `3`, so
+
+$$
+\mathbb{P}(T_1 > t) = e^{-3t}.
+$$
+
+That same stream is therefore being described in two equivalent ways:
+
+- by event counts in windows
+- by random delays between arrivals
+
+This is the core modeling flexibility of the Poisson process.
+
+## Computation Lens
+
+When you meet an arrival model, ask:
+
+1. is the object really a count over time rather than a continuously varying state?
+2. does a constant-rate approximation make sense, or is the rate clearly changing over time?
+3. do we care more about counts in windows, waiting times, or long-run throughput?
+4. are multiple arrival streams being combined or split?
+5. is the Poisson model a realistic mechanism, or just a first baseline?
+
+Those questions usually reveal whether the right next step is:
+
+- queueing analysis
+- hidden-state modeling
+- event detection
+- or a more structured nonhomogeneous process
+
+## Application Lens
+
+### Queueing And Operations
+
+Poisson arrivals are the first default model for customers, jobs, or packets entering a system.
+
+### Communication And Networks
+
+Packet traffic, event arrivals, and independent request streams often begin with Poisson-style intuition before more refined traffic models are introduced.
+
+### Sensing And Event Streams
+
+Photon counts, spike trains, and event detections often use counting-process language more naturally than smooth-signal language.
+
+### Markov And Continuous-Time Bridges
+
+Poisson processes are also a first clean step from discrete-time models toward continuous-time stochastic dynamics.
+
+## Stop Here For First Pass
+
+If you stop here, retain these five ideas:
+
+- a Poisson process models random event counts over time
+- the rate `\lambda` controls average event density
+- independent increments are the main structural simplification
+- counts in windows and exponential waiting times are two views of the same process
+- Poisson models are the first shared language for queues, event streams, sensors, and network arrivals
+
+## Go Deeper
+
+The strongest adjacent live pages right now are:
+
+- [Probability](../../../foundation/probability/index.qmd)
+- [Markov Chains and Stationary Distributions](markov-chains-and-stationary-distributions.qmd)
+- [Controlled Markov Models, Policies, and Cost Functionals](../../stochastic-control-and-dynamic-programming/concepts/controlled-markov-models-policies-and-cost-functionals.qmd)
+- [Signals, Channels, and Noisy Measurements](../../../../applications/signal-and-communication/signals-channels-and-noisy-measurements.qmd)
+- [State Estimation, Smoothing, and Hidden-State Inference](../../signal-processing-and-estimation/concepts/state-estimation-smoothing-and-hidden-state-inference.qmd)
+
+The intended conceptual bridge still missing between the current live pages is:
+
+- `Martingales and Optional Stopping Intuition`
+
+## Optional Deeper Reading After First Pass
+
+The strongest current references connected to this page are:
+
+- [MIT 18.445 lecture notes page](https://ocw.mit.edu/courses/18-445-introduction-to-stochastic-processes-spring-2015/pages/lecture-notes) - official MIT route through martingales, Poisson processes, and continuous-time chains. Checked `2026-04-25`.
+- [MIT 18.445 lecture 20](https://ocw.mit.edu/courses/18-445-introduction-to-stochastic-processes-spring-2015/resources/mit18_445s15_lecture20/) - official MIT note focused on the Poisson-process viewpoint itself. Checked `2026-04-25`.
+- [MIT 6.262 Discrete Stochastic Processes](https://ocw.mit.edu/courses/6-262-discrete-stochastic-processes-spring-2011/) - official MIT course hub for arrival processes and countable-state stochastic models. Checked `2026-04-25`.
+- [Stanford MS&E 221](https://web.stanford.edu/class/msande221/) - official Stanford stochastic-modeling course page where random arrivals and queueing-style phenomena fit naturally. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [MIT 18.445 lecture notes page](https://ocw.mit.edu/courses/18-445-introduction-to-stochastic-processes-spring-2015/pages/lecture-notes) - `First pass` - official MIT lecture hub for a broad stochastic-process route including Poisson processes. Checked `2026-04-25`.
+- [MIT 18.445 lecture 20](https://ocw.mit.edu/courses/18-445-introduction-to-stochastic-processes-spring-2015/resources/mit18_445s15_lecture20/) - `First pass` - official MIT note for the Poisson-process definition and first structural properties. Checked `2026-04-25`.
+- [MIT 6.262 Discrete Stochastic Processes](https://ocw.mit.edu/courses/6-262-discrete-stochastic-processes-spring-2011/) - `Second pass` - official MIT course hub for discrete stochastic-process and arrival-process intuition. Checked `2026-04-25`.
+- [Stanford MS&E 221](https://web.stanford.edu/class/msande221/) - `Second pass` - official Stanford stochastic-modeling anchor for random arrivals, Markov models, and queueing applications. Checked `2026-04-25`.
+- [Stanford MS&E 221 references](https://web.stanford.edu/class/msande221/references.html) - `Bridge outward` - useful official Stanford reference page once you want a broader modeling route beyond the first-pass Poisson baseline. Checked `2026-04-25`.

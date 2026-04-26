@@ -1,0 +1,167 @@
+---
+title: "Stochastic Processes"
+description: "Randomness evolving over time through Markov chains, martingales, counting processes, Brownian motion, SDEs, and MCMC-facing long-run behavior."
+page-type: module-overview
+status: published
+update-status: current
+level: advanced
+topic: stochastic-processes
+prerequisites:
+  - /topics/foundation/probability/index.qmd
+  - /topics/foundation/linear-algebra/index.qmd
+learning-goals:
+  - "Understand why stochastic processes add time, dependence, and long-run behavior to ordinary probability."
+  - "Know the intended first-pass order for the stochastic-processes module."
+  - "Connect Markov chains, martingales, diffusions, and MCMC-style ideas to adjacent modules on control, signal processing, and modern ML."
+applications:
+  - stochastic-processes
+  - engineering-systems
+  - machine-learning-theory
+keywords:
+  - stochastic processes
+  - Markov chains
+  - martingales
+  - Brownian motion
+  - SDEs
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+stable-sources:
+  - "MIT 18.445 Introduction to Stochastic Processes"
+  - "MIT 6.262 Discrete Stochastic Processes"
+  - "Stanford Stats 218 Introduction to Stochastic Processes II"
+  - "Stanford Stats366 course notes"
+current-sources:
+  - "MIT 18.445 lecture notes page"
+  - "MIT 18.445 lecture 2"
+  - "MIT 18.445 lecture 4"
+  - "MIT 6.262 course page"
+  - "MIT 6.262 chapter 5 resource"
+  - "MIT 15.070J lecture notes page"
+  - "Stanford Stats366 Markov chains notes"
+  - "Stanford Stats 218 course page"
+  - "Stanford Stats 310C syllabus"
+  - "Stanford MS&E 221 Stochastic Modeling"
+---
+
+## Why This Module Matters
+
+Classical probability teaches random variables, conditioning, expectations, concentration, and a few asymptotic theorems.
+
+Stochastic processes ask a different kind of question:
+
+- what if randomness evolves over time?
+- what if the present depends on the past?
+- what if long-run behavior matters more than one-step uncertainty?
+- what if the right object is not one random variable, but an entire random path?
+
+That is why stochastic-process language keeps reappearing in:
+
+- queues and networks
+- hidden-state models and filtering
+- stochastic control and RL
+- Brownian motion and diffusion
+- MCMC and sampling algorithms
+
+This module is the bridge from ordinary probability into time-indexed randomness.
+
+::: {.meta-strip}
+::: {.meta-box}
+**Prerequisites**
+[Probability](../../foundation/probability/index.qmd) should come first. [Linear Algebra](../../foundation/linear-algebra/index.qmd) helps because transition operators and stationary distributions are often matrix objects. [Real Analysis](../real-analysis/index.qmd) helps later once paths, limits, and continuous-time objects become more explicit.
+:::
+::: {.meta-box}
+**Unlocks**
+Markov chains, martingales, Poisson processes, Brownian motion, SDEs, long-run behavior, and MCMC bridges
+:::
+::: {.meta-box}
+**Research Use**
+Reading papers or courses on stochastic control, sequential inference, diffusion models, MCMC, random walks, and stochastic modeling
+:::
+:::
+
+## First Pass Through This Module
+
+The intended first-pass spine for this module is:
+
+1. [Markov Chains and Stationary Distributions](concepts/markov-chains-and-stationary-distributions.qmd)
+2. `Martingales and Optional Stopping Intuition`
+3. [Poisson Processes and Counting Models](concepts/poisson-processes-and-counting-models.qmd)
+4. [Brownian Motion and Diffusion Intuition](concepts/brownian-motion-and-diffusion-intuition.qmd)
+5. [SDEs and Ito Intuition](concepts/sdes-and-ito-intuition.qmd)
+6. [Mixing, Ergodicity, and MCMC Bridges](concepts/mixing-ergodicity-and-mcmc-bridges.qmd)
+
+The first, third, fourth, fifth, and sixth conceptual stops are now live at [Markov Chains and Stationary Distributions](concepts/markov-chains-and-stationary-distributions.qmd), [Poisson Processes and Counting Models](concepts/poisson-processes-and-counting-models.qmd), [Brownian Motion and Diffusion Intuition](concepts/brownian-motion-and-diffusion-intuition.qmd), [SDEs and Ito Intuition](concepts/sdes-and-ito-intuition.qmd), and [Mixing, Ergodicity, and MCMC Bridges](concepts/mixing-ergodicity-and-mcmc-bridges.qmd). The remaining intended spine is the martingale branch that makes conditional-expectation structure explicit.
+
+## How To Use This Module
+
+The best current first-pass path is:
+
+1. start with [Markov Chains and Stationary Distributions](concepts/markov-chains-and-stationary-distributions.qmd)
+2. continue to [Poisson Processes and Counting Models](concepts/poisson-processes-and-counting-models.qmd) and [Brownian Motion and Diffusion Intuition](concepts/brownian-motion-and-diffusion-intuition.qmd) if you want the two main continuous-time randomness lenses: jumps and diffusion
+3. use [SDEs and Ito Intuition](concepts/sdes-and-ito-intuition.qmd) once drift-plus-noise language starts appearing in control or diffusion-style ML
+4. use [Mixing, Ergodicity, and MCMC Bridges](concepts/mixing-ergodicity-and-mcmc-bridges.qmd) once long-run sampling, dependent averages, or MCMC becomes the main question
+5. keep [Probability](../../foundation/probability/index.qmd) and [Linear Algebra](../../foundation/linear-algebra/index.qmd) nearby whenever conditioning, expectation, transition operators, or stationary distributions need re-grounding
+
+The design goal is to make stochastic evolution itself feel natural before the module branches into martingales, diffusions, and MCMC-like long-run behavior.
+
+## Core Concepts
+
+- [Markov Chains and Stationary Distributions](concepts/markov-chains-and-stationary-distributions.qmd): the opening page that explains the Markov property, transition matrices, stationary distributions, and first-pass long-run behavior.
+- `Martingales and Optional Stopping Intuition`: the intended second page where stochastic fairness, conditional expectation, and stopping ideas become reusable.
+- [Poisson Processes and Counting Models](concepts/poisson-processes-and-counting-models.qmd): the live counting-process page where random event streams, independent increments, and exponential waiting times appear.
+- [Brownian Motion and Diffusion Intuition](concepts/brownian-motion-and-diffusion-intuition.qmd): the live continuous-time randomness page where Gaussian increments, diffusion scaling, and path roughness become central.
+- [SDEs and Ito Intuition](concepts/sdes-and-ito-intuition.qmd): the live fifth page where drift-diffusion models, Ito corrections, and Euler-Maruyama simulation become explicit.
+- [Mixing, Ergodicity, and MCMC Bridges](concepts/mixing-ergodicity-and-mcmc-bridges.qmd): the live sixth page where long-run convergence, ergodic averages, and MCMC-style sampling viewpoints become central.
+
+## Proof Patterns In This Module
+
+- `One-step to long-run`: use a local transition rule to study global behavior over many steps.
+- `Conditional expectation as structure`: replace pathwise complexity with cleaner conditional objects.
+- `Invariant or stationary objects`: identify distributions or functionals that remain stable under the dynamics.
+
+## Applications
+
+### Random Dynamics Over Time
+
+The module organizes systems where randomness is not one-shot but evolves step by step or continuously over time.
+
+### Sequential Inference And Hidden State
+
+Markov structure is the natural backbone for filtering, HMM-style reasoning, and many latent-state models.
+
+### Control, RL, Diffusion, And MCMC
+
+This is the language that later supports Markov decision processes, stochastic control, diffusion modeling, and sampling algorithms.
+
+## Go Deeper By Topic
+
+The strongest adjacent live pages right now are:
+
+- [Probability](../../foundation/probability/index.qmd)
+- [Stochastic Control and Dynamic Programming](../stochastic-control-and-dynamic-programming/index.qmd)
+- [State Estimation, Smoothing, and Hidden-State Inference](../signal-processing-and-estimation/concepts/state-estimation-smoothing-and-hidden-state-inference.qmd)
+- [Score Matching and the SDE View of Diffusion](../../../applications/machine-learning/score-matching-and-the-sde-view-of-diffusion.qmd)
+- [Continuous-Time Stochastic Control and Hamilton-Jacobi-Bellman Intuition](../stochastic-control-and-dynamic-programming/concepts/continuous-time-stochastic-control-and-hamilton-jacobi-bellman-intuition.qmd)
+
+## Optional Deeper Reading After First Pass
+
+The strongest current references connected to this module are:
+
+- [MIT 18.445 lecture notes page](https://ocw.mit.edu/courses/18-445-introduction-to-stochastic-processes-spring-2015/pages/lecture-notes) - official MIT route through Markov chains, martingales, mixing, Poisson processes, and beyond. Checked `2026-04-25`.
+- [MIT 6.262 Discrete Stochastic Processes](https://ocw.mit.edu/courses/6-262-discrete-stochastic-processes-spring-2011/) - official MIT course hub for discrete-time chains, recurrence, and countable-state behavior. Checked `2026-04-25`.
+- [Stanford Stats 218](https://web.stanford.edu/class/stats218/stats218.html) - official Stanford stochastic-processes page with martingales and diffusion-facing topics. Checked `2026-04-25`.
+- [Stanford MS&E 221](https://web.stanford.edu/class/msande221/) - official Stanford stochastic-modeling course page covering discrete- and continuous-time Markov chains and renewal-style models. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [MIT 18.445 lecture notes page](https://ocw.mit.edu/courses/18-445-introduction-to-stochastic-processes-spring-2015/pages/lecture-notes) - `First pass` - official MIT lecture hub for a broad first route through stochastic processes. Checked `2026-04-25`.
+- [MIT 18.445 lecture 2](https://ocw.mit.edu/courses/18-445-introduction-to-stochastic-processes-spring-2015/2edaa8542469ce692226813a8bd1ec88_MIT18_445S15_lecture2.pdf) - `First pass` - official MIT note on Markov chains and stationary distributions. Checked `2026-04-25`.
+- [MIT 6.262 Discrete Stochastic Processes](https://ocw.mit.edu/courses/6-262-discrete-stochastic-processes-spring-2011/) - `Second pass` - official MIT course hub for discrete stochastic-process language. Checked `2026-04-25`.
+- [MIT 6.262 chapter 5 resource](https://ocw.mit.edu/courses/6-262-discrete-stochastic-processes-spring-2011/resources/mit6_262s11_chap05/) - `Second pass` - official MIT chapter resource for countable-state Markov chains. Checked `2026-04-25`.
+- [Stanford Stats366 Markov chains notes](https://web.stanford.edu/class/stats366/exs/Markov1.html) - `Second pass` - useful Stanford note for a concise first-pass view of discrete-time chains and stationary behavior. Checked `2026-04-25`.
+- [Stanford Stats 218](https://web.stanford.edu/class/stats218/stats218.html) - `Bridge outward` - useful Stanford page once the module broadens into martingales and diffusions. Checked `2026-04-25`.
+- [Stanford MS&E 221](https://web.stanford.edu/class/msande221/) - `Bridge outward` - useful Stanford stochastic-modeling anchor once discrete and continuous-time models are both in play. Checked `2026-04-25`.

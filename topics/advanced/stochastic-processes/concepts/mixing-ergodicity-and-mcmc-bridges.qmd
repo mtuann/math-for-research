@@ -1,0 +1,310 @@
+---
+title: "Mixing, Ergodicity, and MCMC Bridges"
+description: "How Markov chains forget their starting state, why time averages converge to stationary expectations, and how MCMC turns that long-run behavior into a sampling tool for inference."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: stochastic-processes
+prerequisites:
+  - /topics/foundation/probability/index.qmd
+  - /topics/advanced/stochastic-processes/concepts/markov-chains-and-stationary-distributions.qmd
+learning-goals:
+  - "Explain mixing as loss of memory of the initial state."
+  - "Interpret ergodicity as convergence of long-run averages to stationary expectations."
+  - "Recognize MCMC as Markov-chain design for approximate sampling from a target distribution."
+  - "Distinguish fast mixing from merely having the correct stationary distribution."
+applications:
+  - stochastic-processes
+  - machine-learning-theory
+  - engineering-systems
+keywords:
+  - mixing time
+  - ergodicity
+  - MCMC
+  - stationary distribution
+  - Markov chains
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/stochastic-processes/index.qmd
+  - /topics/foundation/probability/index.qmd
+  - /topics/advanced/stochastic-processes/concepts/markov-chains-and-stationary-distributions.qmd
+  - /topics/advanced/high-dimensional-statistics/index.qmd
+  - /topics/advanced/information-theory/concepts/information-theoretic-lower-bounds-in-statistics-learning-and-communication.qmd
+stable-sources:
+  - "MIT 18.445 Introduction to Stochastic Processes"
+  - "MIT 6.262 Discrete Stochastic Processes"
+  - "Stanford Stats366 course notes"
+current-sources:
+  - "MIT 18.445 lecture notes page"
+  - "MIT 18.445 lecture 4"
+  - "MIT 18.445 lecture 7"
+  - "MIT 6.262 course page"
+  - "Stanford Stats366 course page"
+  - "Stanford Stats366 Markov chains notes"
+---
+
+## Role
+
+This is a later live page in the `Stochastic Processes` module.
+
+Its job is to explain what happens after a Markov chain has been defined:
+
+- does it forget where it started?
+- do long-run empirical averages settle down?
+- can we exploit that long-run behavior to sample from hard distributions?
+
+This is where stochastic processes become a bridge to MCMC and inference.
+
+## First-Pass Promise
+
+You can read this page before the full module spine is complete.
+
+If you stop here, you should still understand:
+
+- what mixing means at first pass
+- what ergodicity means for long-run averages
+- why stationary distributions alone are not enough
+- why MCMC is really a controlled use of Markov-chain long-run behavior
+
+## Why It Matters
+
+A stationary distribution is only the first half of the story.
+
+It tells us what distribution is preserved by the dynamics.
+
+But practical questions are harder:
+
+- if we start far away, how long until the chain looks approximately stationary?
+- if we average along one random trajectory, do we recover stationary expectations?
+- if we design a chain to target a posterior distribution, when does that actually help us sample?
+
+That is why mixing and ergodicity matter.
+
+They turn stationary-distribution algebra into usable long-run behavior.
+
+## Prerequisite Recall
+
+- from [Probability](../../../foundation/probability/index.qmd), expectation is the quantity we ultimately want to estimate
+- from [Markov Chains and Stationary Distributions](markov-chains-and-stationary-distributions.qmd), a stationary distribution `\pi` satisfies `\pi P = \pi`
+- a chain can have the correct stationary distribution and still be a poor computational tool if it mixes too slowly
+
+## Intuition
+
+### Mixing Means Forgetting The Start
+
+At first pass, mixing means:
+
+`after enough steps, the law of X_t no longer remembers the initial state very much`
+
+So if two chains start from different places but run long enough, their distributions become close.
+
+This is the operational meaning of "approaching stationarity."
+
+### Ergodicity Turns One Long Run Into An Expectation
+
+Suppose `f(X_t)` is an observable along the chain.
+
+Ergodicity says that under the right conditions,
+
+$$
+\frac{1}{T}\sum_{t=1}^T f(X_t)
+$$
+
+approaches the stationary expectation
+
+$$
+\mathbb{E}_{\pi}[f(X)].
+$$
+
+This is the core reason a single long run can be useful.
+
+### Correct Stationary Distribution Is Not The Whole Story
+
+Two chains may have the same stationary distribution but very different usefulness.
+
+One may:
+
+- mix quickly
+- explore the state space efficiently
+
+while the other:
+
+- gets stuck for long periods
+- keeps strong dependence between nearby samples
+
+That is why MCMC quality is not only about correctness in the limit.
+
+It is also about how fast that limit becomes relevant.
+
+### MCMC Designs A Chain Whose Stationary Law Is The Target
+
+In MCMC, we do not sample directly from a hard target distribution `\pi`.
+
+Instead, we build a Markov chain whose stationary distribution is `\pi`.
+
+Then the long-run behavior of the chain is used to approximate:
+
+- expectations under `\pi`
+- marginal probabilities
+- posterior summaries
+
+So MCMC is really a stochastic-process trick:
+
+`sampling by controlled long-run dynamics`
+
+## Formal Core
+
+::: {#def-mixing}
+## Definition: Mixing Intuition
+
+At a first pass, a Markov chain mixes if its distribution at time `t` becomes close to the stationary distribution as `t` grows, and does so uniformly enough that the initial state eventually matters little.
+:::
+
+You do not need the exact metric at first pass, but total variation distance is the usual formal tool.
+
+::: {#def-ergodicity}
+## Definition: Ergodicity Intuition
+
+At a first pass, ergodicity means that long-run empirical averages along one trajectory converge to stationary expectations.
+:::
+
+This is the bridge from dynamics to Monte Carlo estimation.
+
+::: {#thm-ergodic}
+## Theorem Idea: Ergodic Averages
+
+For a well-behaved irreducible aperiodic finite-state Markov chain with stationary distribution `\pi`,
+
+$$
+\frac{1}{T}\sum_{t=1}^T f(X_t)
+\to
+\mathbb{E}_{\pi}[f(X)]
+$$
+
+for suitable observables `f`.
+:::
+
+At first pass, the message is simple:
+
+- one long dependent run can still estimate stationary expectations
+- but the quality of that estimate depends on how the chain mixes
+
+::: {#def-mcmc}
+## Definition: MCMC
+
+Markov chain Monte Carlo is the strategy of building a Markov chain whose stationary distribution is a target distribution `\pi`, then using the chain's long-run samples or averages to approximate quantities under `\pi`.
+:::
+
+At first pass, Metropolis-Hastings and Gibbs sampling are just standard ways to enforce the right stationary law.
+
+## Worked Example
+
+Take the two-state chain from the Markov page, with stationary distribution
+
+$$
+\pi = (0.8, 0.2).
+$$
+
+Let
+
+$$
+f(0)=0, \qquad f(1)=1.
+$$
+
+Then the stationary expectation is
+
+$$
+\mathbb{E}_{\pi}[f(X)] = 0.2.
+$$
+
+If the chain is ergodic, then a long-run average like
+
+$$
+\frac{1}{T}\sum_{t=1}^T f(X_t)
+$$
+
+should settle near `0.2`.
+
+So even though successive states are dependent, the long run still estimates the stationary fraction of time spent in state `1`.
+
+This is the exact logic reused by MCMC:
+
+- choose a chain with the right stationary law
+- run it long enough to reduce dependence on the start
+- use long-run averages to estimate expectations under the target
+
+## Computation Lens
+
+When you meet an MCMC or long-run Markov-chain argument, ask:
+
+1. what is the target stationary distribution?
+2. why does the chain preserve that distribution?
+3. how quickly does the chain forget its initial state?
+4. are adjacent samples still strongly dependent?
+5. is the goal exact sampling, approximate sampling, or expectation estimation?
+
+Those questions usually reveal whether the real issue is:
+
+- correctness in the limit
+- practical mixing speed
+- or estimation error from dependent samples
+
+## Application Lens
+
+### Bayesian Computation
+
+MCMC is a standard response when posterior distributions are known up to a normalizing constant but direct sampling is hard.
+
+### Statistical Physics And Energy-Based Models
+
+Long-run chain behavior is the natural route when the target law is defined by local energies or acceptance rules rather than direct draws.
+
+### High-Dimensional Statistics And ML
+
+Sampling-based inference, posterior approximation, and some generative procedures all depend on whether a chain actually explores its target efficiently.
+
+## Stop Here For First Pass
+
+If you stop here, retain these five ideas:
+
+- mixing means the chain gradually forgets its initial state
+- ergodicity means long-run averages converge to stationary expectations
+- having the right stationary distribution is not enough if mixing is too slow
+- MCMC works by designing a chain whose stationary law is the target
+- dependence between samples is the central practical cost of MCMC
+
+## Go Deeper
+
+The strongest adjacent live pages right now are:
+
+- [Markov Chains and Stationary Distributions](markov-chains-and-stationary-distributions.qmd)
+- [High-Dimensional Statistics](../../high-dimensional-statistics/index.qmd)
+- [Information-Theoretic Lower Bounds in Statistics, Learning, and Communication](../../information-theory/concepts/information-theoretic-lower-bounds-in-statistics-learning-and-communication.qmd)
+
+The remaining intended page in this module is:
+
+- `Martingales and Optional Stopping Intuition`
+
+## Optional Deeper Reading After First Pass
+
+The strongest current references connected to this page are:
+
+- [MIT 18.445 lecture 4](https://ocw.mit.edu/courses/18-445-introduction-to-stochastic-processes-spring-2015/resources/mit18_445s15_lecture4/) - official MIT note introducing Markov-chain mixing. Checked `2026-04-25`.
+- [MIT 18.445 lecture 7](https://ocw.mit.edu/courses/18-445-introduction-to-stochastic-processes-spring-2015/resources/mit18_445s15_lecture7/) - official MIT summary note on mixing times. Checked `2026-04-25`.
+- [Stanford Stats366](https://web.stanford.edu/class/stats366/) - official Stanford course page that explicitly places Markov chains next to Bayesian estimation and MCMC. Checked `2026-04-25`.
+- [Stanford Stats366 Markov chains notes](https://web.stanford.edu/class/stats366/exs/Markov1.html) - public Stanford note for a concise stationary-distribution and finite-state Markov-chain recap. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [MIT 18.445 lecture notes page](https://ocw.mit.edu/courses/18-445-introduction-to-stochastic-processes-spring-2015/pages/lecture-notes) - `First pass` - official MIT lecture hub covering mixing as part of the stochastic-processes route. Checked `2026-04-25`.
+- [MIT 18.445 lecture 4](https://ocw.mit.edu/courses/18-445-introduction-to-stochastic-processes-spring-2015/resources/mit18_445s15_lecture4/) - `First pass` - official MIT introduction to Markov-chain mixing. Checked `2026-04-25`.
+- [MIT 18.445 lecture 7](https://ocw.mit.edu/courses/18-445-introduction-to-stochastic-processes-spring-2015/resources/mit18_445s15_lecture7/) - `Second pass` - official MIT summary note on mixing times. Checked `2026-04-25`.
+- [MIT 6.262 Discrete Stochastic Processes](https://ocw.mit.edu/courses/6-262-discrete-stochastic-processes-spring-2011/) - `Second pass` - official MIT course hub for discrete-time chains and long-run state-space behavior. Checked `2026-04-25`.
+- [Stanford Stats366](https://web.stanford.edu/class/stats366/) - `Bridge outward` - official Stanford course page that explicitly places MCMC in a Markov-chain-and-inference curriculum. Checked `2026-04-25`.
+- [Stanford Stats366 Markov chains notes](https://web.stanford.edu/class/stats366/exs/Markov1.html) - `Bridge outward` - useful Stanford note for first-pass stationary and transition-matrix language. Checked `2026-04-25`.
