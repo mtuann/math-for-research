@@ -1,0 +1,176 @@
+---
+title: "Filtering, Denoising, and Estimation in Communication Systems"
+description: "A bridge page showing how corrupted signals are cleaned, estimated, or decoded, and why filtering is the first practical response once channels and noise enter the picture."
+page-type: application
+status: published
+update-status: current
+level: bridge
+topic: signal-and-communication
+prerequisites:
+  - /applications/signal-and-communication/signals-channels-and-noisy-measurements.qmd
+  - /topics/foundation/probability/index.qmd
+learning-goals:
+  - "Distinguish filtering, denoising, estimation, and decoding as related but different recovery tasks."
+  - "Interpret filtering as using structure in the signal and channel, not just smoothing everything."
+  - "Explain why communication and sensing both become estimation problems after corruption."
+  - "Connect application-facing recovery language to Wiener filtering, MMSE estimation, and information-theoretic limits."
+applications:
+  - signal-processing
+  - communication
+  - sensing
+keywords:
+  - filtering
+  - denoising
+  - estimation
+  - communication
+  - noise
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+---
+
+## Application Snapshot
+
+Once a signal has passed through a noisy channel or corrupted measurement system, the next question is usually:
+
+`what should we try to recover from what we observed?`
+
+Depending on the task, the answer may be:
+
+- a cleaner waveform
+- a latent underlying state
+- a transmitted symbol
+- a message or codeword
+
+This page is the shortest bridge from the basic signal-channel-noise picture into the first real recovery tasks that appear in communication systems and sensing pipelines.
+
+## Problem Setting
+
+Suppose we observe
+
+$$
+y = Hx + \eta
+$$
+
+or, in the simplest noisy-observation form,
+
+$$
+y = x + \eta.
+$$
+
+Now several different tasks become possible:
+
+- `filtering`: suppress or reshape unwanted components while preserving useful structure
+- `denoising`: produce a cleaner estimate of the underlying signal
+- `estimation`: infer hidden quantities from the observation
+- `decoding or detection`: decide which symbol, codeword, or message most likely produced the received signal
+
+The observation model may be similar across these tasks, but the downstream goal is not the same.
+
+## Why This Math Appears
+
+This language reuses several math layers already on the site:
+
+- `Probability`: noise models let us talk about uncertainty and typical recovery error
+- `Signal Processing and Estimation`: Wiener filtering, MMSE, and spectral methods are built exactly for this recovery step
+- `Linear Algebra`: channels and filters are often linear transforms acting on signal vectors
+- `Information Theory`: in communication settings, recovery is limited not only by algorithms but also by channel uncertainty and coding rates
+- `Numerical Methods`: practical recovery often becomes a computational inverse problem
+
+So filtering and estimation are not optional post-processing details. They are often the main job once the observation is corrupted.
+
+## Math Objects In Use
+
+- underlying signal $x$
+- received or measured signal $y$
+- noise $\eta$
+- channel or measurement operator $H$
+- filter or estimator $\hat{x}(y)$
+- sometimes a detector deciding among candidate messages or symbols
+
+A useful first-pass distinction is:
+
+- filtering changes the observation to emphasize useful components
+- estimation tries to recover an underlying quantity
+- decoding chooses among discrete candidates
+
+These are related, but they are not interchangeable.
+
+## A Small Worked Walkthrough
+
+Imagine a binary communication system sending one symbol at a time:
+
+$$
+x \in \{-1,+1\},
+\qquad
+y = x + \eta.
+$$
+
+If the noise is small, the receiver can often detect the symbol by checking the sign of $y$.
+
+Now imagine a denoising problem for a sensor:
+
+$$
+y_t = x_t + \eta_t,
+$$
+
+where $x_t$ is a slowly varying physical signal.
+
+In the first case, the goal is not to reconstruct every detail of the waveform.
+It is to make the right discrete decision.
+
+In the second case, the goal is to estimate the underlying continuous signal as well as possible.
+
+The common thread is:
+
+- the observation is corrupted
+- the recovery task uses assumptions about structure
+- the right recovery rule depends on what “success” means
+
+That is why communication systems, filters, and estimators keep sharing math without being the same task.
+
+## Implementation or Computation Note
+
+Three practical questions appear immediately:
+
+1. `What are we trying to recover?`
+   A waveform, a hidden state, a discrete symbol, or a message?
+
+2. `What structure are we assuming?`
+   Smoothness, stationarity, sparsity, coding redundancy, or a state-space model?
+
+3. `How should performance be measured?`
+   Mean-square error, bit-error rate, detection accuracy, or reconstruction fidelity?
+
+Use these pages as the strongest follow-on support:
+
+- [Sampling, Bandwidth, and Reconstruction in Practice](sampling-bandwidth-and-reconstruction-in-practice.qmd)
+- [Noise Models, Wiener Filtering, and MMSE Estimation](../../topics/advanced/signal-processing-and-estimation/concepts/noise-models-wiener-filtering-and-mmse-estimation.qmd)
+- [State Estimation, Smoothing, and Hidden-State Inference](../../topics/advanced/signal-processing-and-estimation/concepts/state-estimation-smoothing-and-hidden-state-inference.qmd)
+- [Mutual Information, Conditional Entropy, and Data Processing](../../topics/advanced/information-theory/concepts/mutual-information-conditional-entropy-and-data-processing.qmd)
+- [Channel Coding, Capacity, and Converse Proofs](../../topics/advanced/information-theory/concepts/channel-coding-capacity-and-converse-proofs.qmd)
+
+## Failure Modes
+
+- treating denoising, estimation, and decoding as if they were the same objective
+- assuming a stronger filter is always better, even when it erases useful signal structure
+- ignoring whether the recovery target is continuous or discrete
+- evaluating a communication task only by visual smoothness rather than by error probability
+- forgetting that some failures come from channel limits, not from a bad recovery algorithm
+
+## Paper Bridge
+
+- [6.011 / Signals, Systems and Inference](https://ocw.mit.edu/courses/6-011-signals-systems-and-inference-spring-2018/) - `First pass` - official MIT bridge where filtering and inference are treated as part of the same recovery story. Checked `2026-04-25`.
+- [EE278 / Introduction to Statistical Signal Processing](https://web.stanford.edu/class/ee278/) - `Paper bridge` - useful once noisy recovery is best understood through estimation language rather than only through system blocks. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [6.011 readings page](https://ocw.mit.edu/courses/6-011-signals-systems-and-inference-spring-2018/pages/readings/) - `First pass` - official MIT reading hub for the signal-plus-inference viewpoint. Checked `2026-04-25`.
+- [MIT 6.011 Lecture 13](https://ocw.mit.edu/courses/6-011-signals-systems-and-inference-spring-2018/resources/mit6_011s18lec13/) - `First pass` - official MIT lecture anchor for MMSE and LMMSE estimation language. Checked `2026-04-25`.
+- [MIT 6.011 Lecture 14](https://ocw.mit.edu/courses/6-011-signals-systems-and-inference-spring-2018/resources/mit6_011s18lec14/) - `First pass` - official MIT continuation on LMMSE and orthogonality. Checked `2026-04-25`.
+- [EE278 / Introduction to Statistical Signal Processing](https://web.stanford.edu/class/ee278/) - `Second pass` - official Stanford course hub for noisy estimation and filtering. Checked `2026-04-25`.
+- [EE278 course outline](https://web.stanford.edu/class/ee278/syllabus.html) - `Second pass` - concise Stanford framing of the estimation route. Checked `2026-04-25`.
+- [EE376A / Information Theory](https://web.stanford.edu/class/ee376a/) - `Bridge outward` - useful when recovery questions turn into coding and channel-limit questions. Checked `2026-04-25`.

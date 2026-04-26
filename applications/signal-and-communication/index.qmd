@@ -1,0 +1,147 @@
+---
+title: "Signal and Communication"
+description: "A public-facing hub showing how the site's math modules reappear in signals, channels, noise, sensing, filtering, and communication limits."
+page-type: application-index
+status: published
+update-status: current
+level: bridge
+topic: signal-and-communication
+prerequisites:
+  - /topics/foundation/probability/index.qmd
+  - /topics/foundation/linear-algebra/index.qmd
+learning-goals:
+  - "Map core math modules to recurring objects in signal processing and communication systems."
+  - "Choose a first signal-facing reading path based on current interest."
+  - "See where the site already has a live route from channels, signals, and noise into modern sensing and learned representations."
+applications:
+  - signal-processing
+  - communication
+  - sensing
+keywords:
+  - signals
+  - communication
+  - channels
+  - noise
+  - applications
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+---
+
+## Why This Section Exists
+
+Many readers can follow the formulas for convolution, noise, or entropy, but still do not feel the common picture behind them.
+
+This hub is for the moment when you want to answer questions like:
+
+- what exactly is a `signal` in practice?
+- what does a `channel` do to a signal?
+- why do noise, filtering, coding, and estimation keep appearing together?
+
+The rule for this section is simple:
+
+`every signal page should point back to the exact signal, channel, and noise objects it uses`
+
+## What Signal And Communication Keeps Reusing
+
+Across sensing, audio, imaging, wireless systems, and communication theory, the same mathematical objects keep returning:
+
+- time-varying or sequence-valued signals
+- linear systems and convolution
+- noisy channels and corrupted measurements
+- spectral structure, bandwidth, and sampling limits
+- estimation, detection, and coding tradeoffs
+- task-dependent bottlenecks and learned representations
+
+If you can identify those objects quickly, signal and communication pages stop feeling like disconnected engineering tricks.
+
+::: {.meta-strip}
+::: {.meta-box}
+**Best Starting Math**
+[Probability](../../topics/foundation/probability/index.qmd), [Linear Algebra](../../topics/foundation/linear-algebra/index.qmd), [Single-Variable Calculus](../../topics/foundation/single-variable-calculus/index.qmd)
+:::
+::: {.meta-box}
+**Best Signal Bridge**
+[Signal Processing and Estimation](../../topics/advanced/signal-processing-and-estimation/index.qmd)
+:::
+::: {.meta-box}
+**Best Communication Bridge**
+[Information Theory](../../topics/advanced/information-theory/index.qmd)
+:::
+:::
+
+## Start Here By Interest
+
+### If You Want The Shortest Math-to-Signals Entry
+
+Start in this order:
+
+1. [Probability](../../topics/foundation/probability/index.qmd)
+2. [Linear Algebra](../../topics/foundation/linear-algebra/index.qmd)
+3. [Signal Processing and Estimation](../../topics/advanced/signal-processing-and-estimation/index.qmd)
+4. [Signals, Channels, and Noisy Measurements](signals-channels-and-noisy-measurements.qmd)
+
+### If You Want The Cleanest First Bridge Inside This Section
+
+Start with:
+
+1. [Signals, Channels, and Noisy Measurements](signals-channels-and-noisy-measurements.qmd)
+2. [Filtering, Denoising, and Estimation in Communication Systems](filtering-denoising-and-estimation-in-communication-systems.qmd)
+3. [Sampling, Bandwidth, and Reconstruction in Practice](sampling-bandwidth-and-reconstruction-in-practice.qmd)
+4. [Detection, Decoding, and Error Tradeoffs](detection-decoding-and-error-tradeoffs.qmd)
+5. [Inverse Problems, Sensing, and Reconstruction](inverse-problems-sensing-and-reconstruction.qmd)
+6. [Modern Bridges: Representation Learning, Sensing, and Communication](modern-bridges-representation-learning-sensing-and-communication.qmd)
+
+### If You Care Most About Noisy Sensing And Recovery
+
+Start with:
+
+1. [Signals, Channels, and Noisy Measurements](signals-channels-and-noisy-measurements.qmd)
+2. [Filtering, Denoising, and Estimation in Communication Systems](filtering-denoising-and-estimation-in-communication-systems.qmd)
+3. [Sampling, Bandwidth, and Reconstruction in Practice](sampling-bandwidth-and-reconstruction-in-practice.qmd)
+4. [Inverse Problems, Sensing, and Reconstruction](inverse-problems-sensing-and-reconstruction.qmd)
+5. [Modern Bridges: Representation Learning, Sensing, and Communication](modern-bridges-representation-learning-sensing-and-communication.qmd)
+6. [Noise Models, Wiener Filtering, and MMSE Estimation](../../topics/advanced/signal-processing-and-estimation/concepts/noise-models-wiener-filtering-and-mmse-estimation.qmd)
+7. [Inverse Problems, Deconvolution, and Regularized Recovery](../../topics/advanced/signal-processing-and-estimation/concepts/inverse-problems-deconvolution-and-regularized-recovery.qmd)
+
+### If You Want The Strongest ML-Facing Bridge From Here
+
+Start with:
+
+1. [Signals, Channels, and Noisy Measurements](signals-channels-and-noisy-measurements.qmd)
+2. [Filtering, Denoising, and Estimation in Communication Systems](filtering-denoising-and-estimation-in-communication-systems.qmd)
+3. [Inverse Problems, Sensing, and Reconstruction](inverse-problems-sensing-and-reconstruction.qmd)
+4. [Modern Bridges: Representation Learning, Sensing, and Communication](modern-bridges-representation-learning-sensing-and-communication.qmd)
+5. [Signal Processing Bridges to Communication, Sensing, and Modern ML](../../topics/advanced/signal-processing-and-estimation/concepts/signal-processing-bridges-to-communication-sensing-and-modern-ml.qmd)
+6. [Applications > Machine Learning](../machine-learning/index.qmd)
+
+## First-Pass Route
+
+The strongest first-pass route in this section currently is:
+
+1. [Signals, Channels, and Noisy Measurements](signals-channels-and-noisy-measurements.qmd)
+2. [Filtering, Denoising, and Estimation in Communication Systems](filtering-denoising-and-estimation-in-communication-systems.qmd)
+3. [Sampling, Bandwidth, and Reconstruction in Practice](sampling-bandwidth-and-reconstruction-in-practice.qmd)
+4. [Detection, Decoding, and Error Tradeoffs](detection-decoding-and-error-tradeoffs.qmd)
+5. [Inverse Problems, Sensing, and Reconstruction](inverse-problems-sensing-and-reconstruction.qmd)
+6. [Modern Bridges: Representation Learning, Sensing, and Communication](modern-bridges-representation-learning-sensing-and-communication.qmd)
+
+Use it when you want the shortest translation from abstract signal, channel, and noise language into communication links, sensing pipelines, acquisition limits, reconstruction tasks, and the modern learned bottlenecks that now sit between measurements and decisions.
+
+## How To Use This Section
+
+- Use `Topics` when you want the math itself.
+- Use `Applications > Signal and Communication` when you want the translation layer into sensing and communication systems.
+- Use [Signal Processing and Estimation](../../topics/advanced/signal-processing-and-estimation/index.qmd) when you want the full signals-and-estimation math route.
+- Use [Information Theory](../../topics/advanced/information-theory/index.qmd) when you want coding, entropy, and channel-limit language.
+
+## Sources and Further Reading
+
+- [6.003 / Signals and Systems lecture notes](https://ocw.mit.edu/courses/6-003-signals-and-systems-fall-2011/pages/lecture-notes/) - `First pass` - official MIT signals course notes that make signal/system language concrete early. Checked `2026-04-25`.
+- [6.011 / Signals, Systems and Inference](https://ocw.mit.edu/courses/6-011-signals-systems-and-inference-spring-2018/) - `First pass` - official MIT course hub emphasizing the shared thread between signals, inference, and noise. Checked `2026-04-25`.
+- [EE102A course outline](https://web.stanford.edu/class/ee102a/CourseOutline.html) - `Second pass` - official Stanford signals-and-systems anchor for practical signal language. Checked `2026-04-25`.
+- [EE278 / Introduction to Statistical Signal Processing](https://web.stanford.edu/class/ee278/) - `Second pass` - official Stanford anchor once noisy measurements and estimation become central. Checked `2026-04-25`.
+- [EE376A / Information Theory](https://web.stanford.edu/class/ee376a/) - `Paper bridge` - useful when channel, coding, and information limits start to matter explicitly. Checked `2026-04-25`.

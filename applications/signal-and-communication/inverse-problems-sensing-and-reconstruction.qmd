@@ -1,0 +1,183 @@
+---
+title: "Inverse Problems, Sensing, and Reconstruction"
+description: "A bridge page showing how sensing systems create indirect measurements, why reconstruction can be unstable, and how inverse problems connect signal processing, imaging, and recovery."
+page-type: application
+status: published
+update-status: current
+level: bridge
+topic: signal-and-communication
+prerequisites:
+  - /applications/signal-and-communication/sampling-bandwidth-and-reconstruction-in-practice.qmd
+  - /topics/foundation/linear-algebra/index.qmd
+learning-goals:
+  - "Explain why many sensing systems measure transformed data rather than the underlying object directly."
+  - "Interpret inverse problems as reconstruction from indirect and noisy observations."
+  - "Recognize why deblurring and reconstruction can be unstable even when the forward model looks simple."
+  - "Connect application-facing reconstruction language to inverse problems, deconvolution, and regularization."
+applications:
+  - signal-processing
+  - communication
+  - sensing
+keywords:
+  - inverse problems
+  - reconstruction
+  - sensing
+  - deconvolution
+  - regularization
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+---
+
+## Application Snapshot
+
+Many sensing systems do not observe the object of interest directly.
+
+They observe:
+
+- a blurred version
+- a mixed version
+- a projected version
+- or a partially sampled version
+
+That is why a large class of signal and sensing problems are really reconstruction problems:
+
+`infer the hidden object from indirect measurements`
+
+This page is the shortest bridge from channels and sampled observations into inverse problems, where the main challenge is not only noise, but also loss of information through the measurement process itself.
+
+## Problem Setting
+
+A common sensing model is
+
+$$
+y = Hx + \eta,
+$$
+
+where:
+
+- $x$ is the unknown signal, image, scene, or latent object
+- $H$ is the forward sensing operator
+- $y$ is the observed measurement
+- $\eta$ is noise or modeling error
+
+Examples include:
+
+- blur in imaging
+- mixed sensor channels
+- band-limited measurements
+- tomography or projection measurements
+- downsampled acquisition
+
+The goal is now not only to clean a signal.
+It is to reconstruct something that may never have been observed directly.
+
+## Why This Math Appears
+
+This language reuses several math layers already on the site:
+
+- `Linear Algebra`: the forward operator can suppress, mix, or hide directions of the original signal
+- `Signal Processing and Estimation`: reconstruction depends on filtering, spectral views, and noise modeling
+- `Numerical Methods`: practical reconstruction is usually a computational inversion problem
+- `Probability`: uncertainty matters because small measurement noise can blow up after inversion
+- `Information Theory`: some losses of distinguishability are structural, not merely algorithmic
+
+So inverse problems are where sensing systems become genuinely harder than direct observation.
+The challenge is not only corruption, but also incomplete or unstable access to the underlying object.
+
+## Math Objects In Use
+
+- unknown object or signal $x$
+- measurement $y$
+- forward operator $H$
+- noise $\eta$
+- reconstruction rule or estimator $\hat{x}(y)$
+- sometimes a regularizer or prior assumption
+
+At first pass, the key application picture is:
+
+- the sensing device applies a transformation before we ever see the data
+- some directions of the original signal may be weak, mixed, or nearly lost
+- reconstruction must balance fitting the data against staying stable
+
+## A Small Worked Walkthrough
+
+Imagine a blurred imaging system:
+
+$$
+y = h * x + \eta,
+$$
+
+where:
+
+- $x$ is the sharp underlying image or signal
+- $h$ is the blur kernel
+- $\eta$ is sensor noise
+
+If we try to “undo” the blur too aggressively, frequencies where the blur has strongly attenuated the signal can explode the noise.
+
+That is why reconstruction is not just:
+
+`divide by the blur and get the answer back`
+
+It is usually:
+
+- fit the measurements
+- respect the sensing model
+- avoid unstable amplification
+- impose some structural preference such as smoothness or sparsity
+
+This same story appears far beyond deblurring:
+
+- MRI-style reconstruction
+- tomography
+- computational imaging
+- multi-sensor fusion
+
+So inverse problems are the sensing-side analogue of difficult communication recovery: the observation model itself has hidden or damaged part of the information.
+
+## Implementation or Computation Note
+
+Three practical questions appear immediately:
+
+1. `What did the sensing operator destroy or weaken?`
+   If the forward map hides some directions badly, recovery may be unstable no matter how clever the code is.
+
+2. `What prior structure is believable?`
+   Smoothness, sparsity, low rank, or piecewise constancy are not generic truths; they are modeling choices.
+
+3. `What metric matters downstream?`
+   Visual clarity, scientific measurement accuracy, detection quality, or state-estimation performance may lead to different reconstruction strategies.
+
+Use these pages as the strongest follow-on support:
+
+- [Modern Bridges: Representation Learning, Sensing, and Communication](modern-bridges-representation-learning-sensing-and-communication.qmd)
+- [Inverse Problems, Deconvolution, and Regularized Recovery](../../topics/advanced/signal-processing-and-estimation/concepts/inverse-problems-deconvolution-and-regularized-recovery.qmd)
+- [Noise Models, Wiener Filtering, and MMSE Estimation](../../topics/advanced/signal-processing-and-estimation/concepts/noise-models-wiener-filtering-and-mmse-estimation.qmd)
+- [Numerical Least Squares and Regularization](../../topics/advanced/numerical-methods/concepts/numerical-least-squares-and-regularization.qmd)
+- [Signal Processing Bridges to Communication, Sensing, and Modern ML](../../topics/advanced/signal-processing-and-estimation/concepts/signal-processing-bridges-to-communication-sensing-and-modern-ml.qmd)
+
+## Failure Modes
+
+- assuming the measurement is only noisy when it is also indirect or lossy
+- trying to invert weak signal components without checking instability
+- treating regularization as a numerical trick instead of a structural modeling choice
+- judging reconstruction quality only by visual appeal when the downstream task may be detection or estimation
+- forgetting that some information may simply be unrecoverable from the acquired data
+
+## Paper Bridge
+
+- [18.085 Lecture 35: Deconvolution](https://ocw.mit.edu/courses/18-085-computational-science-and-engineering-i-fall-2008/resources/lecture-35-convolution-equations-deconvolution/) - `First pass` - official MIT entry point for the practical inverse-view of convolution and recovery. Checked `2026-04-25`.
+- [EE367 / Computational Imaging](https://web.stanford.edu/class/ee367/) - `Paper bridge` - useful once sensing and reconstruction become more geometric, computational, or imaging-heavy. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [2.161 / Signal Processing: Continuous and Discrete](https://ocw.mit.edu/courses/2-161-signal-processing-continuous-and-discrete-fall-2008/) - `First pass` - official MIT signal-processing anchor for forward and inverse operator viewpoints. Checked `2026-04-25`.
+- [18.085 Lecture 35: Deconvolution](https://ocw.mit.edu/courses/18-085-computational-science-and-engineering-i-fall-2008/resources/lecture-35-convolution-equations-deconvolution/) - `First pass` - official MIT deconvolution bridge from forward models to inverse recovery. Checked `2026-04-25`.
+- [2.717J inverse problems page](https://ocw.mit.edu/courses/2-717j-optical-engineering-spring-2002/pages/syllabus/inverse/) - `Second pass` - official MIT inverse-problems anchor with an imaging flavor. Checked `2026-04-25`.
+- [EE367 / Computational Imaging](https://web.stanford.edu/class/ee367/) - `Second pass` - official Stanford course hub for sensing and reconstruction problems. Checked `2026-04-25`.
+- [EE367 lecture 10 slides](https://web.stanford.edu/class/ee367/slides/lecture10.pdf) - `Second pass` - useful Stanford reconstruction slides for inverse-problem language. Checked `2026-04-25`.
+- [EE367 inverse-problems notes](https://web.stanford.edu/class/ee367/reading/ee367_notes_inverse_problems.pdf) - `Bridge outward` - useful once regularized recovery and computational imaging become central. Checked `2026-04-25`.

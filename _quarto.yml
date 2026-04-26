@@ -259,6 +259,13 @@ website:
           - applications/control-and-dynamics/optimal-control-and-trajectory-planning.qmd
           - applications/control-and-dynamics/constraints-mpc-and-safe-operation.qmd
           - applications/control-and-dynamics/learning-identification-and-rl-bridges.qmd
+          - applications/signal-and-communication/index.qmd
+          - applications/signal-and-communication/signals-channels-and-noisy-measurements.qmd
+          - applications/signal-and-communication/filtering-denoising-and-estimation-in-communication-systems.qmd
+          - applications/signal-and-communication/sampling-bandwidth-and-reconstruction-in-practice.qmd
+          - applications/signal-and-communication/detection-decoding-and-error-tradeoffs.qmd
+          - applications/signal-and-communication/inverse-problems-sensing-and-reconstruction.qmd
+          - applications/signal-and-communication/modern-bridges-representation-learning-sensing-and-communication.qmd
           - paper-lab/index.qmd
           - paper-lab/how-to-read-a-paper.qmd
           - paper-lab/notation-translation.qmd

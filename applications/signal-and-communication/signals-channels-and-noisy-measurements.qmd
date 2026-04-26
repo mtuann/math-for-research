@@ -1,0 +1,193 @@
+---
+title: "Signals, Channels, and Noisy Measurements"
+description: "A bridge page showing how signals are transformed by channels and sensing systems, and why noise is the common object tying communication and estimation together."
+page-type: application
+status: published
+update-status: current
+level: bridge
+topic: signal-and-communication
+prerequisites:
+  - /topics/foundation/probability/index.qmd
+  - /topics/foundation/linear-algebra/index.qmd
+learning-goals:
+  - "Explain the difference between a signal, a channel, and a measurement process."
+  - "Interpret noise as a model for uncertainty, corruption, or information loss."
+  - "Recognize why the same signal-channel-noise picture appears in communication and sensing."
+  - "Connect application-facing signal language to signal processing, estimation, and information theory."
+applications:
+  - signal-processing
+  - communication
+  - sensing
+keywords:
+  - signal
+  - channel
+  - noise
+  - measurement
+  - communication
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+---
+
+## Application Snapshot
+
+A large fraction of communication and sensing can be summarized in one sentence:
+
+`a useful signal is generated, transformed by a channel or measurement system, and observed with corruption`
+
+That sentence already contains the three basic objects:
+
+- `signal`
+- `channel`
+- `noise`
+
+This page is the shortest bridge from the site's math modules into the language used in communication systems, sensing pipelines, filtering, and inference.
+
+## Problem Setting
+
+A signal may be:
+
+- a time-varying waveform
+- a discrete-time sequence
+- a vector of transmitted symbols
+- an image or sensor field sampled over space
+
+A channel or measurement system then transforms that signal.
+
+At first pass, the picture often looks like
+
+$$
+y = Hx + \eta
+$$
+
+or, in time-indexed form,
+
+$$
+y_t = h(x_t) + \eta_t.
+$$
+
+Here:
+
+- $x$ or $x_t$ is the underlying signal
+- $H$ or $h$ describes the channel, system, or sensing map
+- $\eta$ or $\eta_t$ is noise or corruption
+
+In communication, $x$ may be a transmitted message waveform and $y$ the received waveform.
+
+In sensing, $x$ may be the underlying state or scene and $y$ the measured sensor output.
+
+## Why This Math Appears
+
+This language reuses several math layers already on the site:
+
+- `Linear Algebra`: many channels and sensing systems are modeled as linear maps or matrices
+- `Probability`: noise models describe what corruption or uncertainty does to the signal
+- `Signal Processing and Estimation`: filtering and denoising try to recover useful structure from corrupted observations
+- `Information Theory`: channels are also information bottlenecks with rate and reliability limits
+- `Numerical Methods`: reconstruction and inversion often become computational problems, not only formulas
+
+So the signal-channel-noise picture is not a narrow engineering trick. It is the shared translation layer between communication, sensing, filtering, and inference.
+
+## Math Objects In Use
+
+- signal $x$
+- received or measured signal $y$
+- channel or sensing map $H$ or $h$
+- noise $\eta$
+- sometimes bandwidth, spectrum, or sampling rate
+- sometimes an estimator or decoder trying to recover information from $y$
+
+At first pass, two very common models are:
+
+$$
+y = Hx + \eta
+$$
+
+and
+
+$$
+y = x + \eta.
+$$
+
+The first emphasizes transformation plus corruption.
+
+The second emphasizes direct noisy observation.
+
+## A Small Worked Walkthrough
+
+Imagine a transmitter sending a binary symbol sequence through a noisy link.
+
+The ideal transmitted signal is
+
+$$
+x \in \{-1,+1\}^n.
+$$
+
+The receiver observes
+
+$$
+y = x + \eta,
+$$
+
+where $\eta$ is random noise from the channel.
+
+Now imagine a sensor measuring temperature with a noisy probe.
+
+The underlying signal is the true temperature trajectory $x_t$, and the sensor outputs
+
+$$
+y_t = x_t + \eta_t.
+$$
+
+These two settings look different on the surface, but the math objects are strikingly similar:
+
+- there is an underlying signal
+- the observation is corrupted
+- the downstream task is to recover structure, estimate truth, or decode information
+
+That is why communication and sensing reuse so much of the same math.
+
+## Implementation or Computation Note
+
+Once the signal-channel model is written down, the workflow branches into three practical questions:
+
+1. `Representation`
+   What form of the signal should we work with: time domain, frequency domain, symbols, or state variables?
+
+2. `Recovery`
+   Are we trying to denoise, estimate hidden structure, detect symbols, or decode a message?
+
+3. `Limits`
+   Is the main bottleneck noise, bandwidth, computational cost, or information loss?
+
+Use these pages as the strongest follow-on support:
+
+- [Filtering, Denoising, and Estimation in Communication Systems](filtering-denoising-and-estimation-in-communication-systems.qmd)
+- [Signals, Convolution, and Linear Time-Invariant Systems](../../topics/advanced/signal-processing-and-estimation/concepts/signals-convolution-and-linear-time-invariant-systems.qmd)
+- [Noise Models, Wiener Filtering, and MMSE Estimation](../../topics/advanced/signal-processing-and-estimation/concepts/noise-models-wiener-filtering-and-mmse-estimation.qmd)
+- [Entropy, Cross-Entropy, and KL Divergence](../../topics/advanced/information-theory/concepts/entropy-cross-entropy-and-kl-divergence.qmd)
+- [Inverse Problems, Deconvolution, and Regularized Recovery](../../topics/advanced/signal-processing-and-estimation/concepts/inverse-problems-deconvolution-and-regularized-recovery.qmd)
+
+## Failure Modes
+
+- treating the received or measured signal as if it were the underlying truth
+- talking about noise as if it only means “small random error,” when it can also represent model mismatch or interference
+- forgetting that the same observation model can support very different downstream tasks: decoding, denoising, estimation, or detection
+- confusing a channel model with a decoder or estimator
+- ignoring whether the important bottleneck is bandwidth, noise level, or recoverability
+
+## Paper Bridge
+
+- [6.011 / Signals, Systems and Inference](https://ocw.mit.edu/courses/6-011-signals-systems-and-inference-spring-2018/) - `First pass` - official MIT bridge where signals, systems, and noisy inference appear in one shared language. Checked `2026-04-25`.
+- [EE376A / Information Theory](https://web.stanford.edu/class/ee376a/) - `Paper bridge` - useful once the signal view turns into channel limits, coding, and information bottlenecks. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [6.003 / Signals and Systems lecture notes](https://ocw.mit.edu/courses/6-003-signals-and-systems-fall-2011/pages/lecture-notes/) - `First pass` - official MIT notes for basic signal and system language. Checked `2026-04-25`.
+- [6.011 / Signals, Systems and Inference](https://ocw.mit.edu/courses/6-011-signals-systems-and-inference-spring-2018/) - `First pass` - official MIT course hub emphasizing noisy signals and inference. Checked `2026-04-25`.
+- [EE102A course outline](https://web.stanford.edu/class/ee102a/CourseOutline.html) - `Second pass` - official Stanford signals-and-systems framing. Checked `2026-04-25`.
+- [EE278 / Introduction to Statistical Signal Processing](https://web.stanford.edu/class/ee278/) - `Second pass` - official Stanford anchor for noise, estimation, and filtering. Checked `2026-04-25`.
+- [EE376A / Information Theory](https://web.stanford.edu/class/ee376a/) - `Bridge outward` - official Stanford information-theory hub once channel limits and coding become central. Checked `2026-04-25`.

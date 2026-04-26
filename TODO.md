@@ -17,11 +17,11 @@ Use it to track:
 
 ## Current Snapshot
 
-- `260` `.qmd` pages currently exist
+- `267` `.qmd` pages currently exist
 - `127` concept-topic pages currently exist
 - strongest completed foundation spines so far: `Algebra Repair`, `Discrete Math`, `Linear Algebra`, `Probability`, `Proofs`, `Logic`, `Statistics`, `Single-Variable Calculus`, `Multivariable Calculus`
 - strongest completed advanced spines so far: `Optimization`, `Real Analysis`, `Numerical Methods`, `ODEs and Dynamical Systems`, `Matrix Analysis`, `Learning Theory`, `High-Dimensional Probability`, `High-Dimensional Statistics`, `Information Theory`, `Control and Dynamics`, `Stochastic Control and Dynamic Programming`, `Signal Processing and Estimation`
-- strongest public-facing bridges so far: `Applications > Machine Learning`, `Applications > Control and dynamics`
+- strongest public-facing bridges so far: `Applications > Machine Learning`, `Applications > Control and dynamics`, `Applications > Signal and communication`
 - non-topic sections already scaffolded: `Start Here`, `Roadmaps`, `Applications`, `Paper Lab`, `Research`, `Publication`, `Library`, `Notes`
 
 ## Site Sections
@@ -83,7 +83,13 @@ Use it to track:
 - [x] `Learning, identification, and RL bridges`
 - [ ] `Optimization and inference`
 - [ ] `Scientific computing`
-- [ ] `Signal and communication`
+- [x] `Signal and communication`
+- [x] `Signals, channels, and noisy measurements`
+- [x] `Filtering, denoising, and estimation in communication systems`
+- [x] `Sampling, bandwidth, and reconstruction in practice`
+- [x] `Detection, decoding, and error tradeoffs`
+- [x] `Inverse problems, sensing, and reconstruction`
+- [x] `Modern bridges: representation learning, sensing, and communication`
 
 ### Paper Lab
 
@@ -417,12 +423,11 @@ These are the topics that should eventually become canonical examples for future
 
 Near-term highest-value content steps:
 
-1. [ ] `Build Applications: Signal and communication`
-2. [ ] `Build Roadmap: Engineering systems`
-3. [ ] `Build Advanced: Stochastic Processes module`
-4. [ ] `Build Publication: venue map`
-5. [ ] `Curate Library: books and courses`
-6. [ ] `Run local render + visual QA pass`
+1. [ ] `Build Roadmap: Engineering systems`
+2. [ ] `Build Advanced: Stochastic Processes module`
+3. [ ] `Build Publication: venue map`
+4. [ ] `Curate Library: books and courses`
+5. [ ] `Run local render + visual QA pass`
 
 ## Work Outside Topic Content
 
@@ -469,6 +474,6 @@ Yes, there is important work outside topic writing.
 ## Notes
 
 - Current content momentum is strongest in the advanced bridge cluster: `Numerical Methods`, `ODEs and Dynamical Systems`, `Control and Dynamics`, `Stochastic Control and Dynamic Programming`, `Information Theory`, and `Signal Processing and Estimation`.
-- The public-facing application layer now has two live hubs: `Machine Learning` and the opening route for `Control and dynamics`.
-- The next content gaps most worth filling are `Signal and communication`, the rest of `Control and dynamics` applications, `Stochastic Processes`, and `Engineering systems`.
+- The public-facing application layer now has three full hubs: `Machine Learning`, `Control and dynamics`, and `Signal and communication`.
+- The next content gaps most worth filling are `Stochastic Processes`, `Engineering systems`, and the remaining application hubs such as `Optimization and inference` and `Scientific computing`.
 - The next non-content task most worth doing is a `local render + visual QA pass`.

@@ -1,0 +1,185 @@
+---
+title: "Modern Bridges: Representation Learning, Sensing, and Communication"
+description: "A bridge page showing how learned representations sit between sensing and communication pipelines, and why bottlenecks, noise, and downstream objectives keep reappearing in modern ML systems."
+page-type: application
+status: published
+update-status: current
+level: bridge
+topic: signal-and-communication
+prerequisites:
+  - /applications/signal-and-communication/inverse-problems-sensing-and-reconstruction.qmd
+  - /topics/foundation/probability/index.qmd
+learning-goals:
+  - "Distinguish reconstruction, decoding, and representation-learning objectives."
+  - "Explain why modern systems often learn a representation before the final estimation or decision step."
+  - "Recognize bottlenecks, bandwidth limits, and noisy measurements as shared structure across sensing, communication, and ML."
+  - "Connect application-facing language to rate-distortion, variational objectives, inverse problems, and modern ML pipelines."
+applications:
+  - signal-processing
+  - communication
+  - sensing
+  - machine-learning
+keywords:
+  - representation learning
+  - sensing
+  - communication
+  - bottlenecks
+  - latent representations
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+---
+
+## Application Snapshot
+
+Modern systems often do not go directly from raw measurements to a final answer.
+
+They insert an intermediate object:
+
+- a compressed code
+- a feature embedding
+- a latent state estimate
+- or a learned representation
+
+That intermediate object decides what information survives the pipeline.
+
+This page is the shortest bridge for understanding why sensing, communication, and modern ML now keep meeting at the same question:
+
+`what should a bottleneck preserve, and what can it safely throw away?`
+
+## Problem Setting
+
+A common modern pipeline can be written in three stages:
+
+$$
+y = Hx + \eta,
+\qquad
+z = \phi_\theta(y),
+\qquad
+\text{task output} = g(z).
+$$
+
+Here:
+
+- $x$ is the hidden signal, scene, message, or latent object of interest
+- $y$ is the noisy or indirect observation
+- $H$ is the channel, sensor, or forward operator
+- $\eta$ is noise or uncertainty
+- $z$ is the learned or designed representation
+- $g$ is the downstream decoder, predictor, controller, or decision rule
+
+What changes across fields is not the existence of this pipeline.
+What changes is the goal:
+
+- in `communication`, preserve enough information for reliable decoding under a rate budget
+- in `sensing`, preserve enough information for stable reconstruction or inference
+- in `modern ML`, preserve enough information for prediction, retrieval, generation, or control
+
+## Why This Math Appears
+
+This language reuses several math layers already live on the site:
+
+- `Signal Processing and Estimation`: filtering, spectral structure, hidden-state inference, and inverse recovery
+- `Information Theory`: entropy, mutual information, rate-distortion, and bottleneck tradeoffs
+- `Machine Learning`: learned encoders, latent variables, embeddings, and task-driven losses
+- `Optimization`: end-to-end training, regularization, and constrained tradeoffs
+- `Control and Dynamics`: in sequential systems, the representation can become a state estimate or belief summary
+
+So modern representation language is not replacing classical signals or communication ideas.
+It is reusing them inside learned pipelines.
+
+## Math Objects In Use
+
+- hidden object or message $x$
+- observed data $y$
+- forward operator or channel $H$
+- noise $\eta$
+- learned representation $z = \phi_\theta(y)$
+- downstream decoder or predictor $g(z)$
+- resource budget such as rate, bandwidth, storage, or latency
+- success metric such as distortion, classification error, or control performance
+
+At first pass, the main picture is:
+
+- sensing and communication create information bottlenecks
+- learned representations choose what passes through those bottlenecks
+- the right representation depends on the downstream task, not only on raw fidelity
+
+## A Small Worked Walkthrough
+
+Imagine an edge camera watching a busy road intersection.
+
+The physical scene is $x$, the camera produces a noisy observation $y$, and a learned encoder creates a compact representation $z$ before anything is stored, transmitted, or acted on.
+
+That same pipeline can support at least three different goals:
+
+1. `Reconstruction`
+   Send $z$ to a server and reconstruct an image close to the scene.
+   Now fidelity or distortion matters.
+
+2. `Detection or communication`
+   Use $z$ to decide whether an accident or violation occurred.
+   Now decision reliability matters more than pixel-perfect reconstruction.
+
+3. `Representation learning`
+   Train $z$ so it is useful for multiple downstream tasks such as retrieval, prediction, or planning.
+   Now usefulness under a bottleneck matters more than exact recovery.
+
+The raw sensing model may be identical in all three cases.
+
+What changes is:
+
+- which information must survive
+- how much bandwidth or storage is available
+- what loss function defines success
+
+That is the practical bridge from classical signal pipelines into modern learned systems.
+
+## Implementation or Computation Note
+
+Three practical questions sort most modern signal pipelines quickly:
+
+1. `What must survive the bottleneck?`
+   A waveform, a class label, a hidden state, a semantic feature, or a compressed latent code?
+
+2. `What is fixed physics, and what is learned?`
+   Is the channel or sensor known while only the encoder is learned, or is the whole stack adapted end to end?
+
+3. `What metric actually matters?`
+   Distortion, error probability, downstream accuracy, calibration, latency, or energy cost?
+
+4. `Where does robustness come from?`
+   Redundancy, coding, data augmentation, regularization, sensor fusion, or a stronger prior?
+
+Use these pages as the strongest follow-on support:
+
+- [Signal Processing Bridges to Communication, Sensing, and Modern ML](../../topics/advanced/signal-processing-and-estimation/concepts/signal-processing-bridges-to-communication-sensing-and-modern-ml.qmd)
+- [Rate-Distortion and Representation Tradeoffs](../../topics/advanced/information-theory/concepts/rate-distortion-and-representation-tradeoffs.qmd)
+- [Variational Objectives, ELBO, and Information Bounds](../../topics/advanced/information-theory/concepts/variational-objectives-elbo-and-information-bounds.qmd)
+- [Applications > Machine Learning](../machine-learning/index.qmd)
+
+## Failure Modes
+
+- treating any learned embedding as automatically useful for every downstream task
+- praising compression quality without asking what information the task actually needs
+- ignoring sensing physics while optimizing only the learned representation
+- confusing good reconstruction with good detection or decision quality
+- assuming end-to-end learning removes bandwidth, noise, or identifiability limits
+
+## Paper Bridge
+
+- [EE269 / Signal Processing and Quantization for Machine Learning](https://web.stanford.edu/class/ee269/) - `First pass` - official Stanford bridge where signal-processing ideas are made explicit inside modern ML systems. Checked `2026-04-25`.
+- [CS236 lecture 5](https://cs236.stanford.edu/assets/slides/cs236_lecture5.pdf) - `Paper bridge` - official Stanford slide deck showing how latent-variable and representation ideas enter modern generative modeling. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [6.011 / Signals, Systems and Inference](https://ocw.mit.edu/courses/6-011-signals-systems-and-inference-spring-2018/) - `First pass` - official MIT course hub emphasizing how signals, systems, noise, and inference belong to one shared language. Checked `2026-04-25`.
+- [MIT 6.011 objectives and outcomes](https://ocw.mit.edu/courses/6-011-introduction-to-communication-control-and-signal-processing-spring-2010/resources/mit6_011s10_objectives/) - `First pass` - concise MIT statement of how communication, control, and signal processing interlock. Checked `2026-04-25`.
+- [EE269 / Signal Processing and Quantization for Machine Learning](https://web.stanford.edu/class/ee269/) - `Second pass` - official Stanford course page explicitly connecting signal-processing structure to modern ML and representation pipelines. Checked `2026-04-25`.
+- [EE269 slide index](https://web.stanford.edu/class/ee269/slides.html) - `Second pass` - official Stanford slide collection for signal-processing ideas inside ML systems. Checked `2026-04-25`.
+- [EE367 / Computational Imaging](https://web.stanford.edu/class/ee367/) - `Second pass` - official Stanford sensing and reconstruction anchor when learned representations meet inverse problems. Checked `2026-04-25`.
+- [EE376A lecture 12](https://web.stanford.edu/class/ee376a/files/lecture_12.pdf) - `Bridge outward` - useful Stanford rate-distortion entry once representation tradeoffs become information-theoretic. Checked `2026-04-25`.
+- [CS236 lecture 5](https://cs236.stanford.edu/assets/slides/cs236_lecture5.pdf) - `Bridge outward` - official Stanford latent-variable bridge from compact representations into modern generative modeling. Checked `2026-04-25`.

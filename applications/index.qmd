@@ -18,11 +18,11 @@ Start here when you want to answer:
 
 - [Machine Learning](machine-learning/index.qmd)
 - [Control and Dynamics](control-and-dynamics/index.qmd)
+- [Signal and Communication](signal-and-communication/index.qmd)
 
 Later, this section will expand into:
 
 - optimization and inference
 - scientific computing
-- signal and communication
 
 The design rule is simple: every serious application page should point back to the exact math objects it uses.
