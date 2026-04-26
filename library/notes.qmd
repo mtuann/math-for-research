@@ -1,0 +1,55 @@
+---
+title: "Notes"
+---
+
+## Why This Page Matters
+
+Notes are often the best format when you already know the topic name and want the shortest path to the core objects, derivations, and proof skeletons.
+
+They sit between `courses` and `books`:
+
+- shorter than books
+- denser than a full lecture sequence
+- often better when you need to revisit one narrow topic while reading papers
+
+## How To Use Notes Well
+
+Use notes when you want:
+
+- a compressed second pass
+- a fast return to notation and main derivations
+- a topic-specific bridge while reading a paper
+
+Do not expect notes to always be beginner-friendly. They are strongest when you already know what gap you are trying to close.
+
+## Good First-Pass Note Anchors
+
+| Resource | Best for | Use it when |
+|---|---|---|
+| [MIT 18.06 Lecture Notes](https://www.mit.edu/~18.06/Fall19/Lecture%20notes.pdf) | linear algebra objects, least squares, eigenvalues, matrix intuition | you want a compact companion to [Linear Algebra](../topics/foundation/linear-algebra/index.qmd) after the first pass |
+| [STATS 202 Notes](https://web.stanford.edu/class/stats202/notes/) | regression, PCA, modern statistics-to-ML bridges | you want note-style refreshers instead of a full statistics textbook |
+| [MIT 6.241J Lecture Notes](https://ocw.mit.edu/courses/6-241j-dynamic-systems-and-control-spring-2011/pages/lecture-notes/) | state-space models, feedback, controllability, observers | you want a compact systems/control anchor after [ODEs and Dynamical Systems](../topics/advanced/odes-and-dynamical-systems/index.qmd) |
+
+## Strong Second-Pass And Research Bridges
+
+| Resource | Best for | Use it when |
+|---|---|---|
+| [EE376A Lecture Notes](https://web.stanford.edu/class/ee376a/files/lecture_notes.pdf) | entropy, mutual information, coding, rate-distortion | you want the cleanest note-style anchor for [Information Theory](../topics/advanced/information-theory/index.qmd) |
+| [MIT 6.441 Lecture Notes](https://ocw.mit.edu/courses/6-441-information-theory-spring-2016/pages/lecture-notes/) | information-theoretic proofs, source/channel coding structure | you want a second pass once the objects are familiar and the proofs matter more |
+| [STATS 305B Notes](https://web.stanford.edu/class/stats305b/) | regularization, lasso, high-dimensional estimation | you are moving from [Statistics](../topics/foundation/statistics/index.qmd) into [High-Dimensional Statistics](../topics/advanced/high-dimensional-statistics/index.qmd) |
+
+## When Notes Beat Books
+
+Notes are often the better choice when:
+
+- the paper is using one theorem family and you only need that family
+- you need to re-enter a subject quickly after time away
+- you want notation and proof structure more than pedagogy
+
+Books are better when you still need the big picture. Courses are better when you need pacing and worked examples.
+
+## How This Connects To The Site
+
+- [Books](books.qmd) is the better shelf for long-form references.
+- [Courses](courses.qmd) is the better shelf for pacing and lecture order.
+- [Notes](/Users/mitu/Desktop/work/math4life/notes/index.qmd) is a different section of the site: that area is for original essays and research commentary, not external reference notes.

@@ -325,6 +325,8 @@ website:
               - library/index.qmd
               - library/books.qmd
               - library/courses.qmd
+              - library/notes.qmd
+              - library/papers.qmd
           - section: "Notes"
             contents:
               - notes/index.qmd

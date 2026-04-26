@@ -14,7 +14,25 @@ It should help readers answer:
 
 The site itself stays topic-first. The library helps readers choose references once they know what they are trying to learn.
 
-## First Library Guides
+## Library Guides
 
 - [Books](books.qmd)
 - [Courses](courses.qmd)
+- [Notes](notes.qmd)
+- [Papers](papers.qmd)
+
+## A Good First Route
+
+If you want the shortest route through this section, use this order:
+
+1. [Books](books.qmd)
+2. [Courses](courses.qmd)
+3. [Notes](notes.qmd)
+4. [Papers](papers.qmd)
+
+This order usually works because:
+
+- `books` help when you still need the big picture
+- `courses` help when you need pacing and worked examples
+- `notes` help when you already know the topic and want a compact refresher
+- `papers` help when you want the most current or highest-resolution version of a claim

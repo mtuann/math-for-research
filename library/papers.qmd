@@ -1,0 +1,89 @@
+---
+title: "Papers"
+---
+
+## Why This Page Matters
+
+Papers are usually the highest-resolution resource in the library.
+
+They are also the easiest place to get lost.
+
+The problem is not only difficulty. It is that papers are optimized for contribution, not for onboarding.
+
+This page is here to help readers use papers as a tool rather than as a chaos stream.
+
+## How To Use Papers Well
+
+Use papers when you want:
+
+- the cleanest statement of a current contribution
+- the exact assumptions, theorem, or experimental setup behind a result
+- a direct view of how a field is arguing with itself right now
+
+Do not use papers as your first exposure to a topic if a book, course, or note would explain the same objects more cleanly.
+
+## Good Entry Shelves
+
+| Resource | Best for | Use it when |
+|---|---|---|
+| [Journal of Machine Learning Research](https://jmlr.org/) | mature ML papers with more room for detail and exposition | you want papers that are often easier to study slowly than conference versions |
+| [Proceedings of Machine Learning Research](https://proceedings.mlr.press/) | conference proceedings for ICML, AISTATS, COLT, and related venues | you want official conference paper archives grouped by venue and volume |
+| [NeurIPS Proceedings](https://proceedings.neurips.cc/) | broad ML conference papers across many subfields | you want a direct archive for method-heavy and experiment-heavy ML work |
+| [OpenReview](https://openreview.net/) | active conference and journal-style paper discussion, especially ICLR and TMLR ecosystems | you want frontier work, open reviews, or discussion around current papers |
+| [arXiv](https://arxiv.org/) | preprints and fast-moving research directions | you want the earliest public version of a paper or you are tracking a fast-moving topic |
+
+## Use Papers By Job
+
+### If You Are Learning A Topic
+
+A good pattern is:
+
+1. use the site page to get the object map
+2. use a course, note, or book to get structure
+3. use one paper to see how the object appears in research
+
+This is usually better than jumping straight into a random recent paper.
+
+### If You Are Reading For Theory
+
+Prefer papers where the mathematical object is easy to name:
+
+- estimator
+- optimization method
+- dynamical system
+- concentration bound
+- information-theoretic limit
+
+Journal-style papers and cleaner proceedings papers are often better here than the flashiest recent preprint.
+
+### If You Are Reading For Frontier Awareness
+
+Use:
+
+- [OpenReview](https://openreview.net/)
+- [arXiv recent lists for machine learning](https://arxiv.org/list/cs.LG/recent)
+- [arXiv recent lists for optimization](https://arxiv.org/list/math.OC/recent)
+- [arXiv recent lists for probability](https://arxiv.org/list/math.PR/recent)
+
+This is useful when you already know the area and want to track movement, not when you still need the definitions.
+
+## A Good Reading Ladder
+
+If a paper feels too hard, do not force it directly.
+
+Try this ladder instead:
+
+1. survey or roadmap
+2. book / course / notes
+3. one canonical paper
+4. one recent paper
+5. paper clusters around the same claim family
+
+This usually creates much faster progress than trying to brute-force novelty first.
+
+## How This Connects To The Site
+
+- [Books](books.qmd), [Courses](courses.qmd), and [Notes](notes.qmd) help when the paper is too dense relative to your current background.
+- [Research > Surveys](../research/surveys.qmd) is a better first stop when you need a map of a field before opening individual papers.
+- [Research > Venues](../research/venues.qmd) helps interpret what kind of audience and evidence culture a paper is written for.
+- [Paper Lab](../paper-lab/index.qmd) is where the site teaches the actual mechanics of reading papers once you have chosen one.
