@@ -60,6 +60,19 @@ h1, h2, h3, h4 {
   color: var(--ink) !important;
 }
 
+.navbar .navbar-brand-container {
+  min-width: 0;
+}
+
+.navbar .navbar-brand,
+.navbar .navbar-title {
+  display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .navbar .nav-link:hover,
 .navbar .nav-link:focus,
 .navbar .nav-link.active,
@@ -233,5 +246,11 @@ a:hover {
   .hero-panel {
     padding: 1.35rem;
     border-radius: 18px;
+  }
+
+  .navbar .navbar-brand,
+  .navbar .navbar-title {
+    max-width: calc(100vw - 8rem);
+    font-size: 1.05rem;
   }
 }

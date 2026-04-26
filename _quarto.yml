@@ -3,7 +3,7 @@ project:
   output-dir: _site
 
 website:
-  title: "Math for CS / AI / Engineering Research"
+  title: "Math for Research"
   site-url: "https://mtuann.github.io/math-for-research/"
   repo-url: "https://github.com/mtuann/math-for-research"
   repo-branch: main
