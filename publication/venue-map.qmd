@@ -1,0 +1,57 @@
+---
+title: "Venue Map"
+---
+
+## Why This Page Matters
+
+This page is not a prestige chart.
+
+It is a `fit` guide for readers who want to understand where different kinds of papers usually belong, and what sort of evidence each venue family expects.
+
+The practical question is:
+
+`if I make this kind of claim, what audience is likely to care, and what proof or experiment culture will they expect?`
+
+## Read Venue Families, Not Rankings
+
+Single venue names are often misleading when read in isolation.
+
+It is usually more useful to think in families:
+
+- broad ML venues
+- learning-theory and statistics venues
+- optimization and numerical venues
+- control and systems venues
+- signal and communication venues
+
+Each family has a different balance of theorem, experiment, system detail, and application framing.
+
+## A Practical Venue Map
+
+| Venue family | Best fit | What usually carries the paper | Common weak pattern | Official entry points |
+|---|---|---|---|---|
+| Broad ML | methods, models, representation learning, theory-plus-experiment work | a coherent empirical story, strong baselines, and enough theory to clarify the mechanism when theory matters | paper sounds theoretically deep but experiments do not test the stated claim | [NeurIPS](https://neurips.cc/), [ICML](https://icml.cc/), [ICLR](https://iclr.cc/) |
+| Learning theory and statistics | sample complexity, generalization, estimation, concentration, asymptotics | theorem quality, assumption clarity, proof insight, and carefully scoped experiments if experiments appear at all | decorative experiments or theorems whose assumptions do not match the motivating problem | [COLT](https://learningtheory.org/), [AISTATS](https://aistats.org/), [JMLR](https://jmlr.org/), [TMLR](https://openreview.net/group?id=TMLR) |
+| Optimization-heavy ML and inference work | solver behavior, convergence, certificates, conditioning, structured recovery | formulation clarity, guarantees tied to algorithm design, and computational evidence that matches the theory | large benchmark tables used as a substitute for explaining the mathematical object being solved | [NeurIPS](https://neurips.cc/), [ICML](https://icml.cc/), [AISTATS](https://aistats.org/) |
+| Control and systems | dynamics, feedback, estimation, planning, stability, sequential decision-making | state-space clarity, stability or performance guarantees, and experiments or simulations that respect system constraints | applying ML framing without making the controlled system or performance objective precise | [IEEE Control Systems Society](https://www.ieeecss.org/), [Conference information](https://www.ieeecss.org/conferences/general-information), [CDC 2026](https://www.ieeecss.org/event/65th-ieee-conference-decision-and-control) |
+| Signal and communication | filtering, coding, detection, reconstruction, sensing, inverse problems | noise model clarity, reconstruction or error metrics, and careful handling of bandwidth, rate, or sensing constraints | mixing decoding, denoising, and reconstruction claims without saying which objective is primary | [ICASSP](https://resourcecenter.ieee.org/conferences/icassp) |
+
+## How To Use This Map
+
+When reading or shaping a paper, ask these questions in order:
+
+1. What is the main claim type?
+   theorem, algorithm, benchmark, system, or application
+2. What evidence actually supports that claim?
+   proof, simulation, ablation, benchmark, or some mixture
+3. Who is the natural audience?
+   broad ML, theory, optimization, control, signal, or statistics
+4. Which venue family already expects that evidence culture?
+
+If those four answers disagree, the paper often feels confused even before any reviewer points out a flaw.
+
+## How This Connects To The Site
+
+- [How Top-Venue Papers Are Shaped](how-top-venue-papers-are-shaped.qmd) explains the paper-level story once venue fit is clearer.
+- [Claim-Evidence Matrix](claim-evidence-matrix.qmd) helps translate venue expectations into concrete support for each claim.
+- [Research > Venues](../research/venues.qmd) is the reader-facing literature map; this page is the publication-facing fit map.

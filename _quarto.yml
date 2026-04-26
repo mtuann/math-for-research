@@ -311,12 +311,15 @@ website:
           - section: "Publication"
             contents:
               - publication/index.qmd
+              - publication/venue-map.qmd
               - publication/claim-evidence-matrix.qmd
               - publication/how-top-venue-papers-are-shaped.qmd
               - publication/theorem-to-experiment-alignment.qmd
           - section: "Library"
             contents:
               - library/index.qmd
+              - library/books.qmd
+              - library/courses.qmd
           - section: "Notes"
             contents:
               - notes/index.qmd

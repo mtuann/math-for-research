@@ -14,3 +14,7 @@ It should help readers answer:
 
 The site itself stays topic-first. The library helps readers choose references once they know what they are trying to learn.
 
+## First Library Guides
+
+- [Books](books.qmd)
+- [Courses](courses.qmd)

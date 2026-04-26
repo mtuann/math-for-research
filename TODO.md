@@ -17,7 +17,7 @@ Use it to track:
 
 ## Current Snapshot
 
-- `282` `.qmd` pages currently exist
+- `285` `.qmd` pages currently exist
 - `133` concept-topic pages currently exist
 - strongest completed foundation spines so far: `Algebra Repair`, `Discrete Math`, `Linear Algebra`, `Probability`, `Proofs`, `Logic`, `Statistics`, `Single-Variable Calculus`, `Multivariable Calculus`
 - strongest completed advanced spines so far: `Optimization`, `Real Analysis`, `Numerical Methods`, `ODEs and Dynamical Systems`, `Matrix Analysis`, `Learning Theory`, `High-Dimensional Probability`, `High-Dimensional Statistics`, `Information Theory`, `Control and Dynamics`, `Stochastic Control and Dynamic Programming`, `Signal Processing and Estimation`, `Stochastic Processes`
@@ -120,7 +120,7 @@ Use it to track:
 - [x] `How top-venue papers are shaped`
 - [x] `Claim-evidence matrix`
 - [x] `Theorem-to-experiment alignment`
-- [ ] `Venue map`
+- [x] `Venue map`
 - [ ] `Writing theory sections`
 - [ ] `Writing experiment sections`
 - [ ] `Related work and positioning`
@@ -130,8 +130,8 @@ Use it to track:
 ### Library
 
 - [x] `Library index`
-- [ ] `Books`
-- [ ] `Courses`
+- [x] `Books`
+- [x] `Courses`
 - [ ] `Notes`
 - [ ] `Papers`
 
@@ -429,8 +429,8 @@ These are the topics that should eventually become canonical examples for future
 
 Near-term highest-value content steps:
 
-1. [ ] `Build Publication: venue map`
-2. [ ] `Curate Library: books and courses`
+1. [ ] `Build Publication: writing theory sections`
+2. [ ] `Curate Library: notes and papers`
 3. [ ] `Build Applications: Scientific computing`
 4. [ ] `Run local render + visual QA pass`
 
@@ -471,8 +471,8 @@ Yes, there is important work outside topic writing.
 
 ### Library / Reference Layer
 
-- [ ] `Curate books page with first-pass / second-pass / paper-bridge tags`
-- [ ] `Curate courses page with official links`
+- [x] `Curate books page with first-pass / second-pass / paper-bridge tags`
+- [x] `Curate courses page with official links`
 - [ ] `Curate papers page with topic tags`
 - [ ] `Link local ebook collection into source guides selectively, not as the main structure`
 
@@ -480,5 +480,5 @@ Yes, there is important work outside topic writing.
 
 - Current content momentum is strongest in the advanced bridge cluster: `Numerical Methods`, `ODEs and Dynamical Systems`, `Control and Dynamics`, `Stochastic Control and Dynamic Programming`, `Information Theory`, and `Signal Processing and Estimation`.
 - The public-facing application layer now has four full hubs: `Machine Learning`, `Control and dynamics`, `Signal and communication`, and `Optimization and inference`.
-- The next content gaps most worth filling are the remaining `Scientific computing` hub plus publication/library curation.
+- The next content gaps most worth filling are the remaining `Scientific computing` hub plus deeper `Publication` and `Library` curation.
 - The next non-content task most worth doing is a `local render + visual QA pass`.

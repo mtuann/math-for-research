@@ -1,0 +1,52 @@
+---
+title: "Courses"
+---
+
+## Why This Page Matters
+
+Courses are often the best middle layer between topic pages and full books.
+
+They give you:
+
+- pacing
+- lecture order
+- worked examples
+- a stronger sense of what counts as core versus optional
+
+## Good First-Pass Anchors
+
+| Course | Best for | Use it when |
+|---|---|---|
+| [MIT 6.042J Mathematics for Computer Science](https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-fall-2010/) | proofs, counting, graphs, discrete probability | you want a structured first pass through `Discrete Math` and proof habits |
+| [MIT 18.06 Linear Algebra](https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/) | vectors, least squares, eigenvalues, matrix thinking | you want the strongest first-pass companion to [Linear Algebra](../topics/foundation/linear-algebra/index.qmd) |
+| [EE364A Convex Optimization I](https://web.stanford.edu/class/ee364a/) | convexity, duality, optimization modeling | you want the cleanest lecture route into [Optimization](../topics/advanced/optimization/index.qmd) |
+| [MIT 6.241J Dynamic Systems and Control](https://ocw.mit.edu/courses/6-241j-dynamic-systems-and-control-spring-2011/) | state-space, feedback, controllability, observers | you want a first coherent route through `systems` and `control` language |
+
+## Strong Second-Pass And Advanced Anchors
+
+| Course | Best for | Use it when |
+|---|---|---|
+| [STATS 202](https://web.stanford.edu/class/stats202/) | regression, PCA, high-dimensional regression notes | you want a statistics-to-ML bridge that stays mathematically clean |
+| [STATS 305B](https://web.stanford.edu/class/stats305b/) | likelihoods, regularization, lasso, modern statistical estimation | you are moving toward [High-Dimensional Statistics](../topics/advanced/high-dimensional-statistics/index.qmd) |
+| [EE376A Information Theory](https://web.stanford.edu/class/ee376a/) | entropy, mutual information, coding, rate-distortion | you want the best course anchor for [Information Theory](../topics/advanced/information-theory/index.qmd) |
+| [EE278 Statistical Signal Processing](https://web.stanford.edu/class/ee278/) | estimation, filtering, hidden-state models | you want a second-pass companion to [Signal Processing and Estimation](../topics/advanced/signal-processing-and-estimation/index.qmd) |
+| [MIT 6.438 Algorithms for Inference](https://ocw.mit.edu/courses/6-438-algorithms-for-inference-fall-2014/) | hidden variables, graphical-model inference, message-passing viewpoint | you want a more algorithmic route into inference than a pure statistics course |
+| [CS236 Deep Generative Models](https://cs236.stanford.edu/) | variational inference, latent-variable models, modern generative modeling | you want the shortest official bridge from inference math into modern ML papers |
+| [CS238 Decision Making Under Uncertainty](https://bulletin.stanford.edu/courses/2158402) | MDPs, POMDPs, planning, RL/control bridges | you want the cleanest course bridge from control and inference into sequential decision-making |
+
+## How To Choose Between Books And Courses
+
+Choose a `course` if you want pacing and worked examples.
+
+Choose a `book` if you want a durable reference you can return to across many topics.
+
+In practice, a strong pattern is:
+
+1. start from the site's topic page
+2. use a course for first structure
+3. keep one book-length reference nearby for second pass
+
+## How This Connects To The Site
+
+- [Books](books.qmd) is the better shelf when you want long-form references rather than lecture pacing.
+- [Publication](../publication/index.qmd) matters later, once you are reading papers often enough that venue fit and evidence design start to matter.

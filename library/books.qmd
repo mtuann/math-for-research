@@ -1,0 +1,50 @@
+---
+title: "Books"
+---
+
+## Why This Page Matters
+
+The site is topic-first.
+
+This page exists for the moment when a reader wants a longer reference and needs help choosing one that matches the job:
+
+- first pass
+- second pass
+- paper-reading bridge
+
+## How To Use This Shelf
+
+Do not ask which book is "best" in the abstract.
+
+Ask:
+
+- do I need a first explanation or a deeper second pass?
+- do I want a theorem-heavy reference or a practical bridge?
+- do I want something to study cover-to-cover, or something to consult while reading papers?
+
+## Good First-Pass Anchors
+
+| Resource | Best for | Use it when |
+|---|---|---|
+| [Mathematics for Computer Science](https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-fall-2010/) | discrete math, proof habits, counting, graph basics | you want a broad first-pass reference that supports `Proofs`, `Logic`, and `Discrete Math` together |
+| [Convex Optimization](https://web.stanford.edu/~boyd/cvxbook/) | convex sets, duality, optimization modeling | you want the cleanest long-form anchor for [Optimization](../topics/advanced/optimization/index.qmd) |
+| [Understanding Machine Learning](https://www.cs.huji.ac.il/~shais/UnderstandingMachineLearning/) | learning setup, generalization, supervised learning foundations | you want a theorem-aware but still readable bridge into [Learning Theory](../topics/advanced/learning-theory/index.qmd) |
+
+## Strong Second-Pass References
+
+| Resource | Best for | Use it when |
+|---|---|---|
+| [High-Dimensional Probability](https://www.math.uci.edu/~rvershyn/papers/HDP-book/HDP-book.html) | concentration, random matrices, geometric probability | you already know basic probability and want a serious second pass into [High-Dimensional Probability](../topics/advanced/high-dimensional-probability/index.qmd) |
+| [Algorithms for Decision Making](https://algorithmsbook.com/decisionmaking/) | planning, POMDPs, sequential decisions | you want a bridge from probability and control into [Stochastic Control and Dynamic Programming](../topics/advanced/stochastic-control-and-dynamic-programming/index.qmd) |
+| [Decision Making Under Uncertainty](https://web.stanford.edu/group/sisl/public/dmu.pdf) | planning under uncertainty, belief states, sequential models | you want a systems-facing reference after the site's `control`, `signal`, and `stochastic control` routes |
+
+## Best Use While Reading Papers
+
+- Use `first-pass` anchors to get unstuck on language and object definitions.
+- Use `second-pass` references when a paper keeps leaning on one theorem family or modeling pattern.
+- Return to the site pages first for orientation, then open the longer reference once you know exactly what gap you are trying to fill.
+
+## How This Connects To The Site
+
+- [Courses](courses.qmd) is the faster route when you want lectures, notes, and pacing instead of a long reference.
+- [Roadmaps](../roadmaps/index.qmd) helps decide `which subject next`; this page helps decide `which long-form reference for that subject`.

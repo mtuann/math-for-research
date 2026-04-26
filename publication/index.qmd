@@ -14,7 +14,7 @@ It exists because many learners eventually need to understand how strong papers 
 
 ## First Publication Guides
 
+- [Venue Map](venue-map.qmd)
 - [Claim-Evidence Matrix](claim-evidence-matrix.qmd)
 - [How Top-Venue Papers Are Shaped](how-top-venue-papers-are-shaped.qmd)
 - [Theorem-to-Experiment Alignment](theorem-to-experiment-alignment.qmd)
-
