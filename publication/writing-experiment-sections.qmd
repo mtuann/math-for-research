@@ -1,0 +1,119 @@
+---
+title: "Writing Experiment Sections"
+---
+
+## Why This Page Matters
+
+Many weak experiment sections fail for a simple reason:
+
+they produce results, but they do not answer the paper's actual claims.
+
+A strong experiment section is not just a collection of tables.
+
+It is a structured argument about:
+
+- what should be compared
+- which variables matter
+- what counts as success
+- which failure cases would change the reader's trust
+
+## What An Experiment Section Has To Do
+
+A strong experiment section usually has to do five things clearly:
+
+1. say what claim each experiment is testing
+2. choose baselines that make the comparison meaningful
+3. use metrics that match the paper's stated objective
+4. show enough ablations or sensitivity checks to isolate the mechanism
+5. report limitations, instability, or failure regimes honestly
+
+If one of those is missing, the section often feels like evaluation theater rather than evidence.
+
+## The Load-Bearing Parts
+
+### Claim-to-Experiment Matching
+
+Before writing any result table, the paper should know:
+
+- which claim is about accuracy or predictive performance
+- which claim is about efficiency or scalability
+- which claim is about robustness, calibration, or stability
+- which claim is about interpretability, structure, or mechanism
+
+Each experiment should support a claim that the paper has already made.
+
+### Baselines
+
+Baselines should be chosen to make the comparison honest.
+
+The reader should be able to tell:
+
+- why these baselines were selected
+- whether they are strong enough to make the win meaningful
+- whether implementation details make the comparison fair
+
+Weak baselines can make even a true improvement look suspicious.
+
+### Metrics
+
+Metrics should match the real objective of the paper.
+
+If the claim is about:
+
+- prediction, use predictive metrics
+- uncertainty, use calibration or uncertainty metrics
+- reconstruction, use reconstruction metrics
+- detection or decoding, use error or decision metrics
+- efficiency, report runtime, memory, or compute setting clearly
+
+One of the fastest ways to lose trust is to optimize one thing and report another.
+
+### Ablations And Sensitivity Checks
+
+Ablations should answer:
+
+- which component is carrying the gain?
+- how sensitive is the result to hyperparameters or design choices?
+- does the method still behave sensibly outside the best-case setting?
+
+Without this, the reader often cannot tell whether the proposed mechanism matters or whether the result is fragile.
+
+### Failure Cases
+
+Failure analysis is not optional polish.
+
+It is part of the evidence.
+
+If the paper never shows:
+
+- where performance drops
+- where assumptions fail
+- which settings are unstable
+
+then the experiment section is probably overstating what was learned.
+
+## Common Failure Modes
+
+- benchmark tables appear before the reader knows what claim they are meant to test
+- baselines are weak, outdated, or badly tuned
+- metrics do not match the paper's stated objective
+- ablations are too shallow to isolate the main mechanism
+- the section hides variance, instability, or failure regimes
+
+## A Practical Writing Loop
+
+Before polishing prose, force the section through this loop:
+
+1. list the main claims
+2. assign at least one experiment to each claim
+3. justify the baseline set in one sentence each
+4. check whether every reported metric answers a stated objective
+5. add one explicit failure, limitation, or stress-test subsection
+
+If step `2` or `4` fails, the issue is usually paper design rather than presentation.
+
+## How This Connects To The Site
+
+- [Claim-Evidence Matrix](claim-evidence-matrix.qmd) helps map each empirical claim to the evidence it still needs.
+- [Theorem-to-Experiment Alignment](theorem-to-experiment-alignment.qmd) matters when theory and experiments coexist in the same paper.
+- [Writing Theory Sections](writing-theory-sections.qmd) is the companion page on the theorem side of the story.

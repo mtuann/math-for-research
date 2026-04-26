@@ -1,0 +1,112 @@
+---
+title: "Review and Rebuttal"
+---
+
+## Why This Page Matters
+
+Many people think rebuttal is about defending the paper at all costs.
+
+That is usually the wrong mindset.
+
+Review is a stress test on:
+
+- claim clarity
+- evidence quality
+- scope calibration
+- reproducibility
+- reader trust
+
+A strong rebuttal does not try to win every argument.
+
+It tries to make the paper easier to trust.
+
+## What Review And Rebuttal Have To Do
+
+A strong rebuttal usually has to do four things clearly:
+
+1. identify which reviewer concerns actually affect the paper's core claims
+2. separate misunderstanding from genuine weakness
+3. respond with evidence, clarification, or scope correction
+4. improve the paper rather than only argue about it
+
+If one of those is missing, rebuttal often becomes either defensive or unfocused.
+
+## The Load-Bearing Parts
+
+### Separate Signal From Noise
+
+Not every reviewer comment matters equally.
+
+The first task is to classify comments:
+
+- misunderstanding caused by unclear writing
+- valid concern about assumptions, evidence, or fairness
+- request that is useful but not central
+- request that would change the paper into a different project
+
+This classification determines what should be clarified, what should be fixed, and what should be declined politely.
+
+### Respond To Claims, Not To Tone
+
+Good rebuttals answer the substance of the comment.
+
+That usually means replying with one of:
+
+- a clarification of what the paper already claims
+- new evidence or analysis
+- a narrower, more honest statement of scope
+- a commitment to revise wording or experimental detail in the next version
+
+Arguing about tone rarely helps.
+
+### Concede Real Weaknesses Cleanly
+
+If a reviewer has found a real weakness, the right move is usually to name it directly.
+
+Examples:
+
+- a baseline should have been included
+- a theorem assumption was underinterpreted
+- an experiment did not test the stated mechanism closely enough
+- a reproducibility detail was missing
+
+Conceding precisely often increases trust more than overdefending.
+
+### Keep The Story Coherent
+
+The rebuttal should not accidentally change the paper's contribution type.
+
+If the paper is mainly:
+
+- theorem-driven
+- empirical
+- systems-facing
+- unifying or expository
+
+then the rebuttal should reinforce that identity rather than stretch into claims the original paper cannot carry.
+
+## Common Failure Modes
+
+- answering every comment with equal weight
+- treating clear reviewer confusion as reviewer failure instead of writing failure
+- making new claims in rebuttal that the paper cannot actually support
+- promising experiments, proofs, or baselines that would change the whole paper if completed
+- sounding combative when a narrow, evidence-based answer would be stronger
+
+## A Practical Rebuttal Loop
+
+Before finalizing a rebuttal, force it through this loop:
+
+1. rewrite each reviewer concern as a claim-risk question
+2. group overlapping comments into a few core issues
+3. decide for each issue whether the response is clarification, new evidence, or scope correction
+4. check whether the revised response still matches the paper's real contribution
+5. list which fixes must go into the next draft even if the rebuttal is not enough on its own
+
+This keeps rebuttal tied to paper improvement rather than short-term argument.
+
+## How This Connects To The Site
+
+- [Claim-Evidence Matrix](claim-evidence-matrix.qmd) helps diagnose whether a reviewer concern is really an evidence mismatch.
+- [Writing Theory Sections](writing-theory-sections.qmd) and [Writing Experiment Sections](writing-experiment-sections.qmd) are where many rebuttal problems start upstream.
+- [Reproducibility Checklist](reproducibility-checklist.qmd) covers another common source of reviewer distrust.

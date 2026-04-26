@@ -1,0 +1,102 @@
+---
+title: "Writing Theory Sections"
+---
+
+## Why This Page Matters
+
+Many weak theory sections are not mathematically false.
+
+They are weak because the reader cannot tell:
+
+- what is being claimed
+- under which assumptions
+- why the theorem matters
+- how the proof idea connects to the rest of the paper
+
+The job of a theory section is not just to contain correct statements.
+
+Its job is to make the reader trust that the mathematics is carrying a real part of the paper's story.
+
+## What A Theory Section Has To Do
+
+A strong theory section usually does four things clearly:
+
+1. names the question
+2. states the assumptions without hiding them
+3. tells the reader what the main result actually says
+4. explains why that result is relevant to the paper's broader contribution
+
+If one of those pieces is missing, the section often feels decorative even when the proof is correct.
+
+## The Load-Bearing Parts
+
+### Problem Setup
+
+The reader should know exactly what object is being studied:
+
+- estimator
+- algorithm
+- model
+- dynamical system
+- stochastic process
+
+This setup should use the same names and notation that the rest of the paper uses.
+
+### Assumptions
+
+Assumptions should be visible, not buried.
+
+The important question is not only whether the assumptions are standard, but whether the paper helps the reader understand:
+
+- which assumptions are structural
+- which are technical
+- which are likely to fail in practice
+
+### Main Theorem Statements
+
+A theorem statement should make three things easy to see:
+
+- the regime
+- the guarantee
+- the dependence on the important variables
+
+If the theorem is long, the paper should still give the reader a short sentence saying what changed relative to prior work.
+
+### Interpretation
+
+The section should not end at "the theorem is proved."
+
+It should say what the theorem teaches:
+
+- better dependence on noise?
+- weaker assumptions?
+- sharper sample complexity?
+- stability under perturbation?
+- justification for an empirical pattern?
+
+That interpretation is often the difference between a theorem section and a proof dump.
+
+## Common Failure Modes
+
+- theorem statements appear before the reader knows why those objects matter
+- assumptions are technically correct but never interpreted
+- notation changes between introduction, method, and theorem section
+- the main proof idea is never summarized
+- experiments later claim stronger support than the theorem actually gives
+
+## A Practical Writing Loop
+
+Before polishing prose, force the section through this loop:
+
+1. write the main theorem in its shortest honest form
+2. list every assumption in plain language
+3. write two sentences of interpretation for each result
+4. check whether the experiments probe anything the theorem actually talks about
+
+If step `4` fails, the issue is often paper design, not theory writing.
+
+## How This Connects To The Site
+
+- [Claim-Evidence Matrix](claim-evidence-matrix.qmd) helps decide what evidence a theorem claim still needs.
+- [Theorem-to-Experiment Alignment](theorem-to-experiment-alignment.qmd) matters once the theory section is no longer isolated from the empirical story.
+- [How Top-Venue Papers Are Shaped](how-top-venue-papers-are-shaped.qmd) gives the larger paper-level framing around this page.

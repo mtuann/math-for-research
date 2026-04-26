@@ -17,7 +17,7 @@ Use it to track:
 
 ## Current Snapshot
 
-- `285` `.qmd` pages currently exist
+- `290` `.qmd` pages currently exist
 - `133` concept-topic pages currently exist
 - strongest completed foundation spines so far: `Algebra Repair`, `Discrete Math`, `Linear Algebra`, `Probability`, `Proofs`, `Logic`, `Statistics`, `Single-Variable Calculus`, `Multivariable Calculus`
 - strongest completed advanced spines so far: `Optimization`, `Real Analysis`, `Numerical Methods`, `ODEs and Dynamical Systems`, `Matrix Analysis`, `Learning Theory`, `High-Dimensional Probability`, `High-Dimensional Statistics`, `Information Theory`, `Control and Dynamics`, `Stochastic Control and Dynamic Programming`, `Signal Processing and Estimation`, `Stochastic Processes`
@@ -121,11 +121,11 @@ Use it to track:
 - [x] `Claim-evidence matrix`
 - [x] `Theorem-to-experiment alignment`
 - [x] `Venue map`
-- [ ] `Writing theory sections`
-- [ ] `Writing experiment sections`
-- [ ] `Related work and positioning`
-- [ ] `Reproducibility checklist`
-- [ ] `Review and rebuttal`
+- [x] `Writing theory sections`
+- [x] `Writing experiment sections`
+- [x] `Related work and positioning`
+- [x] `Reproducibility checklist`
+- [x] `Review and rebuttal`
 
 ### Library
 
@@ -429,10 +429,9 @@ These are the topics that should eventually become canonical examples for future
 
 Near-term highest-value content steps:
 
-1. [ ] `Build Publication: writing theory sections`
-2. [ ] `Curate Library: notes and papers`
-3. [ ] `Build Applications: Scientific computing`
-4. [ ] `Run local render + visual QA pass`
+1. [ ] `Curate Library: notes and papers`
+2. [ ] `Build Applications: Scientific computing`
+3. [ ] `Run local render + visual QA pass`
 
 ## Work Outside Topic Content
 
@@ -480,5 +479,5 @@ Yes, there is important work outside topic writing.
 
 - Current content momentum is strongest in the advanced bridge cluster: `Numerical Methods`, `ODEs and Dynamical Systems`, `Control and Dynamics`, `Stochastic Control and Dynamic Programming`, `Information Theory`, and `Signal Processing and Estimation`.
 - The public-facing application layer now has four full hubs: `Machine Learning`, `Control and dynamics`, `Signal and communication`, and `Optimization and inference`.
-- The next content gaps most worth filling are the remaining `Scientific computing` hub plus deeper `Publication` and `Library` curation.
+- The next content gaps most worth filling are the remaining `Scientific computing` hub plus deeper `Library` curation.
 - The next non-content task most worth doing is a `local render + visual QA pass`.

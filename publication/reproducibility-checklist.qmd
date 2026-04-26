@@ -1,0 +1,92 @@
+---
+title: "Reproducibility Checklist"
+---
+
+## Why This Page Matters
+
+A paper can have an interesting idea and still lose trust if readers cannot tell how to reproduce the result.
+
+Reproducibility is not only about posting code.
+
+It is about making the full evidence path legible:
+
+- what was run
+- under which settings
+- on which data
+- with which metrics
+- and with which sources of variance
+
+## What This Checklist Is For
+
+Use this page before submission, before release, and before writing camera-ready revisions.
+
+The goal is simple:
+
+`could a careful reader reproduce the main claims without guessing the missing pieces?`
+
+## Core Checklist
+
+### Problem Setup
+
+- Is the task definition explicit?
+- Are training, validation, and test splits described clearly?
+- Are data preprocessing or filtering steps visible?
+- Are the target metrics defined before the results table appears?
+
+### Model Or Method Specification
+
+- Is the method described precisely enough to re-implement?
+- Are architecture or solver choices stated explicitly?
+- Are important hyperparameters listed?
+- Are stopping criteria, tolerances, or iteration budgets reported?
+
+### Data And Evaluation
+
+- Is the dataset source named clearly?
+- Are versions, subsets, or benchmark variants specified?
+- Are baseline implementations identified?
+- Are evaluation conditions matched fairly across methods?
+
+### Randomness And Variance
+
+- Are seeds, repeated runs, or confidence summaries reported where relevant?
+- Does the paper say whether results are single-run, averaged, or selected?
+- Are unstable regimes or high-variance settings acknowledged?
+
+### Compute And Runtime Context
+
+- Is the hardware or runtime environment described when efficiency matters?
+- Are memory, batch size, or wall-clock details reported when they affect the claim?
+- Are comparisons fair on compute budget when speed or scale is part of the story?
+
+### Artifacts
+
+- Is code available, or is release status stated clearly?
+- Are configuration files, scripts, or command patterns included?
+- Are trained checkpoints, generated data, or intermediate artifacts needed?
+- Are licenses or access restrictions on data and code mentioned?
+
+## Common Failure Modes
+
+- tables report results but do not say how hyperparameters were chosen
+- baseline settings are underdescribed while the proposed method is overdescribed
+- dataset splits or preprocessing choices are missing
+- only best runs are shown without saying so
+- reproducibility depends on hidden engineering choices that never appear in the paper
+
+## A Practical Submission Loop
+
+Before submission, force the paper through this loop:
+
+1. ask one teammate to reproduce one main result from the written instructions alone
+2. list every place where they had to guess
+3. move the most important guessed items into the paper, appendix, or artifact guide
+4. check that the paper's strongest claims still have matching reproducibility support
+
+This loop often reveals gaps faster than another round of prose polishing.
+
+## How This Connects To The Site
+
+- [Writing Experiment Sections](writing-experiment-sections.qmd) helps shape the evidence; this page helps make that evidence rerunnable and auditable.
+- [Claim-Evidence Matrix](claim-evidence-matrix.qmd) helps decide what evidence must exist before reproducibility details are even useful.
+- `Review and rebuttal` is where many reproducibility weaknesses show up as reviewer questions.

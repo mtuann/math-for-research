@@ -12,9 +12,28 @@ It exists because many learners eventually need to understand how strong papers 
 - how theorems and experiments support each other
 - how positioning and evidence shape reviewer trust
 
-## First Publication Guides
+## Publication Guides
 
 - [Venue Map](venue-map.qmd)
-- [Claim-Evidence Matrix](claim-evidence-matrix.qmd)
 - [How Top-Venue Papers Are Shaped](how-top-venue-papers-are-shaped.qmd)
+- [Claim-Evidence Matrix](claim-evidence-matrix.qmd)
+- [Related Work and Positioning](related-work-and-positioning.qmd)
 - [Theorem-to-Experiment Alignment](theorem-to-experiment-alignment.qmd)
+- [Writing Theory Sections](writing-theory-sections.qmd)
+- [Writing Experiment Sections](writing-experiment-sections.qmd)
+- [Reproducibility Checklist](reproducibility-checklist.qmd)
+- [Review and Rebuttal](review-and-rebuttal.qmd)
+
+## A Good First Route
+
+If you want the shortest route through this section, use this order:
+
+1. [Venue Map](venue-map.qmd)
+2. [How Top-Venue Papers Are Shaped](how-top-venue-papers-are-shaped.qmd)
+3. [Claim-Evidence Matrix](claim-evidence-matrix.qmd)
+4. [Related Work and Positioning](related-work-and-positioning.qmd)
+5. [Theorem-to-Experiment Alignment](theorem-to-experiment-alignment.qmd)
+6. [Writing Theory Sections](writing-theory-sections.qmd)
+7. [Writing Experiment Sections](writing-experiment-sections.qmd)
+8. [Reproducibility Checklist](reproducibility-checklist.qmd)
+9. [Review and Rebuttal](review-and-rebuttal.qmd)

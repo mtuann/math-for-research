@@ -312,9 +312,14 @@ website:
             contents:
               - publication/index.qmd
               - publication/venue-map.qmd
-              - publication/claim-evidence-matrix.qmd
               - publication/how-top-venue-papers-are-shaped.qmd
+              - publication/claim-evidence-matrix.qmd
+              - publication/related-work-and-positioning.qmd
               - publication/theorem-to-experiment-alignment.qmd
+              - publication/writing-theory-sections.qmd
+              - publication/writing-experiment-sections.qmd
+              - publication/reproducibility-checklist.qmd
+              - publication/review-and-rebuttal.qmd
           - section: "Library"
             contents:
               - library/index.qmd

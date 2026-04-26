@@ -1,0 +1,117 @@
+---
+title: "Related Work and Positioning"
+---
+
+## Why This Page Matters
+
+Many weak papers do not fail because the core idea is empty.
+
+They fail because the reader cannot tell where the idea sits relative to existing work.
+
+A strong related-work section is not a bibliography dump.
+
+It is a positioning tool.
+
+Its job is to help the reader answer:
+
+- what kind of contribution this paper is making
+- which nearby papers it should actually be compared against
+- what is genuinely different, sharper, broader, or more practical here
+
+## What A Related-Work Section Has To Do
+
+A strong related-work section usually has to do four things clearly:
+
+1. identify the closest comparison families
+2. explain the comparison axes that matter
+3. say what is new without inflating the claim
+4. make the paper's scope look calibrated rather than isolated
+
+If one of those is missing, the section often feels either vague or defensive.
+
+## The Load-Bearing Parts
+
+### Choose Work By Comparison Value, Not By Exhaustion
+
+The goal is not to cite everything.
+
+The goal is to cite the work that helps the reader understand the paper's real neighborhood.
+
+That usually means:
+
+- the most directly competing methods
+- the most conceptually similar prior ideas
+- the strongest older baselines the reader will expect to see
+- one or two broader families that explain the paper's audience
+
+### Compare On Explicit Axes
+
+Good positioning names the axis of comparison instead of leaving the reader to guess.
+
+Useful axes include:
+
+- stronger guarantee
+- weaker assumption
+- better scaling
+- cleaner formulation
+- broader applicability
+- better empirical performance
+- different problem setting
+
+Without explicit axes, related work often collapses into vague verbs like "extends" or "differs from."
+
+### Name The Contribution Type Honestly
+
+The reader should be able to tell whether the paper is primarily:
+
+- a theorem paper
+- an algorithm paper
+- an empirical paper
+- a systems paper
+- a synthesis or unifying-viewpoint paper
+
+Problems start when the paper tries to claim all of these at once.
+
+### Calibrate Novelty
+
+Positioning should make the contribution legible, not maximal.
+
+Good novelty language usually sounds like:
+
+- sharper dependence under a known setup
+- first bridge between two existing lines
+- cleaner formulation of an old object
+- stronger evidence for a mechanism people suspected but had not isolated
+
+Bad novelty language usually sounds like:
+
+- first ever
+- fundamentally new in every respect
+- solves the problem completely
+
+unless the paper can truly carry that burden.
+
+## Common Failure Modes
+
+- citing a long list of papers without grouping them into meaningful families
+- comparing only to weak or convenient baselines
+- hiding the true closest competitor because the distinction is uncomfortable
+- overstating novelty where the real contribution is a sharper or cleaner version of existing work
+- writing a related-work section that never connects back to the paper's actual claims
+
+## A Practical Writing Loop
+
+Before polishing prose, force the section through this loop:
+
+1. list the three nearest comparison families
+2. name one comparison axis for each family
+3. write one sentence saying what this paper does not claim to improve
+4. check whether the introduction and conclusion use the same positioning language
+
+Step `3` matters because honest scope often makes novelty more believable, not less.
+
+## How This Connects To The Site
+
+- [Venue Map](venue-map.qmd) helps decide which audience and evidence culture the positioning should face.
+- [How Top-Venue Papers Are Shaped](how-top-venue-papers-are-shaped.qmd) gives the larger paper-level story around contribution type.
+- [Claim-Evidence Matrix](claim-evidence-matrix.qmd) matters once the paper has decided what it is actually claiming relative to prior work.
