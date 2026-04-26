@@ -25,8 +25,8 @@ keywords:
   - stationary distribution
   - Markov chains
 maintainer: mtuann
-last-reviewed: 2026-04-25
-source-check-date: 2026-04-25
+last-reviewed: 2026-04-26
+source-check-date: 2026-04-26
 review-cadence: annual
 date-modified: last-modified
 draft: false
@@ -63,7 +63,7 @@ This is where stochastic processes become a bridge to MCMC and inference.
 
 ## First-Pass Promise
 
-You can read this page before the full module spine is complete.
+You can read this page on its own inside the full module spine.
 
 If you stop here, you should still understand:
 
@@ -283,13 +283,12 @@ If you stop here, retain these five ideas:
 
 The strongest adjacent live pages right now are:
 
+- [Martingales and Optional Stopping Intuition](martingales-and-optional-stopping-intuition.qmd)
 - [Markov Chains and Stationary Distributions](markov-chains-and-stationary-distributions.qmd)
 - [High-Dimensional Statistics](../../high-dimensional-statistics/index.qmd)
 - [Information-Theoretic Lower Bounds in Statistics, Learning, and Communication](../../information-theory/concepts/information-theoretic-lower-bounds-in-statistics-learning-and-communication.qmd)
 
-The remaining intended page in this module is:
-
-- `Martingales and Optional Stopping Intuition`
+This page now sits at the long-run end of the full first-pass spine.
 
 ## Optional Deeper Reading After First Pass
 

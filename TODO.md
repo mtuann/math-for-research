@@ -17,10 +17,10 @@ Use it to track:
 
 ## Current Snapshot
 
-- `274` `.qmd` pages currently exist
-- `132` concept-topic pages currently exist
+- `275` `.qmd` pages currently exist
+- `133` concept-topic pages currently exist
 - strongest completed foundation spines so far: `Algebra Repair`, `Discrete Math`, `Linear Algebra`, `Probability`, `Proofs`, `Logic`, `Statistics`, `Single-Variable Calculus`, `Multivariable Calculus`
-- strongest completed advanced spines so far: `Optimization`, `Real Analysis`, `Numerical Methods`, `ODEs and Dynamical Systems`, `Matrix Analysis`, `Learning Theory`, `High-Dimensional Probability`, `High-Dimensional Statistics`, `Information Theory`, `Control and Dynamics`, `Stochastic Control and Dynamic Programming`, `Signal Processing and Estimation`
+- strongest completed advanced spines so far: `Optimization`, `Real Analysis`, `Numerical Methods`, `ODEs and Dynamical Systems`, `Matrix Analysis`, `Learning Theory`, `High-Dimensional Probability`, `High-Dimensional Statistics`, `Information Theory`, `Control and Dynamics`, `Stochastic Control and Dynamic Programming`, `Signal Processing and Estimation`, `Stochastic Processes`
 - strongest public-facing bridges so far: `Applications > Machine Learning`, `Applications > Control and dynamics`, `Applications > Signal and communication`
 - non-topic sections already scaffolded: `Start Here`, `Roadmaps`, `Applications`, `Paper Lab`, `Research`, `Publication`, `Library`, `Notes`
 
@@ -383,7 +383,7 @@ These are not required before the main spine is public, but they are the next hi
 - [x] `Brownian motion and diffusion intuition`
 - [x] `SDEs and Ito intuition`
 - [x] `Mixing, ergodicity, and MCMC bridges`
-- [ ] `Martingales and optional stopping intuition`
+- [x] `Martingales and optional stopping intuition`
 
 ## Gold-Standard Topic Targets
 
@@ -423,9 +423,9 @@ These are the topics that should eventually become canonical examples for future
 
 Near-term highest-value content steps:
 
-1. [ ] `Continue Advanced: Stochastic Processes module`
-2. [ ] `Build Publication: venue map`
-3. [ ] `Curate Library: books and courses`
+1. [ ] `Build Publication: venue map`
+2. [ ] `Curate Library: books and courses`
+3. [ ] `Build Applications: Optimization and inference`
 4. [ ] `Run local render + visual QA pass`
 
 ## Work Outside Topic Content
@@ -474,5 +474,5 @@ Yes, there is important work outside topic writing.
 
 - Current content momentum is strongest in the advanced bridge cluster: `Numerical Methods`, `ODEs and Dynamical Systems`, `Control and Dynamics`, `Stochastic Control and Dynamic Programming`, `Information Theory`, and `Signal Processing and Estimation`.
 - The public-facing application layer now has three full hubs: `Machine Learning`, `Control and dynamics`, and `Signal and communication`.
-- The next content gaps most worth filling are the rest of `Stochastic Processes` and the remaining application hubs such as `Optimization and inference` and `Scientific computing`.
+- The next content gaps most worth filling are the remaining application hubs such as `Optimization and inference` and `Scientific computing`, plus publication/library curation.
 - The next non-content task most worth doing is a `local render + visual QA pass`.

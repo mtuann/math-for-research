@@ -24,8 +24,8 @@ keywords:
   - exponential waiting time
   - arrivals
 maintainer: mtuann
-last-reviewed: 2026-04-25
-source-check-date: 2026-04-25
+last-reviewed: 2026-04-26
+source-check-date: 2026-04-26
 review-cadence: annual
 date-modified: last-modified
 draft: false
@@ -61,7 +61,7 @@ This is where stochastic processes stop looking only like random state evolution
 
 ## First-Pass Promise
 
-You can read this page even before the full module spine is complete.
+You can read this page on its own inside the full module spine.
 
 If you stop here, you should still understand:
 
@@ -280,14 +280,15 @@ If you stop here, retain these five ideas:
 The strongest adjacent live pages right now are:
 
 - [Probability](../../../foundation/probability/index.qmd)
+- [Martingales and Optional Stopping Intuition](martingales-and-optional-stopping-intuition.qmd)
 - [Markov Chains and Stationary Distributions](markov-chains-and-stationary-distributions.qmd)
 - [Controlled Markov Models, Policies, and Cost Functionals](../../stochastic-control-and-dynamic-programming/concepts/controlled-markov-models-policies-and-cost-functionals.qmd)
 - [Signals, Channels, and Noisy Measurements](../../../../applications/signal-and-communication/signals-channels-and-noisy-measurements.qmd)
 - [State Estimation, Smoothing, and Hidden-State Inference](../../signal-processing-and-estimation/concepts/state-estimation-smoothing-and-hidden-state-inference.qmd)
 
-The intended conceptual bridge still missing between the current live pages is:
+The natural conditional-expectation bridge in this module is:
 
-- `Martingales and Optional Stopping Intuition`
+- [Martingales and Optional Stopping Intuition](martingales-and-optional-stopping-intuition.qmd)
 
 ## Optional Deeper Reading After First Pass
 

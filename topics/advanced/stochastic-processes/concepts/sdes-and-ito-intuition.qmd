@@ -25,8 +25,8 @@ keywords:
   - diffusion
   - Euler-Maruyama
 maintainer: mtuann
-last-reviewed: 2026-04-25
-source-check-date: 2026-04-25
+last-reviewed: 2026-04-26
+source-check-date: 2026-04-26
 review-cadence: annual
 date-modified: last-modified
 draft: false
@@ -64,7 +64,7 @@ This is the point where diffusion intuition becomes an equation.
 
 ## First-Pass Promise
 
-You can read this page before the full module spine is complete.
+You can read this page on its own inside the full module spine.
 
 If you stop here, you should still understand:
 

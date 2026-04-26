@@ -243,6 +243,7 @@ website:
             contents:
               - topics/advanced/stochastic-processes/index.qmd
               - topics/advanced/stochastic-processes/concepts/markov-chains-and-stationary-distributions.qmd
+              - topics/advanced/stochastic-processes/concepts/martingales-and-optional-stopping-intuition.qmd
               - topics/advanced/stochastic-processes/concepts/poisson-processes-and-counting-models.qmd
               - topics/advanced/stochastic-processes/concepts/brownian-motion-and-diffusion-intuition.qmd
               - topics/advanced/stochastic-processes/concepts/sdes-and-ito-intuition.qmd

@@ -1,0 +1,331 @@
+---
+title: "Martingales and Optional Stopping Intuition"
+description: "How filtrations track growing information, why martingales formalize conditional fairness, and how optional stopping explains when path-dependent stopping still preserves expectation."
+page-type: concept
+status: published
+update-status: current
+level: advanced
+topic: stochastic-processes
+prerequisites:
+  - /topics/foundation/probability/index.qmd
+learning-goals:
+  - "Explain a filtration as a model of growing information."
+  - "Define a martingale at a first-pass level."
+  - "Interpret a stopping time as a random time chosen using only present and past information."
+  - "State a safe first version of optional stopping and explain what it does not mean."
+applications:
+  - stochastic-processes
+  - machine-learning-theory
+  - engineering-systems
+keywords:
+  - martingale
+  - filtration
+  - stopping time
+  - optional stopping
+  - conditional expectation
+maintainer: mtuann
+last-reviewed: 2026-04-26
+source-check-date: 2026-04-26
+review-cadence: annual
+date-modified: last-modified
+draft: false
+related-pages:
+  - /topics/advanced/stochastic-processes/index.qmd
+  - /topics/foundation/probability/index.qmd
+  - /topics/advanced/stochastic-processes/concepts/markov-chains-and-stationary-distributions.qmd
+  - /topics/advanced/stochastic-processes/concepts/sdes-and-ito-intuition.qmd
+  - /topics/advanced/stochastic-processes/concepts/mixing-ergodicity-and-mcmc-bridges.qmd
+stable-sources:
+  - "MIT 18.445 Introduction to Stochastic Processes"
+  - "MIT 15.070J Advanced Stochastic Processes"
+  - "Stanford Stats 218 Introduction to Stochastic Processes II"
+  - "Stanford Stats 310C Theory of Probability"
+current-sources:
+  - "MIT 18.445 lecture notes page"
+  - "MIT 18.445 lecture 15"
+  - "MIT 18.445 lecture 16"
+  - "MIT 15.070J lecture notes page"
+  - "MIT 15.070J lecture 10"
+  - "Stanford Stats 218 course page"
+  - "Stanford Stats 310C syllabus"
+---
+
+## Role
+
+This is the second page of the `Stochastic Processes` module.
+
+Its job is to introduce the main language of conditional fairness:
+
+- information grows over time
+- random variables are judged relative to that information
+- stopping rules can themselves depend on the path
+
+This is the page where conditional expectation turns into a structural object rather than only a computation rule.
+
+## First-Pass Promise
+
+You can read this page on its own inside the full module spine.
+
+If you stop here, you should still understand:
+
+- what a filtration means at first pass
+- what makes a process a martingale
+- what a stopping time is
+- why optional stopping is powerful but not magic
+
+## Why It Matters
+
+Martingales appear whenever we need to formalize:
+
+- fair games
+- no predictable gain from current information
+- path-dependent stopping rules
+- sequential uncertainty accumulation
+
+That is why martingale language keeps reappearing in:
+
+- concentration arguments
+- hitting-time questions
+- gambling and finance intuition
+- stochastic calculus
+- RL and sequential decision theory
+
+The point is not only that martingales are elegant.
+
+They give a clean way to say:
+
+`given everything known so far, the process has no systematic expected upward drift`
+
+## Prerequisite Recall
+
+- from [Probability](../../../foundation/probability/index.qmd), conditional expectation means best expectation given current information
+- from [Markov Chains and Stationary Distributions](markov-chains-and-stationary-distributions.qmd), stochastic processes evolve over time and need a notion of what is known at each step
+- from random-walk intuition nearby, summing fair mean-zero increments creates a natural candidate martingale
+
+## Intuition
+
+### A Filtration Is Growing Information
+
+At first pass, a filtration
+
+$$
+\mathcal{F}_0 \subseteq \mathcal{F}_1 \subseteq \mathcal{F}_2 \subseteq \cdots
+$$
+
+is just the record of what has been revealed by time `n`.
+
+So:
+
+- `\mathcal{F}_0` is what you know at the start
+- `\mathcal{F}_1` includes one more step of information
+- later sigma-fields include everything earlier plus new observations
+
+This is the bookkeeping device that makes "known so far" precise.
+
+### A Martingale Means Conditional Fairness
+
+A process `(M_n)` is a martingale if its current value is already the best prediction of its next value given present information.
+
+At first pass, read that as:
+
+`no predictable expected gain remains once the present is known`
+
+That does not mean the path is flat.
+
+It can fluctuate a lot.
+
+It only means those fluctuations do not create systematic conditional drift.
+
+### A Stopping Time Must Use Present And Past Information Only
+
+A stopping time `\tau` is a random time whose decision rule can be made from information already revealed by that time.
+
+So you may stop:
+
+- when wealth first hits a threshold
+- when a process exits an interval
+- when a queue first empties
+
+But you may not stop using future information you have not observed yet.
+
+### Optional Stopping Is About When Fairness Survives Stopping
+
+The naive gambler's fantasy is:
+
+`if I wait until a good time to stop, maybe I can force a positive expected gain`
+
+Optional stopping says that for a martingale, this does not work automatically.
+
+Under safe conditions such as bounded stopping times, stopping does not create expected profit out of nowhere.
+
+That is why optional stopping is powerful:
+
+- it analyzes path-dependent stopping rules
+- but it also blocks fake arbitrage stories
+
+## Formal Core
+
+::: {#def-filtration}
+## Definition: Filtration
+
+A filtration `( \mathcal{F}_n )` is an increasing sequence of sigma-fields:
+
+$$
+\mathcal{F}_0 \subseteq \mathcal{F}_1 \subseteq \mathcal{F}_2 \subseteq \cdots
+$$
+
+At first pass, `\mathcal{F}_n` means the information available by time `n`.
+:::
+
+::: {#def-martingale}
+## Definition: Martingale
+
+A process `(M_n)` adapted to `( \mathcal{F}_n )` is a martingale if:
+
+1. `M_n` is integrable
+2. `M_n` is `\mathcal{F}_n`-measurable
+3. for every `n`,
+
+$$
+\mathbb{E}[M_{n+1} \mid \mathcal{F}_n] = M_n
+$$
+:::
+
+This is the formal statement of conditional fairness.
+
+::: {#def-stopping-time}
+## Definition: Stopping Time
+
+A random time `\tau` is a stopping time with respect to `( \mathcal{F}_n )` if the event `{ \tau \le n }` can be determined using information in `\mathcal{F}_n`.
+:::
+
+At first pass, this means the rule "stop now" never needs future knowledge.
+
+::: {#thm-optional-stopping}
+## Theorem Idea: Optional Stopping Under Safe Conditions
+
+If `(M_n)` is a martingale and `\tau` is a bounded stopping time, then
+
+$$
+\mathbb{E}[M_{\tau}] = \mathbb{E}[M_0].
+$$
+:::
+
+This is the first safe version of optional stopping.
+
+The moral is:
+
+- path-dependent stopping can still preserve fairness
+- but only under conditions that prevent pathological infinite waiting or uncontrolled growth
+
+## Worked Example
+
+Let `(X_1, X_2, \dots)` be independent fair coin increments taking values `+1` and `-1` with probability `1/2`, and define
+
+$$
+M_n = X_1 + \cdots + X_n.
+$$
+
+Then `(M_n)` is a martingale.
+
+Now define the stopping time
+
+$$
+\tau = \min\{n : M_n = 1\} \wedge 2.
+$$
+
+This means:
+
+- stop immediately if the walk hits `1`
+- otherwise stop by time `2` no matter what
+
+Possible outcomes:
+
+- with probability `1/2`, `X_1=1`, so `\tau=1` and `M_{\tau}=1`
+- with probability `1/4`, `X_1=-1, X_2=1`, so `\tau=2` and `M_{\tau}=0`
+- with probability `1/4`, `X_1=-1, X_2=-1`, so `\tau=2` and `M_{\tau}=-2`
+
+Therefore
+
+$$
+\mathbb{E}[M_{\tau}]
+=
+\frac12(1) + \frac14(0) + \frac14(-2)
+=
+0
+=
+\mathbb{E}[M_0].
+$$
+
+So even though the stopping rule depends on the revealed path, bounded optional stopping preserves the martingale expectation.
+
+## Computation Lens
+
+When you meet a martingale argument, ask:
+
+1. what is the information filtration?
+2. what random variable or process is being conditioned on that information?
+3. where is the zero conditional drift coming from?
+4. is the stopping rule adapted, or does it secretly use future information?
+5. are the conditions for optional stopping actually safe enough?
+
+Those questions usually reveal whether the proof is really about:
+
+- fairness
+- pathwise stopping
+- concentration
+- or turning a complicated process into a conditional-expectation invariant
+
+## Application Lens
+
+### Hitting Times And Sequential Questions
+
+Optional stopping is one of the cleanest tools for analyzing "stop when something first happens" events.
+
+### Concentration And Probability Theory
+
+Many concentration inequalities and maximal inequalities are built on martingale structure.
+
+### Stochastic Calculus And Finance
+
+Continuous-time martingales become part of the language behind Brownian motion, Ito calculus, and no-arbitrage intuition.
+
+## Stop Here For First Pass
+
+If you stop here, retain these five ideas:
+
+- a filtration is the formal record of growing information
+- a martingale has no predictable conditional drift
+- a stopping time must be chosen using only present and past information
+- optional stopping says stopping does not automatically create expected profit
+- martingale language is a reusable bridge into concentration, hitting times, and stochastic calculus
+
+## Go Deeper
+
+The strongest adjacent live pages right now are:
+
+- [Markov Chains and Stationary Distributions](markov-chains-and-stationary-distributions.qmd)
+- [Brownian Motion and Diffusion Intuition](brownian-motion-and-diffusion-intuition.qmd)
+- [SDEs and Ito Intuition](sdes-and-ito-intuition.qmd)
+- [Mixing, Ergodicity, and MCMC Bridges](mixing-ergodicity-and-mcmc-bridges.qmd)
+
+This page closes the full first-pass spine of the module.
+
+## Optional Deeper Reading After First Pass
+
+The strongest current references connected to this page are:
+
+- [MIT 18.445 lecture 15](https://ocw.mit.edu/courses/18-445-introduction-to-stochastic-processes-spring-2015/resources/mit18_445s15_lecture15/) - official MIT note introducing conditional expectation and martingales. Checked `2026-04-26`.
+- [MIT 18.445 lecture 16](https://ocw.mit.edu/courses/18-445-introduction-to-stochastic-processes-spring-2015/resources/mit18_445s15_lecture16/) - official MIT note focused directly on optional stopping. Checked `2026-04-26`.
+- [MIT 15.070J lecture 10](https://ocw.mit.edu/courses/15-070j-advanced-stochastic-processes-fall-2013/resources/mit15_070jf13_lec10/) - official MIT note on martingales and stopping times. Checked `2026-04-26`.
+- [Stanford Stats 310C syllabus](https://web.stanford.edu/class/stats310c/syllabus.html) - official Stanford syllabus showing the route through filtrations, stopping times, martingales, and later Ito calculus. Checked `2026-04-26`.
+
+## Sources and Further Reading
+
+- [MIT 18.445 lecture notes page](https://ocw.mit.edu/courses/18-445-introduction-to-stochastic-processes-spring-2015/pages/lecture-notes) - `First pass` - official MIT lecture hub covering martingales and optional stopping in the main stochastic-processes sequence. Checked `2026-04-26`.
+- [MIT 18.445 lecture 15](https://ocw.mit.edu/courses/18-445-introduction-to-stochastic-processes-spring-2015/resources/mit18_445s15_lecture15/) - `First pass` - official MIT note introducing conditional expectation and martingales. Checked `2026-04-26`.
+- [MIT 18.445 lecture 16](https://ocw.mit.edu/courses/18-445-introduction-to-stochastic-processes-spring-2015/resources/mit18_445s15_lecture16/) - `First pass` - official MIT note on optional stopping. Checked `2026-04-26`.
+- [MIT 15.070J lecture notes page](https://ocw.mit.edu/courses/15-070j-advanced-stochastic-processes-fall-2013/pages/lecture-notes/) - `Second pass` - official MIT lecture hub with filtration, martingale, stopping-time, and convergence notes. Checked `2026-04-26`.
+- [MIT 15.070J lecture 10](https://ocw.mit.edu/courses/15-070j-advanced-stochastic-processes-fall-2013/resources/mit15_070jf13_lec10/) - `Second pass` - useful official MIT note on martingales and stopping times. Checked `2026-04-26`.
+- [Stanford Stats 218](https://web.stanford.edu/class/stats218/stats218.html) - `Bridge outward` - official Stanford stochastic-processes course page where martingales are part of the live curriculum. Checked `2026-04-26`.
+- [Stanford Stats 310C syllabus](https://web.stanford.edu/class/stats310c/syllabus.html) - `Bridge outward` - useful Stanford syllabus showing the progression from filtrations and stopping times toward Brownian motion and Ito calculus. Checked `2026-04-26`.

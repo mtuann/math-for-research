@@ -231,13 +231,10 @@ This module is where the site turns entropy, divergence, coding cost, and commun
 Its current live route is:
 
 - [Markov Chains and Stationary Distributions](stochastic-processes/concepts/markov-chains-and-stationary-distributions.qmd)
+- [Martingales and Optional Stopping Intuition](stochastic-processes/concepts/martingales-and-optional-stopping-intuition.qmd)
 - [Poisson Processes and Counting Models](stochastic-processes/concepts/poisson-processes-and-counting-models.qmd)
 - [Brownian Motion and Diffusion Intuition](stochastic-processes/concepts/brownian-motion-and-diffusion-intuition.qmd)
 - [SDEs and Ito Intuition](stochastic-processes/concepts/sdes-and-ito-intuition.qmd)
 - [Mixing, Ergodicity, and MCMC Bridges](stochastic-processes/concepts/mixing-ergodicity-and-mcmc-bridges.qmd)
-
-The remaining intended first-pass branch is:
-
-- `Martingales and Optional Stopping Intuition`
 
 This module is where the site turns one-shot probabilistic intuition into random evolution over time and the first long-run objects that matter in control, sampling, and diffusion-side modeling.

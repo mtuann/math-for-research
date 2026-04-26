@@ -25,8 +25,8 @@ keywords:
   - irreducible
   - mixing
 maintainer: mtuann
-last-reviewed: 2026-04-25
-source-check-date: 2026-04-25
+last-reviewed: 2026-04-26
+source-check-date: 2026-04-26
 review-cadence: annual
 date-modified: last-modified
 draft: false
@@ -318,7 +318,7 @@ The strongest adjacent live pages right now are:
 
 The natural next page in this module is:
 
-- `Martingales and Optional Stopping Intuition`
+- [Martingales and Optional Stopping Intuition](martingales-and-optional-stopping-intuition.qmd)
 
 ## Optional Deeper Reading After First Pass
 
