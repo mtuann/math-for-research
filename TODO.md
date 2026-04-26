@@ -17,11 +17,11 @@ Use it to track:
 
 ## Current Snapshot
 
-- `292` `.qmd` pages currently exist
+- `299` `.qmd` pages currently exist
 - `133` concept-topic pages currently exist
 - strongest completed foundation spines so far: `Algebra Repair`, `Discrete Math`, `Linear Algebra`, `Probability`, `Proofs`, `Logic`, `Statistics`, `Single-Variable Calculus`, `Multivariable Calculus`
 - strongest completed advanced spines so far: `Optimization`, `Real Analysis`, `Numerical Methods`, `ODEs and Dynamical Systems`, `Matrix Analysis`, `Learning Theory`, `High-Dimensional Probability`, `High-Dimensional Statistics`, `Information Theory`, `Control and Dynamics`, `Stochastic Control and Dynamic Programming`, `Signal Processing and Estimation`, `Stochastic Processes`
-- strongest public-facing bridges so far: `Applications > Machine Learning`, `Applications > Control and dynamics`, `Applications > Signal and communication`, `Applications > Optimization and inference`
+- strongest public-facing bridges so far: `Applications > Machine Learning`, `Applications > Control and dynamics`, `Applications > Signal and communication`, `Applications > Optimization and inference`, `Applications > Scientific computing`
 - non-topic sections already scaffolded: `Start Here`, `Roadmaps`, `Applications`, `Paper Lab`, `Research`, `Publication`, `Library`, `Notes`
 
 ## Site Sections
@@ -88,7 +88,13 @@ Use it to track:
 - [x] `Variational inference, ELBO, and tractable approximation`
 - [x] `Sampling, mixing, and MCMC for inference`
 - [x] `Bayesian optimization, active sensing, and information gathering`
-- [ ] `Scientific computing`
+- [x] `Scientific computing`
+- [x] `Models, discretization, and simulation loops`
+- [x] `Linear systems, conditioning, and stable computation`
+- [ ] `Time-stepping, stiffness, and solver choice`
+- [x] `Inverse problems, parameter estimation, and data assimilation`
+- [x] `Approximation, quadrature, and error control in practice`
+- [x] `Scientific ML, surrogates, and computation-physics bridges`
 - [x] `Signal and communication`
 - [x] `Signals, channels, and noisy measurements`
 - [x] `Filtering, denoising, and estimation in communication systems`
@@ -138,7 +144,7 @@ Use it to track:
 ### Notes
 
 - [x] `Notes index`
-- [ ] `First essay / note`
+- [x] `First essay / note`
 
 ## Subject Tracker
 
@@ -429,7 +435,7 @@ These are the topics that should eventually become canonical examples for future
 
 Near-term highest-value content steps:
 
-1. [ ] `Build Applications: Scientific computing`
+1. [ ] `Finish Applications: Scientific computing (Time-stepping, stiffness, and solver choice)`
 2. [ ] `Run local render + visual QA pass`
 
 ## Work Outside Topic Content
@@ -478,5 +484,5 @@ Yes, there is important work outside topic writing.
 
 - Current content momentum is strongest in the advanced bridge cluster: `Numerical Methods`, `ODEs and Dynamical Systems`, `Control and Dynamics`, `Stochastic Control and Dynamic Programming`, `Information Theory`, and `Signal Processing and Estimation`.
 - The public-facing application layer now has four full hubs: `Machine Learning`, `Control and dynamics`, `Signal and communication`, and `Optimization and inference`.
-- The next content gaps most worth filling are the remaining `Scientific computing` hub plus the first original note in [Notes](/Users/mitu/Desktop/work/math4life/notes/index.qmd).
+- The next content gaps most worth filling are the remaining `Time-stepping, stiffness, and solver choice` page plus any later notes or essays once the public-facing routes feel stable.
 - The next non-content task most worth doing is a `local render + visual QA pass`.

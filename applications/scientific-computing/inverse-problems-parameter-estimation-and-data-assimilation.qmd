@@ -1,0 +1,195 @@
+---
+title: "Inverse Problems, Parameter Estimation, and Data Assimilation"
+description: "A bridge page showing how scientific models are run backward or corrected from data, and how inverse problems, parameter estimation, and data assimilation fit into one workflow."
+page-type: application
+status: published
+update-status: current
+level: bridge
+topic: scientific-computing
+prerequisites:
+  - /applications/scientific-computing/models-discretization-and-simulation-loops.qmd
+  - /applications/scientific-computing/linear-systems-conditioning-and-stable-computation.qmd
+  - /topics/foundation/statistics/index.qmd
+learning-goals:
+  - "Distinguish inverse problems, parameter estimation, and data assimilation within one scientific-computing workflow."
+  - "Interpret model calibration and state correction as uses of the same forward model seen from different directions."
+  - "Recognize how ill-conditioning, regularization, and hidden-state estimation affect scientific trust."
+  - "Connect scientific-computing inverse workflows to optimization, filtering, and reconstruction pages elsewhere on the site."
+applications:
+  - scientific-computing
+  - simulation
+  - inverse-problems
+  - estimation
+keywords:
+  - inverse problems
+  - parameter estimation
+  - data assimilation
+  - calibration
+  - state estimation
+maintainer: mtuann
+last-reviewed: 2026-04-26
+source-check-date: 2026-04-26
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+---
+
+## Application Snapshot
+
+Scientific computing does not stop after we can simulate a model forward.
+
+Very often, the real task is one of these instead:
+
+- infer unknown parameters from measurements
+- infer hidden initial conditions or forcing terms
+- correct an evolving state using new observations
+
+That is the inverse side of scientific computing:
+
+`use data to run the model backward, tune the model, or keep the simulation aligned with reality`
+
+This is where simulation, optimization, estimation, and uncertainty stop being separate topics.
+
+## Problem Setting
+
+A broad scientific-computing observation model can be written as
+
+$$
+y \approx H(x,\theta) + \eta,
+$$
+
+where:
+
+- $x$ is a hidden state, field, trajectory, or initial condition
+- $\theta$ is an unknown parameter or set of parameters
+- $H$ is the forward model after discretization and observation
+- $y$ is measured data
+- $\eta$ is noise or model mismatch
+
+This one setup leads to three closely related questions:
+
+1. `Inverse problem`
+   Recover a hidden object or field from indirect data.
+
+2. `Parameter estimation`
+   Fit unknown coefficients, source terms, or constitutive parameters so the model explains observations.
+
+3. `Data assimilation`
+   Combine a model forecast with incoming observations to update the current state of an evolving system.
+
+So the forward model is still the main object.
+The difference is that the data now push back on it.
+
+## Why This Math Appears
+
+This page reuses several math layers already live on the site:
+
+- `Models, Discretization, and Simulation Loops`: the forward scientific model comes first
+- `Linear Systems, Conditioning, and Stable Computation`: inversion and calibration inherit conditioning trouble from the discretized operator
+- `Optimization and Inference`: objectives, priors, likelihoods, and posterior updates appear once data enter
+- `Signal Processing and Estimation`: reconstruction, filtering, and noisy observation models reappear here in scientific form
+- `Stochastic Processes and Control`: sequential state correction and uncertainty propagation matter once the hidden state evolves over time
+
+So inverse workflows in scientific computing are not "extra" steps after simulation.
+They are the place where model structure and data meet under limited information.
+
+## Math Objects In Use
+
+- forward model $H(x,\theta)$
+- hidden state or field $x$
+- unknown parameter vector $\theta$
+- observation vector $y$
+- residual or misfit term
+- regularizer, prior, or covariance model
+- sometimes an evolving forecast state and an update rule
+
+At first pass, the key application picture is:
+
+- the scientific model generates predictions
+- the measurements are partial or noisy
+- the unknowns may live in the state, the parameters, or both
+- fitting the data too aggressively can destroy stability or physical plausibility
+
+## A Small Worked Walkthrough
+
+Suppose a diffusion model is used for temperature evolution:
+
+$$
+u_t = \kappa u_{xx}.
+$$
+
+Here $\kappa$ is an unknown diffusion coefficient.
+After discretization, the model becomes a simulation rule such as
+
+$$
+u^{n+1} = M(\kappa) u^n,
+$$
+
+where the matrix $M(\kappa)$ depends on the parameter and the chosen scheme.
+
+Now imagine we observe temperature at a few sensor locations and times:
+
+$$
+y_j \approx C u^{n_j} + \eta_j.
+$$
+
+This creates three nearby but different tasks:
+
+- `Parameter estimation`
+  choose $\kappa$ so the simulated temperatures match the observations well enough
+
+- `Inverse recovery`
+  infer an unknown initial state $u^0$ from later sparse measurements
+
+- `Data assimilation`
+  as each new observation arrives, correct the current forecast state instead of rerunning everything from scratch
+
+The same scientific model sits underneath all three.
+What changes is which unknown we are treating as hidden and how often data are allowed to update the computation.
+
+## Implementation or Computation Note
+
+Three computational patterns appear again and again:
+
+1. `Offline calibration`
+   Minimize a data-misfit objective, often with regularization, to estimate parameters or initial conditions.
+
+2. `Sequential assimilation`
+   Alternate between model forecast and observation update when new measurements arrive over time.
+
+3. `Bayesian or uncertainty-aware inversion`
+   Treat the unknown quantity as a distribution or posterior object instead of a single best-fit answer.
+
+Strong next bridges already live on the site:
+
+- [Approximation, Quadrature, and Error Control in Practice](approximation-quadrature-and-error-control-in-practice.qmd)
+- [Optimization and Inference](../optimization-and-inference/index.qmd)
+- [Likelihoods, Priors, and MAP Estimation](../optimization-and-inference/likelihoods-priors-and-map-estimation.qmd)
+- [Filtering, Smoothing, and Hidden-State Inference](../optimization-and-inference/filtering-smoothing-and-hidden-state-inference.qmd)
+- [Inverse Problems, Sensing, and Reconstruction](../signal-and-communication/inverse-problems-sensing-and-reconstruction.qmd)
+- [Inverse Problems, Deconvolution, and Regularized Recovery](../../topics/advanced/signal-processing-and-estimation/concepts/inverse-problems-deconvolution-and-regularized-recovery.qmd)
+- [State Estimation, Smoothing, and Hidden-State Inference](../../topics/advanced/signal-processing-and-estimation/concepts/state-estimation-smoothing-and-hidden-state-inference.qmd)
+- [Scientific ML, Surrogates, and Computation-Physics Bridges](scientific-ml-surrogates-and-computation-physics-bridges.qmd)
+
+## Failure Modes
+
+- treating model outputs as directly observed when the data are only partial or indirect
+- trying to estimate parameters without checking identifiability or conditioning
+- blaming physics for a mismatch that is really caused by bad discretization or solver error
+- fitting noisy data so aggressively that the recovered state or parameter stops being scientifically plausible
+- confusing `parameter calibration` with `state correction`, even though they answer different questions
+
+## Paper Bridge
+
+- [16.322 / Stochastic Estimation and Control](https://ocw.mit.edu/courses/16-322-stochastic-estimation-and-control-fall-2004/) - `First pass` - official MIT bridge once model-based state correction and uncertainty-aware estimation become central. Checked `2026-04-26`.
+- [EE367 / Computational Imaging](https://web.stanford.edu/class/ee367/) - `Paper bridge` - useful once inverse recovery and reconstruction become more computational and operator-heavy. Checked `2026-04-26`.
+
+## Sources and Further Reading
+
+- [Computational Science and Engineering I](https://ocw.mit.edu/courses/18-085-computational-science-and-engineering-i-fall-2008/) - `First pass` - official MIT anchor for how discretized physical models and inverse viewpoints begin to meet. Checked `2026-04-26`.
+- [Lecture 35: Deconvolution](https://ocw.mit.edu/courses/18-085-computational-science-and-engineering-i-fall-2008/resources/lecture-35-convolution-equations-deconvolution/) - `First pass` - compact MIT bridge from forward operators to inverse recovery. Checked `2026-04-26`.
+- [2.717J inverse problems page](https://ocw.mit.edu/courses/2-717j-optical-engineering-spring-2002/pages/syllabus/inverse/) - `Second pass` - official MIT inverse-problems anchor with a model-and-measurement emphasis. Checked `2026-04-26`.
+- [16.322 / Stochastic Estimation and Control](https://ocw.mit.edu/courses/16-322-stochastic-estimation-and-control-fall-2004/) - `Second pass` - official MIT anchor for state estimation and model correction under uncertainty. Checked `2026-04-26`.
+- [EE278 / Introduction to Statistical Signal Processing](https://web.stanford.edu/class/ee278/) - `Bridge to estimation` - official Stanford anchor once filtering and observation models become part of the scientific workflow. Checked `2026-04-26`.
+- [EE367 / Computational Imaging](https://web.stanford.edu/class/ee367/) - `Bridge to inverse recovery` - official Stanford course hub for sensing and reconstruction problems. Checked `2026-04-26`.
+- [CME 104](https://web.stanford.edu/class/cme104/) - `Scientific-computing bridge` - useful once inverse workflows have to be interpreted alongside discretization and solver behavior. Checked `2026-04-26`.

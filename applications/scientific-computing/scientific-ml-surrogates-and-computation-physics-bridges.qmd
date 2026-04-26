@@ -1,0 +1,196 @@
+---
+title: "Scientific ML, Surrogates, and Computation-Physics Bridges"
+description: "A bridge page showing how learned surrogates, operator-learning models, and physics-aware objectives connect machine learning back to scientific computing rather than replacing it."
+page-type: application
+status: published
+update-status: current
+level: bridge
+topic: scientific-computing
+prerequisites:
+  - /applications/scientific-computing/models-discretization-and-simulation-loops.qmd
+  - /applications/scientific-computing/approximation-quadrature-and-error-control-in-practice.qmd
+  - /applications/machine-learning/index.qmd
+learning-goals:
+  - "Distinguish learned surrogates, physics-informed models, and hybrid computation-ML pipelines."
+  - "Explain why scientific ML still depends on the same model, discretization, and quantity-of-interest structure as classical scientific computing."
+  - "Recognize where surrogate speedups help and where solver trust, conservation, and out-of-distribution behavior remain central."
+  - "Connect scientific-ML language to numerical methods, inverse problems, and representation learning already live on the site."
+applications:
+  - scientific-computing
+  - machine-learning
+  - simulation
+  - scientific-ml
+keywords:
+  - scientific machine learning
+  - surrogate models
+  - operator learning
+  - physics-informed
+  - simulation
+maintainer: mtuann
+last-reviewed: 2026-04-26
+source-check-date: 2026-04-26
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+---
+
+## Application Snapshot
+
+Once simulation loops become expensive, a natural question appears:
+
+`can we learn part of the computation instead of rerunning the full solver every time?`
+
+That is the entry point for a lot of scientific ML.
+
+In practice, learning can enter at several different places:
+
+- as a fast surrogate for a costly solver
+- as an operator learner mapping inputs directly to solution fields
+- as a physics-informed model trained to satisfy model structure while fitting data
+- as a hybrid component inside a larger simulation or inference loop
+
+This page is the shortest bridge for seeing how those ideas connect back to scientific computing instead of floating as a separate ML story.
+
+## Problem Setting
+
+A classical scientific-computing pipeline often starts from
+
+$$
+\mathcal{F}(u,\theta) = 0
+$$
+
+or a time-evolution law such as
+
+$$
+u_{t+1} = \Phi(u_t,\theta),
+$$
+
+then discretizes and solves it numerically.
+
+A scientific-ML pipeline often keeps the same scientific inputs and outputs, but inserts a learned map such as
+
+$$
+\widehat{u} = S_\phi(\theta, f, \text{geometry}),
+$$
+
+or a learned update law that approximates part of the solver or closure model.
+
+This leads to several different but related tasks:
+
+1. `Surrogate modeling`
+   Learn a fast approximation to a simulator or quantity of interest.
+
+2. `Operator learning`
+   Learn maps between function-like inputs and outputs rather than only finite-dimensional labels.
+
+3. `Physics-informed learning`
+   Use residuals, constraints, or conservation structure inside the training objective.
+
+So the real question is not only whether ML appears.
+It is where the learned object sits relative to the scientific model.
+
+## Why This Math Appears
+
+This page reuses several layers already live on the site:
+
+- `Models, Discretization, and Simulation Loops`: the same governing equations and computational objects still organize the task
+- `Approximation, Quadrature, and Error Control in Practice`: surrogate outputs only matter if the quantities of interest stay trustworthy
+- `Inverse Problems, Parameter Estimation, and Data Assimilation`: many scientific-ML pipelines are really learned inverse or calibration pipelines in disguise
+- `Applications > Machine Learning`: representation learning, generalization, and optimization matter once the model is trained from data
+- `Numerical Methods`: stiffness, solver stability, and approximation order do not disappear just because one inserts a network
+
+So scientific ML is best read as an extension layer:
+
+`classical model + numerical structure + learned approximation`
+
+not as a total replacement for scientific computing.
+
+## Math Objects In Use
+
+- simulator inputs such as parameters, forcing, geometry, or boundary conditions
+- state or field output $u$
+- learned surrogate or operator $S_\phi$
+- residual, conservation, or physics-based penalty
+- quantity of interest used for evaluation
+- training distribution versus deployment distribution
+
+At first pass, the application picture is:
+
+- define the scientific map you care about
+- decide what will be learned and what will remain model-based
+- evaluate whether the learned shortcut preserves the scientific quantities that matter
+
+## A Small Worked Walkthrough
+
+Imagine a PDE solver that maps material parameters and forcing terms to a temperature field.
+
+Running the full simulation for every query may be too expensive for:
+
+- design sweeps
+- repeated inverse solves
+- uncertainty quantification
+- control loops needing fast forecasts
+
+A surrogate workflow might do this:
+
+1. sample many parameter settings
+2. run the trusted solver offline
+3. train a model $S_\phi$ to predict the resulting field or a quantity of interest
+4. use the surrogate for fast approximate evaluation later
+
+That can be extremely useful, but it changes the trust question.
+
+The question is no longer only
+
+`does the numerical solver approximate the PDE well?`
+
+It also becomes
+
+`does the learned surrogate generalize to the regimes, geometries, and quantities of interest we actually care about?`
+
+This is why scientific ML often has to be read through both lenses at once:
+
+- numerical fidelity
+- statistical generalization
+
+## Implementation or Computation Note
+
+Three practical patterns show up again and again:
+
+1. `Offline surrogate, online fast use`
+   Expensive simulation produces training data once, then a learned model speeds up later queries.
+
+2. `Physics-aware training`
+   Add residual, conservation, or boundary-condition penalties so the learner respects known structure.
+
+3. `Hybrid loop`
+   Keep part of the solver or model explicit, but learn a closure, correction, or reduced representation.
+
+Strong next bridges already live on the site:
+
+- [Applications > Machine Learning](../machine-learning/index.qmd)
+- [Optimization and Inference](../optimization-and-inference/index.qmd)
+- [Bayesian Optimization and Surrogate Modeling](../machine-learning/bayesian-optimization-and-surrogate-modeling.qmd)
+- [Inverse Problems, Parameter Estimation, and Data Assimilation](inverse-problems-parameter-estimation-and-data-assimilation.qmd)
+- [Signal Processing Bridges to Communication, Sensing, and Modern ML](../../topics/advanced/signal-processing-and-estimation/concepts/signal-processing-bridges-to-communication-sensing-and-modern-ml.qmd)
+
+## Failure Modes
+
+- treating a surrogate as if it had the same trust guarantees as the solver that generated its training data
+- evaluating only pointwise prediction error when the real scientific target is a quantity of interest, conservation law, or stability property
+- forgetting that a fast learned model may fail badly outside the training regime
+- using physics-informed losses as branding without checking whether the learned model actually respects the important scientific constraints
+- assuming scientific ML eliminates numerical issues when the whole pipeline still depends on discretization, data generation, and solver quality
+
+## Paper Bridge
+
+- [Physics-Informed Neural Networks](https://arxiv.org/abs/1711.10561) - `First pass` - primary paper anchor for the "fit data plus model residual" viewpoint. Checked `2026-04-26`.
+- [Fourier Neural Operator for Parametric PDEs](https://arxiv.org/abs/2010.08895) - `Paper bridge` - primary operator-learning anchor once surrogate maps between function-like objects become the focus. Checked `2026-04-26`.
+
+## Sources and Further Reading
+
+- [Computational Science and Engineering I](https://ocw.mit.edu/courses/18-085-computational-science-and-engineering-i-fall-2008/) - `First pass` - official MIT anchor for the classical model-and-discretization side that scientific ML still depends on. Checked `2026-04-26`.
+- [Numerical Methods for Partial Differential Equations](https://ocw.mit.edu/courses/18-336-numerical-methods-for-partial-differential-equations-spring-2009/) - `First pass` - official MIT anchor once PDE-side approximation quality remains part of the learned pipeline. Checked `2026-04-26`.
+- [CME 104](https://web.stanford.edu/class/cme104/) - `Second pass` - official Stanford scientific-computing anchor for reading learned surrogates against a numerical-analysis baseline. Checked `2026-04-26`.
+- [Physics-Informed Neural Networks](https://arxiv.org/abs/1711.10561) - `Second pass` - primary paper anchor for physics-aware training objectives. Checked `2026-04-26`.
+- [Fourier Neural Operator for Parametric PDEs](https://arxiv.org/abs/2010.08895) - `Bridge outward` - primary paper anchor for operator-learning style surrogate models. Checked `2026-04-26`.

@@ -284,6 +284,14 @@ website:
                   - applications/optimization-and-inference/variational-inference-elbo-and-tractable-approximation.qmd
                   - applications/optimization-and-inference/sampling-mixing-and-mcmc-for-inference.qmd
                   - applications/optimization-and-inference/bayesian-optimization-active-sensing-and-information-gathering.qmd
+              - section: "Scientific Computing"
+                contents:
+                  - applications/scientific-computing/index.qmd
+                  - applications/scientific-computing/models-discretization-and-simulation-loops.qmd
+                  - applications/scientific-computing/linear-systems-conditioning-and-stable-computation.qmd
+                  - applications/scientific-computing/approximation-quadrature-and-error-control-in-practice.qmd
+                  - applications/scientific-computing/inverse-problems-parameter-estimation-and-data-assimilation.qmd
+                  - applications/scientific-computing/scientific-ml-surrogates-and-computation-physics-bridges.qmd
               - section: "Signal and Communication"
                 contents:
                   - applications/signal-and-communication/index.qmd
@@ -330,6 +338,7 @@ website:
           - section: "Notes"
             contents:
               - notes/index.qmd
+              - notes/when-a-topic-starts-to-feel-reusable.qmd
 
 format:
   html:

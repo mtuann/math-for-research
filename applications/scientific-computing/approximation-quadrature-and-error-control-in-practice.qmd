@@ -1,0 +1,189 @@
+---
+title: "Approximation, Quadrature, and Error Control in Practice"
+description: "A bridge page showing how scientific computing turns continuous quantities into computable estimates, and why approximation error and quadrature error matter for the conclusions drawn from simulation."
+page-type: application
+status: published
+update-status: current
+level: bridge
+topic: scientific-computing
+prerequisites:
+  - /applications/scientific-computing/models-discretization-and-simulation-loops.qmd
+  - /topics/advanced/numerical-methods/index.qmd
+learning-goals:
+  - "Explain why scientific computing needs approximation rules not only for states, but also for derived quantities and diagnostics."
+  - "Interpret quadrature rules as the finite translation of continuous integrals, averages, and functionals."
+  - "Recognize how error tolerances and refinement loops guide solver trust in practice."
+  - "Connect approximation and error control to the numerical-methods module rather than treating them as implementation detail."
+applications:
+  - scientific-computing
+  - simulation
+  - numerical-modeling
+keywords:
+  - quadrature
+  - approximation
+  - error control
+  - tolerance
+  - refinement
+maintainer: mtuann
+last-reviewed: 2026-04-26
+source-check-date: 2026-04-26
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+---
+
+## Application Snapshot
+
+Scientific computing rarely ends with "compute the state vector."
+
+Usually, what we finally report or compare is something derived from that state:
+
+- an integral
+- an average
+- a flux
+- an energy
+- a norm
+- or a scalar diagnostic used to decide whether the simulation is trustworthy
+
+That is why approximation and quadrature matter so much in practice:
+
+`the scientific conclusion usually depends on finite estimates of continuous quantities, not just on the raw simulated state`
+
+This page is the shortest bridge from discretized states into error-aware reporting and refinement.
+
+## Problem Setting
+
+Suppose a continuous model produces a function, field, or trajectory that in principle defines a quantity of interest such as
+
+$$
+I = \int_a^b g(x)\,dx
+$$
+
+or a space-time quantity such as
+
+$$
+J = \int_0^T \int_\Omega q(u(x,t))\,dx\,dt.
+$$
+
+A computer does not evaluate these exactly.
+
+Instead, it builds a finite approximation:
+
+$$
+Q_h(g) = \sum_{i=1}^m w_i g(x_i),
+$$
+
+where the nodes $x_i$, weights $w_i$, mesh size $h$, and time step $\Delta t$ all affect the answer.
+
+So even after the state itself has been discretized, another question appears:
+
+`how accurately are we approximating the quantity we actually care about?`
+
+## Why This Math Appears
+
+This language reuses several layers already live on the site:
+
+- `Models, Discretization, and Simulation Loops`: the forward model has already become a finite computational object
+- `Numerical Methods`: approximation order, quadrature rules, local versus global error, and adaptive control live here
+- `Linear Systems, Conditioning, and Stable Computation`: solver error and conditioning may contaminate the quantities extracted from the state
+- `Inverse Problems, Parameter Estimation, and Data Assimilation`: parameter fitting can be distorted if the approximation error in the reported quantity is ignored
+
+So approximation and quadrature are not a side calculation after the real work.
+They are often the last translation step between simulation output and scientific claim.
+
+## Math Objects In Use
+
+- mesh size $h$ or spatial resolution
+- time step $\Delta t$
+- quadrature nodes and weights
+- approximation order
+- error estimator or refinement indicator
+- tolerance for stopping or mesh adaptation
+- quantity of interest such as an integral, mean, flux, or norm
+
+At first pass, the application picture is:
+
+- discretize the governing equations
+- compute an approximate state
+- extract the quantity you actually care about
+- decide whether the approximation is good enough for the scientific question
+
+## A Small Worked Walkthrough
+
+Suppose a heat equation simulation produces grid values
+
+$$
+u_1^n,\dots,u_m^n
+$$
+
+for temperature at time $t_n$ on a uniform spatial grid with spacing $\Delta x$.
+
+Now suppose the real quantity of interest is not any single grid value, but the total heat content
+
+$$
+H(t_n) = \int_\Omega u(x,t_n)\,dx.
+$$
+
+The simulation must turn that continuous integral into a finite estimate, for example
+
+$$
+\widehat{H}(t_n) \approx \Delta x \sum_{i=1}^m u_i^n
+$$
+
+or a trapezoidal-rule variant at the boundaries.
+
+At that point, at least three different errors can matter:
+
+- discretization error in the PDE solution itself
+- time-stepping error accumulated before time $t_n$
+- quadrature error in the integral used to report heat content
+
+So if a paper compares two models by a small difference in total heat, the real question is not only
+
+`what values did the code output?`
+
+It is also
+
+`is that reported difference larger than the numerical error we introduced while approximating the quantity?`
+
+## Implementation or Computation Note
+
+Three practical patterns appear over and over:
+
+1. `Refinement loop`
+   Recompute with smaller $h$ or $\Delta t$ and check whether the quantity of interest stabilizes.
+
+2. `Adaptive control`
+   Use an estimator or embedded rule to change the step size or resolution where the approximation is hardest.
+
+3. `Tolerance-aware reporting`
+   Treat the reported scientific quantity as meaningful only once numerical error is small relative to the effect size being discussed.
+
+Strong next bridges already live on the site:
+
+- [Approximation, Differentiation, Integration, and Error Control](../../topics/advanced/numerical-methods/concepts/approximation-differentiation-integration-and-error-control.qmd)
+- [Time-Stepping for ODEs and Stability](../../topics/advanced/numerical-methods/concepts/time-stepping-for-odes-and-stability.qmd)
+- [Models, Discretization, and Simulation Loops](models-discretization-and-simulation-loops.qmd)
+- [Inverse Problems, Parameter Estimation, and Data Assimilation](inverse-problems-parameter-estimation-and-data-assimilation.qmd)
+- [Scientific ML, Surrogates, and Computation-Physics Bridges](scientific-ml-surrogates-and-computation-physics-bridges.qmd)
+- [Optimization and Inference](../optimization-and-inference/index.qmd)
+
+## Failure Modes
+
+- reporting a scalar quantity as if it were exact just because the state vector was computed successfully
+- comparing two models on a difference smaller than the likely numerical approximation error
+- refining the solver without checking whether the quantity of interest, rather than just the raw state, has stabilized
+- confusing an internal error estimator with the exact true error
+- forgetting that quadrature, discretization, and solver error can interact rather than appearing separately
+
+## Paper Bridge
+
+- [Numerical Methods for Partial Differential Equations](https://ocw.mit.edu/courses/18-336-numerical-methods-for-partial-differential-equations-spring-2009/) - `First pass` - official MIT bridge once approximation and error control become part of how you interpret PDE-side simulation output. Checked `2026-04-26`.
+- [CME 104](https://web.stanford.edu/class/cme104/) - `Paper bridge` - useful once numerical approximation quality becomes part of the scientific argument rather than just the implementation. Checked `2026-04-26`.
+
+## Sources and Further Reading
+
+- [Computational Science and Engineering I](https://ocw.mit.edu/courses/18-085-computational-science-and-engineering-i-fall-2008/) - `First pass` - official MIT anchor for how approximate computational objects support scientific reasoning. Checked `2026-04-26`.
+- [Numerical Methods for Partial Differential Equations](https://ocw.mit.edu/courses/18-336-numerical-methods-for-partial-differential-equations-spring-2009/) - `First pass` - official MIT anchor once quadrature, approximation order, and PDE-side error control matter directly. Checked `2026-04-26`.
+- [CME 102](https://web.stanford.edu/class/cme102/) - `Second pass` - official Stanford anchor for ODE-side numerical modeling where step size and approximation quality matter operationally. Checked `2026-04-26`.
+- [CME 104](https://web.stanford.edu/class/cme104/) - `Second pass` - official Stanford scientific-computing anchor once error-aware computation and interpretation become central. Checked `2026-04-26`.

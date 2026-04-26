@@ -1,0 +1,204 @@
+---
+title: "Models, Discretization, and Simulation Loops"
+description: "A bridge page showing how continuous models become discretized computational objects, and how simulation loops turn mathematical equations into numerical predictions."
+page-type: application
+status: published
+update-status: current
+level: bridge
+topic: scientific-computing
+prerequisites:
+  - /topics/foundation/linear-algebra/index.qmd
+  - /topics/advanced/odes-and-dynamical-systems/index.qmd
+  - /topics/advanced/numerical-methods/index.qmd
+learning-goals:
+  - "Explain how a scientific model becomes a discretized computational object."
+  - "Recognize the simulation loop as model -> discretize -> solve -> inspect error."
+  - "Connect discretization choices to stability, accuracy, and computational cost."
+  - "Interpret scientific-computing language through existing modules on ODEs, numerical methods, and linear algebra."
+applications:
+  - scientific-computing
+  - simulation
+  - numerical-modeling
+keywords:
+  - model
+  - discretization
+  - simulation
+  - grid
+  - time-stepping
+maintainer: mtuann
+last-reviewed: 2026-04-26
+source-check-date: 2026-04-26
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+---
+
+## Application Snapshot
+
+A large fraction of scientific computing can be summarized in one sentence:
+
+`a continuous model is written down, converted into finite computational objects, and then simulated carefully enough that the output still means something scientific`
+
+That sentence already contains the three basic objects:
+
+- a `model`
+- a `discretization`
+- a `simulation loop`
+
+This page is the shortest bridge from the site's math modules into that language.
+
+## Problem Setting
+
+A scientific-computing workflow often begins with a governing equation such as
+
+$$
+\dot{x}(t) = f(x(t), t)
+$$
+
+for an ODE, or
+
+$$
+u_t = \kappa u_{xx}
+$$
+
+for a diffusion-style PDE.
+
+The computer does not manipulate the continuous object directly.
+
+Instead, we replace it with a finite representation:
+
+- a vector of state values
+- a spatial grid
+- a matrix operator
+- a discrete time step $\Delta t$
+
+After that, the question is no longer only `what is the model?`
+
+It also becomes:
+
+`what discrete problem are we actually solving, and how faithful is it to the original one?`
+
+## Why This Math Appears
+
+This language reuses several math layers already on the site:
+
+- `Linear Algebra`: discretized states and operators often become vectors and matrices
+- `ODEs and Dynamical Systems`: many models are time-evolution laws before they are numerical objects
+- `Numerical Methods`: discretization, stability, approximation, and solver choice live here
+- `Optimization and Inference`: calibration and inverse problems appear once data are used to tune the model
+- `Signal Processing and Estimation`: observed data often enter through noisy measurements rather than direct access to the full state
+
+So scientific computing is not "math plus coding."
+
+It is a translation layer where mathematical structure, numerical approximation, and scientific interpretation have to stay aligned.
+
+## Math Objects In Use
+
+- continuous state $x(t)$ or field $u(x,t)$
+- discrete state vector $x^n$ or grid values $u_i^n$
+- time step $\Delta t$
+- spatial step $\Delta x$
+- linear operator or update matrix
+- approximation error, stability condition, and computational cost
+
+In a first-pass time-stepping loop, an ODE model may become
+
+$$
+x^{n+1} = x^n + \Delta t \, f(x^n, t_n),
+$$
+
+while a PDE discretization may become
+
+$$
+u^{n+1} = u^n + \Delta t \, A u^n
+$$
+
+after the spatial operator is converted into a matrix $A$.
+
+## A Small Worked Walkthrough
+
+Take the one-dimensional heat equation
+
+$$
+u_t = \kappa u_{xx}.
+$$
+
+At the continuous level, this says heat diffuses over space.
+
+To simulate it, we choose grid points $x_1,\dots,x_m$ and store the temperature values in a vector
+
+$$
+u^n = \begin{bmatrix} u_1^n & \cdots & u_m^n \end{bmatrix}^T
+$$
+
+at time step $t_n$.
+
+A finite-difference discretization of the second derivative turns $u_{xx}$ into a matrix action:
+
+$$
+u_t \approx A u.
+$$
+
+Now the continuous PDE has become a finite-dimensional ODE system
+
+$$
+\dot{u} = \kappa A u.
+$$
+
+After that, a simple explicit time step becomes
+
+$$
+u^{n+1} = u^n + \Delta t \, \kappa A u^n.
+$$
+
+This one example already shows the core loop:
+
+1. write a model
+2. discretize the continuous object
+3. obtain a finite update rule
+4. simulate
+5. check whether the result is stable and meaningful
+
+## Implementation or Computation Note
+
+Once the model is discretized, the workflow branches into three practical questions:
+
+1. `Representation`
+   What finite state, grid, basis, or operator should we use?
+
+2. `Solver behavior`
+   Should we time-step explicitly, implicitly, or solve a linear system at each step?
+
+3. `Trust`
+   Is the output limited mainly by approximation error, conditioning, stability, or insufficient resolution?
+
+Strong follow-on pages already live on the site:
+
+- [Linear Systems, Conditioning, and Stable Computation](linear-systems-conditioning-and-stable-computation.qmd)
+- [Approximation, Quadrature, and Error Control in Practice](approximation-quadrature-and-error-control-in-practice.qmd)
+- [Inverse Problems, Parameter Estimation, and Data Assimilation](inverse-problems-parameter-estimation-and-data-assimilation.qmd)
+- [Numerical Linear Systems and Factorizations](../../topics/advanced/numerical-methods/concepts/numerical-linear-systems-and-factorizations.qmd)
+- [Time-Stepping for ODEs and Stability](../../topics/advanced/numerical-methods/concepts/time-stepping-for-odes-and-stability.qmd)
+- [Approximation, Differentiation, Integration, and Error Control](../../topics/advanced/numerical-methods/concepts/approximation-differentiation-integration-and-error-control.qmd)
+- [Discretization, Time-Stepping, and the Bridge to Control](../../topics/advanced/odes-and-dynamical-systems/concepts/discretization-time-stepping-and-the-bridge-to-control.qmd)
+- [Inverse Problems, Sensing, and Reconstruction](../signal-and-communication/inverse-problems-sensing-and-reconstruction.qmd)
+
+## Failure Modes
+
+- talking about the continuous model as if it were the same thing as the discrete scheme
+- forgetting that discretization choices change stability and error behavior
+- using a finer grid or smaller time step without asking what computational cost explodes
+- interpreting simulated output scientifically without checking whether the numerical scheme is trustworthy
+- treating solver output as truth instead of as approximation
+
+## Paper Bridge
+
+- [Computational Science and Engineering I](https://ocw.mit.edu/courses/18-085-computational-science-and-engineering-i-fall-2008/) - `First pass` - official MIT bridge where model equations, discretization, and linear algebra appear in one workflow. Checked `2026-04-26`.
+- [Numerical Methods for Partial Differential Equations](https://ocw.mit.edu/courses/18-336-numerical-methods-for-partial-differential-equations-spring-2009/) - `Paper bridge` - useful once space discretization and PDE-side simulation become central. Checked `2026-04-26`.
+
+## Sources and Further Reading
+
+- [Computational Science and Engineering I](https://ocw.mit.edu/courses/18-085-computational-science-and-engineering-i-fall-2008/) - `First pass` - official MIT scientific-computing anchor for how models become computational objects. Checked `2026-04-26`.
+- [Numerical Methods for Partial Differential Equations](https://ocw.mit.edu/courses/18-336-numerical-methods-for-partial-differential-equations-spring-2009/) - `Second pass` - official MIT anchor once the PDE side of discretization matters more. Checked `2026-04-26`.
+- [CME 102](https://web.stanford.edu/class/cme102/) - `Second pass` - official Stanford course page for numerical modeling and ODE-side computation. Checked `2026-04-26`.
+- [CME 104](https://web.stanford.edu/class/cme104/) - `Second pass` - official Stanford scientific-computing page once implementation-aware numerical reasoning matters more. Checked `2026-04-26`.

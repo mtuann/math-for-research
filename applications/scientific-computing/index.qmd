@@ -1,0 +1,137 @@
+---
+title: "Scientific Computing"
+description: "A public-facing hub showing how the site's math modules reappear in model equations, discretization choices, simulation loops, inverse problems, and computation-aware scientific reasoning."
+page-type: application-index
+status: published
+update-status: current
+level: bridge
+topic: scientific-computing
+prerequisites:
+  - /topics/foundation/linear-algebra/index.qmd
+  - /topics/foundation/multivariable-calculus/index.qmd
+  - /topics/advanced/numerical-methods/index.qmd
+learning-goals:
+  - "Map the site's math modules to recurring objects in scientific computing workflows."
+  - "Choose a first simulation-facing reading path based on current interest."
+  - "See where models, discretization, stability, and computation start to interact."
+applications:
+  - scientific-computing
+  - simulation
+  - numerical-modeling
+  - inverse-problems
+keywords:
+  - scientific computing
+  - simulation
+  - discretization
+  - numerical modeling
+  - applications
+maintainer: mtuann
+last-reviewed: 2026-04-26
+source-check-date: 2026-04-26
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+---
+
+## Why This Section Exists
+
+Many readers can follow the math modules individually, but still do not have a clean picture of how a scientific model becomes something a computer can actually simulate.
+
+This hub is for the moment when you want to answer questions like:
+
+- where does a model equation come from?
+- what exactly gets discretized?
+- why do solver choice, conditioning, and stability matter to the scientific conclusion?
+- where can learned surrogates help without breaking the scientific meaning of the computation?
+
+The rule for this section is simple:
+
+`every scientific-computing page should point back to the exact model, discretization, and computational loop it uses`
+
+## What Scientific Computing Keeps Reusing
+
+Across simulation, computational physics, parameter estimation, and data assimilation, the same mathematical objects keep returning:
+
+- a continuous model or governing equation
+- a discretized state or grid representation
+- linear systems, matrix operators, or update rules
+- time-stepping or iterative solvers
+- error, stability, and conditioning tradeoffs
+- observed data used to calibrate or correct the model
+- sometimes learned surrogates or operator maps used to accelerate parts of the workflow
+
+If you can identify those objects quickly, scientific computing stops looking like disconnected code recipes.
+
+::: {.meta-strip}
+::: {.meta-box}
+**Best Starting Math**
+[Linear Algebra](../../topics/foundation/linear-algebra/index.qmd), [Multivariable Calculus](../../topics/foundation/multivariable-calculus/index.qmd), [ODEs and Dynamical Systems](../../topics/advanced/odes-and-dynamical-systems/index.qmd)
+:::
+::: {.meta-box}
+**Best Numerical Bridge**
+[Numerical Methods](../../topics/advanced/numerical-methods/index.qmd)
+:::
+::: {.meta-box}
+**Best Inverse Bridge**
+[Optimization and Inference](../optimization-and-inference/index.qmd)
+:::
+:::
+
+## Start Here By Interest
+
+### If You Want The Shortest Math-to-Simulation Entry
+
+Start in this order:
+
+1. [Linear Algebra](../../topics/foundation/linear-algebra/index.qmd)
+2. [ODEs and Dynamical Systems](../../topics/advanced/odes-and-dynamical-systems/index.qmd)
+3. [Numerical Methods](../../topics/advanced/numerical-methods/index.qmd)
+4. [Models, Discretization, and Simulation Loops](models-discretization-and-simulation-loops.qmd)
+
+### If You Want The Cleanest First Bridge Inside This Section
+
+Start with:
+
+1. [Models, Discretization, and Simulation Loops](models-discretization-and-simulation-loops.qmd)
+2. [Linear Systems, Conditioning, and Stable Computation](linear-systems-conditioning-and-stable-computation.qmd)
+3. [Approximation, Quadrature, and Error Control in Practice](approximation-quadrature-and-error-control-in-practice.qmd)
+4. [Inverse Problems, Parameter Estimation, and Data Assimilation](inverse-problems-parameter-estimation-and-data-assimilation.qmd)
+
+The remaining core extension for this route is the stiffness-focused page.
+The scientific-ML bridge is already live below as an outward extension rather than part of the core route.
+
+## First-Pass Route
+
+The live first-pass route in this section right now is:
+
+1. [Models, Discretization, and Simulation Loops](models-discretization-and-simulation-loops.qmd)
+2. [Linear Systems, Conditioning, and Stable Computation](linear-systems-conditioning-and-stable-computation.qmd)
+3. [Approximation, Quadrature, and Error Control in Practice](approximation-quadrature-and-error-control-in-practice.qmd)
+4. [Inverse Problems, Parameter Estimation, and Data Assimilation](inverse-problems-parameter-estimation-and-data-assimilation.qmd)
+
+Use it when you want the shortest translation from model equations and continuous objects into the actual computational loop:
+
+`build model -> discretize -> solve -> simulate -> inspect error -> revise`
+
+## Modern Bridge
+
+If your real question is where ML enters after the classical scientific-computing story is already clear, go next to:
+
+- [Scientific ML, Surrogates, and Computation-Physics Bridges](scientific-ml-surrogates-and-computation-physics-bridges.qmd)
+
+Read it as an outward bridge, not as a replacement for the first-pass numerical route above.
+
+## How To Use This Section
+
+- Use `Topics` when you want the math itself.
+- Use `Applications > Scientific Computing` when you want the model-to-computation translation layer.
+- Use [Numerical Methods](../../topics/advanced/numerical-methods/index.qmd) when solver behavior, stability, or approximation error becomes the main focus.
+- Use [Applications > Machine Learning](../machine-learning/index.qmd) when the learned model itself becomes the main object rather than the scientific-computing workflow around it.
+- Use [Paper Lab](../../paper-lab/index.qmd) when the computational objects feel clear and you want to read simulation-heavy or numerics-heavy papers.
+
+## Sources and Further Reading
+
+- [Computational Science and Engineering I](https://ocw.mit.edu/courses/18-085-computational-science-and-engineering-i-fall-2008/) - `First pass` - official MIT anchor for how physical models, discretization, and linear algebra interact. Checked `2026-04-26`.
+- [Numerical Methods for Partial Differential Equations](https://ocw.mit.edu/courses/18-336-numerical-methods-for-partial-differential-equations-spring-2009/) - `Second pass` - official MIT anchor once discretization and PDE-side simulation become more central. Checked `2026-04-26`.
+- [CME 102](https://web.stanford.edu/class/cme102/) - `Second pass` - official Stanford numerical-modeling anchor for ODE-side computation. Checked `2026-04-26`.
+- [CME 104](https://web.stanford.edu/class/cme104/) - `Second pass` - official Stanford scientific-computing anchor once numerical reasoning becomes more implementation-aware. Checked `2026-04-26`.

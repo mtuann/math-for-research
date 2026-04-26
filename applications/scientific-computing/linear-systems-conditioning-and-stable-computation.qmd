@@ -1,0 +1,180 @@
+---
+title: "Linear Systems, Conditioning, and Stable Computation"
+description: "A bridge page showing why discretized models so often turn into linear systems, and why conditioning and numerical stability directly affect the trustworthiness of scientific simulation."
+page-type: application
+status: published
+update-status: current
+level: bridge
+topic: scientific-computing
+prerequisites:
+  - /topics/foundation/linear-algebra/index.qmd
+  - /topics/advanced/numerical-methods/index.qmd
+  - /applications/scientific-computing/models-discretization-and-simulation-loops.qmd
+learning-goals:
+  - "Explain why discretized scientific models often reduce to linear systems."
+  - "Distinguish conditioning of the problem from numerical stability of the solver."
+  - "Interpret residual, conditioning, and solver trust together rather than separately."
+  - "Connect linear-system solves to scientific conclusions rather than treating them as mere implementation detail."
+applications:
+  - scientific-computing
+  - simulation
+  - numerical-modeling
+keywords:
+  - linear systems
+  - conditioning
+  - stability
+  - factorization
+  - scientific computing
+maintainer: mtuann
+last-reviewed: 2026-04-26
+source-check-date: 2026-04-26
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+---
+
+## Application Snapshot
+
+A large fraction of scientific computing eventually passes through one computational bottleneck:
+
+`after discretization, you often have to solve a linear system accurately enough that the science still means what you think it means`
+
+That sentence already contains the three basic objects:
+
+- a discretized operator
+- a linear system
+- a conditioning or stability question
+
+This page is the shortest bridge from the site's math modules into that bottleneck.
+
+## Problem Setting
+
+After discretization, many scientific models become equations of the form
+
+$$
+Ax = b
+$$
+
+or repeated linear solves of related form.
+
+This happens when:
+
+- an elliptic PDE is discretized on a grid
+- an implicit time step requires solving for the next state
+- Newton linearization creates a local solve
+- least-squares fitting or parameter estimation reduces to a linear algebra problem
+
+At that point, the question is not only `can I solve Ax=b?`
+
+It becomes:
+
+`is this problem well-conditioned enough, and is my solver stable enough, that the computed answer is scientifically trustworthy?`
+
+## Why This Math Appears
+
+This language reuses several math layers already on the site:
+
+- `Linear Algebra`: the discretized state and operator become vectors and matrices
+- `Numerical Methods`: factorization, conditioning, residuals, and backward error live here
+- `Models, Discretization, and Simulation Loops`: the linear system usually appears after the model has already been discretized
+- `Optimization and Inference`: inverse problems and calibration often add their own ill-conditioning
+
+So linear solves are not just low-level plumbing.
+
+They are often the point where a scientific model either stays trustworthy or starts drifting away from the interpretation the modeler had in mind.
+
+## Math Objects In Use
+
+- system matrix $A$
+- state or increment vector $x$
+- right-hand side $b$
+- residual $r = b - A\hat x$
+- condition number or sensitivity indicator
+- factorization or solver choice
+
+Two distinctions matter immediately:
+
+1. `conditioning`
+   How sensitive is the exact solution to perturbations in the data?
+
+2. `stability`
+   Does the numerical algorithm behave like an exact solver for a nearby problem?
+
+Those are not the same question.
+
+## A Small Worked Walkthrough
+
+Take a one-dimensional steady diffusion problem that has been discretized on a grid.
+
+The continuous model has already turned into a finite-dimensional system
+
+$$
+A u = f.
+$$
+
+Now suppose a solver returns an approximate solution $\hat u$ with a small residual
+
+$$
+r = f - A\hat u.
+$$
+
+That is good news, but it is not the whole story.
+
+If $A$ is poorly conditioned, then a small residual can still coexist with a solution that changes noticeably under tiny perturbations in the data or the operator.
+
+So the scientific reading is:
+
+- small residual says the discrete equations are nearly satisfied
+- conditioning says whether satisfying those equations is enough to trust the state itself
+
+This is why scientific-computing papers care so much about structure:
+
+- symmetry
+- positive definiteness
+- sparsity
+- scaling
+
+because those features affect both solver design and the meaning of the computed answer.
+
+## Implementation or Computation Note
+
+Once a discretized model produces $Ax=b$, the workflow branches into three practical questions:
+
+1. `Structure`
+   Is $A$ sparse, symmetric, positive definite, block-structured, or changing slowly across solves?
+
+2. `Solver choice`
+   Should we factor directly, iterate, or precondition?
+
+3. `Trust`
+   Is the main issue floating-point stability, problem conditioning, or model sensitivity itself?
+
+Strong follow-on pages already live on the site:
+
+- [Approximation, Quadrature, and Error Control in Practice](approximation-quadrature-and-error-control-in-practice.qmd)
+- [Inverse Problems, Parameter Estimation, and Data Assimilation](inverse-problems-parameter-estimation-and-data-assimilation.qmd)
+- [Floating-Point, Conditioning, and Backward Error](../../topics/advanced/numerical-methods/concepts/floating-point-conditioning-and-backward-error.qmd)
+- [Numerical Linear Systems and Factorizations](../../topics/advanced/numerical-methods/concepts/numerical-linear-systems-and-factorizations.qmd)
+- [Iterative Methods and Preconditioning](../../topics/advanced/numerical-methods/concepts/iterative-methods-and-preconditioning.qmd)
+- [Optimization and Inference](../optimization-and-inference/index.qmd)
+- [Inverse Problems, Sensing, and Reconstruction](../signal-and-communication/inverse-problems-sensing-and-reconstruction.qmd)
+
+## Failure Modes
+
+- treating a small residual as if it automatically meant a good scientific answer
+- ignoring whether the operator is ill-conditioned after discretization
+- choosing a solver without using the matrix structure that the model provides
+- treating instability caused by floating point as if it were a property of the physical model
+- forgetting that even a stable solve can still be uninformative when the underlying problem is ill-conditioned
+
+## Paper Bridge
+
+- [Computational Science and Engineering I](https://ocw.mit.edu/courses/18-085-computational-science-and-engineering-i-fall-2008/) - `First pass` - official MIT bridge where discretization naturally leads to linear-system thinking. Checked `2026-04-26`.
+- [Convex Optimization](https://web.stanford.edu/~boyd/cvxbook/) - `Paper bridge` - useful once linear algebra, conditioning, and solver structure begin to overlap with optimization viewpoints. Checked `2026-04-26`.
+
+## Sources and Further Reading
+
+- [Linear Algebra](https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/) - `First pass` - official MIT anchor for the matrix and solve language underneath scientific-computing workflows. Checked `2026-04-26`.
+- [Computational Science and Engineering I](https://ocw.mit.edu/courses/18-085-computational-science-and-engineering-i-fall-2008/) - `First pass` - official MIT course showing how discretization and matrix solves become inseparable. Checked `2026-04-26`.
+- [CME 104](https://web.stanford.edu/class/cme104/) - `Second pass` - official Stanford scientific-computing anchor once conditioning and stable computation matter operationally. Checked `2026-04-26`.
+- [Convex Optimization](https://web.stanford.edu/~boyd/cvxbook/) - `Bridge outward` - useful when linear-system structure overlaps with optimization and regularization viewpoints. Checked `2026-04-26`.

@@ -13,3 +13,6 @@ This section is reserved for:
 
 It should feel like a reflective layer on top of the main curriculum, not a replacement for it.
 
+## Current Notes
+
+- [When a Topic Starts to Feel Reusable](when-a-topic-starts-to-feel-reusable.qmd)
