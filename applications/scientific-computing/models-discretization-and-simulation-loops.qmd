@@ -174,6 +174,7 @@ Once the model is discretized, the workflow branches into three practical questi
 
 Strong follow-on pages already live on the site:
 
+- [Time-Stepping, Stiffness, and Solver Choice](time-stepping-stiffness-and-solver-choice.qmd)
 - [Linear Systems, Conditioning, and Stable Computation](linear-systems-conditioning-and-stable-computation.qmd)
 - [Approximation, Quadrature, and Error Control in Practice](approximation-quadrature-and-error-control-in-practice.qmd)
 - [Inverse Problems, Parameter Estimation, and Data Assimilation](inverse-problems-parameter-estimation-and-data-assimilation.qmd)

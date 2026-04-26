@@ -316,6 +316,7 @@ website:
             contents:
               - applications/scientific-computing/index.qmd
               - applications/scientific-computing/models-discretization-and-simulation-loops.qmd
+              - applications/scientific-computing/time-stepping-stiffness-and-solver-choice.qmd
               - applications/scientific-computing/linear-systems-conditioning-and-stable-computation.qmd
               - applications/scientific-computing/approximation-quadrature-and-error-control-in-practice.qmd
               - applications/scientific-computing/inverse-problems-parameter-estimation-and-data-assimilation.qmd

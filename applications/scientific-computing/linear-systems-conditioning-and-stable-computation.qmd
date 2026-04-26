@@ -151,6 +151,7 @@ Once a discretized model produces $Ax=b$, the workflow branches into three pract
 
 Strong follow-on pages already live on the site:
 
+- [Time-Stepping, Stiffness, and Solver Choice](time-stepping-stiffness-and-solver-choice.qmd)
 - [Approximation, Quadrature, and Error Control in Practice](approximation-quadrature-and-error-control-in-practice.qmd)
 - [Inverse Problems, Parameter Estimation, and Data Assimilation](inverse-problems-parameter-estimation-and-data-assimilation.qmd)
 - [Floating-Point, Conditioning, and Backward Error](../../topics/advanced/numerical-methods/concepts/floating-point-conditioning-and-backward-error.qmd)

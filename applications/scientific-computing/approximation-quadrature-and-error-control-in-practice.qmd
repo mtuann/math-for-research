@@ -161,6 +161,7 @@ Three practical patterns appear over and over:
 
 Strong next bridges already live on the site:
 
+- [Time-Stepping, Stiffness, and Solver Choice](time-stepping-stiffness-and-solver-choice.qmd)
 - [Approximation, Differentiation, Integration, and Error Control](../../topics/advanced/numerical-methods/concepts/approximation-differentiation-integration-and-error-control.qmd)
 - [Time-Stepping for ODEs and Stability](../../topics/advanced/numerical-methods/concepts/time-stepping-for-odes-and-stability.qmd)
 - [Models, Discretization, and Simulation Loops](models-discretization-and-simulation-loops.qmd)

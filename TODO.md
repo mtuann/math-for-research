@@ -17,7 +17,7 @@ Use it to track:
 
 ## Current Snapshot
 
-- `299` `.qmd` pages currently exist
+- `300` `.qmd` pages currently exist
 - `133` concept-topic pages currently exist
 - strongest completed foundation spines so far: `Algebra Repair`, `Discrete Math`, `Linear Algebra`, `Probability`, `Proofs`, `Logic`, `Statistics`, `Single-Variable Calculus`, `Multivariable Calculus`
 - strongest completed advanced spines so far: `Optimization`, `Real Analysis`, `Numerical Methods`, `ODEs and Dynamical Systems`, `Matrix Analysis`, `Learning Theory`, `High-Dimensional Probability`, `High-Dimensional Statistics`, `Information Theory`, `Control and Dynamics`, `Stochastic Control and Dynamic Programming`, `Signal Processing and Estimation`, `Stochastic Processes`
@@ -91,7 +91,7 @@ Use it to track:
 - [x] `Scientific computing`
 - [x] `Models, discretization, and simulation loops`
 - [x] `Linear systems, conditioning, and stable computation`
-- [ ] `Time-stepping, stiffness, and solver choice`
+- [x] `Time-stepping, stiffness, and solver choice`
 - [x] `Inverse problems, parameter estimation, and data assimilation`
 - [x] `Approximation, quadrature, and error control in practice`
 - [x] `Scientific ML, surrogates, and computation-physics bridges`
@@ -435,8 +435,7 @@ These are the topics that should eventually become canonical examples for future
 
 Near-term highest-value content steps:
 
-1. [ ] `Finish Applications: Scientific computing (Time-stepping, stiffness, and solver choice)`
-2. [ ] `Run local render + visual QA pass`
+1. [ ] `Run local render + visual QA pass`
 
 ## Work Outside Topic Content
 
@@ -483,6 +482,6 @@ Yes, there is important work outside topic writing.
 ## Notes
 
 - Current content momentum is strongest in the advanced bridge cluster: `Numerical Methods`, `ODEs and Dynamical Systems`, `Control and Dynamics`, `Stochastic Control and Dynamic Programming`, `Information Theory`, and `Signal Processing and Estimation`.
-- The public-facing application layer now has four full hubs: `Machine Learning`, `Control and dynamics`, `Signal and communication`, and `Optimization and inference`.
-- The next content gaps most worth filling are the remaining `Time-stepping, stiffness, and solver choice` page plus any later notes or essays once the public-facing routes feel stable.
+- The public-facing application layer now has five full hubs: `Machine Learning`, `Control and dynamics`, `Signal and communication`, `Optimization and inference`, and `Scientific computing`.
+- The content backlog is now essentially closed at the route level; the next worthwhile additions are later notes or essays once the public-facing routes feel stable.
 - The next non-content task most worth doing is a `local render + visual QA pass`.

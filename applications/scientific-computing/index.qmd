@@ -93,9 +93,10 @@ Start in this order:
 Start with:
 
 1. [Models, Discretization, and Simulation Loops](models-discretization-and-simulation-loops.qmd)
-2. [Linear Systems, Conditioning, and Stable Computation](linear-systems-conditioning-and-stable-computation.qmd)
-3. [Approximation, Quadrature, and Error Control in Practice](approximation-quadrature-and-error-control-in-practice.qmd)
-4. [Inverse Problems, Parameter Estimation, and Data Assimilation](inverse-problems-parameter-estimation-and-data-assimilation.qmd)
+2. [Time-Stepping, Stiffness, and Solver Choice](time-stepping-stiffness-and-solver-choice.qmd)
+3. [Linear Systems, Conditioning, and Stable Computation](linear-systems-conditioning-and-stable-computation.qmd)
+4. [Approximation, Quadrature, and Error Control in Practice](approximation-quadrature-and-error-control-in-practice.qmd)
+5. [Inverse Problems, Parameter Estimation, and Data Assimilation](inverse-problems-parameter-estimation-and-data-assimilation.qmd)
 
 The scientific-ML bridge is already live below as an outward extension rather than part of the core route.
 
@@ -104,15 +105,14 @@ The scientific-ML bridge is already live below as an outward extension rather th
 The live first-pass route in this section is:
 
 1. [Models, Discretization, and Simulation Loops](models-discretization-and-simulation-loops.qmd)
-2. [Linear Systems, Conditioning, and Stable Computation](linear-systems-conditioning-and-stable-computation.qmd)
-3. [Approximation, Quadrature, and Error Control in Practice](approximation-quadrature-and-error-control-in-practice.qmd)
-4. [Inverse Problems, Parameter Estimation, and Data Assimilation](inverse-problems-parameter-estimation-and-data-assimilation.qmd)
+2. [Time-Stepping, Stiffness, and Solver Choice](time-stepping-stiffness-and-solver-choice.qmd)
+3. [Linear Systems, Conditioning, and Stable Computation](linear-systems-conditioning-and-stable-computation.qmd)
+4. [Approximation, Quadrature, and Error Control in Practice](approximation-quadrature-and-error-control-in-practice.qmd)
+5. [Inverse Problems, Parameter Estimation, and Data Assimilation](inverse-problems-parameter-estimation-and-data-assimilation.qmd)
 
 Use it when you want the shortest translation from model equations and continuous objects into the actual computational loop:
 
 `build model -> discretize -> solve -> simulate -> inspect error -> revise`
-
-A future stiffness-focused page can extend this route, but the pages above already stand on their own as a usable first pass.
 
 ## Modern Bridge
 
