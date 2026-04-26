@@ -1,0 +1,197 @@
+---
+title: "Sampling, Mixing, and MCMC for Inference"
+description: "A bridge page showing how posterior inference can be approximated by building a Markov chain whose long-run behavior matches the target distribution."
+page-type: application
+status: published
+update-status: current
+level: bridge
+topic: optimization-and-inference
+prerequisites:
+  - /topics/foundation/probability/index.qmd
+  - /topics/foundation/statistics/index.qmd
+learning-goals:
+  - "Explain why sampling-based inference becomes attractive when exact posteriors are hard and point estimates are not enough."
+  - "Interpret MCMC as Markov-chain design for approximate posterior computation."
+  - "Distinguish target correctness in the limit from practical mixing quality."
+  - "Connect sampling-based inference to expectation estimation, uncertainty summaries, and Bayesian computation."
+applications:
+  - inference
+  - bayesian
+  - stochastic-processes
+  - optimization
+keywords:
+  - sampling
+  - MCMC
+  - mixing
+  - posterior
+  - inference
+maintainer: mtuann
+last-reviewed: 2026-04-26
+source-check-date: 2026-04-26
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+---
+
+## Application Snapshot
+
+Sometimes a point estimate is not enough.
+
+You may want:
+
+- posterior means
+- uncertainty intervals
+- marginal probabilities
+- samples from plausible latent explanations
+
+If the posterior is hard to compute exactly, one strategy is:
+
+- build a Markov chain whose stationary distribution is the target posterior
+- run it long enough
+- use the resulting trajectory to approximate expectations and uncertainty summaries
+
+That is the MCMC viewpoint.
+
+## Problem Setting
+
+Suppose your target is a posterior distribution
+
+$$
+p(x\mid y),
+$$
+
+but direct integration, normalization, or exact sampling is too expensive.
+
+Instead of trying to compute every quantity analytically, you design a Markov chain
+
+$$
+X_0, X_1, X_2, \dots
+$$
+
+whose stationary distribution is the target:
+
+$$
+\pi(x)=p(x\mid y).
+$$
+
+Then posterior expectations such as
+
+$$
+\mathbb{E}_{\pi}[f(X)]
+$$
+
+are approximated by long-run averages:
+
+$$
+\frac{1}{T}\sum_{t=1}^T f(X_t).
+$$
+
+So the core inference task changes from:
+
+`compute the posterior exactly`
+
+to:
+
+`simulate a chain whose long-run behavior reveals posterior quantities`
+
+## Why This Math Appears
+
+This page ties together several site modules:
+
+- `Statistics`: posterior distributions and uncertainty summaries
+- `Stochastic Processes`: Markov chains, mixing, and ergodic averages
+- `Optimization and Inference`: inference goals that need more than a point estimate
+- `Information Theory`: approximation quality and uncertainty tradeoffs
+- `High-Dimensional Statistics`: posterior computation in large structured models
+
+So sampling-based inference is not only a computational trick. It is one of the main ways probability becomes usable when exact closed forms fail.
+
+## Math Objects In Use
+
+- target posterior distribution $\pi(x)=p(x\mid y)$
+- Markov chain transition rule
+- stationary distribution
+- mixing behavior
+- ergodic averages
+- posterior observable $f(x)$ whose expectation or marginal you want
+
+At the application level, the critical questions are:
+
+- does the chain target the right distribution?
+- does it mix fast enough to be useful?
+- are the resulting samples informative enough for the quantity you care about?
+
+## A Small Worked Walkthrough
+
+Suppose a posterior over a latent variable $x$ is too complicated to summarize analytically.
+
+You still want:
+
+- a posterior mean
+- a credible interval
+- a sense of multimodality or uncertainty spread
+
+MAP estimation gives only one mode.
+Variational inference gives an optimized approximate family.
+MCMC instead tries to explore the target distribution itself through a chain.
+
+The workflow becomes:
+
+1. `Choose a chain construction`
+   For example, a Metropolis-Hastings or Gibbs-style update rule.
+
+2. `Run the chain`
+   Let it move through plausible hidden-variable configurations.
+
+3. `Estimate posterior quantities`
+   Use long-run averages, histograms, or empirical quantiles from the trajectory.
+
+This is why MCMC is often the answer when the real question is not:
+
+`what is the single best hidden explanation?`
+
+but instead:
+
+`what does the whole posterior landscape look like?`
+
+## Implementation or Computation Note
+
+The main computational choices here are:
+
+1. `Target design`
+   What posterior or unnormalized density are you really trying to sample from?
+
+2. `Chain design`
+   How do you propose moves so the stationary distribution is correct?
+
+3. `Mixing diagnosis`
+   Are samples still too dependent, or has the chain explored enough of the target?
+
+Strong next bridges already live on the site:
+
+- [Bayesian Optimization, Active Sensing, and Information Gathering](bayesian-optimization-active-sensing-and-information-gathering.qmd)
+- [Mixing, Ergodicity, and MCMC Bridges](../../topics/advanced/stochastic-processes/concepts/mixing-ergodicity-and-mcmc-bridges.qmd)
+- [Markov Chains and Stationary Distributions](../../topics/advanced/stochastic-processes/concepts/markov-chains-and-stationary-distributions.qmd)
+- [Variational Inference, ELBO, and Tractable Approximation](variational-inference-elbo-and-tractable-approximation.qmd)
+- [Information-Theoretic Lower Bounds in Statistics, Learning, and Communication](../../topics/advanced/information-theory/concepts/information-theoretic-lower-bounds-in-statistics-learning-and-communication.qmd)
+
+## Failure Modes
+
+- checking only whether the stationary distribution is correct while ignoring whether the chain mixes too slowly
+- treating early highly correlated samples as if they were independent posterior draws
+- using MCMC when the real downstream goal only needs a simple point estimate
+- forgetting that poor proposal geometry can make the chain computationally useless in high dimension
+- reporting posterior summaries without asking whether the chain actually explored the target distribution well
+
+## Paper Bridge
+
+- [Stats366 Markov Chains Notes](https://web.stanford.edu/class/stats366/hmmR2.html) - `First pass` - useful once Markov-chain dynamics become part of the inference story. Checked `2026-04-26`.
+- [6.262 / Discrete Stochastic Processes](https://ocw.mit.edu/courses/6-262-discrete-stochastic-processes-spring-2011/) - `Bridge to stochastic-processes tooling` - useful once mixing and long-run averages become computational questions. Checked `2026-04-26`.
+
+## Sources and Further Reading
+
+- [18.445 / Introduction to Stochastic Processes](https://ocw.mit.edu/courses/18-445-introduction-to-stochastic-processes-spring-2015/pages/lecture-notes/) - `First pass` - official MIT anchor for mixing and long-run Markov-chain behavior. Checked `2026-04-26`.
+- [6.262 / Discrete Stochastic Processes](https://ocw.mit.edu/courses/6-262-discrete-stochastic-processes-spring-2011/) - `First pass` - official MIT anchor for Markov-chain modeling and probabilistic recursion. Checked `2026-04-26`.
+- [Stats366 Course Page](https://web.stanford.edu/class/stats366/) - `Second pass` - Stanford anchor for hidden-state and Markov-model computation. Checked `2026-04-26`.
+- [Stats366 Markov Chains Notes](https://web.stanford.edu/class/stats366/hmmR2.html) - `Second pass` - Stanford notes useful for the Markov-chain side of MCMC intuition. Checked `2026-04-26`.
+- [Stats366 Underlying Algorithms](https://web.stanford.edu/class/stats366/exs/algos.html) - `Algorithm bridge` - Stanford notes helpful for recursive and chain-based inference viewpoints. Checked `2026-04-26`.

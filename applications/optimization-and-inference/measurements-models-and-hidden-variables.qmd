@@ -1,0 +1,190 @@
+---
+title: "Measurements, Models, and Hidden Variables"
+description: "A bridge page showing how observations, forward models, and hidden quantities create the common backbone of optimization and inference problems."
+page-type: application
+status: published
+update-status: current
+level: bridge
+topic: optimization-and-inference
+prerequisites:
+  - /topics/foundation/statistics/index.qmd
+  - /topics/advanced/optimization/index.qmd
+learning-goals:
+  - "Distinguish observations from the hidden quantities an inference problem actually cares about."
+  - "Recognize forward models, likelihoods, priors, and posteriors as different views of the same inference setup."
+  - "Explain why optimization, filtering, variational methods, and sampling are different computational responses to the same core problem."
+  - "Connect inference language to existing site modules on statistics, optimization, signal processing, and stochastic processes."
+applications:
+  - inference
+  - optimization
+  - estimation
+  - bayesian
+keywords:
+  - measurements
+  - hidden-variables
+  - likelihood
+  - posterior
+  - inference
+maintainer: mtuann
+last-reviewed: 2026-04-26
+source-check-date: 2026-04-26
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+---
+
+## Application Snapshot
+
+A large fraction of inference can be summarized in one sentence:
+
+`you do not observe the quantity you care about directly, so you build a model that connects hidden structure to noisy data`
+
+That sentence already contains the main objects:
+
+- measurements
+- a forward model
+- hidden variables
+- uncertainty or approximation choices
+
+This page is the shortest bridge from the site's math modules into that shared inference language.
+
+## Problem Setting
+
+A generic inference problem starts with:
+
+- observed data $y$
+- a hidden quantity $x$ or $z$ that you actually care about
+- a model describing how observations arise from the hidden quantity
+
+In a linear measurement model, this often looks like
+
+$$
+y = Hx + \eta,
+$$
+
+where $H$ is a measurement map and $\eta$ is noise.
+
+In a probabilistic form, the same idea is written as
+
+$$
+y \sim p(y \mid x)
+$$
+
+or, with a latent variable $z$,
+
+$$
+z \sim p(z),
+\qquad
+x \sim p(x \mid z).
+$$
+
+The point is the same in both languages:
+
+- the observation is not the target
+- the model tells you how they are related
+- inference is the work of going backward from data to hidden structure
+
+## Why This Math Appears
+
+This language keeps reusing several math layers already on the site:
+
+- `Statistics`: likelihoods, priors, posteriors, estimation targets
+- `Optimization`: MAP estimation, regularized recovery, constraints
+- `Signal Processing and Estimation`: noisy measurements, filtering, inverse problems
+- `Stochastic Processes`: hidden-state evolution, sequential uncertainty, MCMC bridges
+- `Information Theory`: compression, uncertainty, and information limits
+
+So optimization and inference are not separate subjects glued together late. They are two views of the same recurring problem: hidden structure must be recovered from imperfect evidence.
+
+## Math Objects In Use
+
+- observed data $y$
+- hidden variable, parameter, signal, or state $x$ or $z$
+- forward model or likelihood $p(y \mid x)$
+- sometimes a prior $p(x)$ or structural assumption
+- posterior quantity $p(x \mid y)$ when uncertainty matters
+- objective function when the problem is solved as an optimization task
+
+In many papers, a posterior question is converted into an optimization problem by taking negative logs:
+
+$$
+\hat{x}_{\mathrm{MAP}}
+=
+\arg\max_x p(x \mid y)
+=
+\arg\min_x \bigl[-\log p(y \mid x) - \log p(x)\bigr].
+$$
+
+That is why estimation and optimization keep appearing together.
+
+## A Small Worked Walkthrough
+
+Suppose $x$ is an unknown signal, $H$ measures only part of it, and the observed data are
+
+$$
+y = Hx + \eta.
+$$
+
+Now several different inference questions appear immediately:
+
+1. `Point estimate`
+   Find a single best guess $\hat{x}$.
+
+2. `Posterior uncertainty`
+   Characterize how uncertain we still are about $x$ after seeing $y$.
+
+3. `Sequential update`
+   If new measurements arrive over time, update the belief about $x$ repeatedly.
+
+4. `Active measurement`
+   If we can choose what to measure next, decide which observation would be most useful.
+
+The observation model has not changed. Only the downstream question has changed.
+
+That is the main organizing idea of this section:
+
+`one measurement model can lead to optimization, filtering, variational approximation, or sampling, depending on what answer is needed`
+
+## Implementation or Computation Note
+
+In practice, the main computational forks are:
+
+1. `Optimize an objective`
+   Use this when you want a point estimate such as least squares, MAP, or regularized recovery.
+
+2. `Update beliefs sequentially`
+   Use this when data arrive over time and hidden state evolves.
+
+3. `Approximate a posterior`
+   Use this when the full posterior is too hard to compute exactly, so you need variational or sampling-based methods.
+
+Strong next bridges already live on the site:
+
+- [Likelihoods, Priors, and MAP Estimation](likelihoods-priors-and-map-estimation.qmd)
+- [Maximum Likelihood and Bayesian Basics](../../topics/foundation/statistics/concepts/maximum-likelihood-and-bayesian-basics.qmd)
+- [Numerical Least Squares and Regularization](../../topics/advanced/numerical-methods/concepts/numerical-least-squares-and-regularization.qmd)
+- [State Estimation, Smoothing, and Hidden-State Inference](../../topics/advanced/signal-processing-and-estimation/concepts/state-estimation-smoothing-and-hidden-state-inference.qmd)
+- [Variational Objectives, ELBO, and Information Bounds](../../topics/advanced/information-theory/concepts/variational-objectives-elbo-and-information-bounds.qmd)
+- [Mixing, Ergodicity, and MCMC Bridges](../../topics/advanced/stochastic-processes/concepts/mixing-ergodicity-and-mcmc-bridges.qmd)
+
+## Failure Modes
+
+- treating the measurement as if it were the target quantity itself
+- ignoring whether the forward model $H$ loses information or creates non-identifiability
+- confusing a regularized point estimate with a full uncertainty description
+- forgetting that priors and regularizers encode assumptions about hidden structure
+- choosing a computational method before deciding whether the real goal is optimization, uncertainty quantification, or sequential belief updating
+
+## Paper Bridge
+
+- [STATS 305B / Applied Statistics II](https://web.stanford.edu/class/stats305b/) - `First pass` - useful once likelihoods, regularization, and posterior questions begin to blur together. Checked `2026-04-26`.
+- [EE278 / Introduction to Statistical Signal Processing](https://web.stanford.edu/class/ee278/) - `Bridge to estimation` - useful when the hidden-variable question is driven by noisy measurements and filtering. Checked `2026-04-26`.
+
+## Sources and Further Reading
+
+- [6.011 / Signals, Systems and Inference](https://ocw.mit.edu/courses/6-011-signals-systems-and-inference-spring-2018/) - `First pass` - official MIT course that makes the measurement-to-inference story explicit. Checked `2026-04-26`.
+- [16.322 / Stochastic Estimation and Control](https://ocw.mit.edu/courses/16-322-stochastic-estimation-and-control-fall-2004/) - `First pass` - official MIT anchor for hidden-state inference and noisy observation models. Checked `2026-04-26`.
+- [EE278 / Introduction to Statistical Signal Processing](https://web.stanford.edu/class/ee278/) - `Second pass` - official Stanford course anchor for estimation from noisy data. Checked `2026-04-26`.
+- [STATS 202 / Data Mining and Analysis](https://web.stanford.edu/class/stats202/) - `Second pass` - official Stanford bridge for statistical modeling, estimation, and inference choices. Checked `2026-04-26`.
+- [STATS 305B / Applied Statistics II](https://web.stanford.edu/class/stats305b/) - `Second pass` - official Stanford bridge for regularization and modern estimation viewpoints. Checked `2026-04-26`.
+- [CS238 / Decision Making Under Uncertainty](https://bulletin.stanford.edu/courses/2158402) - `Bridge to sequential inference` - useful once hidden-state estimation begins to overlap with planning and action. Checked `2026-04-26`.

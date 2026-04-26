@@ -1,0 +1,219 @@
+---
+title: "Likelihoods, Priors, and MAP Estimation"
+description: "A bridge page showing how observation models, priors, and posterior modes turn inference questions into optimization problems."
+page-type: application
+status: published
+update-status: current
+level: bridge
+topic: optimization-and-inference
+prerequisites:
+  - /topics/foundation/statistics/index.qmd
+  - /topics/advanced/optimization/index.qmd
+learning-goals:
+  - "Interpret a likelihood as a data-fit model rather than just a formula."
+  - "Interpret a prior or regularizer as a structural assumption about hidden quantities."
+  - "Explain how MAP estimation turns posterior inference into an optimization problem."
+  - "Recognize common correspondences between noise models, priors, and objective functions."
+applications:
+  - inference
+  - optimization
+  - estimation
+  - bayesian
+keywords:
+  - likelihood
+  - prior
+  - MAP
+  - regularization
+  - inference
+maintainer: mtuann
+last-reviewed: 2026-04-26
+source-check-date: 2026-04-26
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+---
+
+## Application Snapshot
+
+Once an inference problem has observations and a hidden target, the next question is:
+
+`how should evidence from the data be combined with assumptions about what hidden solutions are plausible?`
+
+The two main pieces are:
+
+- a `likelihood`, which scores how well a hidden candidate explains the data
+- a `prior`, which encodes which hidden candidates look more plausible before seeing the data
+
+`MAP estimation` is the bridge that turns those two pieces into a concrete optimization problem.
+
+## Problem Setting
+
+Suppose the hidden quantity is $x$ and the observed data are $y$.
+
+The likelihood is the model
+
+$$
+p(y \mid x),
+$$
+
+which says how probable the observations would be if $x$ were the truth.
+
+The prior is
+
+$$
+p(x),
+$$
+
+which says which values of $x$ are more plausible before observing $y$.
+
+Bayes' rule combines them:
+
+$$
+p(x \mid y)
+\propto
+p(y \mid x)\,p(x).
+$$
+
+If you want a single best posterior mode instead of the whole posterior distribution, you get the MAP estimator:
+
+$$
+\hat{x}_{\mathrm{MAP}}
+=
+\arg\max_x p(x \mid y)
+=
+\arg\max_x p(y \mid x)p(x).
+$$
+
+Taking negative logs turns that into an optimization problem:
+
+$$
+\hat{x}_{\mathrm{MAP}}
+=
+\arg\min_x \bigl[-\log p(y \mid x) - \log p(x)\bigr].
+$$
+
+## Why This Math Appears
+
+This page sits exactly at the intersection of several site modules:
+
+- `Statistics`: likelihoods, posteriors, Bayesian estimation
+- `Optimization`: objectives, constraints, convexity, regularization
+- `High-Dimensional Statistics`: sparsity assumptions and structured recovery
+- `Signal Processing and Estimation`: noisy measurements and inverse problems
+- `Information Theory`: priors and penalties as ways of controlling uncertainty and description complexity
+
+So MAP estimation is not a niche Bayesian trick. It is one of the cleanest ways to translate probabilistic modeling into a numerical objective you can actually solve.
+
+## Math Objects In Use
+
+- hidden variable, parameter, or signal $x$
+- observation $y$
+- likelihood $p(y \mid x)$
+- prior $p(x)$
+- posterior $p(x \mid y)$
+- negative log-likelihood as a data-fit term
+- negative log-prior as a penalty or regularizer
+
+This is why the same optimization template appears across many applications:
+
+$$
+\min_x \Bigl[\text{data fit}(x) + \lambda\,\text{regularizer}(x)\Bigr].
+$$
+
+In many cases, the regularizer is just the negative log-prior up to constants and scaling.
+
+## A Small Worked Walkthrough
+
+Take the simple noisy observation model
+
+$$
+y = x + \eta,
+\qquad
+\eta \sim \mathcal{N}(0,\sigma^2).
+$$
+
+Then the likelihood says:
+
+$$
+p(y \mid x) \propto \exp\!\left(-\frac{(y-x)^2}{2\sigma^2}\right).
+$$
+
+Now suppose the prior is also Gaussian:
+
+$$
+x \sim \mathcal{N}(0,\tau^2).
+$$
+
+Then
+
+$$
+p(x) \propto \exp\!\left(-\frac{x^2}{2\tau^2}\right).
+$$
+
+The MAP problem becomes
+
+$$
+\hat{x}_{\mathrm{MAP}}
+=
+\arg\min_x
+\left[
+\frac{(y-x)^2}{2\sigma^2}
+
++ \frac{x^2}{2\tau^2}
+\right].
+$$
+
+This is already the shape of a regularized objective:
+
+- the first term fits the data
+- the second term shrinks solutions toward values preferred by the prior
+
+If the prior were Laplace instead of Gaussian, the penalty would become proportional to $|x|$, which is the same geometry that later reappears in sparse recovery and `l1` regularization.
+
+So one of the most important application translations is:
+
+- Gaussian noise often leads to squared loss
+- Gaussian priors often lead to `l2` penalties
+- Laplace priors often lead to `l1` penalties
+
+## Implementation or Computation Note
+
+In practice, three decisions matter immediately:
+
+1. `Model choice`
+   What noise model makes sense for the measurement process?
+
+2. `Structure choice`
+   What prior or regularizer expresses what you believe about the hidden quantity?
+
+3. `Computation choice`
+   Is the resulting objective easy to optimize, or will you need approximation or sampling?
+
+The strongest next pages after this one are:
+
+- [Filtering, Smoothing, and Hidden-State Inference](filtering-smoothing-and-hidden-state-inference.qmd)
+- [Numerical Least Squares and Regularization](../../topics/advanced/numerical-methods/concepts/numerical-least-squares-and-regularization.qmd)
+- [Lasso and Compressed Sensing Basics](../../topics/advanced/high-dimensional-statistics/concepts/lasso-and-compressed-sensing-basics.qmd)
+- [Variational Objectives, ELBO, and Information Bounds](../../topics/advanced/information-theory/concepts/variational-objectives-elbo-and-information-bounds.qmd)
+- [Mixing, Ergodicity, and MCMC Bridges](../../topics/advanced/stochastic-processes/concepts/mixing-ergodicity-and-mcmc-bridges.qmd)
+
+## Failure Modes
+
+- confusing `MLE`, `MAP`, and full Bayesian posterior inference
+- treating the prior as decoration instead of a real structural assumption
+- forgetting that a bad likelihood model can dominate everything downstream
+- interpreting the MAP point estimate as if it contained the same information as the whole posterior
+- tuning penalties numerically without asking what prior belief or recovery bias they actually encode
+
+## Paper Bridge
+
+- [STATS 305B / Applied Statistics II](https://web.stanford.edu/class/stats305b/) - `First pass` - useful once regularization and posterior-mode estimation start to merge. Checked `2026-04-26`.
+- [EE278 / Introduction to Statistical Signal Processing](https://web.stanford.edu/class/ee278/) - `Bridge to estimation` - useful once likelihood modeling and noisy observations become the main bottleneck. Checked `2026-04-26`.
+
+## Sources and Further Reading
+
+- [STATS 202 / Data Mining and Analysis](https://web.stanford.edu/class/stats202/) - `First pass` - official Stanford bridge for estimation viewpoints and modeling choices. Checked `2026-04-26`.
+- [STATS 305B / Applied Statistics II](https://web.stanford.edu/class/stats305b/) - `First pass` - official Stanford anchor for regularization and modern estimation language. Checked `2026-04-26`.
+- [STATS 305B LASSO Notes](https://web.stanford.edu/class/stats305b/notes/LASSO_I.html) - `Second pass` - official Stanford notes that make the penalty-as-structure viewpoint explicit. Checked `2026-04-26`.
+- [6.011 / Signals, Systems and Inference](https://ocw.mit.edu/courses/6-011-signals-systems-and-inference-spring-2018/) - `Bridge to noisy measurements` - official MIT course anchor for inference from corrupted observations. Checked `2026-04-26`.
+- [16.322 / Stochastic Estimation and Control](https://ocw.mit.edu/courses/16-322-stochastic-estimation-and-control-fall-2004/) - `Bridge to model-based estimation` - official MIT source for hidden-state estimation and Bayesian filtering viewpoints. Checked `2026-04-26`.

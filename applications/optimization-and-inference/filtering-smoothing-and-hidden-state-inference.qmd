@@ -1,0 +1,176 @@
+---
+title: "Filtering, Smoothing, and Hidden-State Inference"
+description: "A bridge page showing how evolving hidden states, noisy observations, and recursive beliefs create sequential inference problems."
+page-type: application
+status: published
+update-status: current
+level: bridge
+topic: optimization-and-inference
+prerequisites:
+  - /topics/foundation/probability/index.qmd
+  - /topics/foundation/statistics/index.qmd
+learning-goals:
+  - "Distinguish prediction, filtering, and smoothing in sequential inference problems."
+  - "Interpret hidden-state models as repeated measurement models with temporal structure."
+  - "Recognize Kalman filtering and forward-backward inference as load-bearing computational patterns."
+  - "Connect sequential belief updates to control, tracking, Bayesian estimation, and partial observability."
+applications:
+  - inference
+  - estimation
+  - signal-processing
+  - bayesian
+keywords:
+  - filtering
+  - smoothing
+  - hidden-state
+  - Kalman
+  - HMM
+maintainer: mtuann
+last-reviewed: 2026-04-26
+source-check-date: 2026-04-26
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+---
+
+## Application Snapshot
+
+Many inference problems are not static.
+
+The hidden quantity changes over time, observations arrive sequentially, and each new measurement should update what we believe about the current state.
+
+That is the setting of hidden-state inference:
+
+- `a latent state evolves`
+- `observations reveal it only indirectly`
+- `beliefs must be updated over time`
+
+This is where optimization and inference stop looking like one-shot recovery and start looking like sequential estimation.
+
+## Problem Setting
+
+A hidden-state model usually has two pieces:
+
+$$
+x_{t+1} \sim p(x_{t+1}\mid x_t),
+\qquad
+y_t \sim p(y_t\mid x_t).
+$$
+
+Here:
+
+- $x_t$ is the hidden state at time $t$
+- $y_t$ is the observation at time $t$
+
+The first part says how the state evolves.
+The second part says how the observation is generated from the state.
+
+This creates three closely related but different inference questions:
+
+- `prediction`: what do we believe about the next state before seeing the next measurement?
+- `filtering`: what do we believe about the current state after seeing observations up to now?
+- `smoothing`: what do we believe about an earlier state after future observations have arrived too?
+
+## Why This Math Appears
+
+This page reuses several math layers that are already live on the site:
+
+- `Probability and Statistics`: conditional distributions and posterior beliefs
+- `Stochastic Processes`: Markov structure and evolving uncertainty
+- `Signal Processing and Estimation`: state-space models, filtering, and noisy observations
+- `Control and Dynamics`: hidden state, sensing, and partial observability
+- `Stochastic Control and Dynamic Programming`: belief updates and sequential decision-making
+
+So filtering and smoothing are not a side branch. They are the sequential version of the same inference story that began with measurement models and MAP estimation.
+
+## Math Objects In Use
+
+- hidden state $x_t$
+- observation $y_t$
+- transition model $p(x_{t+1}\mid x_t)$
+- observation model $p(y_t\mid x_t)$
+- filtered belief $p(x_t\mid y_{1:t})$
+- smoothed belief $p(x_t\mid y_{1:T})$
+
+At the application level, the belief itself becomes a computational object.
+
+Instead of storing the whole history naively, we update a compact summary of uncertainty as new data arrive.
+
+## A Small Worked Walkthrough
+
+Imagine tracking a vehicle whose hidden state contains position and velocity:
+
+$$
+x_t =
+\begin{bmatrix}
+\text{position}_t \\
+\text{velocity}_t
+\end{bmatrix}.
+$$
+
+Suppose the sensor only reports noisy position:
+
+$$
+y_t = \text{position}_t + v_t.
+$$
+
+Now the sequential inference tasks separate cleanly:
+
+1. `Prediction`
+   Use the dynamics model to estimate where the vehicle will be at the next step.
+
+2. `Filtering`
+   Combine the dynamics prediction with the newest noisy position measurement to estimate the current state.
+
+3. `Smoothing`
+   After later measurements arrive, revise what you think the vehicle state was a few time steps ago.
+
+This already explains why the same problem gives rise to different algorithms:
+
+- in linear-Gaussian models, Kalman filtering is the load-bearing recursion
+- in discrete hidden-state models, forward-backward inference plays the same structural role
+
+The observation model has not changed. What changes is how much of the observation sequence you allow the estimator to use.
+
+## Implementation or Computation Note
+
+The main computational choices here are:
+
+1. `Recursive belief update`
+   Good when data arrive online and you need a current estimate quickly.
+
+2. `Forward-backward or smoothing pass`
+   Good when you can use future observations to revise earlier hidden states.
+
+3. `Optimization-based trajectory inference`
+   Good when you want a single most likely hidden trajectory instead of a full belief distribution.
+
+Strong next bridges already live on the site:
+
+- [Variational Inference, ELBO, and Tractable Approximation](variational-inference-elbo-and-tractable-approximation.qmd)
+- [State Estimation, Smoothing, and Hidden-State Inference](../../topics/advanced/signal-processing-and-estimation/concepts/state-estimation-smoothing-and-hidden-state-inference.qmd)
+- [Estimation, Kalman Filtering, and the Separation Principle](../../topics/advanced/control-and-dynamics/concepts/estimation-kalman-filtering-and-the-separation-principle.qmd)
+- [Partial Observability, Belief States, and RL/Control Bridges](../../topics/advanced/stochastic-control-and-dynamic-programming/concepts/partial-observability-belief-states-and-rl-control-bridges.qmd)
+- [Mixing, Ergodicity, and MCMC Bridges](../../topics/advanced/stochastic-processes/concepts/mixing-ergodicity-and-mcmc-bridges.qmd)
+
+## Failure Modes
+
+- treating filtering, smoothing, and prediction as if they were the same question
+- forgetting that observations may reveal only part of the state
+- using a one-shot estimator when the real problem is sequential and stateful
+- confusing a filtered online estimate with a smoothed retrospective estimate
+- ignoring how model mismatch in the dynamics can distort all later belief updates
+
+## Paper Bridge
+
+- [EE278 / Introduction to Statistical Signal Processing](https://web.stanford.edu/class/ee278/) - `First pass` - useful once recursive estimation becomes the main lens. Checked `2026-04-26`.
+- [16.322 / Stochastic Estimation and Control](https://ocw.mit.edu/courses/16-322-stochastic-estimation-and-control-fall-2004/) - `Bridge to state estimation` - useful once hidden-state models and belief updates become operational. Checked `2026-04-26`.
+
+## Sources and Further Reading
+
+- [6.438 / Algorithms for Inference](https://ocw.mit.edu/courses/6-438-algorithms-for-inference-fall-2014/) - `First pass` - official MIT course anchor for recursive inference and graphical-model viewpoints. Checked `2026-04-26`.
+- [Lecture 13: Kalman Filtering and Smoothing](https://ocw.mit.edu/courses/6-438-algorithms-for-inference-fall-2014/6a29d3d38474e9c62b746fa646899552_MIT6_438F14_Lec13.pdf) - `First pass` - compact official MIT notes on the exact filtering-versus-smoothing distinction used here. Checked `2026-04-26`.
+- [16.322 / Stochastic Estimation and Control](https://ocw.mit.edu/courses/16-322-stochastic-estimation-and-control-fall-2004/) - `Bridge to model-based estimation` - official MIT anchor for state estimation under uncertainty. Checked `2026-04-26`.
+- [EE278 / Introduction to Statistical Signal Processing](https://web.stanford.edu/class/ee278/) - `Second pass` - official Stanford course anchor for probabilistic estimation from sequential noisy data. Checked `2026-04-26`.
+- [Stats366 HMM Notes](https://web.stanford.edu/class/stats366/hmmR2.html) - `Second pass` - Stanford notes that make the forward-backward hidden-state story explicit. Checked `2026-04-26`.
+- [Stats366 Underlying Algorithms](https://web.stanford.edu/class/stats366/exs/algos.html) - `Algorithm bridge` - Stanford notes for the forward-backward and recursion viewpoint. Checked `2026-04-26`.

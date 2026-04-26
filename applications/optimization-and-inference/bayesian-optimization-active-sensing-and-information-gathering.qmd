@@ -1,0 +1,179 @@
+---
+title: "Bayesian Optimization, Active Sensing, and Information Gathering"
+description: "A bridge page showing how posterior uncertainty can be used not only to estimate hidden quantities, but also to choose the next experiment, query, or measurement."
+page-type: application
+status: published
+update-status: current
+level: bridge
+topic: optimization-and-inference
+prerequisites:
+  - /topics/foundation/statistics/index.qmd
+  - /topics/advanced/optimization/index.qmd
+learning-goals:
+  - "Explain how uncertainty can guide the next experiment or measurement choice."
+  - "Interpret Bayesian optimization as sequential decision-making under expensive objective evaluations."
+  - "Interpret active sensing as choosing measurements for information, not just passively consuming data."
+  - "Connect surrogate models, acquisition rules, and posterior uncertainty to a common information-gathering loop."
+applications:
+  - inference
+  - optimization
+  - active-learning
+  - bayesian
+keywords:
+  - bayesian-optimization
+  - active-sensing
+  - acquisition-function
+  - information-gathering
+  - surrogate-model
+maintainer: mtuann
+last-reviewed: 2026-04-26
+source-check-date: 2026-04-26
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+---
+
+## Application Snapshot
+
+Many inference pipelines stop at:
+
+- estimate a hidden quantity
+- quantify uncertainty
+
+But in real systems and experiments, there is often one more question:
+
+`what should I measure, query, or test next?`
+
+That is the active-information-gathering viewpoint.
+
+Instead of treating measurements as fixed, you use current uncertainty to decide:
+
+- which experiment is most valuable
+- which location is worth sensing
+- which configuration is worth evaluating next
+
+This is where Bayesian optimization and active sensing meet.
+
+## Problem Setting
+
+Suppose you have an unknown target quantity or black-box objective and a limited budget of measurements.
+
+At time $t$, you have data
+
+$$
+\mathcal{D}_t = \{(x_i, y_i)\}_{i=1}^t
+$$
+
+and a posterior or surrogate belief about what remains uncertain.
+
+The next decision is no longer only:
+
+`what do I believe now?`
+
+It becomes:
+
+`where should I spend the next measurement to improve what I know or what I can optimize?`
+
+That decision is usually driven by an acquisition or utility rule:
+
+$$
+x_{t+1} = \arg\max_x \alpha_t(x),
+$$
+
+where $\alpha_t(x)$ scores the value of sampling at $x$.
+
+## Why This Math Appears
+
+This page ties together several site modules:
+
+- `Statistics`: posterior beliefs and uncertainty
+- `Optimization`: choosing the next action by maximizing an acquisition rule
+- `Signal Processing and Estimation`: sensing as measurement design
+- `Information Theory`: information gain and exploration-exploitation tradeoffs
+- `Stochastic Control and Dynamic Programming`: sequential action under uncertainty
+
+So Bayesian optimization and active sensing are not side topics. They are what happens when inference becomes interactive and budgeted.
+
+## Math Objects In Use
+
+- data collected so far $\mathcal{D}_t$
+- surrogate or posterior belief over the unknown target
+- predictive mean and uncertainty
+- acquisition or information-gain score $\alpha_t(x)$
+- measurement or experiment budget
+
+At first pass, the core structural loop is:
+
+1. infer what is plausible now
+2. quantify what remains uncertain
+3. choose the next measurement using a utility rule
+4. update and repeat
+
+## A Small Worked Walkthrough
+
+Suppose an experimenter wants to maximize an expensive black-box objective $f(x)$, where each evaluation requires a costly simulation or lab run.
+
+After a few evaluations, the current surrogate belief might say:
+
+- one region has high predicted value
+- another region has lower predicted value but much higher uncertainty
+
+If you only optimize the current mean, you may overspend budget exploiting a region you already understand.
+
+A Bayesian-optimization-style acquisition rule instead asks:
+
+`is it better to sample where performance already looks strong, or where uncertainty might hide something even better?`
+
+This is the exploration-exploitation tradeoff in action.
+
+Now reinterpret the same structure in sensing language:
+
+- instead of choosing the next hyperparameter configuration, choose the next sensor location
+- instead of objective value, care about state uncertainty or reconstruction quality
+
+The mathematics is the same:
+
+- a belief model
+- an acquisition or utility rule
+- a sequential measurement budget
+
+## Implementation or Computation Note
+
+The main computational choices here are:
+
+1. `Belief model`
+   What surrogate or posterior summarizes the unknown target?
+
+2. `Acquisition rule`
+   Are you targeting improvement, confidence bounds, or explicit information gain?
+
+3. `Budget strategy`
+   Are you allowed one measurement at a time, a batch of measurements, or adaptive stopping?
+
+Strong next bridges already live on the site:
+
+- [Bayesian Optimization and Surrogate Modeling](../machine-learning/bayesian-optimization-and-surrogate-modeling.qmd)
+- [Sampling, Mixing, and MCMC for Inference](sampling-mixing-and-mcmc-for-inference.qmd)
+- [Mutual Information, Conditional Entropy, and Data Processing](../../topics/advanced/information-theory/concepts/mutual-information-conditional-entropy-and-data-processing.qmd)
+- [Model Predictive Control and Constraint Handling](../../topics/advanced/control-and-dynamics/concepts/model-predictive-control-and-constraint-handling.qmd)
+
+## Failure Modes
+
+- treating uncertainty as a passive diagnostic instead of an action-guiding signal
+- optimizing only the surrogate mean and calling that Bayesian optimization
+- using elaborate active-sensing logic when the measurement budget is not actually tight
+- forgetting that acquisition optimization is itself a nontrivial optimization problem
+- choosing measurements for short-term certainty reduction while ignoring the downstream task objective
+
+## Paper Bridge
+
+- [Introduction to Bayesian Optimization](https://ax.dev/docs/intro-to-bo/) - `First pass` - practical official introduction to the surrogate-plus-acquisition loop. Checked `2026-04-26`.
+- [Acquisition Functions](https://botorch.org/docs/acquisition/) - `First pass` - official guide to the utility rules that drive Bayesian optimization and related information-gathering methods. Checked `2026-04-26`.
+
+## Sources and Further Reading
+
+- [Introduction to Bayesian Optimization](https://ax.dev/docs/intro-to-bo/) - `First pass` - official Ax introduction to sequential optimization under expensive evaluations. Checked `2026-04-26`.
+- [Acquisition Functions](https://botorch.org/docs/acquisition/) - `First pass` - official BoTorch guide to acquisition design. Checked `2026-04-26`.
+- [CS329H / Machine Learning from Human Preferences](https://web.stanford.edu/class/cs329h/) - `Bridge to preference and active-query settings` - useful when inference and querying become interactive. Checked `2026-04-26`.
+- [Bayesian Optimization and Surrogate Modeling](../machine-learning/bayesian-optimization-and-surrogate-modeling.qmd) - `Site bridge` - the ML-facing companion page for the same loop. Checked `2026-04-26`.
+- [A Tutorial on Bayesian Optimization](https://arxiv.org/abs/1807.02811) - `Second pass` - standard tutorial for the surrogate-plus-acquisition viewpoint. Checked `2026-04-26`.

@@ -269,6 +269,13 @@ website:
           - applications/control-and-dynamics/optimal-control-and-trajectory-planning.qmd
           - applications/control-and-dynamics/constraints-mpc-and-safe-operation.qmd
           - applications/control-and-dynamics/learning-identification-and-rl-bridges.qmd
+          - applications/optimization-and-inference/index.qmd
+          - applications/optimization-and-inference/measurements-models-and-hidden-variables.qmd
+          - applications/optimization-and-inference/likelihoods-priors-and-map-estimation.qmd
+          - applications/optimization-and-inference/filtering-smoothing-and-hidden-state-inference.qmd
+          - applications/optimization-and-inference/variational-inference-elbo-and-tractable-approximation.qmd
+          - applications/optimization-and-inference/sampling-mixing-and-mcmc-for-inference.qmd
+          - applications/optimization-and-inference/bayesian-optimization-active-sensing-and-information-gathering.qmd
           - applications/signal-and-communication/index.qmd
           - applications/signal-and-communication/signals-channels-and-noisy-measurements.qmd
           - applications/signal-and-communication/filtering-denoising-and-estimation-in-communication-systems.qmd

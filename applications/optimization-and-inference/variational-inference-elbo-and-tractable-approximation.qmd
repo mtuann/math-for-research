@@ -1,0 +1,192 @@
+---
+title: "Variational Inference, ELBO, and Tractable Approximation"
+description: "A bridge page showing how intractable posterior inference becomes an optimization problem through variational approximations and ELBO-style objectives."
+page-type: application
+status: published
+update-status: current
+level: bridge
+topic: optimization-and-inference
+prerequisites:
+  - /topics/foundation/probability/index.qmd
+  - /topics/foundation/statistics/index.qmd
+learning-goals:
+  - "Explain why exact posterior inference is often intractable in latent-variable models."
+  - "Interpret variational inference as approximation inside a tractable family of distributions."
+  - "Interpret the ELBO as a computable optimization objective rather than only a formal lower bound."
+  - "Connect variational objectives to latent-variable modeling, representation learning, and approximate Bayesian inference."
+applications:
+  - inference
+  - bayesian
+  - machine-learning
+  - optimization
+keywords:
+  - variational-inference
+  - ELBO
+  - posterior-approximation
+  - latent-variables
+  - inference
+maintainer: mtuann
+last-reviewed: 2026-04-26
+source-check-date: 2026-04-26
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+---
+
+## Application Snapshot
+
+Some inference problems are hard for a simple reason:
+
+`the posterior distribution you want is too expensive to compute exactly`
+
+That happens quickly in latent-variable models, hierarchical Bayesian models, and modern generative models.
+
+Variational inference responds by changing the task:
+
+- do not compute the exact posterior directly
+- choose a tractable family of approximate posteriors
+- optimize the best approximation inside that family
+
+This is why approximate inference so often turns back into optimization.
+
+## Problem Setting
+
+Suppose a model has latent variables $z$ and observations $x$:
+
+$$
+p_\theta(x,z)=p(z)p_\theta(x\mid z).
+$$
+
+The exact posterior
+
+$$
+p_\theta(z\mid x)
+$$
+
+is often the object we want, but it may be intractable because evaluating or normalizing it requires the marginal likelihood
+
+$$
+p_\theta(x)=\int p_\theta(x,z)\,dz.
+$$
+
+Variational inference introduces a tractable approximation
+
+$$
+q_\phi(z\mid x),
+$$
+
+then asks:
+
+`which tractable approximate posterior is closest to the true one while still being computationally manageable?`
+
+## Why This Math Appears
+
+This page sits on top of several site modules:
+
+- `Statistics`: posterior inference and latent-variable modeling
+- `Optimization`: turning approximation quality into an objective
+- `Information Theory`: KL divergence, mutual information, and tractable bounds
+- `Signal Processing and Estimation`: hidden variables and belief summaries
+- `Machine Learning`: VAEs, representation learning, and amortized inference
+
+So variational inference is one of the clearest places where probability language and optimization language become the same workflow.
+
+## Math Objects In Use
+
+- latent variable $z$
+- observed data $x$
+- model parameters $\theta$
+- variational parameters $\phi$
+- approximate posterior $q_\phi(z\mid x)$
+- KL divergence between approximate and true distributions
+- ELBO as a computable surrogate objective
+
+The structural point is simple:
+
+- exact posterior inference is the ideal target
+- ELBO is the tractable surrogate
+- optimization over $\theta$ and $\phi$ is the computational engine
+
+## A Small Worked Walkthrough
+
+Suppose you want to model images using a latent representation $z$.
+
+The ideal object is the posterior
+
+$$
+p_\theta(z\mid x),
+$$
+
+because it tells you which latent explanations make a given image plausible.
+
+But directly computing it may be too expensive.
+
+So you introduce an encoder-like approximation
+
+$$
+q_\phi(z\mid x),
+$$
+
+and optimize the ELBO:
+
+$$
+\mathcal{L}(x;\theta,\phi)
+=
+\mathbb{E}_{q_\phi(z\mid x)}[\log p_\theta(x\mid z)]
+-
+KL(q_\phi(z\mid x)\|p(z)).
+$$
+
+Now each term gets an application-facing interpretation:
+
+- the reconstruction term rewards approximate posteriors that keep enough information to explain the data well
+- the KL term penalizes approximate posteriors that drift too far from the reference prior
+
+So the optimization is balancing:
+
+- fidelity to observed data
+- simplicity or compression of the latent representation
+
+That is why ELBO-based training feels like both approximate Bayesian inference and structured representation learning.
+
+## Implementation or Computation Note
+
+The main computational choices here are:
+
+1. `Variational family choice`
+   How simple should the approximate posterior family be?
+
+2. `Objective choice`
+   Are you optimizing the standard ELBO, a weighted variant, or another tractable bound?
+
+3. `Approximation bias`
+   What posterior structure are you giving up in exchange for tractability?
+
+Strong next bridges already live on the site:
+
+- [Sampling, Mixing, and MCMC for Inference](sampling-mixing-and-mcmc-for-inference.qmd)
+- [Variational Objectives, ELBO, and Information Bounds](../../topics/advanced/information-theory/concepts/variational-objectives-elbo-and-information-bounds.qmd)
+- [Maximum Likelihood and Bayesian Basics](../../topics/foundation/statistics/concepts/maximum-likelihood-and-bayesian-basics.qmd)
+- [Representation Learning and Geometry of Embeddings](../machine-learning/representation-learning-and-geometry-of-embeddings.qmd)
+- [Kernel Ridge and Gaussian-Process Intuition](../machine-learning/kernel-ridge-and-gaussian-process-intuition.qmd)
+
+## Failure Modes
+
+- treating the ELBO as if it were the true posterior objective rather than a surrogate
+- forgetting that the variational family itself can impose strong approximation bias
+- reading the KL term only as “regularization” and losing its approximation meaning
+- confusing a tractable bound with an exact Bayesian answer
+- using amortized inference machinery without first identifying what posterior is being approximated
+
+## Paper Bridge
+
+- [CS236 Lecture 5](https://cs236.stanford.edu/assets/slides/cs236_lecture5.pdf) - `First pass` - useful once latent-variable models and variational inference become concrete modeling tools. Checked `2026-04-26`.
+- [CS236 Lecture 6](https://cs236.stanford.edu/assets/slides/cs236_lecture6.pdf) - `Bridge to modern generative models` - useful once ELBO terms start to be read as design choices rather than just formulas. Checked `2026-04-26`.
+
+## Sources and Further Reading
+
+- [CS236 / Deep Generative Models](https://cs236.stanford.edu/) - `First pass` - official Stanford course anchor for latent-variable modeling and variational inference. Checked `2026-04-26`.
+- [CS236 Lecture 5](https://cs236.stanford.edu/assets/slides/cs236_lecture5.pdf) - `First pass` - official Stanford slides on variational inference and the ELBO. Checked `2026-04-26`.
+- [CS236 Lecture 6](https://cs236.stanford.edu/assets/slides/cs236_lecture6.pdf) - `Second pass` - official Stanford slides on deeper variational-modeling choices. Checked `2026-04-26`.
+- [Auto-Encoding Variational Bayes](https://arxiv.org/abs/1312.6114) - `Primary source` - foundational paper for the VAE and ELBO training story. Checked `2026-04-26`.
+- [Deep Variational Information Bottleneck](https://arxiv.org/abs/1612.00410) - `Bridge to representation learning` - useful for the compression-style interpretation of KL penalties. Checked `2026-04-26`.

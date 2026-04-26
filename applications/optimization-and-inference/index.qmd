@@ -1,0 +1,135 @@
+---
+title: "Optimization and Inference"
+description: "A public-facing hub showing how the site's math modules reappear in measurement models, hidden variables, posterior questions, regularized recovery, and approximate inference."
+page-type: application-index
+status: published
+update-status: current
+level: bridge
+topic: optimization-and-inference
+prerequisites:
+  - /topics/foundation/statistics/index.qmd
+  - /topics/advanced/optimization/index.qmd
+learning-goals:
+  - "Map the site's probability, statistics, and optimization modules to recurring inference objects."
+  - "Choose a first inference-facing reading path based on current interest."
+  - "See where latent variables, likelihoods, regularization, and uncertainty enter the same problem."
+applications:
+  - inference
+  - optimization
+  - estimation
+  - bayesian
+keywords:
+  - inference
+  - optimization
+  - latent-variables
+  - posterior
+  - applications
+maintainer: mtuann
+last-reviewed: 2026-04-26
+source-check-date: 2026-04-26
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+---
+
+## Why This Section Exists
+
+Many readers can follow the individual math topics, but still do not have a clean picture of what an inference problem actually is.
+
+This hub is for the moment when you want to answer questions like:
+
+- what exactly is hidden, observed, or only partially measured?
+- where do likelihoods, priors, regularizers, and posteriors all come from?
+- when should a problem be solved by optimization, sequential estimation, variational approximation, or sampling?
+
+The rule for this section is simple:
+
+`every inference page should point back to the exact observed data, hidden variables, and approximation choices it uses`
+
+## What Optimization And Inference Keeps Reusing
+
+Across inverse problems, Bayesian estimation, latent-variable modeling, filtering, and active sensing, the same mathematical objects keep returning:
+
+- observed data or measurements
+- hidden states, parameters, or latent variables
+- forward models and likelihoods
+- priors, regularizers, or structural assumptions
+- posterior questions, uncertainty summaries, or approximate surrogates
+
+If you can identify those objects quickly, papers about inference stop feeling like separate dialects.
+
+::: {.meta-strip}
+::: {.meta-box}
+**Best Starting Math**
+[Probability](../../topics/foundation/probability/index.qmd), [Statistics](../../topics/foundation/statistics/index.qmd), [Optimization](../../topics/advanced/optimization/index.qmd)
+:::
+::: {.meta-box}
+**Best Sequential Bridge**
+[Signal Processing and Estimation](../../topics/advanced/signal-processing-and-estimation/index.qmd)
+:::
+::: {.meta-box}
+**Best Uncertainty Bridge**
+[Stochastic Processes](../../topics/advanced/stochastic-processes/index.qmd)
+:::
+:::
+
+## Start Here By Interest
+
+### If You Want The Shortest Math-to-Inference Entry
+
+Start in this order:
+
+1. [Statistics](../../topics/foundation/statistics/index.qmd)
+2. [Optimization](../../topics/advanced/optimization/index.qmd)
+3. [Measurements, Models, and Hidden Variables](measurements-models-and-hidden-variables.qmd)
+4. [Likelihoods, Priors, and MAP Estimation](likelihoods-priors-and-map-estimation.qmd)
+5. [Filtering, Smoothing, and Hidden-State Inference](filtering-smoothing-and-hidden-state-inference.qmd)
+
+### If You Care Most About Posterior Questions And Hidden State
+
+Start with:
+
+1. [Measurements, Models, and Hidden Variables](measurements-models-and-hidden-variables.qmd)
+2. [Likelihoods, Priors, and MAP Estimation](likelihoods-priors-and-map-estimation.qmd)
+3. [Filtering, Smoothing, and Hidden-State Inference](filtering-smoothing-and-hidden-state-inference.qmd)
+4. [State Estimation, Smoothing, and Hidden-State Inference](../../topics/advanced/signal-processing-and-estimation/concepts/state-estimation-smoothing-and-hidden-state-inference.qmd)
+5. [Partial Observability, Belief States, and RL/Control Bridges](../../topics/advanced/stochastic-control-and-dynamic-programming/concepts/partial-observability-belief-states-and-rl-control-bridges.qmd)
+
+### If You Care Most About Approximation And Uncertainty
+
+Start with:
+
+1. [Measurements, Models, and Hidden Variables](measurements-models-and-hidden-variables.qmd)
+2. [Likelihoods, Priors, and MAP Estimation](likelihoods-priors-and-map-estimation.qmd)
+3. [Variational Inference, ELBO, and Tractable Approximation](variational-inference-elbo-and-tractable-approximation.qmd)
+4. [Variational Objectives, ELBO, and Information Bounds](../../topics/advanced/information-theory/concepts/variational-objectives-elbo-and-information-bounds.qmd)
+5. [Mixing, Ergodicity, and MCMC Bridges](../../topics/advanced/stochastic-processes/concepts/mixing-ergodicity-and-mcmc-bridges.qmd)
+
+## First-Pass Route
+
+The cleanest live first-pass route in this section right now is:
+
+1. [Measurements, Models, and Hidden Variables](measurements-models-and-hidden-variables.qmd)
+2. [Likelihoods, Priors, and MAP Estimation](likelihoods-priors-and-map-estimation.qmd)
+3. [Filtering, Smoothing, and Hidden-State Inference](filtering-smoothing-and-hidden-state-inference.qmd)
+4. [Variational Inference, ELBO, and Tractable Approximation](variational-inference-elbo-and-tractable-approximation.qmd)
+5. [Sampling, Mixing, and MCMC for Inference](sampling-mixing-and-mcmc-for-inference.qmd)
+6. [Bayesian Optimization, Active Sensing, and Information Gathering](bayesian-optimization-active-sensing-and-information-gathering.qmd)
+
+Use this hub when you want the shortest translation from pure math into the recurring question:
+
+`what hidden quantity am I trying to infer from incomplete or noisy observations, and what computational strategy should I trust?`
+
+## How To Use This Section
+
+- Use `Topics` when you want the math itself.
+- Use `Applications > Optimization and Inference` when you want the translation layer from models and objectives into real inference tasks.
+- Use [Paper Lab](../../paper-lab/index.qmd) when the inference objects feel clear and you want paper-reading practice.
+
+## Sources and Further Reading
+
+- [6.011 / Signals, Systems and Inference](https://ocw.mit.edu/courses/6-011-signals-systems-and-inference-spring-2018/) - `First pass` - official MIT course showing how observation models and inference questions arise together. Checked `2026-04-26`.
+- [16.322 / Stochastic Estimation and Control](https://ocw.mit.edu/courses/16-322-stochastic-estimation-and-control-fall-2004/) - `First pass` - official MIT anchor for hidden-state estimation and model-based inference. Checked `2026-04-26`.
+- [EE278 / Introduction to Statistical Signal Processing](https://web.stanford.edu/class/ee278/) - `Second pass` - official Stanford course anchor for estimation, filtering, and inference from noisy observations. Checked `2026-04-26`.
+- [STATS 305B / Applied Statistics II](https://web.stanford.edu/class/stats305b/) - `Second pass` - official Stanford anchor for likelihoods, regularization, and modern statistical estimation. Checked `2026-04-26`.
+- [CS238 / Decision Making Under Uncertainty](https://bulletin.stanford.edu/courses/2158402) - `Bridge to sequential inference` - useful once inference and planning begin to overlap. Checked `2026-04-26`.

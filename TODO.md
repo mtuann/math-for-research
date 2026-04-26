@@ -17,11 +17,11 @@ Use it to track:
 
 ## Current Snapshot
 
-- `275` `.qmd` pages currently exist
+- `282` `.qmd` pages currently exist
 - `133` concept-topic pages currently exist
 - strongest completed foundation spines so far: `Algebra Repair`, `Discrete Math`, `Linear Algebra`, `Probability`, `Proofs`, `Logic`, `Statistics`, `Single-Variable Calculus`, `Multivariable Calculus`
 - strongest completed advanced spines so far: `Optimization`, `Real Analysis`, `Numerical Methods`, `ODEs and Dynamical Systems`, `Matrix Analysis`, `Learning Theory`, `High-Dimensional Probability`, `High-Dimensional Statistics`, `Information Theory`, `Control and Dynamics`, `Stochastic Control and Dynamic Programming`, `Signal Processing and Estimation`, `Stochastic Processes`
-- strongest public-facing bridges so far: `Applications > Machine Learning`, `Applications > Control and dynamics`, `Applications > Signal and communication`
+- strongest public-facing bridges so far: `Applications > Machine Learning`, `Applications > Control and dynamics`, `Applications > Signal and communication`, `Applications > Optimization and inference`
 - non-topic sections already scaffolded: `Start Here`, `Roadmaps`, `Applications`, `Paper Lab`, `Research`, `Publication`, `Library`, `Notes`
 
 ## Site Sections
@@ -81,7 +81,13 @@ Use it to track:
 - [x] `Optimal control and trajectory planning`
 - [x] `Constraints, MPC, and safe operation`
 - [x] `Learning, identification, and RL bridges`
-- [ ] `Optimization and inference`
+- [x] `Optimization and inference`
+- [x] `Measurements, models, and hidden variables`
+- [x] `Likelihoods, priors, and MAP estimation`
+- [x] `Filtering, smoothing, and hidden-state inference`
+- [x] `Variational inference, ELBO, and tractable approximation`
+- [x] `Sampling, mixing, and MCMC for inference`
+- [x] `Bayesian optimization, active sensing, and information gathering`
 - [ ] `Scientific computing`
 - [x] `Signal and communication`
 - [x] `Signals, channels, and noisy measurements`
@@ -425,7 +431,7 @@ Near-term highest-value content steps:
 
 1. [ ] `Build Publication: venue map`
 2. [ ] `Curate Library: books and courses`
-3. [ ] `Build Applications: Optimization and inference`
+3. [ ] `Build Applications: Scientific computing`
 4. [ ] `Run local render + visual QA pass`
 
 ## Work Outside Topic Content
@@ -473,6 +479,6 @@ Yes, there is important work outside topic writing.
 ## Notes
 
 - Current content momentum is strongest in the advanced bridge cluster: `Numerical Methods`, `ODEs and Dynamical Systems`, `Control and Dynamics`, `Stochastic Control and Dynamic Programming`, `Information Theory`, and `Signal Processing and Estimation`.
-- The public-facing application layer now has three full hubs: `Machine Learning`, `Control and dynamics`, and `Signal and communication`.
-- The next content gaps most worth filling are the remaining application hubs such as `Optimization and inference` and `Scientific computing`, plus publication/library curation.
+- The public-facing application layer now has four full hubs: `Machine Learning`, `Control and dynamics`, `Signal and communication`, and `Optimization and inference`.
+- The next content gaps most worth filling are the remaining `Scientific computing` hub plus publication/library curation.
 - The next non-content task most worth doing is a `local render + visual QA pass`.
