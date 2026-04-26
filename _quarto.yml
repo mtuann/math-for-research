@@ -258,87 +258,115 @@ website:
               - topics/advanced/stochastic-control-and-dynamic-programming/concepts/stochastic-linear-systems-lqg-and-the-separation-principle.qmd
               - topics/advanced/stochastic-control-and-dynamic-programming/concepts/continuous-time-stochastic-control-and-hamilton-jacobi-bellman-intuition.qmd
               - topics/advanced/stochastic-control-and-dynamic-programming/concepts/partial-observability-belief-states-and-rl-control-bridges.qmd
-      - section: "Research Workflow"
+      - section: "Applications"
         contents:
-          - section: "Applications"
+          - applications/index.qmd
+          - section: "Machine Learning"
             contents:
-              - applications/index.qmd
-              - section: "Machine Learning"
+              - applications/machine-learning/index.qmd
+              - section: "Core Route"
                 contents:
-                  - applications/machine-learning/index.qmd
-              - section: "Control and Dynamics"
+                  - applications/machine-learning/supervised-learning-losses-and-empirical-risk.qmd
+                  - applications/machine-learning/optimization-for-machine-learning.qmd
+                  - applications/machine-learning/generalization-overfitting-and-validation.qmd
+                  - applications/machine-learning/regularization-implicit-bias-and-model-complexity.qmd
+                  - applications/machine-learning/uncertainty-calibration-and-predictive-confidence.qmd
+              - section: "Model Components"
                 contents:
-                  - applications/control-and-dynamics/index.qmd
-                  - applications/control-and-dynamics/state-sensing-and-actuation.qmd
-                  - applications/control-and-dynamics/feedback-and-stability-in-real-systems.qmd
-                  - applications/control-and-dynamics/estimation-under-noise.qmd
-                  - applications/control-and-dynamics/optimal-control-and-trajectory-planning.qmd
-                  - applications/control-and-dynamics/constraints-mpc-and-safe-operation.qmd
-                  - applications/control-and-dynamics/learning-identification-and-rl-bridges.qmd
-              - section: "Optimization and Inference"
+                  - applications/machine-learning/representation-learning-and-geometry-of-embeddings.qmd
+                  - applications/machine-learning/linear-probes-and-representation-diagnostics.qmd
+                  - applications/machine-learning/backpropagation-and-computation-graphs.qmd
+                  - applications/machine-learning/attention-softmax-and-weighted-mixtures.qmd
+                  - applications/machine-learning/in-context-learning-and-linearization.qmd
+              - section: "Graphs"
                 contents:
-                  - applications/optimization-and-inference/index.qmd
-                  - applications/optimization-and-inference/measurements-models-and-hidden-variables.qmd
-                  - applications/optimization-and-inference/likelihoods-priors-and-map-estimation.qmd
-                  - applications/optimization-and-inference/filtering-smoothing-and-hidden-state-inference.qmd
-                  - applications/optimization-and-inference/variational-inference-elbo-and-tractable-approximation.qmd
-                  - applications/optimization-and-inference/sampling-mixing-and-mcmc-for-inference.qmd
-                  - applications/optimization-and-inference/bayesian-optimization-active-sensing-and-information-gathering.qmd
-              - section: "Scientific Computing"
+                  - applications/machine-learning/graph-diffusion-and-message-passing.qmd
+                  - applications/machine-learning/oversmoothing-depth-and-graph-sampling.qmd
+                  - applications/machine-learning/graph-rewiring-homophily-and-heterophily.qmd
+                  - applications/machine-learning/long-range-dependence-and-oversquashing-in-graphs.qmd
+              - section: "Kernels and Surrogates"
                 contents:
-                  - applications/scientific-computing/index.qmd
-                  - applications/scientific-computing/models-discretization-and-simulation-loops.qmd
-                  - applications/scientific-computing/linear-systems-conditioning-and-stable-computation.qmd
-                  - applications/scientific-computing/approximation-quadrature-and-error-control-in-practice.qmd
-                  - applications/scientific-computing/inverse-problems-parameter-estimation-and-data-assimilation.qmd
-                  - applications/scientific-computing/scientific-ml-surrogates-and-computation-physics-bridges.qmd
-              - section: "Signal and Communication"
+                  - applications/machine-learning/kernel-methods-and-similarity-geometry.qmd
+                  - applications/machine-learning/kernel-ridge-and-gaussian-process-intuition.qmd
+                  - applications/machine-learning/bayesian-optimization-and-surrogate-modeling.qmd
+              - section: "Generative Models"
                 contents:
-                  - applications/signal-and-communication/index.qmd
-                  - applications/signal-and-communication/signals-channels-and-noisy-measurements.qmd
-                  - applications/signal-and-communication/filtering-denoising-and-estimation-in-communication-systems.qmd
-                  - applications/signal-and-communication/sampling-bandwidth-and-reconstruction-in-practice.qmd
-                  - applications/signal-and-communication/detection-decoding-and-error-tradeoffs.qmd
-                  - applications/signal-and-communication/inverse-problems-sensing-and-reconstruction.qmd
-                  - applications/signal-and-communication/modern-bridges-representation-learning-sensing-and-communication.qmd
-          - section: "Paper Lab"
+                  - applications/machine-learning/diffusion-models-and-denoising.qmd
+                  - applications/machine-learning/score-matching-and-the-sde-view-of-diffusion.qmd
+                  - applications/machine-learning/flow-matching-and-transport-views-of-generation.qmd
+          - section: "Control and Dynamics"
             contents:
-              - paper-lab/index.qmd
-              - paper-lab/how-to-read-a-paper.qmd
-              - paper-lab/notation-translation.qmd
-              - paper-lab/theorem-decoder.qmd
-              - paper-lab/dependency-maps.qmd
-              - paper-lab/reading-trails.qmd
-          - section: "Research"
+              - applications/control-and-dynamics/index.qmd
+              - applications/control-and-dynamics/state-sensing-and-actuation.qmd
+              - applications/control-and-dynamics/feedback-and-stability-in-real-systems.qmd
+              - applications/control-and-dynamics/estimation-under-noise.qmd
+              - applications/control-and-dynamics/optimal-control-and-trajectory-planning.qmd
+              - applications/control-and-dynamics/constraints-mpc-and-safe-operation.qmd
+              - applications/control-and-dynamics/learning-identification-and-rl-bridges.qmd
+          - section: "Optimization and Inference"
             contents:
-              - research/index.qmd
-              - research/theorem-families.qmd
-              - research/directions.qmd
-              - research/surveys.qmd
-              - research/venues.qmd
-          - section: "Publication"
+              - applications/optimization-and-inference/index.qmd
+              - applications/optimization-and-inference/measurements-models-and-hidden-variables.qmd
+              - applications/optimization-and-inference/likelihoods-priors-and-map-estimation.qmd
+              - applications/optimization-and-inference/filtering-smoothing-and-hidden-state-inference.qmd
+              - applications/optimization-and-inference/variational-inference-elbo-and-tractable-approximation.qmd
+              - applications/optimization-and-inference/sampling-mixing-and-mcmc-for-inference.qmd
+              - applications/optimization-and-inference/bayesian-optimization-active-sensing-and-information-gathering.qmd
+          - section: "Scientific Computing"
             contents:
-              - publication/index.qmd
-              - publication/venue-map.qmd
-              - publication/how-top-venue-papers-are-shaped.qmd
-              - publication/claim-evidence-matrix.qmd
-              - publication/related-work-and-positioning.qmd
-              - publication/theorem-to-experiment-alignment.qmd
-              - publication/writing-theory-sections.qmd
-              - publication/writing-experiment-sections.qmd
-              - publication/reproducibility-checklist.qmd
-              - publication/review-and-rebuttal.qmd
-          - section: "Library"
+              - applications/scientific-computing/index.qmd
+              - applications/scientific-computing/models-discretization-and-simulation-loops.qmd
+              - applications/scientific-computing/linear-systems-conditioning-and-stable-computation.qmd
+              - applications/scientific-computing/approximation-quadrature-and-error-control-in-practice.qmd
+              - applications/scientific-computing/inverse-problems-parameter-estimation-and-data-assimilation.qmd
+              - applications/scientific-computing/scientific-ml-surrogates-and-computation-physics-bridges.qmd
+          - section: "Signal and Communication"
             contents:
-              - library/index.qmd
-              - library/books.qmd
-              - library/courses.qmd
-              - library/notes.qmd
-              - library/papers.qmd
-          - section: "Notes"
-            contents:
-              - notes/index.qmd
-              - notes/when-a-topic-starts-to-feel-reusable.qmd
+              - applications/signal-and-communication/index.qmd
+              - applications/signal-and-communication/signals-channels-and-noisy-measurements.qmd
+              - applications/signal-and-communication/filtering-denoising-and-estimation-in-communication-systems.qmd
+              - applications/signal-and-communication/sampling-bandwidth-and-reconstruction-in-practice.qmd
+              - applications/signal-and-communication/detection-decoding-and-error-tradeoffs.qmd
+              - applications/signal-and-communication/inverse-problems-sensing-and-reconstruction.qmd
+              - applications/signal-and-communication/modern-bridges-representation-learning-sensing-and-communication.qmd
+      - section: "Paper Lab"
+        contents:
+          - paper-lab/index.qmd
+          - paper-lab/how-to-read-a-paper.qmd
+          - paper-lab/notation-translation.qmd
+          - paper-lab/theorem-decoder.qmd
+          - paper-lab/dependency-maps.qmd
+          - paper-lab/reading-trails.qmd
+      - section: "Research"
+        contents:
+          - research/index.qmd
+          - research/theorem-families.qmd
+          - research/directions.qmd
+          - research/surveys.qmd
+          - research/venues.qmd
+      - section: "Publication"
+        contents:
+          - publication/index.qmd
+          - publication/venue-map.qmd
+          - publication/how-top-venue-papers-are-shaped.qmd
+          - publication/claim-evidence-matrix.qmd
+          - publication/related-work-and-positioning.qmd
+          - publication/theorem-to-experiment-alignment.qmd
+          - publication/writing-theory-sections.qmd
+          - publication/writing-experiment-sections.qmd
+          - publication/reproducibility-checklist.qmd
+          - publication/review-and-rebuttal.qmd
+      - section: "Library"
+        contents:
+          - library/index.qmd
+          - library/books.qmd
+          - library/courses.qmd
+          - library/notes.qmd
+          - library/papers.qmd
+      - section: "Notes"
+        contents:
+          - notes/index.qmd
+          - notes/when-a-topic-starts-to-feel-reusable.qmd
 
 format:
   html:

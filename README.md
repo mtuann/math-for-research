@@ -29,11 +29,18 @@ A public math site for building foundations, understanding advanced theory, read
 
 ## Planning Docs
 
+### Active Tracker
+
+- project tracker: [TODO.md](TODO.md)
+
+### Historical Planning Snapshots
+
+These documents capture earlier planning passes. They are useful for historical context, but they do not necessarily match the live site structure in `_quarto.yml`.
+
 - site structure: [website_syllabus_tree.md](website_syllabus_tree.md)
 - advanced expansion: [advanced_syllabus_tree.md](advanced_syllabus_tree.md)
 - reference roadmap: [math_foundation_reference_roadmap.md](math_foundation_reference_roadmap.md)
 - production map: [content_production_map.md](content_production_map.md)
-- project tracker: [TODO.md](TODO.md)
 
 ## Local Preview
 

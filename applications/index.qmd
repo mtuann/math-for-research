@@ -1,5 +1,8 @@
 ---
 title: "Applications"
+page-layout: full
+toc: false
+number-sections: false
 ---
 
 ## Why This Section Exists
@@ -16,10 +19,54 @@ Start here when you want to answer:
 
 ## Available Application Hubs
 
-- [Machine Learning](machine-learning/index.qmd)
-- [Control and Dynamics](control-and-dynamics/index.qmd)
-- [Optimization and Inference](optimization-and-inference/index.qmd)
-- [Scientific Computing](scientific-computing/index.qmd)
-- [Signal and Communication](signal-and-communication/index.qmd)
+::: {.card-grid}
+::: {.feature-card}
+### Machine Learning
+
+Representation learning, optimization, generalization, kernels, graphs, and generative modeling bridges.
+
+[Open Machine Learning](machine-learning/index.qmd){.btn .btn-outline-primary}
+:::
+
+::: {.feature-card}
+### Control and Dynamics
+
+State, sensing, feedback, estimation, constraints, and learning-aware control.
+
+[Open Control and Dynamics](control-and-dynamics/index.qmd){.btn .btn-outline-primary}
+:::
+
+::: {.feature-card}
+### Optimization and Inference
+
+Hidden variables, MAP estimation, filtering, variational inference, sampling, and information gathering.
+
+[Open Optimization and Inference](optimization-and-inference/index.qmd){.btn .btn-outline-primary}
+:::
+
+::: {.feature-card}
+### Scientific Computing
+
+Models, discretization, simulation loops, inverse problems, and computation-aware scientific reasoning.
+
+[Open Scientific Computing](scientific-computing/index.qmd){.btn .btn-outline-primary}
+:::
+
+::: {.feature-card}
+### Signal and Communication
+
+Channels, noise, filtering, sampling, detection, sensing, and representation-learning bridges.
+
+[Open Signal and Communication](signal-and-communication/index.qmd){.btn .btn-outline-primary}
+:::
+:::
+
+## Best First Routes By Goal
+
+- If you want the broadest ML-facing bridge, start with [Machine Learning](machine-learning/index.qmd).
+- If you care about physical systems, start with [Control and Dynamics](control-and-dynamics/index.qmd).
+- If your main bottleneck is hidden variables, uncertainty, or posterior approximation, start with [Optimization and Inference](optimization-and-inference/index.qmd).
+- If your work begins with a model equation or simulation loop, start with [Scientific Computing](scientific-computing/index.qmd).
+- If your work begins with signals, channels, or noisy measurements, start with [Signal and Communication](signal-and-communication/index.qmd).
 
 The design rule is simple: every serious application page should point back to the exact math objects it uses.

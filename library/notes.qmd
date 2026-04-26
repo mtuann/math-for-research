@@ -52,4 +52,4 @@ Books are better when you still need the big picture. Courses are better when yo
 
 - [Books](books.qmd) is the better shelf for long-form references.
 - [Courses](courses.qmd) is the better shelf for pacing and lecture order.
-- [Notes](/Users/mitu/Desktop/work/math4life/notes/index.qmd) is a different section of the site: that area is for original essays and research commentary, not external reference notes.
+- [Notes](../notes/index.qmd) is a different section of the site: that area is for original essays and research commentary, not external reference notes.

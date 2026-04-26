@@ -2,6 +2,8 @@
 title: "Math for CS / AI / Engineering Research"
 subtitle: "A public knowledge system for foundations, theory-heavy papers, and research workflow"
 page-layout: full
+toc: false
+number-sections: false
 ---
 
 ::: {.hero-panel}
@@ -39,18 +41,24 @@ The structure is intentionally topic-first. Books, courses, blogs, and school-sp
 ### Build foundations
 
 If your algebra, proof writing, calculus, or probability feels uneven, start with the guided foundation track and repair weak links early.
+
+[Open the Foundation Roadmap](roadmaps/core-foundation.qmd){.btn .btn-outline-primary}
 :::
 
 ::: {.feature-card}
 ### Understand a topic
 
 If you already know roughly what you need, jump into a topic page and use the built-in flow: intuition, formal core, proof pattern, application, paper bridge.
+
+[Browse Topics](topics/index.qmd){.btn .btn-outline-primary}
 :::
 
 ::: {.feature-card}
 ### Read a hard paper
 
 If you are blocked by notation, theorem dependencies, or hidden assumptions, use the paper lab and research pages to backfill exactly what you need.
+
+[Open Paper Lab](paper-lab/index.qmd){.btn .btn-outline-primary}
 :::
 :::
 
@@ -61,36 +69,48 @@ If you are blocked by notation, theorem dependencies, or hidden assumptions, use
 ### Start Here
 
 Diagnostic pages, notation, proof writing, and how to read theory-heavy papers without getting lost.
+
+[Open Start Here](start-here/index.qmd){.btn .btn-outline-primary}
 :::
 
 ::: {.feature-card}
 ### Topics
 
 Foundation and advanced modules that move from definitions to theorems to applications and research.
+
+[Open Topics](topics/index.qmd){.btn .btn-outline-primary}
 :::
 
 ::: {.feature-card}
 ### Applications
 
 Machine learning, optimization, scientific computing, signal processing, control, and related bridges.
+
+[Open Applications](applications/index.qmd){.btn .btn-outline-primary}
 :::
 
 ::: {.feature-card}
 ### Paper Lab
 
 Reading trails, theorem decoding, assumption tracing, and research-guided walkthroughs.
+
+[Open Paper Lab](paper-lab/index.qmd){.btn .btn-outline-primary}
 :::
 
 ::: {.feature-card}
 ### Publication
 
 How strong papers align claims, theorems, experiments, and positioning without turning the site into prestige theater.
+
+[Open Publication](publication/index.qmd){.btn .btn-outline-primary}
 :::
 
 ::: {.feature-card}
 ### Library
 
 Curated books, notes, and courses grouped by use case rather than dumped as an unstructured list.
+
+[Open Library](library/index.qmd){.btn .btn-outline-primary}
 :::
 :::
 
@@ -111,4 +131,3 @@ The site only works if each mature page respects the same loop:
 `Learn -> Prove -> Solve -> Apply -> Read`
 
 That is how the site stays useful for both deep study and urgent research reading.
-

@@ -1,5 +1,8 @@
 ---
 title: "About"
+page-layout: full
+toc: false
+number-sections: false
 ---
 
 ## Mission
@@ -16,7 +19,12 @@ The long-term goal is not just to summarize content. It is to make mathematical 
 - Distinguish `stable core math` from `moving research frontier`.
 - Treat publication guidance as an advanced workflow layer, not the site's identity.
 
-## Current State
+## What The Site Is Trying To Be
 
-This is the first scaffolded version of the site. The structure is in place, and the next step is to grow each module into a durable public resource.
+The site is meant to work as three things at once:
 
+- a dependable topic-first math reference
+- a bridge into applications, paper reading, and research workflow
+- a public long-term knowledge system rather than a one-off note dump
+
+The structure is already broad enough to support real study and paper reading. The remaining work is mostly polish, validation, and continued depth rather than inventing a new site model.

@@ -1,5 +1,8 @@
 ---
 title: "Roadmaps"
+page-layout: full
+toc: false
+number-sections: false
 ---
 
 ## Purpose
@@ -8,9 +11,42 @@ The roadmaps help you move through the site in dependency-aware order instead of
 
 ## Available Roadmaps
 
-- [Core Foundation](core-foundation.qmd)
-- [Theory Reading Track](theory-reading.qmd)
-- [AI / ML Theory](ai-ml-theory.qmd)
-- [Engineering Systems](engineering-systems.qmd)
+::: {.card-grid}
+::: {.feature-card}
+### Core Foundation
 
-Later, this section can expand further into topic-specific research tracks.
+Use this when the question is simply where to begin and in what order to repair the basics.
+
+[Open Core Foundation](core-foundation.qmd){.btn .btn-outline-primary}
+:::
+
+::: {.feature-card}
+### Theory Reading Track
+
+Use this when the real goal is surviving theorem-heavy papers rather than surveying everything.
+
+[Open Theory Reading Track](theory-reading.qmd){.btn .btn-outline-primary}
+:::
+
+::: {.feature-card}
+### AI / ML Theory
+
+Use this when you want the cleanest route from foundations into learning theory, high-dimensional tools, and modern ML math.
+
+[Open AI / ML Theory](ai-ml-theory.qmd){.btn .btn-outline-primary}
+:::
+
+::: {.feature-card}
+### Engineering Systems
+
+Use this when you care about dynamical systems, numerics, sensing, control, and systems-facing modeling.
+
+[Open Engineering Systems](engineering-systems.qmd){.btn .btn-outline-primary}
+:::
+:::
+
+## When To Use A Roadmap Instead Of A Topic Page
+
+Use a roadmap when the blocker is `sequencing`.
+
+Use a topic page when the blocker is `understanding the object itself`.

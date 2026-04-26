@@ -1,10 +1,17 @@
 ---
 title: "Notes"
+page-layout: full
+toc: false
+number-sections: false
 ---
 
-## What Will Go Here
+## Why This Section Exists
 
-This section is reserved for:
+`Notes` is the reflective layer of the site.
+
+It is where a topic stops being only curriculum and starts becoming commentary, synthesis, or reusable research taste.
+
+This section is for:
 
 - dated essays
 - research notes
@@ -15,4 +22,26 @@ It should feel like a reflective layer on top of the main curriculum, not a repl
 
 ## Current Notes
 
-- [When a Topic Starts to Feel Reusable](when-a-topic-starts-to-feel-reusable.qmd)
+::: {.card-grid}
+::: {.feature-card}
+### When a Topic Starts to Feel Reusable
+
+A note about the gap between recognizing a topic and actually being able to reuse it while reading papers.
+
+[Open the Note](when-a-topic-starts-to-feel-reusable.qmd){.btn .btn-outline-primary}
+:::
+
+::: {.feature-card}
+### Use Notes After The Main Pass
+
+Open this section after the underlying topic already feels stable enough to support reflection, synthesis, or paper-reading commentary.
+
+[Browse Topics First](../topics/index.qmd){.btn .btn-outline-primary}
+:::
+:::
+
+## How This Differs From Library Notes
+
+[Library > Notes](../library/notes.qmd) points to external reference notes.
+
+This section is for original site writing.

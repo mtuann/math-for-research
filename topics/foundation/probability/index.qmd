@@ -66,10 +66,7 @@ On a first pass, stay on the concept pages. You should not need future proof, la
 
 ## Navigation Rule
 
-The global sidebar shows only the probability `spine`:
-
-- the module overview
-- the core concept pages in study order
+Use the module overview and core concept pages as the main first-pass route.
 
 Each concept page should be strong enough to stand on its own for first-pass learning. Companion pages, when they exist, should feel optional rather than required.
 

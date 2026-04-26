@@ -97,12 +97,11 @@ Start with:
 3. [Approximation, Quadrature, and Error Control in Practice](approximation-quadrature-and-error-control-in-practice.qmd)
 4. [Inverse Problems, Parameter Estimation, and Data Assimilation](inverse-problems-parameter-estimation-and-data-assimilation.qmd)
 
-The remaining core extension for this route is the stiffness-focused page.
 The scientific-ML bridge is already live below as an outward extension rather than part of the core route.
 
 ## First-Pass Route
 
-The live first-pass route in this section right now is:
+The live first-pass route in this section is:
 
 1. [Models, Discretization, and Simulation Loops](models-discretization-and-simulation-loops.qmd)
 2. [Linear Systems, Conditioning, and Stable Computation](linear-systems-conditioning-and-stable-computation.qmd)
@@ -112,6 +111,8 @@ The live first-pass route in this section right now is:
 Use it when you want the shortest translation from model equations and continuous objects into the actual computational loop:
 
 `build model -> discretize -> solve -> simulate -> inspect error -> revise`
+
+A future stiffness-focused page can extend this route, but the pages above already stand on their own as a usable first pass.
 
 ## Modern Bridge
 

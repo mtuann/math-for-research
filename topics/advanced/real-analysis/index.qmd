@@ -77,7 +77,7 @@ Reading convergence statements, interchange-of-limit arguments, compactness clai
 
 ## First Pass Through This Module
 
-The current first-pass spine for this module is:
+The first-pass spine for this module is:
 
 1. [Rigorous Convergence](concepts/rigorous-convergence.qmd)
 2. [Continuity, Compactness, and Completeness](concepts/continuity-compactness-completeness.qmd)

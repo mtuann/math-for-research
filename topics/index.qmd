@@ -1,22 +1,59 @@
 ---
 title: "Topics"
+page-layout: full
+toc: false
+number-sections: false
 ---
 
-## How The Topic Tree Works
+## Why Topics Are The Main Spine
 
 Topics are organized by mathematical object and use, not by textbook.
+
+Use `Topics` when the main question is still:
+
+- what is the object here
+- what assumptions and proof patterns carry it
+- what first-pass order should I actually use
 
 Every mature topic is meant to connect:
 
 - concept
 - proof pattern
-- exercises
+- exercises or practice
 - applications
 - paper bridge
 - research direction
 
-## Main Branches
+## Choose Your Branch
 
-- [Foundation](foundation/index.qmd)
-- [Advanced](advanced/index.qmd)
+::: {.card-grid}
+::: {.feature-card}
+### Foundation
 
+Start here when algebra, proofs, calculus, probability, or statistics still feel uneven.
+
+[Open Foundation Topics](foundation/index.qmd){.btn .btn-outline-primary}
+:::
+
+::: {.feature-card}
+### Advanced
+
+Open this branch when the foundations already feel usable and you want theory, systems, numerics, or research-facing math.
+
+[Open Advanced Topics](advanced/index.qmd){.btn .btn-outline-primary}
+:::
+
+::: {.feature-card}
+### Need a Study Order?
+
+If sequencing is the main blocker, use a roadmap first and come back into the topic tree with a clearer route.
+
+[Open Roadmaps](../roadmaps/index.qmd){.btn .btn-outline-primary}
+:::
+:::
+
+## Best First Routes
+
+- If you need the strongest repair-first entry, start with [Core Foundation Roadmap](../roadmaps/core-foundation.qmd).
+- If you want the shortest paper-reading math stack, start with [Proofs](foundation/proofs/index.qmd), [Linear Algebra](foundation/linear-algebra/index.qmd), and [Probability](foundation/probability/index.qmd).
+- If you care about systems and simulation, move from [Multivariable Calculus](foundation/multivariable-calculus/index.qmd) into [ODEs and Dynamical Systems](advanced/odes-and-dynamical-systems/index.qmd) and [Numerical Methods](advanced/numerical-methods/index.qmd).

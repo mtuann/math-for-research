@@ -67,12 +67,9 @@ On a first pass, these six pages are the whole story. You should be able to stop
 
 ## Navigation Rule
 
-The global sidebar shows only the proof `spine`:
+Use the module overview and core concept pages as the main first-pass route.
 
-- the module overview
-- the core concept pages in study order
-
-Each page should be a first-pass finish line for its own topic. If companion pages are added later, they should feel optional, not required to understand the main flow.
+Each page should be a first-pass finish line for its own topic. Companion pages, when they exist, should feel optional rather than required to understand the main flow.
 
 ## Core Concepts
 

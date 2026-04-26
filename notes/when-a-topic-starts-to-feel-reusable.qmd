@@ -131,7 +131,7 @@ Those questions are what make old topics reusable inside new work.
 
 ## How This Connects To The Site
 
-- [Topics](/Users/mitu/Desktop/work/math4life/topics/index.qmd) is where the objects are taught cleanly.
-- [Applications](/Users/mitu/Desktop/work/math4life/applications/index.qmd) is where those objects start doing real work.
-- [Paper Lab](/Users/mitu/Desktop/work/math4life/paper-lab/index.qmd) is where reusable understanding gets tested against actual papers.
-- [Publication](/Users/mitu/Desktop/work/math4life/publication/index.qmd) is where reusable understanding starts turning into research judgment.
+- [Topics](../topics/index.qmd) is where the objects are taught cleanly.
+- [Applications](../applications/index.qmd) is where those objects start doing real work.
+- [Paper Lab](../paper-lab/index.qmd) is where reusable understanding gets tested against actual papers.
+- [Publication](../publication/index.qmd) is where reusable understanding starts turning into research judgment.

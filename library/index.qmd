@@ -1,5 +1,8 @@
 ---
 title: "Library"
+page-layout: full
+toc: false
+number-sections: false
 ---
 
 ## What The Library Is For
@@ -16,10 +19,39 @@ The site itself stays topic-first. The library helps readers choose references o
 
 ## Library Guides
 
-- [Books](books.qmd)
-- [Courses](courses.qmd)
-- [Notes](notes.qmd)
-- [Papers](papers.qmd)
+::: {.card-grid}
+::: {.feature-card}
+### Books
+
+Best when you still need the big picture and a slower first or second pass.
+
+[Open Books](books.qmd){.btn .btn-outline-primary}
+:::
+
+::: {.feature-card}
+### Courses
+
+Best when you want pacing, lecture order, and worked examples from a coherent sequence.
+
+[Open Courses](courses.qmd){.btn .btn-outline-primary}
+:::
+
+::: {.feature-card}
+### Notes
+
+Best when you already know the topic name and want a compact technical refresher.
+
+[Open Library Notes](notes.qmd){.btn .btn-outline-primary}
+:::
+
+::: {.feature-card}
+### Papers
+
+Best when you want the highest-resolution current form of a result, method, or theorem family.
+
+[Open Papers](papers.qmd){.btn .btn-outline-primary}
+:::
+:::
 
 ## A Good First Route
 
@@ -36,3 +68,9 @@ This order usually works because:
 - `courses` help when you need pacing and worked examples
 - `notes` help when you already know the topic and want a compact refresher
 - `papers` help when you want the most current or highest-resolution version of a claim
+
+## One Important Distinction
+
+[Library > Notes](notes.qmd) is a guide to external reference notes.
+
+The top-level [Notes](../notes/index.qmd) section is where the site's own essays and reflective commentary live.

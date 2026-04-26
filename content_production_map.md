@@ -1,5 +1,7 @@
 # Content Production Map
 
+> Historical planning snapshot. The active build state now lives in [TODO.md](TODO.md), while navigation truth lives in [_quarto.yml](_quarto.yml).
+
 ## Purpose
 
 This document turns the syllabus tree into a practical publishing plan.

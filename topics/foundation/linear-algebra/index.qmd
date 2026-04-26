@@ -60,12 +60,9 @@ On a first pass, stay on the concept pages. You should not need proof, applicati
 
 ## Navigation Rule
 
-The global sidebar shows only the linear algebra `spine`:
+Use the module overview and core concept pages as the main first-pass route.
 
-- the module overview
-- the core concept pages in the main study order
-
-The proof, exercise, application, lab, paper-lab, research, and source-guide pages are `deep-dive companions`. They stay linked from this module page and the topic concept pages, rather than all appearing in the main sidebar at once.
+Proof, exercise, application, lab, paper-lab, research, and source-guide pages are `deep-dive companions`. They stay linked from this module page and the topic concept pages so the main study order remains readable.
 
 ## Go Deeper By Topic
 

@@ -171,7 +171,7 @@ Diffusion, flow matching, gradient flow, neural ODEs, and reverse-time dynamics 
 
 ## Go Deeper By Topic
 
-The current opening route is:
+A strong first-pass route is:
 
 1. [First-Order ODEs, Existence, and Solution Curves](concepts/first-order-odes-existence-and-solution-curves.qmd)
 2. [Second-Order Systems, State Variables, and Reduction to First Order](concepts/second-order-systems-state-variables-and-reduction-to-first-order.qmd)

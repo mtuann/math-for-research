@@ -141,6 +141,14 @@ h1, h2, h3, h4 {
   margin-top: 0;
 }
 
+.feature-card .btn {
+  margin-top: 0.35rem;
+}
+
+.feature-card .btn + .btn {
+  margin-left: 0.45rem;
+}
+
 .feature-card p:last-child {
   margin-bottom: 0;
 }

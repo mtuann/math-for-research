@@ -90,7 +90,7 @@ Reading papers or courses on stochastic control, sequential inference, diffusion
 
 ## First Pass Through This Module
 
-The current first-pass spine for this module is:
+The first-pass spine for this module is:
 
 1. [Markov Chains and Stationary Distributions](concepts/markov-chains-and-stationary-distributions.qmd)
 2. [Martingales and Optional Stopping Intuition](concepts/martingales-and-optional-stopping-intuition.qmd)

@@ -1,5 +1,7 @@
 ---
 title: "Advanced Topics"
+toc: false
+number-sections: false
 ---
 
 ## What Lives Here
@@ -9,6 +11,7 @@ The advanced track is where the site moves into:
 - real analysis
 - optimization
 - numerical methods
+- ODEs and dynamical systems
 - signal processing and estimation
 - control and dynamics
 - stochastic processes
@@ -65,7 +68,7 @@ It is the natural bridge from the foundation stack into convexity, duality, cert
 
 [Numerical Methods](numerical-methods/index.qmd) is the computation bridge from exact mathematics to finite-precision algorithms.
 
-Its current study route is:
+Its first-pass route is:
 
 - [Floating-Point, Conditioning, and Backward Error](numerical-methods/concepts/floating-point-conditioning-and-backward-error.qmd)
 - [Numerical Linear Systems and Factorizations](numerical-methods/concepts/numerical-linear-systems-and-factorizations.qmd)
@@ -81,7 +84,7 @@ This module is where the site turns exact linear-algebra, calculus, and optimiza
 
 [Signal Processing and Estimation](signal-processing-and-estimation/index.qmd) is the signal-and-systems bridge from mathematical functions and sequences into filtering, sensing, communication, and inverse problems.
 
-Its current first-pass spine is:
+Its first-pass spine is:
 
 - [Signals, Convolution, and Linear Time-Invariant Systems](signal-processing-and-estimation/concepts/signals-convolution-and-linear-time-invariant-systems.qmd)
 - [Fourier Analysis, Frequency Response, and Spectral Views](signal-processing-and-estimation/concepts/fourier-analysis-frequency-response-and-spectral-views.qmd)
@@ -97,7 +100,7 @@ This module is where the site turns ordered data, system response, convolution, 
 
 [ODEs and Dynamical Systems](odes-and-dynamical-systems/index.qmd) is the continuous-time bridge from local rules for change to trajectories, equilibria, and stability.
 
-Its current live route is:
+Its first-pass route is:
 
 - [First-Order ODEs, Existence, and Solution Curves](odes-and-dynamical-systems/concepts/first-order-odes-existence-and-solution-curves.qmd)
 - [Second-Order Systems, State Variables, and Reduction to First Order](odes-and-dynamical-systems/concepts/second-order-systems-state-variables-and-reduction-to-first-order.qmd)
@@ -114,7 +117,7 @@ This module is where the site turns derivatives into actual continuous-time mode
 
 [Control and Dynamics](control-and-dynamics/index.qmd) is the systems-facing bridge from passive dynamics to feedback, estimation, and steering.
 
-Its current first-pass spine is:
+Its first-pass spine is:
 
 - [State-Space Models, Inputs, and Outputs](control-and-dynamics/concepts/state-space-models-inputs-and-outputs.qmd)
 - [Controllability, Reachability, and Observability](control-and-dynamics/concepts/controllability-reachability-and-observability.qmd)
@@ -135,7 +138,7 @@ This module is where the site turns trajectories into systems with actuation, se
 
 [Stochastic Control and Dynamic Programming](stochastic-control-and-dynamic-programming/index.qmd) is the uncertainty-aware bridge from control and probability into sequential decision-making.
 
-Its current first-pass spine is:
+Its first-pass spine is:
 
 - [Controlled Markov Models, Policies, and Cost Functionals](stochastic-control-and-dynamic-programming/concepts/controlled-markov-models-policies-and-cost-functionals.qmd)
 - [Finite-Horizon Dynamic Programming and Backward Induction](stochastic-control-and-dynamic-programming/concepts/finite-horizon-dynamic-programming-and-backward-induction.qmd)
@@ -151,7 +154,7 @@ This module is where the site turns sequential choices under uncertainty into ex
 
 [Matrix Analysis](matrix-analysis/index.qmd) is the operator-level bridge between linear algebra and modern theory-facing math.
 
-Its current first-pass spine is:
+Its first-pass spine is:
 
 - [Norms and Operator Norms](matrix-analysis/concepts/norms-and-operator-norms.qmd)
 - [Positive Semidefinite Matrices and Quadratic Forms](matrix-analysis/concepts/positive-semidefinite-matrices-and-quadratic-forms.qmd)
@@ -163,9 +166,9 @@ This module is where the site turns matrices into operator-sized, spectral, quad
 
 ## Learning Theory
 
-[Learning Theory](learning-theory/index.qmd) is the current bridge from the site's math backbone into theorem-level ML guarantees.
+[Learning Theory](learning-theory/index.qmd) is the bridge from the site's math backbone into theorem-level ML guarantees.
 
-Its current first-pass spine is:
+Its first-pass spine is:
 
 - [ERM, Population Risk, and Hypothesis Classes](learning-theory/concepts/erm-population-risk-and-hypothesis-classes.qmd)
 - [PAC Learning, Sample Complexity, and the Learning Setup](learning-theory/concepts/pac-learning-sample-complexity-and-the-learning-setup.qmd)
@@ -181,7 +184,7 @@ This module is where the site turns empirical risk, population risk, hypothesis 
 
 [High-Dimensional Probability](high-dimensional-probability/index.qmd) is the next theory-facing layer after classical probability and learning theory.
 
-Its current live opening is:
+Its first-pass route is:
 
 - [Concentration Beyond Basics](high-dimensional-probability/concepts/concentration-beyond-basics.qmd)
 - [Sub-Gaussian and Sub-Exponential Variables](high-dimensional-probability/concepts/sub-gaussian-and-sub-exponential-variables.qmd)
@@ -196,7 +199,7 @@ This module is where the site shifts from scalar probability intuition to non-as
 
 [High-Dimensional Statistics](high-dimensional-statistics/index.qmd) is the statistical layer that sits directly on top of high-dimensional probability, matrix analysis, and optimization.
 
-Its current live opening is:
+Its first-pass route is:
 
 - [Sparsity and Regularization](high-dimensional-statistics/concepts/sparsity-and-regularization.qmd)
 - [Lasso and Compressed Sensing Basics](high-dimensional-statistics/concepts/lasso-and-compressed-sensing-basics.qmd)
@@ -212,7 +215,7 @@ This module is where the site turns `p >> n`, sparse structure, shrinkage, and r
 
 [Information Theory](information-theory/index.qmd) is the uncertainty-and-limits bridge connecting probability and statistics to coding, communication, and many ML objectives.
 
-Its current live opening is:
+Its first-pass route is:
 
 - [Entropy, Cross-Entropy, and KL Divergence](information-theory/concepts/entropy-cross-entropy-and-kl-divergence.qmd)
 - [Mutual Information, Conditional Entropy, and Data Processing](information-theory/concepts/mutual-information-conditional-entropy-and-data-processing.qmd)
@@ -228,7 +231,7 @@ This module is where the site turns entropy, divergence, coding cost, and commun
 
 [Stochastic Processes](stochastic-processes/index.qmd) is the probability-over-time bridge from ordinary random variables into chains, martingales, diffusions, and long-run stochastic behavior.
 
-Its current live route is:
+Its first-pass route is:
 
 - [Markov Chains and Stationary Distributions](stochastic-processes/concepts/markov-chains-and-stationary-distributions.qmd)
 - [Martingales and Optional Stopping Intuition](stochastic-processes/concepts/martingales-and-optional-stopping-intuition.qmd)

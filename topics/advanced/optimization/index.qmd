@@ -80,12 +80,9 @@ This module is best read after you are already comfortable with derivatives, par
 
 ## Navigation Rule
 
-The global sidebar shows only the optimization `spine`:
+Use the module overview and core concept pages as the main first-pass route.
 
-- the module overview
-- the core concept pages in study order
-
-Each concept page should be strong enough for first-pass learning on its own. Any future proof, application, lab, paper-lab, or research pages should feel optional rather than required.
+Each concept page should be strong enough for first-pass learning on its own. Any proof, application, lab, paper-lab, or research companions should feel optional rather than required.
 
 ## Core Concepts
 

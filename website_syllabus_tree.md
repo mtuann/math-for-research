@@ -1,5 +1,7 @@
 # Website Syllabus Tree
 
+> Historical planning snapshot. The live site structure is now tracked more accurately in [TODO.md](TODO.md) and [_quarto.yml](_quarto.yml).
+
 ## Goal
 
 Design a public `GitHub Pages` website that helps a learner:
