@@ -1,0 +1,169 @@
+---
+title: "Learning, Identification, and RL Bridges"
+description: "A bridge page showing how control changes when models come from data, why system identification differs from reinforcement learning, and where modern RL reconnects with planning and control."
+page-type: application
+status: published
+update-status: current
+level: bridge
+topic: control-and-dynamics
+prerequisites:
+  - /applications/control-and-dynamics/constraints-mpc-and-safe-operation.qmd
+learning-goals:
+  - "Distinguish system identification, learning-based control, and reinforcement learning."
+  - "Explain where learned models or learned policies enter a control pipeline."
+  - "Interpret model-based RL as a real bridge back toward planning and control."
+  - "Connect application-facing learning language to system identification, Bellman methods, and uncertainty."
+applications:
+  - control
+  - reinforcement-learning
+  - system-identification
+  - robotics
+keywords:
+  - system identification
+  - reinforcement learning
+  - model-based RL
+  - learning-based control
+  - planning
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+---
+
+## Application Snapshot
+
+Once a reader sees state, feedback, estimation, planning, and constraints, the next question is usually:
+
+`where exactly does learning enter?`
+
+In modern systems work, learning can enter in at least three different places:
+
+- before control, by learning a model from data
+- inside control, by learning residuals, uncertainty, or planning components
+- as the control policy itself, as in many RL pipelines
+
+This page is the shortest bridge for sorting those possibilities cleanly instead of lumping them all together as “AI control.”
+
+## Problem Setting
+
+Classical control often starts from a model that is already written down:
+
+$$
+x_{t+1} = f(x_t, u_t).
+$$
+
+But real systems rarely hand you a perfect model for free.
+
+Instead, you may have:
+
+- logged input-output data
+- a rough physics model with missing effects
+- simulation data but limited real-world data
+- a reward or task specification without an accurate dynamics model
+
+That opens three different routes:
+
+1. `System identification`
+   Learn a model, then design the controller.
+
+2. `Learning-based control`
+   Use learned components inside the control loop.
+
+3. `Reinforcement learning`
+   Learn behavior from interaction, often through rewards over trajectories.
+
+## Why This Math Appears
+
+This language reuses several math layers already on the site:
+
+- `Control and Dynamics`: state-space structure still organizes what the system is doing
+- `Stochastic Control and Dynamic Programming`: Bellman-style sequential decision ideas reappear in many RL setups
+- `Signal Processing and Estimation`: learning from data and operating under uncertainty both depend on filtering, noise models, and hidden-state reasoning
+- `Optimization`: fitting models, improving policies, and replanning all become optimization problems
+- `Learning Theory`: once models are learned from data, sample efficiency, uncertainty, and distribution shift start to matter
+
+So this page is not a detour away from control. It is the place where control starts touching modern data-driven practice directly.
+
+## Math Objects In Use
+
+- trajectory data
+- learned dynamics model
+- learned residual or disturbance model
+- policy $\pi$
+- reward or cost over trajectories
+- value function or planner
+- uncertainty about model quality
+
+The fastest organizing principle is:
+
+- `system identification` learns the model
+- `learning-based control` learns part of the pipeline
+- `reinforcement learning` learns behavior from interaction
+
+## A Small Worked Walkthrough
+
+Imagine a quadrotor whose nominal physics model is known, but whose aerodynamic drag and battery effects are not calibrated well.
+
+There are at least three distinct ways learning could enter:
+
+1. `System identification`
+   Collect flight data, fit a better dynamics model, then run LQR or MPC on that learned model.
+
+2. `Learning-based control`
+   Keep the nominal model, but learn a residual correction term that improves prediction inside the planner.
+
+3. `Reinforcement learning`
+   Optimize a policy directly from rollouts using a trajectory reward, possibly without ever producing an explicit identified model.
+
+These routes can look similar from far away, but they answer different questions:
+
+- what is the model?
+- how should I use the model?
+- do I even need a model explicitly, or only good behavior?
+
+That is why “learning in control” is not one idea. It is a family of different insert points.
+
+## Implementation or Computation Note
+
+Three practical questions help sort almost every method quickly:
+
+1. `What is being learned?`
+   A model, a residual, a value function, a policy, or an uncertainty estimate?
+
+2. `Where does the data come from?`
+   Passive logs, simulator rollouts, online interaction, or a mix?
+
+3. `How are safety and constraints handled while learning?`
+   Through hard feasibility checks, soft penalties, shielding, or only post hoc evaluation?
+
+Use these pages as the strongest follow-on support:
+
+- [Learning-Based Control, System Identification, and RL Bridges](../../topics/advanced/control-and-dynamics/concepts/learning-based-control-system-identification-and-rl-bridges.qmd)
+- [Controlled Markov Models, Policies, and Cost Functionals](../../topics/advanced/stochastic-control-and-dynamic-programming/concepts/controlled-markov-models-policies-and-cost-functionals.qmd)
+- [Value Iteration, Policy Iteration, and Approximate Dynamic Programming](../../topics/advanced/stochastic-control-and-dynamic-programming/concepts/value-iteration-policy-iteration-and-approximate-dynamic-programming.qmd)
+- [Applications > Machine Learning](../machine-learning/index.qmd)
+
+## Failure Modes
+
+- calling every data-driven control method “reinforcement learning”
+- treating a learned model as trustworthy without checking where the data came from
+- ignoring distribution shift between training rollouts and deployment conditions
+- assuming high reward in simulation automatically means safe real-world behavior
+- forgetting that system identification plus MPC is often a very different workflow from end-to-end policy learning
+
+## Paper Bridge
+
+- [6.435 / System Identification](https://ocw.mit.edu/courses/6-435-system-identification-spring-2005/) - `First pass` - official MIT anchor for the model-learning side of data-driven control. Checked `2026-04-25`.
+- [AA228 / Decision Making Under Uncertainty](https://aa228.stanford.edu/) - `Paper bridge` - useful once planning, uncertainty, and RL-style decision making begin to overlap. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [6.435 / System Identification](https://ocw.mit.edu/courses/6-435-system-identification-spring-2005/) - `First pass` - official MIT course hub for learning dynamics from data. Checked `2026-04-25`.
+- [6.435 lecture notes](https://ocw.mit.edu/courses/6-435-system-identification-spring-2005/pages/lecture-notes/) - `First pass` - direct official notes for the identification viewpoint. Checked `2026-04-25`.
+- [6.435 syllabus](https://ocw.mit.edu/courses/6-435-system-identification-spring-2005/pages/syllabus/) - `First pass` - concise framing of what identification is trying to solve. Checked `2026-04-25`.
+- [AA203 / Optimal and Learning-Based Control](https://22-23.bulletin.stanford.edu/courses/2136621) - `Second pass` - official Stanford anchor for modern learning-based control language. Checked `2026-04-25`.
+- [EE365 / Stochastic Control](https://web.stanford.edu/class/ee365/) - `Second pass` - official Stanford course bridge from sequential decision theory toward RL-style viewpoints. Checked `2026-04-25`.
+- [EE365 lecture slides](https://web.stanford.edu/class/ee365/lectures.html) - `Second pass` - useful when you want the Bellman and stochastic-control side to feel more concrete. Checked `2026-04-25`.
+- [AA228 / Decision Making Under Uncertainty](https://aa228.stanford.edu/) - `Bridge outward` - a good Stanford bridge once control, planning, and RL are all in play. Checked `2026-04-25`.

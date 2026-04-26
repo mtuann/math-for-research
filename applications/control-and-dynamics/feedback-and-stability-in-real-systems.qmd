@@ -1,0 +1,216 @@
+---
+title: "Feedback and Stability in Real Systems"
+description: "A bridge page showing how feedback turns measurements into actions, and why stability is the first nonnegotiable requirement for real systems."
+page-type: application
+status: published
+update-status: current
+level: bridge
+topic: control-and-dynamics
+prerequisites:
+  - /applications/control-and-dynamics/state-sensing-and-actuation.qmd
+  - /topics/advanced/odes-and-dynamical-systems/index.qmd
+learning-goals:
+  - "Distinguish open-loop commands from feedback control."
+  - "Interpret stability as a behavior of the closed-loop system, not just a theorem label."
+  - "Explain why reference tracking naturally introduces an error signal."
+  - "Connect application-facing feedback language to the site's control, dynamics, and estimation modules."
+applications:
+  - control
+  - robotics
+  - feedback
+  - dynamical-systems
+keywords:
+  - feedback
+  - stability
+  - tracking
+  - closed-loop
+  - control
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+---
+
+## Application Snapshot
+
+Real systems rarely get one perfect command and then coast forever.
+
+They are pushed by disturbances, limited by actuators, and measured through noisy or partial sensors.
+
+That is why control almost always becomes a feedback problem:
+
+`measure what happened, compare it to what you wanted, and use the difference to choose the next action`
+
+The first question after that is not sophistication. It is stability.
+
+## Problem Setting
+
+Suppose a system has state $x$, output $y$, and input $u$.
+
+In open loop, we choose the input ahead of time:
+
+$$
+u(t) = u_{\mathrm{plan}}(t).
+$$
+
+In feedback, we let the input depend on what the system is doing now:
+
+$$
+u(t) = \pi(y(t), r(t))
+$$
+
+or, when the full state is available,
+
+$$
+u(t) = \pi(x(t), r(t)).
+$$
+
+Here $r$ is a desired reference, such as:
+
+- a target speed
+- a target height
+- a desired temperature
+- a desired path or trajectory
+
+The difference between what we want and what we currently observe is often called the `error`:
+
+$$
+e(t) = r(t) - y(t).
+$$
+
+Feedback uses that error to keep correcting the system as time passes.
+
+## Why This Math Appears
+
+This language reuses several math layers already on the site:
+
+- `ODEs and Dynamical Systems`: stability asks what nearby trajectories do over time
+- `Control and Dynamics`: feedback changes the closed-loop dynamics, not just the command signal
+- `Linear Algebra`: in linear models, feedback often appears as $u = -Kx + r$
+- `Signal Processing and Estimation`: when the full state is not measured, feedback acts on estimates rather than the true state
+- `Stochastic Control and Dynamic Programming`: uncertainty and repeated decisions turn feedback into a sequential optimization object
+
+So stability is not an isolated theorem topic. It is the first reality check on whether a feedback idea can be trusted at all.
+
+## Math Objects In Use
+
+- state $x$
+- output $y$
+- reference $r$
+- error $e = r - y$
+- control input $u$
+- feedback law $\pi$
+- closed-loop dynamics obtained after substituting the feedback law into the system
+
+For a linear state-space model,
+
+$$
+\dot{x} = Ax + Bu,
+\qquad
+y = Cx,
+$$
+
+full-state feedback of the form
+
+$$
+u = -Kx + r
+$$
+
+changes the dynamics to
+
+$$
+\dot{x} = (A-BK)x + Br.
+$$
+
+That new matrix is the closed-loop object whose behavior now matters.
+
+## A Small Worked Walkthrough
+
+Consider a simple cruise-control model:
+
+$$
+m\dot{v} = -cv + ku + d(t),
+$$
+
+where:
+
+- $v$ is the car's speed
+- $u$ is throttle input
+- $c$ models drag
+- $d(t)$ is a disturbance such as a hill or wind
+
+If we command a fixed throttle in open loop, then changes in slope or drag can easily push the speed away from what we wanted.
+
+Now use feedback:
+
+$$
+u = K(v_{\mathrm{ref}} - v).
+$$
+
+Then the input increases when the car is too slow and decreases when it is too fast.
+
+Define the tracking error
+
+$$
+e = v_{\mathrm{ref}} - v.
+$$
+
+Ignoring disturbance for a moment, the error dynamics become
+
+$$
+\dot{e} = -\frac{c + kK}{m} e.
+$$
+
+That equation says something operational, not just symbolic:
+
+- if the coefficient is negative, the error shrinks
+- if it shrinks, the speed returns toward the target
+- if it grows, the controller is not stabilizing the behavior you want
+
+This is exactly why stability is the first thing readers keep seeing in control papers and real systems notes.
+
+## Implementation or Computation Note
+
+Three practical complications appear almost immediately:
+
+1. `Delays and sampling`
+   Digital controllers act at discrete times, not continuously.
+
+2. `Noise and partial sensing`
+   The controller may only see noisy measurements or a state estimate.
+
+3. `Actuator limits`
+   Throttle, torque, force, and voltage usually saturate.
+
+Use these pages as the strongest follow-on support:
+
+- [Estimation under Noise](estimation-under-noise.qmd)
+- [Feedback, Stability, and Pole Placement](../../topics/advanced/control-and-dynamics/concepts/feedback-stability-and-pole-placement.qmd)
+- [Phase Portraits, Equilibria, and Local Stability](../../topics/advanced/odes-and-dynamical-systems/concepts/phase-portraits-equilibria-and-local-stability.qmd)
+- [Estimation, Kalman Filtering, and the Separation Principle](../../topics/advanced/control-and-dynamics/concepts/estimation-kalman-filtering-and-the-separation-principle.qmd)
+- [Model Predictive Control and Constraint Handling](../../topics/advanced/control-and-dynamics/concepts/model-predictive-control-and-constraint-handling.qmd)
+
+## Failure Modes
+
+- thinking feedback means “keep increasing the gain until it works”
+- assuming a stable open-loop plant automatically gives a stable closed-loop design
+- forgetting that delays and actuator saturation can break an otherwise clean feedback idea
+- treating tracking and stabilization as the same task without checking the reference signal
+- writing a controller around measurements without asking whether the key state is actually observed
+
+## Paper Bridge
+
+- [16.30 / Feedback Control Systems](https://ocw.mit.edu/courses/16-30-feedback-control-systems-fall-2010/) - `First pass` - official MIT course where feedback and closed-loop stability are the main operational language. Checked `2026-04-25`.
+- [EE363 / Linear Dynamical Systems](https://bulletin.stanford.edu/courses/2273941) - `Paper bridge` - a strong Stanford anchor once you want the linear-systems side of feedback to feel precise. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [16.30 / Feedback Control Systems](https://ocw.mit.edu/courses/16-30-feedback-control-systems-fall-2010/) - `First pass` - official MIT systems-and-control course. Checked `2026-04-25`.
+- [Topic 11: Control Design Via Eigenvalue Assignment](https://ocw.mit.edu/courses/16-30-feedback-control-systems-fall-2010/c553561f63feaa6173e31994f45f0c60_MIT16_30F10_lec11.pdf) - `First pass` - compact official notes for how feedback changes closed-loop dynamics. Checked `2026-04-25`.
+- [Topic 12: Output Feedback Design](https://ocw.mit.edu/courses/16-30-feedback-control-systems-fall-2010/be97882d33e1689ef2eb80cf181afafb_MIT16_30F10_lec12.pdf) - `Second pass` - useful when measurements rather than full state drive the controller. Checked `2026-04-25`.
+- [Lecture 23: State Space Control Design](https://ocw.mit.edu/courses/6-241j-dynamic-systems-and-control-spring-2011/c8fc22a8adf04e602a575fdfd60c039a_MIT6_241JS11_lec23.pdf) - `Second pass` - official MIT state-space bridge from feedback ideas to design language. Checked `2026-04-25`.
+- [EE363 / Linear Dynamical Systems](https://bulletin.stanford.edu/courses/2273941) - `Second pass` - official Stanford course anchor for closed-loop linear systems. Checked `2026-04-25`.
+- [ENGR105 / Feedback Control Design](https://bulletin.stanford.edu/courses/1042961) - `Second pass` - official Stanford course entry for applied feedback design. Checked `2026-04-25`.
+- [ENGR205 / Introduction to Control Design Techniques](https://bulletin.stanford.edu/courses/1043361) - `Bridge outward` - useful once you want to see how the same feedback ideas scale into broader design techniques. Checked `2026-04-25`.

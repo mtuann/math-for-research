@@ -1,0 +1,185 @@
+---
+title: "Constraints, MPC, and Safe Operation"
+description: "A bridge page showing why real systems must respect hard limits, how model predictive control handles them naturally, and why safe operation is often an optimization problem in the loop."
+page-type: application
+status: published
+update-status: current
+level: bridge
+topic: control-and-dynamics
+prerequisites:
+  - /applications/control-and-dynamics/optimal-control-and-trajectory-planning.qmd
+learning-goals:
+  - "Explain why constraints are central in real control systems rather than a minor implementation detail."
+  - "Interpret MPC as repeated constrained trajectory optimization with only the first action applied."
+  - "Distinguish unconstrained regulation from safe operation under state and input limits."
+  - "Connect application-facing safety language to MPC, optimization, and receding-horizon control."
+applications:
+  - control
+  - planning
+  - robotics
+  - safety
+keywords:
+  - constraints
+  - MPC
+  - safety
+  - receding horizon
+  - control
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+---
+
+## Application Snapshot
+
+Many real systems are not limited by math elegance. They are limited by physics and safety:
+
+- motors saturate
+- batteries drain
+- voltages and torques have hard bounds
+- temperatures, pressures, and positions must stay inside safe regions
+
+So a controller is often not allowed to ask only:
+
+`what control action would be best if nothing were limited?`
+
+It must ask:
+
+`what control action is best among the ones that keep the system feasible and safe?`
+
+That is why constrained control and MPC appear so often in robotics, vehicles, energy systems, and process control.
+
+## Problem Setting
+
+Suppose the system evolves as
+
+$$
+x_{t+1} = f(x_t, u_t),
+$$
+
+and we want to minimize a finite-horizon cost while respecting constraints:
+
+$$
+x_t \in X,
+\qquad
+u_t \in U.
+$$
+
+Here:
+
+- $X$ is the safe or allowable state set
+- $U$ is the allowable input set
+
+At each time step, the controller solves a planning problem over a horizon:
+
+$$
+u_0, u_1, \dots, u_{N-1}
+$$
+
+but applies only the first control move, then replans after the next state or estimate arrives.
+
+That repeated solve-act-resolve loop is the application-level meaning of model predictive control.
+
+## Why This Math Appears
+
+This language reuses several math layers already on the site:
+
+- `Optimization`: constraints and cost must be handled together, not as separate afterthoughts
+- `Numerical Methods`: the optimization has to be solved fast enough to run inside a real loop
+- `Control and Dynamics`: the candidate control sequence is judged through predicted future dynamics
+- `Estimation`: when state is uncertain, the constrained decision may be based on an estimate rather than a direct measurement
+- `Stochastic Control and Dynamic Programming`: repeated replanning is a sequential decision process, not a one-shot solve
+
+So safe operation is not a cosmetic wrapper around control. It is often the reason the control problem must be formulated as constrained optimization in the first place.
+
+## Math Objects In Use
+
+- state $x_t$
+- input $u_t$
+- prediction model $f$
+- state constraint set $X$
+- input constraint set $U$
+- horizon length $N$
+- running and terminal costs
+- feasible plan over the horizon
+
+The application picture is:
+
+1. predict what future states would happen under a candidate control sequence
+2. discard plans that violate safety or actuator limits
+3. choose the best remaining feasible plan
+4. apply only the first action
+5. replan at the next step
+
+## A Small Worked Walkthrough
+
+Imagine an autonomous car approaching a slower vehicle ahead.
+
+The system may want to:
+
+- maintain speed
+- avoid hard braking
+- preserve a safe following distance
+
+An unconstrained planner might propose a control sequence that reduces tracking error quickly but violates:
+
+- acceleration limits
+- jerk limits
+- minimum-distance safety bounds
+
+A constrained MPC-style planner instead solves:
+
+- minimize tracking and effort cost
+- subject to the car dynamics
+- subject to speed, acceleration, and spacing constraints
+
+The application point is not only that MPC “optimizes better.”
+
+It is that the optimization explicitly excludes dangerous futures before control is chosen.
+
+That is why safe operation often looks like prediction plus feasibility, not just gain tuning.
+
+## Implementation or Computation Note
+
+Three practical design questions appear immediately:
+
+1. `Feasibility`
+   What happens if the constraints and reference are temporarily incompatible?
+
+2. `Model accuracy`
+   How much safety margin is needed if the predictive model is imperfect?
+
+3. `Computation time`
+   Can the constrained problem be solved fast enough at the controller's update rate?
+
+Use these pages as the strongest follow-on support:
+
+- [Learning, Identification, and RL Bridges](learning-identification-and-rl-bridges.qmd)
+- [Model Predictive Control and Constraint Handling](../../topics/advanced/control-and-dynamics/concepts/model-predictive-control-and-constraint-handling.qmd)
+- [Linear Quadratic Regulation and Riccati Intuition](../../topics/advanced/control-and-dynamics/concepts/linear-quadratic-regulation-and-riccati-intuition.qmd)
+- [Value Iteration, Policy Iteration, and Approximate Dynamic Programming](../../topics/advanced/stochastic-control-and-dynamic-programming/concepts/value-iteration-policy-iteration-and-approximate-dynamic-programming.qmd)
+- [Approximation, Differentiation, Integration, and Error Control](../../topics/advanced/numerical-methods/concepts/approximation-differentiation-integration-and-error-control.qmd)
+
+## Failure Modes
+
+- designing an elegant unconstrained controller that cannot respect actuator limits
+- assuming safety constraints can be “patched on later” outside the control design
+- ignoring the fact that the optimization must finish within the control update window
+- treating a predicted feasible trajectory as safe even when the state estimate is poor
+- forgetting that repeated replanning can fail if the problem becomes infeasible
+
+## Paper Bridge
+
+- [16.323 / Model Predictive Control](https://ocw.mit.edu/courses/16-323-principles-of-optimal-control-spring-2008/resources/lec16/) - `First pass` - official MIT entry point for the receding-horizon viewpoint. Checked `2026-04-25`.
+- [EE364b / Convex Optimization II](https://web.stanford.edu/class/ee364b/course.html) - `Paper bridge` - useful once constrained control starts feeling like optimization in the loop. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [16.323 / Model Predictive Control](https://ocw.mit.edu/courses/16-323-principles-of-optimal-control-spring-2008/resources/lec16/) - `First pass` - official MIT MPC lecture anchor. Checked `2026-04-25`.
+- [16.323 lecture notes](https://ocw.mit.edu/courses/16-323-principles-of-optimal-control-spring-2008/pages/lecture-notes/) - `First pass` - official MIT optimal-control notes that frame MPC in the larger planning story. Checked `2026-04-25`.
+- [EE364b course information](https://web.stanford.edu/class/ee364b/course.html) - `Second pass` - official Stanford convex optimization course info with strong constrained-control relevance. Checked `2026-04-25`.
+- [EE364b lectures](https://web.stanford.edu/class/ee364b/lectures.html) - `Second pass` - useful when you want the optimization layer under constrained control to be more explicit. Checked `2026-04-25`.
+- [EE364b MPC slides](https://web.stanford.edu/class/ee364b/lectures/mpc_slides.pdf) - `Second pass` - direct Stanford slide deck for MPC language and structure. Checked `2026-04-25`.
+- [AA203 / Optimal and Learning-Based Control](https://22-23.bulletin.stanford.edu/courses/2136621) - `Bridge outward` - official Stanford course entry where constrained and optimal control ideas scale outward into broader control design. Checked `2026-04-25`.

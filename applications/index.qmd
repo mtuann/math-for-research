@@ -17,13 +17,12 @@ Start here when you want to answer:
 ## Available Application Hubs
 
 - [Machine Learning](machine-learning/index.qmd)
+- [Control and Dynamics](control-and-dynamics/index.qmd)
 
 Later, this section will expand into:
 
-- machine learning
 - optimization and inference
 - scientific computing
 - signal and communication
-- control and dynamics
 
 The design rule is simple: every serious application page should point back to the exact math objects it uses.

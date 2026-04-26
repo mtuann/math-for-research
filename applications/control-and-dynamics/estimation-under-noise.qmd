@@ -1,0 +1,209 @@
+---
+title: "Estimation under Noise"
+description: "A bridge page showing why control systems need state estimates, how noisy measurements differ from hidden state, and where filtering enters real decision loops."
+page-type: application
+status: published
+update-status: current
+level: bridge
+topic: control-and-dynamics
+prerequisites:
+  - /applications/control-and-dynamics/state-sensing-and-actuation.qmd
+  - /applications/control-and-dynamics/feedback-and-stability-in-real-systems.qmd
+learning-goals:
+  - "Explain why measurement noise and hidden state force systems to estimate rather than observe directly."
+  - "Distinguish raw measurements, filtered estimates, and latent state."
+  - "Interpret filtering as a repeated model-plus-measurement update."
+  - "Connect noisy estimation language to control, signal processing, and stochastic decision-making."
+applications:
+  - control
+  - estimation
+  - robotics
+  - signal-processing
+keywords:
+  - estimation
+  - filtering
+  - noise
+  - Kalman
+  - hidden state
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+---
+
+## Application Snapshot
+
+In real systems, the quantity you want to control is often not measured directly.
+
+What you receive instead is:
+
+- a noisy sensor reading
+- a partial projection of the state
+- or a delayed, corrupted, or missing measurement
+
+That is why many control loops are really:
+
+`measure -> estimate hidden state -> act`
+
+This page is the shortest bridge from abstract state-space language into the estimation layer that real systems need before feedback can become reliable.
+
+## Problem Setting
+
+Suppose the system state is $x_t$, the control is $u_t$, and the measurement is $y_t$.
+
+A common discrete-time model is
+
+$$
+x_{t+1} = f(x_t, u_t, w_t),
+\qquad
+y_t = h(x_t) + v_t,
+$$
+
+where:
+
+- $w_t$ is process noise or unmodeled disturbance
+- $v_t$ is measurement noise
+
+The control problem is awkward because the controller often needs information about $x_t$, but only gets to see $y_t$.
+
+So the system builds an estimate
+
+$$
+\hat{x}_t
+$$
+
+from:
+
+- the model
+- the previous estimate
+- the new measurement
+
+That estimate then becomes the object the controller actually uses.
+
+## Why This Math Appears
+
+This language reuses several math layers already on the site:
+
+- `Probability and Statistics`: noise models and conditional updating tell us how measurements should change belief
+- `Signal Processing and Estimation`: filtering is the load-bearing update rule for hidden-state inference
+- `Control and Dynamics`: many controllers act on an estimated state rather than the true state
+- `Stochastic Control and Dynamic Programming`: uncertainty changes the decision problem, not just the observation model
+- `Linear Algebra`: in linear-Gaussian settings, means and covariances evolve by matrix operations
+
+So estimation under noise is not an optional add-on. It is often the missing middle layer between sensing and action.
+
+## Math Objects In Use
+
+- hidden state $x_t$
+- measurement $y_t$
+- process noise $w_t$
+- measurement noise $v_t$
+- estimate $\hat{x}_t$
+- prediction step from the model
+- correction step from the new measurement
+
+In linear-Gaussian form, the system often looks like
+
+$$
+x_{t+1} = Ax_t + Bu_t + w_t,
+\qquad
+y_t = Cx_t + v_t.
+$$
+
+At first pass, the estimator tries to balance two sources of information:
+
+- what the model predicts
+- what the sensor just reported
+
+## A Small Worked Walkthrough
+
+Imagine tracking a car on a straight road.
+
+The hidden state is
+
+$$
+x_t =
+\begin{bmatrix}
+p_t \\
+v_t
+\end{bmatrix},
+$$
+
+where:
+
+- $p_t$ is position
+- $v_t$ is velocity
+
+Suppose the GPS measurement only reports position:
+
+$$
+y_t = p_t + v_t^{(\mathrm{noise})}.
+$$
+
+Then:
+
+- position is observed noisily
+- velocity is not observed directly at all
+
+If the controller needs velocity to brake smoothly or maintain spacing, raw GPS readings are not enough.
+
+A useful estimator does two things repeatedly:
+
+1. `Prediction`
+   Use the motion model to guess where the car should be next.
+
+2. `Correction`
+   Use the new GPS reading to adjust that guess.
+
+That update loop is the systems-level meaning of filtering.
+
+The key application lesson is simple:
+
+- the sensor does not give the state
+- the model does not guarantee the state
+- the estimate is the compromise between them
+
+## Implementation or Computation Note
+
+Three practical design questions appear quickly:
+
+1. `How much should I trust the model?`
+   A strong model can stabilize noisy sensing, but model mismatch can also mislead the filter.
+
+2. `How much should I trust the sensor?`
+   High-noise measurements should not dominate every update.
+
+3. `What exactly is the controller using?`
+   In many real loops, the action depends on $\hat{x}_t$, not on $x_t$.
+
+Use these pages as the strongest follow-on support:
+
+- [Optimal Control and Trajectory Planning](optimal-control-and-trajectory-planning.qmd)
+- [State Estimation, Smoothing, and Hidden-State Inference](../../topics/advanced/signal-processing-and-estimation/concepts/state-estimation-smoothing-and-hidden-state-inference.qmd)
+- [Estimation, Kalman Filtering, and the Separation Principle](../../topics/advanced/control-and-dynamics/concepts/estimation-kalman-filtering-and-the-separation-principle.qmd)
+- [Noise Models, Wiener Filtering, and MMSE Estimation](../../topics/advanced/signal-processing-and-estimation/concepts/noise-models-wiener-filtering-and-mmse-estimation.qmd)
+- [Partial Observability, Belief States, and RL/Control Bridges](../../topics/advanced/stochastic-control-and-dynamic-programming/concepts/partial-observability-belief-states-and-rl-control-bridges.qmd)
+
+## Failure Modes
+
+- treating a noisy measurement as if it were the true state
+- forgetting that unobserved coordinates can still matter for control
+- assuming better sensors remove the need for a model
+- assuming a good model removes the need to check measurement quality
+- building a controller around estimates without asking how bad estimate error can become
+
+## Paper Bridge
+
+- [16.322 / Stochastic Estimation and Control](https://ocw.mit.edu/courses/16-322-stochastic-estimation-and-control-fall-2004/) - `First pass` - official MIT anchor for the estimation side of noisy dynamical systems. Checked `2026-04-25`.
+- [EE278 / Introduction to Statistical Signal Processing](https://web.stanford.edu/class/ee278/) - `Paper bridge` - useful when you want the measurement-noise viewpoint to become more statistical and signal-processing flavored. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [16.322 / Stochastic Estimation and Control](https://ocw.mit.edu/courses/16-322-stochastic-estimation-and-control-fall-2004/) - `First pass` - official MIT course hub for hidden-state estimation under noise. Checked `2026-04-25`.
+- [Lecture 11: Estimators / Observers](https://ocw.mit.edu/courses/16-323-principles-of-optimal-control-spring-2008/resources/lec11/) - `First pass` - compact official MIT notes showing the observer viewpoint directly. Checked `2026-04-25`.
+- [Recitation 10: Observers](https://ocw.mit.edu/courses/16-30-feedback-control-systems-fall-2010/f9b82f847c59b5fdfcf54bf6ca9ddc86_MIT16_30F10_rec10.pdf) - `Second pass` - useful when you want the control-facing observer picture rather than a purely statistical one. Checked `2026-04-25`.
+- [EE278 / Introduction to Statistical Signal Processing](https://web.stanford.edu/class/ee278/) - `Second pass` - official Stanford course anchor for filtering and noisy estimation. Checked `2026-04-25`.
+- [AA273 / State Estimation and Filtering for Autonomous Systems](https://bulletin.stanford.edu/courses/2179261) - `Bridge outward` - official Stanford course entry where estimation is central to autonomous systems. Checked `2026-04-25`.
+- [Stats366 HMM notes](https://web.stanford.edu/class/stats366/hmmR2.html) - `Bridge outward` - useful when you want a discrete hidden-state analogue of the same filtering story. Checked `2026-04-25`.

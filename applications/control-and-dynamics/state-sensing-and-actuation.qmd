@@ -1,0 +1,199 @@
+---
+title: "State, Sensing, and Actuation"
+description: "A bridge page showing how state variables, sensors, and control inputs become the basic objects of real dynamical systems."
+page-type: application
+status: published
+update-status: current
+level: bridge
+topic: control-and-dynamics
+prerequisites:
+  - /topics/foundation/linear-algebra/index.qmd
+  - /topics/advanced/odes-and-dynamical-systems/index.qmd
+learning-goals:
+  - "Distinguish state, sensor outputs, and control inputs."
+  - "Interpret state-space language as an application-facing systems description."
+  - "Explain why real systems often have hidden state even when measurements are available."
+  - "Connect state-space objects to feedback, estimation, and planning."
+applications:
+  - control
+  - robotics
+  - estimation
+  - dynamical-systems
+keywords:
+  - state
+  - sensing
+  - actuation
+  - state-space
+  - control
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+---
+
+## Application Snapshot
+
+A large fraction of systems work can be summarized in one sentence:
+
+`something evolves over time, you only measure part of it, and you try to influence it through inputs`
+
+That sentence already contains the three basic objects:
+
+- `state`
+- `sensing`
+- `actuation`
+
+This page is the shortest bridge from the site's math modules into the language used in control, robotics, navigation, and sequential decision-making.
+
+## Problem Setting
+
+A system is usually described by:
+
+- a `state` $x$, which stores the information needed to predict future evolution
+- an `input` $u$, which represents what we can command or apply
+- an `output` $y$, which is what sensors actually report
+
+In continuous time, a common model is
+
+$$
+\dot{x}(t) = f(x(t), u(t)),
+\qquad
+y(t) = h(x(t)).
+$$
+
+In discrete time, the same idea becomes
+
+$$
+x_{t+1} = f(x_t, u_t),
+\qquad
+y_t = h(x_t).
+$$
+
+If the world is noisy, we often add process and measurement noise:
+
+$$
+x_{t+1} = f(x_t, u_t, w_t),
+\qquad
+y_t = h(x_t) + v_t.
+$$
+
+The key point is that the `output` need not reveal the full `state`.
+
+## Why This Math Appears
+
+This language reuses several math layers already on the site:
+
+- `Linear Algebra`: states, inputs, and outputs are often vectors; system models are often matrices or linear maps
+- `ODEs and Dynamical Systems`: the state evolves according to differential or difference equations
+- `Control and Dynamics`: feedback laws act on the state or its estimate
+- `Signal Processing and Estimation`: sensors are noisy, delayed, partial, or filtered
+- `Stochastic Control and Dynamic Programming`: decisions are made repeatedly under uncertainty
+
+So state-space language is not a side topic. It is the common translation layer between math and real systems.
+
+## Math Objects In Use
+
+- state vector $x$
+- input or control $u$
+- output or measurement $y$
+- dynamics law $f$
+- observation law $h$
+- sometimes disturbance or process noise $w$
+- sometimes measurement noise $v$
+
+In linear time-invariant form, these objects often become
+
+$$
+\dot{x} = Ax + Bu,
+\qquad
+y = Cx + Du
+$$
+
+or the discrete-time analog
+
+$$
+x_{t+1} = Ax_t + Bu_t,
+\qquad
+y_t = Cx_t + Du_t.
+$$
+
+## A Small Worked Walkthrough
+
+Consider a simple vertical-motion model for a drone:
+
+$$
+\dot{h} = v,
+\qquad
+\dot{v} = -g + \alpha u + d(t),
+\qquad
+y = h + \eta.
+$$
+
+Here:
+
+- $h$ is height
+- $v$ is vertical velocity
+- $u$ is commanded thrust
+- $d(t)$ is an unmodeled disturbance such as wind
+- $y$ is a noisy height measurement
+
+The natural state is
+
+$$
+x = \begin{bmatrix} h \\ v \end{bmatrix}.
+$$
+
+This example makes the roles clear:
+
+- `state`: height and velocity together determine future motion
+- `actuation`: thrust changes the acceleration
+- `sensing`: the sensor only reports a noisy version of height
+
+So even if height is observed, velocity may still be hidden and must be estimated or inferred.
+
+That is exactly why state estimation and feedback appear so quickly after the first state-space model.
+
+## Implementation or Computation Note
+
+The main practical questions start immediately after the model is written:
+
+1. `Feedback`
+   How should the input depend on the current state or estimated state?
+
+2. `Estimation`
+   If only noisy outputs are measured, how do we reconstruct the hidden state?
+
+3. `Sampling`
+   If the controller runs on a computer, how does the continuous model become a discrete update?
+
+Use these as the strongest follow-on pages:
+
+- [Feedback and Stability in Real Systems](feedback-and-stability-in-real-systems.qmd)
+- [State-Space Models, Inputs, and Outputs](../../topics/advanced/control-and-dynamics/concepts/state-space-models-inputs-and-outputs.qmd)
+- [Phase Portraits, Equilibria, and Local Stability](../../topics/advanced/odes-and-dynamical-systems/concepts/phase-portraits-equilibria-and-local-stability.qmd)
+- [State Estimation, Smoothing, and Hidden-State Inference](../../topics/advanced/signal-processing-and-estimation/concepts/state-estimation-smoothing-and-hidden-state-inference.qmd)
+- [Controlled Markov Models, Policies, and Cost Functionals](../../topics/advanced/stochastic-control-and-dynamic-programming/concepts/controlled-markov-models-policies-and-cost-functionals.qmd)
+
+## Failure Modes
+
+- treating the sensor output as if it were the full state
+- forgetting that hidden variables can still drive future evolution
+- confusing disturbances with control inputs
+- writing down a feedback law before deciding what is actually measured
+- ignoring sampling and actuator limits when jumping from theory to implementation
+
+## Paper Bridge
+
+- [6.241J / Dynamic Systems and Control](https://ocw.mit.edu/courses/6-241j-dynamic-systems-and-control-spring-2011/pages/lecture-notes/) - `First pass` - official MIT course notes that make the state-space point of view operational. Checked `2026-04-25`.
+- [16.322 / Stochastic Estimation and Control](https://ocw.mit.edu/courses/16-322-stochastic-estimation-and-control-fall-2004/) - `Paper bridge` - useful once sensing, hidden state, and uncertainty start to matter more than bare dynamics. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [6.241J / Dynamic Systems and Control](https://ocw.mit.edu/courses/6-241j-dynamic-systems-and-control-spring-2011/pages/lecture-notes/) - `First pass` - official MIT state-space lecture sequence. Checked `2026-04-25`.
+- [Lecture 7: State-Space Models](https://ocw.mit.edu/courses/6-241j-dynamic-systems-and-control-spring-2011/71ed66d4f5063dd92ac026870dcf8237_MIT6_241JS11_lec07.pdf) - `First pass` - compact official MIT notes for the exact objects used on this page. Checked `2026-04-25`.
+- [16.30 / Feedback Control Systems](https://ocw.mit.edu/courses/16-30-feedback-control-systems-fall-2010/) - `Second pass` - official MIT control framing for sensing, actuation, and feedback. Checked `2026-04-25`.
+- [EE363 / Linear Dynamical Systems](https://bulletin.stanford.edu/courses/2273941) - `Second pass` - official Stanford course anchor for state-space systems and control. Checked `2026-04-25`.
+- [EE278 / Introduction to Statistical Signal Processing](https://web.stanford.edu/class/ee278/) - `Bridge to estimation` - useful once you want the sensing side, noise models, and estimation viewpoint to become more explicit. Checked `2026-04-25`.
+- [AA228 / Decision Making Under Uncertainty](https://aa228.stanford.edu/) - `Bridge to planning` - useful once control language starts to merge with planning and sequential decisions. Checked `2026-04-25`.

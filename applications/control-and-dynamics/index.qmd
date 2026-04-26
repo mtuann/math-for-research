@@ -1,0 +1,135 @@
+---
+title: "Control and Dynamics"
+description: "A public-facing hub showing how the site's math modules reappear in state-space models, sensing, feedback, estimation, and sequential decision-making."
+page-type: application-index
+status: published
+update-status: current
+level: bridge
+topic: control-and-dynamics
+prerequisites:
+  - /topics/foundation/linear-algebra/index.qmd
+  - /topics/advanced/odes-and-dynamical-systems/index.qmd
+learning-goals:
+  - "Map core math modules to recurring objects in real dynamical systems."
+  - "Choose a first systems-facing reading path based on current interest."
+  - "See where the site already has a live control-and-dynamics bridge."
+applications:
+  - control
+  - robotics
+  - dynamical-systems
+  - estimation
+keywords:
+  - control
+  - dynamics
+  - state-space
+  - estimation
+  - applications
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+---
+
+## Why This Section Exists
+
+Many readers can follow the math, but still do not feel where it lands in real systems.
+
+This hub is for the moment when you want to answer questions like:
+
+- what exactly is the `state` in a physical or engineered system?
+- what counts as a `measurement` and what counts as an `input`?
+- where do stability, estimation, and planning appear outside a textbook?
+
+The rule for this section is simple:
+
+`every control page should point back to the exact state, sensing, and actuation objects it uses`
+
+## What Control And Dynamics Keeps Reusing
+
+Across robotics, navigation, signal-driven systems, and decision-making, the same mathematical objects keep returning:
+
+- hidden or partially observed state variables
+- continuous-time or discrete-time evolution laws
+- control inputs and actuator limits
+- noisy sensor outputs
+- feedback laws, stability certificates, and cost tradeoffs
+
+If you can identify those objects quickly, systems papers stop feeling like disconnected jargon.
+
+::: {.meta-strip}
+::: {.meta-box}
+**Best Starting Math**
+[Linear Algebra](../../topics/foundation/linear-algebra/index.qmd), [ODEs and Dynamical Systems](../../topics/advanced/odes-and-dynamical-systems/index.qmd), [Control and Dynamics](../../topics/advanced/control-and-dynamics/index.qmd)
+:::
+::: {.meta-box}
+**Best Estimation Bridge**
+[Signal Processing and Estimation](../../topics/advanced/signal-processing-and-estimation/index.qmd)
+:::
+::: {.meta-box}
+**Best Decision Bridge**
+[Stochastic Control and Dynamic Programming](../../topics/advanced/stochastic-control-and-dynamic-programming/index.qmd)
+:::
+:::
+
+## Start Here By Interest
+
+### If You Want The Shortest Math-to-Systems Entry
+
+Start in this order:
+
+1. [Linear Algebra](../../topics/foundation/linear-algebra/index.qmd)
+2. [ODEs and Dynamical Systems](../../topics/advanced/odes-and-dynamical-systems/index.qmd)
+3. [Control and Dynamics](../../topics/advanced/control-and-dynamics/index.qmd)
+4. [State, Sensing, and Actuation](state-sensing-and-actuation.qmd)
+
+### If You Want The Cleanest First Bridge Inside This Section
+
+Start with:
+
+1. [State, Sensing, and Actuation](state-sensing-and-actuation.qmd)
+2. [Feedback and Stability in Real Systems](feedback-and-stability-in-real-systems.qmd)
+3. [Estimation under Noise](estimation-under-noise.qmd)
+4. [Optimal Control and Trajectory Planning](optimal-control-and-trajectory-planning.qmd)
+5. [Constraints, MPC, and Safe Operation](constraints-mpc-and-safe-operation.qmd)
+6. [Learning, Identification, and RL Bridges](learning-identification-and-rl-bridges.qmd)
+7. [State-Space Models, Inputs, and Outputs](../../topics/advanced/control-and-dynamics/concepts/state-space-models-inputs-and-outputs.qmd)
+8. [Feedback, Stability, and Pole Placement](../../topics/advanced/control-and-dynamics/concepts/feedback-stability-and-pole-placement.qmd)
+9. [Estimation, Kalman Filtering, and the Separation Principle](../../topics/advanced/control-and-dynamics/concepts/estimation-kalman-filtering-and-the-separation-principle.qmd)
+
+### If You Care Most About Noisy Or Hidden-State Systems
+
+Start with:
+
+1. [Estimation under Noise](estimation-under-noise.qmd)
+2. [Signal Processing and Estimation](../../topics/advanced/signal-processing-and-estimation/index.qmd)
+3. [State Estimation, Smoothing, and Hidden-State Inference](../../topics/advanced/signal-processing-and-estimation/concepts/state-estimation-smoothing-and-hidden-state-inference.qmd)
+4. [Stochastic Control and Dynamic Programming](../../topics/advanced/stochastic-control-and-dynamic-programming/index.qmd)
+
+## First-Pass Route
+
+The strongest first-pass route in this section is:
+
+1. [State, Sensing, and Actuation](state-sensing-and-actuation.qmd)
+2. [Feedback and Stability in Real Systems](feedback-and-stability-in-real-systems.qmd)
+3. [Estimation under Noise](estimation-under-noise.qmd)
+4. [Optimal Control and Trajectory Planning](optimal-control-and-trajectory-planning.qmd)
+5. [Constraints, MPC, and Safe Operation](constraints-mpc-and-safe-operation.qmd)
+6. [Learning, Identification, and RL Bridges](learning-identification-and-rl-bridges.qmd)
+
+Use this route when you want the shortest translation from abstract math objects into vehicles, robots, thermostats, and other systems that must react to noisy measurements, choose good trajectories, respect hard operational limits, and still make sense of where learning and RL enter the loop.
+
+## How To Use This Section
+
+- Use `Topics` when you want the math itself.
+- Use `Applications > Control and Dynamics` when you want the systems-facing translation layer.
+- Use [Stochastic Control and Dynamic Programming](../../topics/advanced/stochastic-control-and-dynamic-programming/index.qmd) when you want sequential decision-making under uncertainty.
+- Use [Paper Lab](../../paper-lab/index.qmd) when you want to practice reading research papers after the math objects feel familiar.
+
+## Sources and Further Reading
+
+- [6.241J / Dynamic Systems and Control](https://ocw.mit.edu/courses/6-241j-dynamic-systems-and-control-spring-2011/pages/lecture-notes/) - `First pass` - official MIT course notes that make state-space language the common entry point. Checked `2026-04-25`.
+- [16.30 / Feedback Control Systems](https://ocw.mit.edu/courses/16-30-feedback-control-systems-fall-2010/) - `First pass` - official MIT control course with a strong systems interpretation of sensing, actuation, and stability. Checked `2026-04-25`.
+- [EE363 / Linear Dynamical Systems](https://bulletin.stanford.edu/courses/2273941) - `Second pass` - official Stanford course anchor for state-space, estimation, and control language. Checked `2026-04-25`.
+- [AA228 / Decision Making Under Uncertainty](https://aa228.stanford.edu/) - `Paper bridge` - useful when control, estimation, and sequential decision-making begin to overlap. Checked `2026-04-25`.

@@ -1,0 +1,208 @@
+---
+title: "Optimal Control and Trajectory Planning"
+description: "A bridge page showing why many systems problems are not only about stability, but about choosing trajectories and control actions that trade off effort, accuracy, time, and safety."
+page-type: application
+status: published
+update-status: current
+level: bridge
+topic: control-and-dynamics
+prerequisites:
+  - /applications/control-and-dynamics/feedback-and-stability-in-real-systems.qmd
+learning-goals:
+  - "Explain why stable control is often not enough without a cost or trajectory objective."
+  - "Distinguish regulation, tracking, and trajectory planning."
+  - "Interpret optimal control as repeated decision-making under dynamics and constraints."
+  - "Connect application-facing planning language to LQR, MPC, and stochastic control."
+applications:
+  - control
+  - planning
+  - robotics
+  - optimization
+keywords:
+  - optimal control
+  - trajectory planning
+  - LQR
+  - MPC
+  - cost
+maintainer: mtuann
+last-reviewed: 2026-04-25
+source-check-date: 2026-04-25
+review-cadence: semiannual
+date-modified: last-modified
+draft: false
+---
+
+## Application Snapshot
+
+Many real systems do not ask only:
+
+`can I stabilize this system?`
+
+They ask:
+
+- can I reach the target smoothly?
+- can I do it without wasting too much energy?
+- can I avoid overshoot, actuator stress, or unsafe states?
+- can I plan a whole path, not just react locally?
+
+That is the shift from bare stabilization to optimal control and trajectory planning.
+
+This page is the shortest bridge from feedback language into the idea that a controller is often chosen by optimizing a cost over time.
+
+## Problem Setting
+
+Suppose the system evolves as
+
+$$
+x_{t+1} = f(x_t, u_t)
+$$
+
+or, in continuous time,
+
+$$
+\dot{x}(t) = f(x(t), u(t)).
+$$
+
+A controller is no longer judged only by whether it keeps the system stable.
+
+It is also judged by a performance objective, such as
+
+$$
+\text{cost} = \sum_{t=0}^{T-1} \ell(x_t, u_t) + \phi(x_T)
+$$
+
+or, in continuous time,
+
+$$
+\text{cost} = \int_0^T \ell(x(t), u(t))\,dt + \phi(x(T)).
+$$
+
+Here:
+
+- $\ell$ is a running cost
+- $\phi$ is a terminal cost
+- $T$ is a horizon
+
+The planner or controller must now choose actions that respect both:
+
+- the system dynamics
+- the cost tradeoffs
+
+## Why This Math Appears
+
+This language reuses several math layers already on the site:
+
+- `Control and Dynamics`: feedback stabilizes the system, but does not by itself specify the best tradeoff among behaviors
+- `Optimization`: objectives, constraints, and tradeoffs become part of the control design itself
+- `Stochastic Control and Dynamic Programming`: finite-horizon and infinite-horizon planning are sequential optimization problems
+- `Numerical Methods`: many trajectory-planning problems are solved approximately, repeatedly, and under discretization
+- `ODEs and Dynamical Systems`: the state evolution is still the load-bearing object underneath the optimization
+
+So optimal control is not “control plus a bonus objective.” It is the point where dynamics and optimization become one problem.
+
+## Math Objects In Use
+
+- state $x_t$
+- control input $u_t$
+- dynamics law $f$
+- running cost $\ell(x_t,u_t)$
+- terminal cost $\phi(x_T)$
+- horizon $T$
+- reference trajectory or target set
+- sometimes constraints on state or input
+
+In the simplest linear-quadratic setting, these objects become
+
+$$
+x_{t+1} = Ax_t + Bu_t
+$$
+
+and
+
+$$
+\ell(x_t,u_t) = x_t^\top Q x_t + u_t^\top R u_t.
+$$
+
+That is the first clean place where readers usually meet LQR.
+
+## A Small Worked Walkthrough
+
+Imagine a drone that must move from one altitude to another.
+
+A stabilizing controller could simply try to make the altitude error go to zero.
+
+But several trajectories might all be stable while behaving very differently:
+
+- one reaches the target fast but uses too much thrust
+- one uses little thrust but takes too long
+- one overshoots and oscillates before settling
+
+Now define a cost like
+
+$$
+\sum_{t=0}^{T-1} \left(
+q(h_t-h_{\mathrm{ref}})^2 + r u_t^2
+\right).
+$$
+
+This cost says:
+
+- penalize being far from the target altitude
+- also penalize aggressive thrust commands
+
+The controller now has to balance two goals:
+
+- accuracy
+- effort
+
+That tradeoff is the systems-level meaning of optimal control.
+
+Trajectory planning adds one more layer:
+
+- the target may not be a single equilibrium
+- it may be a whole path through state space
+
+Then the question becomes not only “how do I stabilize?” but “which state sequence should I follow, and how should I generate the controls that realize it?”
+
+## Implementation or Computation Note
+
+Three practical branches appear quickly:
+
+1. `Quadratic regulation`
+   When the model is linear and the cost is quadratic, LQR is the clean first-pass answer.
+
+2. `Constraints and receding horizons`
+   When state or input limits matter, planning often becomes MPC-like.
+
+3. `Uncertainty and partial observability`
+   When the state is estimated rather than measured directly, planning and estimation must interact.
+
+Use these pages as the strongest follow-on support:
+
+- [Constraints, MPC, and Safe Operation](constraints-mpc-and-safe-operation.qmd)
+- [Linear Quadratic Regulation and Riccati Intuition](../../topics/advanced/control-and-dynamics/concepts/linear-quadratic-regulation-and-riccati-intuition.qmd)
+- [Model Predictive Control and Constraint Handling](../../topics/advanced/control-and-dynamics/concepts/model-predictive-control-and-constraint-handling.qmd)
+- [Finite-Horizon Dynamic Programming and Backward Induction](../../topics/advanced/stochastic-control-and-dynamic-programming/concepts/finite-horizon-dynamic-programming-and-backward-induction.qmd)
+- [Continuous-Time Stochastic Control and Hamilton-Jacobi-Bellman Intuition](../../topics/advanced/stochastic-control-and-dynamic-programming/concepts/continuous-time-stochastic-control-and-hamilton-jacobi-bellman-intuition.qmd)
+
+## Failure Modes
+
+- thinking every stable controller is equally good
+- writing a cost that ignores actuator effort or physical limits
+- confusing trajectory planning with point stabilization
+- assuming an optimal open-loop plan remains good after disturbances appear
+- forgetting that many “planning” problems are actually solve-estimate-replan loops
+
+## Paper Bridge
+
+- [16.323 / Principles of Optimal Control](https://ocw.mit.edu/courses/16-323-principles-of-optimal-control-spring-2008/pages/lecture-notes/) - `First pass` - official MIT anchor for cost-based control design. Checked `2026-04-25`.
+- [AA203 / Optimal and Learning-Based Control](https://22-23.bulletin.stanford.edu/courses/2136621) - `Paper bridge` - useful once planning, optimization, and modern control start to merge. Checked `2026-04-25`.
+
+## Sources and Further Reading
+
+- [16.323 / Principles of Optimal Control](https://ocw.mit.edu/courses/16-323-principles-of-optimal-control-spring-2008/pages/lecture-notes/) - `First pass` - official MIT lecture-note hub for optimal control. Checked `2026-04-25`.
+- [16.323 syllabus](https://ocw.mit.edu/courses/16-323-principles-of-optimal-control-spring-2008/pages/syllabus/) - `First pass` - useful compact framing of what optimal control is trying to solve. Checked `2026-04-25`.
+- [Topic 18: Linear Quadratic Regulator](https://ocw.mit.edu/courses/16-30-feedback-control-systems-fall-2010/55d0aa6e1e4631a0c3366fb68028ae50_MIT16_30F10_lec18.pdf) - `Second pass` - a clean official MIT entry into quadratic cost tradeoffs. Checked `2026-04-25`.
+- [AA203 / Optimal and Learning-Based Control](https://22-23.bulletin.stanford.edu/courses/2136621) - `Second pass` - official Stanford course anchor for planning and optimal control. Checked `2026-04-25`.
+- [EE364b course information](https://web.stanford.edu/class/ee364b/course.html) - `Bridge to constrained planning` - official Stanford convex-optimization course info with strong optimization-to-control relevance. Checked `2026-04-25`.
+- [EE364b lectures](https://web.stanford.edu/class/ee364b/lectures.html) - `Bridge to constrained planning` - useful once you want optimization-backed receding-horizon and constrained-control context. Checked `2026-04-25`.

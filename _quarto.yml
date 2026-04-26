@@ -252,6 +252,13 @@ website:
         contents:
           - applications/index.qmd
           - applications/machine-learning/index.qmd
+          - applications/control-and-dynamics/index.qmd
+          - applications/control-and-dynamics/state-sensing-and-actuation.qmd
+          - applications/control-and-dynamics/feedback-and-stability-in-real-systems.qmd
+          - applications/control-and-dynamics/estimation-under-noise.qmd
+          - applications/control-and-dynamics/optimal-control-and-trajectory-planning.qmd
+          - applications/control-and-dynamics/constraints-mpc-and-safe-operation.qmd
+          - applications/control-and-dynamics/learning-identification-and-rl-bridges.qmd
           - paper-lab/index.qmd
           - paper-lab/how-to-read-a-paper.qmd
           - paper-lab/notation-translation.qmd
